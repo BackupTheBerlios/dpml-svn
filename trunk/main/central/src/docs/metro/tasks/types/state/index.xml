@@ -96,6 +96,55 @@
 </c:type>
 ]]></pre>
 
+    </section>
+
+    <section name="Technical Note">
+
+      <subsection name="Importing a State Graph">
+
+        <p>
+        As an alternative to the above attributes and nested elements, a 
+        state graph may be imported from an external source.  For example, a 
+        graph defining a common lifecycle model can be shared across multiple 
+        components.
+        </p>
+
+      </subsection>
+
+      <subsection name="XGraph">
+
+        <p>
+        The following example demonstrates the import of a state graph 
+        using the <tt>class</tt> attribute.  The classname supplied must 
+        be a class that has a collocated <tt>.xgraph</tt> resource.  The 
+        <tt>.xgraph</tt> resource is an XML file containing a state model 
+        described using the same attribute and element combinanations as 
+        described above.
+        </p>
+
+<pre><![CDATA[
+<c:type class="net.dpml.test.state.ManagedComponent" name="demo" lifestyle="thread">
+  <state class="net.dpml.activity.Startable"/>
+</c:type>
+]]></pre>
+
+      </subsection>
+
+      <subsection name="Artifact">
+
+        <p>
+        An another alternative is to reference a state graph as a published 
+        artifact using the <tt>uri</tt> attribute.  The original artifact may 
+        be created using the <a href="../../states/index.html">state artifact builder task</a>.
+        </p>
+
+<pre><![CDATA[
+<c:type class="org.acme.DefaultWidget" name="widget">
+  <state uri="artifact:state:acme/widget/acme-widget#123"/>
+</c:type>
+]]></pre>
+
+      </subsection>
 
     </section>
 

@@ -14,15 +14,8 @@
       <subsection name="Description">
 
         <p>
-        A state is an immutable datastructure that defines a collection 
-        of available transitions, management operations, and possibly
-        initialization or termination triggers.  Actionable features
-        of a state are exposed when the state is within the current state path.
-        The current state path is a path composed of the current state, it's 
-        parent, parent's patrent, etc. unit the root state is reached.  As 
-        such, any operations declared within the root state will always be 
-        available where operations and/transitions in sub-states will only
-        available if the associated state is present in the state path.
+        The state task is a utility task used to construct an encoded 
+        state description as a reusable artifact.
         </p>
 
       </subsection>
@@ -39,7 +32,6 @@
             <td>If set to 'true' the state will be classified as a terminal state.</td>
           </tr>
         </table>
-
 
       </subsection>
 

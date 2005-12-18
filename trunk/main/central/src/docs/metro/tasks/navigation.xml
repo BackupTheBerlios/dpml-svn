@@ -25,10 +25,10 @@
  <body>
 
     <menu>
-      <item name="State" href="states/index.html"/>
       <item name="Types" href="types/index.html"/>
       <item name="Components" href="components/index.html"/>
       <item name="Catalog" href="catalog/index.html"/>
+      <item name="State" href="states/index.html"/>
     </menu>
 
  </body>
