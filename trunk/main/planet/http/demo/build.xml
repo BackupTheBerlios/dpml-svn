@@ -27,6 +27,7 @@
     <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
 
     <c:type class="net.dpml.http.demo.Demo" threadsafe="true" name="demo">
+      <state class="net.dpml.activity.Startable"/>
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" key="server" collection="hard">
           <context>
