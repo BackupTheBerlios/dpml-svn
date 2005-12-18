@@ -13,11 +13,11 @@
 
       <p>
       A <tt>Component</tt> is a remotely reachable object that is established using a data 
-      <tt><a href="/api/dpml/@VERSION@/net/dpml/metro/part/Model.html">Model</a></tt>. 
+      <tt><a href="/api/dpml/@VERSION@/net/dpml/part/Model.html">Model</a></tt>. 
       Component and model implementations are established via a <tt>Controller</tt>. 
       A controller is selected based on meta-data included in a stand-alone <tt>part</tt>
       datastructure.  All components implement the common
-      <a href="/api/dpml/@VERSION@/net/dpml/metro/part/Component.html">Component</a>
+      <a href="/api/dpml/@VERSION@/net/dpml/part/Component.html">Component</a>
       interface dealing with:
       </p>
 
