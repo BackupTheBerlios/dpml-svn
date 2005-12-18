@@ -22,7 +22,7 @@
         <a href="components/index.html">component deployment metadata</a>, 
         a task dealing with the generation of a <a href="catalog/index.html">
         component catalog</a>, and a task supporting standalone 
-        <a href="states/index.html">state graph</a> creation.
+        <a href="graph/index.html">state graph</a> creation.
         </p>
 
       </subsection>
