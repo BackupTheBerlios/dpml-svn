@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Graph Task">
+
+      <subsection name="Description">
+
+        <p>
+        The graph task is a utility task used to construct an encoded 
+        state graph description as a reusable artifact.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>dest</tt></td>
+            <td>Optional attribute used to override the output file.  If 
+            not declared the task will produce a deliverable artifact of 
+            of the type <tt>state</tt> containing an XML encoded state graph.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="trigger.html">trigger</a></tt></td>
+            <td>An initialization or termination trigger.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="state.html">state</a></tt></td>
+            <td>A nested state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="transition.html">transition</a></tt></td>
+            <td>A state transition.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="operation.html">operation</a></tt></td>
+            <td>A management operation.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+      
+<pre><![CDATA[
+<project name="standalone-graph-example" default="install"
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:depot" 
+    xmlns:c="dpml:metro">
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+    <c:graph>
+      <trigger event="initialization">
+        <transition name="startup" target="started">
+          <operation method="start"/>
+        </transition>
+      </trigger>
+      <state name="started">
+        <trigger event="termination">
+          <apply id="stop"/>
+        </trigger>
+        <transition name="stop" target="../stopped">
+          <operation method="stop"/>
+        </transition>
+      </state>
+      <state name="stopped">
+        <transition name="start" target="../started">
+          <operation method="start"/>
+        </transition>
+      </state>
+    </c:graph>
+  </target>
+
+</project>
+]]></pre>
+
+    </section>
+
+  </body>
+
+</document>
+

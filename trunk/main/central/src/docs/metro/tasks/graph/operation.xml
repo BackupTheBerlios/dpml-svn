@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Build System</title>
+  </properties> 
+
+  <body>
+
+    <section name="Operation Datatype">
+
+      <subsection name="Description">
+
+        <p>
+        Declaration of a management operation.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The operation name.</td>
+          </tr>
+          <tr>
+            <td><tt>method</tt></td>
+            <td>The method name.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Technical Note">
+
+      <p>
+      The operation data does not currently support the nested declaration
+      of parameter values.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+
