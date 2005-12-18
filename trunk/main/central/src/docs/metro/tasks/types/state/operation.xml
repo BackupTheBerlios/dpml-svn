@@ -14,22 +14,34 @@
       <subsection name="Description">
 
         <p>
-        IN PREPARATION
+        Declaration of a management operation.
         </p>
 
       </subsection>
       
       <subsection name="Attributes">
 
-      </subsection>
-
-      <subsection name="Nested Elements">
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The operation name.</td>
+          </tr>
+          <tr>
+            <td><tt>method</tt></td>
+            <td>The method name.</td>
+          </tr>
+        </table>
 
       </subsection>
 
     </section>
 
-    <section name="Example">
+    <section name="Technical Note">
+
+      <p>
+      The operation data does not currently support the nested declaration
+      of parameter values.
+      </p>
 
     </section>
 

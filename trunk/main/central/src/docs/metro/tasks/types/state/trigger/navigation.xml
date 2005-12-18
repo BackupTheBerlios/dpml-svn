@@ -20,14 +20,13 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>DPML Metro</title>
 
  <body>
 
     <menu>
-      <item name="Trigger" href="trigger/index.html"/>
-      <item name="Transition" href="transition.html"/>
-      <item name="Operation" href="operation.html"/>
+      <item name="Apply" href="apply.html"/>
+      <item name="Exec" href="exec.html"/>
     </menu>
 
  </body>

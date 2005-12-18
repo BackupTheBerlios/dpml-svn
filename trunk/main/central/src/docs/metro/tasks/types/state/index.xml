@@ -46,7 +46,7 @@
 
         <table>
           <tr>
-            <td><tt><a href="../../states/trigger.html">trigger</a></tt></td>
+            <td><tt><a href="trigger/index.html">trigger</a></tt></td>
             <td>An initialization or termination trigger.</td>
           </tr>
           <tr>
@@ -54,11 +54,11 @@
             <td>A nested state.</td>
           </tr>
           <tr>
-            <td><tt><a href="../../states/transition.html">transition</a></tt></td>
+            <td><tt><a href="transition.html">transition</a></tt></td>
             <td>A state transition.</td>
           </tr>
           <tr>
-            <td><tt><a href="../../states/operation.html">operation</a></tt></td>
+            <td><tt><a href="operation.html">operation</a></tt></td>
             <td>A management operation.</td>
           </tr>
         </table>
@@ -111,7 +111,7 @@
 
       </subsection>
 
-      <subsection name="XGraph">
+      <subsection name="XGraph Resource">
 
         <p>
         The following example demonstrates the import of a state graph 
@@ -123,19 +123,18 @@
         </p>
 
 <pre><![CDATA[
-<c:type class="net.dpml.test.state.ManagedComponent" name="demo" lifestyle="thread">
+<c:type name="http" class="net.dpml.http.impl.HttpServerImpl" threadsafe="true">
   <state class="net.dpml.activity.Startable"/>
 </c:type>
 ]]></pre>
 
       </subsection>
 
-      <subsection name="Artifact">
+      <subsection name="Graph Artifact">
 
         <p>
-        An another alternative is to reference a state graph as a published 
-        artifact using the <tt>uri</tt> attribute.  The original artifact may 
-        be created using the <a href="../../states/index.html">state artifact builder task</a>.
+        Another alternative is to reference a state graph as a published 
+        artifact using the <tt>uri</tt> attribute. 
         </p>
 
 <pre><![CDATA[
@@ -143,6 +142,12 @@
   <state uri="artifact:state:acme/widget/acme-widget#123"/>
 </c:type>
 ]]></pre>
+
+        <p>
+        The original graph artifact may be created using the 
+        <a href="../../graph/index.html">state graph artifact 
+        builder task</a>.
+        </p>
 
       </subsection>
 
