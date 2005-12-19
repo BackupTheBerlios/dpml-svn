@@ -4,8 +4,8 @@
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <contributor email="dleangen@dpml.net">David Leangen</contributor>
-    <title>DPML Central</title>
-    <description>Component Management Solutions.</description>
+    <title>DPML Component Management Solutions</title>
+    <description>Intelligent Component Management Solutions for Java.</description>
     <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties>
 
