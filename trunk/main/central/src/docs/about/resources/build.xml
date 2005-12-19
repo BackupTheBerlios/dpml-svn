@@ -3,7 +3,9 @@
 <document>
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Central</title>
+    <title>Building the DPML Component Platform</title>
+    <description>Instructions for building the DPML component platform.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties>
 
   <body>

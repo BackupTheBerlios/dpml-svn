@@ -35,27 +35,41 @@
       <title>
         <xsl:value-of select="properties/title" />
       </title>
-      <!--
-      <link rel="stylesheet" href="print.css" type="text/css" media="print"></link>
-      -->
       <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
       <link rel="stylesheet" type="text/css">
         <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />styles/style.css</xsl:attribute>
       </link>
       <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+      <xsl:apply-templates select="properties" />
+      <meta name="publisher" content="DPML" />
     </head>
       <xsl:apply-templates select="body" />
     </html>
   </xsl:template>
 
+  <xsl:template match="properties">
+    <xsl:apply-templates select="description" />
+    <xsl:apply-templates select="author" />
+    <xsl:apply-templates select="contributor" />
+    <xsl:apply-templates select="keywords" />
+  </xsl:template>
+
   <xsl:template match="author">
     <meta name="author"><xsl:attribute name="content"><xsl:value-of select="." /></xsl:attribute></meta>
-    <meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email" /></xsl:attribute></meta>
+    <!--<meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email" /></xsl:attribute></meta>-->
   </xsl:template>
 
   <xsl:template match="contributor">
     <meta name="contributor"><xsl:attribute name="content"><xsl:value-of select="." /></xsl:attribute></meta>
-    <meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email" /></xsl:attribute></meta>
+    <!--<meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email" /></xsl:attribute></meta>-->
+  </xsl:template>
+
+  <xsl:template match="description">
+    <meta name="description"><xsl:attribute name="content"><xsl:value-of select="." /></xsl:attribute></meta>
+  </xsl:template>
+
+  <xsl:template match="keywords">
+    <meta name="keywords"><xsl:attribute name="content"><xsl:value-of select="." /></xsl:attribute></meta>
   </xsl:template>
 
   <xsl:template match="body">

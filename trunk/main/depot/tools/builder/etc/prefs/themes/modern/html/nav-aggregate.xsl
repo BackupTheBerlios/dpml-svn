@@ -7,6 +7,7 @@
   <xsl:param name="directory" />
   <xsl:param name="file" />
   <xsl:param name="fullpath" />
+
   <xsl:template match="project" >
     <project>
       <xsl:apply-templates />  

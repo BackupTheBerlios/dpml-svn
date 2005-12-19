@@ -77,16 +77,6 @@
       </fileset>
     </copy>
 
-    <!--
-    <property name="share.docs.catalog" location="${share.docs}/catalog/${project.version}"/>
-    <mkdir dir="${share.docs.catalog}"/>
-    <copy todir="${share.docs.catalog}">
-      <fileset dir="target/reports">
-        <include name="catalog/**"/>
-      </fileset>
-    </copy>
-    -->
-
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">

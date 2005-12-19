@@ -2,7 +2,10 @@
 
   <document>
     <properties>
-      <title>DPML Central</title>
+      <author email="mcconnell@dpml.net">Stephen McConnell</author>
+      <title>DPML Coding Conventions</title>
+      <description>Details of the coding conventions used within the DPML.</description>
+      <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
     </properties> 
   <body>
     <section name="Coding Standards">

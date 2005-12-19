@@ -3,7 +3,9 @@
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <contributor email="dleangen@dpml.net">David Leangen</contributor>
-    <title>DPML Central</title>
+    <title>DPML SVN Code Management</title>
+    <description>Information about the DPML SVN repository.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties> 
 
 <body>

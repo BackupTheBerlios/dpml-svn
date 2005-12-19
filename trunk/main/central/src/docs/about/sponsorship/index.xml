@@ -3,7 +3,10 @@
 <document>
   <properties>
     <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <title>DPML Sponsors</title>
+    <description>Information about DPML Sponsors.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties>
 
   <body>

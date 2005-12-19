@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
   <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <author email="david.leangen@konova.com">David Leangen</author>
-    <title>DPML Central</title>
+    <title>DPML Community Resources</title>
+    <description>Overview of the community resources provided by the DPML.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties> 
 
   <body>

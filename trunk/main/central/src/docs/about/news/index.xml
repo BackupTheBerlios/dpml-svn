@@ -5,6 +5,8 @@
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <author email="niclas@hedhman.org">Niclas Hedhman</author>
     <title>News at DPML</title>
+    <description>DPML News and Events.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties>
 
   <body>

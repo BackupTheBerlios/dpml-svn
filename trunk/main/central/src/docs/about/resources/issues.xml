@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
   <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <author email="peter@neubauer.se">Peter Neubauer</author>
     <title>DPML Issue tracking</title>
+    <description>Access info for DPML Project Issues.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
   </properties> 
  <body>
 
