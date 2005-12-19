@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro</title>
+  </properties> 
+
+  <body>
+
+    <section name="Station SCM">
+
+      <p>
+      The Station Service Control Manager (SCM) provides support for 
+      the establishment of the Station as a NT system service with automatic
+      deployment on machine startup.  Once installed and started multiple
+      applications can be managed using the Station <a href="cli/index.html">
+      CLI</a> console.
+      </p>
+
+      <subsection name="Installing the SCM">
+
+        <p>
+        The following command will install the DPML Station as an NT Service
+        under the service name <tt>dpml</tt>.
+        </p> 
+<pre>
+$ %DPML_HOME%\Shared\bin\scm\install-DPML-SCM
+</pre>
+
+      </subsection>
+
+      <subsection name="Starting and Stopping the Service">
+
+<pre>
+$ net start dpml
+</pre>
+
+<pre>
+$ net stop dpml
+</pre>
+
+      </subsection>
+
+      <subsection name="Removing the SCM">
+
+        <p>
+        The following command will uninstall the DPML Station NT Service.
+        </p> 
+<pre>
+$ %DPML_HOME%\Shared\bin\scm\uninstall-DPML-SCM
+</pre>
+
+      </subsection>
+
+    </section>
+
+    <section name="Techical Note">
+
+      <p>
+      When using the Station as an NT Service it is recommended that 
+      you refrain from using the station <tt>startup</tt> and <tt>shutdown</tt>
+      commands.  If effect the NT service automates the startup of the server
+      duirng the OS boot sequence and shutdown is handled duirng OS shutdown.
+      Invoking a shutdown via <tt>$ station shutdown</tt> will result in the 
+      termination of the service process.  If the <tt>$ station startup</tt>
+      is invoked manually, an attempt to start the NT service will fail due
+      a port conflict.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+
