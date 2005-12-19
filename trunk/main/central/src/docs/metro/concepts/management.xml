@@ -25,8 +25,8 @@
       <p>
       Metro takes a fundimentally different approach to lifecycle management 
       in that a lifecycle is viewed in terms of 
-      <a href="/api/dpml/@VERSION@/net/dpml/metro/state/State.html">states</a> and   
-      <a href="/api/dpml/@VERSION@/net/dpml/metro/state/Transition.html">transitions</a>.  The 
+      <a href="/api/dpml/@VERSION@/net/dpml/state/State.html">states</a> and   
+      <a href="/api/dpml/@VERSION@/net/dpml/state/Transition.html">transitions</a>.  The 
       process of establishing a component is representated by a series of 
       initialization transitions applied to a state graph.  The process of 
       decommissioning is expressed as a series of terminator transitions.  
@@ -67,28 +67,37 @@ public DemoComponent
 
         <p>
         Metro uses a generic state model based on the standard OMG Collaboration
-        Framework Specifications as the basis for component state management. A 
-        component may declare an <tt>.xgraph</tt> resource containing an XML 
-        description of the component lifecyle semantics.
+        Framework Specifications as the basis for component state management. The 
+        lifecycle logic of a component is may be declared as a graph artifact, 
+        embedded graph resource, or directly within a type definition.
         </p>
   
-        <p><i>Example of an XML specification for a startable lifecycle scenario.</i></p>
+        <p><i>Example of an XML specification for a start/stop/restart 
+          lifecycle declared within a type descriptor.</i></p>
 
 <pre><![CDATA[
-<state>
-  <trigger event="initialization">
-    <transition name="init" target="started" uri="method:start"/>
-  </trigger>
-  <state name="started">
-    <transition name="stop" target="../stopped" uri="method:stop"/>
-    <trigger event="termination">
-      <action uri="transition:stop"/>
+<c:type class="net.dpml.test.lifecycle.StartableComponent" name="lifecycle">
+  <state>
+    <trigger event="initialization">
+      <transition name="init" target="started">
+        <operation name="startup" method="start"/>
+      </transition>
     </trigger>
+    <state name="started">
+      <transition name="stop" target="../stopped">
+        <operation name="stop" method="stop"/>
+      </transition>
+      <trigger event="termination">
+        <apply id="stop"/>
+      </trigger>
+    </state>
+    <state name="stopped">
+      <transition name="start" target="../started">
+        <operation name="start" method="start"/>
+      </transition>
+    </state>
   </state>
-  <state name="stopped">
-    <transition name="start" target="../started" uri="method:start"/>
-  </state>
-</state>
+</c:type>
 ]]></pre>
 
       </subsection>

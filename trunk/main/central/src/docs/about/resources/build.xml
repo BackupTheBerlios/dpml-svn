@@ -10,6 +10,25 @@
 
     <section name="Building the Platform">
 
+      <subsection name="Environment Setup">
+
+        <p>
+        To complete a full build will need to declare an environment variable
+        DPML_HOME referencing a directory into which the installed DPML products
+        will be placed duirng the bootstrap and main system build (e.g. C:\dpml).  
+        You will also need to include the bin directory in you system path.
+        </p>
+
+        <p>
+        For Windows include <tt>%DPML_HOME%\Shared\bin</tt> in your <tt>PATH</tt>.
+        </p>
+        
+        <p>
+        For *nix use <tt>$DPML_HOME/share/bin</tt>.
+        </p>
+
+      </subsection>
+
       <subsection name="Bootstrapping">
 
         <p>
@@ -36,8 +55,9 @@ $ bootstrap
       <subsection name="System Build">
 
         <p>
-        The main build procedure uses the Depot build tool.  To initiate 
-        the build simply invoke the following command.
+        The main build procedure uses the Depot build tool which was created
+        and installed during the bootstrap procedure.  To initiate the build 
+        simply invoke the following command.
         </p>
 
 <pre>$ build</pre>
