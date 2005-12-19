@@ -9,9 +9,24 @@
 
   <body>
 
-    <section name="Add">
+    <section name="Add Command">
 
-<pre><![CDATA[$ station add -uri <artifact> 
+      <subsection name="Description">
+
+        <p>
+        Create a new application profile associated with a supplied key and 
+        add the profile to the persistent registry storage. Default options related 
+        to deployment directory, JVM process system properties, deployment timeout
+        conditions, application title and configuration can be supplied 
+        as optional arguments (or subsequently set using the set command).
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station add <key> 
+  -uri <artifact> 
   [-policy <policy>] 
   [-D<name>=<value>] 
   [-dir <path>] 
@@ -19,8 +34,70 @@
   [-registry <artifact>] 
   [-startup <seconds>] 
   [-shutdown <seconds>] 
-  [-config <uri>]]]></pre>
-<source></source>
+  [-config <uri>]]]>
+</pre>
+
+      </subsection>
+
+      <subsection name="Parameters">
+
+        <table>
+          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100"><tt>-uri</tt></td>
+            <td>The application codebase uri (required).</td></tr>
+          <tr>
+            <td><tt>-policy</tt></td>
+            <td>Startup policy (AUTOMATIC, MANUAL or DISABLED). The default 
+              value is MANUAL.</td></tr>
+          <tr>
+            <td><tt>-D</tt></td>
+            <td>A system property to assigned to the JVM on application process establishment.</td></tr>
+          <tr>
+            <td><tt>-dir</tt></td>
+            <td>The application working directory.</td></tr>
+          <tr>
+            <td><tt>-title</tt></td>
+            <td>The application title.</td></tr>
+          <tr>
+            <td><tt>-registry</tt></td>
+            <td>Override the selection of the station registry store to use when adding the profile.</td></tr>
+          <tr>
+            <td><tt>-startup</tt></td>
+            <td>Set the startup timeout (seconds).</td></tr>
+          <tr>
+            <td><tt>-shutdown</tt></td>
+            <td>Set the shutdown timeout (seconds).</td></tr>
+          <tr>
+            <td><tt>-config</tt></td>
+            <td>Set a configuration uri.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<pre>$ station add demo -uri link:part:dpml/planet/http/dpml-http-demo -dir ${dpml.data}/work/http</pre>
+
+<source>
+Added new profile [demo]
+
+  Codebase: link:part:dpml/planet/http/dpml-http-demo
+  Working Directory Path: ${dpml.data}/work/http
+  Startup Timeout: 6
+  Shutdown Timeout: 6
+  Startup Policy: MANUAL
+  System Properties: 0
+</source>
+
+      </subsection>
 
     </section>
 

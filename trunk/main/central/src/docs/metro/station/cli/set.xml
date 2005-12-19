@@ -9,9 +9,22 @@
 
   <body>
 
-    <section name="Set">
+    <section name="Set Command">
 
-<pre><![CDATA[$ station set 
+      <subsection name="Description">
+
+        <p>
+        Update a feature of an application profile.  The set command
+        supports modification of the stored codebase uri, startup policy,
+        assigned system properties, working directory, title, statup 
+        and shutdown timeout values, and application configuration.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station set <key> 
   [-uri <artifact>] 
   [-policy <policy>] 
   [-D<name>=<value>] 
@@ -21,7 +34,67 @@
   [-startup <seconds>] 
   [-shutdown <seconds>] 
   [-config <uri>]]]></pre>
-<source></source>
+
+      </subsection>
+
+      <subsection name="Parameters">
+
+        <table>
+          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100"><tt>-uri</tt></td>
+            <td>Set the application codebase uri.</td></tr>
+          <tr>
+            <td><tt>-policy</tt></td>
+            <td>Startup policy (AUTOMATIC, MANUAL or DISABLED).</td></tr>
+          <tr>
+            <td><tt>-D</tt></td>
+            <td>A system property to assigned to the JVM on application process establishment.</td></tr>
+          <tr>
+            <td><tt>-dir</tt></td>
+            <td>The application working directory.</td></tr>
+          <tr>
+            <td><tt>-title</tt></td>
+            <td>The application title.</td></tr>
+          <tr>
+            <td><tt>-registry</tt></td>
+            <td>Override the selection of the station registry store to use when updating the profile.</td></tr>
+          <tr>
+            <td><tt>-startup</tt></td>
+            <td>Set the startup timeout (seconds).</td></tr>
+          <tr>
+            <td><tt>-shutdown</tt></td>
+            <td>Set the shutdown timeout (seconds).</td></tr>
+          <tr>
+            <td><tt>-config</tt></td>
+            <td>Set the configuration uri.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<pre>$ station set demo -policy automatic</pre>
+
+<source>
+Updated profile [demo]
+
+  Codebase: link:part:dpml/planet/http/dpml-http-demo
+  Working Directory Path: ${dpml.data}/work/http
+  Startup Timeout: 6
+  Shutdown Timeout: 6
+  Startup Policy: AUTOMATIC
+  System Properties: 0
+</source>
+
+      </subsection>
 
     </section>
 

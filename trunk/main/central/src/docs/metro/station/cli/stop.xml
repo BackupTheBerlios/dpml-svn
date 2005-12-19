@@ -11,11 +11,54 @@
 
     <section name="Stop Command">
 
+      <subsection name="Description">
+
+        <p>
+        Stop a named application.  The station will initiate a clean 
+        shutdown of the application taking into account registered 
+        termination transitions and operations.  On completion of 
+        the component decommissioning the JVM process will be 
+        terminated.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
 <pre><![CDATA[$ station stop <id> [-port <port>]]]></pre>
+
+      </subsection>
+
+      <subsection name="Parameters">
+
+        <table>
+          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100"><tt>-port</tt></td>
+            <td>Override the RMI registry port to use when selecting the station server.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<pre>$ station stop demo</pre>
+
+<source>
+[4036 ] [INFO   ] (depot.station): stopping application [demo]
+</source>
+
+      </subsection>
 
     </section>
 
   </body>
 
 </document>
-
