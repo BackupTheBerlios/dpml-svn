@@ -191,6 +191,16 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     }
 
    /**
+    * Return the application id.
+    *
+    * @return the id
+    */
+    public String getID()
+    {
+        return m_id;
+    }
+
+   /**
     * Return the profile associated with this application 
     * @return the application profile
     */

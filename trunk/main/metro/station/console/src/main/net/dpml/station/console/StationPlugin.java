@@ -19,6 +19,8 @@
 package net.dpml.station.console;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.net.URI;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -167,6 +169,22 @@ public class StationPlugin
                     Manager manager = getManager( line );
                     String value = (String) line.getValue( START_COMMAND, null );
                     processStartCommand( manager, value );
+                }
+                catch( ConnectException ce )
+                {
+                    final String message = 
+                      "\nCannot start application because the station is not running. "
+                      + "\nUse 'station startup' to start the station process.";
+                    System.out.println( message );
+                }
+            }
+            else if( line.hasOption( CONTROL_COMMAND ) )
+            {
+                try
+                {
+                    Manager manager = getManager( line );
+                    String value = (String) line.getValue( CONTROL_COMMAND, null );
+                    processControlCommand( manager, value );
                 }
                 catch( ConnectException ce )
                 {
@@ -677,6 +695,69 @@ public class StationPlugin
         getLogger().info( "starting application [" + key + "]" );
         Application application = manager.getApplication( key );
         application.start();
+    }
+    
+   /**
+    * Handle a request for control of an application process.
+    * @param key the application key
+    */
+    private void processControlCommand( Manager manager, String key ) throws Exception
+    {
+        //getLogger().info( "connecting to application [" + key + "]" );
+        Application application = manager.getApplication( key );
+        InputStreamReader isr = new InputStreamReader( System.in );
+        BufferedReader reader = new BufferedReader( isr );
+        String line = null;
+        PID pid = application.getPID();
+        String prompt = pid.toString() + "> ";
+        System.out.println( prompt + "Connected to application [" + key + "]" );
+        System.out.print( prompt );
+        while( ( line = reader.readLine() ) != null )
+        {
+            if( "info".equals( line ) )
+            {
+                System.out.println( "" );
+                Provider provider = application.getProvider();
+                if( null == provider )
+                {
+                    System.out.println( "Provider unavailable." );
+                }
+                else
+                {
+                    System.out.println( "Application: " + application.getID() );
+                    State state = provider.getState();
+                    System.out.println( "Current State: " + state );
+                    Transition[] transitions = state.getTransitions();
+                    System.out.println( "Transitions: " + transitions.length );
+                    for( int i=0; i<transitions.length; i++ )
+                    {
+                        Transition transition = transitions[i];
+                        System.out.println( "  [" + (i+1) + "] " + transition.getName() );
+                    }
+                    Operation[] operations = state.getOperations();
+                    System.out.println( "Operations: " + operations.length );
+                    for( int i=0; i<operations.length; i++ )
+                    {
+                        Operation operation = operations[i];
+                        System.out.println( "  [" + (i+1) + "] " + operation.getName() );
+                    }
+                }
+                System.out.println( "" );
+            }
+            else if( "exit".equals( line ) )
+            {
+                System.exit( 0 );
+            }
+            else if( "".equals( line ) )
+            {
+                boolean ignoreit = true;
+            }
+            else
+            {
+                System.out.println( "Command not recognized: " + line );
+            }
+            System.out.print( prompt );
+        }
     }
     
    /**
@@ -1259,6 +1340,19 @@ public class StationPlugin
         .withChildren( SET_OPTIONS_GROUP )
         .create();
         
+    private static final Option CONTROL_COMMAND =
+      COMMAND_BUILDER
+        .withName( "control" )
+        .withDescription( "Interactive control of an application." )
+        .withArgument(
+          ARGUMENT_BUILDER 
+            .withDescription( "application key" )
+            .withName( "key" )
+            .withMinimum( 1 )
+            .withMaximum( 1 )
+            .create() )
+        .create();
+        
     private static final Option START_COMMAND =
       COMMAND_BUILDER
         .withName( "start" )
@@ -1333,6 +1427,7 @@ public class StationPlugin
         .withOption( ADD_COMMAND )
         .withOption( SET_COMMAND )
         .withOption( START_COMMAND )
+        .withOption( CONTROL_COMMAND )
         .withOption( STOP_COMMAND )
         .withOption( RESTART_COMMAND )
         .withOption( INFO_COMMAND )

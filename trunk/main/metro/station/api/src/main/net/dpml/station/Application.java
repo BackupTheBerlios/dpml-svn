@@ -45,6 +45,13 @@ public interface Application extends Remote
     public int DEFAULT_SHUTDOWN_TIMEOUT = 6;
 
    /**
+    * Return the application id.
+    *
+    * @return the id
+    */
+    public String getID() throws RemoteException;
+    
+   /**
     * Return the process identifier of the process within which the 
     * application is running.
     * @return the pid
