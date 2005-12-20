@@ -212,6 +212,23 @@ public class StationPlugin
             {
                 ApplicationRegistry registry = getApplicationRegistry( line );
                 String value = (String) line.getValue( REMOVE_COMMAND, null );
+                try
+                {
+                    Manager manager = getManager( line );
+                    Application application = manager.getApplication( value );
+                    application.stop();
+                }
+                catch( ConnectException ce )
+                {
+                    final String message = 
+                      "\nCannot restart application because the station is not running. "
+                      + "\nUse 'station startup' to start the station process.";
+                    System.out.println( message );
+                }
+                catch( UnknownKeyException ce )
+                {
+                    boolean ignorable = true;
+                }
                 processRemoveCommand( registry, value );
             }
             else
