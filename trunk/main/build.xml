@@ -27,6 +27,8 @@
   <target name="prepare" depends="standard.prepare">
     <property name="bundle" location="${project.target.dir}/bundle"/>
     <property name="share" location="${bundle}/share"/>
+    <property name="share.docs" location="${share}/docs"/>
+    <property name="prefs" location="${bundle}/prefs"/>
   </target>
   
   <target name="build" depends="standard.build">
@@ -38,7 +40,10 @@
     </c:catalog>
   </target>
 
-  <target name="package" depends="standard.package,javadoc,checkstyle,junit-report"/>
+  <target name="package" depends="standard.package,javadoc,checkstyle,junit-report">
+    <property name="share.local" location="${share}/local"/>
+    <x:replicate self="true" verbose="false" toDir="${share.local}"/>
+  </target>
 
   <target name="install" depends="standard.install,bundle">
     <copy todir="${dpml.data}">
@@ -46,11 +51,16 @@
         <include name="docs/**"/>
       </fileset>
     </copy>
+    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
+    <mkdir dir="${share.docs.reports}"/>
+    <copy todir="${share.docs.reports}">
+      <fileset dir="target/reports">
+        <exclude name="api/**"/>
+      </fileset>
+    </copy>
   </target>
 
-  <target name="bundle" depends="standard.install">
-    <property name="share.local" location="${share}/local"/>
-    <x:replicate self="true" verbose="false" toDir="${share.local}"/>
+  <target name="bundle" depends="standard.install,prefs,bin,docs">
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
         <include name="LICENSE.TXT"/>
@@ -58,7 +68,9 @@
         <include name="README.TXT"/>
       </fileset>
     </copy>
-    <property name="share.docs" location="${share}/docs"/>
+  </target>
+
+  <target name="docs" depends="prepare">
     <property name="share.docs.api.dpml" location="${share.docs}/api/dpml/${project.version}"/>
     <mkdir dir="${share.docs.api.dpml}"/>
     <copy todir="${share.docs.api.dpml}" filtering="false">
@@ -69,36 +81,51 @@
     <copy todir="${share.docs}">
       <fileset dir="central/target/docs"/>
     </copy>
-    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
-    <mkdir dir="${share.docs.reports}"/>
-    <copy todir="${share.docs.reports}">
-      <fileset dir="target/reports">
-        <exclude name="api/**"/>
-      </fileset>
-    </copy>
+  </target>
 
-    <property name="share.bin" location="${share}/bin"/>
-    <mkdir dir="${share.bin}"/>
-    <copy todir="${share.bin}" filtering="false">
-      <fileset dir="${basedir}/depot/core/console/target/bin">  
+  <target name="prefs" depends="prepare">
+    <property name="prefs.tools" location="${prefs}/dpml/tools"/>
+    <mkdir dir="${prefs.tools}"/>
+    <copy todir="${prefs.tools}" filtering="false">
+      <fileset dir="depot/tools/builder/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+      <fileset dir="depot/tools/checkstyle/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
-    <property name="prefs" location="${bundle}/prefs"/>
-    <property name="prefs.transit" location="${prefs}/transit"/>
-    <property name="prefs.transit.templates" location="${prefs.transit}/templates"/>
-    <mkdir dir="${prefs.transit.templates}"/>
-    <copy todir="${prefs.transit.templates}" filtering="false">
-      <fileset dir="${basedir}/transit">
-        <include name="bootstrap.xml"/>
+    <property name="prefs.metro" location="${prefs}/dpml/metro"/>
+    <mkdir dir="${prefs.metro}"/>
+    <copy todir="${prefs.metro}" filtering="false">
+      <fileset dir="metro/exec/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+      <fileset dir="metro/tools/target/prefs">
+        <include name="**/*"/>
       </fileset>
     </copy>
-    <property name="prefs.tools" location="${prefs}/tools"/>
-    <mkdir dir="${prefs.tools}"/>
-    <copy todir="${prefs.tools}" filtering="false">
-      <fileset dir="${basedir}/depot/tools/builder/target">  <!-- YUK!! -->
-        <include name="templates/**/*"/>
-        <include name="xsls/**/*"/>
+    <property name="prefs.station" location="${prefs}/dpml/station"/>
+    <mkdir dir="${prefs.station}"/>
+    <copy todir="${prefs.station}" filtering="false">
+      <fileset dir="metro/station/server/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs.http" location="${prefs}/dpml/planet/http"/>
+    <mkdir dir="${prefs.http}"/>
+    <copy todir="${prefs.http}" filtering="false">
+      <fileset dir="planet/http/demo/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="bin" depends="prepare">
+    <property name="share.bin" location="${share}/bin"/>
+    <mkdir dir="${share.bin}"/>
+    <copy todir="${share.bin}" filtering="false">
+      <fileset dir="${dpml.system}/bin"> 
+        <include name="**/*"/>
       </fileset>
     </copy>
   </target>
