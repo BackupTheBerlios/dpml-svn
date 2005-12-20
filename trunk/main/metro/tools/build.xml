@@ -30,8 +30,9 @@
   </target>
 
   <target name="install" depends="standard.install">
-    <mkdir dir="${dpml.prefs}/"/>
-    <copy toDir="${dpml.prefs}">
+    <property name="prefs.metro" location="${dpml.prefs}/dpml/metro"/>
+    <mkdir dir="${prefs.metro}/"/>
+    <copy toDir="${prefs.metro}">
       <fileset dir="${project.target.dir}/prefs">
         <include name="**/*"/>
       </fileset>
