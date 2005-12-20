@@ -256,7 +256,19 @@ public class DefaultState implements State, Serializable
     */
     public String toString()
     {
-        return "[" + m_name + "]";
+        StringBuffer buffer = new StringBuffer();
+        State[] path = getStatePath();
+        for( int i=0; i<path.length; i++ )
+        {
+            State state = path[i];
+            if( i>0 )
+            {
+                buffer.append( "/" );
+            }
+            buffer.append( state.getName() );
+        }
+        return buffer.toString();
+        //return "[" + m_name + "]";
     }
     
    /**
