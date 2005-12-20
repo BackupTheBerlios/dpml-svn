@@ -14,12 +14,7 @@
       <subsection name="Description">
 
         <p>
-        Removes an named application profile for the station storage.
-        </p>
-
-        <p>
-        Removal of the application profile will not impact a running 
-        application.
+        Stops the application (if running) and removes it for the station storage.
         </p>
 
       </subsection>
