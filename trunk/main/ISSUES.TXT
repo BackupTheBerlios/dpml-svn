@@ -2,20 +2,7 @@
 Current issues
 --------------
 
-1. Processor Abstraction
-
-   Processor abstraction with dpml-library-main.  Current the Depot Library 
-   interfaces include the notion of a processor defintion and a relationship
-   between project type production and the process used.  In fact this 
-   relationship is a build system implementation concern and as such should 
-   not appear in the library.  Instead the notion of processor needs to be 
-   morphed into Listener defintions within the dpml-tools-builder package which 
-   in-turn implies that the depot-ant package needs to handle its own 
-   configuration.
-
-   RESOLVED
-
-2. Build System Declaration
+1. Build System Declaration
 
    Current implementation allows for the defintion of a build system 
    implementation to be used by the builder when invoking a build 
@@ -23,18 +10,6 @@ Current issues
    strategies, the implementation needs to be extended to supporting 
    multiple coexistant build strategies with defintion at the library,
    module and/or project levels.
-
-   LATER
-
-3. Part datatypes are currently loded directly via XML.  This need to 
-   be updated to enforce packaging of the encoded XML with a manifest 
-   detailing the controller URI, version support etc.
-
-   LATER
-
-4. Add support for the configuration of a top-level component.
-
-   RESOLVED
 
 
 

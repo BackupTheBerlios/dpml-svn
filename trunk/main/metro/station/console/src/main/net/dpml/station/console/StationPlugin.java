@@ -712,52 +712,85 @@ public class StationPlugin
         String prompt = pid.toString() + "> ";
         System.out.println( prompt + "Connected to application [" + key + "]" );
         System.out.print( prompt );
+        Parser parser = new Parser();
+        parser.setGroup( CONTROLLER_GROUP );
         while( ( line = reader.readLine() ) != null )
         {
-            if( "info".equals( line ) )
+            if( "".equals( line ) )
             {
-                System.out.println( "" );
-                Provider provider = application.getProvider();
-                if( null == provider )
-                {
-                    System.out.println( "Provider unavailable." );
-                }
-                else
-                {
-                    System.out.println( "Application: " + application.getID() );
-                    State state = provider.getState();
-                    System.out.println( "Current State: " + state );
-                    Transition[] transitions = state.getTransitions();
-                    System.out.println( "Transitions: " + transitions.length );
-                    for( int i=0; i<transitions.length; i++ )
-                    {
-                        Transition transition = transitions[i];
-                        System.out.println( "  [" + (i+1) + "] " + transition.getName() );
-                    }
-                    Operation[] operations = state.getOperations();
-                    System.out.println( "Operations: " + operations.length );
-                    for( int i=0; i<operations.length; i++ )
-                    {
-                        Operation operation = operations[i];
-                        System.out.println( "  [" + (i+1) + "] " + operation.getName() );
-                    }
-                }
-                System.out.println( "" );
-            }
-            else if( "exit".equals( line ) )
-            {
-                System.exit( 0 );
-            }
-            else if( "".equals( line ) )
-            {
-                boolean ignoreit = true;
+                boolean ignoreLine = true;
             }
             else
             {
-                System.out.println( "Command not recognized: " + line );
+                try
+                {
+                    String[] args = line.split( " " );
+                    CommandLine commandline = parser.parse( args );
+                    if( commandline.hasOption( CONTROL_HELP_COMMAND ) )
+                    {
+                        HelpFormatter formatter = new HelpFormatter();
+                        formatter.setGroup( CONTROLLER_GROUP );
+                        formatter.print();
+                    }
+                    else if( commandline.hasOption( CONTROL_EXIT_COMMAND ) )
+                    {
+                        System.exit( 0 );
+                    }
+                    else if( commandline.hasOption( CONTROL_INFO_COMMAND ) )
+                    {
+                        listInfo( application );
+                    }
+                    else if( commandline.hasOption( CONTROL_APPLY_COMMAND ) )
+                    {
+                        String id = (String) commandline.getValue( CONTROL_APPLY_COMMAND, null );
+                        System.out.println( "\napplying transition: " + id );
+                        State state = application.getProvider().apply( id );
+                        System.out.println( "current state: " + state );
+                        System.out.println( "" );
+                    }
+                    else if( commandline.hasOption( CONTROL_EXEC_COMMAND ) )
+                    {
+                        System.out.println( "# exec" );
+                    }
+                }
+                catch( Exception e )
+                {
+                    System.out.println( e.getMessage() );
+                }
             }
             System.out.print( prompt );
         }
+    }
+    
+    private void listInfo( Application application ) throws Exception
+    {
+        System.out.println( "" );
+        Provider provider = application.getProvider();
+        if( null == provider )
+        {
+            System.out.println( "Provider unavailable." );
+        }
+        else
+        {
+            System.out.println( "Application: " + application.getID() );
+            State state = provider.getState();
+            System.out.println( "Current State: " + state );
+            Transition[] transitions = state.getTransitions();
+            System.out.println( "Transitions: " + transitions.length );
+            for( int i=0; i<transitions.length; i++ )
+            {
+                Transition transition = transitions[i];
+                System.out.println( "  [" + (i+1) + "] " + transition.getName() );
+            }
+            Operation[] operations = state.getOperations();
+            System.out.println( "Operations: " + operations.length );
+            for( int i=0; i<operations.length; i++ )
+            {
+                Operation operation = operations[i];
+                System.out.println( "  [" + (i+1) + "] " + operation.getName() );
+            }
+        }
+        System.out.println( "" );
     }
     
    /**
@@ -1138,7 +1171,7 @@ public class StationPlugin
             .withValidator( new EnumValidator( STARTUP_POLICY_SET ) )
             .create() )
         .create();
-        
+    
     private static final Option BASEDIR_OPTION = 
       OPTION_BUILDER
         .withShortName( "dir" )
@@ -1153,7 +1186,7 @@ public class StationPlugin
             .withMaximum( 1 )
             .create() )
         .create();
-
+    
     private static final Option TITLE_OPTION = 
       OPTION_BUILDER
         .withShortName( "title" )
@@ -1434,6 +1467,63 @@ public class StationPlugin
         .withOption( REMOVE_COMMAND )
         .withOption( SHUTDOWN_COMMAND )
         .withOption( HELP_COMMAND )
+        .withMinimum( 1 )
+        .withMaximum( 1 )
+        .create();
+    
+    // micro control cli spec
+    
+    private static final Option CONTROL_INFO_COMMAND =
+      COMMAND_BUILDER
+        .withName( "info" )
+        .withDescription( "List state info." )
+        .create();
+    
+    private static final Option CONTROL_EXIT_COMMAND =
+      COMMAND_BUILDER
+        .withName( "exit" )
+        .withDescription( "Exit the console." )
+        .create();
+    
+    private static final Option CONTROL_APPLY_COMMAND =
+      COMMAND_BUILDER
+        .withName( "apply" )
+        .withDescription( "Apply a state transition." )
+        .withArgument(
+          ARGUMENT_BUILDER 
+            .withDescription( "Transition name." )
+            .withName( "id" )
+            .withMinimum( 1 )
+            .withMaximum( 1 )
+            .create() )
+        .create();
+    
+    private static final Option CONTROL_EXEC_COMMAND =
+      COMMAND_BUILDER
+        .withName( "exec" )
+        .withDescription( "Execute a management operation." )
+        .withArgument(
+          ARGUMENT_BUILDER 
+            .withDescription( "Operation name." )
+            .withName( "id" )
+            .withMinimum( 1 )
+            .create() )
+        .create();
+    
+    private static final Option CONTROL_HELP_COMMAND =
+      COMMAND_BUILDER
+        .withName( "help" )
+        .withDescription( "List controller help info." )
+        .create();
+    
+    private static final Group CONTROLLER_GROUP =
+      GROUP_BUILDER
+        .withName( "options" )
+        .withOption( CONTROL_INFO_COMMAND )
+        .withOption( CONTROL_APPLY_COMMAND )
+        .withOption( CONTROL_EXEC_COMMAND )
+        .withOption( CONTROL_EXIT_COMMAND )
+        .withOption( CONTROL_HELP_COMMAND )
         .withMinimum( 1 )
         .withMaximum( 1 )
         .create();
