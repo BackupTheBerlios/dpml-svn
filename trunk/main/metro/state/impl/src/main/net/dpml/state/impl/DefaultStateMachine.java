@@ -631,7 +631,20 @@ public class DefaultStateMachine implements StateMachine
         }
         else
         {
-            return getTransition( parent, name );
+            try
+            {
+                return getTransition( parent, name );
+            }
+            catch( UnknownTransitionException e )
+            {
+                final String error = 
+                  "Unable to resolve a transition named [" 
+                  + name
+                  + "] relative to the current state [" 
+                  + state
+                  + "].";
+                throw new UnknownTransitionException( error );
+            }
         }
     }
 
