@@ -306,42 +306,6 @@ class ComponentController
         }
     }
     
-   /**
-    * Load a state graph for a supplied class.  If the cass has a colocated
-    * 'xgraph' resource then that resource will be used to construct the graph
-    * instance, otherwise, if the class is assignable from Startable or Executable
-    * the state graph will be resolved using the respective xgraph resources.  In 
-    * neither case holds, an empty state graph will be returned.
-    *
-    * @param subject the subject class
-    * @return a state graph instance
-    */
-    /*
-    State loadStateGraph( Class subject ) throws ControlException
-    {
-        State state = loadStateFromResource( subject );
-        if( null == state )
-        {
-            if( Executable.class.isAssignableFrom( subject ) )
-            {
-                return loadStateFromResource( Executable.class );
-            }
-            else if( Startable.class.isAssignableFrom( subject ) )
-            {
-                return loadStateFromResource( Startable.class );
-            }
-            else
-            {
-                return new DefaultState( "" );
-            }
-        }
-        else
-        {
-            return state;
-        }
-    }
-    */
-    
     Class loadComponentClass( ClassLoader classloader, String classname ) throws ControlException
     {
         try

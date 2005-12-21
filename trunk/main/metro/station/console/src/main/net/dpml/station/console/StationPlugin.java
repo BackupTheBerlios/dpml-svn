@@ -750,7 +750,30 @@ public class StationPlugin
                     }
                     else if( commandline.hasOption( CONTROL_EXEC_COMMAND ) )
                     {
-                        System.out.println( "# exec" );
+                        String id = (String) commandline.getValue( CONTROL_EXEC_COMMAND, null );
+                        System.out.println( "\napplying operation: " + id );
+                        Object result = application.getProvider().exec( id, new Object[0] );
+                        if( null != result )
+                        {
+                            System.out.println( "listing return value\n" );
+                            if( result instanceof Object[] )
+                            {
+                                Object[] values = (Object[]) result;
+                                for( int i=0; i<values.length; i++ )
+                                {
+                                    System.out.println( values[i].toString() );
+                                }
+                            }
+                            else
+                            {
+                                System.out.println( result.toString() );
+                            }
+                            System.out.println( "\ndone" );
+                        }
+                        else
+                        {
+                            System.out.println( "done" );
+                        }
                     }
                 }
                 catch( Exception e )

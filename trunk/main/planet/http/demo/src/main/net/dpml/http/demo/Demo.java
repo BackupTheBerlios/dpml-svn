@@ -15,6 +15,8 @@
  */
 package net.dpml.http.demo;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 import net.dpml.logging.Logger;
@@ -26,7 +28,7 @@ import net.dpml.http.spi.SocketListenerService;
 /**
  * Working demo/test component.
  */
-public class Demo implements Startable
+public class Demo
 {
    /**
     * HTTP Demo component context.
@@ -74,24 +76,95 @@ public class Demo implements Startable
         m_parts = parts;
         int port = context.getPort( 8080 );
         parts.getSocketListenerMap().put( "port", new Integer( port ) );
-    }
-
-   /**
-    * Start the demo.
-    */
-    public void start()
-    {
-        m_logger.info( "Starting" );
         m_parts.getSocketListener();
     }
-
+    
    /**
-    * Stop the demo.
+    * Return information about the running state of the application.
     */
-    public void stop()
+    public Stats getStats()
     {
-        m_logger.info( "Stopping" );
+        //Runtime runtime = Runtime.getRuntime();
+        //long free = runtime.freeMemory();
+        //long total = runtime.totalMemory();
+        //long max = runtime.maxMemory();
+        //return new Stats( free, total, max );
+        return new Stats();
     }
     
+   /**
+    * Utility class used to marshal memory usage information 
+    * from the current runtime.
+    */
+    public static final class Stats implements Serializable
+    {
+        private final long m_free;
+        private final long m_max;
+        private final long m_total;
+        private final Date m_timestamp;
+        
+        //private Stats( long free, long total, long max )
+        private Stats()
+        {
+            Runtime runtime = Runtime.getRuntime();
+            long free = runtime.freeMemory();
+            long total = runtime.totalMemory();
+            long max = runtime.maxMemory();
+            m_timestamp = new Date();
+            m_free = free;
+            m_total = total;
+            m_max = max;
+        }
+        
+       /**
+        * Return the free memory value.
+        * @return the free memory value
+        */
+        public long getFreeMemory()
+        {
+            return m_free;
+        }
+        
+       /**
+        * Return the total memory value.
+        * @return the free memory value
+        */
+        public long getTotalMemory()
+        {
+            return m_total;
+        }
+        
+       /**
+        * Return the max memory value.
+        * @return the max memory value
+        */
+        public long getMaxMemory()
+        {
+            return m_max;
+        }
+        
+       /**
+        * Return the timestamp of the momory usage info.
+        * @return the timestamp value
+        */
+        public Date getTimestamp()
+        {
+            return m_timestamp;
+        }
+        
+       /**
+        * Return a string representation of the datastructure.
+        * @return the string value
+        */
+        public String toString()
+        {
+            StringBuffer buffer = new StringBuffer( "Memory Usage" );
+            buffer.append( "\n  Timestamp: " + m_timestamp );
+            buffer.append( "\n       Free: " + m_free );
+            buffer.append( "\n      Total: " + m_total );
+            buffer.append( "\n        Max: " + m_max );
+            return buffer.toString();
+        }
+    }
 }
 
