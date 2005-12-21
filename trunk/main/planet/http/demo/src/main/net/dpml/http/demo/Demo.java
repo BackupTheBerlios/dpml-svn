@@ -84,11 +84,6 @@ public class Demo
     */
     public Stats getStats()
     {
-        //Runtime runtime = Runtime.getRuntime();
-        //long free = runtime.freeMemory();
-        //long total = runtime.totalMemory();
-        //long max = runtime.maxMemory();
-        //return new Stats( free, total, max );
         return new Stats();
     }
     
@@ -103,7 +98,6 @@ public class Demo
         private final long m_total;
         private final Date m_timestamp;
         
-        //private Stats( long free, long total, long max )
         private Stats()
         {
             Runtime runtime = Runtime.getRuntime();
