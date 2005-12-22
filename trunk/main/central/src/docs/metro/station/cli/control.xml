@@ -16,7 +16,13 @@
         <p>
         Start a console connected to a named application.  The console
         provides a set of additional commands supporting the invocation 
-        of state transitions and management operations.
+        of state transitions and management operations.  Once connected 
+        with an application, management operations may be invoked using
+        the nested <tt>exec</tt> command with the name of the operation
+        as the first parameter.  Subsequent parameters will be used as 
+        operation arguments.  Transitions may be invoked using the 
+        nested <tt>apply</tt> command by supplying the name of the 
+        transition to be applied by the state machine.
         </p>
 
       </subsection>
@@ -72,20 +78,20 @@ options
 Application: demo
 Current State:
 Transitions: 0
-Operations: 1
+Operations: 2
   [1] stats
+  [2] memory
 
-[3984]&gt; <font color="darkred">exec stats</font>
+[3984]&gt; <font color="darkred">exec memory</font>
 
-applying operation: stats
+applying operation: memory
 listing return value
 
 Memory Usage
-  Timestamp: Wed Dec 21 15:04:50 CST 2005
-       Free: 50096
-      Total: 2506752
+  Timestamp: Fri Dec 23 08:07:16 CST 2005
+       Free: 181024
+      Total: 2523136
         Max: 66650112
-
 done
 [3984]&gt;
 </source>
