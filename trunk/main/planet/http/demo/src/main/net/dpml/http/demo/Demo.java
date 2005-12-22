@@ -26,7 +26,9 @@ import net.dpml.activity.Startable;
 import net.dpml.http.spi.SocketListenerService;
 
 /**
- * Working demo/test component.
+ * Working demo/test component.  This component is aimed primarily 
+ * and testing and validating interfaces and implementations related
+ * to remote management and control of interal parts.
  */
 public class Demo
 {
@@ -63,7 +65,7 @@ public class Demo
     
     private final Logger m_logger;
     private final Parts m_parts;
-    
+        
    /**
     * Creation of the HTTP Demo Component.
     * @param logger the assigned logging channel
@@ -77,6 +79,11 @@ public class Demo
         int port = context.getPort( 8080 );
         parts.getSocketListenerMap().put( "port", new Integer( port ) );
         m_parts.getSocketListener();
+    }
+    
+    private Logger getLogger()
+    {
+        return m_logger;
     }
     
    /**

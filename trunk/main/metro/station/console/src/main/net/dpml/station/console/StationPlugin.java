@@ -21,6 +21,7 @@ package net.dpml.station.console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -54,6 +55,7 @@ import net.dpml.transit.PID;
 import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.util.ExceptionHelper;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
@@ -776,6 +778,20 @@ public class StationPlugin
                             else
                             {
                                 System.out.println( "done" );
+                            }
+                        }
+                        catch( InvocationTargetException e )
+                        {
+                            Throwable cause = e.getCause();
+                            if( null != cause )
+                            {
+                                String error = ExceptionHelper.packException( cause, true );
+                                System.out.println( error );
+                            }
+                            else
+                            {
+                                String error = ExceptionHelper.packException( e, true );
+                                System.out.println( error );
                             }
                         }
                         catch( Throwable e )
