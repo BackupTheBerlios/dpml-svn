@@ -78,20 +78,14 @@ public final class Transit
 
    /**
     * The DPML home directory established via assesment of the the ${dpml.home}
-    * system property and the DPML_HOME environment variable.  If neither are
-    * defined the behaviour is platform specific.  If the os is Windows,
-    * the value returned is equivalent to $APPDATA\DPML whereas Unix the
-    * environment will return ${user.home}/.dpml.
+    * system property and the DPML_HOME environment variable.
     */
     public static final File DPML_HOME;
 
    /**
     * If a system property named "dpml.system" is defined then the value
     * is assigned otherwise the implementation will look for an environment
-    * variable named "DPML_SYSTEM". If neither case holds, the value assigned
-    * if platform dependent.  If the os is Windows, the equivalent of
-    * $PROGRAMFILES\DPML is assigned otherwise the value defaults to
-    * "/usr/share/dpml".
+    * variable named "DPML_SYSTEM".
     */
     public static final File DPML_SYSTEM;
 
@@ -421,10 +415,8 @@ public final class Transit
     * named "dpml.system" is defined then the value as a file is
     * returned otherwise the implementation will look for an environment
     * variable named "DPML_SYSTEM" which if defined will be
-    * returned as a file.  If neither case holds, the value assigned
-    * if platform dependent.  If the os is Windows, DPML_HOME\Shared 
-    * is returned otherwise $DPML_HOME/share" is returned for a nix 
-    * platforms.
+    * returned as a file otherwise a value equivalent to 
+    * <tt>${dpml.home}/share</tt> will be returned.
     *
     * @param dpmlHomeDir the default DPML_HOME value
     * @return the transit system directory
@@ -441,12 +433,6 @@ public final class Transit
         {
             return new File( home );
         }
-
-        String os = System.getProperty( "os.name" ).toLowerCase();
-        if( os.indexOf( "win" ) >= 0 )
-        {
-            return new File( dpmlHomeDir, "Shared" );
-        }
         else
         {
             return new File( dpmlHomeDir, "share" );
@@ -454,10 +440,10 @@ public final class Transit
     }
 
    /**
-    * Resolve the DPML data directory. If the platform is Windows
-    * the returned value is equivalent to ${dpml.home}/Data
-    * whereas the Unix variant returns ${dpml.home}/data. The value
-    * returned may be overriden by setting a 'dpml.data' system property.
+    * Resolve the DPML data directory. The value
+    * returned may be overriden by setting a 'dpml.data' 
+    * system property otherwise the default value returned
+    * will be equivalent to <tt>${dpml.home}/data</tt>.
     *
     * @param dir the default DPML_HOME value
     * @return the transit personal data directory
@@ -469,11 +455,6 @@ public final class Transit
         {
             return new File( path );
         }
-        String os = System.getProperty( "os.name" ).toLowerCase();
-        if( os.indexOf( "win" ) >= 0 )
-        {
-            return new File( dir, "Data" );
-        }
         else
         {
             return new File( dir, "data" );
@@ -481,10 +462,10 @@ public final class Transit
     }
 
    /**
-    * Resolve the DPML prefs directory. If the platform is Windows
-    * the returned value is equivalent to ${dpml.home}/Preferences
-    * whereas the Unix variant returns ${dpml.home}/prefs. The value
-    * returned may be overriden by setting a 'dpml.prefs' system property.
+    * Resolve the DPML prefs directory. The value
+    * returned may be overriden by setting a 'dpml.prefs' 
+    * system property otherwise the default value returned
+    * will be equivalent to <tt>${dpml.home}/prefs</tt>.
     *
     * @param dir the default DPML_HOME value
     * @return the transit personal data directory
@@ -495,11 +476,6 @@ public final class Transit
         if( null != path )
         {
             return new File( path );
-        }
-        String os = System.getProperty( "os.name" ).toLowerCase();
-        if( os.indexOf( "win" ) >= 0 )
-        {
-            return new File( dir, "Preferences" );
         }
         else
         {

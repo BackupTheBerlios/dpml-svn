@@ -26,9 +26,13 @@
 
   <target name="prepare" depends="standard.prepare">
     <property name="bundle" location="${project.target.dir}/bundle"/>
+    <property name="data" location="${bundle}/data"/>
     <property name="share" location="${bundle}/share"/>
     <property name="share.docs" location="${share}/docs"/>
     <property name="prefs" location="${bundle}/prefs"/>
+    <mkdir dir="${data}"/>
+    <mkdir dir="${prefs}"/>
+    <mkdir dir="${share.docs}"/>
   </target>
   
   <target name="build" depends="standard.build">
@@ -43,9 +47,14 @@
   <target name="package" depends="standard.package,javadoc,checkstyle,junit-report">
     <property name="share.local" location="${share}/local"/>
     <x:replicate self="true" verbose="false" toDir="${share.local}"/>
+    <copy toDir="${share.local}">
+      <fileset dir="target/deliverables">
+        <include name="modules/**/*"/>
+      </fileset>
+    </copy>
   </target>
 
-  <target name="install" depends="standard.install,bundle">
+  <target name="install" depends="standard.install,zip">
     <copy todir="${dpml.data}">
       <fileset dir="${share}">
         <include name="docs/**"/>
@@ -58,6 +67,16 @@
         <exclude name="api/**"/>
       </fileset>
     </copy>
+  </target>
+
+  <target name="zip" depends="bundle" description="Creates a binary w32 distribution.">
+    <x:property name="filename" type="zip" feature="filename"/>
+    <property name="ziploc" location="target/deliverables/zips"/>
+    <mkdir dir="${ziploc}"/>
+    <echo>${ziploc}</echo>
+    <zip destfile="${ziploc}/${filename}">
+      <zipfileset dir="target/bundle" prefix="${project.name}-w32-${project.version}"/>
+    </zip>
   </target>
 
   <target name="bundle" depends="standard.install,prefs,bin,docs">

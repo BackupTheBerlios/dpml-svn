@@ -76,41 +76,24 @@
     <mkdir dir="${dpml.home}"/>
   </target>
 
-  <target name="dpml-data-unix" depends="dpml-home" unless="isWindows">
+  <target name="dpml-data" depends="dpml-home">
     <property name="dpml.data" location="${dpml.home}/data"/>
-  </target>
-
-  <target name="dpml-data-windows" depends="dpml-home" if="isWindows">
-    <property name="dpml.data" location="${dpml.home}/Data"/>
-  </target>
-
-  <target name="dpml-data" depends="dpml-data-unix,dpml-data-windows">
     <echo>$${dpml.data} set to ${dpml.data}</echo>
     <mkdir dir="${dpml.data}"/>
     <property name="dpml.local.cache" location="${dpml.data}/cache"/>
     <property name="dpml.docs" location="${dpml.data}/docs"/>
-    <!--<property name="dpml.dist" location="${dpml.data}/dist"/>-->
     <property name="dpml.logs" location="${dpml.data}/logs"/>
     <echo>$${dpml.local.cache} set to ${dpml.local.cache}</echo>
     <echo>$${dpml.docs} set to ${dpml.docs}</echo>
-    <echo>$${dpml.dist} set to ${dpml.dist}</echo>
     <echo>$${dpml.logs} set to ${dpml.logs}</echo>
     <mkdir dir="${dpml.local.cache}"/>
     <mkdir dir="${dpml.docs}"/>
-    <!--<mkdir dir="${dpml.dist}"/>-->
     <mkdir dir="${dpml.logs}"/>
     <available property="junit.cache.available" file="${dpml.local.cache}/junit/jars/${junit.filename}"/>
   </target>
 
-  <target name="dpml-prefs-unix" depends="dpml-home" unless="isWindows">
+  <target name="dpml-prefs" depends="dpml-home">
     <property name="dpml.prefs" location="${dpml.home}/prefs"/>
-  </target>
-
-  <target name="dpml-prefs-windows" depends="dpml-home" if="isWindows">
-    <property name="dpml.prefs" location="${dpml.home}/Preferences"/>
-  </target>
-
-  <target name="dpml-prefs" depends="dpml-prefs-unix,dpml-prefs-windows">
     <mkdir dir="${dpml.prefs}"/>
   </target>
 
@@ -118,16 +101,8 @@
     <property name="dpml.system" location="${ENV.DPML_SYSTEM}"/>
   </target>
 
-  <target name="dpml-system-windows" depends="dpml-system-environment,dpml-home" if="isWindows">
-    <property name="dpml.system" location="${dpml.home}/Shared"/>
-    <mkdir dir="${dpml.system}"/>
-  </target>
-
-  <target name="dpml-system-nix" depends="dpml-system-environment,dpml-home" unless="isWindows">
+  <target name="dpml-system" depends="dpml-system-environment,dpml-home">
     <property name="dpml.system" location="${dpml.home}/share"/>
-  </target>
-
-  <target name="dpml-system" depends="dpml-system-nix,dpml-system-windows">
     <mkdir dir="${dpml.system}"/>
   </target>
 

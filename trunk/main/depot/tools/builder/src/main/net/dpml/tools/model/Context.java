@@ -229,7 +229,7 @@ public interface Context
     File createFile( String path );
     
    /**
-    * Return a filename using the layout strategy emplioyed by the cache.
+    * Return a filename using the layout strategy employed by the cache.
     * @param id the artifact type
     * @return the filename
     */

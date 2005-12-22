@@ -10,7 +10,7 @@ A. Setup Environment
 
 Declare an environment variable DPML_HOME referencing the location you want 
 for the system installation (for example C:\system\dpml) and add 
-%DPML_HOME%\Shared\bin to you PATH definition.
+%DPML_HOME%\share\bin to you PATH definition.
 
 B. Bootstrap Build
 ------------------
@@ -26,7 +26,7 @@ C. Main System Build
 --------------------
 
 The bootstrap procedure will create a number of executables under 
-%DPML_HOME%/Shared/bin.  To successfull invoke the build command the bin 
+%DPML_HOME%/share/bin.  To successfull invoke the build command the bin 
 directory must be included in your PATH environment variable.
 
   $ build

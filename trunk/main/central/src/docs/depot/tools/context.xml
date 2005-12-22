@@ -12,9 +12,10 @@
     <section name="Project Context">
 
       <p>
-      A project Context is used internally with the build system as a 
-      convinient source of information relative to a target project.  The
-      context object provides access to the following project aspects:
+      A project <a href="/api/dpml/@VERSION@/net/dpml/tools/model/Context.html">Context</a>
+      is used internally with the build system as a convinient source of information 
+      relative to a target project.  The context object provides access to the following 
+      project aspects:
       </p>
 
       <table>
