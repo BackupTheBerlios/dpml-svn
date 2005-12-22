@@ -65,7 +65,7 @@ options
         initial command line establishes a console connected to the named appplication.
         Within the console the user can query the status of the application and review available
         state transitions and management operations published by the component.  The following
-        example demonstrates the invocation of the management operation <tt>'stats'</tt> on
+        example demonstrates the invocation of the management operation <tt>'memory'</tt> on
         the component and the listing of the returned value.
         </p>
 
