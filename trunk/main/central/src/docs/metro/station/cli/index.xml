@@ -30,8 +30,8 @@
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ station startup | add <key> | set <key> | start <key> | stop <key> | restart <key> | info <key> |
-remove <key> | shutdown | help
+<pre><![CDATA[$ station startup | add <key> | set <key> | start <key> | control <key> 
+| stop <key> | restart <key> | info <key> | remove <key> | shutdown | help
 ]]></pre>
 
       </subsection>
@@ -43,7 +43,8 @@ remove <key> | shutdown | help
              starup of all applications with an AUTOMATIC startup policy).</td></tr>
           <tr><td>add </td><td>Add a new application profile to the station registry.</td></tr>
           <tr><td>set</td><td>Set of feature of an application.</td></tr>
-          <tr><td>start </td><td>Start an application.</td></tr>
+          <tr><td>start</td><td>Start an application.</td></tr>
+          <tr><td>control</td><td>Manage the component.</td></tr>
           <tr><td>stop</td><td>Stop an application.</td></tr>
           <tr><td>restart</td><td>Restart an application.</td></tr>
           <tr><td>info</td><td>List information about registered applications.</td></tr>
@@ -59,8 +60,8 @@ remove <key> | shutdown | help
 <pre>$ station help</pre>
 <source><![CDATA[
 Usage:
-station startup | add <key> | set <key> | start <key> | stop <key> | restart <key> | info <key> |
-remove <key> | shutdown | help
+station startup | add <key> | set <key> | start <key> | control <key> 
+| stop <key> | restart <key> | info <key> | remove <key> | shutdown | help
 options
   startup                                                             Startup the station.
     -port -registry
@@ -90,6 +91,7 @@ options
       -shutdown <seconds>                                             Shutdown timeout.
       -config <uri>                                                   Application configuration.
   start <key>                                                         Start application.
+  control <key>                                                       Manage the application.
   stop <key>                                                          Stop application.
   restart <key>                                                       Restart application.
   info <key>                                                          Station or profile info.

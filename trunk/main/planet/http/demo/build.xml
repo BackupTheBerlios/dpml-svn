@@ -29,6 +29,7 @@
     <c:type class="net.dpml.http.demo.Demo" threadsafe="true" name="demo">
       <state>
         <operation name="stats" method="getStats"/>
+        <operation name="memory" method="getMemoryStats"/>
       </state>
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" key="server" collection="hard">

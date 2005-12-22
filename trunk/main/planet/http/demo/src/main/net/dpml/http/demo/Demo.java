@@ -80,25 +80,52 @@ public class Demo
     }
     
    /**
-    * Return information about the running state of the application.
+    * Return some stats infomation using a supplied argument.
+    * @param arg a value such as 'memory'
+    * @return a stats instance
+    * @exception IllegalArgumentException if the supplied argument is not recognized
     */
-    public Stats getStats()
+    public Stats getStats( String arg )
     {
-        return new Stats();
+        System.out.println( "processing stats command with option: [" + arg + "]" );
+        if( "memory".equals( arg ) )
+        {
+            return getMemoryStats();
+        }
+        else
+        {
+            throw new IllegalArgumentException( arg );
+        }
+    }
+    
+   /**
+    * Return information about memory usage.
+    * @return a stats instance
+    */
+    public MemoryStats getMemoryStats()
+    {
+        return new MemoryStats();
+    }
+    
+   /**
+    * Utility stats class.
+    */
+    public static abstract class Stats implements Serializable
+    {
     }
     
    /**
     * Utility class used to marshal memory usage information 
     * from the current runtime.
     */
-    public static final class Stats implements Serializable
+    public static final class MemoryStats extends Stats
     {
         private final long m_free;
         private final long m_max;
         private final long m_total;
         private final Date m_timestamp;
         
-        private Stats()
+        private MemoryStats()
         {
             Runtime runtime = Runtime.getRuntime();
             long free = runtime.freeMemory();

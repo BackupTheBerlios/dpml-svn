@@ -29,6 +29,7 @@
       <item name="Add" href="add.html"/>
       <item name="Set" href="set.html"/>
       <item name="Start" href="cstart.html"/>
+      <item name="Control" href="control.html"/>
       <item name="Stop" href="stop.html"/>
       <item name="Restart" href="restart.html"/>
       <item name="Info" href="info.html"/>

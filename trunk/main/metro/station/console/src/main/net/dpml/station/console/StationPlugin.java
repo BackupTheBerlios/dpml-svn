@@ -750,29 +750,37 @@ public class StationPlugin
                     }
                     else if( commandline.hasOption( CONTROL_EXEC_COMMAND ) )
                     {
-                        String id = (String) commandline.getValue( CONTROL_EXEC_COMMAND, null );
+                        String id = (String) commandline.getValues( CONTROL_EXEC_COMMAND ).get( 0 );
                         System.out.println( "\napplying operation: " + id );
-                        Object result = application.getProvider().exec( id, new Object[0] );
-                        if( null != result )
+                        try
                         {
-                            System.out.println( "listing return value\n" );
-                            if( result instanceof Object[] )
+                            String[] applyArgs = getExecArgs( commandline );
+                            Object result = application.getProvider().exec( id, applyArgs );
+                            if( null != result )
                             {
-                                Object[] values = (Object[]) result;
-                                for( int i=0; i<values.length; i++ )
+                                System.out.println( "listing return value\n" );
+                                if( result instanceof Object[] )
                                 {
-                                    System.out.println( values[i].toString() );
+                                    Object[] values = (Object[]) result;
+                                    for( int i=0; i<values.length; i++ )
+                                    {
+                                        System.out.println( values[i].toString() );
+                                    }
                                 }
+                                else
+                                {
+                                    System.out.println( result.toString() );
+                                }
+                                System.out.println( "\ndone" );
                             }
                             else
                             {
-                                System.out.println( result.toString() );
+                                System.out.println( "done" );
                             }
-                            System.out.println( "\ndone" );
                         }
-                        else
+                        catch( Throwable e )
                         {
-                            System.out.println( "done" );
+                            System.out.println( e.toString() );
                         }
                     }
                 }
@@ -783,6 +791,22 @@ public class StationPlugin
             }
             System.out.print( prompt );
         }
+    }
+    
+    private String[] getExecArgs( CommandLine line )
+    {
+        List args = line.getValues( CONTROL_EXEC_COMMAND );
+        String[] elements = (String[]) args.toArray( new String[0] );
+        if( elements.length < 2 )
+        {
+            return new String[0];
+        }
+        String[] result = new String[ elements.length - 1 ];
+        for( int i=1; i<elements.length; i++ )
+        {
+            result[i-1] = elements[i];
+        }
+        return result;
     }
     
     private void listInfo( Application application ) throws Exception
