@@ -54,7 +54,7 @@
     </copy>
   </target>
 
-  <target name="install" depends="standard.install,zip">
+  <target name="install" depends="standard.install,zip,tar">
     <copy todir="${dpml.data}">
       <fileset dir="${share}">
         <include name="docs/**"/>
@@ -70,13 +70,51 @@
   </target>
 
   <target name="zip" depends="bundle" description="Creates a binary w32 distribution.">
-    <x:property name="filename" type="zip" feature="filename"/>
-    <property name="ziploc" location="target/deliverables/zips"/>
+    <property name="filename" value="dpml-platform-w32-${project.version}.zip"/>
+    <property name="ziploc" location="target/dist"/>
     <mkdir dir="${ziploc}"/>
-    <echo>${ziploc}</echo>
     <zip destfile="${ziploc}/${filename}">
-      <zipfileset dir="target/bundle" prefix="${project.name}-w32-${project.version}"/>
+      <zipfileset dir="target/bundle" prefix="dpml">
+        <exclude name="share/bin/depot"/>
+        <exclude name="share/bin/build"/>
+        <exclude name="share/bin/station"/>
+        <exclude name="share/bin/metro"/>
+        <exclude name="share/bin/transit"/>
+        <exclude name="share/bin/*.sh"/>
+      </zipfileset>
     </zip>
+    <checksum file="${ziploc}/${filename}" fileext=".md5"/>
+  </target>
+
+  <target name="tar" depends="bundle" description="Creates a binary linux distribution.">
+    <property name="filename" value="dpml-platform-linux-${project.version}.tar"/>
+    <property name="temp" location="target/temp"/>
+    <mkdir dir="${temp}"/>
+    <tar destfile="${temp}/${filename}" longfile="gnu" >
+      <tarfileset dir="target/bundle" prefix="dpml" mode="755">
+        <include name="share/bin/depot"/>
+        <include name="share/bin/build"/>
+        <include name="share/bin/station"/>
+        <include name="share/bin/metro"/>
+        <include name="share/bin/transit"/>
+        <include name="share/bin/*.sh"/>
+      </tarfileset>
+      <tarfileset dir="target/bundle" prefix="dpml">
+        <exclude name="share/bin/depot"/>
+        <exclude name="share/bin/build"/>
+        <exclude name="share/bin/station"/>
+        <exclude name="share/bin/metro"/>
+        <exclude name="share/bin/transit"/>
+        <exclude name="share/bin/*.sh"/>
+        <exclude name="share/bin/*.lap"/>
+        <exclude name="share/bin/*.exe"/>
+        <exclude name="share/bin/scm"/>
+      </tarfileset>
+    </tar>
+    <property name="dist" location="target/dist"/>
+    <mkdir dir="${dist}"/>
+    <gzip src="${temp}/${filename}" destfile="${dist}/${filename}.gz"/>
+    <checksum file="${dist}/${filename}.gz" fileext=".md5"/>
   </target>
 
   <target name="bundle" depends="standard.install,prefs,bin,docs">
@@ -143,9 +181,12 @@
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">
-      <fileset dir="${dpml.system}/bin"> 
-        <include name="**/*"/>
-      </fileset>
+      <fileset dir="transit/console/target/bin"/>
+      <fileset dir="depot/core/console/target/bin"/>
+      <fileset dir="depot/library/console/target/bin"/>
+      <fileset dir="metro/station/console/target/bin"/>
+      <fileset dir="metro/station/server/target/bin"/>
+      <fileset dir="metro/exec/target/bin"/>
     </copy>
   </target>
 
