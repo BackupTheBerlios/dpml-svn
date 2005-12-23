@@ -86,11 +86,11 @@
     <checksum file="${ziploc}/${filename}" fileext=".md5"/>
   </target>
 
-  <target name="tar" depends="bundle" description="Creates a binary linux distribution.">
-    <property name="filename" value="dpml-platform-linux-${project.version}.tar"/>
+  <target name="tar" description="Creates a binary linux distribution.">
+    <property name="tarfilename" value="dpml-platform-linux-${project.version}.tar"/>
     <property name="temp" location="target/temp"/>
     <mkdir dir="${temp}"/>
-    <tar destfile="${temp}/${filename}" longfile="gnu" >
+    <tar destfile="${temp}/${tarfilename}" longfile="gnu" >
       <tarfileset dir="target/bundle" prefix="dpml" mode="755">
         <include name="share/bin/depot"/>
         <include name="share/bin/build"/>
@@ -108,13 +108,13 @@
         <exclude name="share/bin/*.sh"/>
         <exclude name="share/bin/*.lap"/>
         <exclude name="share/bin/*.exe"/>
-        <exclude name="share/bin/scm"/>
+        <exclude name="share/bin/scm/**/*"/>
       </tarfileset>
     </tar>
     <property name="dist" location="target/dist"/>
     <mkdir dir="${dist}"/>
-    <gzip src="${temp}/${filename}" destfile="${dist}/${filename}.gz"/>
-    <checksum file="${dist}/${filename}.gz" fileext=".md5"/>
+    <gzip src="${temp}/${tarfilename}" destfile="${dist}/${tarfilename}.gz"/>
+    <checksum file="${dist}/${tarfilename}.gz" fileext=".md5"/>
   </target>
 
   <target name="bundle" depends="standard.install,prefs,bin,docs">
