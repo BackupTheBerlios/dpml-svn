@@ -125,11 +125,12 @@ public class GenericTask extends Task
             // Create the library, locate this project, create and set the context.
             //
             
-            File basedir = getProject().getBaseDir();
-            if( null == System.getProperty( "build.version" ) )
+            String signature = getProject().getProperty( "build.signature" );
+            if( null != signature )
             {
-                System.getProperty( "build.version", "SNAPSHOT" );
+                System.setProperty( "build.signature", signature );
             }
+            
             try
             {
                 Logger logger = new LoggingAdapter();

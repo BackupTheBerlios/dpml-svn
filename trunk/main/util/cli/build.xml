@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="dpml-cli" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:depot" >
+    xmlns:transit="antlib:net.dpml.transit">
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
