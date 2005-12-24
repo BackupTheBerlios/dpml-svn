@@ -11,15 +11,64 @@
   <body>
 
     <section name="Binary Distributions">
-      
-      <p>
-      The current implementation of the DPML platform is available 
-      from our SVN repository.</p>
 
-      <p>Please refer to the instructions concerning 
-      <a href="../resources/build.html">code checkout, bootstrap and main 
-      build procedure</a>.
-      </p>
+      <subsection name="Description">
+
+        <p>
+        The DPML Platform distribution includes:
+        </p>
+
+        <ul>
+          <li>Transit resource management </li>
+          <li>Depot build system</li>
+          <li>Metro component management runtime</li>
+          <li>Station application server</li>
+        </ul>
+
+      </subsection>
+
+      <subsection name="Build @VERSION@">
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip">
+                dpml-platform-win32-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz">
+                dpml-platform-linux-@VERSION@.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Technical Note">
+
+        <p>
+        File structure layouts within DPML_HOME have been updated.  For Win32 users 
+        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        </p>
+
+      </subsection>
 
     </section>
 

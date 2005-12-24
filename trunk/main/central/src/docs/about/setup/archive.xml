@@ -13,10 +13,44 @@
     <section name="Milestone Archive">
        
       <p>
-      The following table list milestone distributions published by the DPML.
-      Please note that the binary distributions listed below are not compatible 
-      with the current development build.
+      The following table lists archived milestone distributions published by the DPML.
       </p>
+
+      <!--
+      <subsection name="Build @VERSION@">
+
+        <p>
+        File structure layouts within DPML_HOME have been updated.  For Win32 users 
+        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip">
+                dpml-platform-win32-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz">
+                dpml-platform-linux-@VERSION@.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+      -->
 
       <subsection name="Build 20050809">
 

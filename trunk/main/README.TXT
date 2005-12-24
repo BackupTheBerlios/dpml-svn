@@ -1,39 +1,36 @@
 
-To build the DPML suite - please following the following procedure:
+DPML PLatform Installation README.
+----------------------------------
 
-  a) define the DPML_HOME environment variable 
-  b) build the bootstrap resources
-  c) build the main DPML system
+The DPML Platform distribution archive contains a complete development
+and runtime installation.  The distribute archive contains a single
+directory named 'dpml'.  After unpacking the archive, move the dpml 
+directory to your prefered install location.
 
-A. Setup Environment
---------------------
+To complete the installation:
 
-Declare an environment variable DPML_HOME referencing the location you want 
-for the system installation (for example C:\system\dpml) and add 
-%DPML_HOME%\share\bin to you PATH definition.
+  1. define the DPML_HOME environment variable
 
-B. Bootstrap Build
-------------------
+  2. include the share/bin directory into your system path
 
-Create a directory to hold the svn codebase (e.g. c:\dev\dpml\main), checkout 
-the sources, cd to the main directory and invoke the bootstrap build procedure.
+To verify your installation you should be able to list the current 
+Transit resource configuration using the following command:
 
-  $ cd dev\dpml\main
-  $ svn checkout svn://svn.berlios.de/dpml/trunk/main
-  $ bootstrap
+  $ transit info
 
-C. Main System Build
---------------------
+Win32 users can install the Station as a NT service by executing the 
+install-DPML-SCM.bat command file.  Following installation you can start
+the station manually using the following command:
 
-The bootstrap procedure will create a number of executables under 
-%DPML_HOME%/share/bin.  To successfull invoke the build command the bin 
-directory must be included in your PATH environment variable.
+  $ net start dpml
 
-  $ build
+The equivalent functionality on unix platforms is achived using the 
+station commands within machine startup and shutdown scripts.
 
-The build procedure will build 35 projects during which a number of downloads 
-may occur.  On completion the %DPML_HOME% should be fully populated and 
-operational.
+  $ station startup
+  $ station shutdown
 
+If you encounter any problems please post a note to the DPML support list.
 
+  http://www.dpml.net/about/resources/lists.html
 

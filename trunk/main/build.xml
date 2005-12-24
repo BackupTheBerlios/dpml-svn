@@ -59,6 +59,9 @@
       <fileset dir="${share}">
         <include name="docs/**"/>
       </fileset>
+      <fileset dir="target">
+        <include name="dist/**"/>
+      </fileset>
     </copy>
     <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
     <mkdir dir="${share.docs.reports}"/>
@@ -70,7 +73,7 @@
   </target>
 
   <target name="zip" depends="bundle" description="Creates a binary w32 distribution.">
-    <property name="filename" value="dpml-platform-w32-${project.version}.zip"/>
+    <property name="filename" value="dpml-platform-win32-${project.version}.zip"/>
     <property name="ziploc" location="target/dist"/>
     <mkdir dir="${ziploc}"/>
     <zip destfile="${ziploc}/${filename}">
