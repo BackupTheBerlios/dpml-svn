@@ -18,7 +18,8 @@
 
   <properties>
     <author email="commons-dev@jakarta.apache.org">commons-dev</author>
-    <title>CLI2 - Options</title>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML CLI OPtions</title>
   </properties>
 
   <body>

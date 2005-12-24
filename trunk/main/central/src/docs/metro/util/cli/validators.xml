@@ -17,8 +17,9 @@
 <document>
 
   <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <author email="commons-dev@jakarta.apache.org">commons-dev</author>
-    <title>CLI2 - Validators</title>
+    <title>DPML CLI Validators</title>
   </properties>
 
   <body>

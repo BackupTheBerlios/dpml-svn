@@ -15,7 +15,7 @@
       The project builder provides support for the building of multiple 
       projects taking into account inter-project dependencies, production
       declarations, and build strategy.  The builder makes extensive use
-      of a common <a href="../library/index.html">library</a> to establish a build 
+      of a common <a href="library/index.html">library</a> to establish a build 
       context and identify the build system <a href="tools/index.html">
       implementation</a> to execute.
       </p>

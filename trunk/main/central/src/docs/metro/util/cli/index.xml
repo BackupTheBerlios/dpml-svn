@@ -18,9 +18,10 @@
 
 <document>
 
- <properties>
-    <title>Introduction</title>
- </properties>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML CLI Overview</title>
+  </properties> 
 
   <body>
 

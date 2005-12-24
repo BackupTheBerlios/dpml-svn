@@ -18,10 +18,11 @@
 
 <document>
 
- <properties>
-    <title>Introduction</title>
+  <properties>
     <author email="commons-dev@jakarta.apache.org">commons-dev</author>
- </properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML CLI Overview</title>
+  </properties> 
 
   <body>
 
