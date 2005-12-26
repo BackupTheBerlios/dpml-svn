@@ -195,63 +195,8 @@ public abstract class FeatureTask extends GenericTask
         }
         else
         {
-            String value = resource.getProperty( m_feature );
-            if( null != value )
-            {
-                return value;
-            }
-            else
-            {
-                final String error = 
-                  "Unsupported feature ["
-                  + m_feature 
-                  + "].";
-                throw new BuildException( error, getLocation() );
-            }
+            return resource.getProperty( m_feature );
         }
-            //else if( m_feature.equals( "alias" ) )
-            //{
-            //    if( null == m_type )
-            //    {
-            //        final String error = 
-            //        "Type attribute must be supplied in conjuction with the alias attribute.";
-            //        throw new BuildException( error, getLocation() );
-            //    }
-            //    else
-            //    {
-            //        return resource.getInfo().getType( m_type ).getAlias();
-            //    }
-            //}
-        //else if( m_feature.equals( "path" ) )
-        //{
-            //    if( null == m_type )
-            //    {
-            //        final String error = 
-            //          "Type attribute must be supplied in conjuction with the path attribute.";
-            //        throw new BuildException( error, getLocation() );
-            //    }
-            //    else
-            //    {
-            //        return convertString( resource.getInfo().getPath( m_type ) );
-            //    }
-            //}
-            //else if( m_feature.equals( "docs" ) )
-            //{
-            //    return convertString( resource.getInfo().getDocPath() );
-            //}
-            //else if( m_feature.equals( "classpath" ) )
-            //{
-            //    return getPath( resource );
-            //}
-            //}
-            //else if( m_feature.equals( "short-filename" ) )
-            //{
-            //    return resource.getInfo().getShortFilename();
-            //}
-            //else if( m_feature.equals( "api" ) )
-            //{
-            //   return convertString( resource.getInfo().getJavadocPath() );
-        //}
     }
     
     private String getRef()

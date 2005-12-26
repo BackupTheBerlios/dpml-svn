@@ -31,6 +31,15 @@ public class FilterTask extends FeatureTask
 {
     private String m_token;
     private String m_default;
+    
+   /**
+    * Set a default filter value.
+    * @param value the default value
+    */
+    public void setDefault( final String value )
+    {
+        m_default = value;
+    }
 
    /**
     * Set the filter token value.
@@ -39,15 +48,6 @@ public class FilterTask extends FeatureTask
     public void setToken( final String token )
     {
         m_token = token;
-    }
-
-   /**
-    * Set a default filter value.
-    * @param value the default value
-    */
-    public void setDefault( final String value )
-    {
-        m_default = value;
     }
 
    /**
