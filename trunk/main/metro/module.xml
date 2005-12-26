@@ -27,10 +27,12 @@
 
   <project name="dpml-part-api" basedir="part/api">
     <types>
+      <!--
       <type id="plugin" alias="true">
         <property name="project.plugin.class" 
           value="net.dpml.part.PartContentHandler"/>
       </type>
+      -->
       <type id="jar"/>
     </types>
     <dependencies>
@@ -41,7 +43,27 @@
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
-   
+  
+  <project name="dpml-part-content" basedir="part/content">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+          value="net.dpml.part.content.PartContentHandler"/>
+      </type>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-metro-runtime"/>
+    </dependencies>
+    <dependencies>
+      <include key="dpml-part-api"/>
+      <include ref="dpml/util/dpml-logging-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+  
   <project name="dpml-part-test" basedir="part/test">
     <types>
       <type id="jar"/>
