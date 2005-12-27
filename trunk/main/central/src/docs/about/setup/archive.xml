@@ -16,6 +16,58 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build 20051228">
+
+        <p>
+        This is a minor update that includes resolution of the following issues:
+        </p>
+
+        <ol>
+          <li>resolution of the bug concerning a non-declared project publisher</li>
+          <li>elimination of all outstanding checkstyle format errors</li>
+          <li>addition of missing build reports to the binary distribution</li>
+          <li>addition of a content handler plugin for network resolvable parts</li>
+          <li>minor javadoc corrections</li>
+        </ol>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-win32-20051228.zip">
+                dpml-platform-win32-20051228.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-win32-20051228.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-linux-20051228.tar.gz">
+                dpml-platform-linux-20051228.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-linux-20051228.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <p>
+        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20051228">http://api.dpml.net/dpml/20051228</a>.
+        <br/>
+        <a href="http://www.dpml.net/reports/20051228/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20051228/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20051228/catalog/index.html">Catalog</a> reports are also available.
+        </p>
+
+      </subsection>
+
       <subsection name="Build 20051224">
 
         <p>

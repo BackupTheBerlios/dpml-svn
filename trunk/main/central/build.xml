@@ -17,6 +17,7 @@
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-console" />
     <x:filter token="DEPOT-TOOLS-ANT-URI" feature="uri" type="plugin" ref="dpml/depot/dpml-tools-builder" />
     <x:filter token="DEPOT-TOOLS-LIBRARY-URI" feature="uri" type="plugin" ref="dpml/depot/dpml-library-main" />
+    <x:filter token="METRO-RUNTIME-URI" feature="uri" type="plugin" ref="dpml/metro/dpml-metro-runtime" />
     <x:filter token="METRO-TOOLS-URI" feature="uri" type="plugin" ref="dpml/metro/dpml-metro-tools" />
     <x:filter token="UTIL-ACTIVITY-URI" feature="uri" type="jar" ref="dpml/util/dpml-activity-api" />
     <x:filter token="UTIL-CLI-URI" feature="uri" type="jar" ref="dpml/util/dpml-util-cli" />

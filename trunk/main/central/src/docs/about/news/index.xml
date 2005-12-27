@@ -13,7 +13,33 @@
 
     <section name="News &amp; Events">
 
-      <subsection name="Transit Development">
+      <subsection name="28 December 2005 Freight Train">
+
+        <p>
+        The first binary distribution of the DPML Platform Freight Train version 
+        was release as a snapshot build on the 24 of December.  A followup 
+        distribution was released earlier today closing some minor issues with the 
+        20051224 build.  In parrallel <a href="http://www.osm.net">OSM</a> 
+        tutorials on the Transit and Depot system were brought in-line with 
+        the latest 20051228 build.
+        </p>
+
+        <p>
+        Collectively - the 20051228 build represents:
+        </p>
+
+        <ul>
+          <li>Complete implementation of component driven context solution.</li>
+          <li>A internal composition strategy based on part management.</li>
+          <li>Active management of components using a formal state model.</li>
+          <li>Remote management of the resource layer.</li>
+          <li>Remote management of runtime components.</li>
+          <li>A system supporting the management of process clusters.</li>
+        </ul>
+
+        <p>
+        In detail ...
+        </p>
 
         <p>
         A lot of effort has gone into Transit consolidation resulting 
@@ -21,16 +47,47 @@
         local and remote Transit configuration, and the addition of two 
         bootstrap protocol handlers - one dealing with access to RMI 
         registry resource, and a second dealing with local preferences.
-        Other updates include improvements to the default logging format
+        Other Transit updates include improvements to the default logging format
         to include a JVM process identifier, improvements to the content 
         handler implementation, improvements to the plugin service with the 
         addition of support for primitive arguments in plugin constructors 
-        (such as int, boolean, float, etc.).  The util package has received 
-        a general cleanup and the system classloader has been improved to 
-        provide better support for system level classloader entries. Finally
-        the available layout strategies have been updated to include a 
-        'modern' layout that delivers compatibility with Maven2 
-        repositories.
+        (such as int, boolean, float, etc.). Available layout strategies 
+        have been updated to include a 'modern' layout that delivers 
+        broader repository compatibility.
+        </p>
+
+        <p>
+        The util package has received a general cleanup and the system 
+        classloader has been improved to provide better support for system 
+        level classloader entries. 
+        </p>
+
+        <p>
+        The Depot package has incorporated Janel application handler - 
+        improving intergration within the Win32 environment.
+        </p>
+
+        <p>
+        The DPML Station is included as a core element of the overall platform with 
+        support for multi-JVM deployment, runtime management and teardown.  An NT 
+        service has been included in the distribution together with a commandline tool
+        supporting comprehensive management of mutliple applications - covering 
+        application startup, restart, shutdown, querying, execution of dynamic managment 
+        operations, component state management, station long term persistence control,
+        and general station startup and shutdown support.
+        </p>
+
+        <p>
+        Metro has evolved to include a formal component composition API, a formal
+        state management system, long-term storage of descriptors and directivies 
+        compliant with JSR-57, and a full implementation of inner context class based 
+        requirements declaration.
+        </p>
+
+        <p>
+        The binary download of the 
+        <a href="../setup/archive.html#Build%20%20051228">20051228</a> build is available for 
+        immediate download.
         </p>
 
       </subsection>
