@@ -71,6 +71,9 @@ public class StationServerPlugin implements Runnable
         m_line = parser.parse( args );
     }
     
+   /**
+    * Start the thread.
+    */
     public void run()
     {
         try

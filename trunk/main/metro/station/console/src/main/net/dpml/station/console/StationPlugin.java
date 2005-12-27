@@ -166,90 +166,23 @@ public class StationPlugin
             }
             else if( line.hasOption( START_COMMAND ) )
             {
-                try
-                {
-                    Manager manager = getManager( line );
-                    String value = (String) line.getValue( START_COMMAND, null );
-                    processStartCommand( manager, value );
-                }
-                catch( ConnectException ce )
-                {
-                    final String message = 
-                      "\nCannot start application because the station is not running. "
-                      + "\nUse 'station startup' to start the station process.";
-                    System.out.println( message );
-                }
+                processStartCommand( line );
             }
             else if( line.hasOption( CONTROL_COMMAND ) )
             {
-                try
-                {
-                    Manager manager = getManager( line );
-                    String value = (String) line.getValue( CONTROL_COMMAND, null );
-                    processControlCommand( manager, value );
-                }
-                catch( ConnectException ce )
-                {
-                    final String message = 
-                      "\nCannot start application because the station is not running. "
-                      + "\nUse 'station startup' to start the station process.";
-                    System.out.println( message );
-                }
+                processControlCommand( line );
             }
             else if( line.hasOption( STOP_COMMAND ) )
             {
-                try
-                {
-                    Manager manager = getManager( line );
-                    String value = (String) line.getValue( STOP_COMMAND, null );
-                    processStopCommand( manager, value );
-                }
-                catch( ConnectException ce )
-                {
-                    final String message = 
-                      "\nCannot stop application because the station is not running. "
-                      + "\nUse 'station startup' to start the station process.";
-                    System.out.println( message );
-                }
+                processStopCommand( line );
             }
             else if( line.hasOption( RESTART_COMMAND ) )
             {
-                try
-                {
-                    Manager manager = getManager( line );
-                    String value = (String) line.getValue( RESTART_COMMAND, null );
-                    processRestartCommand( manager, value );
-                }
-                catch( ConnectException ce )
-                {
-                    final String message = 
-                      "\nCannot restart application because the station is not running. "
-                      + "\nUse 'station startup' to start the station process.";
-                    System.out.println( message );
-                }
+                processRestartCommand( line );
             }
             else if( line.hasOption( REMOVE_COMMAND ) )
             {
-                ApplicationRegistry registry = getApplicationRegistry( line );
-                String value = (String) line.getValue( REMOVE_COMMAND, null );
-                try
-                {
-                    Manager manager = getManager( line );
-                    Application application = manager.getApplication( value );
-                    application.stop();
-                }
-                catch( ConnectException ce )
-                {
-                    final String message = 
-                      "\nCannot restart application because the station is not running. "
-                      + "\nUse 'station startup' to start the station process.";
-                    System.out.println( message );
-                }
-                catch( UnknownKeyException ce )
-                {
-                    boolean ignorable = true;
-                }
-                processRemoveCommand( registry, value );
+                processRemoveCommand( line );
             }
             else
             {
@@ -690,6 +623,27 @@ public class StationPlugin
     
    /**
     * Handle a request for the startup of an application process.
+    * @param line the commandline
+    */
+    private void processStartCommand( CommandLine line ) throws Exception
+    {
+        try
+        {
+            Manager manager = getManager( line );
+            String value = (String) line.getValue( START_COMMAND, null );
+            processStartCommand( manager, value );
+        }
+        catch( ConnectException ce )
+        {
+            final String message = 
+              "\nCannot start application because the station is not running. "
+              + "\nUse 'station startup' to start the station process.";
+            System.out.println( message );
+        }
+    }
+    
+   /**
+    * Handle a request for the startup of an application process.
     * @param key the application key
     */
     private void processStartCommand( Manager manager, String key ) throws Exception
@@ -697,6 +651,27 @@ public class StationPlugin
         getLogger().info( "starting application [" + key + "]" );
         Application application = manager.getApplication( key );
         application.start();
+    }
+    
+   /**
+    * Handle a request for control of an application process.
+    * @param line the commandline
+    */
+    private void processControlCommand( CommandLine line ) throws Exception
+    {
+        try
+        {
+            Manager manager = getManager( line );
+            String value = (String) line.getValue( CONTROL_COMMAND, null );
+            processControlCommand( manager, value );
+        }
+        catch( ConnectException ce )
+        {
+            final String message = 
+              "\nCannot start application because the station is not running. "
+              + "\nUse 'station startup' to start the station process.";
+            System.out.println( message );
+        }
     }
     
    /**
@@ -843,17 +818,38 @@ public class StationPlugin
             for( int i=0; i<transitions.length; i++ )
             {
                 Transition transition = transitions[i];
-                System.out.println( "  [" + (i+1) + "] " + transition.getName() );
+                System.out.println( "  [" + ( i+1 ) + "] " + transition.getName() );
             }
             Operation[] operations = state.getOperations();
             System.out.println( "Operations: " + operations.length );
             for( int i=0; i<operations.length; i++ )
             {
                 Operation operation = operations[i];
-                System.out.println( "  [" + (i+1) + "] " + operation.getName() );
+                System.out.println( "  [" + ( i+1 ) + "] " + operation.getName() );
             }
         }
         System.out.println( "" );
+    }
+    
+   /**
+    * Handle a request for the shutdown of an application process.
+    * @param line the commandline
+    */
+    private void processStopCommand( CommandLine line ) throws Exception
+    {
+        try
+        {
+            Manager manager = getManager( line );
+            String value = (String) line.getValue( STOP_COMMAND, null );
+            processStopCommand( manager, value );
+        }
+        catch( ConnectException ce )
+        {
+            final String message = 
+              "\nCannot stop application because the station is not running. "
+              + "\nUse 'station startup' to start the station process.";
+            System.out.println( message );
+        }
     }
     
    /**
@@ -865,6 +861,27 @@ public class StationPlugin
         getLogger().info( "stopping application [" + key + "]" );
         Application application = manager.getApplication( key );
         application.stop();
+    }
+    
+   /**
+    * Handle a request for the restart of an application process.
+    * @param line the commandline
+    */
+    private void processRestartCommand( CommandLine line ) throws Exception
+    {
+        try
+        {
+            Manager manager = getManager( line );
+            String value = (String) line.getValue( RESTART_COMMAND, null );
+            processRestartCommand( manager, value );
+        }
+        catch( ConnectException ce )
+        {
+            final String message = 
+              "\nCannot restart application because the station is not running. "
+              + "\nUse 'station startup' to start the station process.";
+            System.out.println( message );
+        }
     }
     
    /**
@@ -1054,6 +1071,27 @@ public class StationPlugin
               "Unexpected error - updated profile not found.";
             getLogger().error( error, e );
         }
+    }
+    
+    private void processRemoveCommand( CommandLine line ) throws Exception
+    {
+        ApplicationRegistry registry = getApplicationRegistry( line );
+        String value = (String) line.getValue( REMOVE_COMMAND, null );
+        try
+        {
+            Manager manager = getManager( line );
+            Application application = manager.getApplication( value );
+            application.stop();
+        }
+        catch( ConnectException ce )
+        {
+            boolean ignorable = true;
+        }
+        catch( UnknownKeyException ce )
+        {
+            boolean ignorable = true;
+        }
+        processRemoveCommand( registry, value );
     }
     
     private void processRemoveCommand( ApplicationRegistry registry, String key )

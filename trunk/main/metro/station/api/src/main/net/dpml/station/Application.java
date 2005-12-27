@@ -48,6 +48,7 @@ public interface Application extends Remote
     * Return the application id.
     *
     * @return the id
+    * @exception RemoteException if a remote error occurs
     */
     public String getID() throws RemoteException;
     
@@ -55,7 +56,7 @@ public interface Application extends Remote
     * Return the process identifier of the process within which the 
     * application is running.
     * @return the pid
-    * @exception RemoteException if a rmote error occurs
+    * @exception RemoteException if a remote error occurs
     */
     PID getPID() throws RemoteException;
 
@@ -81,7 +82,7 @@ public interface Application extends Remote
 
    /**
     * Stop the application.
-    * @exception RemoteException if a rmote error occurs
+    * @exception RemoteException if a remote error occurs
     */
     void stop() throws RemoteException;
 
@@ -101,14 +102,14 @@ public interface Application extends Remote
    /**
     * Add an application listener.
     * @param listener the listener to add
-    * @exception RemoteException if a rmote error occurs
+    * @exception RemoteException if a remote error occurs
     */
     void addApplicationListener( ApplicationListener listener ) throws RemoteException;
     
    /**
     * Remove an application listener.
     * @param listener the listener to remove
-    * @exception RemoteException if a rmote error occurs
+    * @exception RemoteException if a remote error occurs
     */
     void removeApplicationListener( ApplicationListener listener ) throws RemoteException;
 }

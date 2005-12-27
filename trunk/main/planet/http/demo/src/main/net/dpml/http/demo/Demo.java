@@ -21,8 +21,6 @@ import java.util.Map;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.activity.Startable;
-
 import net.dpml.http.spi.SocketListenerService;
 
 /**
@@ -92,7 +90,7 @@ public class Demo
     * @return a stats instance
     * @exception IllegalArgumentException if the supplied argument is not recognized
     */
-    public Stats getStats( String arg )
+    public Stats getStats( String arg ) throws IllegalArgumentException
     {
         System.out.println( "processing stats command with option: [" + arg + "]" );
         if( "memory".equals( arg ) )
@@ -117,7 +115,7 @@ public class Demo
    /**
     * Utility stats class.
     */
-    public static abstract class Stats implements Serializable
+    public abstract static class Stats implements Serializable
     {
     }
     

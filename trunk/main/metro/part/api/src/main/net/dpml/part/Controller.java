@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 
 /**
- * The PartHandler interface defines the a contract for an object that provides generalized
+ * The Controller interface defines the a contract for an object that provides generalized
  * part loading.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
@@ -33,7 +33,7 @@ public interface Controller
    /**
     * Static default controller.
     */
-    static final Controller STANDARD = PartContentHandler.CONTROLLER;
+    static final Controller STANDARD = PartManager.CONTROLLER;
 
    /**
     * Returns the identity of the object implementing this interface.
