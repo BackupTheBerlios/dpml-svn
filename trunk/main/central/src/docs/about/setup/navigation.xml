@@ -25,7 +25,9 @@
  <body>
 
     <menu>
-      <item name="Milestones" href="archive.html"/>
+      <item name="Windows Setup" href="windows.html"/>
+      <item name="Unix Setup" href="unix.html"/>
+      <item name="Archive" href="archive.html"/>
     </menu>
 
  </body>
