@@ -16,41 +16,95 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
-      <!--
-      <subsection name="Build @VERSION@">
+      <subsection name="Build 20051224">
 
         <p>
-        File structure layouts within DPML_HOME have been updated.  For Win32 users 
-        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        TRANSIT: Includes a registry protocol handler enabling publication of references to an 
+        RMI registry in the form registry://[host]:[port]/[path] or the shortform
+        registry:/[path]. Updates to the standard log message formatter to include
+        the JVM process identifier.  Updates to the ContentModel implementation to
+        include the declaration of constructed types used as plugin parameters.
+        Improvement to the plugin loader preventing the assignment of an argument 
+        to more than one constructor parameter value.  Addition of support for
+        primitive arguments in plugin constructors (such as int, boolean, etc.).
+        Upgrade of plugin model to include support for system level jar files 
+        (e.g. protocol handlers or look-and-feel implementations that need to exist in the 
+        system classloader).  Added Enum and ValuedEnum to util package. Extended
+        the Construct class to alow references to static member variables. 
+        Consolidated all configuration options down to a single strategy
+        based on the net.dpml.transit.info immutable datatypes.  Added support for 
+        the 'modern' layout strategy which add compatibility with the recent Maven2
+        repository layout.  Added the transit commandline configuration tool.
+        </p>
+
+        <p>
+        DEPOT: Incorporated Janel distribution under ASL 2.0 and added project and 
+        copyright attribution to NOTICE.TXT.  Upgrade to Janel 2.5.0 (resolving 
+        issues with working directory resolution). Updates to DPML Station with 
+        support for multi-JVM deployment and teardown.  Added a remote logging
+        services that handles message aggregation from multiple JVMs to the central
+        station and support for JVM process identity within the default log message
+        formatter. Major cleanup of the profile API and implementation with 
+        consolidation around the ApplicationProfile class.  Updated Depot icons 
+        based on content from CrystalXP.net and inclusion of credits in 
+        NOTICE.TXT. Enhanced the console to support deployment of plugin handlers 
+        that add supplimentary content to the system classloader.
+        </p>
+
+        <p>
+        METRO: General enhancements to the Part contract model including improvements 
+        in the way top-level versus composite parts and handled.  Separation of
+        state related aspects into a new package 'net.dpml.state' supported by a 
+        cleaner implementation.  Introduced support for long-term storage of 
+        descriptors and directivies compliant with JSR-57. Added definition and 
+        implemetnation of a remote component model and context model suitable 
+        for deployment independently of a component runtime (i.e. management 
+        occurs on machine 'a' and deployment occurs on machine 'b'). Moved all
+        enumerations to formally typed enumerations (e.g. CollectionPolicy, 
+        LifestylePolicy, etc.).
+        </p>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
         </p>
 
         <table>
           <tr>
             <td>Windows</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip">
-                dpml-platform-win32-@VERSION@.zip</a>
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-win32-20051224.zip">
+                dpml-platform-win32-20051224.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip.md5">
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-win32-20051224.zip.md5">
               MD5</a>
             </td>
           </tr>  
           <tr>
             <td>Linux</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz">
-                dpml-platform-linux-@VERSION@.tar.gz</a>
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-linux-20051224.tar.gz">
+                dpml-platform-linux-20051224.tar.gz</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz.md5">
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-linux-20051224.tar.gz.md5">
               MD5</a>
             </td>
           </tr>  
         </table>
 
+        <p>
+        NOTE: File structure layouts within DPML_HOME have been updated.  For Win32 users 
+        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        </p>
+        <p>
+        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20051224">http://api.dpml.net/dpml/20051224</a>.
+        <br/>
+        <a href="http://www.dpml.net/reports/20051224/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20051224/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20051224/catalog/index.html">Catalog</a> reports are also available.
+        </p>
+
       </subsection>
-      -->
 
       <subsection name="Build 20050809">
 
