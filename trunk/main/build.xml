@@ -63,13 +63,6 @@
         <include name="dist/**"/>
       </fileset>
     </copy>
-    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
-    <mkdir dir="${share.docs.reports}"/>
-    <copy todir="${share.docs.reports}">
-      <fileset dir="target/reports">
-        <exclude name="api/**"/>
-      </fileset>
-    </copy>
   </target>
 
   <target name="zip" depends="bundle" description="Creates a binary w32 distribution.">
@@ -136,6 +129,13 @@
     <copy todir="${share.docs.api.dpml}" filtering="false">
       <fileset dir="${project.target.reports.dir}/api">
         <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
+    <mkdir dir="${share.docs.reports}"/>
+    <copy todir="${share.docs.reports}">
+      <fileset dir="target/reports">
+        <exclude name="api/**"/>
       </fileset>
     </copy>
     <copy todir="${share.docs}">
