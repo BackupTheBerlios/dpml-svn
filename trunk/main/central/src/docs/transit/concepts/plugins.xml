@@ -36,7 +36,7 @@
         In addition to the structural classloader information - the plugin file
         may contain the declaration of a main class or an internal resource and
         namespace. The resource path information is a special case used within the
-        Magic build system to support dynamic task loading.  The main class
+        Depot build system to support dynamic task loading.  The main class
         declaration is the entry point for classic plugin class loading relative
         to an established classloader.
         </p>

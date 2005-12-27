@@ -19,6 +19,16 @@
       <subsection name="Build 20051224">
 
         <p>
+        The 20051224 release is the first release following the refactoring 
+        of the core to support component driven context declaration and part 
+        based composition (codename Freight-Train).  The release also includes
+        the seoparation of project defintion form build strategy (reflected in the 
+        replacement of Magic with the Depot build tool).  Finally, the release 
+        include server management framework capable of supporting remote management
+        of a cluser of server processes.
+        </p>
+
+        <p>
         TRANSIT: Includes a registry protocol handler enabling publication of references to an 
         RMI registry in the form registry://[host]:[port]/[path] or the shortform
         registry:/[path]. Updates to the standard log message formatter to include

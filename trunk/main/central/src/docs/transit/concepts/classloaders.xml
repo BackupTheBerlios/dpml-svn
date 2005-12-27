@@ -9,7 +9,7 @@
  you may not use  this file  except in  compliance with the License.
  You may obtain a copy of the License at
 
-   http://www.dpml.net/central/about/legal/
+   http://www.dpml.net/about/legal/index.html
 
  Unless required by applicable law or agreed to in writing, software
  distributed  under the  License is distributed on an "AS IS" BASIS,
@@ -44,12 +44,12 @@
 
         <p><i>Example classloader descriptor artifact uri:</i></p>
 
-        <code>@MAGIC-PLUGIN-URI@</code>
+        <code>@METRO-TOOLS-URI@</code>
 
         <p>
-        The plugin file declares api, spi and implementation jar files in
-        the form of artifact uris.  Transit uses this information to
-        construct a classloader chain.
+        The plugin file declares <tt>PUBLIC</tt>, <tt>PROTECTED</tt> and <tt>PRIVATE</tt>
+        classloaders where each classloader is defined in terms of jar artifact uris.  
+        Transit uses this information to construct a classloader chain.
         </p>
 
         <img src="/images/transit/chain.png"/>
@@ -58,8 +58,8 @@
         Plugin files use a simple property file format to declare features of
         of the classloader, including information used when resolving plugins.
         This information is normally created automatically using the
-        <a href="../../depot/tools/tasks/core/export.html">Export Task</a> from the
-        <a href="../../depot/tools/index.html">Depot</a> build system.
+        <a href="/depot/tools/listeners/plugin.html">Plugin Builder</a> from the
+        <a href="/depot/tools/index.html">Depot</a> build system.
         </p>
 
         <p>

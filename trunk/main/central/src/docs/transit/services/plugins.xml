@@ -24,7 +24,7 @@
         Each set of jar file entries represent the content of the respective
         classloader.  Entries are declared in the form of an artifact uri.
         The classloader chain parent is supplied as an argument to the 
-        <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">
+        <a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">
         Repository</a> service interface and establishes the parent
         classloader for the API classloader.  The API classloader serves as the 
         parent to the SPI classloader which in turn serves as the parent to the IMPL
@@ -35,9 +35,9 @@
 
         <p><i>Example classloader creation:</i></p>
         <pre>
-<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
+<a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 ClassLoader parent = getClass().getClassLoader();
-URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
+URI uri = new URI( "@METRO-TOOLS-URI@" );
 ClassLoader classloader = repository.getPluginClassLoader( parent, uri );
 ....
         </pre>
@@ -48,7 +48,7 @@ ClassLoader classloader = repository.getPluginClassLoader( parent, uri );
 
         <p>
           Some applications may require information about a plugin prior to loading the plugin. The 
-          <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Plugin.html">Plugin</a>
+          <a href="/api/dpml/@VERSION@/net/dpml/transit/Plugin.html">Plugin</a>
           class is an immutable datatype that serves this function.  It enables convenient access to 
           the api, spi and impl URI sets, and information related to the declared main class or 
           resource and namespace declaration.
@@ -56,9 +56,9 @@ ClassLoader classloader = repository.getPluginClassLoader( parent, uri );
 
         <p><i>Example plugin descriptor creation:</i></p>
         <pre>
-<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
-URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
-<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Plugin.html">Plugin</a> plugin = repository.getPluginDescriptor( uri );
+<a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
+URI uri = new URI( "@METRO-TOOLS-URI@" );
+<a href="/api/dpml/@VERSION@/net/dpml/transit/Plugin.html">Plugin</a> plugin = repository.getPluginDescriptor( uri );
 ....
         </pre>
 
@@ -70,16 +70,16 @@ URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
         The loading of a plugin class is a convenience operation that 
         that takes the same arguments as the classloader 
         chain creation operation.  Following establishment of the classloader
-        <a href="chain.html">chain</a> the implementation classloader is used 
+        chain the implementation classloader is used 
         to resolve the main class declared within the 
-        <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Plugin.html">Plugin</a> descriptor.
+        <a href="/api/dpml/@VERSION@/net/dpml/transit/Plugin.html">Plugin</a> descriptor.
         </p>
 
         <p><i>Example plugin class loading:</i></p>
         <pre>
-<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
+<a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 ClassLoader parent = getClass().getClassLoader();
-URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
+URI uri = new URI( "@METRO-TOOLS-URI@" );
 Class pluginClass = repository.getPluginClass( parent, uri );
 ....
         </pre>
@@ -89,7 +89,7 @@ Class pluginClass = repository.getPluginClass( parent, uri );
       <subsection name="Plugin Instantiation">
 
         <p>
-        The <a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">
+        The <a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">
         Repository</a> service provides a generic plugin instantiation service. The service is typically
         used by applications that know more about the type of plugins that are loaded than Transit does.
         As such, the plugin instantiation service should be viewed as a convenience function.
@@ -104,7 +104,7 @@ Class pluginClass = repository.getPluginClass( parent, uri );
 
         <p><i>Example plugin instantiation:</i></p>
         <pre>
-<a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
+<a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">Repository</a> repository = Transit.getInstance().getRepository();
 ClassLoader parent = getClass().getClassLoader();
 URI uri = new URI( "@MAGIC-PLUGIN-URI@" );
 String[] args = new String[]{ "-debug", "-audit" ); // simulate cli args
@@ -130,9 +130,9 @@ Object plugin = repository.getPlugin( parent, uri, params );
 
          <table>
            <tr><th>Type</th><th>Description</th></tr>
-           <tr><td><a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Plugin.html">Plugin</a></td><td>The plugin descriptor.</td></tr>
+           <tr><td><a href="/api/dpml/@VERSION@/net/dpml/transit/Plugin.html">Plugin</a></td><td>The plugin descriptor.</td></tr>
            <tr><td>ClassLoader</td><td>The implementation classloader.</td></tr>
-           <tr><td><a href="@TRANSIT-DOCS-PATH@/net/dpml/transit/Repository.html">Repository</a></td><td>The repository used to establish the plugin.</td></tr>
+           <tr><td><a href="/api/dpml/@VERSION@/net/dpml/transit/Repository.html">Repository</a></td><td>The repository used to establish the plugin.</td></tr>
            <tr><td>[]</td><td>An array of any kind that is unresolved will be assigned an empty array value.</td></tr>
          </table>
 
