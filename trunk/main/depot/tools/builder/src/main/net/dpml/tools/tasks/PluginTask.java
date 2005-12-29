@@ -79,7 +79,7 @@ public class PluginTask extends net.dpml.transit.tools.PluginTask
             {
                 final String error = 
                   "Unexpected error while attempting to initiaze plugin task uri.";
-                throw new BuildException( error );
+                throw new BuildException( error, e );
             }
         }
         
