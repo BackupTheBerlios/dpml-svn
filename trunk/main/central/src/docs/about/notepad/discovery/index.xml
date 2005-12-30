@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties> 
+
+  <body>
+    <section name="Registration and Discovery">
+
+      <p>
+Existing business requirements for services supporting the creation and maintenance of repositories capable of supporting the registration and discovery of service descriptions and implementation solution are required as part of the overall DPML product platform as a compliment to the existing Transit and Metro systems.
+      </p>
+
+      <p>
+As an example, a logistics service provider may wish to describe the features, benefits, and the conditions of activation of a business capability. Such a description would possibly reference marketing information under URLs to web pages, and supplementary industry specific data. During the process of service registration, the supplier would declare a formal service activation constraints and service access points. 
+      </p>
+
+      <p>
+Service providers would leverage resource description as an input argument to service activation operations. Such applications may leverage information identifying a chain of registration acts contributing to the service discovery. Such a chain could be used by higher-level applications dealing with commercial referral (such as trading systems, brokerage applications, and advertising management).
+      </p>
+
+    </section>
+  </body>
+</document>
+
