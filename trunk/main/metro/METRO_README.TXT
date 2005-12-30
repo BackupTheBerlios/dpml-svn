@@ -1,10 +1,16 @@
 
 Product: Metro
-Description: Component Runtime Platform
+Description: Component Management Platform
 Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
 Release Notes: Version @PROJECT-VERSION@
+-------------------------------
+
+Added part content handler plugin.
+Add support for implicit stop of an application when deleting the profile.
+
+Release Notes: Version 20051224
 -------------------------------
 
 General enhancements to the Part contract model including improvements 

@@ -28,8 +28,6 @@ import net.dpml.library.model.Resource;
 import net.dpml.library.model.Module;
 import net.dpml.tools.model.Context;
 
-import net.dpml.transit.Transit;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 
@@ -46,12 +44,12 @@ public class CheckstyleTask extends CheckStyleTask
    /**
     * The format property key.
     */
-    public static String FORMAT_KEY = "project.checkstyle.format";
+    public static final String FORMAT_KEY = "project.checkstyle.format";
     
    /**
     * The default format value.
     */
-    public static String FORMAT_VALUE = "local:format:dpml/tools/dpml";
+    public static final String FORMAT_VALUE = "local:format:dpml/tools/dpml";
     
     private boolean m_init = false;
     private Context m_context;
@@ -91,7 +89,7 @@ public class CheckstyleTask extends CheckStyleTask
             try
             {
                 URL url = new URI( spec ).toURL();
-                File format = (File) url.getContent( new Class[]{ File.class } );
+                File format = (File) url.getContent( new Class[]{File.class} );
                 setConfig( format );
             }
             catch( Throwable e )
@@ -105,8 +103,6 @@ public class CheckstyleTask extends CheckStyleTask
         }
         m_init = true;
     }
-
-    // TODO: remove hard reference to target/build/main
 
     private void addTargetToFileset( Resource resource )
     {

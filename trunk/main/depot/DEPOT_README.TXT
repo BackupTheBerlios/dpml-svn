@@ -1,10 +1,21 @@
 
 Product: Depot
-Description: DPML Product Management Tool
+Description: DPML Build System
 Publisher: The Digital Product Meta Library
 Revision: @PROJECT-VERSION@
 
 Release Notes: Version @PROJECT-VERSION@
+-------------------------------
+
+Monor update that resolves some bugs identified following the 
+2005124 release.
+
+  1. Resolve bug concerning checkstyle plugin reference.
+  2. Improve project invalid reference error reporting.
+  3. Resolve bug concerning undefined default filter values.
+  4. Resolve bug concerning checkstyle rules property evaluation.
+
+Release Notes: Version 20051224
 -------------------------------
 
 Incorporated Janel distribution under ASL 2.0 and added project and 

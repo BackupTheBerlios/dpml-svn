@@ -98,7 +98,7 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
       </p>
 
       <table>
-        <tr><th>Style</th><th><th>URI</th></tr>
+        <tr><td>Style</td><td>URI</td></tr>
         <tr>
           <td>DPML</td>
           <td>local:format:dpml/tools/dpml</td>

@@ -16,6 +16,55 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build 20051231">
+
+        <p>
+        This is a minor update that includes resolution of the following issues:
+        </p>
+
+        <ol>
+          <li>checkstyle plugin loading is now independent of the library</li>
+          <li>checkstyle implementation updated to properly handle rule selection</li>
+        </ol>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-win32-20051231.zip">
+                dpml-platform-win32-20051231.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-win32-20051231.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-linux-20051231.tar.gz">
+                dpml-platform-linux-20051231.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-linux-20051231.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <p>
+        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20051231">http://api.dpml.net/dpml/20051231</a>.
+        <br/>
+        <a href="http://www.dpml.net/reports/20051231/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20051231/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20051231/catalog/index.html">Catalog</a> reports are also available.
+        </p>
+
+      </subsection>
+
       <subsection name="Build 20051228">
 
         <p>
