@@ -56,7 +56,7 @@
 checkstyle:
     [style] Processing D:\demo\target\checkstyle\checkstyle_errors.xml to
 D:\demo\target\reports\checkstyle\checkstyle_report.html
-    [style] Loading stylesheet D:\dpml\Preferences\dpml\tools\xsls\checkstyle-frames.xsl
+    [style] Loading stylesheet D:\dpml\prefs\dpml\tools\xsls\checkstyle-frames.xsl
 </pre>
 
     </subsection>
@@ -76,8 +76,8 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
         </tr>
         <tr>
           <td>${project.checkstyle.format}</td>
-          <td>${dpml.prefs}/magic/formats/dpml.format</td>
-          <td>The checkstyle formating rules.</td>
+          <td>local:format:dpml/tools/dpml</td>
+          <td>Local uri of a checkstyle formating rule specification.</td>
         </tr>
         <tr>
           <td>${project.checkstyle.reports}</td>
@@ -96,6 +96,18 @@ D:\demo\target\reports\checkstyle\checkstyle_report.html
       specification and is required for all contributions to the DPML.  Alternative
       code format specifications include a format approximating the Sun coding guidlines.
       </p>
+
+      <table>
+        <tr><th>Style</th><th><th>URI</th></tr>
+        <tr>
+          <td>DPML</td>
+          <td>local:format:dpml/tools/dpml</td>
+        </tr>
+        <tr>
+          <td>SUN</td>
+          <td>local:format:dpml/tools/sun</td>
+        </tr>
+      </table>
 
     </subsection>
 

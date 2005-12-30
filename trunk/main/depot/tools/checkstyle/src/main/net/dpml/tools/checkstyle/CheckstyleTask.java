@@ -19,6 +19,8 @@
 package net.dpml.tools.checkstyle;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URL;
 
 import com.puppycrawl.tools.checkstyle.CheckStyleTask;
 
@@ -28,6 +30,7 @@ import net.dpml.tools.model.Context;
 
 import net.dpml.transit.Transit;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 
 /**
@@ -40,11 +43,21 @@ import org.apache.tools.ant.types.FileSet;
  */
 public class CheckstyleTask extends CheckStyleTask
 {
+   /**
+    * The format property key.
+    */
+    public static String FORMAT_KEY = "project.checkstyle.format";
+    
+   /**
+    * The default format value.
+    */
+    public static String FORMAT_VALUE = "local:format:dpml/tools/dpml";
+    
     private boolean m_init = false;
     private Context m_context;
 
    /**
-    * Task initiaization.
+    * Task initialization.
     */
     public void init()
     {
@@ -61,9 +74,34 @@ public class CheckstyleTask extends CheckStyleTask
             }
             Resource resource = m_context.getResource();
             addTargetToFileset( resource );
-            File prefs = Transit.DPML_PREFS;
-            File format = new File( prefs, "dpml/tools/formats/dpml.format" );
-            setConfig( format );
+            
+            String defaultFormat = "local:format:dpml/tools/dpml";
+            String spec = m_context.getProperty( FORMAT_KEY, FORMAT_VALUE );
+            if( !spec.startsWith( "local:" ) )
+            {
+                final String error = 
+                  "Invalid checkstyle format uri ["
+                  + spec
+                  + ". The value must be a 'local:' artifact reference (e.g. "
+                  + FORMAT_VALUE 
+                  + ").";
+                throw new BuildException( error, getLocation() );
+            }
+            
+            try
+            {
+                URL url = new URI( spec ).toURL();
+                File format = (File) url.getContent( new Class[]{ File.class } );
+                setConfig( format );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while attempting to resolve the checkstyle format property value ["
+                  + spec
+                  + "] to a local file.";
+                throw new BuildException( error, e, getLocation() );
+            }
         }
         m_init = true;
     }
