@@ -22,6 +22,7 @@ import net.dpml.tools.model.Context;
 
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
+import net.dpml.library.model.ResourceNotFoundException;
 
 import org.apache.tools.ant.BuildException;
 
@@ -74,6 +75,11 @@ public class PluginTask extends net.dpml.transit.tools.PluginTask
                 Resource resource = library.getResource( m_ref );
                 String uri = resource.getArtifact( "plugin" ).toURI().toString();
                 setUri( uri );
+            }
+            catch( ResourceNotFoundException e )
+            {
+                String message = e.getMessage();
+                throw new BuildException( message, e, getLocation() );
             }
             catch( Exception e )
             {

@@ -136,8 +136,11 @@ public final class DefaultModule extends DefaultResource implements Module
         }
         catch( InvalidNameException e )
         {
-            final String message = e.getMessage();
-            throw new ResourceNotFoundException( message );
+            final String error = 
+              "Resource reference ["
+              + ref
+              + "] is undefined.";
+            throw new ResourceNotFoundException( error, e );
         }
     }
     
