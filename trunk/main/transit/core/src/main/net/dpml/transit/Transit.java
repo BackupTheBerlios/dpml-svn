@@ -31,6 +31,7 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * The Transit class manages the establishment of a singleton transit instance
@@ -318,6 +319,18 @@ public final class Transit
     public Layout getCacheLayout()
     {
         return getTransitContext().getCacheLayout();
+    }
+    
+   /**
+    * Return a layout object matching the supplied identifier.
+    * @param id the layout identifier
+    * @return the layout object
+    * @exception UnknownKeyException if the supplied layout id is unknown
+    * @exception IOException if an IO error occurs
+    */
+    public Layout getLayout( String id ) throws UnknownKeyException, IOException
+    {
+        return getTransitContext().getLayout( id );
     }
     
    /**

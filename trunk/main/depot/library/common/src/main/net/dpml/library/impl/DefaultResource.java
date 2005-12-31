@@ -32,7 +32,6 @@ import java.util.Properties;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
 import net.dpml.library.model.Module;
-//import net.dpml.library.model.ProcessorNotFoundException;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
@@ -295,6 +294,48 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         throw new InvalidTypeNameException( error );
     }
     
+   /**
+    * Construct an unversion link artifact for the supplied type.
+    * @param id the resource type id
+    * @return the link artifact
+    */
+    public Artifact getLinkArtifact( String id )
+    {
+        if( null == m_directive )
+        {
+            final String error = 
+              "Method not supported on virtual root.";
+            throw new UnsupportedOperationException( error );
+        }
+        if( null == id )
+        {
+            throw new NullPointerException( "id" );
+        }
+        String group = getGroupName();
+        String name = getName();
+        try
+        {
+            if( null == group )
+            {
+                String spec = "link:" + id + ":" + name;
+                return Artifact.createArtifact( spec );
+            }
+            else
+            {
+                String spec = "link:" + id + ":" + group + "/" + name;
+                return Artifact.createArtifact( spec );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Failed to construct link artifact for resource ["
+              + getResourcePath()
+              + "].";
+            throw new RuntimeException( error, e );
+        }
+    }
+
    /**
     * Construct an artifact for the supplied type.
     * @param id the resource type identifier
@@ -965,7 +1006,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                     provider.sortDefaultResource( visited, stack, scope, resources );
                 }
             }
-            stack.add( this );
+            if( !stack.contains( this ) )
+            {
+                stack.add( this );
+            }
         }
     }
     

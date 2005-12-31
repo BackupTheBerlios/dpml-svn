@@ -25,6 +25,12 @@ import java.util.List;
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.ResourceNotFoundException;
+import net.dpml.library.model.Type;
+
+import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
+import net.dpml.transit.Layout;
+import net.dpml.transit.model.UnknownKeyException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -44,10 +50,12 @@ public class ReplicateTask extends GenericTask
     private String m_key;
     private String m_ref;
     private File m_todir;
-    private Path m_path;
+    private String m_layout;
+
     private boolean m_flatten = false;
     private boolean m_verbose = false;
     private boolean m_self = false;
+    
     private ArrayList m_includes = new ArrayList();
 
    /**
@@ -68,6 +76,16 @@ public class ReplicateTask extends GenericTask
     public void setRef( final String ref )
     {
         m_ref = ref;
+    }
+
+   /**
+    * Set the id of the target layout strategy.
+    *
+    * @param id the layout identifier
+    */
+    public void setLayout( final String id)
+    {
+        m_layout = id;
     }
 
    /**
@@ -110,41 +128,6 @@ public class ReplicateTask extends GenericTask
     }
 
    /**
-    * The id of a repository based path.
-    * @param id the path identifier
-    * @exception BuildException if the id does not reference a path, or the path is
-    *  already set, or the id references an object that is not a path
-    */
-    public void setRefid( String id )
-        throws BuildException
-    {
-        if( null != m_path )
-        {
-            final String error =
-              "Path already set.";
-            throw new BuildException( error );
-        }
-
-        Object ref = getProject().getReference( id );
-        if( null == ref )
-        {
-            final String error =
-              "Replication path id [" + id + "] is unknown.";
-            throw new BuildException( error );
-        }
-
-        if( !( ref instanceof Path ) )
-        {
-            final String error =
-              "Replication path id [" + id + "] does not reference a path "
-              + "(class " + ref.getClass().getName() + " is not a Path instance).";
-            throw new BuildException( error );
-        }
-
-        m_path = (Path) ref;
-    }
-
-   /**
     * The target directory to copy cached based path elements to.
     * @param todir the destination directory
     */
@@ -158,43 +141,141 @@ public class ReplicateTask extends GenericTask
     */
     public void execute()
     {
-        if( null == m_path )
-        {
-            ArrayList list = new ArrayList();
-            String ref = getRef();
-            if( null != ref )
-            {
-                Resource resource = getResource( ref );
-                aggregate( list, resource, m_self );
-            }
-            Include[] includes = (Include[])  m_includes.toArray( new Include[0] );
-            for( int i=0; i<includes.length; i++ )
-            {
-                Include include = includes[i];
-                String includeRef = include.getRef();
-                Resource resource = getResource( includeRef );
-                aggregate( list, resource, true );
-            }
-            
-            Project project = getProject();
-            Resource[] resources = (Resource[]) list.toArray( new Resource[0] );
-            Resource[] selection = getContext().getLibrary().sort( resources );
-            m_path = getContext().createPath( selection );
-        }
-
         if( null == m_todir )
         {
             File target =  getContext().getTargetDirectory();
             m_todir = new File( target, "replicate" );
         }
         
+        File destination = m_todir;
+        Layout layout = resolveLayout();
+        ArrayList list = new ArrayList();
+        String ref = getRef();
+        if( null != ref )
+        {
+            Resource resource = getResource( ref );
+            aggregate( list, resource, m_self );
+        }
+        
         //
-        // replicate the resources that the project references
+        // add nested includes
         //
         
-        final File cache = (File) getProject().getReference( "dpml.cache" );
-        FileSet cacheSet = createCacheFileSet( cache, m_path );
-        copy( m_todir, cacheSet );
+        Include[] includes = (Include[])  m_includes.toArray( new Include[0] );
+        for( int i=0; i<includes.length; i++ )
+        {
+            Include include = includes[i];
+            String includeRef = include.getRef();
+            Resource resource = getResource( includeRef );
+            aggregate( list, resource, true );
+        }
+        
+        //
+        // get sorted list of resources
+        //
+        
+        Resource[] resources = (Resource[]) list.toArray( new Resource[0] );
+        Resource[] selection = getContext().getLibrary().sort( resources );
+        File cache = (File) getProject().getReference( "dpml.cache" );
+        for( int i=0; i<selection.length; i++ )
+        {
+            Resource resource = selection[i];
+            copy( cache, destination, resource, layout );
+        }
+    }
+    
+   /**
+    * Copy the artifacts produced by the Resource from the cache to 
+    * the destination using a suppplied target layout.
+    */
+    private void copy( File cache, File destination, Resource resource, Layout layout )
+    {
+        Type[] types = resource.getTypes();
+        for( int j=0; j<types.length; j++ )
+        {
+            Type type = types[j];
+            String id = type.getName();
+            
+            Artifact artifact = resource.getArtifact( id );
+            copyArtifact( artifact, cache, destination, layout );
+            boolean alias = type.getAlias();
+            if( alias )
+            {
+                Artifact link = resource.getLinkArtifact( id );
+                copyArtifact( link, cache, destination, layout );
+            }
+        }
+    }
+    
+    private void copyArtifact( Artifact artifact, File cache, File destination, Layout layout )
+    {
+        String sourcePath = Transit.getInstance().getCacheLayout().resolvePath( artifact );
+        File source = new File( cache, sourcePath );
+        if( !source.exists() )
+        {
+            final String error = 
+              "Cached resource [" 
+              + source 
+              + "] does not exist.";
+            log( error );
+        }
+        else
+        {
+            String destPath = layout.resolvePath( artifact );
+            File dest = new File( destination, destPath );
+            copyFile( source, dest );
+            File md5 = new File( source, ".md5" );
+            if( md5.exists() )
+            {
+                copyFile( md5, new File( dest, ".md5" ) );
+            }
+            File asc = new File( source, ".asc" );
+            if( asc.exists() )
+            {
+                copyFile( asc, new File( dest, ".asc" ) );
+            }
+        }
+    }
+    
+    private void copyFile( File source, File dest )
+    {
+        dest.getParentFile().mkdir();
+        final Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setFile( source );
+        copy.setTofile( dest );
+        copy.setPreserveLastModified( true );
+        copy.setVerbose( m_verbose );
+        copy.init();
+        copy.execute();
+    }
+    
+    private Layout resolveLayout() 
+    {
+        if( null == m_layout )
+        {
+            return Transit.getInstance().getCacheLayout();
+        }
+        else
+        {
+            try
+            {
+                return Transit.getInstance().getLayout( m_layout );
+            }
+            catch( UnknownKeyException e )
+            {
+                final String error = 
+                  "Target layout id [" 
+                  + m_layout
+                  + "] is unknown.";
+                throw new BuildException( error, e, getLocation() );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unexpected error while resolving layout: " + m_layout;
+                throw new BuildException( error, e, getLocation() );
+            }
+        }
     }
     
     private void aggregate( List list, Resource resource, boolean self )
@@ -232,52 +313,8 @@ public class ReplicateTask extends GenericTask
             return resources;
         }
     }
-
-    private FileSet createCacheFileSet( final File cache, final Path path )
-    {
-        getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
-
-        final FileSet fileset = new FileSet();
-        fileset.setDir( cache );
-
-        String root = cache.toString();
-
-        int count = 0;
-        log( "Constructing repository based fileset", Project.MSG_VERBOSE );
-        String[] translation = path.list();
-        for( int i=0; i < translation.length; i++ )
-        {
-            String trans = translation[i];
-            if( trans.startsWith( root ) )
-            {
-                boolean exists = new File( trans ).exists();
-                if( !exists )
-                {
-                    final String error = 
-                      "Cached replication path entry ["
-                      + trans 
-                      + "] does not exist.";
-                    throw new BuildException( error );
-                }
-                String relativeFilename = trans.substring( root.length() + 1 );
-                if( m_verbose )
-                {
-                    log( "${dpml.cache}" + File.separator + relativeFilename );
-                }
-                else
-                {
-                    log( "${dpml.cache}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
-                }
-                fileset.createInclude().setName( relativeFilename );
-                fileset.createInclude().setName( relativeFilename + ".*" );
-                fileset.createInclude().setName( relativeFilename + ".*.*" );
-                count++;
-            }
-        }
-        log( "cached entries: " + count );
-        return fileset;
-    }
-
+    
+    
     private String getRef()
     {
         if( null != m_ref )
@@ -293,7 +330,7 @@ public class ReplicateTask extends GenericTask
             return getResource().getResourcePath();
         }
     }
-
+    
     private Resource getResource( String ref )
     {
         try
@@ -311,7 +348,7 @@ public class ReplicateTask extends GenericTask
             throw new BuildException( error, e );
         }
     }
-
+    
     private void copy( final File destination, final FileSet fileset )
     {
         mkDir( destination );
@@ -324,90 +361,7 @@ public class ReplicateTask extends GenericTask
         copy.init();
         copy.execute();
     }
-
-   /*
-    private FileSet[] createFileSets( final File cache, final Path path )
-    {
-        getProject().log( "using replication path: " + m_path, Project.MSG_VERBOSE );
-
-        ArrayList list = new ArrayList();
-
-        final FileSet cacheset = new FileSet();
-        cacheset.setDir( cache );
-        list.add( cacheset );
-
-        final File deliverables = getContext().getDeliverablesDirectory();
-        final FileSet localset = new FileSet();
-        localset.setDir( deliverables );
-        list.add( localset );
-
-        String root = cache.toString();
-        String local = deliverables.toString();
-
-        int count = 0;
-        log( "Constructing repository based fileset", Project.MSG_VERBOSE );
-        String[] translation = path.list();
-        for( int i=0; i < translation.length; i++ )
-        {
-            String trans = translation[i];
-            if( trans.startsWith( root ) )
-            {
-                String relativeFilename = trans.substring( root.length() + 1 );
-                if( m_verbose )
-                {
-                    log( "${dpml.cache}" + File.separator + relativeFilename );
-                }
-                else
-                {
-                    log( "${dpml.cache}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
-                }
-                cacheset.createInclude().setName( relativeFilename );
-                cacheset.createInclude().setName( relativeFilename + ".*" );
-                cacheset.createInclude().setName( relativeFilename + ".*.*" );
-                count++;
-            }
-            else if( trans.startsWith( local ) )
-            {
-                String relativeFilename = trans.substring( local.length() + 1 );
-                if( m_verbose )
-                {
-                    log( "${project.deliverables}" + File.separator + relativeFilename );
-                }
-                else
-                {
-                    log( "${project.deliverables}" + File.separator + relativeFilename, Project.MSG_VERBOSE );
-                }
-                localset.createInclude().setName( relativeFilename );
-                localset.createInclude().setName( relativeFilename + ".*" );
-                localset.createInclude().setName( relativeFilename + ".*.*" );
-                count++;
-            }
-            else
-            {
-                if( m_verbose )
-                {
-                    log( "including: " + trans );
-                }
-                else
-                {
-                    log( "including: " + trans, Project.MSG_VERBOSE );
-                }
-
-                FileSet fileset = new FileSet();
-                File file = new File( trans );
-                fileset.setFile( file );
-                list.add( fileset );
-                String filename = file.getName();
-                fileset.createInclude().setName( filename + ".*" );
-                fileset.createInclude().setName( filename + ".*.*" );
-                count++;
-            }
-        }
-        log( "entries: " + count );
-        return (FileSet[]) list.toArray( new FileSet[0] );
-    }
-    */
-
+    
    /**
     * Declaration of an include.
     */

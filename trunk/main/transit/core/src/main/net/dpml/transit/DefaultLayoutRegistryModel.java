@@ -66,6 +66,9 @@ class DefaultLayoutRegistryModel extends DefaultModel
         
         // add the standard layouts
         
+        LayoutModel modern = 
+          new StandardLayoutModel( logger, "modern", "Modern", ModernLayout.class.getName() );
+        addLayoutModel( modern, false );
         LayoutModel classic = 
           new StandardLayoutModel( logger, "classic", "Classic", ClassicLayout.class.getName() );
         addLayoutModel( classic, false );

@@ -21,11 +21,11 @@ package net.dpml.transit;
 
 /** 
  * The ModernLayout decodes artifacts into a layout scheme that follows the
- * convention of group/version/expanded-name pattern.  Specifically the 
+ * convention of group/name/version/expanded-name pattern.  Specifically the 
  * layout maps artifacts according to the rule
- * [group[/[subgroup[/...]]]/[version]/name[-[version]].type.
+ * [group[/[subgroup[/...]]]/[name]/[version]/name[-[version]].type.
  * Example: <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
- * would return the path <code>metro/cache/1.0.0/dpml-cache-main-1.0.0.jar</code>.
+ * would return the path <code>metro/cache/dpml-cache-main/1.0.0/dpml-cache-main-1.0.0.jar</code>.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -35,9 +35,7 @@ public class ModernLayout
 {
     /**
      * Return the base path for an artifact.  The base path is derived from
-     * the artifact group and type.  For an artifact group of "metro/cache" and a
-     * type equal to "jar", the base value will be translated using the pattern
-     * "[group]/[type]s" to form "metro/cache/jars".  The base path value represents
+     * the artifact group and type.  The base path value represents
      * the directory path relative to a repository root of the directory containing
      * this artifact.
      *
@@ -51,22 +49,22 @@ public class ModernLayout
         {
             if( null == artifact.getGroup() )
             {
-                return "";
+                return artifact.getName();
             }
             else
             {
-                return artifact.getGroup();
+                return artifact.getGroup() + "/" + artifact.getName();
             }
         }
         else
         {
             if( null == artifact.getGroup() )
             {
-                return version;
+                return artifact.getName() + "/" + version;
             }
             else
             {
-                return artifact.getGroup() + "/" + version;
+                return artifact.getGroup() + "/" + artifact.getName() + "/" + version;
             }
         }
     }
@@ -76,8 +74,7 @@ public class ModernLayout
      * The full path is equivalent to the base path and artifact filename using the
      * pattern "[base]/[filename]".  Path values may be used to resolve an artifact
      * from a remote repository or local cache relative to the repository or cache
-     * root. An artifact such as <code>artifact:jar:metro/cache/dpml-cache-main#1.0.0</code>
-     * would return the path <code>metro/cache/jars/dpml-cache-main-1.0.0.jar</code>.
+     * root.
      *
      * @param artifact the resource artifact
      * @see #resolveBase
@@ -88,7 +85,7 @@ public class ModernLayout
     {
         return resolveBase( artifact ) + "/" + resolveFilename( artifact );
     }
-
+    
     /**
      * Return the expanded filename of the artifact. The filename is expressed
      * as [name]-[version].[type] or in case of a null version simply [name].[type].

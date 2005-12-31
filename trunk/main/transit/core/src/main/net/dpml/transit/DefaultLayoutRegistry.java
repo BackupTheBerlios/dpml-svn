@@ -99,6 +99,10 @@ class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistr
         {
             return CLASSIC_RESOLVER;
         }
+        else if( ModernLayout.class.getName().equals( classname ) )
+        {
+            return MODERN_RESOLVER;
+        }
         else if( EclipseLayout.class.getName().equals( classname ) )
         {
             return ECLIPSE_RESOLVER;
@@ -193,6 +197,7 @@ class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistr
     // static
     // ------------------------------------------------------------------------
     
+    private static final Layout MODERN_RESOLVER = new ModernLayout();
     private static final Layout CLASSIC_RESOLVER = new ClassicLayout();
     private static final Layout ECLIPSE_RESOLVER = new EclipseLayout();
 }

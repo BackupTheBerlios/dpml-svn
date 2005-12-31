@@ -94,6 +94,13 @@ public interface Resource extends Dictionary
     Artifact getArtifact( String type );
     
    /**
+    * Construct an unversion link artifact for the supplied type.
+    * @param type the resource type id
+    * @return the link artifact
+    */
+    Artifact getLinkArtifact( String type );
+    
+   /**
     * Return the enclosing parent module.
     * @return the enclosing module of null if this a top-level module.
     */

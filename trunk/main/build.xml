@@ -47,12 +47,14 @@
 
   <target name="package" depends="standard.package,javadoc,checkstyle,junit-report">
     <property name="share.local" location="${share}/local"/>
-    <x:replicate self="true" verbose="false" toDir="${share.local}"/>
+    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
+    <!--
     <copy toDir="${share.local}">
       <fileset dir="target/deliverables">
         <include name="modules/**/*"/>
       </fileset>
     </copy>
+    -->
   </target>
 
   <target name="install" depends="standard.install,zip,tar">
@@ -114,7 +116,7 @@
     <checksum file="${dist}/${tarfilename}.gz" fileext=".md5"/>
   </target>
 
-  <target name="bundle" depends="standard.install,prefs,bin,lib,docs">
+  <target name="bundle" depends="standard.install,data,prefs,bin,lib,docs">
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
         <include name="LICENSE.TXT"/>
@@ -142,6 +144,13 @@
     <copy todir="${share.docs}">
       <fileset dir="central/target/docs"/>
     </copy>
+  </target>
+
+  <target name="data" depends="prepare">
+    <mkdir dir="${data}/cache"/>
+    <mkdir dir="${data}/work"/>
+    <mkdir dir="${data}/logs"/>
+    <mkdir dir="${data}/temp"/>
   </target>
 
   <target name="lib" depends="prepare">
@@ -264,4 +273,5 @@
   </target>
 
 </project>
+
 

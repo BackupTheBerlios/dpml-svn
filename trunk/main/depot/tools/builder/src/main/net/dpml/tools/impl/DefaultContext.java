@@ -442,7 +442,7 @@ final class DefaultContext implements Context
     }
     
    /**
-    * Return a filename using the layout strategy emplioyed by the cache.
+    * Return a filename using the layout strategy employed by the cache.
     * @param id the artifact type
     * @return the filename
     */
@@ -451,7 +451,7 @@ final class DefaultContext implements Context
         Artifact artifact = m_resource.getArtifact( id );
         return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
     }
-   
+    
    /**
     * Utility operation to construct a new classpath path instance.
     * @param scope the build scope

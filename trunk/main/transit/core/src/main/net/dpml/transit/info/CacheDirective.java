@@ -46,7 +46,7 @@ public class CacheDirective extends AbstractDirective
    /**
     * Default layout strategy key.
     */
-    public static final String LOCAL_LAYOUT = "classic";
+    public static final String LOCAL_LAYOUT = "modern";
     
    /**
     * Empty layout array.

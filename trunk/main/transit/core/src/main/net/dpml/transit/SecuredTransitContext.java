@@ -34,6 +34,7 @@ import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
+import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
@@ -136,11 +137,6 @@ public final class SecuredTransitContext
     private LinkManager m_linkManager;
 
    /**
-    * The registry.
-    */
-    //private ContentRegistry m_registry;
-
-   /**
     * Logging channel.
     */
     private Logger m_logger;
@@ -149,11 +145,6 @@ public final class SecuredTransitContext
     * The repository service provider.
     */
     private Repository m_repository;
-
-   /**
-    * The transit plugin listener.
-    */
-    //private CodeBaseListener m_listener;
 
     //------------------------------------------------------------------
     // constructors
@@ -189,6 +180,27 @@ public final class SecuredTransitContext
     // SecuredTransitContext 
     //------------------------------------------------------------------
 
+   /**
+    * Return a layout object matching the supplied identifier.
+    * @param id the layout identifier
+    * @return the layout object
+    * @exception UnknownKeyException if the supplied layout id is unknown
+    * @exception IOException if an IO error occurs
+    */
+    public Layout getLayout( String id ) throws UnknownKeyException, IOException
+    {
+        LayoutRegistry registry = m_cacheHandler.getLayoutRegistry();
+        Layout layout = registry.getLayout( id );
+        if( null == layout )
+        {
+            throw new UnknownKeyException( id );
+        }
+        else
+        {
+            return layout;
+        }
+    }
+    
    /**
     * Return the cache layout.
     * @return the layout

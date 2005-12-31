@@ -52,7 +52,6 @@ import net.dpml.transit.Logger;
 public final class DefaultLibrary extends DefaultDictionary implements Library
 {
     private final LibraryDirective m_directive;
-    //private final DefaultProcessor[] m_processes;
     private final DefaultModule m_module;
     private final DefaultModule m_imports;
     private final File m_root;
@@ -88,16 +87,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         m_logger = logger;
         m_directive = (LibraryDirective) super.getAbstractDirective();
         m_root = source.getParentFile().getCanonicalFile();
-        
-        // setup the processors
-        
-        //ProcessorDescriptor[] processDescriptors = m_directive.getProcessorDescriptors();
-        //m_processes = new DefaultProcessor[ processDescriptors.length ];
-        //for( int i=0; i<processDescriptors.length; i++ )
-        //{
-        //    ProcessorDescriptor processDescriptor = processDescriptors[i];
-        //    m_processes[i] = new DefaultProcessor( this, processDescriptor );
-        //}
         
         getLogger().debug( "loaded root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
@@ -166,32 +155,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         return m_module.sortDefaultResources( array, Scope.TEST );
     }
     
-   /**
-    * Return an array of all registered processes.
-    * @return the processor array
-    */
-    //public Processor[] getProcessors()
-    //{
-    //    return m_processes;
-    //}
-    
-   /**
-    * Return the sequence of process defintions supporting production of a 
-    * supplied resource.  The implementation constructs a sequence of process
-    * instances based on the types declared by the resource combined with 
-    * dependencies declared by respective process defintions. Clients may
-    * safely invoke processes sequentially relative to the returned process
-    * sequence.
-    * 
-    * @param resource the resource to be produced
-    * @return a sorted array of processor definitions supporting resource production
-    */
-    //public Processor[] getProcessorSequence( Resource resource )
-    //{
-    //    Type[] types = resource.getTypes();
-    //    return getDefaultProcessorSequence( types );
-    //}
-
    /**
     * Return an array of the top-level modules within the library.
     * @return module array

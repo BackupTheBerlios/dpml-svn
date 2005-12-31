@@ -35,13 +35,13 @@
   <available property="depot.exe.available" file="${dpml.system}/bin/depot.exe"/>
 
   <target name="bootstrap" depends="install,bin">
+    <property name="local" location="${dpml.system}/local"/>
     <echo>
 #----------------------------------------------------------------------------------
-# Replicating to ${dpml.system}/local (could take a while)
+# Updating ${local}
 #----------------------------------------------------------------------------------
     </echo>
-    <property name="local" location="${dpml.system}/local"/>
-    <x:replicate self="true" todir="${local}" verbose="false">
+    <x:replicate self="true" verbose="false" layout="modern" todir="${local}"  >
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/depot/dpml-library-main"/>
     </x:replicate>

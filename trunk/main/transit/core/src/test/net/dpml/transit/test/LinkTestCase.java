@@ -62,7 +62,7 @@ public class LinkTestCase extends TestCase
                 "${user.dir}/target/test/cache",
                 CacheDirective.CACHE_LAYOUT,
                 "file:${user.dir}/target/test/trusted",
-                CacheDirective.LOCAL_LAYOUT,
+                "classic",
                 new LayoutDirective[0],
                 new HostDirective[0],
                 new ContentDirective[0] );
