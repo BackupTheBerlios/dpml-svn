@@ -7,13 +7,16 @@ Revision: @PROJECT-VERSION@
 Release Notes: Version @PROJECT-VERSION@
 -------------------------------
 
-Monor update that resolves some bugs identified following the 
-2005124 release.
+Resolves bugs identified following the 005124 release.
 
   1. Resolve bug concerning checkstyle plugin reference.
   2. Improve project invalid reference error reporting.
   3. Resolve bug concerning undefined default filter values.
   4. Resolve bug concerning checkstyle rules property evaluation.
+  5. Resolve packaging bug (missing lib directory content)
+
+Updates to the replicate task allowing for the selection of a target 
+repository layout scheme.
 
 Release Notes: Version 20051224
 -------------------------------

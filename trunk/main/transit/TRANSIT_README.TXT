@@ -11,6 +11,13 @@ Installation Instructions
 Release Notes: Version @PROJECT-VERSION@
 -------------------------------
 
+Moved ${dpml.data}/lib to ${dpml.system}/lib.
+Updated default layout for local system repository to use 'modern' layout.
+
+
+Release Notes: Version 20051224
+-------------------------------
+
 Added a registry protocol handler enabling publication of references to an 
 RMI registry in the form registry://[host]:[port]/[path] or the shortform
 registry:/[path]. Updates to the standard log message formatter to include
