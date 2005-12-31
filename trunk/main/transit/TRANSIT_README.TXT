@@ -12,7 +12,9 @@ Release Notes: Version @PROJECT-VERSION@
 -------------------------------
 
 Moved ${dpml.data}/lib to ${dpml.system}/lib.
-Updated default layout for local system repository to use 'modern' layout.
+Resolve bug in modern layout handler.
+Updated transit to provide access to named layouts.
+Changed the local system repository default layout from 'classic' to 'modern'.
 
 
 Release Notes: Version 20051224

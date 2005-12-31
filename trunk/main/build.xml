@@ -46,8 +46,6 @@
   </target>
 
   <target name="package" depends="standard.package,javadoc,checkstyle,junit-report">
-    <property name="share.local" location="${share}/local"/>
-    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
     <!--
     <copy toDir="${share.local}">
       <fileset dir="target/deliverables">
@@ -68,7 +66,12 @@
     </copy>
   </target>
 
-  <target name="zip" depends="bundle" description="Creates a binary w32 distribution.">
+  <target name="replicate" depends="standard.install">
+    <property name="share.local" location="${share}/local"/>
+    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
+  </target>
+
+  <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
     <property name="filename" value="dpml-platform-win32-${project.version}.zip"/>
     <property name="ziploc" location="target/dist"/>
     <mkdir dir="${ziploc}"/>
@@ -85,7 +88,7 @@
     <checksum file="${ziploc}/${filename}" fileext=".md5"/>
   </target>
 
-  <target name="tar" description="Creates a binary linux distribution.">
+  <target name="tar" depends="replicate" description="Creates a binary linux distribution.">
     <property name="tarfilename" value="dpml-platform-linux-${project.version}.tar"/>
     <property name="temp" location="target/temp"/>
     <mkdir dir="${temp}"/>

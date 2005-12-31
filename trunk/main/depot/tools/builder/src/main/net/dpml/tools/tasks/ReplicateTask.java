@@ -224,15 +224,15 @@ public class ReplicateTask extends GenericTask
             String destPath = layout.resolvePath( artifact );
             File dest = new File( destination, destPath );
             copyFile( source, dest );
-            File md5 = new File( source, ".md5" );
+            File md5 = new File( cache, sourcePath + ".md5" );
             if( md5.exists() )
             {
-                copyFile( md5, new File( dest, ".md5" ) );
+                copyFile( md5, new File( destination, destPath + ".md5" ) );
             }
-            File asc = new File( source, ".asc" );
+            File asc = new File( cache, sourcePath + ".asc" );
             if( asc.exists() )
             {
-                copyFile( asc, new File( dest, ".asc" ) );
+                copyFile( asc, new File( destination, destPath + ".asc" ) );
             }
         }
     }
