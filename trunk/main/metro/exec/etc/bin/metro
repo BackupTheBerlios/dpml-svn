@@ -1,4 +1,4 @@
 #!/bin/sh
 #
 
-depot -Ddpml.depot.application=dpml.metro -Ddpml.logging.config=file:${dpml.prefs}/dpml/metro/logging.properties $*
+depot -Ddpml.depot.application=dpml.metro -Ddpml.logging.config=local:properties:dpml/metro/logging $*

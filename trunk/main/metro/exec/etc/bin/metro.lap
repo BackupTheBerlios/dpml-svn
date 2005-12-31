@@ -7,7 +7,6 @@
 -Ddpml.depot.application=dpml.metro
 -Djava.protocol.handler.pkgs=net.dpml.transit
 -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi
-#-Ddpml.logging.config=file:${dpml.prefs}/dpml/metro/logging.properties
 -Ddpml.logging.config=local:properties:dpml/metro/logging
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4.0
