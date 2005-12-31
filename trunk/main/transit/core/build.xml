@@ -78,7 +78,7 @@
   </target>
 
   <target name="install" depends="bootstrap.install">
-    <property name="lib" location="${dpml.data}/lib"/>
+    <property name="lib" location="${dpml.system}/lib"/>
     <property name="short.filename" value="${project.name}.jar"/>
     <property name="long.filename" value="${project.name}-${project.version}.jar"/>
     <mkdir dir="${lib}"/>

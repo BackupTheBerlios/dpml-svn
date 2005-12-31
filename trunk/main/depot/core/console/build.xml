@@ -37,7 +37,7 @@
   <target name="bootstrap" depends="install,bin">
     <echo>
 #----------------------------------------------------------------------------------
-# Replicating to DPML SYSTEM ${dpml.system}/local (could take a while)
+# Replicating to ${dpml.system}/local (could take a while)
 #----------------------------------------------------------------------------------
     </echo>
     <property name="local" location="${dpml.system}/local"/>
@@ -45,14 +45,14 @@
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/depot/dpml-library-main"/>
     </x:replicate>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating DPML DATA ${dpml.data}
-#----------------------------------------------------------------------------------
-    </echo>
     <property name="work" location="${dpml.data}/work"/>
     <mkdir dir="${work}"/>
-    <property name="lib" location="${dpml.data}/lib"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating ${dpml.system}/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <property name="lib" location="${dpml.system}/lib"/>
     <mkdir dir="${lib}"/>
     <delete verbose="true" failonerror="false">
       <fileset dir="${lib}">
@@ -65,7 +65,7 @@
       file="${basedir}/target/deliverables/jars/${depot.long.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
-# Updating DPML SYSTEM ${dpml.system}/bin
+# Updating ${dpml.system}/bin
 #----------------------------------------------------------------------------------
     </echo>
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">

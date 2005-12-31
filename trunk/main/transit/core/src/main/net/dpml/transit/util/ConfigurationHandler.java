@@ -22,6 +22,7 @@ import java.net.URL;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 import java.util.logging.LogManager;
 
@@ -52,17 +53,12 @@ public class ConfigurationHandler
 
         Properties properties = new Properties();
 
-        setProperty( properties, "handlers", "java.util.logging.ConsoleHandler" );
-        setProperty( properties, "java.util.logging.ConsoleHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
-
-        /*
-        setProperty( properties, "handlers", "java.util.logging.FileHandler, java.util.logging.ConsoleHandler" );
-        setProperty( properties, "java.util.logging.ConsoleHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
-        setProperty( properties, "java.util.logging.FileHandler.pattern", "%h/" + group + "%u.log" );
-        setProperty( properties, "java.util.logging.FileHandler.limit", "50000" );
-        setProperty( properties, "java.util.logging.FileHandler.count", "1" );
-        setProperty( properties, "java.util.logging.FileHandler.formatter", "net.dpml.transit.util.StandardFormatter" );
-        */
+        setProperty( properties, 
+          "handlers", 
+          "java.util.logging.ConsoleHandler" );
+        setProperty( properties, 
+          "java.util.logging.ConsoleHandler.formatter", 
+          "net.dpml.transit.util.StandardFormatter" );
 
         //
         // set the default level by setting the root logger level
@@ -83,13 +79,20 @@ public class ConfigurationHandler
         String config = System.getProperty( "dpml.logging.config" );
         if( null != config )
         {
+            String spec = PropertyResolver.resolve( config );
             try
             {
-                String spec = PropertyResolver.resolve( config );
                 URL url = new URL( spec );
                 InputStream stream = url.openStream();
                 properties.load( stream );
                 PropertyResolver.resolve( properties );
+            }
+            catch( FileNotFoundException e )
+            {
+                final String error = 
+                  "Logging configuration does not exist."
+                  + "\nURI: " + spec;
+                System.err.println( error );
             }
             catch( Exception e )
             {

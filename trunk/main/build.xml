@@ -26,10 +26,11 @@
 
   <target name="prepare" depends="standard.prepare">
     <property name="bundle" location="${project.target.dir}/bundle"/>
+    <property name="prefs" location="${bundle}/prefs"/>
     <property name="data" location="${bundle}/data"/>
     <property name="share" location="${bundle}/share"/>
     <property name="share.docs" location="${share}/docs"/>
-    <property name="prefs" location="${bundle}/prefs"/>
+    <property name="share.lib" location="${share}/lib"/>
     <mkdir dir="${data}"/>
     <mkdir dir="${prefs}"/>
     <mkdir dir="${share.docs}"/>
@@ -113,7 +114,7 @@
     <checksum file="${dist}/${tarfilename}.gz" fileext=".md5"/>
   </target>
 
-  <target name="bundle" depends="standard.install,prefs,bin,docs">
+  <target name="bundle" depends="standard.install,prefs,bin,lib,docs">
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
         <include name="LICENSE.TXT"/>
@@ -140,6 +141,13 @@
     </copy>
     <copy todir="${share.docs}">
       <fileset dir="central/target/docs"/>
+    </copy>
+  </target>
+
+  <target name="lib" depends="prepare">
+    <mkdir dir="${share.lib}"/>
+    <copy todir="${share.lib}">
+      <fileset dir="${dpml.system}/lib"/>
     </copy>
   </target>
 
