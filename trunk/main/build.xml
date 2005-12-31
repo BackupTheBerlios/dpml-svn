@@ -45,15 +45,7 @@
     </c:catalog>
   </target>
 
-  <target name="package" depends="standard.package,javadoc,checkstyle,junit-report">
-    <!--
-    <copy toDir="${share.local}">
-      <fileset dir="target/deliverables">
-        <include name="modules/**/*"/>
-      </fileset>
-    </copy>
-    -->
-  </target>
+  <target name="package" depends="standard.package,javadoc,checkstyle,junit-report"/>
 
   <target name="install" depends="standard.install,zip,tar">
     <copy todir="${dpml.data}">
@@ -72,7 +64,7 @@
   </target>
 
   <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
-    <property name="filename" value="dpml-platform-win32-${project.version}.zip"/>
+    <property name="filename" value="dpml-sdk-win32-${project.version}.zip"/>
     <property name="ziploc" location="target/dist"/>
     <mkdir dir="${ziploc}"/>
     <zip destfile="${ziploc}/${filename}">
@@ -89,7 +81,7 @@
   </target>
 
   <target name="tar" depends="replicate" description="Creates a binary linux distribution.">
-    <property name="tarfilename" value="dpml-platform-linux-${project.version}.tar"/>
+    <property name="tarfilename" value="dpml-sdk-linux-${project.version}.tar"/>
     <property name="temp" location="target/temp"/>
     <mkdir dir="${temp}"/>
     <tar destfile="${temp}/${tarfilename}" longfile="gnu" >

@@ -38,22 +38,22 @@
           <tr>
             <td>Windows</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip">
-                dpml-platform-win32-@VERSION@.zip</a>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+                dpml-sdk-win32-@VERSION@.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-win32-@VERSION@.zip.md5">
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
               MD5</a>
             </td>
           </tr>  
           <tr>
             <td>Linux</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz">
-                dpml-platform-linux-@VERSION@.tar.gz</a>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
+                dpml-sdk-linux-@VERSION@.tar.gz</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-platform-linux-@VERSION@.tar.gz.md5">
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
               MD5</a>
             </td>
           </tr>  

@@ -16,6 +16,43 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build @VERSION@">
+
+        <p>
+        Important update that resolve a issue concerning binary packaging.  The milestone
+        also includes updates to the replicate task to support selection of a target 
+        layout and from this the ability to migrate the local system repository to the 
+        <tt>modern</tt> layout strategy.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+                dpml-sdk-win32-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
+                dpml-sdk-linux-@VERSION@.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+
       <subsection name="Build 20051231">
 
         <p>
