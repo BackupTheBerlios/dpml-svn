@@ -52,7 +52,6 @@ public class ReplicateTask extends GenericTask
     private File m_todir;
     private String m_layout;
 
-    private boolean m_flatten = false;
     private boolean m_verbose = false;
     private boolean m_self = false;
     
@@ -86,15 +85,6 @@ public class ReplicateTask extends GenericTask
     public void setLayout( final String id)
     {
         m_layout = id;
-    }
-
-   /**
-    * Set the flattern policy.
-    * @param flag the flattern policy
-    */
-    public void setFlatten( boolean flag )
-    {
-        m_flatten = flag;
     }
 
    /**
@@ -347,19 +337,6 @@ public class ReplicateTask extends GenericTask
               + "] is unknown.";
             throw new BuildException( error, e );
         }
-    }
-    
-    private void copy( final File destination, final FileSet fileset )
-    {
-        mkDir( destination );
-        final Copy copy = (Copy) getProject().createTask( "copy" );
-        copy.setTaskName( getTaskName() );
-        copy.setPreserveLastModified( true );
-        copy.setFlatten( m_flatten );
-        copy.setTodir( destination );
-        copy.addFileset( fileset );
-        copy.init();
-        copy.execute();
     }
     
    /**
