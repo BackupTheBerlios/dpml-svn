@@ -3,7 +3,6 @@
 <document>
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <author email="niclas@hedhman.org">Niclas Hedhman</author>
     <title>News at DPML</title>
     <description>DPML News and Events.</description>
     <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
@@ -13,15 +12,63 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="1 January 2006 Retrospective">
+        <p>
+        The DPML was established is October 2004.  Initial efforts focused 
+        on infrastructure and migration of the Merlin codebase out of Apache
+        and the first quarter of 2005 was characterized by a mixture of 
+        migration, rationalization and vision.  The second quarter was to 
+        some extent a watershed in terms of community strategy and development
+        goals combined with the groundwork on an internal refactoring of
+        the Metro system codenamed "Freight-Train".  Activities in the 
+        third-quarter focused on FT development resulting in the progressive
+        delivery of functionality during Q4. By December 2005 FT was nearing 
+        completion involving significant enhancements to the component model,
+        large-scale optimizations within the implementation, and significant 
+        improvements to the build and runtime management strategies.
+        </p>
+
+        <p><img src="/images/news/2005.png" alt="2005"/></p>
+
+        <p>
+        Perhaps the most important achievement of 2005 is the validation of the principal that
+        that your can decompose problems down to the insignificant. The DPML
+        currently host some 37 projects.  Each project is itself a self-contained and 
+        surmountable problem space.  This in and of itself is a major achievement because 
+        it demonstrates a resilient development strategy.
+        </p>
+
+        <p>
+        Looking forward the DPML faces several challenges:
+        </p>
+
+        <ul>
+          <li>At a technical level the big to-do items relate to the incorporation 
+            of security policies across the Transit, Depot and Metro systems.</li>
+          <li>At a operational level the building of guidelines and tutorial material that captures the fundamental concepts and principals of assembly versus composition (in effect, the semantics of the next-step in component-based development) are an immediate objective.</li>
+          <li>At a broader level - building the combination of community control 
+            combined with a structured framework for long-term entity integrity 
+            is perhaps the most interesting challenge.  Is the DPML about developer interest or perhaps service providers?  I believe that 2006 will be more about collaboration - collaboration with other open source projects, collaboration with industrial partners, and collaboration with government agencies. But perhaps most interesting of all is the international role - the potential leverage across borders in solving the bigger issues.
+            </li>
+        </ul>
+
+        <p>
+        While 2005 has been all about technology, I'm betting that 2006 will be all about collaboration.
+        </p>
+
+        <p>
+        <i>Cheers, Steve.</i>
+        </p>
+
+
+
+      </subsection>
+
       <subsection name="28 December 2005 Freight Train">
 
         <p>
         The first binary distribution of the DPML Platform Freight Train version 
-        was release as a snapshot build on the 24 of December.  A followup 
-        distribution was released earlier today closing some minor issues with the 
-        20051224 build.  In parrallel <a href="http://www.osm.net">OSM</a> 
-        tutorials on the Transit and Depot system were brought in-line with 
-        the latest 20051228 build.
+        was release as a snapshot build on the 24 of December.  A follow-up distribution was released earlier today closing some minor issues with the 20051224 build.  In parallel <a href="http://www.osm.net">OSM</a> tutorials on the Transit and Depot system were brought in-line with the latest 20051228 build.
         </p>
 
         <p>
@@ -43,7 +90,7 @@
 
         <p>
         A lot of effort has gone into Transit consolidation resulting 
-        a single clean configuration model, a commandline tool supporting 
+        a single clean configuration model, a command line tool supporting 
         local and remote Transit configuration, and the addition of two 
         bootstrap protocol handlers - one dealing with access to RMI 
         registry resource, and a second dealing with local preferences.
@@ -64,22 +111,22 @@
 
         <p>
         The Depot package has incorporated Janel application handler - 
-        improving intergration within the Win32 environment.
+        improving integration within the Win32 environment.
         </p>
 
         <p>
         The DPML Station is included as a core element of the overall platform with 
         support for multi-JVM deployment, runtime management and teardown.  An NT 
-        service has been included in the distribution together with a commandline tool
-        supporting comprehensive management of mutliple applications - covering 
-        application startup, restart, shutdown, querying, execution of dynamic managment 
+        service has been included in the distribution together with a command line tool
+        supporting comprehensive management of multiple applications - covering 
+        application startup, restart, shutdown, querying, execution of dynamic management 
         operations, component state management, station long term persistence control,
         and general station startup and shutdown support.
         </p>
 
         <p>
         Metro has evolved to include a formal component composition API, a formal
-        state management system, long-term storage of descriptors and directivies 
+        state management system, long-term storage of descriptors and directives 
         compliant with JSR-57, and a full implementation of inner context class based 
         requirements declaration.
         </p>
@@ -107,7 +154,7 @@
           Alien collection and redistribution under ASL 2.0 as part of 
           the Depot product has been granted by the author 
           <a href="http://forum.crystalxp.net/index.php?showuser=194">Overlord59</a>.
-          Crystal XP is entirely devoted to the customisation of Windows XP 
+          Crystal XP is entirely devoted to the customization of Windows XP 
           under the Crystal style created by everaldo. The 
           <a href="http://www.crystalxp.net">Crystal XP</a> site provides 
           Tux, Icons, Penguins, Wallpapers, Visual Styles, PNG Icons, BricoPack, 
@@ -296,4 +343,6 @@
     </section>
   </body>
 </document>
+
+
 
