@@ -16,8 +16,14 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/build.lap"/>
+        <include name="bin/build"/>
       </fileset>
     </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+  	  <include name="build"/>
+  	</fileset>
+    </chmod>
   </target>
 
   <target name="bin" depends="standard.install" unless="builder.exe.available">
