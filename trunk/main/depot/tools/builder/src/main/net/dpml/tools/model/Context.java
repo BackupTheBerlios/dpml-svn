@@ -23,6 +23,7 @@ import java.io.File;
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
+import net.dpml.library.model.Type;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
@@ -58,6 +59,18 @@ public interface Context
     * @return the property value or null if undefined
     */
     String getProperty( String key, String value );
+    
+   /**
+    * Return the value of a property. If the project contains a declaration 
+    * for the property then that value will be returned, otherwise the property
+    * will be resolved relative to the current resource.
+    *
+    * @param type the type production
+    * @param key the property key
+    * @param value the default value
+    * @return the property value or null if undefined
+    */
+    String getProperty( Type type, String key, String value );
     
    /**
     * Return an Ant path suitable for compile or runtime usage. If the supplied scope is 

@@ -25,6 +25,9 @@ import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
 
+import net.dpml.library.model.Resource;
+import net.dpml.library.model.Type;
+
 /**
  * Execute all plugins relative to the current build phase.
  *
@@ -153,15 +156,22 @@ public class JarTask extends GenericTask
 
         return jarFile.lastModified() > modified;
     }
+    
+    private Type getType()
+    {
+        Resource resource = getResource();
+        return resource.getType( "jar" );
+    }
 
     private void addManifest( final Jar jar )
     {
         try
         {
+            Type type = getType();
             final Manifest manifest = new Manifest();
             final Manifest.Section main = manifest.getMainSection();
 
-            String publisher = getProject().getProperty( "project.publisher.name" );
+            String publisher = getContext().getProperty( type, "project.publisher.name", null );
             if( null != publisher )
             {
                 addAttribute( main, "Created-By", publisher );
@@ -173,32 +183,32 @@ public class JarTask extends GenericTask
             {
                 addAttribute( main, "Class-Path", classpath );
             }
-            final String mainClass = getProject().getProperty( JAR_MAIN_KEY );
+            final String mainClass = getContext().getProperty( type, JAR_MAIN_KEY, null );
             if( null != mainClass )
             {
                 addAttribute( main, "Main-Class", mainClass );
             }
 
             addAttribute( main, "Extension-Name", getResource().getResourcePath() );
-            String specificationVendor = getProject().getProperty( "project.specification.vendor" );
+            String specificationVendor = getContext().getProperty( type, "project.specification.vendor", null );
             if( null != specificationVendor )
             {
                 addAttribute( main, "Specification-Vendor", specificationVendor );
             }
 
-            String version = getProject().getProperty( "project.specification.version" );
+            String version = getContext().getProperty( type, "project.specification.version", null );
             if( null != version )
             {
                 addAttribute( main, "Specification-Version", version );
             }
             
-            String implementationVendor = getProject().getProperty( "project.implementation.vendor" );
+            String implementationVendor = getContext().getProperty( type, "project.implementation.vendor", null );
             if( null != implementationVendor )
             {
                 addAttribute( main, "Implementation-Vendor", implementationVendor );
             }
 
-            String implementationVendorID = getProject().getProperty( "project.implementation.vendor-id" );
+            String implementationVendorID = getContext().getProperty( type, "project.implementation.vendor-id", null );
             if( null != implementationVendorID )
             {
                 addAttribute( main, "Implementation-Vendor-Id", implementationVendorID );
@@ -214,7 +224,7 @@ public class JarTask extends GenericTask
             throw new BuildException( e );
         }
     }
-
+    
     private void addAttribute(
       final Manifest.Section section, final String name, final String value )
       throws ManifestException
