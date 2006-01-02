@@ -43,13 +43,6 @@ public class NcsaRequestLog extends NCSARequestLog
         boolean getAppend( boolean value );
         
        /**
-        * Return the buffered policy.
-        * @param value the default policy value
-        * @return the resolved value
-        */
-        boolean getBuffered( boolean value );
-        
-       /**
         * Return the extended policy.
         * @param value the default policy value
         * @return the resolved value
@@ -107,9 +100,6 @@ public class NcsaRequestLog extends NCSARequestLog
     {
         boolean append = context.getAppend( false );
         setAppend( append );
-
-        boolean buffered = context.getBuffered( false );
-        setBuffered( buffered );
 
         boolean extended = context.getExtended( false );
         setExtended( extended );

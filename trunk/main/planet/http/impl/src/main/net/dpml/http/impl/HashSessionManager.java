@@ -44,11 +44,11 @@ public class HashSessionManager
         int getScavengePeriod( int value );
 
        /**
-        * Get the user-request-id policy.
+        * Get the cross context session id usage policy.
         * @param flag the default policy
         * @return the resolved policy
         */
-        boolean getUseRequestedId( boolean flag );
+        boolean getCrossContextSessionIds( boolean flag );
         
        /**
         * Get the worker name
@@ -76,8 +76,8 @@ public class HashSessionManager
             setScavengePeriod( scavangePeriod );
         }
 
-        boolean useRequestedId = context.getUseRequestedId( false );
-        setUseRequestedId( useRequestedId );
+        boolean useRequestedId = context.getCrossContextSessionIds( false );
+        setCrossContextSessionIDs( useRequestedId );
         
         String workerName = context.getWorkerName( null );
         if( workerName != null )

@@ -25,10 +25,10 @@ import net.dpml.http.spi.HttpService;
 
 import org.mortbay.http.HttpListener;
 
-/** Wrapper for the Jetty SocketListener.
+/** Wrapper for the Jetty SslListener.
  *
  */
-public class JsseListener extends org.mortbay.http.SunJsseListener
+public class JsseListener extends org.mortbay.http.SslListener
     implements HttpListener, Startable
 {
    /**
@@ -125,13 +125,6 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         * @return the resolved policy
         */
         boolean getNeedClientAuthentication( boolean value );
-        
-       /**
-        * Return the use-default-trust-store policy.
-        * @param value the default policy value
-        * @return the resolved policy
-        */
-        boolean getUseDefaultTrustStore( boolean value );
         
        /**
         * Return the key password.
@@ -254,9 +247,6 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         boolean needClientAuth = context.getNeedClientAuthentication( false );
         setNeedClientAuth( needClientAuth );
 
-        boolean useDefTrustStore = context.getUseDefaultTrustStore( false );
-        setUseDefaultTrustStore( useDefTrustStore );
-
         String keyPass = context.getKeyPassword( null );
         if( keyPass != null )
         {
@@ -267,18 +257,6 @@ public class JsseListener extends org.mortbay.http.SunJsseListener
         if( keyStore != null )
         {
             setKeystore( keyStore );
-        }
-
-        String keyStoreProviderClass = context.getKeystoreProviderClass( null );
-        if( keyStoreProviderClass != null )
-        {
-            setKeystoreProviderClass( keyStoreProviderClass );
-        }
-
-        String keyStoreProviderName = context.getKeystoreProviderName( null );
-        if( keyStoreProviderName != null )
-        {
-            setKeystoreProviderName( keyStoreProviderName );
         }
 
         String keyStoreType = context.setKeystoreType( null );
