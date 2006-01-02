@@ -64,7 +64,11 @@ public class NetworkMonitorAdapter extends AbstractAdapter
      */
     public void notifyCompletion( URL resource )
     {
-        if( getAdapter().isInfoEnabled() )
+        if( resource.toString().startsWith( "file:" ) )
+        {
+            getAdapter().debug( "located: " + resource );
+        }
+        else if( getAdapter().isInfoEnabled() )
         {
             getAdapter().info( "downloaded: " + resource );
         }
