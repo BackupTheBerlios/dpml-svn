@@ -1,4 +1,4 @@
 #!/bin/sh
 #
 
-depot -Ddpml.depot.application=dpml.builder $*
+depot -Ddpml.transit.include.tools=true -Ddpml.depot.application=dpml.builder $*

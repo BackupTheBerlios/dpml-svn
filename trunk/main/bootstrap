@@ -34,6 +34,7 @@ build()
 antlibCleanup()
 {
     # need something in here to delete dpml content in .ant/lib
+    cd .
 }
 
 transitMain()
