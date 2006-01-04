@@ -18,12 +18,10 @@
 
 package net.dpml.depot;
 
-import java.io.File;
 import java.net.URL;
 import java.net.URI;
 import java.rmi.RMISecurityManager;
 import java.util.ArrayList;
-import java.util.prefs.Preferences;
 import java.util.Enumeration;
 
 import net.dpml.transit.Transit;
@@ -47,7 +45,7 @@ import net.dpml.transit.PID;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class Main implements ShutdownHandler
+public final class Main //implements ShutdownHandler
 {
     private static Main m_MAIN;
     private static final PID PROCESS_ID = new PID();
@@ -59,12 +57,8 @@ public final class Main implements ShutdownHandler
     * Processes command line options to establish the command handler plugin to deploy.
     * Command parameters recognixed by the console include the following:
     * <ul>
-    *   <li>-help</li>
-    *   <li>-version</li>
-    *   <li>-reset</li>
+    *   <li>-Ddpml.depot.addplication=transit|station|metro|build</li>
     *   <li>-debug</li>
-    *   <li>-station</li>
-    *   <li>-metro</li>
     * </ul>
     * @param args the command line argument array
     * @exception Exception if a error occurs
@@ -128,49 +122,12 @@ public final class Main implements ShutdownHandler
         }
     }
 
-   /**
-    * Exit.
-    */
-    public void exit()
-    {
-        exit( 0 );
-    }
-
-   /**
-    * Exit.
-    * @param flag result status
-    */
-    public void exit( int flag )
-    {
-        System.exit( flag );
-    }
-
-    //private void handleSetup( String[] args )
-    //{
-    //    String name = "setup";
-    //    String spec = "@DEPOT-INSTALL-URI@";
-    //    handlePlugin( name, spec, args );
-    //}
-
     private void handleBuild( String[] args )
     {
         String name = "build";
         String spec = "@DEPOT-BUILDER-URI@";
         handlePlugin( name, spec, args, false, true );
     }
-
-    //private void handleRun( String[] args, boolean tools )
-    //{
-    //    if( args.length < 1 )
-    //    {
-    //        System.out.println( "Target URI required." );
-    //        System.exit( -1 );
-    //    }
-    //    String name = "run";
-    //    String spec = args[0];
-    //    args = CLIHelper.consolidate( args, spec );
-    //    handlePlugin( name, spec, args, false, tools );
-    //}
 
     private void handleMetro( String[] arguments )
     {
@@ -218,15 +175,15 @@ public final class Main implements ShutdownHandler
     private void handlePlugin( String name, String spec, String[] args, boolean wait, boolean tools )
     {
         System.setSecurityManager( new RMISecurityManager() );
-        boolean waitForCompletion = deployHandler( name, spec, args, this, wait, tools );
+        boolean waitForCompletion = deployHandler( name, spec, args, /*this, */ wait, tools );
         if( !waitForCompletion )
         {
-            exit();
+            System.exit( 0 );
         }
     }
 
     private boolean deployHandler( 
-      String command, String path, String[] args, ShutdownHandler shutdown, boolean waitFor, boolean tools )
+      String command, String path, String[] args, /*ShutdownHandler shutdown,*/ boolean waitFor, boolean tools )
     {
         Logger logger = getLogger().getChildLogger( command );
         if( m_debug )
@@ -249,7 +206,7 @@ public final class Main implements ShutdownHandler
             m_plugin = 
               repository.getPlugin( 
                 ClassLoader.getSystemClassLoader(), 
-                uri, new Object[]{model, args, logger, shutdown} );
+                uri, new Object[]{model, args, logger/*, shutdown*/} );
         }
         catch( RepositoryException e )
         {
@@ -257,18 +214,18 @@ public final class Main implements ShutdownHandler
             if( ( null != cause ) && ( cause instanceof GeneralException ) )
             {
                 getLogger().error( cause.getMessage() );
-                return false;
+                System.exit( 1 );
             }
             else
             {
                 getLogger().error( e.getMessage(), e.getCause() );
-                return false;
+                System.exit( 1 );
             }
         }
         catch( GeneralException e )
         {
             getLogger().error( e.getMessage() );
-            return false;
+            System.exit( 1 );
         }
         catch( Throwable e )
         {
@@ -277,13 +234,9 @@ public final class Main implements ShutdownHandler
               + command 
               + "] handler due to deployment failure.";
             getLogger().error( error, e );
-            return false;
+            System.exit( 1 );
         }
         
-        if( m_plugin instanceof Handler )
-        {
-            setInternalShutdownHook( logger, (Handler) m_plugin );
-        }
         if( m_plugin instanceof Runnable )
         {
             getLogger().debug( "starting " + m_plugin.getClass().getName() );
@@ -348,36 +301,6 @@ public final class Main implements ShutdownHandler
         return DefaultTransitModel.getDefaultModel( logger );
     }
     
-   /*
-    private void handleGet( Logger logger, String[] args, String path ) throws Exception
-    {
-        try
-        {
-            Transit transit = Transit.getInstance();
-            setupMonitors( transit, (Adapter) getLogger() );
-            URI uri = new URI( path );
-            URL url = new URL( uri.toASCIIString() );
-            File file = (File) url.getContent( new Class[]{File.class} );
-            getLogger().info( "Cached as: " + file );
-        }
-        catch( Throwable e )
-        {
-            final String error = "ERROR: Could not complete get request.";
-            getLogger().error( error, e );
-        }
-    }
-    */
-
-    private static URL getCodeSourceLocation()
-    {
-        return Main.class.getProtectionDomain().getCodeSource().getLocation();
-    }
-
-    //private static Preferences getRootPreferences()
-    //{
-    //    return ROOT_PREFS;
-    //}
-
     private static Logger getLogger()
     {
         if( null == m_LOGGER )
@@ -387,50 +310,6 @@ public final class Main implements ShutdownHandler
         }
         return m_LOGGER;
     }
-
-    //private static void handleHelp()
-    //{
-    //    final String message = 
-    //      "Help"
-    //      + "\n\nUsage: depot [-help] | [-version] | [-setup] | [-prefs] | [-get [artifact]] | [-exec [spec]]"
-    //      + "\n\nAvailable command line options:"
-    //      + "\n"
-    //      + "\n -help             List command line help."
-    //      + "\n -version          List version information."
-    //      + "\n -run [plugin]     Load and run the plugin."
-    //      + "\n -build            Launch the project builder."
-    //      + "\n -exec [spec]      Launch an application using a supplied specification."
-    //      + "\n -reset            Clear Depot and Transit preferences."
-    //      + "\n -station          Start the DPML Station process"
-    //      + "\n -debug            Enable debug level logging."
-    //      + "\n -D[name]=[value]  Set one or more system properties."
-    //      + "\n";
-    //    getLogger().info( message );
-    //}
-
-    //private static void handleVersion( boolean debug )
-    //{
-    //    final String message = 
-    //      "Version\n"
-    //      + "\n"
-    //      + "\n  Process ID:      \t" + PROCESS_ID
-    //      + "\n  Java Runtime:    \t" 
-    //      + System.getProperty( "java.runtime.name" ) + " ("
-    //      + System.getProperty( "java.version" ).replace( '_', ' ' ) + ")"
-    //      + "\n  Depot Console:   \t@DEPOT-CONSOLE-URI@"
-    //      + "\n  Exec Handler:    \t@DEPOT-EXEC-URI@"
-    //      + "\n  Build Handler:   \t@DEPOT-BUILD-URI@"
-    //      + "\n  Install Handler: \t@DEPOT-INSTALL-URI@"
-    //      + "\n  Station Handler: \t@DEPOT-STATION-URI@"
-    //      + "\n  Transit Library: \t@TRANSIT-CORE-URI@"
-    //      + "\n";
-    //    getLogger().info( message );
-    //
-    //    if( debug )
-    //    {
-    //        System.getProperties().list( System.out );
-    //    }
-    //}
 
     //--------------------------------------------------------------------------
     // static utilities for setup of logging manager and root prefs
@@ -489,38 +368,6 @@ public final class Main implements ShutdownHandler
                   try
                   {
                       thread.interrupt();
-                  }
-                  catch( Throwable e )
-                  {
-                      // ignore it
-                      boolean ignorable = true;
-                  }
-                  System.runFinalization();
-              }
-          }
-        );
-    }
-
-   /**
-    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
-    * @param thread the application thread
-    */
-    private void setInternalShutdownHook( final Logger logger, final Handler handler )
-    {
-        //
-        // Create a shutdown hook to trigger clean disposal of the
-        // handler
-        //
-        
-        Runtime.getRuntime().addShutdownHook(
-          new Thread()
-          {
-              public void run()
-              {
-                  try
-                  {
-                      logger.info( "shutdown" ); 
-                      handler.destroy();
                   }
                   catch( Throwable e )
                   {
