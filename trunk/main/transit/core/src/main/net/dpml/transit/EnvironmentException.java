@@ -132,7 +132,7 @@ public class EnvironmentException extends RuntimeException
 
     /**
      * Prepends variable name to the base message.
-     *
+     * @return the exception message
      * @see java.lang.Throwable#getMessage()
      */
     public String getMessage()

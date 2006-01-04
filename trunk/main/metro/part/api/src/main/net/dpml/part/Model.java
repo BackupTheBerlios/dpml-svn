@@ -62,12 +62,14 @@ public interface Model
    /**
     * Add a listener to the component model.
     * @param listener the model listener
+    * @exception RemoteException if a remote exception occurs
     */
     void addModelListener( ModelListener listener ) throws RemoteException;
     
    /**
     * Remove a listener from the component model.
     * @param listener the model listener
+    * @exception RemoteException if a remote exception occurs
     */
     void removeModelListener( ModelListener listener ) throws RemoteException;
 }

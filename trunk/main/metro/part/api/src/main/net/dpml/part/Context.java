@@ -19,7 +19,6 @@
 package net.dpml.part;
 
 import java.util.Map;
-import java.beans.PropertyChangeListener;
 
 /**
  * The Context interfaces is a local interface implementated by part handlers

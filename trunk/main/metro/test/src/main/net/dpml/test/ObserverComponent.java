@@ -106,6 +106,10 @@ public class ObserverComponent implements ColorManager, PropertyChangeListener
     // PropertyChangeListener
     //------------------------------------------------------------------
 
+   /**
+    * Property change notification form the content implementation.
+    * @param event the property change event
+    */
     public void propertyChange( PropertyChangeEvent event )
     {
         m_list.add( event );
@@ -120,6 +124,10 @@ public class ObserverComponent implements ColorManager, PropertyChangeListener
     // Testcase hook
     //------------------------------------------------------------------
     
+   /**
+    * Return the event list (used by testcase).
+    * @return the event list
+    */
     public List getEventList()
     {
         return m_list;

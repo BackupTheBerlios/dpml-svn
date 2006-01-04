@@ -58,15 +58,17 @@ public class ClassValidator implements Validator
     /** the classloader to load classes from */
     private ClassLoader m_loader;
 
-    /**
-     * Validate each argument value in the specified List against this instances
-     * permitted attributes.
-     *
-     * If a value is valid then it's <code>String</code> value in the list is
-     * replaced with it's <code>Class</code> value or instance.
-     *
-     * @see net.dpml.cli.validation.Validator#validate(java.util.List)
-     */
+   /**
+    * Validate each argument value in the specified List against this instances
+    * permitted attributes.
+    *
+    * If a value is valid then it's <code>String</code> value in the list is
+    * replaced with it's <code>Class</code> value or instance.
+    *
+    * @param values the list of values to validate 
+    * @see net.dpml.cli.validation.Validator#validate(java.util.List)
+    * @exception InvalidArgumentException if a value is invalid
+    */
     public void validate( final List values ) throws InvalidArgumentException 
     {
         for( final ListIterator i = values.listIterator(); i.hasNext();)

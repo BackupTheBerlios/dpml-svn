@@ -60,11 +60,13 @@ public class EnumValidator implements Validator
         setValidValues( values );
     }
 
-    /**
-     * Validate the list of values against the list of permitted values.
-     *
-     * @see net.dpml.cli.validation.Validator#validate( java.util.List )
-     */
+   /**
+    * Validate the list of values against the list of permitted values.
+    *
+    * @param values the list of values to validate 
+    * @exception InvalidArgumentException if a value is invalid
+    * @see net.dpml.cli.validation.Validator#validate(java.util.List)
+    */
     public void validate( final List values ) throws InvalidArgumentException
     {
         for( final Iterator iter = values.iterator(); iter.hasNext();) 

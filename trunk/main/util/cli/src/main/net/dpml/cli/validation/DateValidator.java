@@ -142,15 +142,17 @@ public class DateValidator implements Validator
         return new DateValidator( DateFormat.getDateTimeInstance() );
     }
 
-    /**
-     * Validate each String value in the specified List against this instances
-     * permitted DateFormats.
-     *
-     * If a value is valid then it's <code>String</code> value in the list is
-     * replaced with it's <code>Date</code> value.
-     *
-     * @see net.dpml.cli.validation.Validator#validate(java.util.List)
-     */
+   /**
+    * Validate each String value in the specified List against this instances
+    * permitted DateFormats.
+    *
+    * If a value is valid then it's <code>String</code> value in the list is
+    * replaced with it's <code>Date</code> value.
+    *
+    * @param values the list of values to validate 
+    * @exception InvalidArgumentException if a value is invalid
+    * @see net.dpml.cli.validation.Validator#validate(java.util.List)
+    */
     public void validate( final List values ) throws InvalidArgumentException
     {
         // for each value

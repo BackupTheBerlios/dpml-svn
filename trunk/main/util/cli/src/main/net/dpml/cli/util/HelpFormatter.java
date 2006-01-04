@@ -629,7 +629,7 @@ public class HelpFormatter
      * The DisplaySettings used to select the elements to display in the
      * displayed line of full usage information.
      * @see DisplaySetting
-     * @param fullUsageSettings
+     * @param fullUsageSettings the full usage settings
      */
     public void setFullUsageSettings( Set fullUsageSettings )
     {

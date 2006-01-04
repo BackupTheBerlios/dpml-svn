@@ -19,7 +19,6 @@
 package net.dpml.metro.runtime;
 
 import java.io.File;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.lang.ref.Reference;
@@ -279,6 +278,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     // ModelListener
     //--------------------------------------------------------------------------
     
+   /**
+    * Notification from the compoent model of a chanhge to the model.
+    * @param event the model change event
+    */
     public void modelChanged( ModelEvent event )
     {
         String feature = event.getFeature();

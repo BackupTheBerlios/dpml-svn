@@ -118,13 +118,15 @@ public class NumberValidator implements Validator
         return new NumberValidator( NumberFormat.getNumberInstance() );
     }
 
-    /**
-     * Validate the list of values against the list of permitted values.
-     * If a value is valid, replace the string in the <code>values</code>
-     * {@link java.util.List} with the {@link java.lang.Number} instance.
-     *
-     * @see net.dpml.cli.validation.Validator#validate(java.util.List)
-     */
+   /**
+    * Validate the list of values against the list of permitted values.
+    * If a value is valid, replace the string in the <code>values</code>
+    * {@link java.util.List} with the {@link java.lang.Number} instance.
+    *
+    * @param values the list of values to validate 
+    * @exception InvalidArgumentException if a value is invalid
+    * @see net.dpml.cli.validation.Validator#validate(java.util.List)
+    */
     public void validate( final List values ) throws InvalidArgumentException 
     {
         for( final ListIterator i = values.listIterator(); i.hasNext();) 
