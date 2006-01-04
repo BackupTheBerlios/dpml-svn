@@ -13,10 +13,10 @@
             <property name="message" value="Line has trailing spaces."/>
             <property name="severity" value="warning"/>
         </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.ModifierOrderCheck">
+        <module name="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck">
             <property name="severity" value="warning"/>
         </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.RedundantModifierCheck">
+        <module name="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck">
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.TodoCommentCheck">
