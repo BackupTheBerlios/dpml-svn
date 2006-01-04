@@ -444,7 +444,7 @@ public final class Main //implements ShutdownHandler
    /**
     * Application identifier enumeration.
     */
-    public static final class Command extends Enum
+    private static final class Command extends Enum
     {
         static final long serialVersionUID = 1L;
 
