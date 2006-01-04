@@ -654,7 +654,8 @@ public final class Main implements ShutdownHandler
 
     private String getSwitch( String[] args )
     {
-        String app = System.getProperty( "dpml.depot.application", null );
+        String ref = getApplicationReference( args );
+        String app = System.getProperty( "dpml.depot.application", ref );
         if( null != app )
         {
             if( "dpml.metro".equals( app ) )
@@ -707,6 +708,19 @@ public final class Main implements ShutdownHandler
             }
             return args[0];
         }
+    }
+
+    private String getApplicationReference( String[] args )
+    {
+        for( int i=0; i<args.length; i++ )
+        {
+            String arg = args[i];
+            if( arg.startsWith( "-Ddpml.depot.application=" ) )
+            {
+                return arg.substring( 25 );
+            }
+        }
+        return null;
     }
 
     private String[] processSystemProperties( String[] args )
