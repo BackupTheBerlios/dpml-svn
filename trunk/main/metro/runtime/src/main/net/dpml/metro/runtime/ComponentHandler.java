@@ -53,6 +53,8 @@ import net.dpml.part.Version;
 import net.dpml.part.Context;
 import net.dpml.part.ModelEvent;
 import net.dpml.part.ModelListener;
+import net.dpml.part.ContextEvent;
+import net.dpml.part.ContextListener;
 
 import net.dpml.state.State;
 
@@ -262,7 +264,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             catch( Exception e )
             {
                 final String error = 
-                  "Internal error while atrempting to create a subsidiary part ["
+                  "Internal error while attempting to create a subsidiary part ["
                   + key
                   + "] in component ["
                   + m_path
@@ -302,6 +304,26 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     public Map getContextMap()
     {
         return m_cache;
+    }
+    
+   /**
+    * Add a context listener to the component provider.
+    * @param listener the context listener to add
+    * @exception NullPointerException if the supplied listener argument is null
+    */
+    public void addContextListener( ContextListener listener ) throws NullPointerException
+    {
+        super.addListener( listener );
+    }
+    
+   /**
+    * Remove a context listener from the component provider.
+    * @param listener the context listener to remove
+    * @exception NullPointerException if the supplied listener argument is null
+    */
+    public void removeContextListener( ContextListener listener ) throws NullPointerException
+    {
+        super.removeListener( listener );
     }
     
     //--------------------------------------------------------------------------
@@ -590,6 +612,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     */
     protected void processEvent( EventObject event )
     {
+        // TODO
     }
     
     //--------------------------------------------------------------------------

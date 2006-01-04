@@ -36,5 +36,19 @@ public interface Context
     * @return the context map
     */
     Map getContextMap();
+    
+   /**
+    * Add a context listener to the component provider.
+    * @param listener the context listener to add
+    * @exception NullPointerException if the supplied listener argument is null
+    */
+    void addContextListener( ContextListener listener ) throws NullPointerException;
+    
+   /**
+    * Remove a context listener from the component provider.
+    * @param listener the context listener to remove
+    * @exception NullPointerException if the supplied listener argument is null
+    */
+    void removeContextListener( ContextListener listener ) throws NullPointerException;
 }
 
