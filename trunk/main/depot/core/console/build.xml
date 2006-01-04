@@ -76,9 +76,9 @@
     </copy>
     <chmod perm="755">
       <fileset dir="${dpml.system}/bin">
-  	  <include name="**/*.sh"/>
-  	  <include name="**/depot"/>
-  	</fileset>
+        <include name="**/*.sh"/>
+        <include name="**/depot"/>
+      </fileset>
     </chmod>
   </target>
 

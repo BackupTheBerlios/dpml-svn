@@ -28,8 +28,14 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/transit.lap"/>
+        <include name="bin/transit"/>
       </fileset>
     </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="transit"/>
+      </fileset>
+    </chmod>
   </target>
 
   <target name="bin" depends="standard.install" unless="transit.exe.available">

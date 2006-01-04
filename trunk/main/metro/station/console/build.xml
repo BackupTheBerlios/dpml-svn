@@ -16,8 +16,14 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/station.lap"/>
+        <include name="bin/station"/>
       </fileset>
     </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="station"/>
+      </fileset>
+    </chmod>
   </target>
 
   <target name="bin" depends="standard.install" unless="station.exe.available">

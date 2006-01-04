@@ -30,8 +30,14 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/metro.lap"/>
+        <include name="bin/metro"/>
       </fileset>
     </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="metro"/>
+      </fileset>
+    </chmod>
   </target>
 
   <target name="bin" depends="standard.install" unless="metro.exe.available">

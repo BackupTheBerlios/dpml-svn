@@ -1,4 +1,4 @@
 #!/bin/sh
 #
 
-depot -Ddpml.depot.application=dpml.station -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi $*
+depot -Ddpml.depot.application=dpml.station $*

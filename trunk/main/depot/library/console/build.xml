@@ -21,8 +21,8 @@
     </copy>
     <chmod perm="755">
       <fileset dir="${dpml.system}/bin">
-  	  <include name="build"/>
-  	</fileset>
+        <include name="build"/>
+      </fileset>
     </chmod>
   </target>
 
