@@ -478,14 +478,25 @@ public final class Main //implements ShutdownHandler
         {
             super( label );
         }
-    
+        
        /**
         * Create a now mode using a supplied mode name.
         * @param value the mode name
         * @return the mode
+        * @exception NullPointerException if the supplied value is null
+        * @exception IllegalArgumentException if the supplied value is not recognized
         */
-        public static Command parse( String value )
+        public static Command parse( String value ) throws NullPointerException, IllegalArgumentException
         {
+            if( null == value )
+            {
+                final String error = 
+                  "Undefined sub-system identifier."
+                  + "\nThe depot cli handler must be supplied with an -D"
+                  + APPLICATION_KEY + "=[id] where id is one of the value 'dpml.metro', "
+                  + "'dpml.transit', 'dpml.station' or 'dpml.build'.";
+                throw new NullPointerException( error ); 
+            }
             if( value.equalsIgnoreCase( "dpml.metro" ) )
             {
                 return METRO;
