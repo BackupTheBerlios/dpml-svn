@@ -58,5 +58,17 @@ public interface Model
     * @see ActivationPolicy#DEMAND
     */
     ActivationPolicy getActivationPolicy() throws RemoteException;
+    
+   /**
+    * Add a listener to the component model.
+    * @param listener the model listener
+    */
+    void addModelListener( ModelListener listener ) throws RemoteException;
+    
+   /**
+    * Remove a listener from the component model.
+    * @param listener the model listener
+    */
+    void removeModelListener( ModelListener listener ) throws RemoteException;
 }
 

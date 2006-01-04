@@ -21,6 +21,7 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.beans.Expression;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -314,15 +315,16 @@ class StandardLoader implements Repository
         {
             throw new NullArgumentException( "descriptor" );
         }
-        Object[] params = new Object[ args.length + THREE ];
-        for( int i=0; i < args.length; i++ )
-        {
-            params[i] = args[i];
-        }
-        params[ args.length ] = classloader;
-        params[ args.length + 1 ] = descriptor;
-        params[ args.length + 2 ] = this;
-        return instantiate( clazz, params );
+        //Object[] params = new Object[ args.length + THREE ];
+        //for( int i=0; i < args.length; i++ )
+        //{
+        //    params[i] = args[i];
+        //}
+        //params[ args.length ] = classloader;
+        //params[ args.length + 1 ] = descriptor;
+        //params[ args.length + 2 ] = this;
+        //return instantiate( clazz, params );
+        return instantiate( clazz, args );
     }
 
     public Object instantiate( Class clazz, Object[] args ) throws RepositoryException
@@ -349,8 +351,26 @@ class StandardLoader implements Repository
                 throw new NullArgumentException( error );
             }
         }
-        Constructor constructor = getSingleConstructor( clazz );
-        return instantiate( constructor, args );
+        
+        if( clazz.getConstructors().length == 1 )
+        {
+            Constructor constructor = getSingleConstructor( clazz );
+            return instantiate( constructor, args );
+        }
+        else
+        {
+            try
+            {
+                Expression expression = new Expression( clazz, "new", args );
+                return expression.getValue();
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                "Class instantiation error [" + clazz.getName() + "]";
+                throw new RepositoryException( error, e );
+            }
+        }
     }
 
     public Object instantiate( Constructor constructor, Object[] args ) throws RepositoryException

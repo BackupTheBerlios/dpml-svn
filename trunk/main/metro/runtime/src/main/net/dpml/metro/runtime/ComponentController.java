@@ -196,8 +196,9 @@ class ComponentController
         }
     }
     
-    Object createInstance( ComponentHandler handler ) throws ControlException, InvocationTargetException
+    Object createInstance( DefaultProvider provider ) throws ControlException, InvocationTargetException
     {
+        ComponentHandler handler = provider.getComponentHandler();
         Class subject = handler.getImplementationClass();
         Constructor constructor = getConstructor( subject );
         Class parts = getInnerClass( subject, "$Parts" );
@@ -239,7 +240,7 @@ class ComponentController
             }
             else if( ( null != contextInnerClass ) && contextInnerClass.isAssignableFrom( c ) )
             {
-                args[i] = createContextInvocationHandler( handler, contextInnerClass );
+                args[i] = createContextInvocationHandler( provider, contextInnerClass );
             }
             else if( ( null != parts ) && parts.isAssignableFrom( c ) )
             {
@@ -508,12 +509,12 @@ class ComponentController
         }
     }
     
-    private Object createContextInvocationHandler( ComponentHandler handler, Class clazz ) 
+    private Object createContextInvocationHandler( DefaultProvider provider, Class clazz ) 
       throws ControlException
     {
         try
         {
-            InvocationHandler invocationHandler = new ContextInvocationHandler( handler );
+            InvocationHandler invocationHandler = new ContextInvocationHandler( provider );
             ClassLoader classloader = clazz.getClassLoader();
             return Proxy.newProxyInstance( classloader, new Class[]{clazz}, invocationHandler );
         }

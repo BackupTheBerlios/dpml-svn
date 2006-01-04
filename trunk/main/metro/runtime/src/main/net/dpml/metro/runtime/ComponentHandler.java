@@ -19,6 +19,9 @@
 package net.dpml.metro.runtime;
 
 import java.io.File;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -49,6 +52,8 @@ import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.Version;
 import net.dpml.part.Context;
+import net.dpml.part.ModelEvent;
+import net.dpml.part.ModelListener;
 
 import net.dpml.state.State;
 
@@ -99,7 +104,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @see ComponentModel
  * @see Provider
  */
-public class ComponentHandler extends UnicastEventSource implements Component, Context, Disposable
+public class ComponentHandler extends UnicastEventSource implements Component, Context, Disposable, ModelListener
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -117,6 +122,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     private final URI m_uri;
     private final Holder m_holder;
     private final Component m_parent;
+    private final PropertyChangeSupport m_support;
     
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
@@ -146,7 +152,8 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         m_model = model;
         m_path = model.getContextPath();
         
-        //m_graph = model.getStateGraph();
+        m_support = new PropertyChangeSupport( this );
+        model.addModelListener( this );
         
         String classname = model.getImplementationClassName();
         try
@@ -269,11 +276,23 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     }
     
     //--------------------------------------------------------------------------
+    // ModelListener
+    //--------------------------------------------------------------------------
+    
+    public void modelChanged( ModelEvent event )
+    {
+        String feature = event.getFeature();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+        m_support.firePropertyChange( feature, oldValue, newValue );
+    }
+    
+    //--------------------------------------------------------------------------
     // Context
     //--------------------------------------------------------------------------
     
    /**
-    * Return a mutible context map.
+    * Return a mutable context map.
     *
     * @return the context map
     */
@@ -575,6 +594,27 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     //--------------------------------------------------------------------------
     
    /**
+    * Add a property change listener.  This method is used by a provider
+    * to register a component implement property change listener. The component
+    * handler is responsible for the propergation of context change events
+    * to the registered listeners.
+    * @param listener the propery change listener
+    */
+    void addPropertyChangeListener( PropertyChangeListener listener )
+    {
+        m_support.addPropertyChangeListener( listener );
+    }
+    
+   /**
+    * Remove a property change listener.
+    * @param listener the propery change listener
+    */
+    void removePropertyChangeListener( PropertyChangeListener listener )
+    {
+        m_support.removePropertyChangeListener( listener );
+    }
+    
+   /**
     * Dispose of the component handler.  
     */
     public void dispose()
@@ -650,9 +690,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         return m_model;
     }
     
-    Object createNewObject() throws ControlException, InvocationTargetException
+    Object createNewObject( DefaultProvider provider ) throws ControlException, InvocationTargetException
     {
-        return m_controller.createInstance( this );
+        return m_controller.createInstance( provider );
     }
     
     Class[] getServiceClassArray()

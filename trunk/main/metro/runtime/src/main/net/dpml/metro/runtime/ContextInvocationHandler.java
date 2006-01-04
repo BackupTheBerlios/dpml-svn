@@ -18,6 +18,7 @@
 
 package net.dpml.metro.runtime;
 
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -40,6 +41,11 @@ class ContextInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
+    private final DefaultProvider m_provider;
+
+   /**
+    * The component.
+    */
     private final ComponentHandler m_handler;
 
     //-------------------------------------------------------------------
@@ -51,9 +57,10 @@ class ContextInvocationHandler implements InvocationHandler
     *
     * @param handler the component handler
     */
-    ContextInvocationHandler( ComponentHandler handler )
+    ContextInvocationHandler( DefaultProvider provider )
     {
-        m_handler = handler;
+        m_provider = provider;
+        m_handler = provider.getComponentHandler();
     }
 
     //-------------------------------------------------------------------
@@ -105,23 +112,21 @@ class ContextInvocationHandler implements InvocationHandler
                     throw new IllegalStateException( error );
                 }
             }
-            /*
             if( ( null != args ) && ( args.length == 1 ) )
             {
                 if( "addPropertyChangeListener".equals( name ) )
                 {
                     PropertyChangeListener listener = (PropertyChangeListener) args[0];
-                    handler.addPropertyChangeListener( listener );
+                    m_provider.addPropertyChangeListener( listener );
                     return null;
                 }
                 else if( "removePropertyChangeListener".equals( name ) )
                 {
                     PropertyChangeListener listener = (PropertyChangeListener) args[0];
-                    handler.removePropertyChangeListener( listener );
+                    m_provider.removePropertyChangeListener( listener );
                     return null;
                 }
             }
-            */
             throw new NoSuchMethodException( name );
         }
     }

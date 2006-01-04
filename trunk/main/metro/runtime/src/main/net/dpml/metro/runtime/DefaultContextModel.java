@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.EventObject;
+import java.util.EventListener;
 import java.util.Map;
 
 import net.dpml.metro.data.ContextDirective;
@@ -34,13 +35,17 @@ import net.dpml.metro.model.MutableContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
-import net.dpml.part.ModelException;
+import net.dpml.logging.Logger;
+
 import net.dpml.part.Directive;
+import net.dpml.part.ModelException;
+import net.dpml.part.ModelListener;
+import net.dpml.part.ModelEvent;
 
 import net.dpml.transit.model.UnknownKeyException;
 
 /**
- * Default implemetnation of <tt>ContextModel</tt>.
+ * Default implementation of <tt>ContextModel</tt>.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -56,6 +61,8 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
     private final ClassLoader m_classloader;
     private final Map m_contextTable = 
       Collections.synchronizedMap( new HashMap() ); // (key,directive)
+    private final DefaultComponentModel m_parent; 
+    private final Logger m_logger; 
     
     // ------------------------------------------------------------------------
     // mutable state
@@ -69,17 +76,21 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
 
    /**
     * Creation of a new <tt>DefaultContextModel</tt>.
+    * @param model the component model
     * @param classloader the classloader
     * @param type the component type
     * @param directive the context directive
     * @exception ContextException if an error occurs in context model construction
     * @exception RemoteException if a remote I/O error occurs
     */
-    public DefaultContextModel( ClassLoader classloader, Type type, ContextDirective directive )
+    DefaultContextModel( 
+      DefaultComponentModel parent, Logger logger, ClassLoader classloader, Type type, ContextDirective directive )
       throws ModelException, RemoteException
     {
         super();
         
+        m_logger = logger;
+        m_parent = parent;
         m_directive = directive;
         m_classloader = classloader;
         m_type = type;
@@ -103,13 +114,54 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
     }
 
    /**
+    * Add a listener to the component model.
+    * @param listener the model listener
+    */
+    public void addModelListener( ModelListener listener )
+    {
+        super.addListener( listener );
+    }
+    
+   /**
+    * Remove a listener from the component model.
+    * @param listener the model listener
+    */
+    public void removeModelListener( ModelListener listener )
+    {
+        super.removeListener( listener );
+    }
+
+   /**
     * Process a context model event.
     * @param event the event to process
     */
     protected void processEvent( EventObject event )
     {
+        EventListener[] listeners = super.listeners();
+        for( int i=0; i < listeners.length; i++ )
+        {
+            EventListener listener = listeners[i];
+            if( listener instanceof ModelListener )
+            {
+                ModelListener l = (ModelListener) listener;
+                if( event instanceof ModelEvent )
+                {
+                    try
+                    {
+                        ModelEvent e = (ModelEvent) event;
+                        l.modelChanged( e );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error =
+                          "ModelListener change notification error.";
+                        m_logger.error( error, e );
+                    }
+                }
+            }
+        }
     }
-
+    
     // ------------------------------------------------------------------------
     // ContextModel
     // ------------------------------------------------------------------------
@@ -228,7 +280,11 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
         {
             throw new UnknownKeyException( key );
         }
+        
+        Object old = m_contextTable.get( key );
         m_contextTable.put( key, directive );
+        ModelEvent event = new ModelEvent( m_parent, "context.entry:" + key, old, directive );
+        enqueueEvent( event );
         invalidate();
     }
 

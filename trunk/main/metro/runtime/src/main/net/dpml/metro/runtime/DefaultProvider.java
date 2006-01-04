@@ -281,7 +281,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
             Class[] services = m_handler.getServiceClassArray();
             InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
             m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
-            m_value = m_handler.createNewObject();
+            m_value = m_handler.createNewObject( this );
             m_tag = createTag( m_value );
             getLogger().debug( m_tag + "activating instance" );
             m_machine.initialize( m_value );
@@ -330,11 +330,13 @@ class DefaultProvider extends UnicastEventSource implements Provider
     void addPropertyChangeListener( PropertyChangeListener listener )
     {
         m_machine.addPropertyChangeListener( listener );
+        m_handler.addPropertyChangeListener( listener );
     }
 
     void removePropertyChangeListener( PropertyChangeListener listener )
     {
         m_machine.removePropertyChangeListener( listener );
+        m_handler.removePropertyChangeListener( listener );
     }
     
     private Logger getLogger()

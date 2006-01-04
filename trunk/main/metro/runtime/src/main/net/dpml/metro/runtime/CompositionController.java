@@ -21,7 +21,7 @@ package net.dpml.metro.runtime;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 import net.dpml.logging.Logger;
 
@@ -59,7 +59,7 @@ public class CompositionController implements Controller
     private final Logger m_logger;
     private final ControllerContext m_context;
     private final ComponentController m_controller;
-    private final WeakHashMap m_handlers = new WeakHashMap(); // foreign controllers
+    private final HashMap m_handlers = new HashMap(); // foreign controllers
     private final Repository m_loader;
     
     //--------------------------------------------------------------------
@@ -347,32 +347,31 @@ public class CompositionController implements Controller
         {
             return this;
         }
-
+        
         synchronized( m_handlers )
         {
-            Controller[] handlers = (Controller[]) m_handlers.keySet().toArray( new Controller[0] );
-            for( int i=0; i<handlers.length; i++ )
+            Controller controller = (Controller) m_handlers.get( uri );
+            if( null != controller )
             {
-                Controller handler = handlers[i];
-                if( handler.getURI().equals( uri ) )
-                {
-                    return handler;
-                }
+                return controller;
             }
-            Controller handler = loadHandler( uri );
-            m_handlers.put( handler, null );
-            return handler;
+            else
+            {
+                controller = loadForeignController( uri );
+                m_handlers.put( uri, controller );
+                return controller;
+            }
         }
     }
 
-    private Controller loadHandler( URI uri ) throws ControllerNotFoundException
+    private Controller loadForeignController( URI uri ) throws ControllerNotFoundException
     {
         ClassLoader classloader = Controller.class.getClassLoader();
         try
         {
             return (Controller) m_loader.getPlugin( 
               classloader, uri, 
-              new Object[]{m_logger, m_context, m_context.getLogger()} );
+              new Object[]{m_context} );
         }
         catch( IOException e )
         {

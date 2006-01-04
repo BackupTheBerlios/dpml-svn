@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<antlib xmlns:current="ant:current">
-  <taskdef name="init"      classname="net.dpml.transit.tools.MainTask"/>
-  <taskdef name="plugin"    classname="net.dpml.transit.tools.PluginTask"/> 
-  <taskdef name="import"    classname="net.dpml.transit.tools.ImportArtifactTask"/> 
-  <taskdef name="get"       classname="net.dpml.transit.tools.GetTask"/> 
-  <taskdef name="prefs"     classname="net.dpml.transit.tools.PreferencesTask"/> 
-</antlib>

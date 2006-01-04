@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<antlib>
-
-  <!-- taskdefs -->
-  <taskdef name="eclipse"      classname="net.dpml.magic.eclipse.EclipseTask"/>
-
-</antlib>

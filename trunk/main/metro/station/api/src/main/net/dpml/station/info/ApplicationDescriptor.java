@@ -43,7 +43,7 @@ public class ApplicationDescriptor extends CodeBaseDirective
     * The default shutdown timeout in seconds.
     */
     public static final int DEFAULT_SHUTDOWN_TIMEOUT = 6;
-
+    
     private final String m_base;
     private final StartupPolicy m_policy;
     private final int m_startup;

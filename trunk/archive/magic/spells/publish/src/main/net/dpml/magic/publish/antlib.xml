@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<antlib>
-
-  <!-- taskdefs -->
-  <taskdef name="publish" classname="net.dpml.magic.publish.PublishTask"/>
-
-</antlib>

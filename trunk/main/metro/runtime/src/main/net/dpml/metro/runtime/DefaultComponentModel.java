@@ -21,13 +21,13 @@ package net.dpml.metro.runtime;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.EventObject;
+import java.util.EventListener;
 
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
-import net.dpml.part.Directive;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
@@ -35,13 +35,19 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.MutableComponentModel;
 import net.dpml.metro.model.ContextModel;
+
+import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.ControlException;
+import net.dpml.part.ModelListener;
+import net.dpml.part.ModelEvent;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.Configurable;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.configuration.impl.DefaultConfiguration;
+
+import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
@@ -67,8 +73,9 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
     private final ClassLoader m_classloader;
     private final String[] m_partKeys;
     private final HashMap m_parts = new HashMap();
-    private final ContextModel m_context;
+    private final DefaultContextModel m_context;
     private final String m_path;
+    private final Logger m_logger;
     
     private String m_classname;
     private ActivationPolicy m_activation;
@@ -90,6 +97,8 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
     {
         super();
         
+        m_logger = new StandardLogger( partition.substring( 1 ).replace( '/', '.' ) );
+
         m_controller = controller;
         m_path = partition + directive.getName();
 
@@ -106,7 +115,7 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
         m_configuration = directive.getConfiguration();
         
         ContextDirective context = directive.getContextDirective();
-        m_context = new DefaultContextModel( m_classloader, m_type, context );
+        m_context = new DefaultContextModel( this, m_logger, m_classloader, m_type, context );
         
         final String base = m_path + PARTITION_SEPARATOR;
         m_partKeys = getPartKeys( m_type );
@@ -128,11 +137,54 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
             }
         }
     }
-
+    
     protected void processEvent( EventObject event )
     {
+        EventListener[] listeners = super.listeners();
+        for( int i=0; i < listeners.length; i++ )
+        {
+            EventListener listener = listeners[i];
+            if( listener instanceof ModelListener )
+            {
+                ModelListener l = (ModelListener) listener;
+                if( event instanceof ModelEvent )
+                {
+                    try
+                    {
+                        ModelEvent e = (ModelEvent) event;
+                        l.modelChanged( e );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error =
+                          "ModelListener change notification error.";
+                        m_logger.error( error, e );
+                    }
+                }
+            }
+        }
     }
-
+    
+   /**
+    * Add a listener to the component model.
+    * @param listener the model listener
+    */
+    public void addModelListener( ModelListener listener )
+    {
+        super.addListener( listener );
+        m_context.addModelListener( listener );
+    }
+    
+   /**
+    * Remove a listener from the component model.
+    * @param listener the model listener
+    */
+    public void removeModelListener( ModelListener listener )
+    {
+        super.removeListener( listener );
+        m_context.removeListener( listener );
+    }
+    
     // ------------------------------------------------------------------------
     // Configurable
     // ------------------------------------------------------------------------
@@ -151,7 +203,11 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
         {
             throw new NullPointerException( "configuration" );
         }
+        
+        Configuration old = m_configuration;
         m_configuration = configuration;
+        ModelEvent event = new ModelEvent( this, "model.configuration", old, configuration );
+        enqueueEvent( event );
     }
 
     // ------------------------------------------------------------------------
@@ -205,7 +261,10 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
     */
     public void setActivationPolicy( ActivationPolicy policy )
     {
+        ActivationPolicy old = m_activation;
         m_activation = policy;
+        ModelEvent event = new ModelEvent( this, "activation.policy", old, policy );
+        enqueueEvent( event );
     }
 
    /**
@@ -235,7 +294,10 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
     */
     public void setCollectionPolicy( CollectionPolicy policy )
     {
+        CollectionPolicy old = m_collection;
         m_collection = policy;
+        ModelEvent event = new ModelEvent( this, "collection.policy", old, policy );
+        enqueueEvent( event );
     }
 
    /**
