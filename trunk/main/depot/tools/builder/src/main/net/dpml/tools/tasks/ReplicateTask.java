@@ -33,10 +33,7 @@ import net.dpml.transit.Layout;
 import net.dpml.transit.model.UnknownKeyException;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
 
 
 /**
@@ -82,7 +79,7 @@ public class ReplicateTask extends GenericTask
     *
     * @param id the layout identifier
     */
-    public void setLayout( final String id)
+    public void setLayout( final String id )
     {
         m_layout = id;
     }
