@@ -81,8 +81,10 @@ public final class Main //implements ShutdownHandler
     private Main( String[] arguments )
     {
         String[] args = arguments;
-
-        boolean tools = false;
+        
+        //
+        // check for debug mode and tools flag
+        //
         
         if( CLIHelper.isOptionPresent( args, "-debug" ) )
         {
@@ -95,6 +97,10 @@ public final class Main //implements ShutdownHandler
                 System.out.println( " arg[" + i + "] " + arguments[i] );
             }
         }
+        
+        //
+        // handle cli sub-system establishment
+        //
         
         Command command = getCommand( args );
         if( Command.BUILD.equals( command ) )
@@ -121,9 +127,10 @@ public final class Main //implements ShutdownHandler
             System.exit( 1 );
         }
     }
-
-    private void handleBuild( String[] args )
+    
+    private void handleBuild( String[] arguments )
     {
+        String[] args = processSystemProperties( arguments );
         String name = "build";
         String spec = "@DEPOT-BUILDER-URI@";
         handlePlugin( name, spec, args, false, true );
@@ -174,8 +181,12 @@ public final class Main //implements ShutdownHandler
     
     private void handlePlugin( String name, String spec, String[] args, boolean wait, boolean tools )
     {
+        if( tools )
+        {
+            System.setProperty( "dpml.transit.include.tools", "true" );
+        }
         System.setSecurityManager( new RMISecurityManager() );
-        boolean waitForCompletion = deployHandler( name, spec, args, /*this, */ wait, tools );
+        boolean waitForCompletion = deployHandler( name, spec, args, wait, tools );
         if( !waitForCompletion )
         {
             System.exit( 0 );
@@ -183,7 +194,7 @@ public final class Main //implements ShutdownHandler
     }
 
     private boolean deployHandler( 
-      String command, String path, String[] args, /*ShutdownHandler shutdown,*/ boolean waitFor, boolean tools )
+      String command, String path, String[] args, boolean waitFor, boolean tools )
     {
         Logger logger = getLogger().getChildLogger( command );
         if( m_debug )
@@ -206,7 +217,7 @@ public final class Main //implements ShutdownHandler
             m_plugin = 
               repository.getPlugin( 
                 ClassLoader.getSystemClassLoader(), 
-                uri, new Object[]{model, args, logger/*, shutdown*/} );
+                uri, new Object[]{model, args, logger} );
         }
         catch( RepositoryException e )
         {
@@ -371,7 +382,6 @@ public final class Main //implements ShutdownHandler
                   }
                   catch( Throwable e )
                   {
-                      // ignore it
                       boolean ignorable = true;
                   }
                   System.runFinalization();
@@ -412,9 +422,6 @@ public final class Main //implements ShutdownHandler
 
     private static Logger m_LOGGER = null;
     
-    //private static final Preferences ROOT_PREFS = 
-    //  Preferences.userNodeForPackage( Main.class );
-
     private Command getCommand( String[] args )
     {
         String ref = getApplicationReference( args );
