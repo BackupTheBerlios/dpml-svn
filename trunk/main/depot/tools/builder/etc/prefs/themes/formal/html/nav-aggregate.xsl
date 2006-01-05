@@ -31,7 +31,7 @@
       <level><xsl:value-of select="$level" /></level>
       <xsl:choose >
         <xsl:when test="count( ../links ) = 0" >
-          <xsl:apply-templates select="document('../navigation.xml', / )/project/body/menu" >
+          <xsl:apply-templates select="document('../navigation.xml', . )/project/body/menu" >
             <xsl:with-param name="level" select="concat( $level, '../' )" />
           </xsl:apply-templates>
         </xsl:when>

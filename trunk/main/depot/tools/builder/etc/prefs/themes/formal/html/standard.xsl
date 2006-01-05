@@ -27,7 +27,7 @@
   <xsl:param name="logomiddle_url" />
   <xsl:param name="brand_name" />
 
-  <xsl:variable name="relativepath" select="document('navigation.xml', / )/project/body//menu/level" />
+  <xsl:variable name="relativepath" select="document('navigation.xml', . )/project/body//menu/level" />
 
   <xsl:template match="document">
     <html>
@@ -35,7 +35,7 @@
       <title>
         <xsl:value-of select="properties/title" />
       </title>
-      <xsl:variable name="x" select="document('navigation.xml', / )/project/body//menu/level" />
+      <xsl:variable name="x" select="document('navigation.xml', . )/project/body//menu/level" />
       <link rel="stylesheet" type="text/css">
         <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />styles/style.css</xsl:attribute>
       </link>
@@ -117,14 +117,14 @@
         </xsl:otherwise>
       </xsl:choose>
       <div class="menubar" >
-        <xsl:apply-templates select="document('navigation.xml', / )/project/body/menu" >
+        <xsl:apply-templates select="document('navigation.xml', . )/project/body/menu" >
           <xsl:with-param name="dir" select="''" />
         </xsl:apply-templates>
       </div>
 
       <!--
       <div class="sponsors" >
-        <xsl:apply-templates select="document('navigation.xml', / )/project/body/menu//sponsors/sponsor" />
+        <xsl:apply-templates select="document('navigation.xml', . )/project/body/menu//sponsors/sponsor" />
       </div>
       -->
 
@@ -201,7 +201,7 @@
         <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />index.html</xsl:attribute>
         Home
       </a>
-      <xsl:variable name="x" select="document('navigation.xml', / )/project/body//category" />
+      <xsl:variable name="x" select="document('navigation.xml', . )/project/body//category" />
       <xsl:apply-templates select="$x/item" >
         <xsl:with-param name="dir" select="$x/../level" />
         <xsl:with-param name="class" select="'category'" />
