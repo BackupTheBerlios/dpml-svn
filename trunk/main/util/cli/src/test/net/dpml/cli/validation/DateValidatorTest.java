@@ -45,7 +45,8 @@ public class DateValidatorTest
     private List formats = Arrays.asList(new Object[] { D_M_YY, YYYY_MM_YY });
 
     public void testSingleFormatValidate()
-        throws InvalidArgumentException {
+        throws InvalidArgumentException
+    {
         final Object[] array = new Object[] { "23/12/03" };
         final List list = Arrays.asList(array);
         final Validator validator = new DateValidator(D_M_YY);
@@ -57,20 +58,13 @@ public class DateValidatorTest
         assertFalse(i.hasNext());
     }
 
-    /*
-    COMMENTED OUT BECAUSE I HAVENT BEEN ABLE TO SORT THIS OUT WHEN 
-    WORKING WITH NO US-CENTRIC LOCALS - ISSUE APPEARS TO BE IN THE
-    TESTCASE, NOT THE IMPL 
-    */
-    /*
     public void testDefaultDateFormatValidate()
-        throws InvalidArgumentException 
+        throws InvalidArgumentException
     {
-        Date now = new Date();
-        String date = DateFormat.getDateInstance().format( now );
+        final Date now = new Date();
+        final String date = DateFormat.getDateInstance().format( now );
         final DateFormat df = new SimpleDateFormat("yyyy/M/dd");
-        String formatted = df.format( now );
-        
+        final String formatted = df.format( now );
         final Object[] array = new Object[] { date };
         final List list = Arrays.asList(array);
         final Validator validator = DateValidator.getDateInstance();
@@ -78,30 +72,35 @@ public class DateValidatorTest
         validator.validate(list);
 
         final Iterator i = list.iterator();
-        assertEquals( formatted, df.format((Date) i.next()));
+        assertEquals(formatted, df.format((Date) i.next()));
         assertFalse(i.hasNext());
     }
-    
+
     public void testDefaultTimeFormatValidate()
-        throws InvalidArgumentException {
-        final Object[] array = new Object[] { "18:00:00" };
+        throws InvalidArgumentException
+    {
+        final Date now = new Date();
+        final String time = DateFormat.getTimeInstance().format( now );
+        final DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        final String formatted = df.format( now );
+        final Object[] array = new Object[] { time };
         final List list = Arrays.asList(array);
         final Validator validator = DateValidator.getTimeInstance();
+
         validator.validate(list);
+
         final Iterator i = list.iterator();
-        final DateFormat df = new SimpleDateFormat("HH:mm:ss");
-        assertEquals("18:00:00", df.format((Date) i.next()));
+        assertEquals(formatted, df.format((Date) i.next()));
         assertFalse(i.hasNext());
     }
-    
+
     public void testDefaultDateTimeFormatValidate()
-        throws InvalidArgumentException {
-        
-        Date now = new Date();
-        String date = DateFormat.getDateTimeInstance().format( now );
+        throws InvalidArgumentException
+    {
+        final Date now = new Date();
+        final String date = DateFormat.getDateTimeInstance().format( now );
         final DateFormat df = new SimpleDateFormat("yyyy/M/dd HH:mm:ss");
-        String formatted = df.format( now );
-        
+        final String formatted = df.format( now );
         final Object[] array = new Object[] { date };
         final List list = Arrays.asList(array);
         final Validator validator = DateValidator.getDateTimeInstance();
@@ -109,27 +108,31 @@ public class DateValidatorTest
         validator.validate(list);
 
         final Iterator i = list.iterator();
-        assertEquals( formatted, df.format((Date) i.next()));
+        assertEquals(formatted, df.format((Date) i.next()));
         assertFalse(i.hasNext());
     }
 
     public void testDefaultValidator()
-        throws InvalidArgumentException {
-        final Object[] array = new Object[] { "23/01/03 18:00" };
+        throws InvalidArgumentException
+    {
+        final Date now = new Date();
+        final String date = DateFormat.getInstance().format( now );
+        final DateFormat df = new SimpleDateFormat("yyyy/M/dd HH:mm");
+        final String formatted = df.format( now );
+        final Object[] array = new Object[] { date };
         final List list = Arrays.asList(array);
         final Validator validator = new DateValidator();
 
         validator.validate(list);
 
         final Iterator i = list.iterator();
-        final DateFormat df = new SimpleDateFormat("yyyy/M/dd HH:mm:ss");
-        assertEquals("2003/1/23 18:00:00", df.format((Date) i.next()));
+        assertEquals(formatted, df.format((Date) i.next()));
         assertFalse(i.hasNext());
     }
-    */
 
     public void testValidate()
-        throws InvalidArgumentException {
+        throws InvalidArgumentException
+    {
         final Object[] array = new Object[] { "23/12/03", "2002-10-12" };
         final List list = Arrays.asList(array);
         final Validator validator = new DateValidator(formats);
@@ -143,7 +146,8 @@ public class DateValidatorTest
     }
 
     public void testMinimumBounds()
-        throws InvalidArgumentException {
+        throws InvalidArgumentException
+    {
         final DateValidator validator = new DateValidator(formats);
         final Calendar cal = Calendar.getInstance();
 
@@ -178,7 +182,8 @@ public class DateValidatorTest
     }
 
     public void testFormats()
-        throws InvalidArgumentException {
+        throws InvalidArgumentException
+    {
         final DateValidator validator = new DateValidator(formats);
         assertEquals("date format is incorrect", ((SimpleDateFormat) formats.get(0)).toPattern(),
                      ((SimpleDateFormat) validator.getFormats()[0]).toPattern());
@@ -187,7 +192,8 @@ public class DateValidatorTest
     }
 
     public void testMaximumBounds()
-        throws InvalidArgumentException {
+        throws InvalidArgumentException
+    {
         final DateValidator validator = new DateValidator(formats);
         final Calendar cal = Calendar.getInstance();
 
@@ -221,7 +227,8 @@ public class DateValidatorTest
         }
     }
 
-    public static Test suite() {
+    public static Test suite()
+    {
         Test result = new TestSuite(DateValidatorTest.class); // default behavior
         result = new TimeZoneTestSuite("EST", result); // ensure it runs in EST timezone
 
