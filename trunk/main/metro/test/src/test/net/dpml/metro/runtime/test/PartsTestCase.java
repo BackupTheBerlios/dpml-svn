@@ -18,6 +18,7 @@
 
 package net.dpml.metro.runtime.test;
 
+import java.awt.Color;
 import java.io.File;
 import java.net.URI;
 
@@ -27,17 +28,17 @@ import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.Provider;
 
-import net.dpml.test.state.Service;
-import net.dpml.test.state.ManagedComponent;
-import net.dpml.test.state.ManagedComponent.Monitor;
+import net.dpml.test.ColorManager;
+import net.dpml.test.composite.ChildComponent;
+import net.dpml.test.composite.PartsComponent;
 
 /**
- * Contains a series of tests dealing with a composite application.
+ * Contains a series of tests applied to the composite component.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class StateTestCase extends TestCase
+public class PartsTestCase extends TestCase
 {   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
@@ -45,7 +46,7 @@ public class StateTestCase extends TestCase
     
     public void setUp() throws Exception
     {
-        final String path = "state.part";
+        final String path = "parts.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
@@ -54,18 +55,35 @@ public class StateTestCase extends TestCase
     * Validate composite instantiation and in particular that the color
     * assigned to the child component has been overriden by the parent. 
     */
-    public void testComponent() throws Exception
+    public void testComposite() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Provider provider = component.getProvider();
-        Service service = (Service) provider.getValue( true );
-        for( int i=0; i<100; i++ )
-        {
-            service.ping();
-        }
-        Monitor monitor = (Monitor) provider.exec( "monitor", new Object[0] );
-        assertEquals( "count", 100, monitor.getAccessCount() );
+        assertNotNull( "component", component );
+        Provider instance = component.getProvider();
+        PartsComponent parent = (PartsComponent) instance.getValue( false );
+        Color color = parent.getColor();
+        ChildComponent child = parent.getChild();
+        Color c = child.getColor();
+        assertEquals( "color", color, c );
     }
+    
+   /**
+    * Validate composite instantiation with an overloader parent context.
+    */
+    /*
+    public void testOverloadedComposite() throws Exception
+    {
+        Component component = CONTROLLER.createComponent( m_uri );
+        ((Context)component).getContextMap().put( "color", Color.YELLOW );
+        Provider instance = component.getProvider();
+        CompositeComponent parent = (CompositeComponent) instance.getValue( false );
+        Color color = parent.getColor();
+        assertEquals( "parent-color", Color.YELLOW, color );
+        ChildComponent child = parent.getChild();
+        Color c = child.getColor();
+        assertEquals( "color", color, c );
+    }
+    */
     
     static
     {

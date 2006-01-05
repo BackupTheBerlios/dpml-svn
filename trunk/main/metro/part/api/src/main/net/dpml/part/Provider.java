@@ -59,7 +59,7 @@ public interface Provider extends Remote
     * @exception RemoteException if a remote I/O error occurs
     */
     void removeStateListener( StateListener listener ) throws RemoteException;
-
+    
    /**
     * Return the runtime value associated with this instance.
     * @param isolate if TRUE the value returned is a proxy exposing the 
@@ -78,7 +78,8 @@ public interface Provider extends Remote
     * @exception InvocationTargetException if an invocation error occurs
     * @exception RemoteException if a remote I/O error occurs
     */
-    State apply( String key ) throws UnknownTransitionException, InvocationTargetException, RemoteException;
+    State apply( String key ) 
+      throws UnknownTransitionException, InvocationTargetException, RemoteException;
     
    /**
     * Invoke an operation on the instance.
@@ -89,6 +90,7 @@ public interface Provider extends Remote
     * @exception InvocationTargetException if an invocation error occurs
     * @exception RemoteException if a remote I/O error occurs
     */
-    Object exec( String name, Object[] args ) throws UnknownOperationException, InvocationTargetException, RemoteException;
+    Object exec( String name, Object[] args ) 
+      throws UnknownOperationException, InvocationTargetException, RemoteException;
     
 }

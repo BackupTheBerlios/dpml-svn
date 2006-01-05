@@ -137,10 +137,26 @@
           </component>
         </parts>
       </type>
+      <type class="net.dpml.test.composite.PartsComponent" name="parent">
+        <parts>
+          <component type="net.dpml.test.composite.ChildComponent" key="child" activation="false">
+            <context>
+              <entry key="color" method="BLUE"/>
+            </context>
+          </component>
+        </parts>
+      </type>
     </types>
 
     <c:component dest="target/test/composite.part" test="true" activation="false"
         type="net.dpml.test.composite.CompositeComponent" collection="hard">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
+    <c:component dest="target/test/parts.part" test="true" activation="false"
+        type="net.dpml.test.composite.PartsComponent" collection="hard">
       <context>
         <entry key="color" method="RED"/>
       </context>

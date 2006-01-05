@@ -20,6 +20,9 @@ package net.dpml.test.app;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.part.Parts;
+import net.dpml.part.Manager;
+
 /**
  * The demo class is used to aggregate a collection of components and 
  * provide some hooks for the testcase.
@@ -29,25 +32,6 @@ import net.dpml.logging.Logger;
  */
 public class Demo
 {
-   /**
-    * The parts interface is used within the implementation to 
-    * access subsystem.
-    */
-    public interface Parts
-    {
-       /**
-        * Return the server implementation.
-        * @return the server
-        */
-        DefaultServer getServer();
-        
-       /**
-        * Return the listener implementation.
-        * @return the listener
-        */
-        DefaultListener getListener();
-    }
-    
     private final Parts m_parts;
     private final Logger m_logger;
     
@@ -68,10 +52,22 @@ public class Demo
     * @param message the notification message
     * @return the number of notify messages fired to the listener
     */
-    public int test( String message )
+    public int test( String message ) throws Exception
     {
         m_logger.debug( "test: " + message );
-        m_parts.getServer().triggerNotify( message );
-        return m_parts.getListener().getCount();
+        getServer().triggerNotify( message );
+        return getListener().getCount();
+    }
+    
+    DefaultServer getServer() throws Exception
+    {
+        Manager manager = m_parts.getManager( "server" );
+        return (DefaultServer) manager.getProvider().getValue( false );
+    }
+    
+    DefaultListener getListener() throws Exception
+    {
+        Manager manager = m_parts.getManager( "listener" );
+        return (DefaultListener) manager.getProvider().getValue( false );
     }
 }

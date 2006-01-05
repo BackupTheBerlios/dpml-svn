@@ -22,9 +22,10 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import net.dpml.part.Context;
+import net.dpml.part.Manager;
 import net.dpml.part.Component;
-
+import net.dpml.part.Provider;
+import net.dpml.part.Parts;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 
@@ -43,7 +44,7 @@ class PartsInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
-    private final ComponentHandler m_handler;
+    private final PartsManager m_manager;
 
     //-------------------------------------------------------------------
     // constructor
@@ -54,19 +55,14 @@ class PartsInvocationHandler implements InvocationHandler
     *
     * @param handler the component handler
     */
-    PartsInvocationHandler( ComponentHandler handler )
+    PartsInvocationHandler( PartsManager manager )
     {
-        m_handler = handler;
+        m_manager = manager;
     }
 
     //-------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------
-
-    private ComponentHandler getComponentHandler()
-    {
-        return m_handler;
-    }
 
    /**
     * Invoke the specified method on underlying object.
@@ -85,12 +81,16 @@ class PartsInvocationHandler implements InvocationHandler
         {
             return method.invoke( this, args );
         }
+        else if( Parts.class == source )
+        {
+            return method.invoke( m_manager, args );
+        }
         
         int semantic = getPartSemantic( method );
         String postfix = getPartPostfix( method );
         String key = getPartKey( method, semantic );
         
-        Component handler = getComponentHandler().getPartHandler( key );
+        Manager manager = m_manager.getManager( key );
         
         if( GET == semantic )
         {
@@ -100,14 +100,13 @@ class PartsInvocationHandler implements InvocationHandler
                 {
                     try
                     {
-                        handler.activate();
-                        return handler.getProvider().getValue( false );
+                        return manager.getProvider().getValue( false );
                     }
                     catch( ClassCastException e )
                     {
                         final String error = 
                           "Component handler ["
-                          + handler
+                          + manager
                           + "] could not be cast to an approriate service class.";
                         throw new IllegalStateException( error );
                     }
@@ -119,8 +118,7 @@ class PartsInvocationHandler implements InvocationHandler
                     if( ( Boolean.TYPE == argClass ) || ( Boolean.class == argClass ) )
                     {
                         boolean policy = getBooleanValue( arg );
-                        handler.activate();
-                        return handler.getProvider().getValue( policy );
+                        return manager.getProvider().getValue( policy );
                     }
                     else
                     {
@@ -142,29 +140,32 @@ class PartsInvocationHandler implements InvocationHandler
             }
             else if( COMPONENT_KEY.equals( postfix ) )
             {
-                return handler; // wrap in a proxy ?
-            }
-            else if( MAP_KEY.equals( postfix ) )
-            {
-                if( handler instanceof Context )
+                if( manager instanceof Component )
                 {
-                    Context context = (Context) handler;
-                    return context.getContextMap();
+                    return (Component) manager;
                 }
                 else
                 {
                     final String error = 
-                      "Component implementation ["
-                      + handler.getClass().getName() 
+                      "Manager implementation ["
+                      + manager.getClass().getName() 
                       + "] does not implement "
-                      + Context.class.getName()
+                      + Component.class.getName()
                       + ".";
                     throw new IllegalStateException( error );
                 }
             }
-            else if( INSTANCE_KEY.equals( postfix ) )
+            else if( MANAGER_KEY.equals( postfix ) )
             {
-                return handler.getProvider();
+                return manager;
+            }
+            else if( MAP_KEY.equals( postfix ) )
+            {
+                return manager.getContextMap();
+            }
+            else if( PROVIDER_KEY.equals( postfix ) )
+            {
+                return manager.getProvider();
             }
             else
             {
@@ -236,9 +237,9 @@ class PartsInvocationHandler implements InvocationHandler
         {
             return MAP_KEY;
         }
-        if( name.endsWith( INSTANCE_KEY ) )
+        if( name.endsWith( PROVIDER_KEY ) )
         {
-            return INSTANCE_KEY;
+            return PROVIDER_KEY;
         }
         else
         {
@@ -265,9 +266,16 @@ class PartsInvocationHandler implements InvocationHandler
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
             }
-            else if( name.endsWith( INSTANCE_KEY ) )
+            else if( name.endsWith( PROVIDER_KEY ) )
             {
-                int n = INSTANCE_KEY.length();
+                int n = PROVIDER_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else if( name.endsWith( MANAGER_KEY ) )
+            {
+                int n = MANAGER_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
@@ -329,5 +337,6 @@ class PartsInvocationHandler implements InvocationHandler
     public static final String RELEASE_KEY = "release";
     public static final String COMPONENT_KEY = "Component";
     public static final String MAP_KEY = "Map";
-    public static final String INSTANCE_KEY = "Provider";
+    public static final String PROVIDER_KEY = "Provider";
+    public static final String MANAGER_KEY = "Manager";
 }

@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.Provider;
-import net.dpml.part.Context;
 
 import net.dpml.test.app.Demo;
 

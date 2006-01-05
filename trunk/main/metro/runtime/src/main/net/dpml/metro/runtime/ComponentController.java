@@ -45,6 +45,7 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
+import net.dpml.part.Parts;
 import net.dpml.part.Directive;
 import net.dpml.part.Component;
 import net.dpml.part.Model;
@@ -102,7 +103,7 @@ class ComponentController
     * @param model the managed context
     * @return the runtime handler
     */
-    public ComponentHandler createComponentHandler( ComponentModel model )
+    public ComponentHandler createComponentHandler( ComponentModel model ) throws ControlException
     {
         ClassLoader anchor = Thread.currentThread().getContextClassLoader();
         return createComponentHandler( anchor, model );
@@ -164,7 +165,7 @@ class ComponentController
     * @param context the managed context
     * @return the runtime handler
     */
-    ComponentHandler createComponentHandler( ClassLoader anchor, ComponentModel context )
+    ComponentHandler createComponentHandler( ClassLoader anchor, ComponentModel context ) throws ControlException
     {
         return createComponentHandler( null, anchor, context );
     }
@@ -177,7 +178,7 @@ class ComponentController
     * @return the runtime handler
     */
     ComponentHandler createComponentHandler( 
-      Component parent, ClassLoader anchor, ComponentModel context )
+      Component parent, ClassLoader anchor, ComponentModel context ) throws ControlException
     {
         try
         {
@@ -192,7 +193,7 @@ class ComponentController
         {
             final String error = 
               "Creation of a new component handler failed due to an remote exception.";
-            throw new ControllerRuntimeException( error, e );
+            throw new ControllerException( error, e );
         }
     }
     
@@ -201,7 +202,7 @@ class ComponentController
         ComponentHandler handler = provider.getComponentHandler();
         Class subject = handler.getImplementationClass();
         Constructor constructor = getConstructor( subject );
-        Class parts = getInnerClass( subject, "$Parts" );
+        Class parts = getPartsClass( subject );
         Class contextInnerClass = getInnerClass( subject, "$Context" );
         Class[] classes = constructor.getParameterTypes();
         Object[] args = new Object[ classes.length ];
@@ -242,7 +243,7 @@ class ComponentController
             {
                 args[i] = createContextInvocationHandler( provider, contextInnerClass );
             }
-            else if( ( null != parts ) && parts.isAssignableFrom( c ) )
+            else if( parts.isAssignableFrom( c ) )
             {
                 args[i] = createPartsInvocationHandler( handler, parts );
             }
@@ -453,6 +454,19 @@ class ComponentController
         }
     }
 
+    private Class getPartsClass( Class subject )
+    {
+        Class clazz = getInnerClass( subject, "$Parts" );
+        if( null == clazz )
+        {
+            return Parts.class;
+        }
+        else
+        {
+            return clazz;
+        }
+    }
+
     private Class getInnerClass( Class subject, String postfix )
     {
         Class[] classes = subject.getClasses();
@@ -529,9 +543,10 @@ class ComponentController
     private Object createPartsInvocationHandler( ComponentHandler handler, Class clazz ) 
       throws ControlException
     {
+        PartsManager manager = handler.getPartsManager();
         try
         {
-            InvocationHandler invocationHandler = new PartsInvocationHandler( handler );
+            InvocationHandler invocationHandler = new PartsInvocationHandler( manager );
             ClassLoader classloader = clazz.getClassLoader();
             return Proxy.newProxyInstance( classloader, new Class[]{clazz}, invocationHandler );
         }

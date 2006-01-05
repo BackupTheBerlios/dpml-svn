@@ -46,7 +46,7 @@ public interface MutableContextModel extends ContextModel
 
    /**
     * Apply an array of tagged directive as an atomic operation.  Application of 
-    * directives to the context model is atomic such that changes all applied under a 
+    * directives to the context model is atomic such that changes are applied under a 
     * 'all-or-nothing' policy.
     *
     * @param directives an array of part references

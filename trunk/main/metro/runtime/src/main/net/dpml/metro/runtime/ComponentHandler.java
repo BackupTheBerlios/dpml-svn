@@ -42,6 +42,7 @@ import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.part.Parts;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
@@ -50,11 +51,12 @@ import net.dpml.part.Provider;
 import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.Version;
-import net.dpml.part.Context;
+import net.dpml.part.Manager;
 import net.dpml.part.ModelEvent;
 import net.dpml.part.ModelListener;
 import net.dpml.part.ContextEvent;
 import net.dpml.part.ContextListener;
+import net.dpml.part.UnknownPartException;
 
 import net.dpml.state.State;
 
@@ -105,7 +107,7 @@ import net.dpml.transit.model.UnknownKeyException;
  * @see ComponentModel
  * @see Provider
  */
-public class ComponentHandler extends UnicastEventSource implements Component, Context, Disposable, ModelListener
+public class ComponentHandler extends UnicastEventSource implements Component, Manager, Disposable, ModelListener
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -127,7 +129,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
-    private final Map m_handlers = new Hashtable(); // part handlers
+    //private final Map m_handlers = new Hashtable(); // part handlers
+    
+    private final PartsManager m_parts;
     
     //--------------------------------------------------------------------------
     // mutable state
@@ -142,7 +146,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     ComponentHandler( 
       final Component parent, final ClassLoader classloader, final Logger logger, 
       final ComponentController control, final ComponentModel model )
-      throws RemoteException
+      throws RemoteException, ControlException
     {
         super();
         
@@ -166,7 +170,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             final String error = 
               "Unable to load component class: "
               + classname;
-            throw new ControllerRuntimeException( error, e );
+            throw new ControllerException( error, e );
         }
         
         try
@@ -178,7 +182,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             final String error = 
               "Unable to load component type: "
               + classname;
-            throw new ControllerRuntimeException( error, e );
+            throw new ControllerException( error, e );
         }
         
         m_graph = m_type.getStateGraph();
@@ -192,7 +196,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             final String error = 
               "Unable to load a service class declared in component type: "
               + classname;
-            throw new ControllerRuntimeException( error, e );
+            throw new ControllerException( error, e );
         }
         
         try
@@ -204,7 +208,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
             final String error = 
               "Internal error while attempting to construct the component uri using the path [" 
               + m_path + "]";
-            throw new ControllerRuntimeException( error, e );
+            throw new ControllerException( error, e );
         }
         
         String name = model.getName();
@@ -241,37 +245,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         // need to establish all of the component parts that are children of this 
         // component.
         
-        String[] keys = m_model.getPartKeys();
-        for( int i=0; i<keys.length; i++ )
-        {
-            String key = keys[i];
-            try
-            {
-                ComponentModel context = model.getComponentModel( key );
-                Component handler = control.createComponentHandler( this, classloader, context );
-                m_handlers.put( key, handler );
-            }
-            catch( UnknownKeyException e )
-            {
-                final String error = 
-                  "Invalid part key ["
-                  + key
-                  + "] in component ["
-                  + m_path
-                  + "]";
-                throw new ControllerRuntimeException( error, e );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Internal error while attempting to create a subsidiary part ["
-                  + key
-                  + "] in component ["
-                  + m_path
-                  + "]";
-                throw new ControllerRuntimeException( error, e );
-            }
-        }
+        m_parts = new PartsManager( control, this, logger );
         
         getLogger().debug( "component controller [" + this + "] established" );
     }
@@ -281,7 +255,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     //--------------------------------------------------------------------------
     
    /**
-    * Notification from the compoent model of a chanhge to the model.
+    * Notification from the component model of a change to the model.
     * @param event the model change event
     */
     public void modelChanged( ModelEvent event )
@@ -293,7 +267,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     }
     
     //--------------------------------------------------------------------------
-    // Context
+    // Manager
     //--------------------------------------------------------------------------
     
    /**
@@ -307,23 +281,19 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     }
     
    /**
-    * Add a context listener to the component provider.
-    * @param listener the context listener to add
-    * @exception NullPointerException if the supplied listener argument is null
+    * Return an <tt>Provider</tt> holder. The value returned will be a function 
+    * of the lifestyle policy implemented by the component.
+    * 
+    * @return the <tt>Provider</tt> manager
+    * @exception InvocationTargetException if the request triggers the construction
+    *   of a new provider instance and the provider raises an error during creation
+    *   or activation
+    * @exception ControlException if a control related error occurs
     */
-    public void addContextListener( ContextListener listener ) throws NullPointerException
+    public Provider getProvider() throws InvocationTargetException, ControlException
     {
-        super.addListener( listener );
-    }
-    
-   /**
-    * Remove a context listener from the component provider.
-    * @param listener the context listener to remove
-    * @exception NullPointerException if the supplied listener argument is null
-    */
-    public void removeContextListener( ContextListener listener ) throws NullPointerException
-    {
-        super.removeListener( listener );
+        activate();
+        return m_holder.getProvider();
     }
     
     //--------------------------------------------------------------------------
@@ -358,7 +328,9 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
               + service.getServiceClass().getName() 
               + "]." );
         }
-        Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
+        
+        Component[] components = m_parts.getComponents();
+        //Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
         for( int i=0; i<components.length; i++ )
         {
             Component component = components[i];
@@ -465,16 +437,18 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
                 m_holder.getProvider();
             }
             
+            m_parts.commission();
+            
             //
             // activate the children
             //
             
-            Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
-            for( int i=0; i<components.length; i++ )
-            {
-                Component component = components[i];
-                component.activate();
-            }
+            //Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
+            //for( int i=0; i<components.length; i++ )
+            //{
+            //    Component component = components[i];
+            //    component.activate();
+            //}
             
             m_active = true;
         }
@@ -517,56 +491,32 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         // deactivate all of the subsidiary components
         //
         
-        try
-        {
-            Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
-            for( int i=0; i<components.length; i++ )
-            {
-                Component component = components[i];
-                try
-                {
-                    component.deactivate();
-                }
-                catch( RemoteException e )
-                {
-                    final String message = 
-                      "Ignoring remote exception raised during deactivation.";
-                    getLogger().warn( message, e );
-                }
-            }
-        }
-        finally
-        {
-            m_active = false;
-        }
-    }
-    
-   /**
-    * Return an <tt>Provider</tt> holder. The value returned will be a function 
-    * of the lifestyle policy implemented by the component.
-    * 
-    * @return the <tt>Provider</tt> manager
-    * @exception InvocationTargetException if the request triggers the construction
-    *   of a new provider instance and the provider raises an error during creation
-    *   or activation
-    * @exception ControlException if a control related error occurs
-    */
-    public Provider getProvider() throws InvocationTargetException, ControlException
-    {
-        if( isActive() )
-        {
-            return m_holder.getProvider();
-        }
-        else
-        {
-            activate();
-            return m_holder.getProvider();
-            //final String error = 
-            //  "Component handler ["
-            //  + this
-            //  + "] is not active.";
-            //throw new ControllerException( error );
-        }
+        m_parts.decommission();
+        
+        //try
+        //{
+        //    Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
+        //    for( int i=0; i<components.length; i++ )
+        //    {
+        //        Component component = components[i];
+        //        try
+        //        {
+        //            component.deactivate();
+        //        }
+        //        catch( RemoteException e )
+        //        {
+        //            final String message = 
+        //              "Ignoring remote exception raised during deactivation.";
+        //            getLogger().warn( message, e );
+        //        }
+        //    }
+        //}
+        //finally
+        //{
+        //    m_active = false;
+        //}
+        
+        m_active = false;
     }
     
    /**
@@ -619,6 +569,11 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     // ComponentHandler
     //--------------------------------------------------------------------------
     
+    PartsManager getPartsManager()
+    {
+        return m_parts;
+    }
+    
    /**
     * Add a property change listener.  This method is used by a provider
     * to register a component implement property change listener. The component
@@ -659,8 +614,11 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
     * @exception UnknownKeyException if the key does not match 
     *   any of the internal components managed by this component
     */
-    Component getPartHandler( String key ) throws UnknownKeyException
+    Component getPartHandler( String key ) throws UnknownPartException
     {
+        return (Component) m_parts.getManager( key );
+        
+        /*
         Component handler = (Component) m_handlers.get( key );
         if( null == handler )
         {
@@ -670,6 +628,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, C
         {
             return handler;
         }
+        */
     }
     
     Object getContextValue( String key ) throws ControlException

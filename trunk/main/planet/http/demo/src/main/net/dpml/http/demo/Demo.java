@@ -63,7 +63,7 @@ public class Demo
     
     private final Logger m_logger;
     private final Parts m_parts;
-        
+    
    /**
     * Creation of the HTTP Demo Component.
     * @param logger the assigned logging channel
@@ -79,6 +79,9 @@ public class Demo
         m_parts.getSocketListener();
     }
     
+   /**
+    * Return 
+    */
     private Logger getLogger()
     {
         return m_logger;
