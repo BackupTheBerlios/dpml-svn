@@ -15,7 +15,7 @@
 
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
-      <include name="**/AbstractHandler.class"/>
+      <include name="**/AbstractAdapter.class"/>
     </rmic>
   </target>
 
