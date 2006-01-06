@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 
 import net.dpml.part.Manager;
 import net.dpml.part.Component;
-import net.dpml.part.Provider;
 import net.dpml.part.Parts;
 
 /**

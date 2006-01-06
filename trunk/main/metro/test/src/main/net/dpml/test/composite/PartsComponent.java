@@ -117,6 +117,7 @@ public class PartsComponent implements ColorManager
    /**
     * Return the child component for evaluation by the testcase.
     * @return the child
+    * @exception Exception if an error occurs 
     */
     public ChildComponent getChild() throws Exception
     {

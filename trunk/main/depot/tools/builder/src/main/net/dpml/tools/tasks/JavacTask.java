@@ -77,6 +77,8 @@ public class JavacTask extends MatchingTask
     private static final boolean DEBUG_VALUE = true;
     private static final boolean FORK_VALUE = false;
     private static final boolean DEPRECATION_VALUE = true;
+    private static final String SOURCE_VALUE = "1.4";
+    private static final String TARGET_VALUE = "1.4";
 
     private final Context m_context;
     private final Processor m_processor;
@@ -241,12 +243,12 @@ public class JavacTask extends MatchingTask
 
     private String getSourceProperty()
     {
-        return getProperty( SOURCE_KEY, null );
+        return getProperty( SOURCE_KEY, SOURCE_VALUE );
     }
 
     private String getTargetProperty()
     {
-        return getProperty( TARGET_KEY, null );
+        return getProperty( TARGET_KEY, TARGET_VALUE );
     }
 
     private boolean getBooleanProperty( final String key, final boolean fallback )

@@ -35,18 +35,21 @@ public interface Parts
     
    /**
     * Return a component manager.
+    * @param key the internal part key
     * @return the local component manager
+    * @exception UnknownPartException the key is not recognized
     */
     Manager getManager( String key ) throws UnknownPartException;
     
+   /**
+    * Return the commissioned state of the part collection.
+    * @return true if commissioned else false
+    */
     boolean isCommissioned();
     
    /**
     * Initiate the oprdered activation of all internal parts.
     * @exception ControlException if an activation error occurs
-    * @exception InvocationTargetException if the component declares activation on startup
-    *    and a implementation source exception occured
-    * @exception RemoteException if a remote exception occurs
     */
     void commission() throws ControlException;
     

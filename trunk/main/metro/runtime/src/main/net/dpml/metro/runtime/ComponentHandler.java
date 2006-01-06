@@ -42,7 +42,6 @@ import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Parts;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
@@ -54,13 +53,9 @@ import net.dpml.part.Version;
 import net.dpml.part.Manager;
 import net.dpml.part.ModelEvent;
 import net.dpml.part.ModelListener;
-import net.dpml.part.ContextEvent;
-import net.dpml.part.ContextListener;
 import net.dpml.part.UnknownPartException;
 
 import net.dpml.state.State;
-
-import net.dpml.transit.model.UnknownKeyException;
 
 /**
  * <p>Runtime handler for a component.  The component handler maintains an internal 

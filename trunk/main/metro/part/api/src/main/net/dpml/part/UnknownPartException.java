@@ -18,8 +18,6 @@
 
 package net.dpml.part;
 
-import java.net.URI;
-
 /**
  * Exception thrown when a component request an unknown part.
  *

@@ -51,6 +51,7 @@ public class Demo
     * server which in turn fires notifiy requests to listeners.
     * @param message the notification message
     * @return the number of notify messages fired to the listener
+    * @exception Exception if something goes wrong
     */
     public int test( String message ) throws Exception
     {

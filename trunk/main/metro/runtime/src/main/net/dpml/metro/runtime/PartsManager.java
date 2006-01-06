@@ -18,14 +18,7 @@
 
 package net.dpml.metro.runtime;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
-import java.util.EventObject;
-import java.util.EventListener;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -34,7 +27,6 @@ import net.dpml.logging.Logger;
 
 import net.dpml.metro.model.ComponentModel;
 
-import net.dpml.part.Provider;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
 import net.dpml.part.Parts;
