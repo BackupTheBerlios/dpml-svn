@@ -22,17 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -44,8 +33,16 @@ import junit.framework.TestCase;
  */
 abstract class AbstractTestCase extends TestCase
 {
+   /**
+    * Test properties.
+    */
     public static final Properties PROPERTIES = new Properties();
     
+   /**
+    * Test directive serialization.
+    * @param object the object to serialize
+    * @exception Exception if an error occurs
+    */
     public void doSerializationTest( Object object )
         throws Exception
     {
