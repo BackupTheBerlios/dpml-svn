@@ -21,13 +21,17 @@ package net.dpml.metro.data.test;
 import net.dpml.metro.data.FeatureDirective;
 
 /**
- * Test encoding of the reference directive.
+ * Test encoding of the feature directive.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class FeatureDirectiveTestCase extends AbstractEncodingTestCase
 {
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         FeatureDirective value = new FeatureDirective( "key", FeatureDirective.NAME );

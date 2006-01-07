@@ -40,8 +40,6 @@ import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.Category;
 
-import junit.framework.TestCase;
-
 /**
  * ComponentDirectiveTestCase
  *
@@ -62,6 +60,10 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     private ClassLoaderDirective m_classloader;
     private ComponentDirective m_directive;
     
+   /**
+    * Setup the test case.
+    * @exception Exception if an error occurs.
+    */
     public void setUp() throws Exception
     {
         m_name = "test";
@@ -80,6 +82,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
             m_categories, m_context, m_parameters, m_configuration, m_classloader );
     }
     
+   /**
+    * Test the classloader directive constructor.
+    */
     private ClassLoaderDirective createClassLoaderDirective()
     {
         ClasspathDirective[] paths = new ClasspathDirective[3];
@@ -89,6 +94,10 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         return new ClassLoaderDirective( paths );
     }
     
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         ComponentDirective result = 
@@ -96,11 +105,17 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "encoded-equality", m_directive, result );
     }
     
+   /**
+    * Test the name accessor.
+    */
     public void testName()
     {
         assertEquals( "name", m_name, m_directive.getName() );
     }
     
+   /**
+    * Test "" name.
+    */
     public void testUnsufficientName()
     {
         try
@@ -116,6 +131,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test "." in name.
+    */
     public void testIllegalPeriodInName()
     {
         try
@@ -131,6 +149,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test "," in name.
+    */
     public void testIllegalCommaInName()
     {
         try
@@ -146,6 +167,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test "/" in name.
+    */
     public void testIllegalFowardSlashInName()
     {
         try
@@ -161,46 +185,73 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test activation policy accessor.
+    */
     public void testActivationPolicy()
     {
         assertEquals( "activation", m_activation, m_directive.getActivationPolicy() );
     }
     
+   /**
+    * Test collection policy accessor.
+    */
     public void testCollectionPolicy()
     {
         assertEquals( "collection", m_collection, m_directive.getCollectionPolicy() );
     }
     
+   /**
+    * Test lifestyle policy accessor.
+    */
     public void testLifestylePolicy()
     {
         assertEquals( "lifestyle", m_lifestyle, m_directive.getLifestylePolicy() );
     }
     
+   /**
+    * Test classname accessor.
+    */
     public void testClassname()
     {
         assertEquals( "classname", m_classname, m_directive.getClassname() );
     }
     
+   /**
+    * Test categories accessor.
+    */
     public void testCategories()
     {
         assertEquals( "categories", m_categories, m_directive.getCategoriesDirective() );
     }
     
+   /**
+    * Test context accessor.
+    */
     public void testContext()
     {
         assertEquals( "context", m_context, m_directive.getContextDirective() );
     }
     
+   /**
+    * Test parameters accessor.
+    */
     public void testParameters()
     {
         assertEquals( "parameters", m_parameters, m_directive.getParameters() );
     }
     
+   /**
+    * Test configuration accessor.
+    */
     public void testConfiguration()
     {
         assertEquals( "configuration", m_configuration, m_directive.getConfiguration() );
     }
     
+   /**
+    * Test classloader accessor.
+    */
     public void testClassLoaderDirective()
     {
         assertEquals( "classloader", m_classloader, m_directive.getClassLoaderDirective() );

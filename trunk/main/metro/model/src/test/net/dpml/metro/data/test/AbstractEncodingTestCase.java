@@ -23,33 +23,33 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.metro.info.PartReference;
-
-import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.data.ComponentDirective;
 
 /**
- * EntryDescriptorTestCase does XYZ
+ * AbstractEncodingTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public abstract class AbstractEncodingTestCase extends TestCase
 {
+   /**
+    * Execution of an encoding test.
+    * @param object the object encode/decode
+    * @param filename the filename to use when encoding the object
+    * @return the decoded object
+    * @exception Exception if an error occurs
+    */
     public Object executeEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
@@ -94,13 +94,22 @@ public abstract class AbstractEncodingTestCase extends TestCase
         }
     }
 
+   /**
+    * Utility class that handles uri encoding.
+    */
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return an expression supporting creation of a uri.
+        * @param old the old instance
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             URI uri = (URI) old;
             String spec = uri.toString();
-            Object[] args = new Object[]{ spec };
+            Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
         }
     }

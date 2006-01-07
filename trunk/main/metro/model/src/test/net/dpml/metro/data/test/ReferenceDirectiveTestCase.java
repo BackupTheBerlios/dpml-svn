@@ -30,9 +30,13 @@ import net.dpml.metro.data.ReferenceDirective;
  */
 public class ReferenceDirectiveTestCase extends AbstractEncodingTestCase
 {
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
-        URI uri = new URI( "lookup:anything" ) ;
+        URI uri = new URI( "lookup:anything" );
         ReferenceDirective value = new ReferenceDirective( uri );
         executeEncodingTest( value, "reference-directive.xml" );
     }

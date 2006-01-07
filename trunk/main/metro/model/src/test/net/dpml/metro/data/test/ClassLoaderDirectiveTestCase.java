@@ -20,30 +20,13 @@ package net.dpml.metro.data.test;
 
 import java.net.URI;
 
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.PartReference;
-
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
-import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.Category;
 
-import junit.framework.TestCase;
-
 /**
- * ClasspathDirectiveTestCase
+ * ClassLoaderDirectiveTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -56,15 +39,23 @@ public class ClassLoaderDirectiveTestCase extends AbstractEncodingTestCase
     private ClasspathDirective[] m_classpath;
     private ClassLoaderDirective m_directive;
     
+   /**
+    * Setup the test case.
+    * @exception Exception if an error occurs.
+    */
     public void setUp() throws Exception
     {
         m_public = new ClasspathDirective( Category.PUBLIC, new URI[0] );
         m_protected = new ClasspathDirective( Category.PROTECTED, new URI[0] );
         m_private = new ClasspathDirective( Category.PRIVATE, new URI[0] );
-        m_classpath = new ClasspathDirective[]{ m_public, m_protected, m_private };
+        m_classpath = new ClasspathDirective[]{m_public, m_protected, m_private};
         m_directive = new ClassLoaderDirective( m_classpath );
     }
     
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         ClassLoaderDirective result = 
@@ -72,6 +63,9 @@ public class ClassLoaderDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "encoded-equality", m_directive, result );
     }
     
+   /**
+    * Test the classpath directives array accessor.
+    */
     public void testClasspath()
     {
         assertEquals( "classpath", m_classpath.length, m_directive.getClasspathDirectives().length );

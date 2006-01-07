@@ -18,30 +18,8 @@
 
 package net.dpml.metro.data.test;
 
-import java.net.URI;
-
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
-
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
-import net.dpml.part.ActivationPolicy;
-
-import net.dpml.transit.Category;
-
-import junit.framework.TestCase;
 
 /**
  * CategoryDirectiveTestCase
@@ -54,9 +32,12 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
     private String m_name;
     private Priority m_priority;
     private String m_target;
-    
     private CategoryDirective m_directive;
 
+   /**
+    * Setup the test case.
+    * @exception Exception if an error occurs.
+    */
     public void setUp() throws Exception
     {
         m_name = "test";
@@ -65,6 +46,10 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
         m_directive = new CategoryDirective( m_name, m_priority, m_target );
     }
     
+   /**
+    * Test the single argument constructor.
+    * @exception Exception if an error occurs
+    */
     public void testSingleArgConstructor() throws Exception
     {
         CategoryDirective directive = new CategoryDirective( m_name );
@@ -73,6 +58,10 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
         assertNull( "target", directive.getTarget() );
     }
     
+   /**
+    * Test the dual argument constructor.
+    * @exception Exception if an error occurs
+    */
     public void testDualArgConstructor() throws Exception
     {
         CategoryDirective directive = new CategoryDirective( m_name, m_priority );
@@ -81,6 +70,10 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
         assertNull( "target", directive.getTarget() );
     }
     
+   /**
+    * Test the full argument constructor.
+    * @exception Exception if an error occurs
+    */
     public void testFullConstructor() throws Exception
     {
         CategoryDirective directive = new CategoryDirective( m_name, m_priority, m_target );
@@ -89,21 +82,37 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "target", m_target, directive.getTarget() );
     }
 
+   /**
+    * Test the name accessor.
+    * @exception Exception if an error occurs
+    */
     public void testName() throws Exception
     {
         assertEquals( "name", m_name, m_directive.getName() );
     }
     
+   /**
+    * Test the priority accessor.
+    * @exception Exception if an error occurs
+    */
     public void testPriority() throws Exception
     {
         assertEquals( "priority", m_priority, m_directive.getPriority() );
     }
     
+   /**
+    * Test the target accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTarget() throws Exception
     {
         assertEquals( "target", m_target, m_directive.getTarget() );
     }
     
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         CategoryDirective result = 

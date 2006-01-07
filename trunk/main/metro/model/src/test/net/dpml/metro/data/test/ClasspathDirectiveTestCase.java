@@ -20,30 +20,12 @@ package net.dpml.metro.data.test;
 
 import java.net.URI;
 
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.PartReference;
-
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
-import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.Category;
 
-import junit.framework.TestCase;
-
 /**
- * ClasspathDirectiveTestCase
+ * ClasspathDirectiveTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -56,6 +38,10 @@ public class ClasspathDirectiveTestCase extends AbstractEncodingTestCase
     
     private ClasspathDirective m_directive;
 
+   /**
+    * Setup the test case.
+    * @exception Exception if an error occurs.
+    */
     public void setUp() throws Exception
     {
         m_uriA = new URI( "link:part:fred/wilma" );
@@ -64,6 +50,26 @@ public class ClasspathDirectiveTestCase extends AbstractEncodingTestCase
         m_directive = new ClasspathDirective( Category.PUBLIC, m_uris );
     }
     
+   /**
+    * Test the uris accessor.
+    */
+    public void testURIs()
+    {
+        assertEquals( "uris", m_uris.length, m_directive.getURIs().length );
+    }
+    
+   /**
+    * Test the category accessor.
+    */
+    public void testCategory()
+    {
+        assertEquals( "category", Category.PUBLIC, m_directive.getCategory() );
+    }
+    
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         ClasspathDirective result = 
@@ -71,13 +77,4 @@ public class ClasspathDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "encoded-equality", m_directive, result );
     }
     
-    public void testCategory()
-    {
-        assertEquals( "category", Category.PUBLIC, m_directive.getCategory() );
-    }
-    
-    public void testURIs()
-    {
-        assertEquals( "uris", m_uris.length, m_directive.getURIs().length );
-    }
 }

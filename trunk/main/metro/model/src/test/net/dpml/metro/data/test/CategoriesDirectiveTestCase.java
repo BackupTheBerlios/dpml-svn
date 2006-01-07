@@ -18,33 +18,12 @@
 
 package net.dpml.metro.data.test;
 
-import java.net.URI;
-
-import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
-import net.dpml.part.ActivationPolicy;
-
-import net.dpml.transit.Category;
-
-import junit.framework.TestCase;
-
 /**
- * CategoryDirectiveTestCase
+ * CategoriesDirectiveTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -57,6 +36,10 @@ public class CategoriesDirectiveTestCase extends AbstractEncodingTestCase
     private CategoryDirective[] m_categories;
     private CategoriesDirective m_directive;
 
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         m_name = "test";
@@ -72,6 +55,10 @@ public class CategoriesDirectiveTestCase extends AbstractEncodingTestCase
         m_directive = new CategoriesDirective( m_name, m_priority, m_target, m_categories );
     }
     
+   /**
+    * Test the CategoriesDirective( String name ) constructor.
+    * @exception Exception if an error occurs
+    */
     public void testNameConstructor() throws Exception
     {
         CategoriesDirective directive = new CategoriesDirective( m_name );
@@ -81,6 +68,10 @@ public class CategoriesDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "categories", 0, directive.getCategories().length );
     }
     
+   /**
+    * Test the CategoriesDirective( CategoryDirective[] categories ) constructor.
+    * @exception Exception if an error occurs
+    */
     public void testCategoriesConstructor() throws Exception
     {
         CategoriesDirective directive = new CategoriesDirective( m_categories );
@@ -90,26 +81,46 @@ public class CategoriesDirectiveTestCase extends AbstractEncodingTestCase
         assertEquals( "categories", m_categories.length, directive.getCategories().length );
     }
     
+   /**
+    * Test the name accessor.
+    * @exception Exception if an error occurs
+    */
     public void testName() throws Exception
     {
         assertEquals( "name", m_name, m_directive.getName() );
     }
     
+   /**
+    * Test the priority accessor.
+    * @exception Exception if an error occurs
+    */
     public void testPriority() throws Exception
     {
         assertEquals( "priority", m_priority, m_directive.getPriority() );
     }
     
+   /**
+    * Test the target accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTarget() throws Exception
     {
         assertEquals( "target", m_target, m_directive.getTarget() );
     }
     
+   /**
+    * Test the categories array accessor.
+    * @exception Exception if an error occurs
+    */
     public void testCategories() throws Exception
     {
         assertEquals( "categories", m_categories.length, m_directive.getCategories().length );
     }
 
+   /**
+    * Test directive encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         CategoryDirective result = 

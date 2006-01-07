@@ -18,29 +18,29 @@
 
 package net.dpml.metro.data.test;
 
-import junit.framework.TestCase;
-
 import net.dpml.metro.info.PartReference;
 
 import net.dpml.part.Directive;
 import net.dpml.metro.data.ValueDirective;
 
-import net.dpml.transit.Construct;
-
 /**
- * EntryDescriptorTestCase does XYZ
+ * PartReferenceTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class PartReferenceTestCase extends AbstractEncodingTestCase
 {
-    private static final String m_key = "key";
-    private static final Directive m_part = new ValueDirective( "abc" );
+    private static final String KEY = "key";
+    private static final Directive PART = new ValueDirective( "abc" );
     
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
-        PartReference ref = new PartReference( m_key, m_part );
+        PartReference ref = new PartReference( KEY, PART );
         executeEncodingTest( ref, "part-reference.xml" );
     }
 }

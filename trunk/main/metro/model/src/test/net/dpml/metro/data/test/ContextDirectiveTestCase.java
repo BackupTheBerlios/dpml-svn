@@ -18,32 +18,11 @@
 
 package net.dpml.metro.data.test;
 
-import java.net.URI;
-
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.PartReference;
 
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
-import net.dpml.part.ActivationPolicy;
-
-import net.dpml.transit.Category;
-
-import junit.framework.TestCase;
-
 /**
- * ComponentDirectiveTestCase
+ * ContextDirectiveTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -52,27 +31,39 @@ public class ContextDirectiveTestCase extends AbstractEncodingTestCase
 {
     private ContextDirective m_context;
     
+   /**
+    * Setup the test case.
+    * @exception Exception if an error occurs.
+    */
     public void setUp() throws Exception
     {
         m_context = new ContextDirective( new PartReference[0] );
     }
     
+   /**
+    * Test the classname accessor.
+    */
+    public void testClassname()
+    {
+        assertEquals( "classname", null, m_context.getClassname() );
+    }
+    
+   /**
+    * Test the directive accessor.
+    */
+    public void testEntries()
+    {
+        assertEquals( "entries", 0, m_context.getDirectives().length );
+    }
+    
+   /**
+    * Test the directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         ContextDirective result = 
           (ContextDirective) executeEncodingTest( m_context, "context-directive.xml" );
         assertEquals( "encoded-equality", m_context, result );
     }
-    
-    public void testClassname()
-    {
-        assertEquals( "classname", null, m_context.getClassname() );
-    }
-    
-    public void testEntries()
-    {
-        assertEquals( "entries", 0, m_context.getDirectives().length );
-    }
-    
-
 }
