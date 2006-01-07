@@ -20,8 +20,6 @@ package net.dpml.depot;
 
 import junit.framework.TestCase;
 
-import net.dpml.depot.CLIHelper;
-
 /**
  * Test utility functions in the CLIHelper class.
  *
@@ -30,7 +28,9 @@ import net.dpml.depot.CLIHelper;
 public class CLIHelperTestCase extends TestCase
 {
    /**
-    * Test the conslidation of a single argument value.
+    * Test the conslidation of a single argument value whereby 
+    * a supplied argument is removed from an args sequence.
+    * @exception Exception if the test fails
     */
     public void testConsolidation() throws Exception
     {
@@ -43,6 +43,9 @@ public class CLIHelperTestCase extends TestCase
 
    /**
     * Test the conslidation of a single argument and parameter.
+    * The int parameter dictates the number of additional arguments to 
+    * remove from the array following the parameter value.
+    * @exception Exception if the test fails
     */
     public void testConsolidationWithOffset() throws Exception
     {
@@ -54,6 +57,7 @@ public class CLIHelperTestCase extends TestCase
 
    /**
     * Test the conslidation of a single argument and two parameters.
+    * @exception Exception if the test fails
     */
     public void testConsolidationWithNoRemainder() throws Exception
     {
@@ -64,6 +68,7 @@ public class CLIHelperTestCase extends TestCase
 
    /**
     * Test the conslidation of a single that is not the inital argument and one parameters.
+    * @exception Exception if the test fails
     */
     public void testConsolidationInterim() throws Exception
     {
@@ -75,6 +80,7 @@ public class CLIHelperTestCase extends TestCase
 
    /**
     * Test the conslidation of a single that is not the inital argument and one parameters.
+    * @exception Exception if the test fails
     */
     public void testIsOptionPresent() throws Exception
     {
@@ -86,6 +92,7 @@ public class CLIHelperTestCase extends TestCase
 
    /**
     * Test the conslidation of a single that is not the inital argument and one parameters.
+    * @exception Exception if the test fails
     */
     public void testGetOption() throws Exception
     {
