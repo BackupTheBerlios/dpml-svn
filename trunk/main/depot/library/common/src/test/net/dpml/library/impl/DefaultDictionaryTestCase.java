@@ -18,27 +18,7 @@
 
 package net.dpml.library.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.net.URI;
-import java.util.Properties;
-import java.util.Date;
-
-import junit.framework.TestCase;
-
-import net.dpml.library.model.Module;
-import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
-import net.dpml.library.info.LibraryDirective;
-import net.dpml.library.info.ResourceDirective;
-import net.dpml.library.info.Scope;
-
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Logger;
-import net.dpml.transit.Category;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Testing the DefaultDictionary implementation.

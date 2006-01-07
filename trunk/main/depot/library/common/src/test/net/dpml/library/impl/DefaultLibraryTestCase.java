@@ -18,22 +18,9 @@
 
 package net.dpml.library.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.util.Properties;
-
-import junit.framework.TestCase;
-
 import net.dpml.library.model.Module;
-import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
-import net.dpml.library.info.LibraryDirective;
-import net.dpml.library.info.ResourceDirective;
-
-import net.dpml.transit.Logger;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Test DefaultLibrary implementation.
@@ -45,7 +32,6 @@ public class DefaultLibraryTestCase extends AbstractTestCase
 {   
    /**
     * Test library properties.
-    * @exception Exception if the test fails
     */
     public void testProperties()
     {
@@ -55,7 +41,6 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     
    /**
     * Test correct resolution of top-level modules from the library.
-    * @exception Exception if the test fails
     */
     public void testRootModuleCount()
     {
@@ -136,6 +121,9 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         assertEquals( "spec-to-path", spec, path );
     }
     
+   /**
+    * Mock type class.
+    */
     private static class MockType implements Type
     {
         private String m_name;

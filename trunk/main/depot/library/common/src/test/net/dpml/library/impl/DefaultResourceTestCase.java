@@ -19,26 +19,13 @@
 package net.dpml.library.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.net.URI;
-import java.util.Properties;
-import java.util.Date;
 
-import junit.framework.TestCase;
-
-import net.dpml.library.model.Module;
-import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
-import net.dpml.library.info.LibraryDirective;
-import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Logger;
 import net.dpml.transit.Category;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Testing the DefaultResource implementation.
@@ -68,7 +55,6 @@ public class DefaultResourceTestCase extends AbstractTestCase
         Resource resource = getLibrary().getResource( "junit/junit" );
         String version = resource.getVersion();
         assertEquals( "version", "@JUNIT_VERSION@", version );
-        //System.out.println( "# version: " + version );
     }
     
    /**
@@ -144,10 +130,6 @@ public class DefaultResourceTestCase extends AbstractTestCase
         String path = "dpml/metro/dpml-composition-runtime";
         Resource resource = getLibrary().getResource( path );
         Type[] types = resource.getTypes();
-        //for( int i=0; i<types.length; i++ )
-        //{
-        //    System.out.println( "# type: " + types[i] );
-        //}
         Type jar = types[0];
         Type plugin = types[1];
         assertEquals( "types-length", 2, types.length );
@@ -437,7 +419,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
             System.out.println( "# " + path + ", " + category.getName().toUpperCase() );
             for( int i=0; i<chain.length; i++ )
             {
-                System.out.println( "# (" + (i+1) + ") " + chain[i] );
+                System.out.println( "# (" + ( i+1 ) + ") " + chain[i] );
             }
         }
         return chain.length;
