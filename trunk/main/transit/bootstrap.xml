@@ -361,7 +361,8 @@
     <!--
     Compile sources in target/build/main with oputput classes under target/classes.
     -->
-    <javac srcdir="${target.build.main.dir}" destdir="${target.classes.dir}" debug="true">
+    <javac srcdir="${target.build.main.dir}" destdir="${target.classes.dir}" debug="true"
+       source="1.4" target="1.4">
       <classpath refid="project.main.path"/>
     </javac>
   </target>
