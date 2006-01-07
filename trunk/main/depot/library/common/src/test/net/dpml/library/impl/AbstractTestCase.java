@@ -44,21 +44,39 @@ import net.dpml.transit.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
- * The ModuleDirective class describes a module data-structure.
+ * Abstract library testcase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 abstract class AbstractTestCase extends TestCase
 {
-    Logger m_logger = new LoggingAdapter( "test" );
-    DefaultLibrary m_library;
+    private Logger m_logger = new LoggingAdapter( "test" );
+    private DefaultLibrary m_library;
     
+   /**
+    * Return the library established by setup.
+    * @return the library
+    */
+    public DefaultLibrary getLibrary()
+    {
+        return m_library;
+    }
+    
+   /**
+    * Testcase setup using library.xml.
+    * @exception Exception if an error in library setup occurs
+    */
     public void setUp() throws Exception
     {
         setUp( "library.xml" );
     }
 
+   /**
+    * Testcase setup.
+    * @param path file path relative to the target/test directory
+    * @exception Exception if an error in library setup occurs
+    */
     public void setUp( String path ) throws Exception
     {
         String testPath = System.getProperty( "project.test.dir" );
@@ -67,6 +85,12 @@ abstract class AbstractTestCase extends TestCase
         m_library = new DefaultLibrary( m_logger, example );
     }
     
+   /**
+    * Test that the supplied object can be serialized and the deserialization
+    * process returns an equivalent object to the supplied object.
+    * @param object the object to test
+    * @exception Exception if an test exception occurs
+    */
     public void doSerializationTest( Object object )
         throws Exception
     {
@@ -85,6 +109,12 @@ abstract class AbstractTestCase extends TestCase
         assertEquals( object.hashCode(), serialized.hashCode() );
     }
 
+   /**
+    * Test that the supplied object can be encoded and the decoding
+    * process returns an equivalent object to the supplied object.
+    * @param object the object to encode/decode
+    * @exception Exception if an test exception occurs
+    */
     public Object doEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );

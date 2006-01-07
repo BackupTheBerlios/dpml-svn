@@ -50,26 +50,34 @@ public class AnonymousTestCase extends AbstractTestCase
     }
 
    /**
-    * Test library properties.
+    * Test anonymous resource providers.
+    * @exception if a test error occurs
     */
-
     public void testAnonymousResourceProviders() throws Exception
     {
-        Resource resource = m_library.getResource( "demo/example" );
+        Resource resource = getLibrary().getResource( "demo/example" );
         Resource[] providers = resource.getAggregatedProviders( Scope.RUNTIME, false, false );
         assertEquals( "direct-providers", 1, providers.length );
     }
 
+   /**
+    * Test anonymous module providers.
+    * @exception if a test error occurs
+    */
     public void testAnonymousModuleProviders() throws Exception
     {
-        Module module = (Module) m_library.getResource( "demo" );
+        Module module = (Module) getLibrary().getResource( "demo" );
         Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, false, false );
         assertEquals( "direct-providers", 1, providers.length );
     }
     
+   /**
+    * Test expanded anonymous module providers.
+    * @exception if a test error occurs
+    */
     public void testExpandedAnonymousModuleProviders() throws Exception
     {
-        Module module = (Module) m_library.getResource( "demo" );
+        Module module = (Module) getLibrary().getResource( "demo" );
         Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, true, false );
         assertEquals( "expanded-providers", 2, providers.length );
         boolean test = false;

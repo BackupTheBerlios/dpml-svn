@@ -45,89 +45,93 @@ public class DefaultLibraryTestCase extends AbstractTestCase
 {   
    /**
     * Test library properties.
+    * @exception Exception if the test fails
     */
     public void testProperties()
     {
-        String[] names = m_library.getPropertyNames();
+        String[] names = getLibrary().getPropertyNames();
         assertEquals( "property-count", 3, names.length );
-        //for( int i=0; i<names.length; i++ )
-        //{
-        //    System.out.println( "# " + names[i] );
-        //}
     }
     
    /**
     * Test correct resolution of top-level modules from the library.
+    * @exception Exception if the test fails
     */
     public void testRootModuleCount()
     {
-        Module[] modules = m_library.getModules();
+        Module[] modules = getLibrary().getModules();
         assertEquals( "top-module-count", 6, modules.length );
     }
     
    /**
     * Test expanded module request and validate that the 'dpml' module
     * is on the end of the stack.
+    * @exception Exception if the test fails
     */
     public void testExpandedModuleCount() throws Exception
     {
-        Module[] modules = m_library.getAllModules();
+        Module[] modules = getLibrary().getAllModules();
         assertEquals( "expanded-module-count", 10, modules.length );
-        Module dpml = m_library.getModule( "dpml" );
+        Module dpml = getLibrary().getModule( "dpml" );
         assertEquals( "last-module", dpml, modules[ modules.length - 1 ] );
     }
     
    /**
     * Test aquisition of a named resource.
+    * @exception Exception if the test fails
     */
     public void testGetResourceLevelOne() throws Exception
     {
         String spec = "ant";
-        Resource resource = m_library.getResource( spec );
+        Resource resource = getLibrary().getResource( spec );
         String path = resource.getResourcePath();
         assertEquals( "spec-to-path", spec, path );
     }
     
    /**
     * Test aquisition of a named resource.
+    * @exception Exception if the test fails
     */
     public void testGetResourceLevelTwo() throws Exception
     {
         String spec = "ant/ant-junit";
-        Resource resource = m_library.getResource( spec );
+        Resource resource = getLibrary().getResource( spec );
         String path = resource.getResourcePath();
         assertEquals( "spec-to-path", spec, path );
     }
     
    /**
     * Test aquisition of a named resource.
+    * @exception Exception if the test fails
     */
     public void testGetResourceLevelThree() throws Exception
     {
         String spec = "dpml/metro/dpml-composition-runtime";
-        Resource resource = m_library.getResource( spec );
+        Resource resource = getLibrary().getResource( spec );
         String path = resource.getResourcePath();
         assertEquals( "spec-to-path", spec, path );
     }
     
    /**
     * Test aquisition of a named module.
+    * @exception Exception if the test fails
     */
     public void testGetModuleLevelOne() throws Exception
     {
         String spec = "dpml";
-        Module module = m_library.getModule( spec );
+        Module module = getLibrary().getModule( spec );
         String path = module.getResourcePath();
         assertEquals( "spec-to-path", spec, path );
     }
     
    /**
     * Test aquisition of a named module.
+    * @exception Exception if the test fails
     */
     public void testGetModuleLevelTwo() throws Exception
     {
         String spec = "dpml/metro";
-        Module module = m_library.getModule( spec );
+        Module module = getLibrary().getModule( spec );
         String path = module.getResourcePath();
         assertEquals( "spec-to-path", spec, path );
     }
@@ -137,32 +141,60 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         private String m_name;
         private boolean m_alias;
         
+       /**
+        * Creation of a new mock type instance.
+        * @param name the type name
+        * @param alias the alias production flag
+        */
         public MockType( String name, boolean alias )
         {
             m_name = name;
             m_alias = alias;
         }
         
+       /**
+        * Return the type name.
+        * @return the name
+        */
         public String getName()
         {
             return m_name;
         }
     
+       /**
+        * Return the type alias flag.
+        * @return the flag
+        */
         public boolean getAlias()
         {
             return m_alias;
         }
     
+       /**
+        * Return the type property names.
+        * @return the names
+        */
         public String[] getPropertyNames()
         {
             return new String[0];
         }
     
+       /**
+        * Return a named property value.
+        * @param key the property key (ignored)
+        * @return the value (allays returns null in mock)
+        */
         public String getProperty( String key )
         {
             return null;
         }
     
+       /**
+        * Return a named property value.
+        * @param key the property key (ignored)
+        * @param value the default value (ignored)
+        * @return the value (allays returns null in mock)
+        */
         public String getProperty( String key, String value )
         {
             return value;

@@ -47,36 +47,29 @@ public class DefaultModuleTestCase extends AbstractTestCase
 {   
     public void testExpandedAnonymousModuleProviders() throws Exception
     {
-        Module module = (Module) m_library.getResource( "dpml/transit" );
+        Module module = (Module) getLibrary().getResource( "dpml/transit" );
         Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, true, false );
-        //System.out.println( "# AGGREGATED MODULE PROVIDERS " + providers.length );
-        //for( int i=0; i<providers.length; i++ )
-        //{
-        //    System.out.println( "# " + providers[i] );
-        //}
     }
     
    /**
     * Test expanded module request on the dpml module.
+    * @exception Exception if a test error occurs
     */
     public void testModuleGetResources() throws Exception
     {
-        Module metro = m_library.getModule( "dpml/metro" );
+        Module metro = getLibrary().getModule( "dpml/metro" );
         Resource[] resources = metro.getResources();
         assertEquals( "nested-expanded-resource-count", 15, resources.length );
-        //for( int i=0; i<resources.length; i++ )
-        //{
-        //    System.out.println( "> " + (i+1) + " " + resources[i] );
-        //}
     }
 
    /**
     * Test aquisition of a named resource.
+    * @exception Exception if a test error occurs
     */
     public void testGetResourceLevelOne() throws Exception
     {
         String spec = "dpml/metro";
-        Module module = m_library.getModule( spec );
+        Module module = getLibrary().getModule( spec );
         String name = "dpml-composition-runtime";
         Resource resource = module.getResource( name );
         String path = resource.getResourcePath();
@@ -85,11 +78,12 @@ public class DefaultModuleTestCase extends AbstractTestCase
     
    /**
     * Test aquisition of a named resource.
+    * @exception Exception if a test error occurs
     */
     public void testGetResourceLevelTwo() throws Exception
     {
         String spec = "dpml";
-        Module module = m_library.getModule( spec );
+        Module module = getLibrary().getModule( spec );
         String name = "metro/dpml-composition-runtime";
         Resource resource = module.getResource( name );
         String path = resource.getResourcePath();
@@ -98,10 +92,11 @@ public class DefaultModuleTestCase extends AbstractTestCase
     
    /**
     * Test getModules operation.
+    * @exception Exception if a test error occurs
     */
     public void testGetModule() throws Exception
     {
-        Module dpml = m_library.getModule( "dpml" );
+        Module dpml = getLibrary().getModule( "dpml" );
         Module[] modules = dpml.getModules();
         assertEquals( "nested-module-count", 4, modules.length );
     }
@@ -109,26 +104,29 @@ public class DefaultModuleTestCase extends AbstractTestCase
    /**
     * Test selection of the set of immediate child module from within 
     * the enclosing module.
+    * @exception Exception if a test error occurs
     */
     public void testGetModules() throws Exception
     {
-        Module dpml = m_library.getModule( "dpml" );
+        Module dpml = getLibrary().getModule( "dpml" );
         Module[] modules = dpml.getModules();
         assertEquals( "nested-module-count", 4, modules.length );
     }
     
    /**
     * Test expanded module request on the dpml module.
+    * @exception Exception if a test error occurs
     */
     public void testGetAllModules() throws Exception
     {
-        Module dpml = m_library.getModule( "dpml" );
+        Module dpml = getLibrary().getModule( "dpml" );
         Module[] modules = dpml.getAllModules();
         assertEquals( "nested-expanded-module-count", 4, modules.length );
     }
     
    /**
     * Test scoped non-transitive providers.
+    * @exception Exception if a test error occurs
     */
     public void testProviders() throws Exception
     {
@@ -176,6 +174,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
     
    /**
     * Test scoped non-transitive providers.
+    * @exception Exception if a test error occurs
     */
     public void testAggregatedProviders() throws Exception
     {
@@ -223,49 +222,73 @@ public class DefaultModuleTestCase extends AbstractTestCase
         */
     }
     
+   /**
+    * Test select *.
+    * @exception Exception if a test error occurs
+    */
     public void testSelectChildren() throws Exception
     {
-        Resource[] resources = m_library.select( "*", true );
+        Resource[] resources = getLibrary().select( "*", true );
         assertEquals( "top-level-child-count", 6, resources.length );
     }
     
+   /**
+    * Test select **.
+    * @exception Exception if a test error occurs
+    */
     public void testSelectAllModules() throws Exception
     {
-        Resource[] resources = m_library.select( "**", false );
+        Resource[] resources = getLibrary().select( "**", false );
         assertEquals( "all-module-count", 10, resources.length );
     }
 
+   /**
+    * Test select pattern.
+    * @exception Exception if a test error occurs
+    */
     public void testSelectWithPattern() throws Exception
     {
-        Resource[] resources = m_library.select( "*l*", true );
+        Resource[] resources = getLibrary().select( "*l*", true );
         assertEquals( "'*l*'-selection", 2, resources.length );
     }
     
+   /**
+    * Test select all.
+    * @exception Exception if a test error occurs
+    */
     public void testSelectAll() throws Exception
     {
-        Resource[] resources = m_library.select( "**/*", false );
-        //for( int i=0; i<resources.length; i++ )
-        //{
-        //    System.out.println( " (" + (i+1) + ")\t" + resources[i].getResourcePath() );
-        //}
+        Resource[] resources = getLibrary().select( "**/*", false );
         assertEquals( "'**/*'-selection", 44, resources.length );
     }
     
+   /**
+    * Test select intermidiate pattern.
+    * @exception Exception if a test error occurs
+    */
     public void testSelectAllWithPattern() throws Exception
     {
-        Resource[] resources = m_library.select( "**/*tools*", true );
+        Resource[] resources = getLibrary().select( "**/*tools*", true );
         assertEquals( "'**/*tools*'-selection", 7, resources.length );
     }
 
+   /**
+    * Test select absolute pattern.
+    * @exception Exception if a test error occurs
+    */
     public void testAbsolutePattern() throws Exception
     {
-        Resource[] resources = m_library.select( "dpml/tools/dpml-tools-control", false );
+        Resource[] resources = getLibrary().select( "dpml/tools/dpml-tools-control", false );
         assertEquals( "'**/*tools*'-selection", 1, resources.length );
     }
     
+   /**
+    * Test select invalid pattern.
+    * @exception Exception if a test error occurs
+    */
     public void testInvalidPatternWithWildcard() throws Exception
     {
-        Resource[] resources = m_library.select( "dpml/tools/dpml-tools-control-*", false );
+        Resource[] resources = getLibrary().select( "dpml/tools/dpml-tools-control-*", false );
         assertEquals( "'dpml/tools/dpml-tools-control-*", 0, resources.length );
     }
 }

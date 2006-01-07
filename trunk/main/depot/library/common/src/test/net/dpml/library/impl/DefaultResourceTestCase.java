@@ -50,20 +50,22 @@ public class DefaultResourceTestCase extends AbstractTestCase
 {   
    /**
     * Test resource name.
+    * @exception Exception if a test error occurs
     */
     public void testName() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/metro/dpml-composition-runtime" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
         String name = resource.getName();
         assertEquals( "name", "dpml-composition-runtime", name );
     }
     
    /**
     * Test assigned build signature version.
+    * @exception Exception if a test error occurs
     */
     public void testExplicitVersion() throws Exception
     {
-        Resource resource = m_library.getResource( "junit/junit" );
+        Resource resource = getLibrary().getResource( "junit/junit" );
         String version = resource.getVersion();
         assertEquals( "version", "@JUNIT_VERSION@", version );
         //System.out.println( "# version: " + version );
@@ -71,46 +73,48 @@ public class DefaultResourceTestCase extends AbstractTestCase
     
    /**
     * Test assigned build signature version.
+    * @exception Exception if a test error occurs
     */
     public void testBuildSignatureVersion() throws Exception
     {
         System.setProperty( "build.signature", "project.timestamp" );
-        Resource resource = m_library.getResource( "dpml/metro/dpml-composition-runtime" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
         String version = resource.getVersion();
         assertEquals( "version", "YYYYMMDD.HHMMSS".length(), version.length() );
         System.getProperties().remove( "build.signature" );
-        //System.out.println( "# version: " + version );
     }
     
    /**
     * Test resource version.
+    * @exception Exception if a test error occurs
     */
     public void testSnapshotVersion() throws Exception
     {
         System.getProperties().remove( "build.signature" );
-        Resource resource = m_library.getResource( "dpml/metro/dpml-composition-runtime" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
         String version = resource.getVersion();
         assertEquals( "version", "SNAPSHOT", version );
-        //System.out.println( "# version: " + version );
     }
     
    /**
     * Test resource path.
+    * @exception Exception if a test error occurs
     */
     public void testResourcePath() throws Exception
     {
         String path = "dpml/metro/dpml-composition-runtime";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         assertEquals( "resource-path", path, resource.getResourcePath() );
     }
     
    /**
     * Test basedir feature.
+    * @exception Exception if a test error occurs
     */
     public void testBaseDir() throws Exception
     {
         String path = "dpml";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         File basedir = resource.getBaseDir();
         assertNotNull( "basedir", basedir );
         String testPath = System.getProperty( "project.test.dir" );
@@ -121,22 +125,24 @@ public class DefaultResourceTestCase extends AbstractTestCase
 
    /**
     * Test basedir feature.
+    * @exception Exception if a test error occurs
     */
     public void testNullBaseDir() throws Exception
     {
         String path = "ant/ant";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         File basedir = resource.getBaseDir();
         assertNull( "basedir", basedir );
     }
     
    /**
     * Test resource types.
+    * @exception Exception if a test error occurs
     */
     public void testTypeNames() throws Exception
     {
         String path = "dpml/metro/dpml-composition-runtime";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Type[] types = resource.getTypes();
         //for( int i=0; i<types.length; i++ )
         //{
@@ -151,11 +157,12 @@ public class DefaultResourceTestCase extends AbstractTestCase
     
    /**
     * Test isa function on an implied type.
+    * @exception Exception if a test error occurs
     */
     public void testIsa() throws Exception
     {
         String path = "dpml/tools/dpml-tools-ant";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         assertTrue( "isa-jar", resource.isa( "jar" ) );
         assertTrue( "isa-plugin", resource.isa( "plugin" ) );
         assertFalse( "isa-rabbit", resource.isa( "rabbit" ) );
@@ -163,11 +170,12 @@ public class DefaultResourceTestCase extends AbstractTestCase
     
    /**
     * Test artifact uri function.
+    * @exception Exception if a test error occurs
     */
     public void testArtifact() throws Exception
     {
         String path = "dpml/tools/dpml-tools-ant";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Type[] types = resource.getTypes();
         for( int i=0; i<types.length; i++ )
         {
@@ -186,13 +194,14 @@ public class DefaultResourceTestCase extends AbstractTestCase
     
    /**
     * Test enclosing parent module.
+    * @exception Exception if a test error occurs
     */
     public void testGetParent() throws Exception
     {
         String path = "dpml/tools/dpml-tools-ant";
-        Resource dpml = m_library.getResource( "dpml" );
-        Resource tools = m_library.getResource( "dpml/tools" );
-        Resource ant = m_library.getResource( "dpml/tools/dpml-tools-ant" );
+        Resource dpml = getLibrary().getResource( "dpml" );
+        Resource tools = getLibrary().getResource( "dpml/tools" );
+        Resource ant = getLibrary().getResource( "dpml/tools/dpml-tools-ant" );
         assertEquals( "parent", null, dpml.getParent() );
         assertEquals( "parent", dpml, tools.getParent() );
         assertEquals( "parent", tools, ant.getParent() );
@@ -200,6 +209,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
 
    /**
     * Test scoped non-transitive providers.
+    * @exception Exception if a test error occurs
     */
     public void testProviders() throws Exception
     {
@@ -236,11 +246,12 @@ public class DefaultResourceTestCase extends AbstractTestCase
     }
 
    /**
-    * Checking
+    * Testing aggregated providers.
+    * @exception Exception if a test error occurs
     */
     public void testAggregatedProvidersCase1() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/metro/dpml-composition-runtime" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
         Resource[] build = resource.getAggregatedProviders( Scope.BUILD, false, false );
         Resource[] runtime = resource.getAggregatedProviders( Scope.RUNTIME, false, false  );
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, false, false );
@@ -249,9 +260,13 @@ public class DefaultResourceTestCase extends AbstractTestCase
         assertEquals( "test", 6, test.length );
     }    
     
+   /**
+    * Testing aggregated providers.
+    * @exception Exception if a test error occurs
+    */
     public void testAggregatedExpandedProvidersCase1() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/metro/dpml-composition-runtime" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
         Resource[] build = resource.getAggregatedProviders( Scope.BUILD, true, false );
         Resource[] runtime = resource.getAggregatedProviders( Scope.RUNTIME, true, false  );
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, true, false );
@@ -260,9 +275,13 @@ public class DefaultResourceTestCase extends AbstractTestCase
         assertEquals( "test", 12, test.length );
     }
 
+   /**
+    * Testing aggregated providers.
+    * @exception Exception if a test error occurs
+    */
     public void testAggregatedProvidersCase2() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/transit/dpml-transit-tools" );
+        Resource resource = getLibrary().getResource( "dpml/transit/dpml-transit-tools" );
         Resource[] build = resource.getAggregatedProviders( Scope.BUILD, false, false );
         Resource[] runtime = resource.getAggregatedProviders( Scope.RUNTIME, false, false  );
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, false, false );
@@ -271,9 +290,13 @@ public class DefaultResourceTestCase extends AbstractTestCase
         assertEquals( "test", 3, test.length );
     }    
     
+   /**
+    * Testing aggregated providers.
+    * @exception Exception if a test error occurs
+    */
     public void testAggregatedExpandedProvidersCase2() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/transit/dpml-transit-tools" );
+        Resource resource = getLibrary().getResource( "dpml/transit/dpml-transit-tools" );
         Resource[] build = resource.getAggregatedProviders( Scope.BUILD, true, false );
         Resource[] runtime = resource.getAggregatedProviders( Scope.RUNTIME, true, false  );
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, true, false );
@@ -282,9 +305,13 @@ public class DefaultResourceTestCase extends AbstractTestCase
         assertEquals( "test", 5, test.length );
     }
     
+   /**
+    * Testing aggregated providers.
+    * @exception Exception if a test error occurs
+    */
     public void testAggregatedProvidersCase3() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/metro/dpml-component-model" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-component-model" );
         Resource[] build = resource.getAggregatedProviders( Scope.BUILD, false, false );
         Resource[] runtime = resource.getAggregatedProviders( Scope.RUNTIME, false, false  );
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, false, false );
@@ -293,9 +320,13 @@ public class DefaultResourceTestCase extends AbstractTestCase
         assertEquals( "test", 8, test.length );
     }    
     
+   /**
+    * Testing aggregated providers.
+    * @exception Exception if a test error occurs
+    */
     public void testAggregatedExpandedProvidersCase3() throws Exception
     {
-        Resource resource = m_library.getResource( "dpml/metro/dpml-component-model" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-component-model" );
         Resource[] build = resource.getAggregatedProviders( Scope.BUILD, true, false );
         Resource[] runtime = resource.getAggregatedProviders( Scope.RUNTIME, true, false  );
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, true, false );
@@ -304,22 +335,34 @@ public class DefaultResourceTestCase extends AbstractTestCase
         assertEquals( "test", 12, test.length );
     }
     
+   /**
+    * Testing classpath providers.
+    * @exception Exception if a test error occurs
+    */
     public void testRuntimeClasspathProviders() throws Exception
     {
         String path = "dpml/transit/dpml-transit-tools";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Resource[] chain = resource.getClasspathProviders( Scope.RUNTIME );
         assertEquals( "chain-length", 3, chain.length );
     }
     
+   /**
+    * Testing test classpath providers.
+    * @exception Exception if a test error occurs
+    */
     public void testTestClasspathProviders() throws Exception
     {
         String path = "dpml/transit/dpml-transit-tools";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Resource[] chain = resource.getClasspathProviders( Scope.TEST );
         assertEquals( "chain-length", 5, chain.length );
     }
     
+   /**
+    * Testing test classloader chain construction.
+    * @exception Exception if a test error occurs
+    */
     public void testClassloaderChainConstruction() throws Exception
     {
         doClasspathChainTest( "dpml/metro/dpml-composition-runtime", 0, 3, 6, 3 );
@@ -327,18 +370,26 @@ public class DefaultResourceTestCase extends AbstractTestCase
         doClasspathChainTest( "dpml/transit/dpml-transit-tools", 0, 0, 0, 3 );
     }
     
+   /**
+    * Testing direct consumers.
+    * @exception Exception if a test error occurs
+    */
     public void testDirectConsumers() throws Exception
     {
         String path = "dpml/transit/dpml-transit-main";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Resource[] consumers = resource.getConsumers( false, false );
         assertEquals( "consumer-count", 6, consumers.length );
     }
     
+   /**
+    * Testing transitive consumers.
+    * @exception Exception if a test error occurs
+    */
     public void testTransitiveConsumers() throws Exception
     {
         String path = "dpml/transit/dpml-transit-main";
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Resource[] consumers = resource.getConsumers( true, true );
         assertEquals( "consumer-count", 20, consumers.length );
     }
@@ -374,7 +425,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
     
     private int doCategoryTest( String path, Category category, int n ) throws Exception
     {
-        Resource resource = m_library.getResource( path );
+        Resource resource = getLibrary().getResource( path );
         Resource[] chain = resource.getClasspathProviders( category );
         int j = chain.length;
         if( n > -1 )
