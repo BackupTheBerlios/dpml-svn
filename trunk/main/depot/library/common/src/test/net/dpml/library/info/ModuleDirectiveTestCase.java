@@ -28,7 +28,7 @@ import net.dpml.library.info.ResourceDirective.Classifier;
  */
 public final class ModuleDirectiveTestCase extends AbstractTestCase
 {
-    static ModuleDirective[] MODULES = new ModuleDirective[3];
+    static final ModuleDirective[] MODULES = new ModuleDirective[3];
     static
     {
         TypeDirective[] types = TypeDirectiveTestCase.TYPES;
@@ -56,6 +56,10 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     
     private ModuleDirective m_module;
     
+   /**
+    * Test case setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_module = 
@@ -63,6 +67,10 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
             m_name, m_version, m_classifier, "test", m_types, m_dependencies, m_resources, PROPERTIES );
     }
 
+   /**
+    * Validate that the name argument to the module directive 
+    * throws an NPE when supplied with a null name.
+    */
     public void testNullName()
     {
         try
@@ -77,6 +85,10 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Validate that the module directive constructor
+    * throws an NPE when supplied with a null version.
+    */
     public void testNullVersion()
     {
         try
@@ -90,6 +102,10 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Validate that the module directive constructor
+    * throws an NPE when supplied with a null dependencies array.
+    */
     public void testNullDependencies()
     {
         try
@@ -104,6 +120,10 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Validate that the module directive constructor
+    * throws an NPE when supplied with a null resources array.
+    */
     public void testNullResources()
     {
         try
@@ -118,36 +138,59 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test the name accessor.
+    */
     public void testName()
     {
         assertEquals( "name", m_name, m_module.getName() );
     }
     
+   /**
+    * Test the classifier accessor.
+    */
     public void testClassifier()
     {
         assertEquals( "classifier", m_classifier, m_module.getClassifier() );
     }
     
+   /**
+    * Test the version accessor.
+    */
     public void testVersion()
     {
         assertEquals( "version", m_version, m_module.getVersion() );
     }
     
+   /**
+    * Test the dependency directives accessor.
+    */
     public void testDependencyDirectives()
     {
         assertEquals( "dependencies", m_dependencies, m_module.getDependencyDirectives() );
     }
     
+   /**
+    * Test the resource directives accessor.
+    */
     public void testResourceDirectives()
     {
         assertEquals( "resources", m_resources, m_module.getResourceDirectives() );
     }
     
+   /**
+    * Test directive serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_module );
     }
     
+   /**
+    * Test directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         doEncodingTest( m_module, "module-descriptor-encoded.xml" );

@@ -18,8 +18,6 @@
 
 package net.dpml.library.info;
 
-import net.dpml.transit.Category;
-
 /**
  * The ModuleDirective class describes a module data-structure.
  *
@@ -28,8 +26,8 @@ import net.dpml.transit.Category;
  */
 public final class DependencyDirectiveTestCase extends AbstractTestCase
 {
-    static IncludeDirective[] INCLUDES = IncludeDirectiveTestCase.INCLUDES;
-    static DependencyDirective[] DEPENDENCIES = new DependencyDirective[3];
+    static final IncludeDirective[] INCLUDES = IncludeDirectiveTestCase.INCLUDES;
+    static final DependencyDirective[] DEPENDENCIES = new DependencyDirective[3];
     static
     {
         DEPENDENCIES[0] = new DependencyDirective( Scope.BUILD, INCLUDES, PROPERTIES );
@@ -37,6 +35,9 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         DEPENDENCIES[2] = new DependencyDirective( Scope.TEST, INCLUDES, PROPERTIES );
     }
       
+   /**
+    * Test null scope.
+    */
     public void testNullScope()
     {
         try
@@ -51,6 +52,9 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test null includes.
+    */
     public void testNullIncludes()
     {
         try
@@ -65,6 +69,9 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test runtime scope.
+    */
     public void testScopeRuntime()
     {
         DependencyDirective dep = 
@@ -72,6 +79,9 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         assertEquals( "scope", Scope.RUNTIME, dep.getScope() );
     }
     
+   /**
+    * Test test scope.
+    */
     public void testScopeTest()
     {
         DependencyDirective dep = 
@@ -79,18 +89,29 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         assertEquals( "scope", Scope.TEST, dep.getScope() );
     }
     
+   /**
+    * Test includes.
+    */
     public void testIncludes()
     {
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
         assertEquals( "includes", 3, dep.getIncludeDirectives().length );
     }
     
+   /**
+    * Test directive serialization.
+    * @exception Exception if the serailization test raises an error
+    */
     public void testSerialization() throws Exception
     {
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
         doSerializationTest( dep );
     }
     
+   /**
+    * Test directive encoding and decoding.
+    * @exception Exception if the test raises an error
+    */
     public void testXMLEncoding() throws Exception
     {
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );

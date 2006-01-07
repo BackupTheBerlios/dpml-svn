@@ -26,14 +26,18 @@ package net.dpml.library.info;
  */
 public final class TypeDirectiveTestCase extends AbstractTestCase
 {
-    static TypeDirective[] TYPES = new TypeDirective[3];
+    static final TypeDirective[] TYPES = new TypeDirective[3];
     static
     {
         TYPES[0] = new TypeDirective( "jar", false, PROPERTIES );
-        TYPES[1] = new TypeDirective( "plugin", true ,PROPERTIES );
+        TYPES[1] = new TypeDirective( "plugin", true, PROPERTIES );
         TYPES[2] = new TypeDirective( "widget", false, PROPERTIES );
     }
     
+   /**
+    * Validate that the type directive constructor
+    * throws an NPE when supplied with a null name.
+    */
     public void testNullName()
     {
         try
@@ -47,12 +51,18 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test the type directive name accessor.
+    */
     public void testTypeName()
     {
         TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
         assertEquals( "type", "abc", type.getName() );
     }
     
+   /**
+    * Test the type directive alias accessor.
+    */
     public void testTypeAlias()
     {
         TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
@@ -61,12 +71,20 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
         assertFalse( "alias", type.getAlias() );
     }
     
+   /**
+    * Test the type directive serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
         doSerializationTest( type );
     }
 
+   /**
+    * Test the type directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );

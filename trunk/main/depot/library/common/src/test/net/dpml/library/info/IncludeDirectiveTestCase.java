@@ -28,7 +28,7 @@ import net.dpml.transit.Category;
  */
 public final class IncludeDirectiveTestCase extends AbstractTestCase
 {
-    static IncludeDirective[] INCLUDES = new IncludeDirective[3];
+    static final IncludeDirective[] INCLUDES = new IncludeDirective[3];
     static
     {
         INCLUDES[0] = new IncludeDirective( IncludeDirective.REF, null, "value", PROPERTIES );
@@ -36,6 +36,9 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         INCLUDES[2] = new IncludeDirective( IncludeDirective.REF, Category.PUBLIC, "value", PROPERTIES );
     }
 
+   /**
+    * Test that an NPE is thrown when the null mode is supplied as a constructor argument.
+    */
     public void testNullMode()
     {
         try
@@ -49,6 +52,9 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test that an NPE is thrown when the null value is supplied as a constructor argument.
+    */
     public void testNullValue()
     {
         try
@@ -62,6 +68,9 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test the mode accessor.
+    */
     public void testIncludeMode()
     {
         IncludeDirective include = 
@@ -69,6 +78,9 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         assertEquals( "mode", IncludeDirective.REF, include.getMode() );
     }
     
+   /**
+    * Test the value accessor.
+    */
     public void testIncludeValue()
     {
         IncludeDirective include = 
@@ -76,6 +88,9 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         assertEquals( "value", "value", include.getValue() );
     }
     
+   /**
+    * Test include classloader category.
+    */
     public void testIncludeCategory()
     {
         IncludeDirective include = 
@@ -83,6 +98,10 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         assertEquals( "category", Category.PROTECTED, include.getCategory() );
     }
     
+   /**
+    * Test serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         IncludeDirective include = 
@@ -90,6 +109,10 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
         doSerializationTest( include );
     }
 
+   /**
+    * Test encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         IncludeDirective include = 

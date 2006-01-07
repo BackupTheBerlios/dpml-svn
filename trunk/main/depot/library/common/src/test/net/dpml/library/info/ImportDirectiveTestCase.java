@@ -26,7 +26,7 @@ package net.dpml.library.info;
  */
 public final class ImportDirectiveTestCase extends AbstractTestCase
 {
-    static ImportDirective[] IMPORTS = new ImportDirective[3];
+    static final ImportDirective[] IMPORTS = new ImportDirective[3];
     static
     {
         IMPORTS[0] = new ImportDirective( ImportDirective.URI, "something", PROPERTIES );
@@ -34,6 +34,9 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         IMPORTS[2] = new ImportDirective( ImportDirective.URI, "acme", PROPERTIES );
     }
 
+   /**
+    * Test that the import directive throws an NPE if a null name is supplied.
+    */
     public void testNullName()
     {
         try
@@ -47,6 +50,9 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test that the import directive throws an NPE if a null value is supplied.
+    */
     public void testNullValue()
     {
         try
@@ -60,6 +66,9 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test the import mode accessor.
+    */
     public void testImportMode()
     {
         ImportDirective include = 
@@ -67,6 +76,9 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         assertEquals( "mode", ImportDirective.FILE, include.getMode() );
     }
     
+   /**
+    * Test the import value accessor.
+    */
     public void testImportValue()
     {
         ImportDirective include = 
@@ -74,6 +86,10 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         assertEquals( "value", "value", include.getValue() );
     }
     
+   /**
+    * Test directive serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         ImportDirective include = 
@@ -81,6 +97,10 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         doSerializationTest( include );
     }
 
+   /**
+    * Test directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         ImportDirective include = 

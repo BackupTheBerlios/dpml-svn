@@ -26,17 +26,25 @@ package net.dpml.library.info;
  */
 public final class LibraryDirectiveTestCase extends AbstractTestCase
 {
-    static ImportDirective[] IMPORTS = ImportDirectiveTestCase.IMPORTS;
-    static ModuleDirective[] MODULES = ModuleDirectiveTestCase.MODULES;
+    static final ImportDirective[] IMPORTS = ImportDirectiveTestCase.IMPORTS;
+    static final ModuleDirective[] MODULES = ModuleDirectiveTestCase.MODULES;
     
     private LibraryDirective m_library;
     
+   /**
+    * Setup the testcase.
+    * @exception Exception if an error occurs during setup
+    */
     public void setUp() throws Exception
     {
         m_library = 
           new LibraryDirective( IMPORTS, MODULES, PROPERTIES );
     }
 
+   /**
+    * Validate that the imports argument to the library directive 
+    * throws an NPE when supplied with a null imports value.
+    */
     public void testNullImports()
     {
         try
@@ -50,16 +58,27 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test the imports accessor.
+    */
     public void testImportDirectives()
     {
         assertEquals( "imports", IMPORTS, m_library.getImportDirectives() );
     }
     
+   /**
+    * Test serialization of the library directive.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_library );
     }
     
+   /**
+    * Test encoding/decoding of the library directive.
+    * @exception Exception if an error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         doEncodingTest( m_library, "library-encoded.xml" );
