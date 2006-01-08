@@ -44,6 +44,10 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
     
     private ApplicationDescriptor m_descriptor;
 
+   /**
+    * Test-case setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_base = "test";
@@ -62,6 +66,11 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
             m_startup, m_shutdown, m_properties, m_config.toASCIIString() );
     }
 
+   /**
+    * Validate that the application descriptor constructor throws 
+    * an NPE is supplied with a null codebase uri.
+    * @exception Exception if a error occurs
+    */
     public void testNullCodeBase() throws Exception
     {
         try
@@ -78,47 +87,83 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test codebase uri spec accessor.
+    * @exception Exception if a error occurs
+    */
     public void testCodeBaseURISpec() throws Exception
     {
         String spec = m_codebase.toASCIIString();
         assertEquals( "codebase-spec", spec, m_descriptor.getCodeBaseURISpec() );
     }
     
+   /**
+    * Test codebase uri accessor.
+    * @exception Exception if a error occurs
+    */
     public void testCodeBaseURI() throws Exception
     {
         assertEquals( "codebase", m_codebase, m_descriptor.getCodeBaseURI() );
     }
     
+   /**
+    * Test startup timeout accessor.
+    * @exception Exception if a error occurs
+    */
     public void testStartupTimout() throws Exception
     {
         assertEquals( "startup-timeout", m_startup, m_descriptor.getStartupTimeout() );
     }
     
+   /**
+    * Test shutdown timeout accessor.
+    * @exception Exception if a error occurs
+    */
     public void testShutdownTimout() throws Exception
     {
         assertEquals( "shutdown-timeout", m_shutdown, m_descriptor.getShutdownTimeout() );
     }
     
+   /**
+    * Test title accessor.
+    * @exception Exception if a error occurs
+    */
     public void testTitle() throws Exception
     {
         assertEquals( "title", m_title, m_descriptor.getTitle() );
     }
     
+   /**
+    * Test policy accessor.
+    * @exception Exception if a error occurs
+    */
     public void testPolicy() throws Exception
     {
         assertEquals( "policy", m_policy, m_descriptor.getStartupPolicy() );
     }
     
+   /**
+    * Test value directives accessor.
+    * @exception Exception if a error occurs
+    */
     public void testValueDirectives() throws Exception
     {
         assertEquals( "values", m_values.length, m_descriptor.getValueDirectives().length );
     }
     
+   /**
+    * Test descriptor serialization.
+    * @exception Exception if a error occurs
+    */
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_descriptor );
     }
 
+   /**
+    * Test descriptor encoding and decoding.
+    * @exception Exception if a error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         doEncodingTest( m_descriptor, "application.xml" );

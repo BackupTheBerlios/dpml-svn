@@ -20,23 +20,25 @@ package net.dpml.station.info;
 
 import java.util.Arrays;
 import java.util.Properties;
-import java.net.URI;
 
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.station.info.RegistryDescriptor.Entry;
 
 /**
- * Test ApplicationDescriptor class.
+ * Test the RegistryDescriptor class.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public final class RegistryDescriptorTestCase extends AbstractTestCase
 {
-    Entry[] m_entries = new Entry[3];
-    
+    private Entry[] m_entries = new Entry[3];
     private RegistryDescriptor m_descriptor;
 
+   /**
+    * Test-case setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_entries[0] = 
@@ -61,6 +63,10 @@ public final class RegistryDescriptorTestCase extends AbstractTestCase
         m_descriptor = new RegistryDescriptor( m_entries );
     }
     
+   /**
+    * Validate that the registry descriptor constructor throws 
+    * an NPE is supplied with a null entries argument.
+    */
     public void testNullEntries()
     {
         try
@@ -74,11 +80,15 @@ public final class RegistryDescriptorTestCase extends AbstractTestCase
         }
     }
 
+   /**
+    * Validate that the registry descriptor constructor throws 
+    * an NPE is supplied with a null array entry.
+    */
     public void testNullEntry()
     {
         try
         {
-            new RegistryDescriptor( new Entry[]{ null } );
+            new RegistryDescriptor( new Entry[]{null} );
             fail( "No NPE" );
         }
         catch( NullPointerException e )
@@ -87,6 +97,10 @@ public final class RegistryDescriptorTestCase extends AbstractTestCase
         }
     }
 
+   /**
+    * Test entries accessor.
+    * @exception Exception if a error occurs
+    */
     public void testEntries() throws Exception
     {
         Entry[] entries = m_descriptor.getEntries();
@@ -96,11 +110,19 @@ public final class RegistryDescriptorTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test registry serialization.
+    * @exception Exception if a error occurs
+    */
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_descriptor );
     }
 
+   /**
+    * Test registry encoding/decoding cycle.
+    * @exception Exception if a error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         doEncodingTest( m_descriptor, "registry.xml" );

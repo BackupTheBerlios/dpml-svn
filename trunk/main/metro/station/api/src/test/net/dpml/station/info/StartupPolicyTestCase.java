@@ -18,8 +18,6 @@
 
 package net.dpml.station.info;
 
-import java.net.URI;
-
 /**
  * Test StartupPolicy class.
  *
@@ -28,30 +26,50 @@ import java.net.URI;
  */
 public final class StartupPolicyTestCase extends AbstractTestCase
 {
+   /**
+    * Test DISABLED startup policy parse method.
+    * @exception Exception if an error occurs
+    */
     public void testParseDisabled() throws Exception
     {
         StartupPolicy policy = StartupPolicy.parse( "disabled" );
         assertEquals( "disabled", policy, StartupPolicy.DISABLED );
     }
     
+   /**
+    * Test MANUAL startup policy parse method.
+    * @exception Exception if an error occurs
+    */
     public void testParseManual() throws Exception
     {
         StartupPolicy policy = StartupPolicy.parse( "manual" );
         assertEquals( "manual", policy, StartupPolicy.MANUAL );
     }
     
+   /**
+    * Test AUTOMATIC startup policy parse method.
+    * @exception Exception if an error occurs
+    */
     public void testParseAutomatic() throws Exception
     {
         StartupPolicy policy = StartupPolicy.parse( "automatic" );
         assertEquals( "automatic", policy, StartupPolicy.AUTOMATIC );
     }
     
+   /**
+    * Test policy serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         StartupPolicy policy = StartupPolicy.AUTOMATIC;
         doSerializationTest( policy );
     }
 
+   /**
+    * Test policy encoding/decoding cycle.
+    * @exception Exception if an error occurs
+    */
     public void testXMLEncoding() throws Exception
     {
         StartupPolicy policy = StartupPolicy.AUTOMATIC;

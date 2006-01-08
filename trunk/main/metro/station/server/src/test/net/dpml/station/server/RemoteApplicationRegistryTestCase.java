@@ -48,11 +48,15 @@ public class RemoteApplicationRegistryTestCase extends TestCase
     private URL m_url;
     private Logger m_logger = new LoggingAdapter( "registry" );
     
+   /**
+    * Test-case setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         Artifact artifact = Artifact.createArtifact( "local:xml:dpml/station/registry-test" );
         URL url = artifact.toURL();
-        File file = (File) url.getContent( new Class[]{ File.class } );
+        File file = (File) url.getContent( new Class[]{File.class} );
         if( file.exists() )
         {
             file.delete();
@@ -60,12 +64,20 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         m_url = url;
     }
     
+   /**
+    * Test-case tear-down.
+    * @exception Exception if an error occurs
+    */
     public void tearDown() throws Exception
     {
-        File file = (File) m_url.getContent( new Class[]{ File.class } );
+        File file = (File) m_url.getContent( new Class[]{File.class} );
         file.deleteOnExit();
     }
     
+   /**
+    * Initial registry polulation count.
+    * @exception Exception if an error occurs
+    */
     public void testRegistryInitialCount() throws Exception
     {
         RemoteApplicationRegistry registry = 
@@ -74,6 +86,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         assertEquals( "inital-count", 0, n );
     }
     
+   /**
+    * Initial add operation.
+    * @exception Exception if an error occurs
+    */
     public void testApplicationAddition() throws Exception
     {
         ApplicationDescriptor profile = 
@@ -88,6 +104,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         assertEquals( "single-count", 1, n );
     }
     
+   /**
+    * Initial remove operation.
+    * @exception Exception if an error occurs
+    */
     public void testApplicationRemoval() throws Exception
     {
         ApplicationDescriptor profile = 
@@ -103,6 +123,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         assertEquals( "empty-count", 0, n );
     }
     
+   /**
+    * Initial registry storage.
+    * @exception Exception if an error occurs
+    */
     public void testRegistryStorage() throws Exception
     {
         ApplicationDescriptor profileOne = 
@@ -129,6 +153,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         assertEquals( "double-count-after-restore", 2, n );
     }
 
+   /**
+    * Initial registry storage update.
+    * @exception Exception if an error occurs
+    */
     public void testRegistryUpdate() throws Exception
     {
         ApplicationDescriptor profileOne = 
@@ -151,6 +179,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         assertEquals( "updated profile", profileTwo, updated );
     }
 
+   /**
+    * Initial get operation.
+    * @exception Exception if an error occurs
+    */
     public void testGetApplicationDescriptors() throws Exception
     {
         ApplicationDescriptor profileOne = 
@@ -173,6 +205,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         assertEquals( "count", 2, entries.length );
     }
 
+   /**
+    * Initial invalid key.
+    * @exception Exception if an error occurs
+    */
     public void testInvalidKey() throws Exception
     {
         ApplicationDescriptor profile = 
@@ -194,6 +230,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         }
     }
 
+   /**
+    * Initial duplicate key.
+    * @exception Exception if an error occurs
+    */
     public void testDuplicateKey() throws Exception
     {
         ApplicationDescriptor profile = 
@@ -215,6 +255,10 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         }
     }
     
+   /**
+    * Initial registry listener.
+    * @exception Exception if an error occurs
+    */
     public void testListeners() throws Exception
     {
         ApplicationDescriptor profile = 
@@ -234,12 +278,23 @@ public class RemoteApplicationRegistryTestCase extends TestCase
         registry.removeApplicationDescriptor( "batman" );
     }
     
+   /**
+    * Mock listener class.
+    */
     private class MockRegistryListener implements RegistryListener
     {
+       /**
+        * Profile addition notification.
+        * @param event the event
+        */
         public void profileAdded( RegistryEvent event )
         {
         }
         
+       /**
+        * Profile removal notification.
+        * @param event the event
+        */
         public void profileRemoved( RegistryEvent event )
         {
         }

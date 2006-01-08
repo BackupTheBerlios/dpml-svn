@@ -27,18 +27,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
-import java.beans.Expression;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
 /**
- * The ModuleDirective class describes a module data-structure.
+ * AbstractTestCase.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
