@@ -31,6 +31,10 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
     protected String m_codebase;
     protected ValueDirective[] m_values;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs during setup.
+    */
     public void setUp() throws Exception
     {
         m_codebase = "link:test:whatever";
@@ -39,12 +43,20 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
         m_values = new ValueDirective[]{v1, v2};
     }
     
+   /**
+    * Test codebase uri spec accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testGetCodeBaseURISpec() throws Exception
     {
         CodeBaseDirective directive = new CodeBaseDirective( m_codebase, m_values );
         assertEquals( "codebase-spec", m_codebase, directive.getCodeBaseURISpec() );
     }
     
+   /**
+    * Test codebase uri accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testGetCodeBaseURI() throws Exception
     {
         URI uri = new URI( m_codebase );
@@ -52,12 +64,20 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
         assertEquals( "codebase-spec", uri, directive.getCodeBaseURI() );
     }
     
+   /**
+    * Test value directive accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testGetValues() throws Exception
     {
         CodeBaseDirective directive = new CodeBaseDirective( m_codebase, m_values );
         assertEquals( "values", m_values, directive.getValueDirectives() );
     }
     
+   /**
+    * Test invalid usage of null codebase in constructor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testNullCodebaseInConstructor() throws Exception
     {
         try
@@ -71,6 +91,10 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test invalid usage of null value in constructor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testNullValuesInConstructor() throws Exception
     {
         try
@@ -84,12 +108,20 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test serialization.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testSerialization() throws Exception
     {
         CodeBaseDirective directive = new CodeBaseDirective( m_codebase, m_values );
         doSerializationTest( directive );
     }
     
+   /**
+    * Test encoding.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testEncoding() throws Exception
     {
         CodeBaseDirective directive = new CodeBaseDirective( m_codebase, m_values );

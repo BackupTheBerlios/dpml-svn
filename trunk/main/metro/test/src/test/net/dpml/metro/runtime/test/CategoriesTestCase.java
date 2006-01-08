@@ -41,6 +41,11 @@ public class CategoriesTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Testcase setup during which the part defintion 'categories.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "categories.part";
@@ -49,13 +54,14 @@ public class CategoriesTestCase extends TestCase
     }
     
    /**
-    * Test that the component initial state is inactive.
+    * Load the categories component.
+    * @exception Exception if an unexpected error occurs
     */
     public void testCategories() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
         Provider instance = component.getProvider();
-        CategoriesComponent startable = (CategoriesComponent) instance.getValue( false );
+        CategoriesComponent instance = (CategoriesComponent) instance.getValue( false );
         component.deactivate();
     }
     

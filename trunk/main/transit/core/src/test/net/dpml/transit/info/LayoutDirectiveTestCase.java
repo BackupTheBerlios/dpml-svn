@@ -31,6 +31,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     private String m_id = "test";
     private String m_title = "title";
     
+   /**
+    * Test id accessor.
+    * @exception Exception if an error occurs
+    */
     public void testID() throws Exception
     {
         LayoutDirective directive = 
@@ -39,6 +43,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
         assertEquals( "id", m_id, directive.getID() );
     }
     
+   /**
+    * Test title accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTitle() throws Exception
     {
         LayoutDirective directive = 
@@ -47,6 +55,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
         assertEquals( "title", m_title, directive.getTitle() );
     }
     
+   /**
+    * Test invalid null id in constructor.
+    * @exception Exception if an error occurs
+    */
     public void testNullID() throws Exception
     {
         try
@@ -61,6 +73,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
         }
     }
     
+   /**
+    * Test null title in constructor.
+    * @exception Exception if an error occurs
+    */
     public void testNullTitle() throws Exception
     {
         LayoutDirective directive = 
@@ -68,6 +84,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
         assertEquals( "title", m_id, directive.getTitle() );
     }
     
+   /**
+    * Test serailization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         LayoutDirective directive = 
@@ -75,6 +95,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
         doSerializationTest( directive );
     }
     
+   /**
+    * Test encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         LayoutDirective directive = 

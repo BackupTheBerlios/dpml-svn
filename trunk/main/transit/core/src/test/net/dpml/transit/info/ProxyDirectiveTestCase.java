@@ -33,6 +33,10 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     private String m_username;
     private char[] m_password;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         m_host = "http://localhost:1234";
@@ -41,30 +45,50 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
         m_password = new char[]{'r','o','b','i','n'};
     }
     
+   /**
+    * Test proxy host accessor.
+    * @exception Exception if an error occurs
+    */
     public void testHost() throws Exception
     {
         ProxyDirective directive = new ProxyDirective( m_host, m_excludes, m_username, m_password );
         assertEquals( "host", m_host, directive.getHost() );
     }
     
+   /**
+    * Test proxy excludes accessor.
+    * @exception Exception if an error occurs
+    */
     public void testExcludes() throws Exception
     {
         ProxyDirective directive = new ProxyDirective( m_host, m_excludes, m_username, m_password );
         assertEquals( "excludes", m_excludes, directive.getExcludes() );
     }
     
+   /**
+    * Test proxy username accessor.
+    * @exception Exception if an error occurs
+    */
     public void testUsername() throws Exception
     {
         ProxyDirective directive = new ProxyDirective( m_host, m_excludes, m_username, m_password );
         assertEquals( "username", m_username, directive.getUsername() );
     }
     
+   /**
+    * Test proxy password accessor.
+    * @exception Exception if an error occurs
+    */
     public void testPassword() throws Exception
     {
         ProxyDirective directive = new ProxyDirective( m_host, m_excludes, m_username, m_password );
         assertEquals( "password", m_password, directive.getPassword() );
     }
     
+   /**
+    * Test allowanble null arguments.
+    * @exception Exception if an error occurs
+    */
     public void testAllowableNullArguments() throws Exception
     {
         String host = "http://localhost:1234";
@@ -78,6 +102,10 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
         assertEquals( "password", password, directive.getPassword() );
     }
     
+   /**
+    * Test illegal null host argument combination.
+    * @exception Exception if an error occurs
+    */
     public void testNullHost() throws Exception
     {
         String host = null;
@@ -95,6 +123,10 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test classic serialization.
+    * @exception Exception if an error occurs
+    */
     public void testClassicSerialization() throws Exception
     {
         String host = "http://localhost:1234";
@@ -105,6 +137,10 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
         doSerializationTest( directive );
     }
     
+   /**
+    * Test classic encoding.
+    * @exception Exception if an error occurs
+    */
     public void testClassicEncoding() throws Exception
     {
         String host = "http://localhost:1234";
@@ -116,6 +152,10 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
         assertEquals( "encoded", directive, result );
     }
 
+   /**
+    * Test serailization with null fields.
+    * @exception Exception if an error occurs
+    */
     public void testNullSerialization() throws Exception
     {
         String host = "http://localhost:1234";
@@ -126,6 +166,10 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
         doSerializationTest( directive );
     }
     
+   /**
+    * Test encoding with null fields.
+    * @exception Exception if an error occurs
+    */
     public void testNullEncoding() throws Exception
     {
         String host = "http://localhost:1234";

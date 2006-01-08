@@ -25,22 +25,26 @@ import net.dpml.transit.Layout;
 import net.dpml.transit.Artifact;
 
 /**
- * Create of a new Artifact test case.
+ * Artifact test case.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: ArtifactTestCase.java 2900 2005-06-22 19:10:15Z mcconnell@dpml.net $
  */
 public class ArtifactTestCase extends TestCase
 {
-    /**
-     * Constructor for ArtifactReferenceTest.
-     * @param name the test name
-     */
+   /**
+    * Constructor for ArtifactReferenceTest.
+    * @param name the test name
+    */
     public ArtifactTestCase( String name )
     {
         super( name );
     }
 
+   /**
+    * Test invalid null path argument.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testNullPathConstructor() throws Exception
     {
         try
@@ -54,6 +58,10 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test invalid protocol in artifact specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testMissingProtocol() throws Exception
     {
         try
@@ -67,6 +75,10 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test invalid group specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testBadGroup() throws Exception
     {
         try
@@ -80,6 +92,10 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test invalid group specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testAnotherBadGroup() throws Exception
     {
         try
@@ -93,6 +109,10 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test invalid version specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testBadVersion() throws Exception
     {
         try
@@ -107,12 +127,20 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test full specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testFullSpec() throws Exception
     {
         Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name#version");
         verify( artifact, "group/sub-group", "name", "jar", "version" );
     }
 
+   /**
+    * Test leading slash in specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testLeadingSlash() throws Exception
     {
         try
@@ -120,10 +148,17 @@ public class ArtifactTestCase extends TestCase
             String form = "artifact:jar:/group/sub-group/name#version";
             Artifact artifact = Artifact.createArtifact( form );
             fail( "illegal format not caught: " + artifact );
-        } catch( IllegalArgumentException e )
-        {}
+        }
+        catch( IllegalArgumentException e )
+        {
+            // success
+        }
     }
 
+   /**
+    * Test invalid missing type in specification.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testMissingType() throws Exception
     {
         String form = "artifact:group/sub-group/name#version";
@@ -131,16 +166,27 @@ public class ArtifactTestCase extends TestCase
         {
             Artifact artifact = Artifact.createArtifact( form );
             fail( "illegal format not caught: " + artifact );
-        } catch( IllegalArgumentException e )
-        {}
+        } 
+        catch( IllegalArgumentException e )
+        {
+            // success
+        }
     }
 
+   /**
+    * Test null version.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testNullVersion() throws Exception
     {
         Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name");
         verify( artifact, "group/sub-group", "name", "jar", null );
     }
 
+   /**
+    * Test null version and null type.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testNullVersionAndNullType() throws Exception
     {
         String form = "artifact:group/sub-group/name";
@@ -148,10 +194,17 @@ public class ArtifactTestCase extends TestCase
         {
             Artifact artifact = Artifact.createArtifact( form );
             fail( "illegal format not caught: " + artifact );
-        } catch( IllegalArgumentException e )
-        {}
+        }
+        catch( IllegalArgumentException e )
+        {
+            // success
+        }
     }
 
+   /**
+    * Test missing group.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testMissingGroup() throws Exception
     {
         try
@@ -165,6 +218,10 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test missing group without type.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testMissingGroupWithoutType() throws Exception
     {
         try
@@ -178,12 +235,20 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Test zero length version.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testZeroLengthVersion() throws Exception
     {
         Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name#");
         verify( artifact, "group/sub-group", "name", "jar", null );
     }
 
+   /**
+    * Test url external form.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testExternalForm() throws Exception
     {
         final String spec = "artifact:jar:group/sub-group/name#version";
@@ -191,6 +256,10 @@ public class ArtifactTestCase extends TestCase
         assertEquals( artifact.toString(), spec );
     }
 
+   /**
+    * Test internal reference.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testInternalReference1() throws Exception
     {
         final String spec = "artifact:jar:group/sub-group/name#version";
@@ -199,6 +268,10 @@ public class ArtifactTestCase extends TestCase
         assertEquals( spec, artifact.toString() );
     }
 
+   /**
+    * Test internal reference.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testInternalReference2() throws Exception
     {
         final String spec = "artifact:jar:group/sub-group/name#version";
@@ -207,6 +280,10 @@ public class ArtifactTestCase extends TestCase
         assertEquals( spec, artifact.toString() );
     }
 
+   /**
+    * Test external form.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testExternalFormWithNonDefaultType() throws Exception
     {
         final String spec = "artifact:block:group/sub-group/name#version";
@@ -214,6 +291,10 @@ public class ArtifactTestCase extends TestCase
         assertEquals( spec, spec, artifact.toString() );
     }
 
+   /**
+    * Test equality operation.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testEquality() throws Exception
     {
         final String spec = "artifact:jar:group/sub-group/name#version";
@@ -222,6 +303,10 @@ public class ArtifactTestCase extends TestCase
         assertTrue( spec, artifact1.equals( artifact2 ) );
     }
 
+   /**
+    * Test equality operation.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testInequality() throws Exception
     {
         final String spec1 = "artifact:jar:group/sub-group/name#version";
@@ -231,6 +316,10 @@ public class ArtifactTestCase extends TestCase
         assertFalse( artifact1.equals( artifact2 ) );
     }
 
+   /**
+    * Test equality operation.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testInequalityOnType() throws Exception
     {
         final String spec1 = "artifact:jar:group/sub-group/name#version";
@@ -240,6 +329,10 @@ public class ArtifactTestCase extends TestCase
         assertFalse( artifact1.equals( artifact2 ) );
     }
 
+   /**
+    * Test comparability.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testComparability1() throws Exception
     {
         final String spec1 = "artifact:jar:aaa/name";
@@ -253,6 +346,10 @@ public class ArtifactTestCase extends TestCase
         assertTrue( artifact2.compareTo( artifact2 ) == 0 );
     }
 
+   /**
+    * Test comparability.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testComparability2() throws Exception
     {
         final String spec1 = "artifact:jar:aaa/name";
@@ -268,6 +365,14 @@ public class ArtifactTestCase extends TestCase
         assertTrue( artifact2.compareTo( artifact4 ) == 0 );
     }
 
+   /**
+    * Utility method to verify an artifact.
+    * @param artifact the artifact to verify
+    * @param group the group
+    * @param name the name
+    * @param type the type
+    * @param version the version
+    */
     public void verify( Artifact artifact, String group, String name, String type, String version )
     {
         assertEquals( "group", group, artifact.getGroup() );
@@ -292,6 +397,10 @@ public class ArtifactTestCase extends TestCase
         }
     }
 
+   /**
+    * Utility method to list an artifact to console.
+    * @param artifact the artifact to verify
+    */
     public void list( Artifact artifact )
     {
         System.out.println( "GROUP: " + artifact.getGroup() );

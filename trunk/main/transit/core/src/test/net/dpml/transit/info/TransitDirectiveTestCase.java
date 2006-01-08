@@ -32,6 +32,10 @@ public final class TransitDirectiveTestCase extends AbstractTestCase
     private ProxyDirective m_proxy;
     private TransitDirective m_directive;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         m_proxy = 
@@ -47,22 +51,37 @@ public final class TransitDirectiveTestCase extends AbstractTestCase
             m_proxy, m_cache );
     }
     
-
+   /**
+    * Test proxy directive accessor.
+    * @exception Exception if an error occurs
+    */
     public void testProxyDirective() throws Exception
     {
         assertEquals( "proxy", m_proxy, m_directive.getProxyDirective() );
     }
     
+   /**
+    * Test cache directive accessor.
+    * @exception Exception if an error occurs
+    */
     public void testCacheDirective() throws Exception
     {
         assertEquals( "cache", m_cache, m_directive.getCacheDirective() );
     }
         
+   /**
+    * Test directive serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_directive );
     }
     
+   /**
+    * Test directive encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         TransitDirective result = (TransitDirective) doEncodingTest( m_directive, "transit.xml" );

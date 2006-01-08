@@ -46,6 +46,11 @@ abstract class AbstractTestCase extends TestCase
 {
     public static final Properties PROPERTIES = new Properties();
     
+   /**
+    * Test serialization of the supplied object.
+    * @param object the object to serialize
+    * @exception Exception is an error occurs
+    */
     public void doSerializationTest( Object object )
         throws Exception
     {
@@ -64,6 +69,12 @@ abstract class AbstractTestCase extends TestCase
         assertEquals( "hash", object.hashCode(), serialized.hashCode() );
     }
 
+   /**
+    * Test encoding of the supplied object.
+    * @param object the object to encode
+    * @return the result of decoding the encoded form of the supplied object
+    * @exception Exception is an error occurs
+    */
     public Object doEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
@@ -94,5 +105,4 @@ abstract class AbstractTestCase extends TestCase
         assertEquals( "hash", object.hashCode(), result.hashCode() );
         return result;
     }
-
 }

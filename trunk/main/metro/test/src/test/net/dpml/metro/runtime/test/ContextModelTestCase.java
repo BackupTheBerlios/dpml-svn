@@ -38,7 +38,7 @@ import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.test.ExampleComponent;
 
 /**
- * Test aspects of the component model implementation.
+ * Test aspects of the component context model implementation.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -46,6 +46,11 @@ public class ContextModelTestCase extends TestCase
 {    
     private ComponentModel m_model;
     
+   /**
+    * Testcase setup during which the part definition 'example.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example.part";
@@ -54,6 +59,10 @@ public class ContextModelTestCase extends TestCase
         m_model = (ComponentModel) Controller.STANDARD.createModel( uri );
     }
     
+   /**
+    * Test context model inital state and subsequent context model updating.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testContextModel() throws Exception
     {
         MutableContextModel context = (MutableContextModel) m_model.getContextModel();
@@ -72,12 +81,20 @@ public class ContextModelTestCase extends TestCase
         assertEquals( "color-2", Color.BLUE, result.resolve() );
     }
     
+   /**
+    * Test model vaidation (with cause for concern).
+    * @exception Exception if an unexpected error occurs
+    */
     public void testValidationWithoutCause() throws Exception
     {
         ContextModel context = m_model.getContextModel();
         context.validate();
     }
     
+   /**
+    * Test model vaidation (with cause for concern).
+    * @exception Exception if an unexpected error occurs
+    */
     public void testValidationWithCause() throws Exception
     {
         MutableContextModel context = (MutableContextModel) m_model.getContextModel();

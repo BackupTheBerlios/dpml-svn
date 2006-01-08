@@ -37,6 +37,10 @@ import net.dpml.transit.info.ValueDirective;
  */
 public class ConstructTestCase extends AbstractEncodingTestCase
 {
+   /**
+    * Test creation of a simple construct.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testSimpleConstruct() throws Exception
     {
         Construct construct = new Construct( "fred" );
@@ -49,6 +53,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "simple construct value", value, "fred" );
     }
 
+   /**
+    * Test creation of a construct using a null value.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testNullArgConstruct() throws Exception
     {
         Construct construct = new Construct( Date.class.getName(), (String) null );
@@ -56,6 +64,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "isa-data", value.getClass(), Date.class );
     }
 
+   /**
+    * Test creation of a construct using a primitive type.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testPrimitiveConstruct() throws Exception
     {
         Construct construct = new Construct( "int", "10" );
@@ -64,6 +76,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "isa-Integer", Integer.class, value.getClass() );
     }
 
+   /**
+    * Test creation of a construct using a single typed argument.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testSingleArgConstruct() throws Exception
     {
         Construct construct = new Construct( File.class.getName(), "abc" );
@@ -72,24 +88,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "file", value, new File( "abc" ) );
     }
 
-    /*
-    public void testMultiArgConstruct() throws Exception
-    {
-        Value a = new Construct( File.class.getName(), "aaa" );
-        Value b = new Construct( File.class.getName(), "${java.io.tmpdir}" );
-        java.beans.XMLEncoder encoder = new java.beans.XMLEncoder( System.out );
-        encoder.writeObject( b );
-        encoder.close();
-        Value c = new Construct( Context.class.getName(), new Value[]{a, b} );
-
-        Object value = c.resolve();
-        assertEquals( "isa-context", value.getClass(), Context.class );
-        Context context = (Context) value;
-        assertEquals( "file-a", context.getA(), new File( "aaa" ) );
-        assertEquals( "file-b", context.getB(), new File( System.getProperty( "java.io.tmpdir" ) ) );
-    }
+   /**
+    * Test creation of a construct using a multiple primitate arguments.
+    * @exception Exception if an unexpected error occurs.
     */
-
     public void testPrimitiveMultiArgConstruct() throws Exception
     {
         Value a = new Construct( "int", "100" );
@@ -110,6 +112,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test creation of a construct using a static method operator.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testStaticMethod() throws Exception
     {
         Value v = new Construct( Context2.class.getName(), "create", new Value[0] );
@@ -127,7 +133,11 @@ public class ConstructTestCase extends AbstractEncodingTestCase
             fail( "context2 logical return value is not 'true'" );
         }
     }
-
+    
+   /**
+    * Test creation of a construct using a static field operator.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testStaticField() throws Exception
     {
         Value v = new Construct( Color.class.getName(), "RED", (String) null );
@@ -135,6 +145,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "color", Color.RED, value );
     }
 
+   /**
+    * Test creation of a composite construct using a static field operator.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testStaticFieldInComposite() throws Exception
     {
         Value v = new Construct( Color.class.getName(), "RED", new Value[0] );
@@ -142,6 +156,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "color", Color.RED, value );
     }
 
+   /**
+    * Test creation of a construct using a symbolic reference.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testSymbolicReference() throws Exception
     {
         Map map = new Hashtable();
@@ -152,6 +170,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "value", file, value );
     }
     
+   /**
+    * Test creation of a construct using a typed symbolic reference.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testTypedSymbolicReference() throws Exception
     {
         Map map = new Hashtable();
@@ -177,6 +199,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test construct encoding.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testEncoding() throws Exception
     {
         Value number = new Construct( "int", "${number}" );
@@ -186,53 +212,88 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "encoding", construct, result );
     }
 
+   /**
+    * Mock class.
+    */
     public static class Context 
     {
         private File m_a;
         private File m_b;
 
+       /**
+        * Creation of a mock composite argument object.
+        * @param a the primary argument
+        * @param b the secondary argument
+        */
         public Context( File a, File b )
         {
             m_a = a;
             m_b = b;
         }
 
+       /**
+        * Return the primary argument.
+        * @return the primary argument value
+        */
         public File getA()
         {
             return m_a;
         }
 
+       /**
+        * Return the secondary argument.
+        * @return the secondary argument value
+        */
         public File getB()
         {
             return m_b;
         }
     }
 
+   /**
+    * Another mock class.
+    */
     public static class Context2 
     {
         private int m_number;
         private boolean m_logical;
         
+       /**
+        * Static constructor method.
+        * @return an instance
+        */
         public static Context2 create()
         {
             return new Context2( 100, true );
         }
 
+       /**
+        * Creation of a mock object using primiative arguments.
+        * @param number a primitive number
+        * @param logical a boolean value
+        */
         public Context2( int number, boolean logical )
         {
             m_number = number;
             m_logical = logical;
         }
 
+       /**
+        * Return the number.
+        * @return the number
+        */
         public int getNumber()
         {
             return m_number;
         }
 
+       /**
+        * Return the boolean.
+        * @return the boolean
+        */
         public boolean getLogical()
         {
             return m_logical;
         }
     }
-
 }

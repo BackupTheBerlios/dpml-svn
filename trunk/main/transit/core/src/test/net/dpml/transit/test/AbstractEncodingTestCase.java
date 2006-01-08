@@ -38,13 +38,20 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 /**
- * EntryDescriptorTestCase does XYZ
+ * AbstractEncodingTestCase.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: EntryDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
 public abstract class AbstractEncodingTestCase extends TestCase
 {
+   /**
+    * Utility operation to encode and decode an supplied object using an intermidiate file.
+    * @param object the object to enciode
+    * @param filename the intermidiate filename resolved relative to the target/test directory
+    * @return the result of decoding the encoded structure
+    * @exception Exception if an error occurs
+    */
     public Object executeEncodingTest( Object object, String filename ) throws Exception
     {
         File test = new File( "target/test" );
@@ -73,8 +80,17 @@ public abstract class AbstractEncodingTestCase extends TestCase
         return result;
     }
 
+   /**
+    * Internal persitance delage for the URI class.
+    */
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Create an expression using an existing uri.
+        * @param old the old uri
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             URI uri = (URI) old;

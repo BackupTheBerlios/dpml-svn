@@ -37,6 +37,10 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
     private ContentDirective[] m_content;
     private CacheDirective m_directive;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs during setup.
+    */
     public void setUp() throws Exception
     {
         m_cache = "${dpml.data}/cache";
@@ -51,46 +55,82 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
            m_cache, m_cacheLayout, m_local, m_localLayout, m_layouts, m_hosts, m_content );
     }
     
+   /**
+    * Test cache accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testCache() throws Exception
     {
         assertEquals( "cache", m_cache, m_directive.getCache() );
     }
     
+   /**
+    * Test cache layout accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testCacheLayout() throws Exception
     {
         assertEquals( "layout", m_cacheLayout, m_directive.getCacheLayout() );
     }
     
+   /**
+    * Test local path accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testLocal() throws Exception
     {
         assertEquals( "local", m_local, m_directive.getLocal() );
     }
     
+   /**
+    * Test local layout accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testLocalLayout() throws Exception
     {
         assertEquals( "layout", m_localLayout, m_directive.getLocalLayout() );
     }
     
+   /**
+    * Test layouts accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testLayouts() throws Exception
     {
         assertEquals( "layouts", m_layouts, m_directive.getLayoutDirectives() );
     }
     
+   /**
+    * Test hosts accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testHosts() throws Exception
     {
         assertEquals( "hosts", m_hosts, m_directive.getHostDirectives() );
     }
     
+   /**
+    * Test content handler accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testContent() throws Exception
     {
         assertEquals( "content", m_content, m_directive.getContentDirectives() );
     }
     
+   /**
+    * Test directive serialization.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testSerialization() throws Exception
     {
         doSerializationTest( m_directive );
     }
     
+   /**
+    * Test directive encoding.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testEncoding() throws Exception
     {
         CacheDirective result = (CacheDirective) doEncodingTest( m_directive, "cache.xml" );

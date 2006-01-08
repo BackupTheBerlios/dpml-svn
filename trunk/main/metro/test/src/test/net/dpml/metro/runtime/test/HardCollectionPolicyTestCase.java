@@ -38,6 +38,10 @@ public class HardCollectionPolicyTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example-4.part";
@@ -45,6 +49,13 @@ public class HardCollectionPolicyTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
     
+   /**
+    * Test the HARD collection policy through the creation of two components
+    * followed by a gc run and validating of the number of references remaining in 
+    * memory (which according to the HARD collection policy will remain as 2).
+    *
+    * @exception Exception if an unexpected error occurs
+    */
     public void testCollection() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );

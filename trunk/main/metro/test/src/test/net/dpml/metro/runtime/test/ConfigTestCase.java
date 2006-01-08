@@ -30,7 +30,7 @@ import net.dpml.part.Provider;
 import net.dpml.test.config.ConfigurableComponent;
 
 /**
- * Contains a series of tests dealing with dynamic component lifecycles.
+ * Validation of component configuration aspects.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -41,6 +41,11 @@ public class ConfigTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Testcase setup during which the part definition 'config.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "config.part";
@@ -49,7 +54,9 @@ public class ConfigTestCase extends TestCase
     }
     
    /**
-    * Test that the component initial state is inactive.
+    * Test the the component properly exposed the configuration
+    * declared within the part defintion.
+    * @exception Exception if an unexpected error occurs
     */
     public void testCategories() throws Exception
     {

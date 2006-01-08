@@ -40,6 +40,11 @@ public class ComponentHandlerTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Testcase setup during which the part defintion 'example.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example.part";
@@ -49,6 +54,7 @@ public class ComponentHandlerTestCase extends TestCase
     
    /**
     * Test that the component initial state is inactive.
+    * @exception Exception if an unexpected error occurs
     */
     public void testHandlerInitialState() throws Exception
     {
@@ -60,6 +66,7 @@ public class ComponentHandlerTestCase extends TestCase
    /**
     * Test that the component exposes itself as active following activation 
     * and inactive following deactivation.
+    * @exception Exception if an unexpected error occurs
     */
     public void testActivationDeactivationCycle() throws Exception
     {
@@ -71,8 +78,8 @@ public class ComponentHandlerTestCase extends TestCase
     }
 
    /**
-    * Test that an IllegalStateException is thrown if a client attempts to 
-    * access an Provider from an inactive component.
+    * Test self activation on access.
+    * @exception Exception if an unexpected error occurs
     */
     public void testProviderAquisitionInInactiveState() throws Exception
     {

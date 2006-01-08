@@ -40,6 +40,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
     private String m_scheme = "";
     private String m_prompt = "";
     
+   /**
+    * Test id accessor.
+    * @exception Exception if an error occurs
+    */
     public void testID() throws Exception
     {
         HostDirective directive = 
@@ -49,6 +53,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "id", m_id, directive.getID() );
     }
     
+   /**
+    * Test priority accessor.
+    * @exception Exception if an error occurs
+    */
     public void testPriority() throws Exception
     {
         HostDirective directive = 
@@ -58,6 +66,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "priority", m_priority, directive.getPriority() );
     }
     
+   /**
+    * Test host accessor.
+    * @exception Exception if an error occurs
+    */
     public void testHost() throws Exception
     {
         HostDirective directive = 
@@ -67,6 +79,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "host", m_host, directive.getHost() );
     }
     
+   /**
+    * Test index accessor.
+    * @exception Exception if an error occurs
+    */
     public void testIndex() throws Exception
     {
         HostDirective directive = 
@@ -76,6 +92,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "index", m_index, directive.getIndex() );
     }
     
+   /**
+    * Test username accessor.
+    * @exception Exception if an error occurs
+    */
     public void testUsername() throws Exception
     {
         HostDirective directive = 
@@ -85,6 +105,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "username", m_username, directive.getUsername() );
     }
     
+   /**
+    * Test password accessor.
+    * @exception Exception if an error occurs
+    */
     public void testPassword() throws Exception
     {
         HostDirective directive = 
@@ -94,6 +118,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "password", m_password, directive.getPassword() );
     }
     
+   /**
+    * Test layout accessor.
+    * @exception Exception if an error occurs
+    */
     public void testLayout() throws Exception
     {
         HostDirective directive = 
@@ -103,6 +131,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "layout", m_layout, directive.getLayout() );
     }
     
+   /**
+    * Test enabled accessor.
+    * @exception Exception if an error occurs
+    */
     public void testEnabled() throws Exception
     {
         HostDirective directive = 
@@ -117,6 +149,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertFalse( "enabled", directive.getEnabled() );
     }
     
+   /**
+    * Test trusted accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTrusted() throws Exception
     {
         HostDirective directive = 
@@ -131,6 +167,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertFalse( "trusted", directive.getTrusted() );
     }
     
+   /**
+    * Test scheme accessor.
+    * @exception Exception if an error occurs
+    */
     public void testScheme() throws Exception
     {
         HostDirective directive = 
@@ -140,6 +180,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "scheme", m_scheme, directive.getScheme() );
     }
     
+   /**
+    * Test prompt accessor.
+    * @exception Exception if an error occurs
+    */
     public void testPrompt() throws Exception
     {
         HostDirective directive = 
@@ -149,6 +193,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         assertEquals( "prompt", m_prompt, directive.getPrompt() );
     }
     
+   /**
+    * Test invalid null id in constructor.
+    * @exception Exception if an error occurs
+    */
     public void testNullID() throws Exception
     {
         try
@@ -165,6 +213,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         }
     }
 
+   /**
+    * Test null host in constructor.
+    * @exception Exception if an error occurs
+    */
     public void testNullHost() throws Exception
     {
         try
@@ -181,6 +233,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test null layout in constructor.
+    * @exception Exception if an error occurs
+    */
     public void testNullLayout() throws Exception
     {
         try
@@ -197,6 +253,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         HostDirective directive = 
@@ -206,6 +266,10 @@ public final class HostDirectiveTestCase extends AbstractTestCase
         doSerializationTest( directive );
     }
     
+   /**
+    * Test encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         HostDirective directive = 

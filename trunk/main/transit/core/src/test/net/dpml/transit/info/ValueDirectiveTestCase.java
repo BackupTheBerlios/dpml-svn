@@ -31,10 +31,10 @@ import net.dpml.transit.ValueException;
  */
 public final class ValueDirectiveTestCase extends AbstractTestCase
 {
-
    /**
     * Validate the creation of a value directrive using a single null argument
     * and the resolution of the value by a Construct to a null.
+    * @exception Exception if an error occurs
     */
     public void testNullValue() throws Exception
     {
@@ -54,6 +54,7 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
     * Validate the creation of a value directrive using a single non-null 
     * String argument and the resolution of the value by a construct to the 
     * same value.
+    * @exception Exception if an error occurs
     */
     public void testValue() throws Exception
     {
@@ -74,6 +75,7 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
     * String argument that is itself a symbolic reference, and confirm that 
     * and the resolution of the value by a construct returns the expected
     * resolve symbol.
+    * @exception Exception if an error occurs
     */
     public void testSymbolicValue() throws Exception
     {
@@ -87,6 +89,7 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
     
    /**
     * Validate the ValueDirective( String target, String value ) constructor. 
+    * @exception Exception if an error occurs
     */
     public void testTargetValueConstructor() throws Exception
     {
@@ -104,6 +107,7 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
 
    /**
     * Validate the ValueDirective( String target, String method, String value ) constructor. 
+    * @exception Exception if an error occurs
     */
     public void testTargetMethodValueConstructor() throws Exception
     {
@@ -122,6 +126,7 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
     
    /**
     * Validate the ValueDirective( String target, ValueDirective[] args ) constructor.
+    * @exception Exception if an error occurs
     */
     public void testTargetValuesConstructor() throws Exception
     {
@@ -142,6 +147,7 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
     
    /**
     * Validate the ValueDirective( String target, String method, ValueDirective[] args ) constructor.
+    * @exception Exception if an error occurs
     */
     public void testTargetMethodValuesConstructor() throws Exception
     {
@@ -161,6 +167,9 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
         assertEquals( "resolved", new File( new File( "." ), "test" ), construct.resolve() );
     }
     
+   /**
+    * Validate equality operation.
+    */
     public void testEquals()
     {
         ValueDirective base = new ValueDirective( "java.io.File", "." );
@@ -180,6 +189,10 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
         }
     }
     
+   /**
+    * Test serialization.
+    * @exception Exception if an error occurs
+    */
     public void testSerialization() throws Exception
     {
         String target = "java.io.File";
@@ -190,6 +203,10 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
         doSerializationTest( directive );
     }
     
+   /**
+    * Test encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         String target = "java.io.File";

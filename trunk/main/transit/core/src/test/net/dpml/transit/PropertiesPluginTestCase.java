@@ -36,6 +36,10 @@ public class PropertiesPluginTestCase extends TestCase
 {
     private PropertiesPlugin m_plugin;
 
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs during setup.
+    */
     protected void setUp() throws Exception
     {
         Properties props = new Properties();
@@ -44,43 +48,69 @@ public class PropertiesPluginTestCase extends TestCase
         m_plugin = new PropertiesPlugin( props );
     }
 
-    public void testArtifact()
-        throws Exception
+   /**
+    * Test artifact name accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testArtifactName() throws Exception
     {
         Artifact artifact = Artifact.createArtifact( m_plugin.getURI() );
         assertEquals( "Artifact name", "dpml-metro-cli", artifact.getName() );
+    }
 
+   /**
+    * Test artifact uri accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testArtifactToURI() throws Exception
+    {
+        Artifact artifact = Artifact.createArtifact( m_plugin.getURI() );
         URI uri = URI.create( "artifact:plugin:dpml/metro/dpml-metro-cli#123" );
         assertEquals( "Artifact URI", uri, artifact.toURI() );
     }
 
-    public void testDomain()
-        throws Exception
+   /**
+    * Test artifact domain accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testDomain() throws Exception
     {
         assertEquals( "Domain", "net.dpml", m_plugin.getSpecificationNamespace() );
     }
 
-    public void testVersion()
-        throws Exception
+   /**
+    * Test artifact version accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testVersion() throws Exception
     {
         assertEquals( "Version", "1.0", m_plugin.getSpecificationVersion() );
     }
 
-    public void testClassname()
-        throws Exception
+   /**
+    * Test artifact classname accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testClassname() throws Exception
     {
         assertEquals( "Classname", "net.dpml.metro.Metro", m_plugin.getClassname() );
     }
 
-    public void testInterface()
-        throws Exception
+   /**
+    * Test artifact interfaces accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testInterface() throws Exception
     {
         // TODO: Fix a better sample
         assertEquals( "Interface", null, m_plugin.getInterface() );
     }
 
-    public void testApiDependencies()
-        throws Exception
+   /**
+    * Test artifact PUBLIC dependencies accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testPublicDependencies() throws Exception
     {
         URI[] facts = m_plugin.getDependencies( Category.PUBLIC );
         assertEquals( "API deps", 4, facts.length );
@@ -95,8 +125,11 @@ public class PropertiesPluginTestCase extends TestCase
         assertEquals( "API Artifact URI", uri, facts[3] );
     }
 
-    public void testSpiDependencies()
-        throws Exception
+   /**
+    * Test artifact PROTECTED dependencies accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testProtectedDependencies() throws Exception
     {
         URI[] facts = m_plugin.getDependencies( Category.PROTECTED );
         assertEquals( "SPI deps", 2, facts.length );
@@ -107,8 +140,11 @@ public class PropertiesPluginTestCase extends TestCase
         assertEquals( "SPI Artifact URI", uri, facts[1] );
     }
 
-    public void testImplDependencies()
-        throws Exception
+   /**
+    * Test artifact PRIVATE dependencies accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testPrivateDependencies() throws Exception
     {
         URI[] facts = m_plugin.getDependencies( Category.PRIVATE );
         assertEquals( "Impl deps", 5, facts.length );
@@ -125,8 +161,11 @@ public class PropertiesPluginTestCase extends TestCase
         assertEquals( "Impl Artifact URI", uri, facts[4] );
     }
 
-    public void testAllDependencies()
-        throws Exception
+   /**
+    * Test artifact dependencies accessor.
+    * @exception Exception if an error occurs during setup.
+    */
+    public void testAllDependencies() throws Exception
     {
         URI[] facts = m_plugin.getDependencies();
         assertEquals( "All deps", 11, facts.length );

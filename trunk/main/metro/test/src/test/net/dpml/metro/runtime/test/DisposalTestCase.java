@@ -38,6 +38,11 @@ public class DisposalTestCase extends TestCase
 
     private URI m_uri;
     
+   /**
+    * Testcase setup during which the part defintion 'example.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example.part";
@@ -45,6 +50,10 @@ public class DisposalTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
     
+   /**
+    * Test component handler disposal.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testHandlerDisposal() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );

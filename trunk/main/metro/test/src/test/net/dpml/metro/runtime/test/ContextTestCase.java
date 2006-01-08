@@ -41,6 +41,12 @@ public class ContextTestCase extends TestCase
     private ContextTestComponent m_value;
     private Context m_context;
     
+   /**
+    * Testcase setup during which the part definition 'context.part'
+    * is established as a file uri and the context test component is 
+    * established.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "context.part";
@@ -52,23 +58,40 @@ public class ContextTestCase extends TestCase
         m_context = m_value.getContext();
     }
     
+   /**
+    * Test the initial component state using both the assigned colour value
+    * the a default supplied value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testColor() throws Exception
     {
         assertEquals( "color/1", Color.RED, m_context.getColor() );
         assertEquals( "color/2", Color.YELLOW, m_context.getOptionalColor( Color.YELLOW ) );
     }
     
+   /**
+    * Test the passing of a null as a default argument (allowed).
+    * @exception Exception if an unexpected error occurs
+    */
     public void testNullColor() throws Exception
     {
         assertEquals( "color-null", null, m_context.getOptionalColor( null ) );
     }
     
+   /**
+    * Test access to an integer context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testInteger() throws Exception
     {
         assertEquals( "int/1", 0, m_context.getInteger() );
         assertEquals( "int/2", 999, m_context.getOptionalInteger( 999 ) );
     }
     
+   /**
+    * Test access to an short context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testShort() throws Exception
     {
         short s1 = 0;
@@ -77,6 +100,10 @@ public class ContextTestCase extends TestCase
         assertEquals( "short/2", s2, m_context.getOptionalShort( s2 ) );
     }
     
+   /**
+    * Test access to an long context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testLong() throws Exception
     {
         long v1 = 0;
@@ -85,6 +112,10 @@ public class ContextTestCase extends TestCase
         assertEquals( "long/2", v2, m_context.getOptionalLong( v2 ) );
     }
     
+   /**
+    * Test access to an byte context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testByte() throws Exception
     {
         byte v1 = 0;
@@ -93,6 +124,10 @@ public class ContextTestCase extends TestCase
         assertEquals( "byte/2", v2, m_context.getOptionalByte( v2 ) );
     }
     
+   /**
+    * Test access to an double context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testDouble() throws Exception
     {
         double v1 = 0;
@@ -103,6 +138,10 @@ public class ContextTestCase extends TestCase
         assertEquals( "double/2", v2, m_context.getOptionalDouble( v2 ), delta );
     }
     
+   /**
+    * Test access to an float context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testFloat() throws Exception
     {
         float v1 = 0.5f;
@@ -112,6 +151,10 @@ public class ContextTestCase extends TestCase
         assertEquals( "float/2", v2, m_context.getOptionalFloat( v2 ), delta );
     }
     
+   /**
+    * Test access to an char context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testChar() throws Exception
     {
         char v1 = 'x';
@@ -120,12 +163,20 @@ public class ContextTestCase extends TestCase
         assertEquals( "char/2", v2, m_context.getOptionalChar( v2 ) );
     }
     
+   /**
+    * Test access to an boolean context value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testBoolean() throws Exception
     {
         assertEquals( "boolean/1", true, m_context.getBoolean() );
         assertEquals( "boolean/2", false, m_context.getOptionalBoolean( false ) );
     }
     
+   /**
+    * Test access to an context value declared via a symbolic reference.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testWorkSymbolicReference() throws Exception
     {
         final File test = new File( System.getProperty( "user.dir" ) );
@@ -135,6 +186,10 @@ public class ContextTestCase extends TestCase
         assertEquals( "file/3", somewhere, m_context.getOptionalFile( somewhere ) );
     }
     
+   /**
+    * Test access to a uri context value declared via a symbolic reference.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testURISymbolicReference() throws Exception
     {
         URI foo = new URI( "foo:bar" );
@@ -143,11 +198,19 @@ public class ContextTestCase extends TestCase
         assertEquals( "uri", foo, m_context.getOptionalURI( foo ) );
     }
     
+   /**
+    * Test access to an system defined symbolic name.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testNameSymbolicReference() throws Exception
     {
         assertEquals( "name", "context", m_context.getName() );
     }
     
+   /**
+    * Test access to an system defined symbolic value.
+    * @exception Exception if an unexpected error occurs
+    */
     public void testPathSymbolicReference() throws Exception
     {
         assertEquals( "path", "/context", m_context.getPath() );

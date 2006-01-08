@@ -31,6 +31,10 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     private String m_id = "test";
     private String m_title = "title";
     
+   /**
+    * Test id accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testID() throws Exception
     {
         ContentDirective directive = 
@@ -39,6 +43,10 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
         assertEquals( "id", m_id, directive.getID() );
     }
     
+   /**
+    * Test title accessor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testTitle() throws Exception
     {
         ContentDirective directive = 
@@ -47,6 +55,10 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
         assertEquals( "title", m_title, directive.getTitle() );
     }
     
+   /**
+    * Test illegal null id in constructor.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testNullID() throws Exception
     {
         try
@@ -61,6 +73,10 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
         }
     }
     
+   /**
+    * Test null title.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testNullTitle() throws Exception
     {
         ContentDirective directive = 
@@ -68,6 +84,10 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
         assertEquals( "title", m_id, directive.getTitle() );
     }
     
+   /**
+    * Test serialization.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testSerialization() throws Exception
     {
         ContentDirective directive = 
@@ -75,6 +95,10 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
         doSerializationTest( directive );
     }
     
+   /**
+    * Test encoding.
+    * @exception Exception if an error occurs during setup.
+    */
     public void testEncoding() throws Exception
     {
         ContentDirective directive = 

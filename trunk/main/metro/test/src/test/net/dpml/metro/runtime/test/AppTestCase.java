@@ -41,6 +41,11 @@ public class AppTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Testcase setup during which the part defintion 'application.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "application.part";
@@ -51,6 +56,7 @@ public class AppTestCase extends TestCase
    /**
     * Validate composite instantiation and in particular that the color
     * assigned to the child component has been overriden by the parent. 
+    * @exception Exception if an unexpected error occurs
     */
     public void testApplication() throws Exception
     {

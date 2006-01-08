@@ -45,6 +45,11 @@ public class CompositeTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Testcase setup during which the part definition 'composite.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "composite.part";
@@ -55,6 +60,7 @@ public class CompositeTestCase extends TestCase
    /**
     * Validate composite instantiation and in particular that the color
     * assigned to the child component has been overriden by the parent. 
+    * @exception Exception if an unexpected error occurs
     */
     public void testComposite() throws Exception
     {
@@ -70,6 +76,7 @@ public class CompositeTestCase extends TestCase
     
    /**
     * Validate composite instantiation with an overloader parent context.
+    * @exception Exception if an unexpected error occurs
     */
     public void testOverloadedComposite() throws Exception
     {
