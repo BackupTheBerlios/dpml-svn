@@ -60,8 +60,8 @@ public class CategoriesTestCase extends TestCase
     public void testCategories() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Provider instance = component.getProvider();
-        CategoriesComponent instance = (CategoriesComponent) instance.getValue( false );
+        Provider provider = component.getProvider();
+        CategoriesComponent instance = (CategoriesComponent) provider.getValue( false );
         component.deactivate();
     }
     
