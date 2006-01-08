@@ -18,21 +18,13 @@
 
 package net.dpml.state.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.TestCase;
-
-import net.dpml.state.*;
-import net.dpml.state.impl.*;
+import net.dpml.state.Operation;
+import net.dpml.state.Transition;
+import net.dpml.state.impl.DefaultTransition;
+import net.dpml.state.impl.DefaultOperation;
 
 /**
- * State testcase.
+ * Default transition test-case.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -43,6 +35,10 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
     private String m_target;
     private Transition m_transition;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_name = "test";
@@ -51,27 +47,47 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         m_transition = new DefaultTransition( m_name, m_target, m_operation );
     }
     
+   /**
+    * Test name accessor.
+    * @exception Exception if an error occurs
+    */
     public void testName() throws Exception
     {
         assertEquals( "name", m_name, m_transition.getName() );
     }
     
+   /**
+    * Test target name accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTargetName() throws Exception
     {
         assertEquals( "target", m_target, m_transition.getTargetName() );
     }
     
+   /**
+    * Test operation accessor.
+    * @exception Exception if an error occurs
+    */
     public void testOperation() throws Exception
     {
         assertEquals( "operation", m_operation, m_transition.getOperation() );
     }
     
+   /**
+    * Test transition encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         Transition transition = (Transition) executeEncodingTest( m_transition, "simple-transition-encoded.xml" );
         assertEquals( "original-equals-encoded", m_transition, transition );
     }
     
+   /**
+    * Test null constructor arguments.
+    * @exception Exception if an error occurs
+    */
     public void testNulls() throws Exception
     {
         try
@@ -83,6 +99,14 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         {
             // ok
         }
+    }
+    
+   /**
+    * Test null name constructor arguments.
+    * @exception Exception if an error occurs
+    */
+    public void testNullName() throws Exception
+    {
         try
         {
             new DefaultTransition( null, m_target, m_operation );
@@ -92,6 +116,14 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         {
             // ok
         }
+    }
+    
+   /**
+    * Test null target constructor arguments.
+    * @exception Exception if an error occurs
+    */
+    public void testNullTarget() throws Exception
+    {
         try
         {
             new DefaultTransition( m_name, null, m_operation );
@@ -101,6 +133,14 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
         {
             // ok
         }
+    }
+    
+   /**
+    * Test allowable null operation constructor arguments.
+    * @exception Exception if an error occurs
+    */
+    public void testNullOperation() throws Exception
+    {
         try
         {
             new DefaultTransition( m_name, m_target, null );

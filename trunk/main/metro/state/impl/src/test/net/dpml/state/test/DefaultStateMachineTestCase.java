@@ -21,25 +21,30 @@ package net.dpml.state.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import net.dpml.state.*;
-import net.dpml.state.impl.*;
+import net.dpml.state.State;
+import net.dpml.state.Transition;
+import net.dpml.state.Operation;
+import net.dpml.state.Trigger;
+import net.dpml.state.Action;
+import net.dpml.state.impl.DefaultStateMachine;
 
 /**
- * State testcase.
+ * Default state machine test-case.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
 public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
 {
-    State m_state;
-    DefaultStateMachine m_machine;
+    private State m_state;
+    private DefaultStateMachine m_machine;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         String testPath = System.getProperty( "project.test.dir" );
@@ -63,16 +68,28 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * List the state graph.
+    * @exception Exception if an error occurs
+    */
     public void testAudit() throws Exception
     {
         audit( m_state );
     }
     
+   /**
+    * Test state machine validation function.
+    * @exception Exception if an error occurs
+    */
     public void testValidation() throws Exception
     {
         DefaultStateMachine.validate( m_state );
     }
     
+   /**
+    * Test state machine initialization and termination internal state integrity.
+    * @exception Exception if an error occurs
+    */
     public void testExecution() throws Exception
     {
         // check that the termination action is null
@@ -153,9 +170,12 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         
         m_machine.terminate( null );
         assertEquals( "terminated-state-name", "terminated", m_machine.getState().getName() );
-        
     }
     
+   /**
+    * Test illegal attempt to initialize a disposed state machine.
+    * @exception Exception if an error occurs
+    */
     public void testInitializationInDisposed() throws Exception
     {
         m_machine.dispose();
@@ -170,6 +190,10 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test illegal attempt to terminate a disposed state machine.
+    * @exception Exception if an error occurs
+    */
     public void testTerminationInDisposed() throws Exception
     {
         m_machine.dispose();
@@ -184,6 +208,10 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test encoding of a state graph.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         Object state = executeEncodingTest( m_state, "state-encoded.xml" );
@@ -214,7 +242,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
             Trigger trigger = triggers[i];
             System.out.println( 
               pad + "# trigger " 
-              + "(" + (i+1) + "): [" 
+              + "(" + ( i+1 ) + "): [" 
               + trigger.toString() 
               + "]" );
         }
@@ -224,7 +252,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
             Transition transition = transitions[i];
             System.out.println( 
               pad + "# transition " 
-              + "(" + (i+1) + "): [" 
+              + "(" + ( i+1 ) + "): [" 
               + transition.getName() 
               + "] --> [" + transition.getTargetName() 
               + "]" );
@@ -235,7 +263,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
             Operation operation = operations[i];
             System.out.println( 
               pad + "# operation " 
-              + "(" + (i+1) + "): [" 
+              + "(" + ( i+1 ) + "): [" 
               + operation.getName() 
               + "]" );
         }

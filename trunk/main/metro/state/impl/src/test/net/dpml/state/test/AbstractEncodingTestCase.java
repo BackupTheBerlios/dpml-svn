@@ -23,31 +23,32 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.state.State;
-import net.dpml.state.impl.DefaultState;
-
 /**
- * EntryDescriptorTestCase does XYZ
+ * AbstractEncodingTestCase.
  *
  * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
  * @version $Id: EntryDescriptorTestCase.java 2387 2005-04-23 19:12:58Z mcconnell@dpml.net $
  */
 public abstract class AbstractEncodingTestCase extends TestCase
 {
+   /**
+    * Utility operation to validate encoding and decoding of a supplied object.
+    * @param object the enject to encode and decode
+    * @param filename a file path relative to the test directory to which 
+    *   interim encoded data will be written to
+    * @return the object resulting from the decode of the interim file
+    * @exception Exception if an error occurs
+    */
     public Object executeEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
@@ -77,13 +78,22 @@ public abstract class AbstractEncodingTestCase extends TestCase
         return result;
     }
 
+   /**
+    * Utility persistence delegate used to handle uri encoding.
+    */
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Create an expression instance for a supplied uri.
+        * @param old the old uri
+        * @param encoder the encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             URI uri = (URI) old;
             String spec = uri.toString();
-            Object[] args = new Object[]{ spec };
+            Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
         }
     }

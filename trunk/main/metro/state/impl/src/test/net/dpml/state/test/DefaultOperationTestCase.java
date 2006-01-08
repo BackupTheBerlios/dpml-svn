@@ -18,21 +18,11 @@
 
 package net.dpml.state.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.TestCase;
-
-import net.dpml.state.*;
-import net.dpml.state.impl.*;
+import net.dpml.state.Operation;
+import net.dpml.state.impl.DefaultOperation;
 
 /**
- * State testcase.
+ * DefaultOperationTestCase.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -41,17 +31,29 @@ public class DefaultOperationTestCase extends AbstractEncodingTestCase
     private String m_name;
     private Operation m_operation;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_name = "test";
         m_operation = new DefaultOperation( m_name );
     }
     
+   /**
+    * Test name accessor.
+    * @exception Exception if an error occurs
+    */
     public void testName() throws Exception
     {
         assertEquals( "name", m_name, m_operation.getName() );
     }
     
+   /**
+    * Test that the constructor throws an NPE if supplied with a null name.
+    * @exception Exception if an error occurs
+    */
     public void testNullName() throws Exception
     {
         try
@@ -65,6 +67,10 @@ public class DefaultOperationTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test encoding/decoding of an operation instance.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         Operation operation = (Operation) executeEncodingTest( m_operation, "simple-operation-encoded.xml" );

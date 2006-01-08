@@ -18,21 +18,16 @@
 
 package net.dpml.state.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.TestCase;
-
-import net.dpml.state.*;
-import net.dpml.state.impl.*;
+import net.dpml.state.State;
+import net.dpml.state.Transition;
+import net.dpml.state.Operation;
+import net.dpml.state.Trigger;
+import net.dpml.state.impl.DefaultOperation;
+import net.dpml.state.impl.DefaultTransition;
+import net.dpml.state.impl.DefaultState;
 
 /**
- * State testcase.
+ * Default state test-case.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -45,6 +40,10 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
     private Trigger[] m_triggers;
     private State m_state;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_name = "test";
@@ -73,37 +72,65 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
             m_name, m_triggers, m_transitions, m_operations, m_states );
     }
     
+   /**
+    * Test name accessor.
+    * @exception Exception if an error occurs
+    */
     public void testState() throws Exception
     {
         assertEquals( "name", m_name, m_state.getName() );
     }
     
+   /**
+    * Test triggers accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTriggers() throws Exception
     {
         assertEquals( "triggers", m_triggers, m_state.getTriggers() );
     }
 
+   /**
+    * Test transitions accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTransitions() throws Exception
     {
         assertEquals( "transitions", m_transitions, m_state.getTransitions() );
     }
     
+   /**
+    * Test operations accessor.
+    * @exception Exception if an error occurs
+    */
     public void testOperations() throws Exception
     {
         assertEquals( "operations", m_operations, m_state.getOperations() );
     }
 
+   /**
+    * Test states accessor.
+    * @exception Exception if an error occurs
+    */
     public void testStates() throws Exception
     {
         assertEquals( "states", m_states, m_state.getStates() );
     }
     
+   /**
+    * Test states encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         State state = (State) executeEncodingTest( m_state, "simple-state-encoded.xml" );
         assertEquals( "origin-equals-encoded", m_state, state );
     }
 
+   /**
+    * Test terminal falg accessor.
+    * @exception Exception if an error occurs
+    */
     public void testTerminalState() throws Exception
     {
         State state = new DefaultState( "terminal" );

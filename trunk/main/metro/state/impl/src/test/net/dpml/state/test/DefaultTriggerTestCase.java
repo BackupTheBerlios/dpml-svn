@@ -18,23 +18,14 @@
 
 package net.dpml.state.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.TestCase;
-
-import net.dpml.state.*;
+import net.dpml.state.Action;
 import net.dpml.state.Trigger;
 import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.impl.*;
+import net.dpml.state.impl.DefaultOperation;
+import net.dpml.state.impl.DefaultTrigger;
 
 /**
- * State testcase.
+ * Default trigger test-case.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
@@ -44,6 +35,10 @@ public class DefaultTriggerTestCase extends AbstractEncodingTestCase
     private Action m_action;
     private Trigger m_trigger;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         m_event = Trigger.INITIALIZATION;
@@ -51,22 +46,38 @@ public class DefaultTriggerTestCase extends AbstractEncodingTestCase
         m_trigger = new DefaultTrigger( m_event, m_action );
     }
     
+   /**
+    * Test event accessor.
+    * @exception Exception if an error occurs
+    */
     public void testEvent() throws Exception
     {
         assertEquals( "event", m_event, m_trigger.getEvent() );
     }
     
+   /**
+    * Test action accessor.
+    * @exception Exception if an error occurs
+    */
     public void testAction() throws Exception
     {
         assertEquals( "action", m_action, m_trigger.getAction() );
     }
     
+   /**
+    * Test trigger encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         Trigger trigger = (Trigger) executeEncodingTest( m_trigger, "simple-trigger-encoded.xml" );
         assertEquals( "original-equals-encoded", m_trigger, trigger );
     }
     
+   /**
+    * Test that the constructor throws an NPE if supplied with null arguments.
+    * @exception Exception if an error occurs
+    */
     public void testNulls() throws Exception
     {
         try
@@ -78,6 +89,14 @@ public class DefaultTriggerTestCase extends AbstractEncodingTestCase
         {
             // ok
         }
+    }
+    
+   /**
+    * Test that the constructor throws an NPE if supplied with a null name.
+    * @exception Exception if an error occurs
+    */
+    public void testNullName() throws Exception
+    {
         try
         {
             new DefaultTrigger( null, m_action );
@@ -87,6 +106,14 @@ public class DefaultTriggerTestCase extends AbstractEncodingTestCase
         {
             // ok
         }
+    }
+    
+   /**
+    * Test that the constructor throws an NPE if supplied with a null target.
+    * @exception Exception if an error occurs
+    */
+    public void testNullTrigger() throws Exception
+    {
         try
         {
             new DefaultTrigger( m_event, null );
