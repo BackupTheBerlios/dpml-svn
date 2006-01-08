@@ -32,7 +32,6 @@ import net.dpml.part.Component;
 import net.dpml.part.Provider;
 import net.dpml.state.State;
 import net.dpml.state.StateListener;
-import net.dpml.state.StateEvent;
 import net.dpml.state.impl.DefaultStateListener;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
@@ -52,6 +51,10 @@ public class ProviderTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example.part";
@@ -59,6 +62,10 @@ public class ProviderTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
     
+   /**
+    * Test state listener addition and removal.
+    * @exception Exception if an error occurs
+    */
     public void testStateListenerAdditionAndRemoval() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -70,6 +77,10 @@ public class ProviderTestCase extends TestCase
         component.deactivate();
     }
     
+   /**
+    * Test illegal null listener addition.
+    * @exception Exception if an error occurs
+    */
     public void testNullListenerAddition() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -90,6 +101,10 @@ public class ProviderTestCase extends TestCase
         }
     }
     
+   /**
+    * Test illegal null listener removal.
+    * @exception Exception if an error occurs
+    */
     public void testNullListenerRemoval() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -110,6 +125,10 @@ public class ProviderTestCase extends TestCase
         }
     }
 
+   /**
+    * Test invalid listener removal.
+    * @exception Exception if an error occurs
+    */
     public void testUnknownListenerRemoval() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -131,6 +150,10 @@ public class ProviderTestCase extends TestCase
         }
     }
     
+   /**
+    * Test activation/deactivation cycle.
+    * @exception Exception if an error occurs
+    */
     public void testActivationDeactivationCycle() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -142,7 +165,6 @@ public class ProviderTestCase extends TestCase
             {
                 State oldState = (State) event.getOldValue();
                 State state = (State) event.getNewValue();
-                // TODO: some sort of validation procedure is needed here
             }
           } );
         component.activate();
@@ -154,6 +176,10 @@ public class ProviderTestCase extends TestCase
         assertFalse( "is-active-following-deactivation", component.isActive() );
     }
 
+   /**
+    * Test proxied value instantiation.
+    * @exception Exception if an error occurs
+    */
     public void testValueInstantiationWithProxy() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -172,6 +198,10 @@ public class ProviderTestCase extends TestCase
         }
     }
 
+   /**
+    * Test non-proxied value instantiation.
+    * @exception Exception if an error occurs
+    */
     public void testValueInstantiationWithoutProxy() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
@@ -190,6 +220,10 @@ public class ProviderTestCase extends TestCase
         }
     }
     
+   /**
+    * Test provider context mutation.
+    * @exception Exception if an error occurs
+    */
     public void testContextMutation() throws Exception
     {
         ComponentModel model = (ComponentModel) CONTROLLER.createModel( m_uri );

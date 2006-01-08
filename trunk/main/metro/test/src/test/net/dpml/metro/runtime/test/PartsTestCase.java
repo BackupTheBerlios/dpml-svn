@@ -28,7 +28,6 @@ import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.Provider;
 
-import net.dpml.test.ColorManager;
 import net.dpml.test.composite.ChildComponent;
 import net.dpml.test.composite.PartsComponent;
 
@@ -44,6 +43,10 @@ public class PartsTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "parts.part";
@@ -54,6 +57,7 @@ public class PartsTestCase extends TestCase
    /**
     * Validate composite instantiation and in particular that the color
     * assigned to the child component has been overriden by the parent. 
+    * @exception Exception if an error occurs
     */
     public void testComposite() throws Exception
     {
@@ -66,24 +70,6 @@ public class PartsTestCase extends TestCase
         Color c = child.getColor();
         assertEquals( "color", color, c );
     }
-    
-   /**
-    * Validate composite instantiation with an overloader parent context.
-    */
-    /*
-    public void testOverloadedComposite() throws Exception
-    {
-        Component component = CONTROLLER.createComponent( m_uri );
-        ((Context)component).getContextMap().put( "color", Color.YELLOW );
-        Provider instance = component.getProvider();
-        CompositeComponent parent = (CompositeComponent) instance.getValue( false );
-        Color color = parent.getColor();
-        assertEquals( "parent-color", Color.YELLOW, color );
-        ChildComponent child = parent.getChild();
-        Color c = child.getColor();
-        assertEquals( "color", color, c );
-    }
-    */
     
     static
     {

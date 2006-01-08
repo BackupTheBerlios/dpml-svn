@@ -33,10 +33,6 @@ import net.dpml.metro.model.MutableContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
 
-import net.dpml.transit.model.UnknownKeyException;
-
-import net.dpml.test.ExampleComponent;
-
 /**
  * Test aspects of the component context model implementation.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>

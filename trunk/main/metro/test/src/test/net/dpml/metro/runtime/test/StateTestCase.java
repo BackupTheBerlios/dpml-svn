@@ -28,7 +28,6 @@ import net.dpml.part.Component;
 import net.dpml.part.Provider;
 
 import net.dpml.test.state.Service;
-import net.dpml.test.state.ManagedComponent;
 import net.dpml.test.state.ManagedComponent.Monitor;
 
 /**
@@ -43,6 +42,10 @@ public class StateTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "state.part";
@@ -53,6 +56,7 @@ public class StateTestCase extends TestCase
    /**
     * Validate composite instantiation and in particular that the color
     * assigned to the child component has been overriden by the parent. 
+    * @exception Exception if an error occurs
     */
     public void testComponent() throws Exception
     {

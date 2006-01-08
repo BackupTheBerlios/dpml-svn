@@ -41,6 +41,10 @@ public class LifecycleTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "lifecycle.part";
@@ -50,6 +54,7 @@ public class LifecycleTestCase extends TestCase
     
    /**
     * Test that the component initial state is inactive.
+    * @exception Exception if an error occurs
     */
     public void testLifecycle() throws Exception
     {

@@ -41,6 +41,10 @@ public class ParamsTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "params.part";
@@ -50,6 +54,7 @@ public class ParamsTestCase extends TestCase
     
    /**
     * Test that the component initial state is inactive.
+    * @exception Exception if an error occurs
     */
     public void testCategories() throws Exception
     {

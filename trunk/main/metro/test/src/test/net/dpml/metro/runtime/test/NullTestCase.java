@@ -29,7 +29,11 @@ import net.dpml.part.Controller;
  */
 public class NullTestCase extends TestCase
 {    
-    public void testColor() throws Exception
+   /**
+    * Test time consumed in controlller establishment.
+    * @exception Exception if an error occurs
+    */
+    public void testControllerEstablishment() throws Exception
     {
         Controller control = Controller.STANDARD;
         assertNotNull( "control", control );

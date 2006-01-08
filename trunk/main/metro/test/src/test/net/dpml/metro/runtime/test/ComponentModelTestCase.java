@@ -23,10 +23,8 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Directive;
 import net.dpml.part.Controller;
 import net.dpml.part.ActivationPolicy;
-import net.dpml.state.State;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.model.ComponentModel;
@@ -141,7 +139,7 @@ public class ComponentModelTestCase extends TestCase
     {
         try
         {
-            ComponentModel child = m_model.getComponentModel( "xyz");
+            ComponentModel child = m_model.getComponentModel( "xyz" );
         }
         catch( UnknownKeyException e )
         {

@@ -38,6 +38,10 @@ public class SingletonProviderTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example-3.part";
@@ -45,6 +49,10 @@ public class SingletonProviderTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
     
+   /**
+    * Test multiple provider equivalence.
+    * @exception Exception if an error occurs
+    */
     public void testSharedProviderSemantics() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );

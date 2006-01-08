@@ -38,6 +38,10 @@ public class WeakCollectionPolicyTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example-3.part";
@@ -45,6 +49,10 @@ public class WeakCollectionPolicyTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
     
+   /**
+    * Test weak collection semantics.
+    * @exception Exception if an error occurs
+    */
     public void testCollection() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );

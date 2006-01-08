@@ -28,16 +28,8 @@ import net.dpml.part.Component;
 import net.dpml.part.Controller;
 import net.dpml.part.Provider;
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.MutableContextModel;
-import net.dpml.metro.model.ValidationException;
-import net.dpml.metro.model.ValidationException.Issue;
-
-import net.dpml.transit.model.UnknownKeyException;
-
-import net.dpml.test.ExampleComponent;
 
 /**
  * Test aspects of the component model implementation.
@@ -48,6 +40,10 @@ public class ObserverTestCase extends TestCase
 {    
     private ComponentModel m_model;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "observer.part";
@@ -56,6 +52,10 @@ public class ObserverTestCase extends TestCase
         m_model = (ComponentModel) Controller.STANDARD.createModel( uri );
     }
     
+   /**
+    * Test mutation of the context model.
+    * @exception Exception if an error occurs
+    */
     public void testContextModel() throws Exception
     {
         MutableContextModel context = (MutableContextModel) m_model.getContextModel();

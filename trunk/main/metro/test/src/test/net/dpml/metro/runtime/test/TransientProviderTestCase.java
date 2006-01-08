@@ -38,6 +38,10 @@ public class TransientProviderTestCase extends TestCase
     
     private URI m_uri;
     
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "example-2.part";
@@ -45,6 +49,10 @@ public class TransientProviderTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
     
+   /**
+    * Test transient provider semantics.
+    * @exception Exception if an error occurs
+    */
     public void testTransientProviderSemantics() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );

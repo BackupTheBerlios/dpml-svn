@@ -29,7 +29,6 @@ import net.dpml.part.Component;
 import net.dpml.part.Provider;
 import net.dpml.part.Manager;
 
-import net.dpml.test.ColorManager;
 import net.dpml.test.composite.ChildComponent;
 import net.dpml.test.composite.CompositeComponent;
 
@@ -81,7 +80,8 @@ public class CompositeTestCase extends TestCase
     public void testOverloadedComposite() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        ((Manager)component).getContextMap().put( "color", Color.YELLOW );
+        Manager manager = (Manager) component;
+        manager.getContextMap().put( "color", Color.YELLOW );
         Provider instance = component.getProvider();
         CompositeComponent parent = (CompositeComponent) instance.getValue( false );
         Color color = parent.getColor();
