@@ -24,27 +24,33 @@ import junit.framework.TestSuite;
 
 import net.dpml.transit.util.MimeTypeHandler;
 
-public class MimeHandlerTestCase extends TestCase
+/**
+ * MimeHandlerTestCase.
+ */
+public final class MimeHandlerTestCase extends TestCase
 {
-    static private String[][] TESTS = new String[][]
+    private static final String[][] TESTS = new String[][]
     {
-        { "plugin", "text/x-dpml-plugin" },
-        { "conf", "text/x-dpml-conf" },
-        { "jar", "application/x-jar" },
-        { "zip", "application/x-zip" },
-        { "pdf", "application/pdf" },
-        { "png", "image/png" },
-        { "jpg", "image/jpg" },
-        { "gif", "image/gif" },
-        { "link", "application/x-dpml-link" },
-        { "part", "application/x-dpml-part" }
+        {"plugin", "text/x-dpml-plugin"},
+        {"conf", "text/x-dpml-conf"},
+        {"jar", "application/x-jar"},
+        {"zip", "application/x-zip"},
+        {"pdf", "application/pdf"},
+        {"png", "image/png"},
+        {"jpg", "image/jpg"},
+        {"gif", "image/gif"},
+        {"link", "application/x-dpml-link"},
+        {"part", "application/x-dpml-part"}
     };
 
-    static public Test suite()
+   /**
+    * Return the test suite.
+    * @return the test
+    */
+    public static Test suite()
     {
         TestSuite tests = new TestSuite();
-
-        for( int i = 0 ; i < TESTS.length ; i++ )
+        for( int i = 0; i<TESTS.length; i++ )
         {
             String lookup = TESTS[i][0];
             String expected = TESTS[i][1];
@@ -58,23 +64,30 @@ public class MimeHandlerTestCase extends TestCase
         return tests;
     }
 
-    private String m_Lookup;
-    private String m_Expected;
+    private String m_lookup;
+    private String m_expected;
 
     private MimeHandlerTestCase( String name, String lookup, String expected )
     {
         super( name );
-        m_Lookup = lookup;
-        m_Expected = expected;
+        m_lookup = lookup;
+        m_expected = expected;
     }
 
+   /**
+    * Test mime type lookup.
+    * @exception Exception if an error occurs
+    */
     public void testLookup()
         throws Exception
     {
-        String mime = MimeTypeHandler.getMimeType( m_Lookup );
-        assertEquals( m_Lookup, m_Expected, mime );
+        String mime = MimeTypeHandler.getMimeType( m_lookup );
+        assertEquals( m_lookup, m_expected, mime );
     }
 
+   /**
+    * Test mime map size.
+    */
     public void testSize()
     {
         assertEquals( "Map Size", TESTS.length, MimeTypeHandler.getMimeTypesSize() );

@@ -26,8 +26,6 @@ import java.io.InputStreamReader;
 
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.prefs.Preferences;
-import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
@@ -38,21 +36,20 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.HostModel;
 import net.dpml.transit.Transit;
 import net.dpml.transit.DefaultTransitModel;
 
 /**
- * URL Handler TestCase for Offline operations.
+ * URL Handler TestCase for online operations.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  * @version $Id: OnlineTestCase.java 2926 2005-06-27 10:53:17Z mcconnell@dpml.net $
  */
 public class OnlineTestCase extends TestCase
 {
-    static Transit TRANSIT = setupTransit();
+    private static final Transit TRANSIT = setupTransit();
     
-    private static Transit setupTransit()
+    private static final Transit setupTransit()
     {
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         try
@@ -79,13 +76,21 @@ public class OnlineTestCase extends TestCase
         }
     }
 
+   /**
+    * Test stack jar url.
+    * @exception Exception if an error occurs
+    */
     public void testStackedJarUrl() throws Exception
     {
         URL url = new URL( "jar:artifact:jar:dpml/test/dpml-test-testb!/net/dpml/test/testb/B.class" );
         Object obj = url.getContent();
-        System.out.println( obj.getClass() );
+        //System.out.println( obj.getClass() );
     }
 
+   /**
+    * Test non-versioned artifact download.
+    * @exception Exception if an error occurs
+    */
     public void testDownloadNoVersion() throws Exception
     {
         URL url = new URL( "artifact:testfile:dpml/test/1" );
@@ -93,6 +98,10 @@ public class OnlineTestCase extends TestCase
         assertEquals( "Content not retrieved.", "abc\n", content );
     }
 
+   /**
+    * Test versioned artifact download.
+    * @exception Exception if an error occurs
+    */
     public void testDownloadWithVersion() throws Exception
     {
         URL url = new URL( "artifact:testfile:dpml/test/abc#1.0.1" );
@@ -100,24 +109,36 @@ public class OnlineTestCase extends TestCase
         assertEquals( "Content not retrieved.", "abc\ndef\n", content );
     }
 
+   /**
+    * Test classloader creation.
+    * @exception Exception if an error occurs
+    */
     public void testClassLoader1() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testa" );
-        ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
+        ClassLoader classloader = new URLClassLoader( new URL[]{url} );
         classloader.loadClass( "net.dpml.test.testa.A" );
     }
 
+   /**
+    * Test classloader creation.
+    * @exception Exception if an error occurs
+    */
     public void testClassLoader2() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testb" );
-        ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
+        ClassLoader classloader = new URLClassLoader( new URL[]{url} );
         classloader.loadClass( "net.dpml.test.testb.B" );
     }
 
+   /**
+    * Test internal resource.
+    * @exception Exception if an error occurs
+    */
     public void testInternalResource() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testb" );
-        ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
+        ClassLoader classloader = new URLClassLoader( new URL[]{url} );
         Class clazz = classloader.loadClass( "net.dpml.test.testb.B" );
         URL resourceUrl = clazz.getResource( "TestB.xinfo" );
         String external =
@@ -126,6 +147,10 @@ public class OnlineTestCase extends TestCase
         resourceUrl.openStream();
     }
 
+   /**
+    * Test content conversion.
+    * @exception Exception if an error occurs
+    */
     public void testContentConversionA() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testa" );
@@ -133,6 +158,10 @@ public class OnlineTestCase extends TestCase
         assertTrue( "Content type not correct.", content instanceof InputStream );
     }
 
+   /**
+    * Test content conversion.
+    * @exception Exception if an error occurs
+    */
     public void testContentConversionB() throws Exception
     {
         URL url = new URL( "artifact:png:dpml/test/sample" );
@@ -157,7 +186,8 @@ public class OnlineTestCase extends TestCase
                 line = in.readLine();
             }
             return buf.toString();
-        } finally
+        } 
+        finally
         {
             stream.close();
         }

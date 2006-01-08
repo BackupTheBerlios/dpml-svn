@@ -18,8 +18,6 @@
 
 package net.dpml.transit.info;
 
-import java.net.URI;
-
 /**
  * Testing the CodeBaseDirective class.
  *
@@ -37,8 +35,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testID() throws Exception
     {
+        String codebase = getCodebaseValue();
+        ValueDirective[] values = getValueDirectives();
         LayoutDirective directive = 
-          new LayoutDirective( m_id, m_title, m_codebase, m_values );
+          new LayoutDirective( m_id, m_title, codebase, values );
           
         assertEquals( "id", m_id, directive.getID() );
     }
@@ -49,8 +49,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testTitle() throws Exception
     {
+        String codebase = getCodebaseValue();
+        ValueDirective[] values = getValueDirectives();
         LayoutDirective directive = 
-          new LayoutDirective( m_id, m_title, m_codebase, m_values );
+          new LayoutDirective( m_id, m_title, codebase, values );
           
         assertEquals( "title", m_title, directive.getTitle() );
     }
@@ -61,10 +63,12 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testNullID() throws Exception
     {
+        String codebase = getCodebaseValue();
+        ValueDirective[] values = getValueDirectives();
         try
         {
             LayoutDirective directive = 
-              new LayoutDirective( null, m_title, m_codebase, m_values );
+              new LayoutDirective( null, m_title, codebase, values );
             fail( "NPE expected" );
         }
         catch( NullPointerException e )
@@ -79,8 +83,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testNullTitle() throws Exception
     {
+        String codebase = getCodebaseValue();
+        ValueDirective[] values = getValueDirectives();
         LayoutDirective directive = 
-          new LayoutDirective( m_id, null, m_codebase, m_values );
+          new LayoutDirective( m_id, null, codebase, values );
         assertEquals( "title", m_id, directive.getTitle() );
     }
     
@@ -90,8 +96,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testSerialization() throws Exception
     {
+        String codebase = getCodebaseValue();
+        ValueDirective[] values = getValueDirectives();
         LayoutDirective directive = 
-          new LayoutDirective( m_id, m_title, m_codebase, m_values );
+          new LayoutDirective( m_id, m_title, codebase, values );
         doSerializationTest( directive );
     }
     
@@ -101,8 +109,10 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testEncoding() throws Exception
     {
+        String codebase = getCodebaseValue();
+        ValueDirective[] values = getValueDirectives();
         LayoutDirective directive = 
-          new LayoutDirective( m_id, m_title, m_codebase, m_values );
+          new LayoutDirective( m_id, m_title, codebase, values );
         LayoutDirective result = 
           (LayoutDirective) doEncodingTest( directive, "content-handler-directive.xml" );
         assertEquals( "encoded", directive, result );

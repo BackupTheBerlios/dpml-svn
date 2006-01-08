@@ -28,8 +28,26 @@ import java.net.URI;
  */
 public class CodeBaseDirectiveTestCase extends AbstractTestCase
 {
-    protected String m_codebase;
-    protected ValueDirective[] m_values;
+    private String m_codebase;
+    private ValueDirective[] m_values;
+    
+   /**
+    * Return the test codebase value.
+    * @return the codebase spec
+    */
+    protected String getCodebaseValue()
+    {
+        return m_codebase;
+    }
+    
+   /**
+    * Return the test value directives.
+    * @return the value directive array
+    */
+    protected ValueDirective[] getValueDirectives()
+    {
+        return m_values;
+    }
     
    /**
     * Test case setup.

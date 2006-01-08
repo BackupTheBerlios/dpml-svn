@@ -27,7 +27,6 @@ import java.util.Hashtable;
 
 import net.dpml.transit.Value;
 import net.dpml.transit.Construct;
-import net.dpml.transit.info.ValueDirective;
 
 /**
  * Construct testcase.
@@ -182,7 +181,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         
         Value number = new Construct( "int", "${number}" );
         Value logical = new Construct( "boolean", "${logical}" );
-        Value construct = new Construct( Context2.class.getName(), new Value[]{ number, logical } );
+        Value construct = new Construct( Context2.class.getName(), new Value[]{number, logical} );
         Object value = construct.resolve( map );
         
         assertEquals( "isa-context", value.getClass(), Context2.class );
@@ -207,7 +206,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
     {
         Value number = new Construct( "int", "${number}" );
         Value logical = new Construct( "boolean", "${logical}" );
-        Value construct = new Construct( Context2.class.getName(), new Value[]{ number, logical } );
+        Value construct = new Construct( Context2.class.getName(), new Value[]{number, logical} );
         Value result = (Value) executeEncodingTest( construct, "construct.xml" );
         assertEquals( "encoding", construct, result );
     }

@@ -18,8 +18,6 @@
 
 package net.dpml.transit.info;
 
-import java.util.Arrays;
-
 /**
  * Testing the CodeBaseDirective class.
  *

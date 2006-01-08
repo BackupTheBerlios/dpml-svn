@@ -35,6 +35,9 @@ public class PropertyResolverTestCase extends TestCase
 {
     private Properties m_properties;
 
+   /**
+    * Testcase setup.
+    */
     public void setUp()
     {
         m_properties = new Properties();
@@ -46,11 +49,19 @@ public class PropertyResolverTestCase extends TestCase
         m_properties.put( "some.abc.def.ghi.value", "All that." );
     }
 
+   /**
+    * Testcase constructor.
+    * @param name the testcase name
+    */
     public PropertyResolverTestCase( String name )
     {
         super( name );
     }
 
+   /**
+    * Test simple property resolution.
+    * @exception Exception if an error occurs
+    */
     public void testSimple1() throws Exception
     {
         String src = "${abc}";
@@ -59,6 +70,10 @@ public class PropertyResolverTestCase extends TestCase
         assertEquals( expected, result );
     }
 
+   /**
+    * Test simple property resolution.
+    * @exception Exception if an error occurs
+    */
     public void testSimple2() throws Exception
     {
         String src = "Def = ${abc} is it.";
@@ -67,6 +82,10 @@ public class PropertyResolverTestCase extends TestCase
         assertEquals( expected, result );
     }
 
+   /**
+    * Test simple property resolution.
+    * @exception Exception if an error occurs
+    */
     public void testSimple3() throws Exception
     {
         String src = "def = ${abc} = ${def}";
@@ -75,6 +94,10 @@ public class PropertyResolverTestCase extends TestCase
         assertEquals( expected, result );
     }
 
+   /**
+    * Test complex property resolution.
+    * @exception Exception if an error occurs
+    */
     public void testComplex1() throws Exception
     {
         String src = "${${abc}}";
@@ -83,6 +106,10 @@ public class PropertyResolverTestCase extends TestCase
         assertEquals( expected, result );
     }
 
+   /**
+    * Test complex property resolution.
+    * @exception Exception if an error occurs
+    */
     public void testComplex2() throws Exception
     {
         String src = "${some.${mama}.${papa}.${child}.value}";

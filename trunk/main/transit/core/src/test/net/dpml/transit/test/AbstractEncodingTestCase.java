@@ -23,15 +23,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.net.URI;
 
@@ -95,7 +91,7 @@ public abstract class AbstractEncodingTestCase extends TestCase
         {
             URI uri = (URI) old;
             String spec = uri.toString();
-            Object[] args = new Object[]{ spec };
+            Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
         }
     }

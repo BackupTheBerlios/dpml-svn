@@ -133,7 +133,7 @@ public class ArtifactTestCase extends TestCase
     */
     public void testFullSpec() throws Exception
     {
-        Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name#version");
+        Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name#version" );
         verify( artifact, "group/sub-group", "name", "jar", "version" );
     }
 
@@ -179,7 +179,7 @@ public class ArtifactTestCase extends TestCase
     */
     public void testNullVersion() throws Exception
     {
-        Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name");
+        Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name" );
         verify( artifact, "group/sub-group", "name", "jar", null );
     }
 
@@ -241,7 +241,7 @@ public class ArtifactTestCase extends TestCase
     */
     public void testZeroLengthVersion() throws Exception
     {
-        Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name#");
+        Artifact artifact = Artifact.createArtifact( "artifact:jar:group/sub-group/name#" );
         verify( artifact, "group/sub-group", "name", "jar", null );
     }
 

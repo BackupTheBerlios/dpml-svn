@@ -26,9 +26,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.prefs.Preferences;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -40,7 +37,6 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.HostModel;
 import net.dpml.transit.Transit;
 import net.dpml.transit.DefaultTransitModel;
 
@@ -52,7 +48,7 @@ import net.dpml.transit.DefaultTransitModel;
  */
 public class OfflineTestCase extends TestCase
 {
-    static Transit TRANSIT = setupTransit();
+    private static final Transit TRANSIT = setupTransit();
     
     private static Transit setupTransit()
     {
@@ -81,59 +77,85 @@ public class OfflineTestCase extends TestCase
         }
     }
 
+   /**
+    * Test case setup.
+    * @exception Exception if an error occurs
+    */
     protected void setUp() throws Exception
     {
         new File( "target/test/cache" ).delete();
     }
 
-    public void testDownloadNoVersion()
-        throws Exception
+   /**
+    * Test non-version artifact download.
+    * @exception Exception if an error occurs
+    */
+    public void testDownloadNoVersion() throws Exception
     {
         URL url = new URL( "artifact:testfile:dpml/test/1" );
         String content = getContent( url );
         assertEquals( "Content not retrieved.", "abc\n", content );
     }
 
-    public void testDownloadWithVersion()
-        throws Exception
+   /**
+    * Test version artifact download.
+    * @exception Exception if an error occurs
+    */
+    public void testDownloadWithVersion() throws Exception
     {
         URL url = new URL( "artifact:testfile:dpml/test/abc#1.0.1" );
         String content = getContent( url );
         assertEquals( "Content not retrieved.", "abc\ndef\n", content );
     }
 
-    public void testClassLoader1()
-        throws Exception
+   /**
+    * Test classloader construction.
+    * @exception Exception if an error occurs
+    */
+    public void testClassLoader1() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testa" );
-        ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
+        ClassLoader classloader = new URLClassLoader( new URL[]{url} );
         classloader.loadClass( "net.dpml.test.testa.A" );
     }
 
-    public void testClassLoader2()
-        throws Exception
+   /**
+    * Test classloader construction.
+    * @exception Exception if an error occurs
+    */
+    public void testClassLoader2() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testb" );
-        ClassLoader classloader = new URLClassLoader( new URL[]{ url } );
+        ClassLoader classloader = new URLClassLoader( new URL[]{url} );
         classloader.loadClass( "net.dpml.test.testb.B" );
     }
 
-    public void testContentConversionA()
-        throws Exception
+   /**
+    * Test content conversion.
+    * @exception Exception if an error occurs
+    */
+    public void testContentConversionA() throws Exception
     {
         URL url = new URL( "artifact:jar:dpml/test/dpml-test-testa" );
         Object content = url.getContent();
         assertTrue( "Content type not correct.", content instanceof InputStream );
     }
 
-    public void testContentConversionB()
-        throws Exception
+   /**
+    * Test content conversion.
+    * @exception Exception if an error occurs
+    */
+    public void testContentConversionB() throws Exception
     {
         URL url = new URL( "artifact:png:dpml/test/sample" );
         Object content = url.getContent();
         assertTrue( "Content type not correct.", content instanceof java.awt.image.ImageProducer );
     }
 
+   /**
+    * Test non-writable artifact.
+    * @exception Exception if an error occurs
+    */
     public void testWriteExistingArtifact()
         throws Exception
     {
@@ -141,19 +163,24 @@ public class OfflineTestCase extends TestCase
         try
         {
             OutputStream out = url.openConnection().getOutputStream();
-            for( int i = 65 ; i < 91 ; i++ )
+            for( int i = 65; i < 91; i++ )
             {
                 out.write( i );
             }
             out.write( 10 );
             out.close();
             fail( "Able to write to an existing artifact." );
-        } catch( java.io.IOException e )
+        } 
+        catch( java.io.IOException e )
         {
             // A "Artifact on server" exception should be thrown.
         }
     }
 
+   /**
+    * Test writable artifact.
+    * @exception Exception if an error occurs
+    */
     public void testWriteNewArtifact()
         throws Exception
     {
@@ -161,7 +188,7 @@ public class OfflineTestCase extends TestCase
         String spec = "artifact:txt:dpml/test/" + name;
         URL url = new URL( spec );
         OutputStream out = url.openConnection().getOutputStream();
-        for( int i = 65 ; i < 91 ; i++ )
+        for( int i = 65; i<91; i++ )
         {
             out.write( i );
         }
@@ -175,7 +202,9 @@ public class OfflineTestCase extends TestCase
         {
             int value = in.read();
             if( value == -1 )
+            {
                 break;
+            }
             char ch = (char) value;
             result.append( ch );
         }
@@ -199,7 +228,8 @@ public class OfflineTestCase extends TestCase
                 line = in.readLine();
             }
             return buf.toString();
-        } finally
+        } 
+        finally
         {
             stream.close();
         }
@@ -208,29 +238,14 @@ public class OfflineTestCase extends TestCase
     private void delete( File dir )
     {
         File[] entries = dir.listFiles();
-        for( int i = 0; i < entries.length; i++ )
+        for( int i=0; i<entries.length; i++ )
         {
-            File f = entries[ i ];
+            File f = entries[i];
             if( f.isDirectory() )
+            {
                 delete( f );
+            }
             f.delete();
         }
     }
-
-/* TODO: not used
-    private void print( URL url )
-    {
-        System.out.println( "URL: " + url );
-        System.out.println( "Authority: " + url.getAuthority() );
-        System.out.println( "File: " + url.getFile() );
-        System.out.println( "Host: " + url.getHost() );
-        System.out.println( "Path: " + url.getPath() );
-        System.out.println( "Port: " + url.getPort() );
-        System.out.println( "Protocol: " + url.getProtocol() );
-        System.out.println( "Query: " + url.getQuery() );
-        System.out.println( "Ref: " + url.getRef() );
-        System.out.println( "Userinfo: " + url.getUserInfo() );
-        System.out.println( "--------------" );
-    }
-*/
 }

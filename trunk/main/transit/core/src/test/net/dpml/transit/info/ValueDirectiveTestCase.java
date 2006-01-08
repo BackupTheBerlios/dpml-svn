@@ -21,7 +21,6 @@ package net.dpml.transit.info;
 import java.io.File;
 
 import net.dpml.transit.Construct;
-import net.dpml.transit.ValueException;
 
 /**
  * Testing the ValueDirective class.

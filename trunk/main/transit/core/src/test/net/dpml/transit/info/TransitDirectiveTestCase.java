@@ -18,8 +18,6 @@
 
 package net.dpml.transit.info;
 
-import java.util.Arrays;
-
 /**
  * Testing the CodeBaseDirective class.
  *
@@ -40,8 +38,8 @@ public final class TransitDirectiveTestCase extends AbstractTestCase
     {
         m_proxy = 
           new ProxyDirective( 
-            "http://localhost:1234", new String[]{ "http://www.gotham-city.net" }, 
-            "batman", new char[]{'r','o','b','i','n'} );
+            "http://localhost:1234", new String[]{"http://www.gotham-city.net"}, 
+            "batman", new char[]{'r', 'o', 'b', 'i', 'n'} );
         m_cache = 
           new CacheDirective( 
             "${dpml.data}/cache", "classic", "${dpml.share}/local", "modern", 

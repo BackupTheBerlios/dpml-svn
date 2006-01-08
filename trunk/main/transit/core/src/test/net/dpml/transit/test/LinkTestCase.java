@@ -22,9 +22,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-import java.util.prefs.Preferences;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 import junit.framework.TestCase;
 
@@ -38,19 +35,21 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.HostModel;
 import net.dpml.transit.Transit;
 import net.dpml.transit.DefaultTransitModel;
 
 /**
- *
+ * LinkTestCase.
  * @author <a href="http://www.dpml.net/">The Digital Product Meta Library</a>
  * @version $Id$
  */
 public class LinkTestCase extends TestCase
 {
-    static Transit TRANSIT = setupTransit();
+    static final Transit TRANSIT = setupTransit();
     
+   /**
+    * Static Transit setup.
+    */
     private static Transit setupTransit()
     {
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
@@ -78,6 +77,10 @@ public class LinkTestCase extends TestCase
         }
     }
     
+   /**
+    * Test-case setup.
+    * @exception Exception if an error occurs
+    */
     public void setUp() throws Exception
     {
         if( null == TRANSIT )
@@ -87,7 +90,7 @@ public class LinkTestCase extends TestCase
     } 
 
     /**
-     * Constructor
+     * Creation of a new link testcase.
      * @param name the test name
      */
     public LinkTestCase( String name )
@@ -95,32 +98,41 @@ public class LinkTestCase extends TestCase
         super( name );
     }
 
-    public void testDefaultValue()
-        throws Exception
+   /**
+    * Test default target value.
+    * @exception Exception if an error occurs
+    */
+    public void testDefaultValue() throws Exception
     {
         URL url = new URL( "link:blob:transit/test/aaa/bbb" );
-        Class[] args = new Class[] { Link.class };
+        Class[] args = new Class[]{Link.class};
         Link link = (Link) url.getContent( args );
         URI defUri = URI.create( "artifact:bla:abc/def#142" );
         URI uri = link.getTargetURI( defUri );
         assertEquals( "default", defUri, uri );
     }
 
-    public void testContentUri()
-        throws Exception
+   /**
+    * Test content value.
+    * @exception Exception if an error occurs
+    */ 
+    public void testContentUri() throws Exception
     {
         URI orig = URI.create( "link:blob:transit/test/aaa/bbb" );
         URL url = orig.toURL();
-        Class[] args = new Class[] { URI.class };
+        Class[] args = new Class[]{URI.class};
         URI found = (URI) url.getContent( args );
         assertEquals( "default", orig, found );
     }
 
-    public void testSetValue()
-        throws Exception
+   /**
+    * Test value assignment.
+    * @exception Exception if an error occurs
+    */ 
+    public void testSetValue() throws Exception
     {
         URL url = new URL( "link:blob:transit/test/aaa/ccc" );
-        Class[] args = new Class[] { Link.class };
+        Class[] args = new Class[]{Link.class};
         Link link = (Link) url.getContent( args );
         URI newUri = URI.create( "artifact:testfile:dpml/test/abc#1.0.1" );
         link.setTargetURI( newUri );
@@ -133,11 +145,14 @@ public class LinkTestCase extends TestCase
         assertEquals( "setting", newUri, uri );
     }
 
-    public void testResetValue()
-        throws Exception
+   /**
+    * Test value reset.
+    * @exception Exception if an error occurs
+    */ 
+    public void testResetValue() throws Exception
     {
         URL url = new URL( "link:blob:transit/test/example" );
-        Class[] args = new Class[] { Link.class };
+        Class[] args = new Class[]{Link.class};
         Link link = (Link) url.getContent( args );
         URI newUri = URI.create( "artifact:testfile:dpml/test/abc#1.0" );
         link.setTargetURI( newUri );
@@ -145,11 +160,14 @@ public class LinkTestCase extends TestCase
         link.setTargetURI( newerUri );
     }
 
-    public void testGetValue()
-        throws Exception
+   /**
+    * Test get value.
+    * @exception Exception if an error occurs
+    */ 
+    public void testGetValue() throws Exception
     {
         URL url = new URL( "link:blob:transit/test/aaa/xxx" );
-        Class[] args = new Class[] { Link.class };
+        Class[] args = new Class[]{Link.class};
         Link link = (Link) url.getContent( args );
         URI newUri = URI.create( "artifact:testfile:dpml/test/abc#1.0.1" );
         link.setTargetURI( newUri );
@@ -161,11 +179,15 @@ public class LinkTestCase extends TestCase
         assertTrue( "different content", StreamUtils.compareStreams( in1, in2 ) );
     }
 
+   /**
+    * Test illegal link artifact.
+    * @exception Exception if an error occurs
+    */ 
     public void testIllegalArtifact()
         throws Exception
     {
         URL url = new URL( "link:blob:transit/test/errors/aaa" );
-        Class[] args = new Class[] { Link.class };
+        Class[] args = new Class[]{Link.class};
         URI newUri = URI.create( "artifact:abc:does/not/exist" );
         try
         {

@@ -18,8 +18,6 @@
 
 package net.dpml.transit.info;
 
-import java.util.Arrays;
-
 /**
  * Testing the CodeBaseDirective class.
  *
@@ -40,9 +38,9 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     public void setUp() throws Exception
     {
         m_host = "http://localhost:1234";
-        m_excludes = new String[]{ "http://www.gotham-city.net" };
+        m_excludes = new String[]{"http://www.gotham-city.net"};
         m_username = "batman";
-        m_password = new char[]{'r','o','b','i','n'};
+        m_password = new char[]{'r', 'o', 'b', 'i', 'n'};
     }
     
    /**
@@ -109,7 +107,7 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     public void testNullHost() throws Exception
     {
         String host = null;
-        String[] excludes = new String[]{ "http://www.osm.net" };
+        String[] excludes = new String[]{"http://www.osm.net"};
         String username = "me";
         char[] password = new char[0];
         try
@@ -130,7 +128,7 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     public void testClassicSerialization() throws Exception
     {
         String host = "http://localhost:1234";
-        String[] excludes = new String[]{ "http://www.osm.net" };
+        String[] excludes = new String[]{"http://www.osm.net"};
         String username = "me";
         char[] password = new char[0];
         ProxyDirective directive = new ProxyDirective( host, excludes, username, password );
@@ -144,7 +142,7 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     public void testClassicEncoding() throws Exception
     {
         String host = "http://localhost:1234";
-        String[] excludes = new String[]{ "http://www.osm.net" };
+        String[] excludes = new String[]{"http://www.osm.net"};
         String username = "me";
         char[] password = new char[0];
         ProxyDirective directive = new ProxyDirective( host, excludes, username, password );
