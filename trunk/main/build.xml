@@ -210,7 +210,6 @@
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://api.dpml.net/ant/1.6.5"/>
       <link href="http://api.dpml.net/junit/3.8.1"/>
-      <link href="http://api.dpml.net/checkstyle/3.5"/>
       <link href="http://api.dpml.net/jetty/5.1.6"/>
       <group title="Planet">
         <package name="net.dpml.http"/>
