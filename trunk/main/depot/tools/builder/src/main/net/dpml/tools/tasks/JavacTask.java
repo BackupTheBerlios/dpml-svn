@@ -204,7 +204,7 @@ public class JavacTask extends MatchingTask
         javac.init();
         javac.execute();
         
-        copy( m_source, m_destination, false, "**/*.*", "**/*.java" );
+        copy( m_source, m_destination, false, "**/*.*", "**/*.java,**/package.html" );
 
     }
     

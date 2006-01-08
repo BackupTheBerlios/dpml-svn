@@ -205,7 +205,7 @@
     </copy>
   </target>
 
-  <target name="javadoc" depends="build">
+  <target name="javadoc" depends="prepare">
     <x:javadoc title="DPML Component Management Platform" >
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://api.dpml.net/ant/1.6.5"/>

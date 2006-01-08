@@ -148,7 +148,7 @@ public class JavadocTask extends GenericTask
         // all of the projects within the module
         //
 
-        Resource[] providers = resource.getAggregatedProviders( Scope.RUNTIME, true, true );
+        Resource[] providers = resource.getClasspathProviders( Scope.RUNTIME );
         final Path classpath = getContext().createPath( providers, true, true );
         process( resource, classpath, api );
     }
