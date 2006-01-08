@@ -19,46 +19,29 @@
 package net.dpml.test.part;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.BeanDescriptor;
-import java.beans.DefaultPersistenceDelegate;
 import java.net.URI;
-import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Part;
-import net.dpml.part.PartBuilder;
-import net.dpml.part.PartHeader;
 import net.dpml.part.Directive;
 import net.dpml.part.Controller;
 
-
 /**
- * Validation of the Part datatype.
+ * Testcase validating part loading from a uri.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartTestCase extends TestCase
+public class PartLoadingTestCase extends TestCase
 {
     private static final Controller CONTROLLER = Controller.STANDARD;
 
     private URI m_uri;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if a setup error occurs
+    */
     public void setUp() throws Exception
     {
         final String path = "test.part";
@@ -66,7 +49,11 @@ public class PartTestCase extends TestCase
         m_uri = new File( test, path ).toURI();
     }
 
-    public void testPartBuildReadWrite() throws Exception
+   /**
+    * Test part loading via a controller.
+    * @exception Exception if an error occurs
+    */
+    public void testPartLoading() throws Exception
     {
         Directive directive = CONTROLLER.loadDirective( m_uri );
         String classname = directive.getClass().getName();

@@ -19,19 +19,6 @@
 package net.dpml.part.test;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
@@ -47,13 +34,18 @@ import net.dpml.part.Directive;
 
 
 /**
- * Validation of the Part datatype.
+ * Part datastructure testcase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class PartTestCase extends TestCase
 {
+   /**
+    * Validate that the constructor throws a NPE in the event of 
+    * a null controller uri argument.
+    * @exception Exception if an error occurs
+    */
     public void testNullControllerURI() throws Exception
     {
         try
@@ -67,6 +59,11 @@ public class PartTestCase extends TestCase
         }
     }
     
+   /**
+    * Validate that the constructor throws a NPE in the event of 
+    * a null properties argument.
+    * @exception Exception if an error occurs
+    */
     public void testNullProperties() throws Exception
     {
         try
@@ -80,21 +77,10 @@ public class PartTestCase extends TestCase
         }
     }
     
-    /*
-    public void testNullDirective() throws Exception
-    {
-        try
-        {
-            Part part = new Part( new URI( "test:controller" ), new Properties(), null );
-            fail( "No NPE on null directive" );
-        }
-        catch( NullPointerException e )
-        {
-            // success
-        }
-    }
+   /**
+    * Test controller accessor.
+    * @exception Exception if an error occurs
     */
-    
     public void testControllerURI() throws Exception
     {
         URI uri = new URI( "link:plugin:abc/def" );
@@ -102,6 +88,10 @@ public class PartTestCase extends TestCase
         assertEquals( "uri", uri, part.getControllerURI() );
     }
     
+   /**
+    * Test properties accessor.
+    * @exception Exception if an error occurs
+    */
     public void testProperties() throws Exception
     {
         URI uri = new URI( "link:plugin:abc/def" );
@@ -111,6 +101,10 @@ public class PartTestCase extends TestCase
         assertEquals( "properties", properties, part.getProperties() );
     }
 
+   /**
+    * Test directive features.
+    * @exception Exception if an error occurs
+    */
     public void testDirective() throws Exception
     {
         URI uri = new URI( "link:plugin:abc/def" );
@@ -121,6 +115,10 @@ public class PartTestCase extends TestCase
         assertEquals( "directive", directive, part.getDirective() );
     }
 
+   /**
+    * Test part builder.
+    * @exception Exception if an error occurs
+    */
     public void testPartBuildReadWrite() throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
@@ -140,18 +138,42 @@ public class PartTestCase extends TestCase
         assertEquals( "part", part, p );
     }
     
+   /**
+    * Mock directive.
+    */
     public static final class DemoDirective implements Directive
     {
+       /**
+        * Compare this mock object with another for equality.
+        * @param other the other object
+        * @return true if equal
+        */
         public boolean equals( Object other )
         {
             return ( other instanceof DemoDirective );
         }
+        
+       /**
+        * Return the instance hashcode.
+        * @return the hash value
+        */
+        public int hashCode()
+        {
+            return getClass().hashCode();
+        }
     }
-    
+   
+   /**
+    * Utility demo directive persistence delegate.
+    */
     public static final class DemoDirectiveBeanInfo extends SimpleBeanInfo
     {
         private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
+       /**
+        * Return the bean descriptor.
+        * @return the bean descriptor
+        */
         public BeanDescriptor getBeanDescriptor()
         {
             return BEAN_DESCRIPTOR;
