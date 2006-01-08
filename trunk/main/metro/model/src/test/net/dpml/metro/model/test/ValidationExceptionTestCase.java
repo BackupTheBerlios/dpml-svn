@@ -34,6 +34,11 @@ import junit.framework.TestCase;
  */
 public class ValidationExceptionTestCase extends TestCase
 {
+   /**
+    * Test that the validation exception Issue constructor throws a NPE 
+    * when supplied with a null key.
+    * @exception Exception if an error occurs
+    */
     public void testIssueNullKey() throws Exception
     {
         try
@@ -47,6 +52,11 @@ public class ValidationExceptionTestCase extends TestCase
         }
     }
     
+   /**
+    * Test that the validation exception Issue constructor throws a NPE 
+    * when suopplied with a null message.
+    * @exception Exception if an error occurs
+    */
     public void testIssueNullMessage() throws Exception
     {
         try
@@ -60,6 +70,10 @@ public class ValidationExceptionTestCase extends TestCase
         }
     }
     
+   /**
+    * Test issue key and message accessor.
+    * @exception Exception if an error occurs
+    */
     public void testIssueAccessors() throws Exception
     {
         Issue issue = new Issue( "key", "message" );
@@ -67,6 +81,10 @@ public class ValidationExceptionTestCase extends TestCase
         assertEquals( "issue-message", "message", issue.getMessage() );
     }
     
+   /**
+    * Test accessor.
+    * @exception Exception if an error occurs
+    */
     public void testExceptionAccessors() throws Exception
     {
         Issue[] issues = new Issue[3];
@@ -78,6 +96,11 @@ public class ValidationExceptionTestCase extends TestCase
         assertEquals( "issues-source", this, exception.getSource() );
     }
     
+   /**
+    * Test that the validation exception constructor throws a NPE 
+    * when supplied with a null source.
+    * @exception Exception if an error occurs
+    */
     public void testValidationNullSource() throws Exception
     {
         try
@@ -91,6 +114,11 @@ public class ValidationExceptionTestCase extends TestCase
         }
     }
     
+   /**
+    * Test that the validation exception constructor throws a NPE 
+    * when supplied with a null issues array.
+    * @exception Exception if an error occurs
+    */
     public void testValidationNullIssues() throws Exception
     {
         try

@@ -23,23 +23,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 import java.beans.Expression;
-import java.beans.PersistenceDelegate;
 import java.beans.DefaultPersistenceDelegate;
 import java.net.URI;
 
 import junit.framework.TestCase;
-
-import net.dpml.metro.info.PartReference;
-
-import net.dpml.metro.data.ValueDirective;
 
 /**
  * EntryDescriptorTestCase does XYZ
@@ -49,6 +41,13 @@ import net.dpml.metro.data.ValueDirective;
  */
 public abstract class AbstractEncodingTestCase extends TestCase
 {
+   /**
+    * Test encoding of an object.
+    * @param object the object to encode
+    * @param filename path relative to the target/test directory
+    * @return the result of decoding an encoded representation of object
+    * @exception Exception if an error occurs
+    */
     public Object executeEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
@@ -78,13 +77,22 @@ public abstract class AbstractEncodingTestCase extends TestCase
         return result;
     }
 
+   /**
+    * URIPersistenceDelegate.
+    */
     public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
     {
+       /**
+        * Return an expression used to create a uri.
+        * @param old the old instance
+        * @param encoder an encoder
+        * @return the expression
+        */
         public Expression instantiate( Object old, Encoder encoder )
         {
             URI uri = (URI) old;
             String spec = uri.toString();
-            Object[] args = new Object[]{ spec };
+            Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
         }
     }

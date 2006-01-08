@@ -18,24 +18,6 @@
 
 package net.dpml.metro.info.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-
-import junit.framework.TestCase;
-
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ValueDirective;
 
@@ -52,12 +34,20 @@ public class PartReferenceTestCase extends AbstractEncodingTestCase
     
     private PartReference m_reference;
     
+   /**
+    * Setup the testcase.
+    * @exception Exception if an error occurs during setup.
+    */
     public void setUp() throws Exception
     {
         m_directive = new ValueDirective( "test" );
         m_reference = new PartReference( m_key, m_directive );
     }
     
+   /**
+    * Test part reference encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         PartReference ref = new PartReference( m_key, m_directive );

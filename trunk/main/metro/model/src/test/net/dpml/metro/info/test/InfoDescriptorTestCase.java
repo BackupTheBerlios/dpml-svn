@@ -18,19 +18,6 @@
 
 package net.dpml.metro.info.test;
 
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.File;
-
 import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.CollectionPolicy;
@@ -39,7 +26,7 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.part.Version;
 
 /**
- * InfoDescriptorTestCase does XYZ
+ * InfoDescriptorTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -48,60 +35,94 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
 {
     private final String m_name = "name";
     private final String m_classname = InfoDescriptorTestCase.class.getName();
-    private final Version m_version = Version.getVersion("1.2.3");
+    private final Version m_version = Version.getVersion( "1.2.3" );
     private final LifestylePolicy m_lifestyle = LifestylePolicy.SINGLETON;
     private final CollectionPolicy m_collection = CollectionPolicy.WEAK;
     private final boolean m_threadsafe = false;
     
     private InfoDescriptor m_info;
     
+   /**
+    * Setup the testcase.
+    * @exception Exception if an error occurs in setup
+    */
     public void setUp() throws Exception
     {
         m_info = getInfoDescriptor();
     }
     
+   /**
+    * Test the name.
+    */
     public void testName()
     {
         assertEquals( m_name, m_info.getName() );
     }
     
+   /**
+    * Test the classname.
+    */
     public void testClassName()
     {
         assertEquals( m_classname, m_info.getClassname() );
     }
     
+   /**
+    * Test the version.
+    */
     public void testVersion()
     {
         assertEquals( m_version, m_info.getVersion() );
     }
     
+   /**
+    * Test the lifestyle policy.
+    */
     public void testLifestyle()
     {
         assertEquals( m_lifestyle, m_info.getLifestyle() );
     }
     
+   /**
+    * Test the thread safe policy.
+    */
     public void testThreadsafeCapable()
     {
         assertEquals( m_threadsafe, m_info.isThreadsafe() );
     }
     
+   /**
+    * Test the collection policy.
+    */
     public void testCollectionPolicy()
     {
         assertEquals( m_collection, m_info.getCollectionPolicy() );
     }
     
+   /**
+    * Return the info descriptor to test.
+    * @return the info descriptor
+    */
     protected Descriptor getDescriptor()
     {
         return getInfoDescriptor();
     }
     
+   /**
+    * Return the info descriptor to test.
+    * @return the info descriptor
+    */
     protected InfoDescriptor getInfoDescriptor()
     {
         return new InfoDescriptor(
           m_name, m_classname, m_version, m_lifestyle, m_collection, 
-          m_threadsafe, getProperties());
+          m_threadsafe, getProperties() );
     }
 
+   /**
+    * Validate an info descriptor.
+    * @param desc the info descriptor to validate
+    */
     protected void checkDescriptor( Descriptor desc )
     {
         super.checkDescriptor( desc );
@@ -114,6 +135,9 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         assertEquals( m_collection, info.getCollectionPolicy() );
     }
 
+   /**
+    * Test null classname in constructor.
+    */
     public void testNullClassnameConstructor()
     {
         try
@@ -121,7 +145,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
             new InfoDescriptor(
               m_name, null, m_version, m_lifestyle, m_collection, 
               m_threadsafe, getProperties() );
-            fail("Did not throw a NullPointerException");
+            fail( "Did not throw a NullPointerException" );
         }
         catch( NullPointerException npe )
         {
@@ -129,14 +153,17 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         }
     }
     
+   /**
+    * Test bad classname in constructor.
+    */
     public void testBadClassnameConstructor()
     {
         try
         {
             new InfoDescriptor(
               m_name, "foo/fake/ClassName", m_version, m_lifestyle, m_collection,
-              m_threadsafe, getProperties());
-            fail("Did not throw the proper IllegalArgumentException");
+              m_threadsafe, getProperties() );
+            fail( "Did not throw the proper IllegalArgumentException" );
         }
         catch( IllegalArgumentException iae )
         {
@@ -144,6 +171,9 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         }
     }
     
+   /**
+    * Test constructors.
+    */
     public void testNormalConstructors()
     {
         new InfoDescriptor(
@@ -157,6 +187,10 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
           m_threadsafe, getProperties() );
     }
     
+   /**
+    * Test encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         InfoDescriptor info = getInfoDescriptor();

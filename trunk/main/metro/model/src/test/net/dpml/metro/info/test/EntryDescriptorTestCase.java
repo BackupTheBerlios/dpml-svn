@@ -26,13 +26,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
 
 import junit.framework.TestCase;
 
@@ -46,41 +42,50 @@ import net.dpml.metro.info.EntryDescriptor;
  */
 public class EntryDescriptorTestCase extends TestCase
 {
-    private static final String m_key = "key";
-    private static final String m_type = EntryDescriptor.class.getName();
-    private static final boolean m_optional = true;
-    private static final boolean m_volatile = true;
+    private static final String KEY = "key";
+    private static final String TYPE = EntryDescriptor.class.getName();
+    private static final boolean OPTIONAL = true;
+    private static final boolean VOLATILE = true;
 
+   /**
+    * Test an entry descriptor.
+    */
     public void testEntryDescriptor()
     {
-        EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
-        checkEntry( entry, m_key, m_type, m_optional, m_volatile );
+        EntryDescriptor entry = new EntryDescriptor( KEY, TYPE, OPTIONAL, VOLATILE );
+        checkEntry( entry, KEY, TYPE, OPTIONAL, VOLATILE );
 
-        entry = new EntryDescriptor( m_key, m_type );
-        checkEntry( entry, m_key, m_type, false, false );
+        entry = new EntryDescriptor( KEY, TYPE );
+        checkEntry( entry, KEY, TYPE, false, false );
 
-        entry = new EntryDescriptor(m_key, m_type, m_optional );
-        checkEntry( entry, m_key, m_type, m_optional, false );
+        entry = new EntryDescriptor( KEY, TYPE, OPTIONAL );
+        checkEntry( entry, KEY, TYPE, OPTIONAL, false );
     }
     
+   /**
+    * Test that the constructor throws an NPE when supplied with a null key.
+    */
     public void testNullKey()
     {
         try
         {
-            new EntryDescriptor( null, m_type );
-            fail("Did not throw expected NullPointerException ");
+            new EntryDescriptor( null, TYPE );
+            fail( "Did not throw expected NullPointerException " );
         }
-        catch( NullPointerException npe)
+        catch( NullPointerException npe )
         {
             // Success!!
         }
     }
     
+   /**
+    * Test that the constructor throws an NPE when supplied with a null type.
+    */
     public void testNullType()
     {
         try
         {
-            new EntryDescriptor( m_key, null );
+            new EntryDescriptor( KEY, null );
             fail( "Did not throw expected NullPointerException" );
         }
         catch ( NullPointerException npe )
@@ -89,7 +94,16 @@ public class EntryDescriptorTestCase extends TestCase
         }
     }
     
-    private void checkEntry( EntryDescriptor desc, String key, String type, boolean isOptional, boolean isVolatile )
+   /**
+    * Validate the entry descriptor.
+    * @param desc the entry descriptor to validate
+    * @param key the entry key
+    * @param type the entry type
+    * @param isOptional the optional flag
+    * @param isVolatile the volotile flag
+    */
+    private void checkEntry( 
+      EntryDescriptor desc, String key, String type, boolean isOptional, boolean isVolatile )
     {
         assertNotNull( desc );
         assertEquals( key, desc.getKey() );
@@ -99,30 +113,36 @@ public class EntryDescriptorTestCase extends TestCase
         assertEquals( isVolatile, desc.isVolatile() );
     }
 
+   /**
+    * Test entry serialization.
+    * @exception IOException if an I/O error occurs
+    * @exception ClassNotFoundException if a class is not found
+    */
     public void testSerialization() throws IOException, ClassNotFoundException
     {
-        EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
-        checkEntry( entry, m_key, m_type, m_optional, m_volatile );
+        EntryDescriptor entry = new EntryDescriptor( KEY, TYPE, OPTIONAL, VOLATILE );
+        checkEntry( entry, KEY, TYPE, OPTIONAL, VOLATILE );
 
         File file = new File( "test.out" );
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( file ) );
         oos.writeObject( entry );
         oos.close();
-
         ObjectInputStream ois = new ObjectInputStream( new FileInputStream( file ) );
         EntryDescriptor serialized = (EntryDescriptor) ois.readObject();
         ois.close();
         file.delete();
-
-        checkEntry( serialized, m_key, m_type, m_optional, m_volatile );
-
+        checkEntry( serialized, KEY, TYPE, OPTIONAL, VOLATILE );
         assertEquals( entry, serialized );
         assertEquals( entry.hashCode(), serialized.hashCode() );
     }
     
+   /**
+    * Test entry encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
-        EntryDescriptor entry = new EntryDescriptor( m_key, m_type, m_optional, m_volatile );
+        EntryDescriptor entry = new EntryDescriptor( KEY, TYPE, OPTIONAL, VOLATILE );
         String base = System.getProperty( "project.test.dir" );
         File test = new File( base );
         File destination = new File( test, "info.xml" );
@@ -141,7 +161,6 @@ public class EntryDescriptorTestCase extends TestCase
         );
         encoder.writeObject( entry );
         encoder.close();
-        
         FileInputStream input = new FileInputStream( destination );
         XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
         EntryDescriptor result = (EntryDescriptor) decoder.readObject();

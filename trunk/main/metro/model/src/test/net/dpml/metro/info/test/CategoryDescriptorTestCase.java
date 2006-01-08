@@ -18,26 +18,12 @@
 
 package net.dpml.metro.info.test;
 
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.File;
-
 import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.Priority;
 
-
 /**
- * CategoryTestCase does XYZ
+ * CategoryDescriptorTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -47,17 +33,28 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
     private final String m_name = "name";
     private final Priority m_priority = Priority.WARN;
 
+   /**
+    * Return the category descriptor to test.
+    * @return the descriptor
+    */
     protected CategoryDescriptor getCategoryDescriptor()
     {
         return new CategoryDescriptor( m_name, m_priority, getProperties() );
     }
 
+   /**
+    * Return the category descriptor to test.
+    * @return the descriptor
+    */
     protected Descriptor getDescriptor()
     {
         return getCategoryDescriptor();
     }
 
-
+   /**
+    * Validate the category descriptor.
+    * @param desc the descriptor to validate
+    */
     protected void checkDescriptor( Descriptor desc )
     {
         super.checkDescriptor( desc );
@@ -65,7 +62,11 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
         assertEquals( "name", m_name, cat.getName() );
         assertEquals( "priority", m_priority, cat.getDefaultPriority() );
     }
-    
+   
+   /**
+    * Test encoding/decoding of the category descriptor.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         CategoryDescriptor descriptor = getCategoryDescriptor();

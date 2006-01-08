@@ -27,8 +27,6 @@ import java.io.ObjectOutputStream;
 
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
@@ -42,7 +40,7 @@ import net.dpml.metro.info.Priority;
 import net.dpml.state.State;
 
 /**
- * TypeTestCase does XYZ
+ * TypeTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -58,16 +56,20 @@ public class TypeTestCase extends AbstractEncodingTestCase
     private String m_key;
     private State m_graph;
 
+   /**
+    * Testcase setup.
+    */
     public void setUp()
     {
         m_reference = new ServiceDescriptor( TypeTestCase.class.getName() );
         m_key = TypeTestCase.class.getName();
         m_info = createSimpleInfo( TypeTestCase.class.getName() );
-        m_loggers = new CategoryDescriptor[] {
-            new CategoryDescriptor("name", Priority.INFO, new Properties())
-        };
+        m_loggers = 
+          new CategoryDescriptor[]{
+            new CategoryDescriptor( "name", Priority.INFO, new Properties() )
+          };
         m_context = new ContextDescriptor( new EntryDescriptor[0] );
-        m_services = new ServiceDescriptor[] { m_reference };
+        m_services = new ServiceDescriptor[]{m_reference};
         m_parts = new PartReference[0];
         m_graph = State.NULL_STATE;
     }
@@ -81,8 +83,8 @@ public class TypeTestCase extends AbstractEncodingTestCase
         assertEquals( m_graph, type.getStateGraph() );
         assertEquals( m_services[0], type.getServiceDescriptor( m_reference ) );
         assertEquals( m_services[0], type.getServiceDescriptor( m_services[0].getClassname() ) );
-        checkArray( m_services, type.getServiceDescriptors());
-        checkArray( m_parts, type.getPartReferences());
+        checkArray( m_services, type.getServiceDescriptors() );
+        checkArray( m_parts, type.getPartReferences() );
         assertTrue( type.isaCategory( m_loggers[0].getName() ) );
         assertTrue( !type.isaCategory( "fake name" ) );
     }
@@ -96,6 +98,9 @@ public class TypeTestCase extends AbstractEncodingTestCase
         }
     }
 
+   /**
+    * Validate the type.
+    */
     public void testType()
     {
         Type type = 
@@ -104,29 +109,28 @@ public class TypeTestCase extends AbstractEncodingTestCase
         checkType( type );
     }
 
+   /**
+    * Test serialization.
+    * @exception IOException if an IO error occurs
+    * @exception ClassNotFoundException if a class is not found
+    */
     public void testSerialization() throws IOException, ClassNotFoundException
     {
         Type type = 
           new Type( 
             m_info, m_loggers, m_context, m_services, m_parts, m_graph );
-
         checkType( type );
-
         File file = new File( "test.out" );
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( file ) );
         oos.writeObject( type );
         oos.close();
-
         ObjectInputStream ois = new ObjectInputStream( new FileInputStream( file ) );
         Type serialized = (Type) ois.readObject();
         ois.close();
         file.delete();
-
         checkType( serialized );
-
         assertEquals( "equality", type, serialized );
         assertEquals( "hashcode", type.hashCode(), serialized.hashCode() );
-
     }
 
     private static InfoDescriptor createSimpleInfo( String classname )
@@ -134,6 +138,10 @@ public class TypeTestCase extends AbstractEncodingTestCase
         return new InfoDescriptor( null, classname, null, null, CollectionPolicy.WEAK, false, null );
     }
     
+   /**
+    * Test encoding/decoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         Type type = 

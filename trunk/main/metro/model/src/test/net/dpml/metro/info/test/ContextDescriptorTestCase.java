@@ -18,28 +18,11 @@
 
 package net.dpml.metro.info.test;
 
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.PersistenceDelegate;
-import java.beans.DefaultPersistenceDelegate;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.File;
-
-import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.ContextDescriptor;
-
 import net.dpml.metro.info.EntryDescriptor;
 
-import junit.framework.TestCase;
-
 /**
- * ContextDescriptorTestCase does XYZ
+ * ContextDescriptorTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -48,11 +31,19 @@ public class ContextDescriptorTestCase extends AbstractEncodingTestCase
 {
     private EntryDescriptor[] m_entries;
 
+   /**
+    * Return the descriptor to test.
+    * @return the descriptor
+    */
     protected ContextDescriptor getDescriptor()
     {
         return new ContextDescriptor( m_entries );
     }
 
+   /**
+    * Validate the descriptor.
+    * @param desc the descriptor to validate
+    */
     protected void checkDescriptor( ContextDescriptor desc )
     {
         ContextDescriptor ctxd = (ContextDescriptor) desc;
@@ -68,6 +59,9 @@ public class ContextDescriptorTestCase extends AbstractEncodingTestCase
         }
     }
 
+   /**
+    * Test join.
+    */
     public void testJoin()
     {
         ContextDescriptor desc = (ContextDescriptor) getDescriptor();
@@ -99,6 +93,9 @@ public class ContextDescriptorTestCase extends AbstractEncodingTestCase
         }
     }
 
+   /**
+    * Setup the testcase.
+    */
     public void setUp()
     {
         m_entries = new EntryDescriptor[]{
@@ -106,6 +103,10 @@ public class ContextDescriptorTestCase extends AbstractEncodingTestCase
         };
     }
     
+   /**
+    * Test context descriptor encoding.
+    * @exception Exception if an error occurs
+    */
     public void testEncoding() throws Exception
     {
         ContextDescriptor context = getDescriptor();

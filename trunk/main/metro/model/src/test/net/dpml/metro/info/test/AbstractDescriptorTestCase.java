@@ -24,23 +24,40 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import net.dpml.metro.info.Descriptor;
 
 /**
- * AbstractDescriptorTestCase does XYZ
+ * AbstractDescriptorTestCase.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public abstract class AbstractDescriptorTestCase extends AbstractEncodingTestCase
 {
+   /**
+    * Key.
+    */
     protected static final String VALID_KEY = "key";
+    
+   /**
+    * Value.
+    */
     protected static final String VALID_VALUE = "value";
+    
+   /**
+    * Bad key.
+    */
     protected static final String INVALID_KEY = "bad-key";
+    
+   /**
+    * Default value.
+    */
     protected static final String DEFAULT_VALUE = "default";
 
+   /**
+    * Return a populated properties object.
+    * @return a properties instance
+    */
     protected Properties getProperties()
     {
         Properties props = new Properties();
@@ -49,8 +66,16 @@ public abstract class AbstractDescriptorTestCase extends AbstractEncodingTestCas
         return props;
     }
 
+   /**
+    * Abstract operation implemented by derived types.
+    * @return the descriptor to test
+    */
     protected abstract Descriptor getDescriptor();
 
+   /**
+    * Validate the supplied descriptor.
+    * @param desc the descriptor to validate
+    */
     protected void checkDescriptor( Descriptor desc )
     {
         assertEquals( VALID_VALUE, desc.getAttribute( VALID_KEY ) );
@@ -80,8 +105,11 @@ public abstract class AbstractDescriptorTestCase extends AbstractEncodingTestCas
         assertTrue( !hasInvalid );
     }
 
-    public void testSerialization()
-        throws Exception
+   /**
+    * Test serialization of the object retutrned from getDescriptor().
+    * @exception Exception if an error occurs
+    */
+    public void testSerialization() throws Exception
     {
         Descriptor desc = getDescriptor();
         checkDescriptor( desc );
