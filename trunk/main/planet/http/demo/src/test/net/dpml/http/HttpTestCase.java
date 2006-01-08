@@ -24,9 +24,7 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Directive;
 import net.dpml.part.Controller;
-import net.dpml.part.Model;
 import net.dpml.part.Component;
 
 import net.dpml.http.demo.Demo;
@@ -43,14 +41,13 @@ public class HttpTestCase extends TestCase
     private static final String TEST_DIR_KEY = "project.test.dir";
     
    /**
-    * Test the construction of the widget implementation and invocation
-    * of a non-service public method on the implementation class.
+    * Test the construction of the http demo implementation.
+    * @exception Exception if an error occurs
     */
     public void testHttp() throws Exception
     {
         File test = new File( System.getProperty( TEST_DIR_KEY ) );
         URI uri = new File( test, PATH ).toURI();
-        
         Controller control = Controller.STANDARD;
         Component component = control.createComponent( uri );
         Demo demo = (Demo) component.getProvider().getValue( false );
