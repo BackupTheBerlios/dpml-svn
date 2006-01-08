@@ -24,14 +24,14 @@ echo "             Platform: $PLATFORM"
 echo "            Java Home: $JAVA_HOME"
 echo "          DPML System: $DPML_SYSTEM"
 echo "            DPML Home: $DPML_HOME"
-echo "      Security policy: $SECURITY_POLICY"
+echo "      Security Policy: $DEPOT_SECURITY_POLICY"
 echo "          JVM Options: $DEPOT_JVM_OPTS"
-echo "      Depot Classpath: $DEPOT_CLASSPATH"
-echo "      Depot Arguments: $DEPOT_ARGS $@"
+echo "            Classpath: $DEPOT_CLASSPATH"
+echo "      Depot Arguments: $DEPOT_ARGS"
 echo ""
 
 JAVA="$JAVA_HOME/bin/java"
 
-ARGS="$DEPOT_JVM_OPTS -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ \"-Djava.security.policy=$SECURITY_POLICY\" -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi -Djava.protocol.handler.pkgs=net.dpml.transit -classpath \"$DEPOT_CLASSPATH\" @DEPOT-MAIN-CLASS@ $DEPOT_ARGS $@"
+ARGS="$DEPOT_JVM_OPTS -classpath \"$DEPOT_CLASSPATH\" @DEPOT-MAIN-CLASS@ $DEPOT_ARGS"
 
 echo $ARGS | xargs "$JAVA"

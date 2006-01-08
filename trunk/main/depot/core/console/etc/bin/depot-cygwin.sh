@@ -16,12 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
 [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
-
-JAVA="$JAVA_HOME/bin/java"
 
 # switch necessary paths to Windows format before running java
 JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
@@ -37,12 +34,14 @@ echo "             Platform: $PLATFORM"
 echo "            Java Home: $JAVA_HOME"
 echo "          DPML System: $DPML_SYSTEM"
 echo "            DPML Home: $DPML_HOME"
-echo "      Security policy: $SECURITY_POLICY"
+echo "      Security Policy: $DEPOT_SECURITY_POLICY"
 echo "          JVM Options: $DEPOT_JVM_OPTS"
-echo "      Depot Classpath: $DEPOT_CLASSPATH"
-echo "      Depot Arguments: $DEPOT_ARGS $@"
+echo "            Classpath: $DEPOT_CLASSPATH"
+echo "      Depot Arguments: $DEPOT_ARGS"
 echo ""
 
-ARGS="$DEPOT_JVM_OPTS -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ \"-Djava.security.policy=$SECURITY_POLICY\" -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi -Djava.protocol.handler.pkgs=net.dpml.transit -classpath \"$DEPOT_CLASSPATH\" @DEPOT-MAIN-CLASS@ $DEPOT_ARGS $@"
+JAVA="$JAVA_HOME/bin/java"
+
+ARGS="$DEPOT_JVM_OPTS -classpath \"$DEPOT_CLASSPATH\" @DEPOT-MAIN-CLASS@ $DEPOT_ARGS"
 
 echo $ARGS | xargs "$JAVA"

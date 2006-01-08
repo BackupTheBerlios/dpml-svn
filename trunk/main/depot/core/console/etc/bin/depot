@@ -16,12 +16,12 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License
-if [ ! "$DPML_HOME" ]; then
+if [ "$DPML_HOME" = "" ]; then
     DPML_HOME="$HOME/.dpml"
     export DPML_HOME
 fi
 
-if [ ! "$DPML_SYSTEM" ]; then
+if [ "$DPML_SYSTEM" = "" ]; then
     CWD=`pwd`
     BIN_DIR=`dirname "$0"`
     cd "$BIN_DIR"
@@ -39,7 +39,7 @@ if [ "$JAVA_HOME" = "" ] ; then
   echo "ERROR: JAVA_HOME not found in your environment."
   echo
   echo "Please, set the JAVA_HOME variable in your environment to match the location"
-  echo " of the Java Virtual Machine you want to use."
+  echo "of the Java Virtual Machine you want to use."
   echo
   echo "This requirement is in place to avoid accidental execution of pre-installed"
   echo "Java virtual machines on your system, such as kaffe or any outdated Sun or"
@@ -53,17 +53,41 @@ export PLATFORM
 DEPOT_VERSION="@BUILD-ID@"
 export DEPOT_VERSION
 
-SECURITY_POLICY=$DPML_SYSTEM/bin/security.policy
-export SECURITY_POLICY
+if [ "$DEPOT_SECURITY_POLICY" = "" ] ; then
+    DEPOT_SECURITY_POLICY=$DPML_SYSTEM/bin/security.policy
+fi
+export DEPOT_SECURITY_POLICY
 
-DEPOT_CLASSPATH=$DPML_SYSTEM/lib/@DEPOT-PATH@:$DPML_SYSTEM/lib/@TRANSIT-PATH@
+DEPOT_BASE_JVM_OPTS="-Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ \"-Djava.security.policy=$DEPOT_SECURITY_POLICY\" -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi -Djava.protocol.handler.pkgs=net.dpml.transit"
+
+if [ "$DEPOT_JVM_OPTS" = "" ] ; then
+    DEPOT_JVM_OPTS=$DEPOT_BASE_JVM_OPTS
+else
+    DEPOT_JVM_OPTS="$DEPOT_BASE_JVM_OPTS $DEPOT_JVM_OPTS"
+fi
+export DEPOT_JVM_OPTS
+
+DEPOT_BASE_CLASSPATH=$DPML_SYSTEM/lib/@DEPOT-PATH@:$DPML_SYSTEM/lib/@TRANSIT-PATH@
+
+if [ "$DEPOT_CLASSPATH" = "" ] ; then
+    DEPOT_CLASSPATH=$DEPOT_BASE_CLASSPATH
+else
+    DEPOT_CLASSPATH="$DEPOT_BASE_CLASSPATH $DEPOT_CLASSPATH"
+fi
 export DEPOT_CLASSPATH
 
-if [ `echo $PLATFORM | grep "CYGWIN"` ] ; then
-    exec "$DPML_SYSTEM/bin/depot-cygwin.sh" "$@"
-elif [ `echo $PLATFORM | grep "Linux"` ] ; then
-    exec "$DPML_SYSTEM/bin/depot-unix.sh" "$@"
+if [ "$DEPOT_ARGS" = "" ] ; then
+    DEPOT_ARGS=$@
 else
-    echo "Starting Default Unix script"
-    exec "$DPML_SYSTEM/bin/depot-unix.sh" "$@"
+    DEPOT_ARGS="$DEPOT_ARGS $@"
+fi
+export DEPOT_ARGS
+
+if [ `echo $PLATFORM | grep "CYGWIN"` ] ; then
+    exec "$DPML_SYSTEM/bin/depot-cygwin.sh"
+elif [ `echo $PLATFORM | grep "Linux"` ] ; then
+    exec "$DPML_SYSTEM/bin/depot-unix.sh"
+else
+    echo "Starting default Unix script"
+    exec "$DPML_SYSTEM/bin/depot-unix.sh"
 fi
