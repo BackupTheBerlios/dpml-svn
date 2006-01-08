@@ -65,6 +65,7 @@
     <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
         in="${checkstyle.data}"
         out="${checkstyle.dir}/checkstyle_report.html" />
+      <param name="output.dir" expression="${checkstyle.dir}"/>
   </target>
 
 </project>
