@@ -40,7 +40,7 @@ import java.util.List;
   */
 public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
 {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
 
     /**
      * DOCUMENT ME!
@@ -217,7 +217,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_TOO_MANY_VALUES ),
                 e.getMessage(  ) );
         }
@@ -245,7 +245,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_TOO_MANY_VALUES ),
                 e.getMessage(  ) );
         }
@@ -269,7 +269,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_TOO_MANY_VALUES ),
                 e.getMessage(  ) );
         }
@@ -295,7 +295,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_TOO_MANY_VALUES ),
                 e.getMessage(  ) );
         }
@@ -521,7 +521,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException ise )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_TOO_MANY_VALUES ),
                 ise.getMessage(  ) );
         }
@@ -533,7 +533,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException ise )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_TOO_MANY_VALUES ),
                 ise.getMessage(  ) );
         }
@@ -566,7 +566,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
         }
         catch( IllegalStateException ise )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.SWITCH_ALREADY_SET ), ise.getMessage(  ) );
         }
     }
@@ -574,7 +574,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     /**
      * DOCUMENT ME!
      */
-    public final void testSwitches_True(  )
+    public final void testSwitchesTrue(  )
     {
         final Option option = new PropertyOption(  );
         final List args = AbstractCLITestCase.list(  );
@@ -590,7 +590,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     /**
      * DOCUMENT ME!
      */
-    public final void testSwitches_False(  )
+    public final void testSwitchesFalse(  )
     {
         final Option option = new PropertyOption(  );
         final List args = AbstractCLITestCase.list(  );
@@ -608,7 +608,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public final void testGetOptions_Order(  ) throws OptionException
+    public final void testGetOptionsOrder(  ) throws OptionException
     {
         final Option help = DefaultOptionTest.buildHelpOption(  );
         final Option login = CommandTest.buildLoginCommand(  );
@@ -672,7 +672,7 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public final void testGetOptionCount_Strings(  ) throws OptionException
+    public final void testGetOptionCountStrings(  ) throws OptionException
     {
         final Option help = DefaultOptionTest.buildHelpOption(  );
         final Option login = CommandTest.buildLoginCommand(  );

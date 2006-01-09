@@ -79,7 +79,6 @@ public class ArgumentTest extends AbstractArgumentTestCase
             ArgumentImpl.DEFAULT_CONSUME_REMAINING, null, 0 );
     }
 
-    //public static Argument buildDateLimitArgument() {
     /**
      * DOCUMENT ME!
      *
@@ -418,12 +417,14 @@ public class ArgumentTest extends AbstractArgumentTestCase
      */
     public void testRequired(  )
     {
+        if( true )
         {
             final Argument arg = buildBoundsArgument(  );
 
             assertTrue( "not required", arg.isRequired(  ) );
         }
 
+        if( true )
         {
             final Argument arg = buildTargetsArgument(  );
 

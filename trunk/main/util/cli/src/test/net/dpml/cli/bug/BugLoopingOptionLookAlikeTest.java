@@ -58,7 +58,7 @@ public class BugLoopingOptionLookAlikeTest extends TestCase
 
         try
         {
-            parser.parse( new String[]{"-abcdef", "testfile.txt ",} );
+            parser.parse( new String[]{"-abcdef", "testfile.txt ", } );
             fail( "OptionException" );
         }
         catch( OptionException e )
@@ -75,14 +75,14 @@ public class BugLoopingOptionLookAlikeTest extends TestCase
     {
         final ArgumentBuilder abuilder = new ArgumentBuilder(  );
         final GroupBuilder gbuilder = new GroupBuilder(  );
-        final Argument inputfile_opt = abuilder.withName( "input" )
+        final Argument inputfileOpt = abuilder.withName( "input" )
                                                .withMinimum( 1 ).withMaximum( 1 )
                                                .create(  );
-        final Argument outputfile_opt = abuilder.withName( "output" )
+        final Argument outputfileOpt = abuilder.withName( "output" )
                                                 .withMinimum( 1 ).withMaximum( 1 )
                                                 .create(  );
-        final Argument targets = new SourceDestArgument( inputfile_opt,
-                outputfile_opt );
+        final Argument targets = new SourceDestArgument( inputfileOpt,
+                outputfileOpt );
         final Group options = gbuilder.withOption( targets ).create(  );
         final Parser parser = new Parser(  );
         parser.setGroup( options );

@@ -31,8 +31,8 @@ import net.dpml.cli.resource.ResourceHelper;
   */
 public class DefaultOptionBuilderTest extends TestCase
 {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
-    private DefaultOptionBuilder defaultOptionBuilder;
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
+    private DefaultOptionBuilder m_defaultOptionBuilder;
 
     /*
      * @see TestCase#setUp()
@@ -44,7 +44,7 @@ public class DefaultOptionBuilderTest extends TestCase
      */
     protected void setUp(  ) throws Exception
     {
-        this.defaultOptionBuilder = new DefaultOptionBuilder(  );
+        m_defaultOptionBuilder = new DefaultOptionBuilder(  );
     }
 
     /*
@@ -53,7 +53,7 @@ public class DefaultOptionBuilderTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testNew_NullShortPrefix(  )
+    public void testNewNullShortPrefix(  )
     {
         try
         {
@@ -62,7 +62,7 @@ public class DefaultOptionBuilderTest extends TestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.OPTION_ILLEGAL_SHORT_PREFIX ),
                 e.getMessage(  ) );
         }
@@ -74,7 +74,7 @@ public class DefaultOptionBuilderTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testNew_EmptyShortPrefix(  )
+    public void testNewEmptyShortPrefix(  )
     {
         try
         {
@@ -83,7 +83,7 @@ public class DefaultOptionBuilderTest extends TestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.OPTION_ILLEGAL_SHORT_PREFIX ),
                 e.getMessage(  ) );
         }
@@ -95,7 +95,7 @@ public class DefaultOptionBuilderTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testNew_NullLongPrefix(  )
+    public void testNewNullLongPrefix(  )
     {
         try
         {
@@ -104,7 +104,7 @@ public class DefaultOptionBuilderTest extends TestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.OPTION_ILLEGAL_LONG_PREFIX ),
                 e.getMessage(  ) );
         }
@@ -116,7 +116,7 @@ public class DefaultOptionBuilderTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testNew_EmptyLongPrefix(  )
+    public void testNewEmptyLongPrefix(  )
     {
         try
         {
@@ -125,7 +125,7 @@ public class DefaultOptionBuilderTest extends TestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.OPTION_ILLEGAL_LONG_PREFIX ),
                 e.getMessage(  ) );
         }
@@ -138,25 +138,23 @@ public class DefaultOptionBuilderTest extends TestCase
     {
         try
         {
-            this.defaultOptionBuilder.create(  );
+            m_defaultOptionBuilder.create(  );
             fail( "options must have a name" );
         }
         catch( IllegalStateException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.OPTION_NO_NAME ), e.getMessage(  ) );
         }
 
-        this.defaultOptionBuilder.withShortName( "j" );
-        this.defaultOptionBuilder.create(  );
-        this.defaultOptionBuilder.withLongName( "jkeyes" );
-        this.defaultOptionBuilder.create(  );
+        m_defaultOptionBuilder.withShortName( "j" );
+        m_defaultOptionBuilder.create(  );
+        m_defaultOptionBuilder.withLongName( "jkeyes" );
+        m_defaultOptionBuilder.create(  );
 
-        {
-            DefaultOptionBuilder builder = new DefaultOptionBuilder( "-", "--",
+        DefaultOptionBuilder builder = new DefaultOptionBuilder( "-", "--",
                     true );
-            builder.withShortName( "mx" );
-        }
+        builder.withShortName( "mx" );
     }
 
     /**
@@ -165,20 +163,20 @@ public class DefaultOptionBuilderTest extends TestCase
     public void testName(  )
     {
         // withLongName && this.preferred != null
-        {
-            this.defaultOptionBuilder.withShortName( "a" );
-            this.defaultOptionBuilder.withLongName( "apples" );
-        }
+        //{
+            m_defaultOptionBuilder.withShortName( "a" );
+            m_defaultOptionBuilder.withLongName( "apples" );
+        //}
         // withShortName && this.preferred != null
-        {
-            this.defaultOptionBuilder.withLongName( "apples" );
-            this.defaultOptionBuilder.withShortName( "a" );
-        }
+        //{
+            m_defaultOptionBuilder.withLongName( "apples" );
+            m_defaultOptionBuilder.withShortName( "a" );
+        //}
         // withShortName && this.preferred != null
-        {
-            this.defaultOptionBuilder.withLongName( "apples" );
-            this.defaultOptionBuilder.withShortName( "a" );
-        }
+        //{
+            m_defaultOptionBuilder.withLongName( "apples" );
+            m_defaultOptionBuilder.withShortName( "a" );
+        //}
     }
 
     /**
@@ -187,10 +185,10 @@ public class DefaultOptionBuilderTest extends TestCase
     public void testWithDescription(  )
     {
         String description = "desc";
-        this.defaultOptionBuilder.withShortName( "a" );
-        this.defaultOptionBuilder.withDescription( description );
+        m_defaultOptionBuilder.withShortName( "a" );
+        m_defaultOptionBuilder.withDescription( description );
 
-        DefaultOption opt = this.defaultOptionBuilder.create(  );
+        DefaultOption opt = m_defaultOptionBuilder.create(  );
         assertEquals( "wrong description found", description,
             opt.getDescription(  ) );
     }
@@ -198,27 +196,33 @@ public class DefaultOptionBuilderTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWithRequired(  )
+     
+    public void testWithRequired2(  )
     {
-        {
-            boolean required = false;
-            this.defaultOptionBuilder.withShortName( "a" );
-            this.defaultOptionBuilder.withRequired( required );
+        doTestWithRequired1();
+        doTestWithRequired2();
+    }
+    
+    private void doTestWithRequired1(  )
+    {
+        boolean required = false;
+        m_defaultOptionBuilder.withShortName( "a" );
+        m_defaultOptionBuilder.withRequired( required );
 
-            DefaultOption opt = this.defaultOptionBuilder.create(  );
-            assertEquals( "wrong required found", required, opt.isRequired(  ) );
-        }
-
-        {
-            boolean required = true;
-            this.defaultOptionBuilder.withShortName( "a" );
-            this.defaultOptionBuilder.withRequired( required );
-
-            DefaultOption opt = this.defaultOptionBuilder.create(  );
-            assertEquals( "wrong required found", required, opt.isRequired(  ) );
-        }
+        DefaultOption opt = m_defaultOptionBuilder.create(  );
+        assertEquals( "wrong required found", required, opt.isRequired(  ) );
     }
 
+    private void doTestWithRequired2(  )
+    {
+        boolean required = true;
+        m_defaultOptionBuilder.withShortName( "a" );
+        m_defaultOptionBuilder.withRequired( required );
+
+        DefaultOption opt = m_defaultOptionBuilder.create(  );
+        assertEquals( "wrong required found", required, opt.isRequired(  ) );
+    }
+    
     /**
      * DOCUMENT ME!
      */
@@ -226,21 +230,19 @@ public class DefaultOptionBuilderTest extends TestCase
     {
         GroupBuilder gbuilder = new GroupBuilder(  );
 
-        this.defaultOptionBuilder.withShortName( "a" );
-        this.defaultOptionBuilder.withRequired( true );
+        m_defaultOptionBuilder.withShortName( "a" );
+        m_defaultOptionBuilder.withRequired( true );
 
-        DefaultOption opt = this.defaultOptionBuilder.create(  );
+        DefaultOption opt = m_defaultOptionBuilder.create(  );
 
         Group group = gbuilder.withName( "withchildren" ).withOption( opt )
                               .create(  );
 
-        {
-            this.defaultOptionBuilder.withShortName( "b" );
-            this.defaultOptionBuilder.withChildren( group );
+        m_defaultOptionBuilder.withShortName( "b" );
+        m_defaultOptionBuilder.withChildren( group );
 
-            DefaultOption option = this.defaultOptionBuilder.create(  );
-            assertEquals( "wrong children found", group, option.getChildren(  ) );
-        }
+        DefaultOption option = m_defaultOptionBuilder.create(  );
+        assertEquals( "wrong children found", group, option.getChildren(  ) );
     }
 
     /**
@@ -253,11 +255,11 @@ public class DefaultOptionBuilderTest extends TestCase
 
         Argument arg = abuilder.create(  );
 
-        this.defaultOptionBuilder.withShortName( "a" );
-        this.defaultOptionBuilder.withRequired( true );
-        this.defaultOptionBuilder.withArgument( arg );
+        m_defaultOptionBuilder.withShortName( "a" );
+        m_defaultOptionBuilder.withRequired( true );
+        m_defaultOptionBuilder.withArgument( arg );
 
-        DefaultOption opt = this.defaultOptionBuilder.create(  );
+        DefaultOption opt = m_defaultOptionBuilder.create(  );
 
         assertEquals( "wrong argument found", arg, opt.getArgument(  ) );
     }
@@ -267,10 +269,10 @@ public class DefaultOptionBuilderTest extends TestCase
      */
     public void testWithId(  )
     {
-        this.defaultOptionBuilder.withShortName( "a" );
-        this.defaultOptionBuilder.withId( 0 );
+        m_defaultOptionBuilder.withShortName( "a" );
+        m_defaultOptionBuilder.withId( 0 );
 
-        DefaultOption opt = this.defaultOptionBuilder.create(  );
+        DefaultOption opt = m_defaultOptionBuilder.create(  );
 
         assertEquals( "wrong id found", 0, opt.getId(  ) );
     }

@@ -191,6 +191,7 @@ public class DateValidatorTest extends TestCase
         final DateValidator validator = new DateValidator( m_formats );
         final Calendar cal = Calendar.getInstance(  );
 
+        if( true )
         {
             final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
             final List list = Arrays.asList( array );
@@ -204,6 +205,7 @@ public class DateValidatorTest extends TestCase
             validator.validate( list );
         }
 
+        if( true )
         {
             final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
             final List list = Arrays.asList( array );
@@ -252,6 +254,7 @@ public class DateValidatorTest extends TestCase
         final DateValidator validator = new DateValidator( m_formats );
         final Calendar cal = Calendar.getInstance(  );
 
+        if( true )
         {
             final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
             final List list = Arrays.asList( array );
@@ -265,6 +268,7 @@ public class DateValidatorTest extends TestCase
             validator.validate( list );
         }
 
+        if( true )
         {
             final Object[] array = new Object[]{"23/12/03", "2004-10-12"};
             final List list = Arrays.asList( array );

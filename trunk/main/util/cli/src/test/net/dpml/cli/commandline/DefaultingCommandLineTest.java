@@ -31,13 +31,13 @@ import java.util.Set;
  */
 public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
 {
-    private CommandLine first;
-    private CommandLine second;
-    private Option inFirst = new DefaultOptionBuilder(  ).withLongName( 
+    private CommandLine m_first;
+    private CommandLine m_second;
+    private Option m_inFirst = new DefaultOptionBuilder(  ).withLongName( 
             "infirst" ).create(  );
-    private Option inBoth = new DefaultOptionBuilder(  ).withLongName( "inboth" )
+    private Option m_inBoth = new DefaultOptionBuilder(  ).withLongName( "inboth" )
                                                         .create(  );
-    private Option inSecond = new DefaultOptionBuilder(  ).withLongName( 
+    private Option m_inSecond = new DefaultOptionBuilder(  ).withLongName( 
             "insecond" ).create(  );
 
     /* (non-Javadoc)
@@ -79,30 +79,30 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
         WriteableCommandLine writeable;
 
         writeable = new WriteableCommandLineImpl( m_root, new ArrayList(  ) );
-        writeable.addOption( inFirst );
-        writeable.addOption( inBoth );
-        writeable.addProperty( "infirst", "infirst first value" );
-        writeable.addProperty( "inboth", "inboth first value" );
-        writeable.addSwitch( inFirst, true );
-        writeable.addSwitch( inBoth, true );
-        writeable.addValue( inFirst, "infirst first value 1" );
-        writeable.addValue( inFirst, "infirst first value 2" );
-        writeable.addValue( inBoth, "inboth first value 1" );
-        writeable.addValue( inBoth, "inboth first value 2" );
-        first = writeable;
+        writeable.addOption( m_inFirst );
+        writeable.addOption( m_inBoth );
+        writeable.addProperty( "infirst", "infirst m_first value" );
+        writeable.addProperty( "inboth", "inboth m_first value" );
+        writeable.addSwitch( m_inFirst, true );
+        writeable.addSwitch( m_inBoth, true );
+        writeable.addValue( m_inFirst, "infirst m_first value 1" );
+        writeable.addValue( m_inFirst, "infirst m_first value 2" );
+        writeable.addValue( m_inBoth, "inboth m_first value 1" );
+        writeable.addValue( m_inBoth, "inboth m_first value 2" );
+        m_first = writeable;
 
         writeable = new WriteableCommandLineImpl( m_root, new ArrayList(  ) );
-        writeable.addOption( inSecond );
-        writeable.addOption( inBoth );
-        writeable.addProperty( "insecond", "insecond second value" );
-        writeable.addProperty( "inboth", "inboth second value" );
-        writeable.addSwitch( inSecond, true );
-        writeable.addSwitch( inBoth, true );
-        writeable.addValue( inSecond, "insecond second value 1" );
-        writeable.addValue( inSecond, "insecond second value 2" );
-        writeable.addValue( inBoth, "inboth second value 1" );
-        writeable.addValue( inBoth, "inboth second value 2" );
-        second = writeable;
+        writeable.addOption( m_inSecond );
+        writeable.addOption( m_inBoth );
+        writeable.addProperty( "insecond", "insecond m_second value" );
+        writeable.addProperty( "inboth", "inboth m_second value" );
+        writeable.addSwitch( m_inSecond, true );
+        writeable.addSwitch( m_inBoth, true );
+        writeable.addValue( m_inSecond, "insecond m_second value 1" );
+        writeable.addValue( m_inSecond, "insecond m_second value 2" );
+        writeable.addValue( m_inBoth, "inboth m_second value 1" );
+        writeable.addValue( m_inBoth, "inboth m_second value 2" );
+        m_second = writeable;
     }
 
     /**
@@ -116,15 +116,15 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
         i = defaults.commandLines(  );
         assertFalse( i.hasNext(  ) );
 
-        defaults.appendCommandLine( first );
+        defaults.appendCommandLine( m_first );
         i = defaults.commandLines(  );
-        assertSame( first, i.next(  ) );
+        assertSame( m_first, i.next(  ) );
         assertFalse( i.hasNext(  ) );
 
-        defaults.appendCommandLine( second );
+        defaults.appendCommandLine( m_second );
         i = defaults.commandLines(  );
-        assertSame( first, i.next(  ) );
-        assertSame( second, i.next(  ) );
+        assertSame( m_first, i.next(  ) );
+        assertSame( m_second, i.next(  ) );
         assertFalse( i.hasNext(  ) );
     }
 
@@ -139,15 +139,15 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
         i = defaults.commandLines(  );
         assertFalse( i.hasNext(  ) );
 
-        defaults.insertCommandLine( 0, first );
+        defaults.insertCommandLine( 0, m_first );
         i = defaults.commandLines(  );
-        assertSame( first, i.next(  ) );
+        assertSame( m_first, i.next(  ) );
         assertFalse( i.hasNext(  ) );
 
-        defaults.insertCommandLine( 0, second );
+        defaults.insertCommandLine( 0, m_second );
         i = defaults.commandLines(  );
-        assertSame( second, i.next(  ) );
-        assertSame( first, i.next(  ) );
+        assertSame( m_second, i.next(  ) );
+        assertSame( m_first, i.next(  ) );
         assertFalse( i.hasNext(  ) );
     }
 
@@ -157,8 +157,8 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
     public void testTriggers(  )
     {
         final DefaultingCommandLine defaults = new DefaultingCommandLine(  );
-        defaults.appendCommandLine( first );
-        defaults.appendCommandLine( second );
+        defaults.appendCommandLine( m_first );
+        defaults.appendCommandLine( m_second );
 
         Set set = defaults.getOptionTriggers(  );
         Iterator iter = set.iterator(  );

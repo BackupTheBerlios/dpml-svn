@@ -109,36 +109,37 @@ import java.io.StringWriter;
 public class CpTest extends TestCase
 {
     /** Option Builder */
-    private static final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+    private static final DefaultOptionBuilder OPTION_BUILDER = new DefaultOptionBuilder(  );
 
     /** Argument Builder */
-    private static final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
+    private static final ArgumentBuilder ARGUMENT_BUILDER = new ArgumentBuilder(  );
 
     /** Group Builder */
-    private static final GroupBuilder gBuilder = new GroupBuilder(  );
-    private Group options;
-    private ArgumentImpl source;
-    private ArgumentImpl dest;
-    private Argument targets;
-    private Option archive;
-    private Option backup;
-    private Option noDereference;
-    private Option force;
-    private Option interactive;
-    private Option link;
-    private Option preserve;
-    private Option parents;
-    private Option recursive1;
-    private Option sparse;
-    private Option recursive2;
-    private Option symbolicLink;
-    private Option suffix;
-    private Option update;
-    private Option verbose;
-    private Option versionControl;
-    private Option oneFileSystem;
-    private Option help;
-    private Option version;
+    private static final GroupBuilder GROUP_BUILDER = new GroupBuilder(  );
+    
+    private Group m_options;
+    private ArgumentImpl m_source;
+    private ArgumentImpl m_dest;
+    private Argument m_targets;
+    private Option m_archive;
+    private Option m_backup;
+    private Option m_noDereference;
+    private Option m_force;
+    private Option m_interactive;
+    private Option m_link;
+    private Option m_preserve;
+    private Option m_parents;
+    private Option m_recursive1;
+    private Option m_sparse;
+    private Option m_recursive2;
+    private Option m_symbolicLink;
+    private Option m_suffix;
+    private Option m_update;
+    private Option m_verbose;
+    private Option m_versionControl;
+    private Option m_oneFileSystem;
+    private Option m_help;
+    private Option m_version;
 
     /**
      * DOCUMENT ME!
@@ -155,108 +156,108 @@ public class CpTest extends TestCase
      */
     public void setUp(  )
     {
-        source = (ArgumentImpl) aBuilder.withName( "SOURCE" ).withMinimum( 1 )
+        m_source = (ArgumentImpl) ARGUMENT_BUILDER.withName( "SOURCE" ).withMinimum( 1 )
                                         .create(  );
-        dest = (ArgumentImpl) aBuilder.withName( "DEST" ).withMinimum( 1 )
+        m_dest = (ArgumentImpl) ARGUMENT_BUILDER.withName( "DEST" ).withMinimum( 1 )
                                       .withMaximum( 1 ).create(  );
-        targets = new SourceDestArgument( source, dest );
+        m_targets = new SourceDestArgument( m_source, m_dest );
 
-        archive = oBuilder.withShortName( "a" ).withLongName( "archive" )
+        m_archive = OPTION_BUILDER.withShortName( "a" ).withLongName( "archive" )
                           .withDescription( "same as -dpR" ).create(  );
 
-        backup = oBuilder.withShortName( "b" ).withLongName( "backup" )
+        m_backup = OPTION_BUILDER.withShortName( "b" ).withLongName( "backup" )
                          .withDescription( "make backup before removal" )
                          .create(  );
 
-        noDereference = oBuilder.withShortName( "d" )
+        m_noDereference = OPTION_BUILDER.withShortName( "d" )
                                 .withLongName( "no-dereference" )
                                 .withDescription( "preserve links" ).create(  );
 
-        force = oBuilder.withShortName( "f" ).withLongName( "force" )
+        m_force = OPTION_BUILDER.withShortName( "f" ).withLongName( "force" )
                         .withDescription( "remove existing destinations, never prompt" )
                         .create(  );
 
-        interactive = oBuilder.withShortName( "i" ).withLongName( "interactive" )
+        m_interactive = OPTION_BUILDER.withShortName( "i" ).withLongName( "interactive" )
                               .withDescription( "prompt before overwrite" )
                               .create(  );
 
-        link = oBuilder.withShortName( "l" ).withLongName( "link" )
+        m_link = OPTION_BUILDER.withShortName( "l" ).withLongName( "link" )
                        .withDescription( "link files instead of copying" )
                        .create(  );
 
-        preserve = oBuilder.withShortName( "p" ).withLongName( "preserve" )
+        m_preserve = OPTION_BUILDER.withShortName( "p" ).withLongName( "preserve" )
                            .withDescription( "preserve file attributes if possible" )
                            .create(  );
 
-        parents = oBuilder.withShortName( "P" ).withLongName( "parents" )
+        m_parents = OPTION_BUILDER.withShortName( "P" ).withLongName( "parents" )
                           .withDescription( "append source path to DIRECTORY" )
                           .create(  );
 
-        recursive1 = oBuilder.withShortName( "r" )
+        m_recursive1 = OPTION_BUILDER.withShortName( "r" )
                              .withDescription( "copy recursively, non-directories as files" )
                              .create(  );
 
-        sparse = oBuilder.withLongName( "sparse" )
+        m_sparse = OPTION_BUILDER.withLongName( "sparse" )
                          .withDescription( "control creation of sparse files" )
-                         .withArgument( aBuilder.withName( "WHEN" )
+                         .withArgument( ARGUMENT_BUILDER.withName( "WHEN" )
                                                 .withMinimum( 1 ).withMaximum( 1 )
                                                 .withInitialSeparator( '=' )
                                                 .create(  ) ).create(  );
 
-        recursive2 = oBuilder.withShortName( "R" ).withLongName( "recursive" )
+        m_recursive2 = OPTION_BUILDER.withShortName( "R" ).withLongName( "recursive" )
                              .withDescription( "copy directories recursively" )
                              .create(  );
 
-        symbolicLink = oBuilder.withShortName( "s" )
+        m_symbolicLink = OPTION_BUILDER.withShortName( "s" )
                                .withLongName( "symbolic-link" )
                                .withDescription( "make symbolic links instead of copying" )
                                .create(  );
 
-        suffix = oBuilder.withShortName( "S" ).withLongName( "suffix" )
+        m_suffix = OPTION_BUILDER.withShortName( "S" ).withLongName( "suffix" )
                          .withDescription( "override the usual backup suffix" )
-                         .withArgument( aBuilder.withName( "SUFFIX" )
+                         .withArgument( ARGUMENT_BUILDER.withName( "SUFFIX" )
                                                 .withMinimum( 1 ).withMaximum( 1 )
                                                 .create(  ) ).create(  );
 
-        update = oBuilder.withShortName( "u" ).withLongName( "update" )
+        m_update = OPTION_BUILDER.withShortName( "u" ).withLongName( "update" )
                          .withDescription( "copy only when the SOURCE file is newer than the destination file or when the destination file is missing" )
                          .create(  );
 
-        verbose = oBuilder.withShortName( "v" ).withLongName( "verbose" )
+        m_verbose = OPTION_BUILDER.withShortName( "v" ).withLongName( "verbose" )
                           .withDescription( "explain what is being done" )
                           .create(  );
 
-        versionControl = oBuilder.withShortName( "V" )
+        m_versionControl = OPTION_BUILDER.withShortName( "V" )
                                  .withLongName( "version-contol" )
                                  .withDescription( "explain what is being done" )
-                                 .withArgument( aBuilder.withName( "WORD" )
+                                 .withArgument( ARGUMENT_BUILDER.withName( "WORD" )
                                                         .withInitialSeparator( '=' )
                                                         .withMinimum( 1 )
                                                         .withMaximum( 1 )
                                                         .create(  ) ).create(  );
 
-        oneFileSystem = oBuilder.withShortName( "x" )
+        m_oneFileSystem = OPTION_BUILDER.withShortName( "x" )
                                 .withLongName( "one-file-system" )
                                 .withDescription( "stay on this file system" )
                                 .create(  );
 
-        help = oBuilder.withLongName( "help" )
+        m_help = OPTION_BUILDER.withLongName( "help" )
                        .withDescription( "display this help and exit" ).create(  );
 
-        version = oBuilder.withLongName( "version" )
+        m_version = OPTION_BUILDER.withLongName( "version" )
                           .withDescription( "output version information and exit" )
                           .create(  );
 
-        options = gBuilder.withOption( archive ).withOption( backup )
-                          .withOption( noDereference ).withOption( force )
-                          .withOption( interactive ).withOption( link )
-                          .withOption( preserve ).withOption( parents )
-                          .withOption( recursive1 ).withOption( sparse )
-                          .withOption( recursive2 ).withOption( symbolicLink )
-                          .withOption( suffix ).withOption( update )
-                          .withOption( verbose ).withOption( versionControl )
-                          .withOption( oneFileSystem ).withOption( help )
-                          .withOption( version ).withOption( targets )
+        m_options = GROUP_BUILDER.withOption( m_archive ).withOption( m_backup )
+                          .withOption( m_noDereference ).withOption( m_force )
+                          .withOption( m_interactive ).withOption( m_link )
+                          .withOption( m_preserve ).withOption( m_parents )
+                          .withOption( m_recursive1 ).withOption( m_sparse )
+                          .withOption( m_recursive2 ).withOption( m_symbolicLink )
+                          .withOption( m_suffix ).withOption( m_update )
+                          .withOption( m_verbose ).withOption( m_versionControl )
+                          .withOption( m_oneFileSystem ).withOption( m_help )
+                          .withOption( m_version ).withOption( m_targets )
                           .withName( "OPTIONS" ).create(  );
     }
 
@@ -266,7 +267,7 @@ public class CpTest extends TestCase
     public void testNoSource(  )
     {
         Parser parser = new Parser(  );
-        parser.setGroup( options );
+        parser.setGroup( m_options );
 
         try
         {
@@ -288,14 +289,14 @@ public class CpTest extends TestCase
     {
         final String[] args = new String[]{"source1", "dest1"};
         final Parser parser = new Parser(  );
-        parser.setGroup( options );
+        parser.setGroup( m_options );
 
         final CommandLine commandLine = parser.parse( args );
 
-        assertTrue( commandLine.getValues( source ).contains( "source1" ) );
-        assertEquals( 1, commandLine.getValues( source ).size(  ) );
-        assertTrue( commandLine.getValues( dest ).contains( "dest1" ) );
-        assertEquals( 1, commandLine.getValues( dest ).size(  ) );
+        assertTrue( commandLine.getValues( m_source ).contains( "source1" ) );
+        assertEquals( 1, commandLine.getValues( m_source ).size(  ) );
+        assertTrue( commandLine.getValues( m_dest ).contains( "dest1" ) );
+        assertEquals( 1, commandLine.getValues( m_dest ).size(  ) );
     }
 
     /**
@@ -310,17 +311,17 @@ public class CpTest extends TestCase
                 "source1", "source2", "source3", "dest1"
             };
         final Parser parser = new Parser(  );
-        parser.setGroup( options );
+        parser.setGroup( m_options );
 
         final CommandLine commandLine = parser.parse( args );
 
-        assertTrue( commandLine.getValues( source ).contains( "source1" ) );
-        assertTrue( commandLine.getValues( source ).contains( "source2" ) );
-        assertTrue( commandLine.getValues( source ).contains( "source3" ) );
-        assertEquals( 3, commandLine.getValues( source ).size(  ) );
+        assertTrue( commandLine.getValues( m_source ).contains( "source1" ) );
+        assertTrue( commandLine.getValues( m_source ).contains( "source2" ) );
+        assertTrue( commandLine.getValues( m_source ).contains( "source3" ) );
+        assertEquals( 3, commandLine.getValues( m_source ).size(  ) );
 
-        assertTrue( commandLine.getValues( dest ).contains( "dest1" ) );
-        assertEquals( 1, commandLine.getValues( dest ).size(  ) );
+        assertTrue( commandLine.getValues( m_dest ).contains( "dest1" ) );
+        assertEquals( 1, commandLine.getValues( m_dest ).size(  ) );
     }
 
     /**
@@ -332,7 +333,7 @@ public class CpTest extends TestCase
     {
         final StringWriter out = new StringWriter(  );
         final HelpFormatter helpFormatter = new HelpFormatter(  );
-        helpFormatter.setGroup( options );
+        helpFormatter.setGroup( m_options );
         helpFormatter.setPrintWriter( new PrintWriter( out ) );
         helpFormatter.print(  );
 

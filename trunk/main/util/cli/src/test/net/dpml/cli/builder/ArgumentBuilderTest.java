@@ -22,7 +22,7 @@ import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
 //import net.dpml.cli.validation.DateValidator;
-import net.dpml.cli.validation.Validator;
+//import net.dpml.cli.validation.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,8 @@ import java.util.List;
   */
 public class ArgumentBuilderTest extends TestCase
 {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
-    private ArgumentBuilder argumentBuilder;
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
+    private ArgumentBuilder m_argumentBuilder;
 
     /*
      * @see TestCase#setUp()
@@ -48,7 +48,7 @@ public class ArgumentBuilderTest extends TestCase
      */
     protected void setUp(  ) throws Exception
     {
-        this.argumentBuilder = new ArgumentBuilder(  );
+        this.m_argumentBuilder = new ArgumentBuilder(  );
     }
 
     /**
@@ -56,10 +56,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testConsumeRemaining(  )
     {
-        this.argumentBuilder.withConsumeRemaining( "--" );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withConsumeRemaining( "--" );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect consume remaining token", "--",
             arg.getConsumeRemaining(  ) );
@@ -72,13 +72,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withConsumeRemaining( null );
+            this.m_argumentBuilder.withConsumeRemaining( null );
             fail( "cannot use null consume remaining token" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NULL_CONSUME_REMAINING ),
                 exp.getMessage(  ) );
         }
@@ -91,13 +91,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withConsumeRemaining( "" );
+            this.m_argumentBuilder.withConsumeRemaining( "" );
             fail( "cannot use empty string consume remaining token" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_EMPTY_CONSUME_REMAINING ),
                 exp.getMessage(  ) );
         }
@@ -108,10 +108,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testDefault(  )
     {
-        this.argumentBuilder.withDefault( "defaultString" );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withDefault( "defaultString" );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect number of default values", 1,
             arg.getDefaultValues(  ).size(  ) );
@@ -124,11 +124,11 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testDefaultX2(  )
     {
-        this.argumentBuilder.withDefault( "defaultString1" );
-        this.argumentBuilder.withDefault( "defaultString2" );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withDefault( "defaultString1" );
+        this.m_argumentBuilder.withDefault( "defaultString2" );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect number of default values", 2,
             arg.getDefaultValues(  ).size(  ) );
@@ -145,13 +145,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withDefault( null );
+            this.m_argumentBuilder.withDefault( null );
             fail( "cannot use null default" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NULL_DEFAULT ),
                 exp.getMessage(  ) );
         }
@@ -166,10 +166,10 @@ public class ArgumentBuilderTest extends TestCase
         defaults.add( "one" );
         defaults.add( "two" );
 
-        this.argumentBuilder.withDefaults( defaults );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withDefaults( defaults );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect number of default values", 2,
             arg.getDefaultValues(  ).size(  ) );
@@ -188,13 +188,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withDefaults( null );
+            this.m_argumentBuilder.withDefaults( null );
             fail( "cannot use null defaults" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NULL_DEFAULTS ),
                 exp.getMessage(  ) );
         }
@@ -205,10 +205,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testId(  )
     {
-        this.argumentBuilder.withId( 1 );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withId( 1 );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect id", 1, arg.getId(  ) );
     }
@@ -218,10 +218,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testInitialSeparator(  )
     {
-        this.argumentBuilder.withInitialSeparator( ',' );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withInitialSeparator( ',' );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect initial separator", ',',
             arg.getInitialSeparator(  ) );
@@ -232,10 +232,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testMaximum(  )
     {
-        this.argumentBuilder.withMaximum( 1 );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withMaximum( 1 );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect maximum", 1, arg.getMaximum(  ) );
     }
@@ -247,13 +247,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withMaximum( -1 );
+            this.m_argumentBuilder.withMaximum( -1 );
             fail( "cannot use negative maximum" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NEGATIVE_MAXIMUM ),
                 exp.getMessage(  ) );
         }
@@ -264,10 +264,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testMinimum(  )
     {
-        this.argumentBuilder.withMinimum( 1 );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withMinimum( 1 );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect maximum", 1, arg.getMinimum(  ) );
     }
@@ -279,13 +279,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withMinimum( -1 );
+            this.m_argumentBuilder.withMinimum( -1 );
             fail( "cannot use negative minimum" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NEGATIVE_MINIMUM ),
                 exp.getMessage(  ) );
         }
@@ -296,9 +296,9 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testName(  )
     {
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect preferred name", "arg",
             arg.getPreferredName(  ) );
@@ -311,13 +311,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withName( null );
+            this.m_argumentBuilder.withName( null );
             fail( "cannot use null name" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NULL_NAME ),
                 exp.getMessage(  ) );
         }
@@ -330,13 +330,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withName( "" );
+            this.m_argumentBuilder.withName( "" );
             fail( "cannot use empty name" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_EMPTY_NAME ),
                 exp.getMessage(  ) );
         }
@@ -347,10 +347,10 @@ public class ArgumentBuilderTest extends TestCase
      */
     public void testSubsequentSeparator(  )
     {
-        this.argumentBuilder.withSubsequentSeparator( ':' );
-        this.argumentBuilder.withName( "arg" );
+        this.m_argumentBuilder.withSubsequentSeparator( ':' );
+        this.m_argumentBuilder.withName( "arg" );
 
-        ArgumentImpl arg = (ArgumentImpl) this.argumentBuilder.create(  );
+        ArgumentImpl arg = (ArgumentImpl) this.m_argumentBuilder.create(  );
 
         assertEquals( "incorrect subsequent separator", ':',
             arg.getSubsequentSeparator(  ) );
@@ -364,13 +364,13 @@ public class ArgumentBuilderTest extends TestCase
     {
         try
         {
-            this.argumentBuilder.withValidator( null );
+            this.m_argumentBuilder.withValidator( null );
             fail( "cannot use null validator" );
         }
         catch( IllegalArgumentException exp )
         {
             assertEquals( "wrong exception message",
-                resources.getMessage( 
+                RESOURCES.getMessage( 
                     ResourceConstants.ARGUMENT_BUILDER_NULL_VALIDATOR ),
                 exp.getMessage(  ) );
         }

@@ -127,14 +127,14 @@ import java.util.Set;
 public class LsTest extends TestCase
 {
     /** Option Builder */
-    private static final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+    private static final DefaultOptionBuilder OPTION_BUILDER = new DefaultOptionBuilder(  );
 
     /** Argument Builder */
-    private static final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
+    private static final ArgumentBuilder ARGUMENT_BUILDER = new ArgumentBuilder(  );
 
     /** Group Builder */
-    private static final GroupBuilder gBuilder = new GroupBuilder(  );
-    private static Group options;
+    private static final GroupBuilder GROUP_BUILDER = new GroupBuilder(  );
+    private static Group m_OPTIONS;
 
     /**
      * Required ctor.
@@ -162,20 +162,20 @@ public class LsTest extends TestCase
      */
     public void setUp(  )
     {
-        if( LsTest.options == null )
+        if( LsTest.m_OPTIONS == null )
         {
-            final Option a = oBuilder.withShortName( "a" ).withLongName( "all" )
+            final Option a = OPTION_BUILDER.withShortName( "a" ).withLongName( "all" )
                                      .withDescription( "do not hide entries starting with ." )
                                      .create(  );
 
-            final Option blockSize = oBuilder.withLongName( "block-size" )
+            final Option blockSize = OPTION_BUILDER.withLongName( "block-size" )
                                              .withRequired( false )
                                              .withDescription( "use SIZE-byte blocks" )
-                                             .withArgument( aBuilder.withMaximum( 
+                                             .withArgument( ARGUMENT_BUILDER.withMaximum( 
                         1 ).withMinimum( 1 ).withInitialSeparator( '=' ).create(  ) )
                                              .create(  );
 
-            final Option c = oBuilder.withShortName( "c" ).withRequired( false )
+            final Option c = OPTION_BUILDER.withShortName( "c" ).withRequired( false )
                                      .withDescription( "with -lt: sort by, and show, ctime (time of last modification of file status information) with -l:show ctime and sort by name otherwise: sort by ctime" )
                                      .create(  );
 
@@ -184,16 +184,16 @@ public class LsTest extends TestCase
             colors.add( "always" );
             colors.add( "auto" );
 
-            final Option color = oBuilder.withLongName( "color" )
+            final Option color = OPTION_BUILDER.withLongName( "color" )
                                          .withRequired( false )
                                          .withDescription( "control  whether  color is used to distinguish file types.  WHEN may be `never', `always', or `auto'" )
-                                         .withArgument( aBuilder.withMaximum( 1 )
+                                         .withArgument( ARGUMENT_BUILDER.withMaximum( 1 )
                                                                 .withMinimum( 1 )
                                                                 .withInitialSeparator( '=' )
                                                                 .withValidator( new EnumValidator( 
                             colors ) ).create(  ) ).create(  );
 
-            LsTest.options = gBuilder.withOption( a ).withOption( blockSize )
+            LsTest.m_OPTIONS = GROUP_BUILDER.withOption( a ).withOption( blockSize )
                                      .withOption( c ).withOption( color )
                                      .create(  );
         }
@@ -208,7 +208,7 @@ public class LsTest extends TestCase
     {
         // create the command line parser
         Parser parser = new Parser(  );
-        parser.setGroup( options );
+        parser.setGroup( m_OPTIONS );
 
         CommandLine line = parser.parse( new String[]
                 {

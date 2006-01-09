@@ -30,6 +30,8 @@ import net.dpml.cli.commandline.Parser;
  */
 public class Bug15046Test extends TestCase
 {
+    private static final String[] CLI_ARGS = new String[]{"-z", "c"};
+
     /**
      * Creates a new Bug15046Test object.
      *
@@ -47,8 +49,6 @@ public class Bug15046Test extends TestCase
      */
     public void testParamNamedAsOption(  ) throws Exception
     {
-        final String[] CLI_ARGS = new String[]{"-z", "c"};
-
         DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
         ArgumentBuilder abuilder = new ArgumentBuilder(  );
 

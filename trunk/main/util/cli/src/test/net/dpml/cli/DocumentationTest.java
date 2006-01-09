@@ -322,9 +322,9 @@ public class DocumentationTest extends TestCase
             //setLogFile();
         }
         List targetList = cl.getValues( targets );
-        for( Iterator i = targetList.iterator(  ); i.hasNext(  ); )
+        for( Iterator i = targetList.iterator(); i.hasNext();)
         {
-            String target = (String) i.next(  );
+            String target = (String) i.next();
             //doTarget(target);
         }
 
