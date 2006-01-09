@@ -1,5 +1,6 @@
 /*
  * Copyright 2004-2005 The Apache Software Foundation
+ * Copyright 2005-2006 Stephen McConnell, The Digital Product Meta Library
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +34,11 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
 {
     private CommandLine m_first;
     private CommandLine m_second;
-    private Option m_inFirst = new DefaultOptionBuilder(  ).withLongName( 
+    private Option m_inFirst = new DefaultOptionBuilder().withLongName( 
             "infirst" ).create(  );
-    private Option m_inBoth = new DefaultOptionBuilder(  ).withLongName( "inboth" )
+    private Option m_inBoth = new DefaultOptionBuilder().withLongName( "inboth" )
                                                         .create(  );
-    private Option m_inSecond = new DefaultOptionBuilder(  ).withLongName( 
+    private Option m_inSecond = new DefaultOptionBuilder().withLongName( 
             "insecond" ).create(  );
 
     /* (non-Javadoc)
@@ -50,16 +51,16 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
      */
     protected final CommandLine createCommandLine(  )
     {
-        final WriteableCommandLine writeable = new WriteableCommandLineImpl( m_root,
-                new ArrayList(  ) );
-        writeable.addOption( m_present );
+        final WriteableCommandLine writeable = 
+          new WriteableCommandLineImpl( ROOT, new ArrayList(  ) );
+        writeable.addOption( PRESENT );
         writeable.addProperty( "present", "present property" );
-        writeable.addSwitch( m_bool, true );
-        writeable.addValue( m_present, "present value" );
-        writeable.addOption( m_multiple );
-        writeable.addValue( m_multiple, "value 1" );
-        writeable.addValue( m_multiple, "value 2" );
-        writeable.addValue( m_multiple, "value 3" );
+        writeable.addSwitch( BOOLEAN, true );
+        writeable.addValue( PRESENT, "present value" );
+        writeable.addOption( MULTIPLE );
+        writeable.addValue( MULTIPLE, "value 1" );
+        writeable.addValue( MULTIPLE, "value 2" );
+        writeable.addValue( MULTIPLE, "value 3" );
 
         final DefaultingCommandLine defaults = new DefaultingCommandLine(  );
         defaults.appendCommandLine( writeable );
@@ -78,7 +79,7 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
 
         WriteableCommandLine writeable;
 
-        writeable = new WriteableCommandLineImpl( m_root, new ArrayList(  ) );
+        writeable = new WriteableCommandLineImpl( ROOT, new ArrayList(  ) );
         writeable.addOption( m_inFirst );
         writeable.addOption( m_inBoth );
         writeable.addProperty( "infirst", "infirst m_first value" );
@@ -91,7 +92,7 @@ public class DefaultingCommandLineTest extends AbstractCommandLineTestCase
         writeable.addValue( m_inBoth, "inboth m_first value 2" );
         m_first = writeable;
 
-        writeable = new WriteableCommandLineImpl( m_root, new ArrayList(  ) );
+        writeable = new WriteableCommandLineImpl( ROOT, new ArrayList(  ) );
         writeable.addOption( m_inSecond );
         writeable.addOption( m_inBoth );
         writeable.addProperty( "insecond", "insecond m_second value" );

@@ -1,5 +1,6 @@
 /**
  * Copyright 2004 The Apache Software Foundation
+ * Copyright 2005-2006 Stephen McConnell, The Digital Product Meta Library
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +28,7 @@ public abstract class AbstractWriteableCommandLineTestCase
     extends AbstractCommandLineTestCase
 {
     private WriteableCommandLine m_writeable;
-
+    
     /**
      * DOCUMENT ME!
      *
@@ -46,14 +47,14 @@ public abstract class AbstractWriteableCommandLineTestCase
     protected final CommandLine createCommandLine(  )
     {
         final WriteableCommandLine cl = createWriteableCommandLine(  );
-        cl.addOption( m_present );
+        cl.addOption( PRESENT );
         cl.addProperty( "present", "present property" );
-        cl.addSwitch( m_bool, true );
-        cl.addValue( m_present, "present value" );
-        cl.addOption( m_multiple );
-        cl.addValue( m_multiple, "value 1" );
-        cl.addValue( m_multiple, "value 2" );
-        cl.addValue( m_multiple, "value 3" );
+        cl.addSwitch( BOOLEAN, true );
+        cl.addValue( PRESENT, "present value" );
+        cl.addOption( MULTIPLE );
+        cl.addValue( MULTIPLE, "value 1" );
+        cl.addValue( MULTIPLE, "value 2" );
+        cl.addValue( MULTIPLE, "value 3" );
 
         return cl;
     }
@@ -77,9 +78,9 @@ public abstract class AbstractWriteableCommandLineTestCase
      */
     public final void testAddOption(  )
     {
-        assertFalse( m_writeable.hasOption( m_present ) );
-        m_writeable.addOption( m_present );
-        assertTrue( m_writeable.hasOption( m_present ) );
+        assertFalse( m_writeable.hasOption( PRESENT ) );
+        m_writeable.addOption( PRESENT );
+        assertTrue( m_writeable.hasOption( PRESENT ) );
     }
 
     /**
@@ -87,13 +88,13 @@ public abstract class AbstractWriteableCommandLineTestCase
      */
     public final void testAddValue(  )
     {
-        assertFalse( m_writeable.hasOption( m_present ) );
-        assertTrue( m_writeable.getValues( m_present ).isEmpty(  ) );
-        m_writeable.addValue( m_present, "value" );
-        assertContentsEqual( list( "value" ), m_writeable.getValues( m_present ) );
+        assertFalse( m_writeable.hasOption( PRESENT ) );
+        assertTrue( m_writeable.getValues( PRESENT ).isEmpty(  ) );
+        m_writeable.addValue( PRESENT, "value" );
+        assertContentsEqual( list( "value" ), m_writeable.getValues( PRESENT ) );
 
         // most options shouldn't appear due to adding values
-        assertFalse( m_writeable.hasOption( m_present ) );
+        assertFalse( m_writeable.hasOption( PRESENT ) );
 
         final Argument arg = ArgumentTest.buildHostArgument(  );
 
@@ -111,11 +112,11 @@ public abstract class AbstractWriteableCommandLineTestCase
      */
     public final void testAddSwitch(  )
     {
-        assertFalse( m_writeable.hasOption( m_present ) );
-        assertNull( m_writeable.getSwitch( m_present ) );
-        m_writeable.addSwitch( m_present, true );
-        assertEquals( Boolean.TRUE, m_writeable.getSwitch( m_present ) );
-        assertTrue( m_writeable.hasOption( m_present ) );
+        assertFalse( m_writeable.hasOption( PRESENT ) );
+        assertNull( m_writeable.getSwitch( PRESENT ) );
+        m_writeable.addSwitch( PRESENT, true );
+        assertEquals( Boolean.TRUE, m_writeable.getSwitch( PRESENT ) );
+        assertTrue( m_writeable.hasOption( PRESENT ) );
     }
 
     /**

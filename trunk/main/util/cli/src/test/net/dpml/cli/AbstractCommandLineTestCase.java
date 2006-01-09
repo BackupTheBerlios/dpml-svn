@@ -1,5 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
+ * Copyright 2005-2006 Stephen McConnell, The Digital Product Meta Library
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,37 +46,36 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     /**
      * DOCUMENT ME!
      */
-    public final Option m_present = new DefaultOptionBuilder(  ).withLongName( 
-            "present" ).withLongName( "alsopresent" ).create(  );
+    public static final Option PRESENT = new DefaultOptionBuilder(  ).withLongName( "present" ).withLongName( "alsopresent" ).create(  );
 
     /**
      * DOCUMENT ME!
      */
-    public final Option m_missing = new DefaultOptionBuilder(  ).withLongName( 
-            "missing" ).create(  );
+    public static final Option MISSING = new DefaultOptionBuilder(  ).withLongName( "missing" ).create(  );
 
     /**
      * DOCUMENT ME!
      */
-    public final Option m_multiple = new DefaultOptionBuilder(  ).withLongName( 
-            "multiple" ).create(  );
+    public static final Option MULTIPLE = new DefaultOptionBuilder(  ).withLongName( "multiple" ).create(  );
 
     /**
      * DOCUMENT ME!
      */
-    public final Option m_bool = new DefaultOptionBuilder(  ).withLongName( 
-            "bool" ).create(  );
+    public static final Option BOOLEAN = new DefaultOptionBuilder(  ).withLongName( "bool" ).create(  );
 
     /**
      * DOCUMENT ME!
      */
-    public final Option m_root = new GroupBuilder(  ).withOption( m_present )
-                                                     .withOption( m_missing )
-                                                     .withOption( m_multiple )
-                                                     .withOption( m_bool )
-                                                     .create(  );
+    public static final Option ROOT = 
+      new GroupBuilder(  )
+        .withOption( PRESENT )
+        .withOption( MISSING )
+        .withOption( MULTIPLE )
+        .withOption( BOOLEAN )
+        .create();
+    
     private CommandLine m_commandLine;
-
+    
     /**
      * DOCUMENT ME!
      *
@@ -118,8 +118,8 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
      */
     public final void testHasOptionOption(  )
     {
-        assertTrue( m_commandLine.hasOption( m_present ) );
-        assertFalse( m_commandLine.hasOption( m_missing ) );
+        assertTrue( m_commandLine.hasOption( PRESENT ) );
+        assertFalse( m_commandLine.hasOption( MISSING ) );
     }
 
     /**
@@ -127,8 +127,8 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
      */
     public final void testGetOption(  )
     {
-        assertSame( m_present, m_commandLine.getOption( "--present" ) );
-        assertSame( m_present, m_commandLine.getOption( "--alsopresent" ) );
+        assertSame( PRESENT, m_commandLine.getOption( "--present" ) );
+        assertSame( PRESENT, m_commandLine.getOption( "--alsopresent" ) );
 
         //TODO decide whether the following assertion is valid
         //assertSame( missing,m_commandLine.getOption( "--missing" ) );
@@ -177,8 +177,8 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     public final void testGetValuesOption(  )
     {
         assertListContentsEqual( list( "present value" ),
-            m_commandLine.getValues( m_present ) );
-        assertTrue( m_commandLine.getValues( m_missing ).isEmpty(  ) );
+            m_commandLine.getValues( PRESENT ) );
+        assertTrue( m_commandLine.getValues( MISSING ).isEmpty(  ) );
     }
 
     /*
@@ -190,12 +190,12 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     public final void testGetValuesOptionList(  )
     {
         assertListContentsEqual( list( "present value" ),
-            m_commandLine.getValues( m_present ) );
-        assertSame( m_commandLine.getValues( m_missing, Collections.EMPTY_LIST ),
+            m_commandLine.getValues( PRESENT ) );
+        assertSame( m_commandLine.getValues( MISSING, Collections.EMPTY_LIST ),
             Collections.EMPTY_LIST );
 
         final List defs = Collections.singletonList( "custom default" );
-        assertSame( defs, m_commandLine.getValues( m_missing, defs ) );
+        assertSame( defs, m_commandLine.getValues( MISSING, defs ) );
     }
 
     /*
@@ -259,12 +259,12 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
      */
     public final void testGetValueOption(  )
     {
-        assertEquals( "present value", m_commandLine.getValue( m_present ) );
-        assertNull( m_commandLine.getValue( m_missing ) );
+        assertEquals( "present value", m_commandLine.getValue( PRESENT ) );
+        assertNull( m_commandLine.getValue( MISSING ) );
 
         try
         {
-            m_commandLine.getValue( m_multiple );
+            m_commandLine.getValue( MULTIPLE );
             fail( "expected IllegalStateException" );
         }
         catch( IllegalStateException e )
@@ -284,13 +284,13 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     public final void testGetValueOptionObject(  )
     {
         assertEquals( "present value",
-            m_commandLine.getValue( m_present, "default value" ) );
+            m_commandLine.getValue( PRESENT, "default value" ) );
         assertEquals( "default value",
-            m_commandLine.getValue( m_missing, "default value" ) );
+            m_commandLine.getValue( MISSING, "default value" ) );
 
         try
         {
-            m_commandLine.getValue( m_multiple );
+            m_commandLine.getValue( MULTIPLE );
             fail( "expected IllegalStateException" );
         }
         catch( IllegalStateException e )
@@ -335,8 +335,8 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
      */
     public final void testGetSwitchOption(  )
     {
-        assertEquals( Boolean.TRUE, m_commandLine.getSwitch( m_bool ) );
-        assertNull( m_commandLine.getSwitch( m_missing ) );
+        assertEquals( Boolean.TRUE, m_commandLine.getSwitch( BOOLEAN ) );
+        assertNull( m_commandLine.getSwitch( MISSING ) );
     }
 
     /*
@@ -348,9 +348,9 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     public final void testGetSwitchOptionBoolean(  )
     {
         assertEquals( Boolean.TRUE,
-            m_commandLine.getSwitch( m_bool, Boolean.FALSE ) );
+            m_commandLine.getSwitch( BOOLEAN, Boolean.FALSE ) );
         assertEquals( Boolean.FALSE,
-            m_commandLine.getSwitch( m_missing, Boolean.FALSE ) );
+            m_commandLine.getSwitch( MISSING, Boolean.FALSE ) );
     }
 
     /*
@@ -411,9 +411,9 @@ public abstract class AbstractCommandLineTestCase extends AbstractCLITestCase
     public final void testGetOptionCountOption(  )
     {
         // one option, one switch
-        assertTrue( 1 <= m_commandLine.getOptionCount( m_present ) );
-        assertTrue( 1 <= m_commandLine.getOptionCount( m_bool ) );
-        assertEquals( 0, m_commandLine.getOptionCount( m_missing ) );
+        assertTrue( 1 <= m_commandLine.getOptionCount( PRESENT ) );
+        assertTrue( 1 <= m_commandLine.getOptionCount( BOOLEAN ) );
+        assertEquals( 0, m_commandLine.getOptionCount( MISSING ) );
     }
 
     /**

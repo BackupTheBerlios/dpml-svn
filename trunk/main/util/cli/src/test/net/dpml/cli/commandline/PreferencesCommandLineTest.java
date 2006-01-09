@@ -1,5 +1,6 @@
 /*
  * Copyright 2004-2005 The Apache Software Foundation
+ * Copyright 2005-2006 Stephen McConnell, The Digital Product Meta Library
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +47,7 @@ public class PreferencesCommandLineTest extends AbstractCommandLineTestCase
 
         props.put( "present", "present property" );
 
-        return new PreferencesCommandLine( m_root, props, '|' );
+        return new PreferencesCommandLine( ROOT, props, '|' );
     }
 
     /**
@@ -65,7 +66,7 @@ public class PreferencesCommandLineTest extends AbstractCommandLineTestCase
 
         props.put( "present", "present property" );
 
-        return new PreferencesCommandLine( m_root, props );
+        return new PreferencesCommandLine( ROOT, props );
     }
 
     /**

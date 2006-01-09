@@ -1,5 +1,6 @@
 /*
  * Copyright 2004-2005 The Apache Software Foundation
+ * Copyright 2005-2006 Stephen McConnell, The Digital Product Meta Library
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +45,7 @@ public class PropertiesCommandLineTest extends AbstractCommandLineTestCase
 
         m_properties.setProperty( "present", "present property" );
 
-        return new PropertiesCommandLine( m_root, m_properties, '|' );
+        return new PropertiesCommandLine( ROOT, m_properties, '|' );
     }
 
     /**
@@ -62,7 +63,7 @@ public class PropertiesCommandLineTest extends AbstractCommandLineTestCase
 
         m_properties.setProperty( "present", "present property" );
 
-        return new PropertiesCommandLine( m_root, m_properties );
+        return new PropertiesCommandLine( ROOT, m_properties );
     }
 
     /**
