@@ -54,41 +54,42 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     private File m_fileWithExternalEntity;
     private File m_innerXmlFile;
     private File m_testDirectory;
-    private final String SIMPLE_XML = "<?xml version=\"1.0\" ?>" +
-        "<config boolAttr=\"true\" floatAttr=\"1.32\">" + "   <elements-a>" +
-        "       <element name=\"a\"/>" + "   </elements-a>" +
-        "   <elements-b>" + "       <element name=\"b\"/> " +
-        "   </elements-b>" + "   <elements-b type=\"type-b\"/>" +
-        "   <elements-c>" + "   true" + "   </elements-c>" + "</config>";
-    private final String NS_XML = "<?xml version=\"1.0\" ?>" + "<conf:config" +
-        "       boolAttr=\"true\" floatAttr=\"1.32\"" +
-        "       xmlns:conf=\"http://conf.com\" xmlns:a=\"http://a.com\" xmlns:b=\"http://b.com\" xmlns:c=\"http://c.com\" xmlns:d=\"http://d.com\" xmlns:e=\"http://e.com\">" +
-        "   <a:elements-a>" + "       <c:element name=\"a\"/>" +
-        "   </a:elements-a>" +
-        "   <elements-b xmlns=\"http://defaultns.com\">" +
-        "       <element name=\"b\"/> " + "   </elements-b>" +
-        "   <b:elements-b type=\"type-b\"/>" + "   <elements-c>" + "   true" +
-        "   </elements-c>" + "   <d:element>d:element</d:element>" +
-        "   <e:element>e:element</e:element>" + "</conf:config>";
-    private final String spaceTrimmingCheckXML = "<?xml version=\"1.0\" ?>" +
-        " <config>" + "   <trimmed-item>\n" + "    value     \n" +
-        "   </trimmed-item>\n" + "   <preserved-item xml:space='preserve'>\n" +
-        " a space&#13; a CR, then a trailing space </preserved-item>\n" +
-        "   <first-level-item xml:space='preserve'>\n" +
-        "      <second-level-preserved> whitespace around </second-level-preserved>\n" +
-        "   </first-level-item>\n" + "   <trimmed-again-item>\n" +
-        "    value     \n" + "   </trimmed-again-item>\n" + "</config>";
-    private final String mixedContentXML = "<?xml version=\"1.0\" ?>" +
-        "<a>a<a/></a>";
-    private final String XML_WITH_EXTERNAL_ENTITY = "<?xml version=\"1.0\" ?>" +
-        "<!DOCTYPE document" + "[" + "<!ENTITY config SYSTEM \"inner.xml\">" +
-        "]>" + "<config boolAttr=\"true\" floatAttr=\"1.32\">" +
-        "   &config; " + "</config>";
-    private final String INNER_XML = "   <elements-a>" +
-        "       <element name=\"a\"/>" + "   </elements-a>" +
-        "   <elements-b>" + "       <element name=\"b\"/> " +
-        "   </elements-b>" + "   <elements-b type=\"type-b\"/>" +
-        "   <elements-c>" + "   true" + "   </elements-c>";
+    
+    private static final String SIMPLE_XML = "<?xml version=\"1.0\" ?>"
+      + "<config boolAttr=\"true\" floatAttr=\"1.32\">" + "   <elements-a>"
+      + "       <element name=\"a\"/>" + "   </elements-a>"
+      + "   <elements-b>" + "       <element name=\"b\"/> "
+      + "   </elements-b>" + "   <elements-b type=\"type-b\"/>"
+      + "   <elements-c>" + "   true" + "   </elements-c>" + "</config>";
+    private static final String NS_XML = "<?xml version=\"1.0\" ?>" + "<conf:config"
+      + "       boolAttr=\"true\" floatAttr=\"1.32\""
+      + "       xmlns:conf=\"http://conf.com\" xmlns:a=\"http://a.com\" xmlns:b=\"http://b.com\" xmlns:c=\"http://c.com\" xmlns:d=\"http://d.com\" xmlns:e=\"http://e.com\">"
+      + "   <a:elements-a>" + "       <c:element name=\"a\"/>"
+      + "   </a:elements-a>"
+      + "   <elements-b xmlns=\"http://defaultns.com\">"
+      + "       <element name=\"b\"/> " + "   </elements-b>"
+      + "   <b:elements-b type=\"type-b\"/>" + "   <elements-c>" + "   true"
+      + "   </elements-c>" + "   <d:element>d:element</d:element>"
+      +  "   <e:element>e:element</e:element>" + "</conf:config>";
+    private static final String SPACE_TRIMMING_CHECK_XML = "<?xml version=\"1.0\" ?>"
+      + " <config>" + "   <trimmed-item>\n" + "    value     \n" 
+      + "   </trimmed-item>\n" + "   <preserved-item xml:space='preserve'>\n" 
+      + " a space&#13; a CR, then a trailing space </preserved-item>\n"
+      + "   <first-level-item xml:space='preserve'>\n"
+      + "      <second-level-preserved> whitespace around </second-level-preserved>\n" 
+      + "   </first-level-item>\n" + "   <trimmed-again-item>\n"
+      + "    value     \n" + "   </trimmed-again-item>\n" + "</config>";
+    private static final String MIXED_CONTENT_XML = "<?xml version=\"1.0\" ?>" 
+      + "<a>a<a/></a>";
+    private static final String XML_WITH_EXTERNAL_ENTITY = "<?xml version=\"1.0\" ?>"
+      + "<!DOCTYPE document" + "[" + "<!ENTITY config SYSTEM \"inner.xml\">"
+      + "]>" + "<config boolAttr=\"true\" floatAttr=\"1.32\">"
+      + "   &config; " + "</config>";
+    private static final String INNER_XML = "   <elements-a>"
+      + "       <element name=\"a\"/>" + "   </elements-a>"
+      + "   <elements-b>" + "       <element name=\"b\"/> "
+      + "   </elements-b>" + "   <elements-b type=\"type-b\"/>"
+      + "   <elements-c>" + "   true" + "   </elements-c>";
 
     /**
      * Creates a new DefaultConfigurationBuilderTestCase object.
@@ -101,7 +102,7 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     /**
      * Creates a new DefaultConfigurationBuilderTestCase object.
      *
-     * @param name DOCUMENT ME!
+     * @param name the testcase name
      */
     public DefaultConfigurationBuilderTestCase( final String name )
     {
@@ -120,6 +121,7 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
      * These assertions apply when the default builder is used to create a
      * Configuration from <code>simpleXML</code>, ie namespace
      * support is disabled.
+     * @exception ConfigurationException if an error occurs
      */
     private void simpleAssertions( Configuration conf )
         throws ConfigurationException
@@ -131,8 +133,8 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
         try
         {
             conf.getValue(  );
-            fail( "Should throw a ConfigurationException, as this element" +
-                "contains child elements, not a value" );
+            fail( "Should throw a ConfigurationException, as this element"
+              + "contains child elements, not a value" );
         }
         catch( ConfigurationException e )
         {
@@ -184,6 +186,8 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
      * These assertions apply when the default builder is used to create a
      * Configuration from <code>nsXML</code>, ie namespace support is disabled,
      * but the XML uses namespaces.
+     * @param conf the configuration instance
+     * @exception ConfigurationException if an error occurs
      */
     private void simpleAssertionsNS( Configuration conf )
         throws ConfigurationException
@@ -195,8 +199,8 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
         try
         {
             conf.getValue(  );
-            fail( "Should throw a ConfigurationException, as this element" +
-                "contains child elements, not a value" );
+            fail( "Should throw a ConfigurationException, as this element"
+              + "contains child elements, not a value" );
         }
         catch( ConfigurationException e )
         {
@@ -255,6 +259,8 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
      * These assertions apply when the namespace-enabled builder is used to
      * create a Configuration from <code>nsXML</code>, ie namespace support is
      * enabled, and the XML uses namespaces.
+     * @param conf the configuration instance
+     * @exception ConfigurationException if an error occurs
      */
     private void nsAssertions( Configuration conf )
         throws ConfigurationException
@@ -266,8 +272,8 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
         try
         {
             conf.getValue(  );
-            fail( "Should throw a ConfigurationException, as this element" +
-                "contains child elements, not a value" );
+            fail( "Should throw a ConfigurationException, as this element"
+              + "contains child elements, not a value" );
         }
         catch( ConfigurationException e )
         {
@@ -338,9 +344,9 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Testcase setup.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
     protected void setUp(  ) throws Exception
     {
@@ -364,9 +370,9 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Testcase teardown.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
     protected void tearDown(  ) throws Exception
     {
@@ -375,11 +381,11 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test build of configuration from filename.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
-    public void testBuildFromFileName(  ) throws Exception
+    public void testBuildFromFileName() throws Exception
     {
         m_builder = new DefaultConfigurationBuilder(  );
         m_nsBuilder = new DefaultConfigurationBuilder( true ); // switch on namespace support
@@ -397,11 +403,11 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test build of configuration from file.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
-    public void testBuildFromFile(  ) throws Exception
+    public void testBuildFromFile() throws Exception
     {
         m_builder = new DefaultConfigurationBuilder(  );
         m_nsBuilder = new DefaultConfigurationBuilder( true ); // switch on namespace support
@@ -415,9 +421,9 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test build of configuration.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
     public void testBuild(  ) throws Exception
     {
@@ -435,11 +441,12 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     /**
      * Checks that whitespace is normally stripped but preserved if
      * space preserving processing instructions are present.
+     * @throws Exception if an error occurs
      */
     public void testSpaceTrimming(  ) throws Exception
     {
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder(  );
-        InputStream in = new ByteArrayInputStream( spaceTrimmingCheckXML.getBytes(  ) );
+        InputStream in = new ByteArrayInputStream( SPACE_TRIMMING_CHECK_XML.getBytes(  ) );
         Configuration conf = builder.build( in );
         assertEquals( "Value is trimmed by default", "value",
             conf.getChild( "trimmed-item" ).getValue(  ) );
@@ -455,14 +462,14 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test mixed content detection.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
     public void testMixedContentDetection(  ) throws Exception
     {
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder(  );
-        InputStream in = new ByteArrayInputStream( mixedContentXML.getBytes(  ) );
+        InputStream in = new ByteArrayInputStream( MIXED_CONTENT_XML.getBytes(  ) );
 
         try
         {
@@ -475,9 +482,9 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test external entity.
      *
-     * @throws Exception DOCUMENT ME!
+     * @throws Exception if an error occurs
      */
     public void testExternalEntity(  ) throws Exception
     {
@@ -500,21 +507,20 @@ public final class DefaultConfigurationBuilderTestCase extends TestCase
     class MyEntityResolver implements EntityResolver
     {
         /**
-         * DOCUMENT ME!
+         * Entity resolver mock object.
          *
-         * @param publicId DOCUMENT ME!
-         * @param systemId DOCUMENT ME!
+         * @param publicId the public id
+         * @param systemId the system id
          *
-         * @return DOCUMENT ME!
+         * @return the input source
          *
-         * @throws SAXException DOCUMENT ME!
-         * @throws IOException DOCUMENT ME!
+         * @throws SAXException if a sax error occurs
+         * @throws IOException if an io error occurs
          */
         public InputSource resolveEntity( String publicId, String systemId )
             throws SAXException, IOException
         {
             Reader reader = new FileReader( m_innerXmlFile );
-
             return new InputSource( reader );
         }
     }

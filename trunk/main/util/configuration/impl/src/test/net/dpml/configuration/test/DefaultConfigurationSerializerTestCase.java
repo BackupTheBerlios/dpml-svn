@@ -30,8 +30,8 @@ import java.io.File;
  */
 public final class DefaultConfigurationSerializerTestCase extends TestCase
 {
-    private File testDirectory;
-    private File testDirectory2;
+    private File m_testDirectory;
+    private File m_testDirectory2;
 
     /**
      * Creates a new DefaultConfigurationSerializerTestCase object.
@@ -52,24 +52,24 @@ public final class DefaultConfigurationSerializerTestCase extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Testcase setup.
      */
-    public void setUp(  )
+    public void setUp()
     {
         File basedir = getWorkDir(  );
-        testDirectory = ( new File( basedir, "io" ) ).getAbsoluteFile(  );
-        testDirectory2 = new File( basedir,
+        m_testDirectory = ( new File( basedir, "io" ) ).getAbsoluteFile(  );
+        m_testDirectory2 = new File( basedir,
                 "DefaultConfigurationSerializerTestCase" ).getAbsoluteFile(  );
 
-        if( !testDirectory.exists(  ) )
+        if( !m_testDirectory.exists(  ) )
         {
-            testDirectory.mkdirs(  );
+            m_testDirectory.mkdirs(  );
         }
 
-        assertTrue( !testDirectory2.exists(  ) );
+        assertTrue( !m_testDirectory2.exists(  ) );
     }
 
-    private File getWorkDir(  )
+    private File getWorkDir()
     {
         String path = System.getProperty( "project.test.dir" );
 
@@ -90,13 +90,14 @@ public final class DefaultConfigurationSerializerTestCase extends TestCase
     /**
      * Checks that the <code>serializeToFile</code> method closes the output stream
      * when it is done.
+     * @throws Exception if an error occurs
      */
-    public void testSerializeToFile(  ) throws Exception
+    public void testSerializeToFile() throws Exception
     {
         DefaultConfiguration config = new DefaultConfiguration( "root", "" );
         config.setAttribute( "attribute", "value" );
 
-        File file = new File( testDirectory,
+        File file = new File( m_testDirectory,
                 "DefaultConfigurationSerializerTestCase.xml" );
 
         DefaultConfigurationSerializer serializer = new DefaultConfigurationSerializer(  );
@@ -105,8 +106,8 @@ public final class DefaultConfigurationSerializerTestCase extends TestCase
         //
         // This will not work if the serializeToFile method keeps the stream open.
         //
-        assertTrue( testDirectory.renameTo( testDirectory2 ) );
-        assertTrue( testDirectory2.renameTo( testDirectory ) );
+        assertTrue( m_testDirectory.renameTo( m_testDirectory2 ) );
+        assertTrue( m_testDirectory2.renameTo( m_testDirectory ) );
 
         file.delete(  );
     }

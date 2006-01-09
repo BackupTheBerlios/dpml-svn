@@ -33,11 +33,9 @@ import net.dpml.i18n.Resources;
 public class ResourceManagerTestCase
     extends TestCase
 {
-    public ResourceManagerTestCase( final String name )
-    {
-        super( name );
-    }
-
+   /**
+    * Test class resources.
+    */
     public void testClassResources()
     {
         try
@@ -53,6 +51,9 @@ public class ResourceManagerTestCase
         }
     }
 
+   /**
+    * Test package resources.
+    */
     public void testPackageResources()
     {
         try
