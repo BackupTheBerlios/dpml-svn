@@ -27,10 +27,7 @@ import net.dpml.cli.commandline.WriteableCommandLineImpl;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
-import java.text.ParseException;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,7 +43,7 @@ import java.util.Set;
  */
 public class ArgumentTest extends AbstractArgumentTestCase
 {
-    private ResourceHelper resources = ResourceHelper.getResourceHelper(  );
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
 
     /**
      * DOCUMENT ME!
@@ -132,7 +129,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
         //    new ArgumentImpl("limit", "the last acceptable date", 10, 5, '=', '\0',
         //                     new DateValidator(DateValidatorTest.YYYY_MM_YY), null, null, 0);
         //} catch (IllegalArgumentException e) {
-        //    assertEquals(resources.getMessage("Argument.minimum.exceeds.maximum"), e.getMessage());
+        //    assertEquals(RESOURCES.getMessage("Argument.minimum.exceeds.maximum"), e.getMessage());
         //}
     }
 
@@ -165,7 +162,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessValues_BoundaryQuotes(  ) throws OptionException
+    public void testProcessValuesBoundaryQuotes(  ) throws OptionException
     {
         final Argument option = buildUsernameArgument(  );
         final List args = list( "\"rob\"" );
@@ -184,7 +181,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessValues_SpareValues(  ) throws OptionException
+    public void testProcessValuesSpareValues(  ) throws OptionException
     {
         final Argument option = buildUsernameArgument(  );
         final List args = list( "rob", "secret" );
@@ -201,7 +198,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testProcessValues_Optional(  )
+    public void testProcessValuesOptional(  )
     {
         final Argument option = buildTargetsArgument(  );
         final List args = list(  );
@@ -230,7 +227,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessValues_Multiple(  ) throws OptionException
+    public void testProcessValuesMultiple(  ) throws OptionException
     {
         final Argument option = buildTargetsArgument(  );
         final List args = list( "compile", "test", "docs" );
@@ -250,7 +247,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessValues_Contracted(  ) throws OptionException
+    public void testProcessValuesContracted(  ) throws OptionException
     {
         final Argument option = buildTargetsArgument(  );
         final List args = list( "compile,test,javadoc", "checkstyle,jdepend" );
@@ -268,7 +265,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testProcessValues_ContractedTooFew(  )
+    public void testProcessValuesContractedTooFew(  )
     {
         final Argument option = buildHostArgument(  );
         final List args = list( "box1" );
@@ -290,7 +287,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testProcessValues_ContractedTooMany(  )
+    public void testProcessValuesContractedTooMany(  )
     {
         final Argument option = buildHostArgument(  );
         final List args = list( "box1,box2,box3,box4" );
@@ -400,7 +397,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_Minimum(  )
+    public void testValidateMinimum(  )
     {
         final Argument option = buildUsernameArgument(  );
         final WriteableCommandLine commandLine = commandLine( option, list(  ) );
@@ -437,7 +434,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_Maximum(  )
+    public void testValidateMaximum(  )
     {
         final Argument option = buildUsernameArgument(  );
         final WriteableCommandLine commandLine = commandLine( option, list(  ) );
@@ -485,7 +482,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_Infinite(  )
+    public void testAppendUsageInfinite(  )
     {
         final Option option = buildTargetsArgument(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -497,7 +494,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_InfiniteNoOptional(  )
+    public void testAppendUsageInfiniteNoOptional(  )
     {
         final Option option = buildTargetsArgument(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -511,7 +508,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_InfiniteNoNumbering(  )
+    public void testAppendUsageInfiniteNoNumbering(  )
     {
         final Option option = buildTargetsArgument(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -525,7 +522,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_Minimum(  )
+    public void testAppendUsageMinimum(  )
     {
         final Option option = buildHostArgument(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -586,7 +583,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_ConsumeRemaining(  )
+    public void testCanProcessConsumeRemaining(  )
     {
         final Option option = buildUsernameArgument(  );
 
@@ -599,7 +596,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_ConsumeRemaining(  ) throws OptionException
+    public void testProcessConsumeRemaining(  ) throws OptionException
     {
         final Option option = buildPathArgument(  );
         final List args = list( "options", "--", "--ignored", "-Dprop=val" );
@@ -619,7 +616,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testProcess_ConsumeNothing(  )
+    public void testProcessConsumeNothing(  )
     {
         final Option option = buildPathArgument(  );
         final List args = list( "--" );
@@ -648,7 +645,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_InterrogatedDefaultValue(  )
+    public void testProcessInterrogatedDefaultValue(  )
         throws OptionException
     {
         final Option size = buildSizeArgument(  );
@@ -713,7 +710,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_InterrogatedDefaultValues(  )
+    public void testProcessInterrogatedDefaultValues(  )
         throws OptionException
     {
         final Option bounds = buildBoundsArgument(  );
@@ -739,7 +736,7 @@ public class ArgumentTest extends AbstractArgumentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_StripBoundaryQuotes(  ) throws OptionException
+    public void testProcessStripBoundaryQuotes(  ) throws OptionException
     {
         final Option bounds = buildBoundsArgument(  );
         final List args = list(  );
@@ -763,14 +760,14 @@ public class ArgumentTest extends AbstractArgumentTestCase
         final GroupBuilder gbuilder = new GroupBuilder(  );
         final Argument inputfiles = abuilder.withName( "input" ).withMinimum( 0 )
                                             .withMaximum( 0 ).create(  );
-        final Argument bad_outputfile = abuilder.withName( "output" )
+        final Argument badOutputFile = abuilder.withName( "output" )
                                                 .withMinimum( 1 ).withMaximum( 2 )
                                                 .create(  );
 
         try
         {
             final Argument targets = new SourceDestArgument( inputfiles,
-                    bad_outputfile );
+                    badOutputFile );
         }
         catch( final IllegalArgumentException exp )
         {

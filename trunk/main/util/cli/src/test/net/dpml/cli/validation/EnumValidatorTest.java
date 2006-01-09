@@ -27,48 +27,49 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * DOCUMENT ME!
+ * EnumValidatorTest.
  *
  * @author $author$
  * @version $Revision$
   */
 public class EnumValidatorTest extends TestCase
 {
-    private final static ResourceHelper resources = ResourceHelper.getResourceHelper(  );
-    private final Set enumSet = new TreeSet( Arrays.asList( 
-                new Object[]{"red", "green", "blue"} ) );
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
+    private final Set m_enumSet = 
+      new TreeSet( 
+        Arrays.asList( new Object[]{"red", "green", "blue"} ) );
 
     /**
-     * DOCUMENT ME!
+     * Test enum validation.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testValidate(  ) throws InvalidArgumentException
     {
         final Object[] array = new Object[]{"red", "green"};
 
-        {
-            final List list = Arrays.asList( array );
-            final EnumValidator validator = new EnumValidator( enumSet );
-            assertEquals( "valid values are incorrect", enumSet,
-                validator.getValidValues(  ) );
-            validator.validate( list );
+        final List list = Arrays.asList( array );
+        final EnumValidator validator = new EnumValidator( m_enumSet );
+        assertEquals( 
+          "valid values are incorrect", 
+          m_enumSet,
+          validator.getValidValues() );
+        validator.validate( list );
 
-            final Iterator i = list.iterator(  );
-            assertEquals( "red", i.next(  ) );
-            assertEquals( "green", i.next(  ) );
-            assertFalse( i.hasNext(  ) );
-        }
+        final Iterator i = list.iterator(  );
+        assertEquals( "red", i.next(  ) );
+        assertEquals( "green", i.next(  ) );
+        assertFalse( i.hasNext(  ) );
     }
 
     /**
-     * DOCUMENT ME!
+     * Test non-member.
      */
     public void testNonMember(  )
     {
         final Object[] array = new Object[]{"red", "pink"};
         final List list = Arrays.asList( array );
-        final EnumValidator validator = new EnumValidator( enumSet );
+        final EnumValidator validator = new EnumValidator( m_enumSet );
 
         try
         {
@@ -77,7 +78,7 @@ public class EnumValidatorTest extends TestCase
         }
         catch( InvalidArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.ENUM_ILLEGAL_VALUE,
                     new Object[]{"pink", validator.getValuesAsString(  )} ),
                 e.getMessage(  ) );

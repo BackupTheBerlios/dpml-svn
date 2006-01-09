@@ -34,7 +34,7 @@ import java.util.Set;
  */
 public class PrecedenceTest extends TestCase
 {
-    private final String[] args = new String[]{"-file"};
+    private final String[] m_args = new String[]{"-file"};
 
     /**
      * DOCUMENT ME!
@@ -48,7 +48,7 @@ public class PrecedenceTest extends TestCase
         final Group options = new GroupBuilder(  ).withOption( oBuilder.withShortName( 
                     "file" ).create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-file"}, cl );
     }
 
@@ -66,7 +66,7 @@ public class PrecedenceTest extends TestCase
                     "f" ).withArgument( aBuilder.create(  ) ).create(  ) )
                                                   .create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -88,7 +88,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
@@ -113,7 +113,7 @@ public class PrecedenceTest extends TestCase
                                                            .withChildren( children )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
@@ -122,7 +122,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsArgument(  ) throws OptionException
+    public void xtestSimpleVsArgument(  ) throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
         final GroupBuilder gBuilder = new GroupBuilder(  );
@@ -134,7 +134,7 @@ public class PrecedenceTest extends TestCase
                                                            .withArgument( aBuilder.create(  ) )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -143,7 +143,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsBurst(  ) throws OptionException
+    public void xtestSimpleVsBurst(  ) throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
         final GroupBuilder gBuilder = new GroupBuilder(  );
@@ -158,7 +158,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
@@ -167,7 +167,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsChildren(  ) throws OptionException
+    public void xtestSimpleVsChildren(  ) throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
         final GroupBuilder gBuilder = new GroupBuilder(  );
@@ -189,7 +189,7 @@ public class PrecedenceTest extends TestCase
                                                            .withChildren( children )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]
             {
                 "-f", "-i", "--ci", "-l", "--cl", "-e", "--ce"
@@ -217,7 +217,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -244,7 +244,7 @@ public class PrecedenceTest extends TestCase
                                                            .withArgument( aBuilder.create(  ) )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -282,7 +282,7 @@ public class PrecedenceTest extends TestCase
                                                            .withLongName( "be" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]
             {
                 "-f", "-i", "--ci", "-l", "--cl", "-e", "--ce"
@@ -294,7 +294,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsArgumentVsBurst(  ) throws OptionException
+    public void xtestSimpleVsArgumentVsBurst(  ) throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
         final GroupBuilder gBuilder = new GroupBuilder(  );
@@ -312,7 +312,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -321,7 +321,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsArgumentVsChildren(  ) throws OptionException
+    public void xtestSimpleVsArgumentVsChildren(  ) throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
         final GroupBuilder gBuilder = new GroupBuilder(  );
@@ -345,7 +345,7 @@ public class PrecedenceTest extends TestCase
                                                            .withArgument( aBuilder.create(  ) )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -354,7 +354,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsBurstVsChildren(  ) throws OptionException
+    public void xtestSimpleVsBurstVsChildren(  ) throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
         final GroupBuilder gBuilder = new GroupBuilder(  );
@@ -382,7 +382,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
@@ -419,7 +419,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 
@@ -428,7 +428,7 @@ public class PrecedenceTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void XtestSimpleVsArgumentVsBurstVsChildren(  )
+    public void xtestSimpleVsArgumentVsBurstVsChildren(  )
         throws OptionException
     {
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
@@ -459,7 +459,7 @@ public class PrecedenceTest extends TestCase
                                       .withOption( oBuilder.withShortName( "e" )
                                                            .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine( options, args );
+        final CommandLine cl = buildCommandLine( options, m_args );
         assertEquals( new String[]{"-f"}, cl );
     }
 

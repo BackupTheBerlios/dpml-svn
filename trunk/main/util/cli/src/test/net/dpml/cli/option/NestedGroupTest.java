@@ -39,33 +39,39 @@ import java.util.List;
  */
 public class NestedGroupTest extends AbstractCLITestCase
 {
-    final static DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
-    final static ArgumentBuilder abuilder = new ArgumentBuilder(  );
-    final static GroupBuilder gbuilder = new GroupBuilder(  );
+    static final DefaultOptionBuilder OPTION_BUILDER = new DefaultOptionBuilder(  );
+    static final ArgumentBuilder ARG_BUILDER = new ArgumentBuilder(  );
+    static final GroupBuilder GROUP_BUILDER = new GroupBuilder(  );
 
     static Group buildActionGroup(  )
     {
-        return gbuilder.withName( "Action" ).withDescription( "Action" )
-                       .withMinimum( 1 ).withMaximum( 1 )
-                       .withOption( obuilder.withId( 5 ).withShortName( "e" )
-                                            .withLongName( "encrypt" )
-                                            .withDescription( "Encrypt input" )
-                                            .create(  ) )
-                       .withOption( obuilder.withId( 6 ).withShortName( "d" )
-                                            .withLongName( "decrypt" )
-                                            .withDescription( "Decrypt input" )
-                                            .create(  ) ).create(  );
+        return GROUP_BUILDER.withName( "Action" )
+          .withDescription( "Action" )
+          .withMinimum( 1 ).withMaximum( 1 )
+          .withOption( 
+            OPTION_BUILDER.withId( 5 )
+              .withShortName( "e" )
+              .withLongName( "encrypt" )
+              .withDescription( "Encrypt input" )
+              .create(  ) )
+          .withOption( 
+            OPTION_BUILDER.withId( 6 )
+              .withShortName( "d" )
+              .withLongName( "decrypt" )
+              .withDescription( "Decrypt input" )
+              .create(  ) )
+          .create(  );
     }
 
     static Group buildAlgorithmGroup(  )
     {
-        return gbuilder.withName( "Algorithm" )
+        return GROUP_BUILDER.withName( "Algorithm" )
                        .withDescription( "Encryption Algorithm" ).withMaximum( 1 )
-                       .withOption( obuilder.withId( 0 ).withShortName( "b" )
+                       .withOption( OPTION_BUILDER.withId( 0 ).withShortName( "b" )
                                             .withLongName( "blowfish" )
                                             .withDescription( "Blowfish" )
                                             .create(  ) )
-                       .withOption( obuilder.withId( 1 ).withShortName( "3" )
+                       .withOption( OPTION_BUILDER.withId( 1 ).withShortName( "3" )
                                             .withLongName( "3DES" )
                                             .withDescription( "Triple DES" )
                                             .create(  ) ).create(  );
@@ -73,39 +79,39 @@ public class NestedGroupTest extends AbstractCLITestCase
 
     static Group buildInputGroup(  )
     {
-        return gbuilder.withName( "Input" ).withDescription( "Input" )
+        return GROUP_BUILDER.withName( "Input" ).withDescription( "Input" )
                        .withMinimum( 1 ).withMaximum( 1 )
-                       .withOption( obuilder.withId( 2 ).withShortName( "f" )
+                       .withOption( OPTION_BUILDER.withId( 2 ).withShortName( "f" )
                                             .withLongName( "file" )
                                             .withDescription( "Input file" )
-                                            .withArgument( abuilder.withName( 
+                                            .withArgument( ARG_BUILDER.withName( 
                     "file" ).withMinimum( 1 ).withMaximum( 1 ).create(  ) )
                                             .create(  ) )
-                       .withOption( obuilder.withId( 3 ).withShortName( "s" )
+                       .withOption( OPTION_BUILDER.withId( 3 ).withShortName( "s" )
                                             .withLongName( "string" )
                                             .withDescription( "Input string" )
-                                            .withArgument( abuilder.withName( 
+                                            .withArgument( ARG_BUILDER.withName( 
                     "string" ).withMinimum( 1 ).withMaximum( 1 ).create(  ) )
                                             .create(  ) ).create(  );
     }
 
     static Group buildEncryptionServiceGroup( Group[] nestedGroups )
     {
-        gbuilder.withName( "encryptionService" )
-                .withOption( obuilder.withId( 4 ).withShortName( "h" )
+        GROUP_BUILDER.withName( "encryptionService" )
+                .withOption( OPTION_BUILDER.withId( 4 ).withShortName( "h" )
                                      .withLongName( "help" )
                                      .withDescription( "Print this message" )
                                      .create(  ) )
-                .withOption( obuilder.withShortName( "k" ).withLongName( "key" )
+                .withOption( OPTION_BUILDER.withShortName( "k" ).withLongName( "key" )
                                      .withDescription( "Encryption key" )
                                      .create(  ) );
 
         for( int i = 0; i < nestedGroups.length; i++ )
         {
-            gbuilder.withOption( nestedGroups[i] );
+            GROUP_BUILDER.withOption( nestedGroups[i] );
         }
 
-        return gbuilder.create(  );
+        return GROUP_BUILDER.create(  );
     }
 
     /**
@@ -194,11 +200,16 @@ public class NestedGroupTest extends AbstractCLITestCase
                     for( int x = 0; x < expected.length; i++ )
                     {
                         System.out.println( "   " + expected[i] );
-                        System.out.println( ( expected[i].equals( actual.get( i ) )
-                            ? "== " : "!= " ) + actual.get( i ) );
+                        if( expected[i].equals( actual.get( i ) ) )
+                        {
+                            System.out.println( "== " + actual.get( i ) );
+                        }
+                        else
+                        {
+                            System.out.println( "!= " + actual.get( i ) );
+                        }
                     }
                 }
-
                 assertEquals( expected[i], actual.get( i ) );
             }
         }

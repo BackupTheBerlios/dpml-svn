@@ -34,55 +34,23 @@ import java.util.List;
  */
 public class NumberValidatorTest extends TestCase
 {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper();
 
     /**
      * DOCUMENT ME!
      *
      * @throws InvalidArgumentException DOCUMENT ME!
      */
-    public void testValidate_Number(  ) throws InvalidArgumentException
+    public void testValidateNumber(  ) throws InvalidArgumentException
     {
         final NumberFormat format = NumberFormat.getNumberInstance(  );
 
-        final Object[] array = new Object[]
-            {
-                format.format( 1d ), format.format( 1.07d ),
-                format.format( -.45d )
-            };
+        final Object[] array = new Object[]{
+            format.format( 1d ), format.format( 1.07d ),
+            format.format( -.45d )};
 
-        {
-            final List list = Arrays.asList( array );
-            final Validator validator = NumberValidator.getNumberInstance(  );
-
-            validator.validate( list );
-
-            final Iterator i = list.iterator(  );
-            assertEquals( 1d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
-            assertEquals( 1.07d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
-            assertEquals( -.45d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
-            assertFalse( i.hasNext(  ) );
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @throws InvalidArgumentException DOCUMENT ME!
-     */
-    public void testValidate_Currency(  ) throws InvalidArgumentException
-    {
-        NumberFormat format = NumberFormat.getCurrencyInstance(  );
-        final Object[] array = new Object[]
-            {
-                format.format( 1d ), format.format( 1.07 ),
-                format.format( -0.45 )
-            };
         final List list = Arrays.asList( array );
-
-        final NumberValidator validator = NumberValidator.getCurrencyInstance(  );
-        assertEquals( "incorrect currency format", format,
-            validator.getFormat(  ) );
+        final Validator validator = NumberValidator.getNumberInstance(  );
 
         validator.validate( list );
 
@@ -98,15 +66,38 @@ public class NumberValidatorTest extends TestCase
      *
      * @throws InvalidArgumentException DOCUMENT ME!
      */
-    public void testValidate_Percent(  ) throws InvalidArgumentException
+    public void testValidateCurrency(  ) throws InvalidArgumentException
+    {
+        NumberFormat format = NumberFormat.getCurrencyInstance(  );
+        final Object[] array = new Object[]{
+            format.format( 1d ), format.format( 1.07 ),
+            format.format( -0.45 )};
+        final List list = Arrays.asList( array );
+        final NumberValidator validator = NumberValidator.getCurrencyInstance(  );
+        assertEquals( "incorrect currency format", format,
+            validator.getFormat(  ) );
+        validator.validate( list );
+        final Iterator i = list.iterator(  );
+        assertEquals( 1d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
+        assertEquals( 1.07d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
+        assertEquals( -.45d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
+        assertFalse( i.hasNext() );
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testValidatePercent(  ) throws InvalidArgumentException
     {
         final NumberFormat format = NumberFormat.getPercentInstance(  );
 
         final Object[] array = new Object[]
-            {
-                format.format( .01 ), format.format( 1.07 ),
-                format.format( -.45 ), format.format( 0.001 )
-            };
+        {
+            format.format( .01 ), format.format( 1.07 ),
+            format.format( -.45 ), format.format( 0.001 )
+        };
         final List list = Arrays.asList( array );
         final Validator validator = NumberValidator.getPercentInstance(  );
 
@@ -125,14 +116,12 @@ public class NumberValidatorTest extends TestCase
      *
      * @throws InvalidArgumentException DOCUMENT ME!
      */
-    public void testValidate_Integer(  ) throws InvalidArgumentException
+    public void testValidateInteger(  ) throws InvalidArgumentException
     {
         final Object[] array = new Object[]{"1", "107", "-45"};
         final List list = Arrays.asList( array );
         final Validator validator = NumberValidator.getIntegerInstance(  );
-
         validator.validate( list );
-
         final Iterator i = list.iterator(  );
         assertEquals( 1d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
         assertEquals( 107d, ( (Number) i.next(  ) ).doubleValue(  ), 0.0001 );
@@ -143,7 +132,7 @@ public class NumberValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_ExcessChars(  )
+    public void testValidateExcessChars(  )
     {
         final Object[] array = new Object[]{"10DowningStreet"};
         final List list = Arrays.asList( array );
@@ -163,7 +152,7 @@ public class NumberValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_Maximum(  )
+    public void testValidateMaximum(  )
     {
         final Object[] array = new Object[]{"1", "107"};
         final List list = Arrays.asList( array );
@@ -182,7 +171,7 @@ public class NumberValidatorTest extends TestCase
         }
         catch( InvalidArgumentException ive )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.NUMBERVALIDATOR_NUMBER_OUTOFRANGE, "107" ),
                 ive.getMessage(  ) );
         }
@@ -191,7 +180,7 @@ public class NumberValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_Minimum(  )
+    public void testValidateMinimum(  )
     {
         final Object[] array = new Object[]{"107", "1"};
         final List list = Arrays.asList( array );
@@ -209,7 +198,7 @@ public class NumberValidatorTest extends TestCase
         }
         catch( InvalidArgumentException ive )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.NUMBERVALIDATOR_NUMBER_OUTOFRANGE, "1" ),
                 ive.getMessage(  ) );
         }

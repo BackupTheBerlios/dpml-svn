@@ -35,7 +35,7 @@ import java.util.List;
   */
 public class URLValidatorTest extends TestCase
 {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
 
     /**
      * DOCUMENT ME!
@@ -80,7 +80,7 @@ public class URLValidatorTest extends TestCase
         }
         catch( InvalidArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( RESOURCES.getMessage( 
                     ResourceConstants.URLVALIDATOR_MALFORMED_URL,
                     new Object[]{"www.apache.org"} ), e.getMessage(  ) );
         }
@@ -91,46 +91,48 @@ public class URLValidatorTest extends TestCase
      */
     public void testBadProtocol(  )
     {
+        final Object[] array = new Object[]
         {
-            final Object[] array = new Object[]
-                {
-                    "http://www.apache.org/", "file:///etc"
-                };
-            final List list = Arrays.asList( array );
-            final URLValidator validator = new URLValidator(  );
-            validator.setProtocol( "http" );
+            "http://www.apache.org/", "file:///etc"
+        };
+        final List list = Arrays.asList( array );
+        final URLValidator validator = new URLValidator(  );
+        validator.setProtocol( "http" );
 
-            assertEquals( "incorrect protocol", "http",
-                validator.getProtocol(  ) );
+        assertEquals( "incorrect protocol", "http",
+        validator.getProtocol(  ) );
 
-            try
-            {
-                validator.validate( list );
-                fail( "Expected InvalidArgumentException" );
-            }
-            catch( InvalidArgumentException e )
-            {
-                assertEquals( "file:///etc", e.getMessage(  ) );
-            }
+        try
+        {
+            validator.validate( list );
+            fail( "Expected InvalidArgumentException" );
         }
-
+        catch( InvalidArgumentException e )
         {
-            final Object[] array = new Object[]
-                {
-                    "http://www.apache.org/", "file:///etc"
-                };
-            final List list = Arrays.asList( array );
-            final URLValidator validator = new URLValidator( "http" );
+            assertEquals( "file:///etc", e.getMessage(  ) );
+        }
+    }
+    
+     /**
+     * DOCUMENT ME!
+     */
+    public void testBadProtocol2(  )
+    {
+        final Object[] array = new Object[]
+        {
+            "http://www.apache.org/", "file:///etc"
+        };
+        final List list = Arrays.asList( array );
+        final URLValidator validator = new URLValidator( "http" );
 
-            try
-            {
-                validator.validate( list );
-                fail( "Expected InvalidArgumentException" );
-            }
-            catch( InvalidArgumentException e )
-            {
-                assertEquals( "file:///etc", e.getMessage(  ) );
-            }
+        try
+        {
+            validator.validate( list );
+            fail( "Expected InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
+        {
+            assertEquals( "file:///etc", e.getMessage(  ) );
         }
     }
 }

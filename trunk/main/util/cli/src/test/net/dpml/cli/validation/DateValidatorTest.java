@@ -39,24 +39,24 @@ import java.util.List;
  */
 public class DateValidatorTest extends TestCase
 {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
+    private static final ResourceHelper RESOURCES = ResourceHelper.getResourceHelper(  );
 
     /**
-     * DOCUMENT ME!
+     * D M YY.
      */
     public static final DateFormat D_M_YY = new SimpleDateFormat( "d/M/yy" );
 
     /**
-     * DOCUMENT ME!
+     * YYYY_MM_YY
      */
-    public static final DateFormat YYYY_MM_YY = new SimpleDateFormat( 
-            "yyyy-MM-dd" );
-    private List formats = Arrays.asList( new Object[]{D_M_YY, YYYY_MM_YY} );
+    public static final DateFormat YYYY_MM_YY = new SimpleDateFormat( "yyyy-MM-dd" );
+    
+    private List m_formats = Arrays.asList( new Object[]{D_M_YY, YYYY_MM_YY} );
 
     /**
-     * DOCUMENT ME!
+     * Test single format validation.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testSingleFormatValidate(  ) throws InvalidArgumentException
     {
@@ -72,9 +72,9 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test default format validation.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testDefaultDateFormatValidate(  )
         throws InvalidArgumentException
@@ -95,9 +95,9 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * DTest default time format validation.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testDefaultTimeFormatValidate(  )
         throws InvalidArgumentException
@@ -118,9 +118,9 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test default date and time format validation.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testDefaultDateTimeFormatValidate(  )
         throws InvalidArgumentException
@@ -141,9 +141,9 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test default validator.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testDefaultValidator(  ) throws InvalidArgumentException
     {
@@ -163,15 +163,15 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * General validation test.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testValidate(  ) throws InvalidArgumentException
     {
         final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
         final List list = Arrays.asList( array );
-        final Validator validator = new DateValidator( formats );
+        final Validator validator = new DateValidator( m_formats );
 
         validator.validate( list );
 
@@ -182,13 +182,13 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test minimum bounds.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testMinimumBounds(  ) throws InvalidArgumentException
     {
-        final DateValidator validator = new DateValidator( formats );
+        final DateValidator validator = new DateValidator( m_formats );
         final Calendar cal = Calendar.getInstance(  );
 
         {
@@ -219,7 +219,7 @@ public class DateValidatorTest extends TestCase
             }
             catch( final InvalidArgumentException exp )
             {
-                assertEquals( resources.getMessage( 
+                assertEquals( RESOURCES.getMessage( 
                         ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
                         new Object[]{"2002-10-12"} ), exp.getMessage(  ) );
             }
@@ -227,29 +227,29 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
+     * Test formats.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testFormats(  ) throws InvalidArgumentException
     {
-        final DateValidator validator = new DateValidator( formats );
+        final DateValidator validator = new DateValidator( m_formats );
         assertEquals( "date format is incorrect",
-            ( (SimpleDateFormat) formats.get( 0 ) ).toPattern(  ),
+            ( (SimpleDateFormat) m_formats.get( 0 ) ).toPattern(  ),
             ( (SimpleDateFormat) validator.getFormats(  )[0] ).toPattern(  ) );
         assertEquals( "date format is incorrect",
-            ( (SimpleDateFormat) formats.get( 1 ) ).toPattern(  ),
+            ( (SimpleDateFormat) m_formats.get( 1 ) ).toPattern(  ),
             ( (SimpleDateFormat) validator.getFormats(  )[1] ).toPattern(  ) );
     }
 
     /**
-     * DOCUMENT ME!
+     * Test maximum bounds.
      *
-     * @throws InvalidArgumentException DOCUMENT ME!
+     * @throws InvalidArgumentException if an error occurs
      */
     public void testMaximumBounds(  ) throws InvalidArgumentException
     {
-        final DateValidator validator = new DateValidator( formats );
+        final DateValidator validator = new DateValidator( m_formats );
         final Calendar cal = Calendar.getInstance(  );
 
         {
@@ -280,7 +280,7 @@ public class DateValidatorTest extends TestCase
             }
             catch( final InvalidArgumentException exp )
             {
-                assertEquals( resources.getMessage( 
+                assertEquals( RESOURCES.getMessage( 
                         ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
                         new Object[]{"2004-10-12"} ), exp.getMessage(  ) );
             }
@@ -288,15 +288,13 @@ public class DateValidatorTest extends TestCase
     }
 
     /**
-     * DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
+     * Return the test source.
+     * @return the test
      */
     public static Test suite(  )
     {
         Test result = new TestSuite( DateValidatorTest.class ); // default behavior
         result = new TimeZoneTestSuite( "EST", result ); // ensure it runs in EST timezone
-
         return result;
     }
 }

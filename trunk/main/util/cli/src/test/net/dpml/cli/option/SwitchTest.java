@@ -83,7 +83,7 @@ public class SwitchTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessParent_Disabled(  ) throws OptionException
+    public void testProcessParentDisabled(  ) throws OptionException
     {
         final Switch option = buildDisplaySwitch(  );
         final List args = list( "-disp" );
@@ -117,7 +117,7 @@ public class SwitchTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_BadMatch(  )
+    public void testCanProcessBadMatch(  )
     {
         final Switch option = buildDisplaySwitch(  );
         assertFalse( option.canProcess( 
@@ -211,7 +211,7 @@ public class SwitchTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoAlias(  )
+    public void testAppendUsageNoAlias(  )
     {
         final Option option = buildDisplaySwitch(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -225,7 +225,7 @@ public class SwitchTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoDisabled(  )
+    public void testAppendUsageNoDisabled(  )
     {
         final Option option = buildDisplaySwitch(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -239,7 +239,7 @@ public class SwitchTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoEnabled(  )
+    public void testAppendUsageNoEnabled(  )
     {
         final Option option = buildDisplaySwitch(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -253,7 +253,7 @@ public class SwitchTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoDisabledOrEnabled(  )
+    public void testAppendUsageNoDisabledOrEnabled(  )
     {
         final Option option = buildDisplaySwitch(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -427,15 +427,11 @@ public class SwitchTest extends AbstractParentTestCase
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.OptionTestCase#testHelpLines()
-     */
-    /**
-     * DOCUMENT ME!
-     */
-    public void testHelpLines(  )
+   /**
+    * Test help lines.
+    * @see net.dpml.cli.OptionTestCase#testHelpLines()
+    */
+    public void testHelpLines()
     {
         // TODO Auto-generated method stub
     }

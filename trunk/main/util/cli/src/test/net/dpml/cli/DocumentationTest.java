@@ -63,12 +63,10 @@ public class DocumentationTest extends TestCase
         Option version = obuilder.withLongName( "version" )
                                  .withDescription( "Displays version information and then exits" )
                                  .create(  );
-
         Option help = obuilder.withShortName( "h" ).withShortName( "?" )
                               .withLongName( "help" )
                               .withDescription( "Displays help on usage and then exits" )
                               .create(  );
-
         ArgumentBuilder abuilder = new ArgumentBuilder(  );
         Argument logFile = abuilder.withDescription( "The log file to write to" )
                                    .withName( "file" ).withMinimum( 1 )
@@ -76,7 +74,6 @@ public class DocumentationTest extends TestCase
         Option log = obuilder.withArgument( logFile ).withShortName( "log" )
                              .withDescription( "Log progress information to a file" )
                              .create(  );
-
         GroupBuilder gbuilder = new GroupBuilder(  );
         Group outputQuality = gbuilder.withName( "quality" )
                                       .withDescription( "Controls the quality of console output" )
@@ -96,38 +93,28 @@ public class DocumentationTest extends TestCase
                                       .withOption( obuilder.withShortName( "d" )
                                                            .withDescription( "Debug" )
                                                            .create(  ) ).create(  );
-
         Group options = new GroupBuilder(  ).withName( "options" )
                                             .withOption( version )
                                             .withOption( help ).withOption( log )
                                             .withOption( outputQuality ).create(  );
-
         final String[] args = new String[]{"--bad-option"};
-
         Parser parser = new Parser(  );
         parser.setHelpFormatter( helpFormatter );
         parser.setGroup( options );
         parser.setHelpOption( help );
-
         CommandLine commandLine = parser.parseAndHelp( args );
-
         if( commandLine != null )
         {
             if( commandLine.hasOption( version ) )
             {
                 System.out.println( "MyApp ver 1.0" );
-
                 return;
             }
-
             if( commandLine.hasOption( "-log" ) )
             {
                 String filename = (String) commandLine.getValue( "-log" );
-
-                //...
             }
         }
-
         try
         {
             commandLine = parser.parse( args );
@@ -175,7 +162,6 @@ public class DocumentationTest extends TestCase
             p.setHelpTrigger( "--help" );
 
             CommandLine cl = p.parseAndHelp( new String[]{} );
-
             if( cl == null )
             {
                 System.exit( -1 );
@@ -320,32 +306,25 @@ public class DocumentationTest extends TestCase
         parser.setGroup( options );
 
         CommandLine cl = parser.parse( args );
-
         if( cl.hasOption( help ) )
         {
             //displayHelp();
             return;
         }
-
         if( cl.hasOption( "-version" ) )
         {
             //displayVersion();
             return;
         }
-
         if( cl.hasOption( logfile ) )
         {
             String file = (String) cl.getValue( logfile );
-
             //setLogFile();
         }
-
         List targetList = cl.getValues( targets );
-
         for( Iterator i = targetList.iterator(  ); i.hasNext(  ); )
         {
             String target = (String) i.next(  );
-
             //doTarget(target);
         }
 
@@ -355,14 +334,11 @@ public class DocumentationTest extends TestCase
         hf.getFullUsageSettings(  ).add( DisplaySetting.DISPLAY_GROUP_NAME );
         hf.getFullUsageSettings(  ).add( DisplaySetting.DISPLAY_GROUP_ARGUMENT );
         hf.getFullUsageSettings(  ).remove( DisplaySetting.DISPLAY_GROUP_EXPANDED );
-
         hf.getLineUsageSettings(  ).add( DisplaySetting.DISPLAY_PROPERTY_OPTION );
         hf.getLineUsageSettings(  ).add( DisplaySetting.DISPLAY_PARENT_ARGUMENT );
         hf.getLineUsageSettings(  )
           .add( DisplaySetting.DISPLAY_ARGUMENT_BRACKETED );
-
         hf.getDisplaySettings(  ).remove( DisplaySetting.DISPLAY_GROUP_ARGUMENT );
-
         hf.setGroup( options );
         // redirect printed stuff to a string
         hf.setPrintWriter( new PrintWriter( new StringWriter(  ) ) );

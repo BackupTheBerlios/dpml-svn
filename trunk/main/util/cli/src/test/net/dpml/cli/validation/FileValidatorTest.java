@@ -15,14 +15,12 @@
  */
 package net.dpml.cli.validation;
 
-import junit.framework.TestCase;
-
 import java.io.File;
-import java.io.IOException;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import junit.framework.TestCase;
 
 /**
  * JUnit test case for the FileValidator.
@@ -59,7 +57,7 @@ public class FileValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_Directory(  )
+    public void testValidateDirectory(  )
     {
         final Object[] array = new Object[]{"src", "build.xml"};
         final List list = Arrays.asList( array );
@@ -84,7 +82,7 @@ public class FileValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_ReadableFile(  )
+    public void testValidateReadableFile(  )
     {
         // make file readonly
         File file = new File( "target/test/data/readable.txt" );
@@ -92,8 +90,8 @@ public class FileValidatorTest extends TestCase
         if( !file.exists(  ) )
         {
             throw new IllegalStateException( 
-                "Missing test resource: 'target/test/data/readable.txt' relative to " +
-                System.getProperty( "user.dir" ) );
+                "Missing test resource: 'target/test/data/readable.txt' relative to " 
+                + System.getProperty( "user.dir" ) );
         }
 
         file.setReadOnly(  );
@@ -129,7 +127,7 @@ public class FileValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_WritableFile(  )
+    public void testValidateWritableFile(  )
     {
         // make file readonly
         File file = new File( "target/test/data/readable.txt" );
@@ -166,7 +164,7 @@ public class FileValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_Existing(  )
+    public void testValidateExisting(  )
     {
         final Object[] array = new Object[]{"build.xml", "veryunlikelyfilename"};
         final List list = Arrays.asList( array );
@@ -191,7 +189,7 @@ public class FileValidatorTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_File(  )
+    public void testValidateFile(  )
     {
         final Object[] array = new Object[]{"build.xml", "src"};
         final List list = Arrays.asList( array );

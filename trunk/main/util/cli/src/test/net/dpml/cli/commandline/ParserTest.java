@@ -24,36 +24,36 @@ import java.io.StringWriter;
   */
 public class ParserTest extends TestCase
 {
-    private Parser parser;
-    private DefaultOption verboseOption;
-    private DefaultOption helpOption;
-    private Group options;
-    private HelpFormatter helpFormatter;
-    private StringWriter out;
-    private BufferedReader in;
+    private Parser m_parser;
+    private DefaultOption m_verboseOption;
+    private DefaultOption m_helpOption;
+    private Group m_options;
+    private HelpFormatter m_helpFormatter;
+    private StringWriter m_out;
+    private BufferedReader m_in;
 
     /**
-     * DOCUMENT ME!
+     * Test case setup.
      */
     public void setUp(  )
     {
-        parser = new Parser(  );
+        m_parser = new Parser(  );
 
         final GroupBuilder gBuilder = new GroupBuilder(  );
         final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
 
-        helpOption = oBuilder.withLongName( "help" ).withShortName( "h" )
+        m_helpOption = oBuilder.withLongName( "help" ).withShortName( "h" )
                              .create(  );
-        verboseOption = oBuilder.withLongName( "verbose" ).withShortName( "v" )
+        m_verboseOption = oBuilder.withLongName( "verbose" ).withShortName( "v" )
                                 .create(  );
-        options = gBuilder.withOption( helpOption ).withOption( verboseOption )
+        m_options = gBuilder.withOption( m_helpOption ).withOption( m_verboseOption )
                           .create(  );
-        parser.setGroup( options );
+        m_parser.setGroup( m_options );
 
-        helpFormatter = new HelpFormatter(  );
-        out = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( out ) );
-        parser.setHelpFormatter( helpFormatter );
+        m_helpFormatter = new HelpFormatter(  );
+        m_out = new StringWriter(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( m_out ) );
+        m_parser.setHelpFormatter( m_helpFormatter );
     }
 
     /**
@@ -61,12 +61,12 @@ public class ParserTest extends TestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testParse_Successful(  ) throws OptionException
+    public void testParseSuccessful(  ) throws OptionException
     {
-        final CommandLine cl = parser.parse( new String[]{"-hv"} );
+        final CommandLine cl = m_parser.parse( new String[]{"-hv"} );
 
-        assertTrue( cl.hasOption( helpOption ) );
-        assertTrue( cl.hasOption( verboseOption ) );
+        assertTrue( cl.hasOption( m_helpOption ) );
+        assertTrue( cl.hasOption( m_verboseOption ) );
 
         assertEquals( "--help --verbose", cl.toString(  ) );
 
@@ -77,16 +77,16 @@ public class ParserTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testParse_WithUnexpectedOption(  )
+    public void testParseWithUnexpectedOption(  )
     {
         try
         {
-            parser.parse( new String[]{"--unexpected"} );
+            m_parser.parse( new String[]{"--unexpected"} );
             fail( "OptionException" );
         }
         catch( OptionException e )
         {
-            assertEquals( options, e.getOption(  ) );
+            assertEquals( m_options, e.getOption(  ) );
             //assertEquals("Unexpected --unexpected while processing --help|--verbose",e.getMessage());
             assertEquals( "Unexpected --unexpected while processing --help --verbose",
                 e.getMessage(  ) );
@@ -98,12 +98,12 @@ public class ParserTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testParseAndHelp_Successful(  ) throws IOException
+    public void testParseAndHelpSuccessful(  ) throws IOException
     {
-        final CommandLine cl = parser.parseAndHelp( new String[]{"-v"} );
+        final CommandLine cl = m_parser.parseAndHelp( new String[]{"-v"} );
 
-        assertTrue( cl.hasOption( verboseOption ) );
-        assertEquals( "", out.getBuffer(  ).toString(  ) );
+        assertTrue( cl.hasOption( m_verboseOption ) );
+        assertEquals( "", m_out.getBuffer(  ).toString(  ) );
     }
 
     /**
@@ -111,11 +111,11 @@ public class ParserTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testParseAndHelp_ByHelpOption(  ) throws IOException
+    public void testParseAndHelpByHelpOption(  ) throws IOException
     {
-        parser.setHelpOption( helpOption );
+        m_parser.setHelpOption( m_helpOption );
 
-        assertNull( parser.parseAndHelp( new String[]{"-hv"} ) );
+        assertNull( m_parser.parseAndHelp( new String[]{"-hv"} ) );
 
         inReader(  );
         assertInReaderUsage(  );
@@ -127,11 +127,11 @@ public class ParserTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testParseAndHelp_ByHelpTrigger(  ) throws IOException
+    public void testParseAndHelpByHelpTrigger(  ) throws IOException
     {
-        parser.setHelpTrigger( "--help" );
+        m_parser.setHelpTrigger( "--help" );
 
-        assertNull( parser.parseAndHelp( new String[]{"-hv"} ) );
+        assertNull( m_parser.parseAndHelp( new String[]{"-hv"} ) );
 
         inReader(  );
         assertInReaderUsage(  );
@@ -143,10 +143,10 @@ public class ParserTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testParseAndHelp_WithUnexpectedOption(  )
+    public void testParseAndHelpWithUnexpectedOption(  )
         throws IOException
     {
-        assertNull( parser.parseAndHelp( new String[]{"--unexpected"} ) );
+        assertNull( m_parser.parseAndHelp( new String[]{"--unexpected"} ) );
 
         inReader(  );
         //assertInReaderLine("Unexpected --unexpected while processing --help|--verbose");
@@ -169,16 +169,16 @@ public class ParserTest extends TestCase
     private void assertInReaderLine( final String string )
         throws IOException
     {
-        assertEquals( string, in.readLine(  ).trim(  ) );
+        assertEquals( string, m_in.readLine(  ).trim(  ) );
     }
 
     private void assertInReaderEOF(  ) throws IOException
     {
-        assertNull( in.readLine(  ) );
+        assertNull( m_in.readLine(  ) );
     }
 
     private void inReader(  )
     {
-        in = new BufferedReader( new StringReader( out.getBuffer(  ).toString(  ) ) );
+        m_in = new BufferedReader( new StringReader( m_out.getBuffer(  ).toString(  ) ) );
     }
 }

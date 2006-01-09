@@ -15,6 +15,9 @@
  */
 package net.dpml.cli.validation.protect;
 
+/**
+ * Dummy class declared as package private.
+ */
 class ProtectedClass
 {
     /**

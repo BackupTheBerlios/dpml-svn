@@ -15,8 +15,6 @@
  */
 package net.dpml.cli.util;
 
-import junit.framework.TestCase;
-
 import net.dpml.cli.AbstractCLITestCase;
 import net.dpml.cli.Option;
 import net.dpml.cli.option.CommandTest;

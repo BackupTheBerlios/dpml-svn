@@ -30,8 +30,8 @@ import java.util.TimeZone;
   */
 public class TimeZoneTestSuite extends TestDecorator
 {
-    private final TimeZone timeZone;
-    private final TimeZone originalTimeZone;
+    private final TimeZone m_timeZone;
+    private final TimeZone m_originalTimeZone;
 
     /**
      * Creates a new TimeZoneTestSuite object.
@@ -42,8 +42,8 @@ public class TimeZoneTestSuite extends TestDecorator
     public TimeZoneTestSuite( String timeZone, Test test )
     {
         super( test );
-        this.timeZone = TimeZone.getTimeZone( timeZone );
-        this.originalTimeZone = TimeZone.getDefault(  );
+        m_timeZone = TimeZone.getTimeZone( timeZone );
+        m_originalTimeZone = TimeZone.getDefault();
     }
 
     /**
@@ -55,12 +55,12 @@ public class TimeZoneTestSuite extends TestDecorator
     {
         try
         {
-            TimeZone.setDefault( timeZone );
+            TimeZone.setDefault( m_timeZone );
             super.run( testResult );
         }
         finally
         {
-            TimeZone.setDefault( originalTimeZone ); // cleanup
+            TimeZone.setDefault( m_originalTimeZone ); // cleanup
         }
     }
 }

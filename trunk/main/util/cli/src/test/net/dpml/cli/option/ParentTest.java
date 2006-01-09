@@ -154,7 +154,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_BadMatch(  )
+    public void testCanProcessBadMatch(  )
     {
         final Parent option = buildKParent(  );
         assertFalse( option.canProcess( 
@@ -164,7 +164,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_ContractedArgument(  )
+    public void testCanProcessContractedArgument(  )
     {
         final Parent option = buildLibParent(  );
         assertTrue( option.canProcess( 
@@ -211,7 +211,7 @@ public class ParentTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_NoMatch(  ) throws OptionException
+    public void testProcessNoMatch(  ) throws OptionException
     {
         final Parent option = CommandTest.buildStartCommand(  );
         final List args = list( "whatever" );
@@ -237,7 +237,7 @@ public class ParentTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_Children(  ) throws OptionException
+    public void testProcessChildren(  ) throws OptionException
     {
         final Parent option = buildKParent(  );
         final List args = list( "-k", "start" );
@@ -261,7 +261,7 @@ public class ParentTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_Argument(  ) throws OptionException
+    public void testProcessArgument(  ) throws OptionException
     {
         final Parent option = buildLibParent(  );
         final List args = list( "--lib=C:\\WINDOWS;C:\\WINNT;C:\\" );
@@ -313,7 +313,7 @@ public class ParentTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testValidate_Children(  ) throws OptionException
+    public void testValidateChildren(  ) throws OptionException
     {
         final Parent option = buildKParent(  );
         final WriteableCommandLine commandLine = commandLine( option, list(  ) );
@@ -338,7 +338,7 @@ public class ParentTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testValidate_Argument(  ) throws OptionException
+    public void testValidateArgument(  ) throws OptionException
     {
         final Command option = CommandTest.buildLoginCommand(  );
         final WriteableCommandLine commandLine = commandLine( option, list(  ) );
@@ -381,7 +381,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoArguments(  )
+    public void testAppendUsageNoArguments(  )
     {
         final Option option = buildComplexParent(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -399,7 +399,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoChildren(  )
+    public void testAppendUsageNoChildren(  )
     {
         final Option option = buildComplexParent(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -413,7 +413,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoArgumentsOrChildren(  )
+    public void testAppendUsageNoArgumentsOrChildren(  )
     {
         final Option option = buildComplexParent(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -491,7 +491,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testHelpLines_NoArgument(  )
+    public void testHelpLinesNoArgument(  )
     {
         final Option option = buildComplexParent(  );
         final Set settings = new HashSet( DisplaySetting.ALL );
@@ -526,7 +526,7 @@ public class ParentTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testHelpLines_NoChildren(  )
+    public void testHelpLinesNoChildren(  )
     {
         final Option option = buildComplexParent(  );
         final Set settings = new HashSet( DisplaySetting.ALL );

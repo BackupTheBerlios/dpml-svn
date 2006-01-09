@@ -101,7 +101,7 @@ public class CommandTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessParent_Spare(  ) throws OptionException
+    public void testProcessParentSpare(  ) throws OptionException
     {
         final Command option = buildLoginCommand(  );
         final List args = list( "login", "rob" );
@@ -134,7 +134,7 @@ public class CommandTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_BadMatch(  )
+    public void testCanProcessBadMatch(  )
     {
         final Command option = buildStartCommand(  );
         assertFalse( option.canProcess( 
@@ -144,7 +144,7 @@ public class CommandTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_Alias(  )
+    public void testCanProcessAlias(  )
     {
         final Command option = buildStartCommand(  );
         assertTrue( option.canProcess( 
@@ -286,7 +286,7 @@ public class CommandTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoOptional(  )
+    public void testAppendUsageNoOptional(  )
     {
         final Option option = buildStartCommand(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -300,7 +300,7 @@ public class CommandTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoAlias(  )
+    public void testAppendUsageNoAlias(  )
     {
         final Option option = buildStartCommand(  );
         final StringBuffer buffer = new StringBuffer(  );

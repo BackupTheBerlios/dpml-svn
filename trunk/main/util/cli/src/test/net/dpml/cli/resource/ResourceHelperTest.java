@@ -17,8 +17,6 @@ package net.dpml.cli.resource;
 
 import junit.framework.TestCase;
 
-import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -30,15 +28,13 @@ public class ResourceHelperTest extends TestCase
 {
     /** system property */
     private static final String PROP_LOCALE = "net.dpml.cli.resource.bundle";
-    private static ResourceHelper helper;
+    private static ResourceHelper m_HELPER;
 
-    /** resource bundle */
-    private ResourceBundle bundle;
+    /** resource m_bundle */
+    private ResourceBundle m_bundle;
 
     /**
-     * Create a new ResourceHelper for the specified class.
-     *
-     * @param clazz the Class that requires some resources
+     * Create a new ResourceHelperTest.
      */
     public ResourceHelperTest(  )
     {
@@ -51,7 +47,7 @@ public class ResourceHelperTest extends TestCase
     public void setUp(  )
     {
         System.setProperty( PROP_LOCALE, "net.dpml.cli.resource.TestBundle" );
-        helper = ResourceHelper.getResourceHelper(  );
+        m_HELPER = ResourceHelper.getResourceHelper(  );
     }
 
     /**
@@ -70,7 +66,7 @@ public class ResourceHelperTest extends TestCase
     {
         assertEquals( "wrong message",
             "The class name \"ResourceHelper\" is invalid.",
-            helper.getMessage( "ClassValidator.bad.classname", "ResourceHelper" ) );
+            m_HELPER.getMessage( "ClassValidator.bad.classname", "ResourceHelper" ) );
     }
 
     /**
@@ -80,7 +76,7 @@ public class ResourceHelperTest extends TestCase
     {
         assertEquals( "wrong message",
             "Some might say we will find a brighter day.",
-            helper.getMessage( "test.message" ) );
+            m_HELPER.getMessage( "test.message" ) );
     }
 
     /**
@@ -90,7 +86,7 @@ public class ResourceHelperTest extends TestCase
     {
         assertEquals( "wrong message",
             "Some might say we will find a brighter day.",
-            helper.getMessage( "test.message", "Some" ) );
+            m_HELPER.getMessage( "test.message", "Some" ) );
     }
 
     /**
@@ -100,7 +96,7 @@ public class ResourceHelperTest extends TestCase
     {
         assertEquals( "wrong message",
             "Some might say we will find a brighter day.",
-            helper.getMessage( "test.message", "Some", "might" ) );
+            m_HELPER.getMessage( "test.message", "Some", "might" ) );
     }
 
     /**
@@ -110,7 +106,7 @@ public class ResourceHelperTest extends TestCase
     {
         assertEquals( "wrong message",
             "Some might say we will find a brighter day.",
-            helper.getMessage( "test.message", "Some", "might", "say" ) );
+            m_HELPER.getMessage( "test.message", "Some", "might", "say" ) );
     }
 
     /**
@@ -119,9 +115,9 @@ public class ResourceHelperTest extends TestCase
     public void testDefaultBundle(  )
     {
         System.setProperty( PROP_LOCALE, "madeupname.properties" );
-        helper = ResourceHelper.getResourceHelper(  );
+        m_HELPER = ResourceHelper.getResourceHelper(  );
         assertEquals( "wrong message",
             "The class name \"ResourceHelper\" is invalid.",
-            helper.getMessage( "ClassValidator.bad.classname", "ResourceHelper" ) );
+            m_HELPER.getMessage( "ClassValidator.bad.classname", "ResourceHelper" ) );
     }
 }

@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class PropertiesCommandLineTest extends AbstractCommandLineTestCase
 {
-    private Properties props = null;
+    private Properties m_properties = null;
 
     /**
      * DOCUMENT ME!
@@ -36,15 +36,15 @@ public class PropertiesCommandLineTest extends AbstractCommandLineTestCase
      */
     protected CommandLine createCommandLine(  )
     {
-        props = new Properties(  );
-        props.setProperty( "--present", "present value" );
-        props.setProperty( "--alsopresent", "" );
-        props.setProperty( "--multiple", "value 1|value 2|value 3" );
-        props.setProperty( "--bool", "true" );
+        m_properties = new Properties(  );
+        m_properties.setProperty( "--present", "present value" );
+        m_properties.setProperty( "--alsopresent", "" );
+        m_properties.setProperty( "--multiple", "value 1|value 2|value 3" );
+        m_properties.setProperty( "--bool", "true" );
 
-        props.setProperty( "present", "present property" );
+        m_properties.setProperty( "present", "present property" );
 
-        return new PropertiesCommandLine( m_root, props, '|' );
+        return new PropertiesCommandLine( m_root, m_properties, '|' );
     }
 
     /**
@@ -54,15 +54,15 @@ public class PropertiesCommandLineTest extends AbstractCommandLineTestCase
      */
     protected CommandLine createCommandLineNoSep(  )
     {
-        props = new Properties(  );
-        props.setProperty( "--present", "present value" );
-        props.setProperty( "--alsopresent", "" );
-        props.setProperty( "--multiple", "value 1|value 2|value 3" );
-        props.setProperty( "--bool", "false" );
+        m_properties = new Properties(  );
+        m_properties.setProperty( "--present", "present value" );
+        m_properties.setProperty( "--alsopresent", "" );
+        m_properties.setProperty( "--multiple", "value 1|value 2|value 3" );
+        m_properties.setProperty( "--bool", "false" );
 
-        props.setProperty( "present", "present property" );
+        m_properties.setProperty( "present", "present property" );
 
-        return new PropertiesCommandLine( m_root, props );
+        return new PropertiesCommandLine( m_root, m_properties );
     }
 
     /**

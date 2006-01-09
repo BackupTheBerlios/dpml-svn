@@ -28,11 +28,11 @@ import java.util.List;
 /**
  * Tests the interaction of command line values and defaults supplied in different ways.
  *
- * Tests marked _Parsed involve values parsed from a command line.
+ * Tests marked xxxParsed involve values parsed from a command line.
  *
- * Tests marked _Method involve defaults supplied in the query method.
+ * Tests marked xxxMethod involve defaults supplied in the query method.
  *
- * Tests marked _Option involce defaults specified in the model.
+ * Tests marked xxxOption involve defaults specified in the model.
  *
  * @author Rob Oxspring
  */
@@ -169,7 +169,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Method(  )
+    public void testSwitchMethod(  )
     {
         final Option o = optionSwitchNull(  );
         final WriteableCommandLine cl = parsedSwitchNull( o );
@@ -180,7 +180,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Method_Option(  )
+    public void testSwitchMethodOption(  )
     {
         final Option o = optionSwitchOff(  );
         final WriteableCommandLine cl = parsedSwitchNull( o );
@@ -191,7 +191,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Option(  )
+    public void testSwitchOption(  )
     {
         final Option o = optionSwitchOn(  );
         final WriteableCommandLine cl = parsedSwitchNull( o );
@@ -202,7 +202,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Parsed(  )
+    public void testSwitchParsed(  )
     {
         final Option o = optionSwitchNull(  );
         final WriteableCommandLine cl = parsedSwitchOn( o );
@@ -213,7 +213,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Parsed_Method(  )
+    public void testSwitchParsedMethod(  )
     {
         final Option o = optionSwitchOff(  );
         final WriteableCommandLine cl = parsedSwitchOn( o );
@@ -224,7 +224,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Parsed_Method_Option(  )
+    public void testSwitchParsedMethodOption(  )
     {
         final Option o = optionSwitchOff(  );
         final WriteableCommandLine cl = parsedSwitchOn( o );
@@ -235,7 +235,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testSwitch_Parsed_Option(  )
+    public void testSwitchParsedOption(  )
     {
         final Option o = optionSwitchOff(  );
         final WriteableCommandLine cl = parsedSwitchOn( o );
@@ -257,7 +257,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Method(  )
+    public void testValuesMethod(  )
     {
         final Option o = optionValueMissing(  );
         final WriteableCommandLine cl = parsedValueMissing( o );
@@ -268,7 +268,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Method_Option(  )
+    public void testValuesMethodOption(  )
     {
         final Option o = optionValuePresent(  );
         final WriteableCommandLine cl = parsedValueMissing( o );
@@ -279,7 +279,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Option(  )
+    public void testValuesOption(  )
     {
         final Option o = optionValuePresent(  );
         final WriteableCommandLine cl = parsedValueMissing( o );
@@ -290,7 +290,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Parsed(  )
+    public void testValuesParsed(  )
     {
         final Option o = optionValueMissing(  );
         final WriteableCommandLine cl = parsedValuePresent( o );
@@ -301,7 +301,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Parsed_Method(  )
+    public void testValuesParsedMethod(  )
     {
         final Option o = optionValueMissing(  );
         final WriteableCommandLine cl = parsedValuePresent( o );
@@ -312,7 +312,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Parsed_Method_Option(  )
+    public void testValuesParsedMethodOption(  )
     {
         final Option o = optionValuePresent(  );
         final WriteableCommandLine cl = parsedValuePresent( o );
@@ -323,7 +323,7 @@ public class CommandLineDefaultsTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValues_Parsed_Option(  )
+    public void testValuesParsedOption(  )
     {
         final Option o = optionValuePresent(  );
         final WriteableCommandLine cl = parsedValuePresent( o );

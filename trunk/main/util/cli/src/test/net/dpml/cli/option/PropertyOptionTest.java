@@ -51,7 +51,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_Null(  )
+    public void testCanProcessNull(  )
     {
         final Option option = new PropertyOption(  );
         assertFalse( option.canProcess( 
@@ -61,7 +61,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_TooShort(  )
+    public void testCanProcessTooShort(  )
     {
         final Option option = new PropertyOption(  );
         assertFalse( option.canProcess( 
@@ -71,7 +71,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_BadMatch(  )
+    public void testCanProcessBadMatch(  )
     {
         final Option option = new PropertyOption(  );
         assertFalse( option.canProcess( 
@@ -118,7 +118,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testProcess_UnexpectedOptionException(  )
+    public void testProcessUnexpectedOptionException(  )
     {
         final Option option = new PropertyOption(  );
         final List args = list( "--help" );
@@ -143,7 +143,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_BadPropertyException(  ) throws OptionException
+    public void testProcessBadPropertyException(  ) throws OptionException
     {
         final Option option = new PropertyOption(  );
         final List args = list( "-Dmyprop" );
@@ -160,7 +160,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_SetToEmpty(  ) throws OptionException
+    public void testProcessSetToEmpty(  ) throws OptionException
     {
         final Option option = new PropertyOption(  );
         final List args = list( "-Dmyprop=" );
@@ -230,7 +230,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_Hidden(  )
+    public void testAppendUsageHidden(  )
     {
         final Option option = new PropertyOption(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -299,7 +299,7 @@ public class PropertyOptionTest extends AbstractOptionTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testHelpLines_NoDisplay(  )
+    public void testHelpLinesNoDisplay(  )
     {
         final Option option = new PropertyOption(  );
         final Set settings = new HashSet( DisplaySetting.ALL );

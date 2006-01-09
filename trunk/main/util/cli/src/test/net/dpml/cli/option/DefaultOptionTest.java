@@ -89,7 +89,7 @@ public class DefaultOptionTest extends AbstractParentTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcessParent_Burst(  ) throws OptionException
+    public void testProcessParentBurst(  ) throws OptionException
     {
         final DefaultOption option = buildHelpOption(  );
         final List args = list( "-help" );
@@ -123,7 +123,7 @@ public class DefaultOptionTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_BadMatch(  )
+    public void testCanProcessBadMatch(  )
     {
         final DefaultOption option = buildHelpOption(  );
         assertFalse( option.canProcess( 
@@ -216,7 +216,7 @@ public class DefaultOptionTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoOptional(  )
+    public void testAppendUsageNoOptional(  )
     {
         final Option option = buildHelpOption(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -230,7 +230,7 @@ public class DefaultOptionTest extends AbstractParentTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoAlias(  )
+    public void testAppendUsageNoAlias(  )
     {
         final Option option = buildHelpOption(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -269,11 +269,6 @@ public class DefaultOptionTest extends AbstractParentTestCase
         assertEquals( "Displays the help", option.getDescription(  ) );
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see net.dpml.cli.OptionTestCase#testHelpLines()
-     */
     /**
      * DOCUMENT ME!
      */

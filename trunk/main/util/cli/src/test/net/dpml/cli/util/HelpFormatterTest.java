@@ -15,6 +15,17 @@
  */
 package net.dpml.cli.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import junit.framework.TestCase;
 
 import net.dpml.cli.DisplaySetting;
@@ -28,19 +39,6 @@ import net.dpml.cli.option.DefaultOptionTest;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 /**
  * DOCUMENT ME!
  *
@@ -49,41 +47,45 @@ import java.util.Set;
   */
 public class HelpFormatterTest extends TestCase
 {
-    private ResourceHelper resources = ResourceHelper.getResourceHelper(  );
-    private HelpFormatter helpFormatter;
-    private Option verbose;
-    private Group options;
+    private ResourceHelper m_resources = ResourceHelper.getResourceHelper(  );
+    private HelpFormatter m_helpFormatter;
+    private Option m_verbose;
+    private Group m_options;
 
     /**
-     * DOCUMENT ME!
+     * Test case setup.
      */
-    public void setUp(  )
+    public void setUp()
     {
-        helpFormatter = new HelpFormatter( "|*", "*-*", "*|", 80 );
-        helpFormatter.setDivider( 
+        m_helpFormatter = new HelpFormatter( "|*", "*-*", "*|", 80 );
+        m_helpFormatter.setDivider( 
             "+------------------------------------------------------------------------------+" );
-        helpFormatter.setHeader( "Jakarta Commons CLI" );
-        helpFormatter.setFooter( "Copyright 2003\nApache Software Foundation" );
-        helpFormatter.setShellCommand( "ant" );
+        m_helpFormatter.setHeader( "Jakarta Commons CLI" );
+        m_helpFormatter.setFooter( "Copyright 2003\nApache Software Foundation" );
+        m_helpFormatter.setShellCommand( "ant" );
 
-        verbose = new DefaultOptionBuilder(  ).withLongName( "verbose" )
-                                              .withDescription( "print the version information and exit" )
-                                              .create(  );
+        m_verbose = 
+          new DefaultOptionBuilder(  )
+            .withLongName( "verbose" )
+            .withDescription( "print the version information and exit" )
+            .create(  );
 
-        options = new GroupBuilder(  ).withName( "options" )
-                                      .withOption( DefaultOptionTest.buildHelpOption(  ) )
-                                      .withOption( ArgumentTest.buildTargetsArgument(  ) )
-                                      .withOption( new DefaultOptionBuilder(  ).withLongName( 
-                    "diagnostics" )
-                                                                               .withDescription( "print information that might be helpful to diagnose or report problems." )
-                                                                               .create(  ) )
-                                      .withOption( new DefaultOptionBuilder(  ).withLongName( 
-                    "projecthelp" )
-                                                                               .withDescription( "print project help information" )
-                                                                               .create(  ) )
-                                      .withOption( verbose ).create(  );
-
-        helpFormatter.setGroup( options );
+        m_options = 
+          new GroupBuilder(  )
+            .withName( "options" )
+            .withOption( DefaultOptionTest.buildHelpOption(  ) )
+            .withOption( ArgumentTest.buildTargetsArgument(  ) )
+            .withOption( 
+              new DefaultOptionBuilder(  )
+                .withLongName( "diagnostics" )
+                .withDescription( "print information that might be helpful to diagnose or report problems." )
+                .create(  ) )
+            .withOption( new DefaultOptionBuilder(  )
+              .withLongName( "projecthelp" )
+              .withDescription( "print project help information" )
+              .create(  ) )
+            .withOption( m_verbose ).create(  );
+        m_helpFormatter.setGroup( m_options );
     }
 
     /**
@@ -95,45 +97,45 @@ public class HelpFormatterTest extends TestCase
     {
         final StringWriter writer = new StringWriter(  );
         final PrintWriter pw = new PrintWriter( writer );
-        helpFormatter.setPrintWriter( pw );
-        helpFormatter.print(  );
+        m_helpFormatter.setPrintWriter( pw );
+        m_helpFormatter.print(  );
 
         // test shell
         assertEquals( "incorrect shell command", "ant",
-            helpFormatter.getShellCommand(  ) );
+            m_helpFormatter.getShellCommand(  ) );
 
         // test group
-        assertEquals( "incorrect group", this.options,
-            helpFormatter.getGroup(  ) );
+        assertEquals( "incorrect group", this.m_options,
+            m_helpFormatter.getGroup(  ) );
 
         // test pagewidth
-        assertEquals( "incorrect page width", 76, helpFormatter.getPageWidth(  ) );
+        assertEquals( "incorrect page width", 76, m_helpFormatter.getPageWidth(  ) );
 
         // test pw
         assertEquals( "incorrect print writer", pw,
-            helpFormatter.getPrintWriter(  ) );
+            m_helpFormatter.getPrintWriter(  ) );
 
         // test divider
         assertEquals( "incorrect divider",
             "+------------------------------------------------------------------------------+",
-            helpFormatter.getDivider(  ) );
+            m_helpFormatter.getDivider(  ) );
 
         // test header
         assertEquals( "incorrect header", "Jakarta Commons CLI",
-            helpFormatter.getHeader(  ) );
+            m_helpFormatter.getHeader(  ) );
 
         // test footer
         assertEquals( "incorrect footer",
             "Copyright 2003\nApache Software Foundation",
-            helpFormatter.getFooter(  ) );
+            m_helpFormatter.getFooter(  ) );
 
         // test gutters
         assertEquals( "incorrect left gutter", "|*",
-            helpFormatter.getGutterLeft(  ) );
+            m_helpFormatter.getGutterLeft(  ) );
         assertEquals( "incorrect right gutter", "*|",
-            helpFormatter.getGutterRight(  ) );
+            m_helpFormatter.getGutterRight(  ) );
         assertEquals( "incorrect center gutter", "*-*",
-            helpFormatter.getGutterCenter(  ) );
+            m_helpFormatter.getGutterCenter(  ) );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -185,15 +187,15 @@ public class HelpFormatterTest extends TestCase
     {
         final StringWriter writer = new StringWriter(  );
         final PrintWriter pw = new PrintWriter( writer );
-        helpFormatter.setPrintWriter( pw );
+        m_helpFormatter.setPrintWriter( pw );
 
         final Comparator comparator = new OptionComparator(  );
-        helpFormatter.setComparator( comparator );
-        helpFormatter.print(  );
+        m_helpFormatter.setComparator( comparator );
+        m_helpFormatter.print(  );
 
         // test comparator
         assertEquals( "invalid comparator", comparator,
-            helpFormatter.getComparator(  ) );
+            m_helpFormatter.getComparator(  ) );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -244,8 +246,8 @@ public class HelpFormatterTest extends TestCase
     public void testPrintHelp(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.printHelp(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.printHelp(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -275,12 +277,12 @@ public class HelpFormatterTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testPrintHelp_WithException(  ) throws IOException
+    public void testPrintHelpWithException(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.setException( new OptionException( verbose ) );
-        helpFormatter.printHelp(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.setException( new OptionException( m_verbose ) );
+        m_helpFormatter.printHelp(  );
 
         //System.out.println(writer);
         final BufferedReader reader = new BufferedReader( new StringReader( 
@@ -299,13 +301,13 @@ public class HelpFormatterTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testPrintHelp_TooNarrow(  ) throws IOException
+    public void testPrintHelpTooNarrow(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter = new HelpFormatter( "<", "=", ">", 4 );
-        helpFormatter.setGroup( options );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.printHelp(  );
+        m_helpFormatter = new HelpFormatter( "<", "=", ">", 4 );
+        m_helpFormatter.setGroup( m_options );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.printHelp(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -324,10 +326,10 @@ public class HelpFormatterTest extends TestCase
     public void testPrintException(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.setException( new OptionException( verbose,
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.setException( new OptionException( m_verbose,
                 ResourceConstants.MISSING_OPTION ) );
-        helpFormatter.printException(  );
+        m_helpFormatter.printException(  );
 
         //System.out.println(writer);
         final BufferedReader reader = new BufferedReader( new StringReader( 
@@ -347,8 +349,8 @@ public class HelpFormatterTest extends TestCase
     public void testPrintUsage(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.printUsage(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.printUsage(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -371,8 +373,8 @@ public class HelpFormatterTest extends TestCase
     public void testPrintHeader(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.printHeader(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.printHeader(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -391,8 +393,8 @@ public class HelpFormatterTest extends TestCase
     public void testPrintFooter(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.printFooter(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.printFooter(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -413,8 +415,8 @@ public class HelpFormatterTest extends TestCase
     public void testPrintDivider(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.printDivider(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.printDivider(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -437,7 +439,7 @@ public class HelpFormatterTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_WrapNeeded(  )
+    public void testWrapWrapNeeded(  )
     {
         final Iterator i = HelpFormatter.wrap( "Apache Software Foundation", 20 )
                                         .iterator(  );
@@ -449,7 +451,7 @@ public class HelpFormatterTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_BeforeSpace(  )
+    public void testWrapBeforeSpace(  )
     {
         final Iterator i = HelpFormatter.wrap( "Apache Software Foundation", 16 )
                                         .iterator(  );
@@ -461,7 +463,7 @@ public class HelpFormatterTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_AfterSpace(  )
+    public void testWrapAfterSpace(  )
     {
         final Iterator i = HelpFormatter.wrap( "Apache Software Foundation", 17 )
                                         .iterator(  );
@@ -473,7 +475,7 @@ public class HelpFormatterTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_InWord(  )
+    public void testWrapInWord(  )
     {
         final Iterator i = HelpFormatter.wrap( "Apache Software Foundation", 8 )
                                         .iterator(  );
@@ -487,7 +489,7 @@ public class HelpFormatterTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_NewLine(  )
+    public void testWrapNewLine(  )
     {
         final Iterator i = HelpFormatter.wrap( "\nApache Software Foundation\n",
                 30 ).iterator(  );
@@ -496,15 +498,16 @@ public class HelpFormatterTest extends TestCase
         assertEquals( "", i.next(  ) );
         assertFalse( i.hasNext(  ) );
     }
-
+    
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_NewLine2(  )
+    public void testWrapNewLine2(  )
     {
         List wrapped = HelpFormatter.wrap( 
-                "A really quite long general description of the option with specific alternatives documented:\n" +
-                "  Indented special case\n" + "  Alternative scenario", 30 );
+          "A really quite long general description of the option with specific alternatives documented:\n" 
+            + "  Indented special case\n" 
+            + "  Alternative scenario", 30 );
 
         final Iterator i = wrapped.iterator(  );
 
@@ -520,7 +523,7 @@ public class HelpFormatterTest extends TestCase
     /**
      * DOCUMENT ME!
      */
-    public void testWrap_Below1Length(  )
+    public void testWrapBelow1Length(  )
     {
         try
         {
@@ -529,7 +532,7 @@ public class HelpFormatterTest extends TestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( resources.getMessage( 
+            assertEquals( m_resources.getMessage( 
                     ResourceConstants.HELPFORMATTER_WIDTH_TOO_NARROW,
                     new Object[]{new Integer( -1 )} ), e.getMessage(  ) );
         }
@@ -552,7 +555,7 @@ public class HelpFormatterTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testPad_Null(  ) throws IOException
+    public void testPadNull(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
         HelpFormatter.pad( null, 10, writer );
@@ -564,7 +567,7 @@ public class HelpFormatterTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testPad_TooLong(  ) throws IOException
+    public void testPadTooLong(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
         HelpFormatter.pad( "hello world", 10, writer );
@@ -576,7 +579,7 @@ public class HelpFormatterTest extends TestCase
      *
      * @throws IOException DOCUMENT ME!
      */
-    public void testPad_TooShort(  ) throws IOException
+    public void testPadTooShort(  ) throws IOException
     {
         final StringWriter writer = new StringWriter(  );
         HelpFormatter.pad( "hello world", -5, writer );
@@ -590,17 +593,17 @@ public class HelpFormatterTest extends TestCase
      */
     public void testGutters(  ) throws IOException
     {
-        helpFormatter = new HelpFormatter( null, null, null, 80 );
-        helpFormatter.setShellCommand( "ant" );
+        m_helpFormatter = new HelpFormatter( null, null, null, 80 );
+        m_helpFormatter.setShellCommand( "ant" );
 
         final Set lusage = new HashSet(  );
         lusage.add( DisplaySetting.DISPLAY_ALIASES );
         lusage.add( DisplaySetting.DISPLAY_GROUP_NAME );
-        helpFormatter.setLineUsageSettings( lusage );
+        m_helpFormatter.setLineUsageSettings( lusage );
 
         // test line usage
         assertEquals( "incorrect line usage", lusage,
-            helpFormatter.getLineUsageSettings(  ) );
+            m_helpFormatter.getLineUsageSettings(  ) );
 
         final Set fusage = new HashSet(  );
         fusage.add( DisplaySetting.DISPLAY_PARENT_CHILDREN );
@@ -615,50 +618,57 @@ public class HelpFormatterTest extends TestCase
         fusage.add( DisplaySetting.DISPLAY_PARENT_CHILDREN );
         fusage.add( DisplaySetting.DISPLAY_PARENT_ARGUMENT );
         fusage.add( DisplaySetting.DISPLAY_OPTIONAL );
-        helpFormatter.setFullUsageSettings( fusage );
+        m_helpFormatter.setFullUsageSettings( fusage );
 
         // test line usage
         assertEquals( "incorrect full usage", fusage,
-            helpFormatter.getFullUsageSettings(  ) );
+            m_helpFormatter.getFullUsageSettings(  ) );
 
         final Set dsettings = new HashSet(  );
         dsettings.add( DisplaySetting.DISPLAY_GROUP_NAME );
         dsettings.add( DisplaySetting.DISPLAY_GROUP_EXPANDED );
         dsettings.add( DisplaySetting.DISPLAY_GROUP_ARGUMENT );
 
-        helpFormatter.setDisplaySettings( dsettings );
+        m_helpFormatter.setDisplaySettings( dsettings );
 
-        verbose = new DefaultOptionBuilder(  ).withLongName( "verbose" )
-                                              .withDescription( "print the version information and exit" )
-                                              .create(  );
+        m_verbose = 
+          new DefaultOptionBuilder(  )
+            .withLongName( "verbose" )
+            .withDescription( "print the version information and exit" )
+            .create(  );
 
-        options = new GroupBuilder(  ).withName( "options" )
-                                      .withOption( DefaultOptionTest.buildHelpOption(  ) )
-                                      .withOption( ArgumentTest.buildTargetsArgument(  ) )
-                                      .withOption( new DefaultOptionBuilder(  ).withLongName( 
-                    "diagnostics" )
-                                                                               .withDescription( "print information that might be helpful to diagnose or report problems." )
-                                                                               .create(  ) )
-                                      .withOption( new DefaultOptionBuilder(  ).withLongName( 
-                    "projecthelp" )
-                                                                               .withDescription( "print project help information" )
-                                                                               .create(  ) )
-                                      .withOption( verbose ).create(  );
+        m_options = 
+          new GroupBuilder(  )
+            .withName( "options" )
+            .withOption( DefaultOptionTest.buildHelpOption(  ) )
+            .withOption( ArgumentTest.buildTargetsArgument(  ) )
+            .withOption( 
+              new DefaultOptionBuilder(  )
+                .withLongName( "diagnostics" )
+                .withDescription( "print information that might be helpful to diagnose or report problems." )
+                .create(  ) )
+            .withOption( 
+              new DefaultOptionBuilder(  )
+                .withLongName( "projecthelp" )
+                .withDescription( "print project help information" )
+                .create(  ) )
+            .withOption( m_verbose )
+              .create();
 
-        helpFormatter.setGroup( options );
+        m_helpFormatter.setGroup( m_options );
 
         // test default gutters
         assertEquals( "incorrect left gutter",
-            HelpFormatter.DEFAULT_GUTTER_LEFT, helpFormatter.getGutterLeft(  ) );
+            HelpFormatter.DEFAULT_GUTTER_LEFT, m_helpFormatter.getGutterLeft(  ) );
         assertEquals( "incorrect right gutter",
-            HelpFormatter.DEFAULT_GUTTER_RIGHT, helpFormatter.getGutterRight(  ) );
+            HelpFormatter.DEFAULT_GUTTER_RIGHT, m_helpFormatter.getGutterRight(  ) );
         assertEquals( "incorrect center gutter",
             HelpFormatter.DEFAULT_GUTTER_CENTER,
-            helpFormatter.getGutterCenter(  ) );
+            m_helpFormatter.getGutterCenter(  ) );
 
         final StringWriter writer = new StringWriter(  );
-        helpFormatter.setPrintWriter( new PrintWriter( writer ) );
-        helpFormatter.print(  );
+        m_helpFormatter.setPrintWriter( new PrintWriter( writer ) );
+        m_helpFormatter.print(  );
 
         final BufferedReader reader = new BufferedReader( new StringReader( 
                     writer.toString(  ) ) );
@@ -684,7 +694,9 @@ public class HelpFormatterTest extends TestCase
     }
 }
 
-
+/**
+ * OptionComparator.
+ */
 class OptionComparator implements Comparator
 {
     /**

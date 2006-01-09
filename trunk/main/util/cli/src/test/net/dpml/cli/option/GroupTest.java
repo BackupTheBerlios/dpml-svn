@@ -176,7 +176,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_BadMatch(  )
+    public void testCanProcessBadMatch(  )
     {
         final Group option = buildApacheCommandGroup(  );
         assertFalse( option.canProcess( 
@@ -186,7 +186,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testCanProcess_NullMatch(  )
+    public void testCanProcessNullMatch(  )
     {
         final Group option = buildApacheCommandGroup(  );
         assertFalse( option.canProcess( 
@@ -236,7 +236,7 @@ public class GroupTest extends AbstractGroupTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testProcess_Nested(  ) throws OptionException
+    public void testProcessNested(  ) throws OptionException
     {
         final Group option = buildApachectlGroup(  );
         final List args = list( "-h", "-k", "graceful" );
@@ -291,7 +291,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_UnexpectedOption(  )
+    public void testValidateUnexpectedOption(  )
     {
         final Group option = buildApacheCommandGroup(  );
         final WriteableCommandLine commandLine = commandLine( option, list(  ) );
@@ -313,7 +313,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testValidate_MissingOption(  )
+    public void testValidateMissingOption(  )
     {
         final Group option = buildApacheCommandGroup(  );
         final WriteableCommandLine commandLine = commandLine( option, list(  ) );
@@ -334,7 +334,7 @@ public class GroupTest extends AbstractGroupTestCase
      *
      * @throws OptionException DOCUMENT ME!
      */
-    public void testValidate_RequiredChild(  ) throws OptionException
+    public void testValidateRequiredChild(  ) throws OptionException
     {
         final Option required = new DefaultOptionBuilder(  ).withLongName( 
                 "required" ).withRequired( true ).create(  );
@@ -400,7 +400,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoOptional(  )
+    public void testAppendUsageNoOptional(  )
     {
         final Option option = buildApacheCommandGroup(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -415,7 +415,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoExpand(  )
+    public void testAppendUsageNoExpand(  )
     {
         final Option option = buildApacheCommandGroup(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -429,7 +429,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoExpandOrName(  )
+    public void testAppendUsageNoExpandOrName(  )
     {
         final Option option = buildApacheCommandGroup(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -444,7 +444,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_NoName(  )
+    public void testAppendUsageNoName(  )
     {
         final Option option = buildApacheCommandGroup(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -458,7 +458,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testAppendUsage_WithArgs(  )
+    public void testAppendUsageWithArgs(  )
     {
         final Option option = buildAntGroup(  );
         final StringBuffer buffer = new StringBuffer(  );
@@ -544,7 +544,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testHelpLines_NoExpanded(  )
+    public void testHelpLinesNoExpanded(  )
     {
         final Option option = buildApacheCommandGroup(  );
         final Set settings = new HashSet( DisplaySetting.ALL );
@@ -568,7 +568,7 @@ public class GroupTest extends AbstractGroupTestCase
     /**
      * DOCUMENT ME!
      */
-    public void testHelpLines_NoName(  )
+    public void testHelpLinesNoName(  )
     {
         final Option option = buildApacheCommandGroup(  );
         final Set settings = new HashSet( DisplaySetting.ALL );
