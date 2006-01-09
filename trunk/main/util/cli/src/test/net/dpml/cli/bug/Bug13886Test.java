@@ -27,62 +27,75 @@ import net.dpml.cli.commandline.Parser;
 /**
  * @author John Keyes
  */
-public class Bug13886Test extends TestCase {
-
-    public Bug13886Test(final String name) {
-        super(name);
+public class Bug13886Test extends TestCase
+{
+    /**
+     * Creates a new Bug13886Test object.
+     *
+     * @param name DOCUMENT ME!
+     */
+    public Bug13886Test( final String name )
+    {
+        super( name );
     }
 
-    public void testMandatoryGroup() throws Exception {
-        final DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
-        final GroupBuilder gbuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    public void testMandatoryGroup(  ) throws Exception
+    {
+        final DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gbuilder = new GroupBuilder(  );
 
-        final Option a = obuilder.withShortName("a").create();
+        final Option a = obuilder.withShortName( "a" ).create(  );
 
-        final Option b = obuilder.withShortName("b").create();
+        final Option b = obuilder.withShortName( "b" ).create(  );
 
-        final Group options =
-            gbuilder
-                .withOption(a)
-                .withOption(b)
-                .withMaximum(1)
-                .withMinimum(1)
-                .create();
+        final Group options = gbuilder.withOption( a ).withOption( b )
+                                      .withMaximum( 1 ).withMinimum( 1 ).create(  );
 
-        final Parser parser = new Parser();
-        parser.setGroup(options);
+        final Parser parser = new Parser(  );
+        parser.setGroup( options );
 
-        try {
-            parser.parse(new String[] {
-            });
-            fail("Expected MissingOptionException not caught");
+        try
+        {
+            parser.parse( new String[]{} );
+            fail( "Expected MissingOptionException not caught" );
         }
-        catch (final OptionException exp) {
-            assertEquals("Missing option -a|-b", exp.getMessage());
-        }
-
-        try {
-            parser.parse(new String[] { "-a" });
-        }
-        catch (final OptionException exp) {
-            fail("Unexpected MissingOptionException caught");
+        catch( final OptionException exp )
+        {
+            assertEquals( "Missing option -a|-b", exp.getMessage(  ) );
         }
 
-        try {
-            parser.parse(new String[] { "-b" });
+        try
+        {
+            parser.parse( new String[]{"-a"} );
         }
-        catch (final OptionException exp) {
-            fail("Unexpected MissingOptionException caught");
+        catch( final OptionException exp )
+        {
+            fail( "Unexpected MissingOptionException caught" );
         }
 
-        try {
-            parser.parse(new String[] { "-a", "-b" });
-            fail("Expected UnexpectedOptionException not caught");
+        try
+        {
+            parser.parse( new String[]{"-b"} );
         }
-        catch (final OptionException exp) {
-            assertEquals(
-                "Unexpected -b while processing -a|-b",
-                exp.getMessage());
+        catch( final OptionException exp )
+        {
+            fail( "Unexpected MissingOptionException caught" );
+        }
+
+        try
+        {
+            parser.parse( new String[]{"-a", "-b"} );
+            fail( "Expected UnexpectedOptionException not caught" );
+        }
+        catch( final OptionException exp )
+        {
+            assertEquals( "Unexpected -b while processing -a|-b",
+                exp.getMessage(  ) );
         }
     }
 }

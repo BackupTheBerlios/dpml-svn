@@ -15,67 +15,113 @@
  */
 package net.dpml.cli.resource;
 
+import junit.framework.TestCase;
+
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
-import junit.framework.TestCase;
 
 /**
  * A utility class used to provide internationalisation support.
  *
  * @author John Keyes
  */
-public class ResourceHelperTest extends TestCase {
+public class ResourceHelperTest extends TestCase
+{
     /** system property */
     private static final String PROP_LOCALE = "net.dpml.cli.resource.bundle";
-
     private static ResourceHelper helper;
 
     /** resource bundle */
     private ResourceBundle bundle;
 
-    public void setUp() {
-    	System.setProperty(PROP_LOCALE, "net.dpml.cli.resource.TestBundle");
-    	helper = ResourceHelper.getResourceHelper();
-    }
-    
-    public void tearDown() {
-    	System.setProperty(PROP_LOCALE, "net.dpml.cli.resource.CLIMessageBundle_en_US.properties");
-    }
-    
     /**
      * Create a new ResourceHelper for the specified class.
      *
      * @param clazz the Class that requires some resources
      */
-    public ResourceHelperTest() {
-    	super("ResourceHelperTest");
-    }
-    
-    public void testOverridden() {
-    	assertEquals("wrong message", "The class name \"ResourceHelper\" is invalid.", helper.getMessage("ClassValidator.bad.classname", "ResourceHelper"));
-    }
-    
-    public void testNewMessage1Param() {
-    	assertEquals("wrong message", "Some might say we will find a brighter day.", helper.getMessage("test.message"));
+    public ResourceHelperTest(  )
+    {
+        super( "ResourceHelperTest" );
     }
 
-    public void testNewMessage2Params() {
-    	assertEquals("wrong message", "Some might say we will find a brighter day.", helper.getMessage("test.message", "Some"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void setUp(  )
+    {
+        System.setProperty( PROP_LOCALE, "net.dpml.cli.resource.TestBundle" );
+        helper = ResourceHelper.getResourceHelper(  );
     }
 
-    public void testNewMessage3Params() {
-    	assertEquals("wrong message", "Some might say we will find a brighter day.", helper.getMessage("test.message", "Some", "might"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void tearDown(  )
+    {
+        System.setProperty( PROP_LOCALE,
+            "net.dpml.cli.resource.CLIMessageBundle_en_US.properties" );
     }
 
-    public void testNewMessage4Params() {
-    	assertEquals("wrong message", "Some might say we will find a brighter day.", helper.getMessage("test.message", "Some", "might", "say"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testOverridden(  )
+    {
+        assertEquals( "wrong message",
+            "The class name \"ResourceHelper\" is invalid.",
+            helper.getMessage( "ClassValidator.bad.classname", "ResourceHelper" ) );
     }
 
-    public void testDefaultBundle() {
-    	System.setProperty(PROP_LOCALE, "madeupname.properties");
-    	helper = ResourceHelper.getResourceHelper();
-    	assertEquals("wrong message", "The class name \"ResourceHelper\" is invalid.", helper.getMessage("ClassValidator.bad.classname", "ResourceHelper"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNewMessage1Param(  )
+    {
+        assertEquals( "wrong message",
+            "Some might say we will find a brighter day.",
+            helper.getMessage( "test.message" ) );
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNewMessage2Params(  )
+    {
+        assertEquals( "wrong message",
+            "Some might say we will find a brighter day.",
+            helper.getMessage( "test.message", "Some" ) );
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNewMessage3Params(  )
+    {
+        assertEquals( "wrong message",
+            "Some might say we will find a brighter day.",
+            helper.getMessage( "test.message", "Some", "might" ) );
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNewMessage4Params(  )
+    {
+        assertEquals( "wrong message",
+            "Some might say we will find a brighter day.",
+            helper.getMessage( "test.message", "Some", "might", "say" ) );
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testDefaultBundle(  )
+    {
+        System.setProperty( PROP_LOCALE, "madeupname.properties" );
+        helper = ResourceHelper.getResourceHelper(  );
+        assertEquals( "wrong message",
+            "The class name \"ResourceHelper\" is invalid.",
+            helper.getMessage( "ClassValidator.bad.classname", "ResourceHelper" ) );
     }
 }

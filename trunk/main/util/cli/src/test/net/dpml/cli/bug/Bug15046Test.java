@@ -28,54 +28,57 @@ import net.dpml.cli.commandline.Parser;
 /**
  * @author John Keyes
  */
-public class Bug15046Test extends TestCase {
-
-    public Bug15046Test(String name) {
-        super(name);
+public class Bug15046Test extends TestCase
+{
+    /**
+     * Creates a new Bug15046Test object.
+     *
+     * @param name DOCUMENT ME!
+     */
+    public Bug15046Test( String name )
+    {
+        super( name );
     }
 
-    public void testParamNamedAsOption() throws Exception {
-        final String[] CLI_ARGS = new String[] { "-z", "c" };
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    public void testParamNamedAsOption(  ) throws Exception
+    {
+        final String[] CLI_ARGS = new String[]{"-z", "c"};
 
-        DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
-        ArgumentBuilder abuilder = new ArgumentBuilder();
+        DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
+        ArgumentBuilder abuilder = new ArgumentBuilder(  );
 
-        Option option =
-            obuilder
-                .withShortName("z")
-                .withLongName("timezone")
-                .withDescription("affected option")
-                .withArgument(abuilder.withName("timezone").create())
-                .create();
+        Option option = obuilder.withShortName( "z" ).withLongName( "timezone" )
+                                .withDescription( "affected option" )
+                                .withArgument( abuilder.withName( "timezone" )
+                                                       .create(  ) ).create(  );
 
-        GroupBuilder gbuilder = new GroupBuilder();
-        Group options =
-            gbuilder.withName("bug15046").withOption(option).create();
+        GroupBuilder gbuilder = new GroupBuilder(  );
+        Group options = gbuilder.withName( "bug15046" ).withOption( option )
+                                .create(  );
 
-        Parser parser = new Parser();
-        parser.setGroup(options);
-        CommandLine line = parser.parse(CLI_ARGS);
+        Parser parser = new Parser(  );
+        parser.setGroup( options );
 
-        assertEquals("c", line.getValue("-z"));
+        CommandLine line = parser.parse( CLI_ARGS );
 
-        Option c =
-            obuilder
-                .withShortName("c")
-                .withLongName("conflict")
-                .withDescription("conflicting option")
-                .withArgument(abuilder.withName("conflict").create())
-                .create();
+        assertEquals( "c", line.getValue( "-z" ) );
 
-        options =
-            gbuilder
-                .withName("bug15046")
-                .withOption(option)
-                .withOption(c)
-                .create();
+        Option c = obuilder.withShortName( "c" ).withLongName( "conflict" )
+                           .withDescription( "conflicting option" )
+                           .withArgument( abuilder.withName( "conflict" )
+                                                  .create(  ) ).create(  );
 
-        parser.setGroup(options);
-        line = parser.parse(CLI_ARGS);
+        options = gbuilder.withName( "bug15046" ).withOption( option )
+                          .withOption( c ).create(  );
 
-        assertEquals("c", line.getValue("-z"));
+        parser.setGroup( options );
+        line = parser.parse( CLI_ARGS );
+
+        assertEquals( "c", line.getValue( "-z" ) );
     }
 }

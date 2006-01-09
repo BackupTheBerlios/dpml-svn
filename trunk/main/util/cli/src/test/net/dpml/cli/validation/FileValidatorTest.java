@@ -15,196 +15,196 @@
  */
 package net.dpml.cli.validation;
 
+import junit.framework.TestCase;
+
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 /**
  * JUnit test case for the FileValidator.
- * 
+ *
  * @author Rob Oxspring
  * @author John Keyes
  */
-public class FileValidatorTest extends TestCase {
+public class FileValidatorTest extends TestCase
+{
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testValidate(  ) throws InvalidArgumentException
+    {
+        final Object[] array = new Object[]
+            {
+                "src", "build.xml", "veryunlikelyfilename"
+            };
+        final List list = Arrays.asList( array );
+        final FileValidator validator = new FileValidator(  );
 
-    public void testValidate() throws InvalidArgumentException {
-        final Object[] array = new Object[] { "src", "build.xml",
-                "veryunlikelyfilename" };
-        final List list = Arrays.asList(array);
-        final FileValidator validator = new FileValidator();
+        validator.validate( list );
 
-        validator.validate(list);
-
-        final Iterator i = list.iterator();
-        assertEquals( "src", new File("src"), i.next());
-        assertEquals( "build.xml", new File("build.xml"), i.next());
-        assertEquals( "veryunlikelyfilename", new File("veryunlikelyfilename"), i.next());
-        assertFalse( "next", i.hasNext() );
+        final Iterator i = list.iterator(  );
+        assertEquals( "src", new File( "src" ), i.next(  ) );
+        assertEquals( "build.xml", new File( "build.xml" ), i.next(  ) );
+        assertEquals( "veryunlikelyfilename",
+            new File( "veryunlikelyfilename" ), i.next(  ) );
+        assertFalse( "next", i.hasNext(  ) );
     }
 
-    public void testValidate_Directory() {
-        final Object[] array = new Object[] { "src", "build.xml" };
-        final List list = Arrays.asList(array);
-        final FileValidator validator = FileValidator
-                .getExistingDirectoryInstance();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testValidate_Directory(  )
+    {
+        final Object[] array = new Object[]{"src", "build.xml"};
+        final List list = Arrays.asList( array );
+        final FileValidator validator = FileValidator.getExistingDirectoryInstance(  );
 
-        assertTrue("is a directory validator", validator.isDirectory());
-        assertFalse("is not a file validator", validator.isFile());
-        assertTrue("is an existing file validator", validator.isExisting());
+        assertTrue( "is a directory validator", validator.isDirectory(  ) );
+        assertFalse( "is not a file validator", validator.isFile(  ) );
+        assertTrue( "is an existing file validator", validator.isExisting(  ) );
+
         //assertFalse("is not a hidden file validator", validator.isHidden());
-
-        try {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } catch (InvalidArgumentException e) {
-            assertEquals("build.xml", e.getMessage());
+        try
+        {
+            validator.validate( list );
+            fail( "InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
+        {
+            assertEquals( "build.xml", e.getMessage(  ) );
         }
     }
 
-    public void testValidate_ReadableFile() {
+    /**
+     * DOCUMENT ME!
+     */
+    public void testValidate_ReadableFile(  )
+    {
         // make file readonly
-        File file = new File("target/test/data/readable.txt");
-        if( !file.exists() )
+        File file = new File( "target/test/data/readable.txt" );
+
+        if( !file.exists(  ) )
         {
             throw new IllegalStateException( 
-              "Missing test resource: 'target/test/data/readable.txt' relative to "
-              + System.getProperty( "user.dir" ) );
+                "Missing test resource: 'target/test/data/readable.txt' relative to " +
+                System.getProperty( "user.dir" ) );
         }
-        file.setReadOnly();
 
-        final Object[] array = new Object[] { "target/test/data/readable.txt",
-                "target/test/data/notreadable.txt" };
-        final List list = Arrays.asList(array);
-        final FileValidator validator = FileValidator.getExistingFileInstance();
-        validator.setReadable(true);
+        file.setReadOnly(  );
 
-        assertFalse("is not a directory validator", validator.isDirectory());
-        assertTrue("is a file validator", validator.isFile());
-        assertTrue("is an existing file validator", validator.isExisting());
+        final Object[] array = new Object[]
+            {
+                "target/test/data/readable.txt",
+                "target/test/data/notreadable.txt"
+            };
+        final List list = Arrays.asList( array );
+        final FileValidator validator = FileValidator.getExistingFileInstance(  );
+        validator.setReadable( true );
+
+        assertFalse( "is not a directory validator", validator.isDirectory(  ) );
+        assertTrue( "is a file validator", validator.isFile(  ) );
+        assertTrue( "is an existing file validator", validator.isExisting(  ) );
         //assertFalse("is not a hidden file validator", validator.isHidden());
-        assertTrue("is a readable file validator", validator.isReadable());
-        assertFalse("is not a writable file validator", validator.isWritable());
-
-        try {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } catch (InvalidArgumentException e) {
-            assertEquals("target/test/data/notreadable.txt", e.getMessage());
-        }
-    }
-
-    public void testValidate_WritableFile() {
-        // make file readonly
-        File file = new File("target/test/data/readable.txt");
-        file.setReadOnly();
-
-        final Object[] array = new Object[] { "target/test/data/writable.txt",
-                "target/test/data/readable.txt" };
-        final List list = Arrays.asList(array);
-        final FileValidator validator = FileValidator.getExistingFileInstance();
-        validator.setWritable(true);
-
-        assertFalse("is not a directory validator", validator.isDirectory());
-        assertTrue("is a file validator", validator.isFile());
-        assertTrue("is an existing file validator", validator.isExisting());
-        //assertFalse("is not a hidden file validator", validator.isHidden());
-        assertFalse("is not a readable file validator", validator.isReadable());
-        assertTrue("is a writable file validator", validator.isWritable());
-
-        try {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } catch (InvalidArgumentException e) {
-            assertEquals("target/test/data/readable.txt", e.getMessage());
-        }
-    }
-
-    //
-    // WARNING - this test fails because the validation handler is checking if the .hidden.txt
-    // file is hidden but the JVM is returning false even though the file is showing up as 
-    // hidden under Windows.
-    //
-    /*
-    public void testValidate_HiddenFile() throws InvalidArgumentException {
-        // make file hidden on Windows
-        attribute("H");
-
-        final Object[] array = new Object[] { "target/test/data/.hidden.txt", "src" };
-        final List list = Arrays.asList(array);
-        final FileValidator validator = FileValidator.getExistingFileInstance();
-        validator.setHidden(true);
-
-        assertFalse("is not a directory validator", validator.isDirectory());
-        assertTrue("is a file validator", validator.isFile());
-        assertTrue("is an existing file validator", validator.isExisting());
-        assertTrue("is a hidden file validator", validator.isHidden());
-
-        File file = new File( "target/test/data/.hidden.txt" );
-        System.out.println( "# " + file.getAbsolutePath() + ", " + file.exists() + ", " + file.isHidden() );
+        assertTrue( "is a readable file validator", validator.isReadable(  ) );
+        assertFalse( "is not a writable file validator",
+            validator.isWritable(  ) );
 
         try
         {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } 
-        catch (InvalidArgumentException e) 
+            validator.validate( list );
+            fail( "InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
         {
-            assertEquals("src", e.getMessage());
+            assertEquals( "target/test/data/notreadable.txt", e.getMessage(  ) );
         }
     }
 
-    private void attribute(String attr) {
-        final String os = System.getProperty("os.name").toLowerCase();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testValidate_WritableFile(  )
+    {
+        // make file readonly
+        File file = new File( "target/test/data/readable.txt" );
+        file.setReadOnly(  );
 
-        // if the test is run on windows, run the attrib program
-        // to set the hidden attribute
-        if (os.indexOf("windows") != -1) {
-            // windows
-            try {
-                Process proc = Runtime.getRuntime().exec(
-                        "attrib.exe +" + attr + " target/test/data/.hidden.txt",
-                        null, new File("."));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
-    */
+        final Object[] array = new Object[]
+            {
+                "target/test/data/writable.txt", "target/test/data/readable.txt"
+            };
+        final List list = Arrays.asList( array );
+        final FileValidator validator = FileValidator.getExistingFileInstance(  );
+        validator.setWritable( true );
 
-    public void testValidate_Existing() {
-        final Object[] array = new Object[] { "build.xml",
-                "veryunlikelyfilename" };
-        final List list = Arrays.asList(array);
-        final FileValidator validator = FileValidator.getExistingInstance();
-
-        assertFalse("is not a directory validator", validator.isDirectory());
-        assertFalse("is not a file validator", validator.isFile());
-        assertTrue("is an existing file validator", validator.isExisting());
+        assertFalse( "is not a directory validator", validator.isDirectory(  ) );
+        assertTrue( "is a file validator", validator.isFile(  ) );
+        assertTrue( "is an existing file validator", validator.isExisting(  ) );
         //assertFalse("is not a hidden file validator", validator.isHidden());
+        assertFalse( "is not a readable file validator",
+            validator.isReadable(  ) );
+        assertTrue( "is a writable file validator", validator.isWritable(  ) );
 
-        try {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } catch (InvalidArgumentException e) {
-            assertEquals("veryunlikelyfilename", e.getMessage());
+        try
+        {
+            validator.validate( list );
+            fail( "InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
+        {
+            assertEquals( "target/test/data/readable.txt", e.getMessage(  ) );
         }
     }
 
-    public void testValidate_File() {
-        final Object[] array = new Object[] { "build.xml", "src" };
-        final List list = Arrays.asList(array);
-        final Validator validator = FileValidator.getExistingFileInstance();
+    //
+    /**
+     * DOCUMENT ME!
+     */
+    public void testValidate_Existing(  )
+    {
+        final Object[] array = new Object[]{"build.xml", "veryunlikelyfilename"};
+        final List list = Arrays.asList( array );
+        final FileValidator validator = FileValidator.getExistingInstance(  );
 
-        try {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } catch (InvalidArgumentException e) {
-            assertEquals("src", e.getMessage());
+        assertFalse( "is not a directory validator", validator.isDirectory(  ) );
+        assertFalse( "is not a file validator", validator.isFile(  ) );
+        assertTrue( "is an existing file validator", validator.isExisting(  ) );
+
+        //assertFalse("is not a hidden file validator", validator.isHidden());
+        try
+        {
+            validator.validate( list );
+            fail( "InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
+        {
+            assertEquals( "veryunlikelyfilename", e.getMessage(  ) );
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testValidate_File(  )
+    {
+        final Object[] array = new Object[]{"build.xml", "src"};
+        final List list = Arrays.asList( array );
+        final Validator validator = FileValidator.getExistingFileInstance(  );
+
+        try
+        {
+            validator.validate( list );
+            fail( "InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
+        {
+            assertEquals( "src", e.getMessage(  ) );
         }
     }
 }

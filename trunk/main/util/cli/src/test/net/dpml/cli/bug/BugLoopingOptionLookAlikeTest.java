@@ -27,50 +27,79 @@ import net.dpml.cli.commandline.Parser;
 import net.dpml.cli.option.SourceDestArgument;
 
 /**
- * The first is a loop in Parser.parse() if I set a non-declared option. This 
- * code goes into a loop in Parser.java method parse this “while” loop runs 
+ * The first is a loop in Parser.parse() if I set a non-declared option. This
+ * code goes into a loop in Parser.java method parse this “while” loop runs
  * endless
- * 
+ *
  * @author Steve Alberty
  */
-public class BugLoopingOptionLookAlikeTest extends TestCase {
+public class BugLoopingOptionLookAlikeTest extends TestCase
+{
+    /**
+     * DOCUMENT ME!
+     */
+    public void testLoopingOptionLookAlike(  )
+    {
+        final DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
+        final ArgumentBuilder abuilder = new ArgumentBuilder(  );
+        final GroupBuilder gbuilder = new GroupBuilder(  );
+        final Group options = gbuilder.withName( "ant" )
+                                      .withOption( obuilder.withShortName( 
+                    "help" ).withDescription( "print this message" ).create(  ) )
+                                      .withOption( obuilder.withShortName( 
+                    "projecthelp" )
+                                                           .withDescription( "print project help information" )
+                                                           .create(  ) )
+                                      .withOption( abuilder.withName( "target" )
+                                                           .create(  ) ).create(  );
 
-    public void testLoopingOptionLookAlike() {
-        final DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
-        final ArgumentBuilder abuilder = new ArgumentBuilder();
-        final GroupBuilder gbuilder = new GroupBuilder();
-        final Group options = gbuilder
-            .withName("ant")
-            .withOption(obuilder.withShortName("help").withDescription("print this message").create())
-            .withOption(obuilder.withShortName("projecthelp").withDescription("print project help information").create())
-            .withOption(abuilder.withName("target").create())
-            .create();
-        
-        final Parser parser = new Parser();
-        parser.setGroup(options);
-        try {
-            parser.parse(new String[] { "-abcdef",
-                    "testfile.txt ", });
-            fail("OptionException");
-        } catch (OptionException e) {
-            assertEquals("Unexpected -abcdef while processing ant",e.getMessage());
+        final Parser parser = new Parser(  );
+        parser.setGroup( options );
+
+        try
+        {
+            parser.parse( new String[]{"-abcdef", "testfile.txt ",} );
+            fail( "OptionException" );
+        }
+        catch( OptionException e )
+        {
+            assertEquals( "Unexpected -abcdef while processing ant",
+                e.getMessage(  ) );
         }
     }
-    
-    public void testLoopingOptionLookAlike2() {
-        final ArgumentBuilder abuilder = new ArgumentBuilder();
-        final GroupBuilder gbuilder = new GroupBuilder();
-        final Argument inputfile_opt = abuilder.withName("input").withMinimum(1).withMaximum(1).create();
-        final Argument outputfile_opt = abuilder.withName("output").withMinimum(1).withMaximum(1).create();
-        final Argument targets = new SourceDestArgument(inputfile_opt, outputfile_opt);
-        final Group options = gbuilder.withOption(targets).create();
-        final Parser parser = new Parser();
-        parser.setGroup(options);
-        try {
-            parser.parse(new String[] { "testfile.txt", "testfile.txt", "testfile.txt", "testfile.txt" });
-            fail("OptionException");
-        } catch (OptionException e) {
-            assertEquals("Unexpected testfile.txt while processing ", e.getMessage());
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testLoopingOptionLookAlike2(  )
+    {
+        final ArgumentBuilder abuilder = new ArgumentBuilder(  );
+        final GroupBuilder gbuilder = new GroupBuilder(  );
+        final Argument inputfile_opt = abuilder.withName( "input" )
+                                               .withMinimum( 1 ).withMaximum( 1 )
+                                               .create(  );
+        final Argument outputfile_opt = abuilder.withName( "output" )
+                                                .withMinimum( 1 ).withMaximum( 1 )
+                                                .create(  );
+        final Argument targets = new SourceDestArgument( inputfile_opt,
+                outputfile_opt );
+        final Group options = gbuilder.withOption( targets ).create(  );
+        final Parser parser = new Parser(  );
+        parser.setGroup( options );
+
+        try
+        {
+            parser.parse( new String[]
+                {
+                    "testfile.txt", "testfile.txt", "testfile.txt",
+                    "testfile.txt"
+                } );
+            fail( "OptionException" );
         }
-    }    
+        catch( OptionException e )
+        {
+            assertEquals( "Unexpected testfile.txt while processing ",
+                e.getMessage(  ) );
+        }
+    }
 }

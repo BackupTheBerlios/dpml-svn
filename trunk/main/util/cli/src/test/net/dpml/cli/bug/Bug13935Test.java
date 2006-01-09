@@ -28,32 +28,44 @@ import net.dpml.cli.commandline.Parser;
 /**
  * @author John Keyes
  */
-public class Bug13935Test extends TestCase {
-
-    public Bug13935Test(final String name) {
-        super(name);
+public class Bug13935Test extends TestCase
+{
+    /**
+     * Creates a new Bug13935Test object.
+     *
+     * @param name DOCUMENT ME!
+     */
+    public Bug13935Test( final String name )
+    {
+        super( name );
     }
 
-    public void testRequiredGroup() throws Exception {
-        final DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
-        final ArgumentBuilder abuilder = new ArgumentBuilder();
-        final GroupBuilder gbuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    public void testRequiredGroup(  ) throws Exception
+    {
+        final DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
+        final ArgumentBuilder abuilder = new ArgumentBuilder(  );
+        final GroupBuilder gbuilder = new GroupBuilder(  );
 
-        final Option testOption =
-            obuilder
-                .withShortName("a")
-                .withArgument(abuilder.withName("quoted string").create())
-                .create();
+        final Option testOption = obuilder.withShortName( "a" )
+                                          .withArgument( abuilder.withName( 
+                    "quoted string" ).create(  ) ).create(  );
 
-        final Group options = gbuilder.withOption(testOption).create();
+        final Group options = gbuilder.withOption( testOption ).create(  );
 
-        final Parser parser = new Parser();
-        parser.setGroup(options);
+        final Parser parser = new Parser(  );
+        parser.setGroup( options );
 
-        final CommandLine cmdLine =
-            parser.parse(new String[] { "-a", "\"two tokens\"" });
+        final CommandLine cmdLine = parser.parse( new String[]
+                {
+                    "-a", "\"two tokens\""
+                } );
 
-        assertTrue(cmdLine.hasOption("-a"));
-        assertEquals("two tokens", cmdLine.getValue("-a"));
+        assertTrue( cmdLine.hasOption( "-a" ) );
+        assertEquals( "two tokens", cmdLine.getValue( "-a" ) );
     }
 }

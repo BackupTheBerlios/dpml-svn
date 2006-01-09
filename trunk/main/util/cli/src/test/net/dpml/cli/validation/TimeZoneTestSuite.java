@@ -15,31 +15,52 @@
  */
 package net.dpml.cli.validation;
 
-import java.util.TimeZone;
-
 import junit.extensions.TestDecorator;
 
 import junit.framework.Test;
 import junit.framework.TestResult;
 
-public class TimeZoneTestSuite
-    extends TestDecorator {
+import java.util.TimeZone;
+
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
+public class TimeZoneTestSuite extends TestDecorator
+{
     private final TimeZone timeZone;
     private final TimeZone originalTimeZone;
 
-    public TimeZoneTestSuite(String timeZone,
-                             Test test) {
-        super(test);
-        this.timeZone = TimeZone.getTimeZone(timeZone);
-        this.originalTimeZone = TimeZone.getDefault();
+    /**
+     * Creates a new TimeZoneTestSuite object.
+     *
+     * @param timeZone DOCUMENT ME!
+     * @param test DOCUMENT ME!
+     */
+    public TimeZoneTestSuite( String timeZone, Test test )
+    {
+        super( test );
+        this.timeZone = TimeZone.getTimeZone( timeZone );
+        this.originalTimeZone = TimeZone.getDefault(  );
     }
 
-    public void run(TestResult testResult) {
-        try {
-            TimeZone.setDefault(timeZone);
-            super.run(testResult);
-        } finally {
-            TimeZone.setDefault(originalTimeZone); // cleanup
+    /**
+     * DOCUMENT ME!
+     *
+     * @param testResult DOCUMENT ME!
+     */
+    public void run( TestResult testResult )
+    {
+        try
+        {
+            TimeZone.setDefault( timeZone );
+            super.run( testResult );
+        }
+        finally
+        {
+            TimeZone.setDefault( originalTimeZone ); // cleanup
         }
     }
 }

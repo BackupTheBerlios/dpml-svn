@@ -15,6 +15,13 @@
  */
 package net.dpml.cli.validation;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import net.dpml.cli.resource.ResourceConstants;
+import net.dpml.cli.resource.ResourceHelper;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -24,213 +31,271 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import net.dpml.cli.resource.ResourceConstants;
-import net.dpml.cli.resource.ResourceHelper;
-
 /**
  * JUnit test case for DateValidator.
  *
  * @author Rob Oxspring
  * @author John Keyes
  */
-public class DateValidatorTest
-    extends TestCase {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper();
-    public static final DateFormat D_M_YY = new SimpleDateFormat("d/M/yy");
-    public static final DateFormat YYYY_MM_YY = new SimpleDateFormat("yyyy-MM-dd");
-    private List formats = Arrays.asList(new Object[] { D_M_YY, YYYY_MM_YY });
+public class DateValidatorTest extends TestCase
+{
+    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
 
-    public void testSingleFormatValidate()
-        throws InvalidArgumentException
+    /**
+     * DOCUMENT ME!
+     */
+    public static final DateFormat D_M_YY = new SimpleDateFormat( "d/M/yy" );
+
+    /**
+     * DOCUMENT ME!
+     */
+    public static final DateFormat YYYY_MM_YY = new SimpleDateFormat( 
+            "yyyy-MM-dd" );
+    private List formats = Arrays.asList( new Object[]{D_M_YY, YYYY_MM_YY} );
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testSingleFormatValidate(  ) throws InvalidArgumentException
     {
-        final Object[] array = new Object[] { "23/12/03" };
-        final List list = Arrays.asList(array);
-        final Validator validator = new DateValidator(D_M_YY);
+        final Object[] array = new Object[]{"23/12/03"};
+        final List list = Arrays.asList( array );
+        final Validator validator = new DateValidator( D_M_YY );
 
-        validator.validate(list);
+        validator.validate( list );
 
-        final Iterator i = list.iterator();
-        assertEquals("2003-12-23", YYYY_MM_YY.format((Date) i.next()));
-        assertFalse(i.hasNext());
+        final Iterator i = list.iterator(  );
+        assertEquals( "2003-12-23", YYYY_MM_YY.format( (Date) i.next(  ) ) );
+        assertFalse( i.hasNext(  ) );
     }
 
-    public void testDefaultDateFormatValidate()
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testDefaultDateFormatValidate(  )
         throws InvalidArgumentException
     {
-        final Date now = new Date();
-        final String date = DateFormat.getDateInstance().format( now );
-        final DateFormat df = new SimpleDateFormat("yyyy/M/dd");
+        final Date now = new Date(  );
+        final String date = DateFormat.getDateInstance(  ).format( now );
+        final DateFormat df = new SimpleDateFormat( "yyyy/M/dd" );
         final String formatted = df.format( now );
-        final Object[] array = new Object[] { date };
-        final List list = Arrays.asList(array);
-        final Validator validator = DateValidator.getDateInstance();
+        final Object[] array = new Object[]{date};
+        final List list = Arrays.asList( array );
+        final Validator validator = DateValidator.getDateInstance(  );
 
-        validator.validate(list);
+        validator.validate( list );
 
-        final Iterator i = list.iterator();
-        assertEquals(formatted, df.format((Date) i.next()));
-        assertFalse(i.hasNext());
+        final Iterator i = list.iterator(  );
+        assertEquals( formatted, df.format( (Date) i.next(  ) ) );
+        assertFalse( i.hasNext(  ) );
     }
 
-    public void testDefaultTimeFormatValidate()
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testDefaultTimeFormatValidate(  )
         throws InvalidArgumentException
     {
-        final Date now = new Date();
-        final String time = DateFormat.getTimeInstance().format( now );
-        final DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        final Date now = new Date(  );
+        final String time = DateFormat.getTimeInstance(  ).format( now );
+        final DateFormat df = new SimpleDateFormat( "HH:mm:ss" );
         final String formatted = df.format( now );
-        final Object[] array = new Object[] { time };
-        final List list = Arrays.asList(array);
-        final Validator validator = DateValidator.getTimeInstance();
+        final Object[] array = new Object[]{time};
+        final List list = Arrays.asList( array );
+        final Validator validator = DateValidator.getTimeInstance(  );
 
-        validator.validate(list);
+        validator.validate( list );
 
-        final Iterator i = list.iterator();
-        assertEquals(formatted, df.format((Date) i.next()));
-        assertFalse(i.hasNext());
+        final Iterator i = list.iterator(  );
+        assertEquals( formatted, df.format( (Date) i.next(  ) ) );
+        assertFalse( i.hasNext(  ) );
     }
 
-    public void testDefaultDateTimeFormatValidate()
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testDefaultDateTimeFormatValidate(  )
         throws InvalidArgumentException
     {
-        final Date now = new Date();
-        final String date = DateFormat.getDateTimeInstance().format( now );
-        final DateFormat df = new SimpleDateFormat("yyyy/M/dd HH:mm:ss");
+        final Date now = new Date(  );
+        final String date = DateFormat.getDateTimeInstance(  ).format( now );
+        final DateFormat df = new SimpleDateFormat( "yyyy/M/dd HH:mm:ss" );
         final String formatted = df.format( now );
-        final Object[] array = new Object[] { date };
-        final List list = Arrays.asList(array);
-        final Validator validator = DateValidator.getDateTimeInstance();
+        final Object[] array = new Object[]{date};
+        final List list = Arrays.asList( array );
+        final Validator validator = DateValidator.getDateTimeInstance(  );
 
-        validator.validate(list);
+        validator.validate( list );
 
-        final Iterator i = list.iterator();
-        assertEquals(formatted, df.format((Date) i.next()));
-        assertFalse(i.hasNext());
+        final Iterator i = list.iterator(  );
+        assertEquals( formatted, df.format( (Date) i.next(  ) ) );
+        assertFalse( i.hasNext(  ) );
     }
 
-    public void testDefaultValidator()
-        throws InvalidArgumentException
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testDefaultValidator(  ) throws InvalidArgumentException
     {
-        final Date now = new Date();
-        final String date = DateFormat.getInstance().format( now );
-        final DateFormat df = new SimpleDateFormat("yyyy/M/dd HH:mm");
+        final Date now = new Date(  );
+        final String date = DateFormat.getInstance(  ).format( now );
+        final DateFormat df = new SimpleDateFormat( "yyyy/M/dd HH:mm" );
         final String formatted = df.format( now );
-        final Object[] array = new Object[] { date };
-        final List list = Arrays.asList(array);
-        final Validator validator = new DateValidator();
+        final Object[] array = new Object[]{date};
+        final List list = Arrays.asList( array );
+        final Validator validator = new DateValidator(  );
 
-        validator.validate(list);
+        validator.validate( list );
 
-        final Iterator i = list.iterator();
-        assertEquals(formatted, df.format((Date) i.next()));
-        assertFalse(i.hasNext());
+        final Iterator i = list.iterator(  );
+        assertEquals( formatted, df.format( (Date) i.next(  ) ) );
+        assertFalse( i.hasNext(  ) );
     }
 
-    public void testValidate()
-        throws InvalidArgumentException
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testValidate(  ) throws InvalidArgumentException
     {
-        final Object[] array = new Object[] { "23/12/03", "2002-10-12" };
-        final List list = Arrays.asList(array);
-        final Validator validator = new DateValidator(formats);
+        final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
+        final List list = Arrays.asList( array );
+        final Validator validator = new DateValidator( formats );
 
-        validator.validate(list);
+        validator.validate( list );
 
-        final Iterator i = list.iterator();
-        assertEquals("2003-12-23", YYYY_MM_YY.format((Date) i.next()));
-        assertEquals("2002-10-12", YYYY_MM_YY.format((Date) i.next()));
-        assertFalse(i.hasNext());
+        final Iterator i = list.iterator(  );
+        assertEquals( "2003-12-23", YYYY_MM_YY.format( (Date) i.next(  ) ) );
+        assertEquals( "2002-10-12", YYYY_MM_YY.format( (Date) i.next(  ) ) );
+        assertFalse( i.hasNext(  ) );
     }
 
-    public void testMinimumBounds()
-        throws InvalidArgumentException
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testMinimumBounds(  ) throws InvalidArgumentException
     {
-        final DateValidator validator = new DateValidator(formats);
-        final Calendar cal = Calendar.getInstance();
+        final DateValidator validator = new DateValidator( formats );
+        final Calendar cal = Calendar.getInstance(  );
 
         {
-            final Object[] array = new Object[] { "23/12/03", "2002-10-12" };
-            final List list = Arrays.asList(array);
-            cal.set(2002, 1, 12);
+            final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
+            final List list = Arrays.asList( array );
+            cal.set( 2002, 1, 12 );
 
-            final Date min = cal.getTime();
-            validator.setMinimum(min);
-            assertTrue("maximum bound is set", validator.getMaximum() == null);
-            assertEquals("minimum bound is incorrect", min, validator.getMinimum());
-            validator.validate(list);
+            final Date min = cal.getTime(  );
+            validator.setMinimum( min );
+            assertTrue( "maximum bound is set", validator.getMaximum(  ) == null );
+            assertEquals( "minimum bound is incorrect", min,
+                validator.getMinimum(  ) );
+            validator.validate( list );
         }
 
         {
-            final Object[] array = new Object[] { "23/12/03", "2002-10-12" };
-            final List list = Arrays.asList(array);
-            cal.set(2003, 1, 12);
+            final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
+            final List list = Arrays.asList( array );
+            cal.set( 2003, 1, 12 );
 
-            final Date min = cal.getTime();
-            validator.setMinimum(min);
+            final Date min = cal.getTime(  );
+            validator.setMinimum( min );
 
-            try {
-                validator.validate(list);
-                fail("minimum out of bounds exception not caught");
-            } catch (final InvalidArgumentException exp) {
-                assertEquals(resources.getMessage(ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
-                                                  new Object[] { "2002-10-12" }), exp.getMessage());
+            try
+            {
+                validator.validate( list );
+                fail( "minimum out of bounds exception not caught" );
+            }
+            catch( final InvalidArgumentException exp )
+            {
+                assertEquals( resources.getMessage( 
+                        ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
+                        new Object[]{"2002-10-12"} ), exp.getMessage(  ) );
             }
         }
     }
 
-    public void testFormats()
-        throws InvalidArgumentException
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testFormats(  ) throws InvalidArgumentException
     {
-        final DateValidator validator = new DateValidator(formats);
-        assertEquals("date format is incorrect", ((SimpleDateFormat) formats.get(0)).toPattern(),
-                     ((SimpleDateFormat) validator.getFormats()[0]).toPattern());
-        assertEquals("date format is incorrect", ((SimpleDateFormat) formats.get(1)).toPattern(),
-                     ((SimpleDateFormat) validator.getFormats()[1]).toPattern());
+        final DateValidator validator = new DateValidator( formats );
+        assertEquals( "date format is incorrect",
+            ( (SimpleDateFormat) formats.get( 0 ) ).toPattern(  ),
+            ( (SimpleDateFormat) validator.getFormats(  )[0] ).toPattern(  ) );
+        assertEquals( "date format is incorrect",
+            ( (SimpleDateFormat) formats.get( 1 ) ).toPattern(  ),
+            ( (SimpleDateFormat) validator.getFormats(  )[1] ).toPattern(  ) );
     }
 
-    public void testMaximumBounds()
-        throws InvalidArgumentException
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testMaximumBounds(  ) throws InvalidArgumentException
     {
-        final DateValidator validator = new DateValidator(formats);
-        final Calendar cal = Calendar.getInstance();
+        final DateValidator validator = new DateValidator( formats );
+        final Calendar cal = Calendar.getInstance(  );
 
         {
-            final Object[] array = new Object[] { "23/12/03", "2002-10-12" };
-            final List list = Arrays.asList(array);
-            cal.set(2004, 1, 12);
+            final Object[] array = new Object[]{"23/12/03", "2002-10-12"};
+            final List list = Arrays.asList( array );
+            cal.set( 2004, 1, 12 );
 
-            final Date max = cal.getTime();
-            validator.setMaximum(max);
-            assertTrue("minimum bound is set", validator.getMinimum() == null);
-            assertEquals("maximum bound is incorrect", max, validator.getMaximum());
-            validator.validate(list);
+            final Date max = cal.getTime(  );
+            validator.setMaximum( max );
+            assertTrue( "minimum bound is set", validator.getMinimum(  ) == null );
+            assertEquals( "maximum bound is incorrect", max,
+                validator.getMaximum(  ) );
+            validator.validate( list );
         }
 
         {
-            final Object[] array = new Object[] { "23/12/03", "2004-10-12" };
-            final List list = Arrays.asList(array);
-            cal.set(2004, 1, 12);
+            final Object[] array = new Object[]{"23/12/03", "2004-10-12"};
+            final List list = Arrays.asList( array );
+            cal.set( 2004, 1, 12 );
 
-            final Date max = cal.getTime();
-            validator.setMaximum(max);
+            final Date max = cal.getTime(  );
+            validator.setMaximum( max );
 
-            try {
-                validator.validate(list);
-                fail("maximum out of bounds exception not caught");
-            } catch (final InvalidArgumentException exp) {
-                assertEquals(resources.getMessage(ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
-                                                  new Object[] { "2004-10-12" }), exp.getMessage());
+            try
+            {
+                validator.validate( list );
+                fail( "maximum out of bounds exception not caught" );
+            }
+            catch( final InvalidArgumentException exp )
+            {
+                assertEquals( resources.getMessage( 
+                        ResourceConstants.DATEVALIDATOR_DATE_OUTOFRANGE,
+                        new Object[]{"2004-10-12"} ), exp.getMessage(  ) );
             }
         }
     }
 
-    public static Test suite()
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public static Test suite(  )
     {
-        Test result = new TestSuite(DateValidatorTest.class); // default behavior
-        result = new TimeZoneTestSuite("EST", result); // ensure it runs in EST timezone
+        Test result = new TestSuite( DateValidatorTest.class ); // default behavior
+        result = new TimeZoneTestSuite( "EST", result ); // ensure it runs in EST timezone
 
         return result;
     }

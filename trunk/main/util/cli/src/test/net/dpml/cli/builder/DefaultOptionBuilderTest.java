@@ -23,177 +23,255 @@ import net.dpml.cli.option.DefaultOption;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
-public class DefaultOptionBuilderTest
-    extends TestCase {
-    private static final ResourceHelper resources = ResourceHelper.getResourceHelper();
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
+public class DefaultOptionBuilderTest extends TestCase
+{
+    private static final ResourceHelper resources = ResourceHelper.getResourceHelper(  );
     private DefaultOptionBuilder defaultOptionBuilder;
 
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp()
-        throws Exception {
-        this.defaultOptionBuilder = new DefaultOptionBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    protected void setUp(  ) throws Exception
+    {
+        this.defaultOptionBuilder = new DefaultOptionBuilder(  );
     }
 
     /*
      * Class to test for void DefaultOptionBuilder(String, String, boolean)
      */
-    public void testNew_NullShortPrefix() {
-        try {
-            new DefaultOptionBuilder(null, null, false);
-            fail("null short prefix is not permitted");
-        } catch (IllegalArgumentException e) {
-            assertEquals(resources.getMessage(ResourceConstants.OPTION_ILLEGAL_SHORT_PREFIX),
-                         e.getMessage());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNew_NullShortPrefix(  )
+    {
+        try
+        {
+            new DefaultOptionBuilder( null, null, false );
+            fail( "null short prefix is not permitted" );
         }
-    }
-
-    /*
-     * Class to test for void DefaultOptionBuilder(String, String, boolean)
-     */
-    public void testNew_EmptyShortPrefix() {
-        try {
-            new DefaultOptionBuilder("", null, false);
-            fail("empty short prefix is not permitted");
-        } catch (IllegalArgumentException e) {
-            assertEquals(resources.getMessage(ResourceConstants.OPTION_ILLEGAL_SHORT_PREFIX),
-                         e.getMessage());
-        }
-    }
-
-    /*
-     * Class to test for void DefaultOptionBuilder(String, String, boolean)
-     */
-    public void testNew_NullLongPrefix() {
-        try {
-            new DefaultOptionBuilder("-", null, false);
-            fail("null long prefix is not permitted");
-        } catch (IllegalArgumentException e) {
-            assertEquals(resources.getMessage(ResourceConstants.OPTION_ILLEGAL_LONG_PREFIX),
-                         e.getMessage());
+        catch( IllegalArgumentException e )
+        {
+            assertEquals( resources.getMessage( 
+                    ResourceConstants.OPTION_ILLEGAL_SHORT_PREFIX ),
+                e.getMessage(  ) );
         }
     }
 
     /*
      * Class to test for void DefaultOptionBuilder(String, String, boolean)
      */
-    public void testNew_EmptyLongPrefix() {
-        try {
-            new DefaultOptionBuilder("-", "", false);
-            fail("empty long prefix is not permitted");
-        } catch (IllegalArgumentException e) {
-            assertEquals(resources.getMessage(ResourceConstants.OPTION_ILLEGAL_LONG_PREFIX),
-                         e.getMessage());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNew_EmptyShortPrefix(  )
+    {
+        try
+        {
+            new DefaultOptionBuilder( "", null, false );
+            fail( "empty short prefix is not permitted" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            assertEquals( resources.getMessage( 
+                    ResourceConstants.OPTION_ILLEGAL_SHORT_PREFIX ),
+                e.getMessage(  ) );
         }
     }
 
-    public void testCreate() {
-        try {
-            this.defaultOptionBuilder.create();
-            fail("options must have a name");
-        } catch (IllegalStateException e) {
-            assertEquals(resources.getMessage(ResourceConstants.OPTION_NO_NAME), e.getMessage());
+    /*
+     * Class to test for void DefaultOptionBuilder(String, String, boolean)
+     */
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNew_NullLongPrefix(  )
+    {
+        try
+        {
+            new DefaultOptionBuilder( "-", null, false );
+            fail( "null long prefix is not permitted" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            assertEquals( resources.getMessage( 
+                    ResourceConstants.OPTION_ILLEGAL_LONG_PREFIX ),
+                e.getMessage(  ) );
+        }
+    }
+
+    /*
+     * Class to test for void DefaultOptionBuilder(String, String, boolean)
+     */
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNew_EmptyLongPrefix(  )
+    {
+        try
+        {
+            new DefaultOptionBuilder( "-", "", false );
+            fail( "empty long prefix is not permitted" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            assertEquals( resources.getMessage( 
+                    ResourceConstants.OPTION_ILLEGAL_LONG_PREFIX ),
+                e.getMessage(  ) );
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCreate(  )
+    {
+        try
+        {
+            this.defaultOptionBuilder.create(  );
+            fail( "options must have a name" );
+        }
+        catch( IllegalStateException e )
+        {
+            assertEquals( resources.getMessage( 
+                    ResourceConstants.OPTION_NO_NAME ), e.getMessage(  ) );
         }
 
-        this.defaultOptionBuilder.withShortName("j");
-        this.defaultOptionBuilder.create();
-        this.defaultOptionBuilder.withLongName("jkeyes");
-        this.defaultOptionBuilder.create();
+        this.defaultOptionBuilder.withShortName( "j" );
+        this.defaultOptionBuilder.create(  );
+        this.defaultOptionBuilder.withLongName( "jkeyes" );
+        this.defaultOptionBuilder.create(  );
 
         {
-            DefaultOptionBuilder builder = new DefaultOptionBuilder("-", "--", true);
-            builder.withShortName("mx");
+            DefaultOptionBuilder builder = new DefaultOptionBuilder( "-", "--",
+                    true );
+            builder.withShortName( "mx" );
         }
     }
 
-    public void testName() {
+    /**
+     * DOCUMENT ME!
+     */
+    public void testName(  )
+    {
         // withLongName && this.preferred != null
         {
-            this.defaultOptionBuilder.withShortName("a");
-            this.defaultOptionBuilder.withLongName("apples");
+            this.defaultOptionBuilder.withShortName( "a" );
+            this.defaultOptionBuilder.withLongName( "apples" );
         }
         // withShortName && this.preferred != null
         {
-            this.defaultOptionBuilder.withLongName("apples");
-            this.defaultOptionBuilder.withShortName("a");
+            this.defaultOptionBuilder.withLongName( "apples" );
+            this.defaultOptionBuilder.withShortName( "a" );
         }
         // withShortName && this.preferred != null
         {
-            this.defaultOptionBuilder.withLongName("apples");
-            this.defaultOptionBuilder.withShortName("a");
+            this.defaultOptionBuilder.withLongName( "apples" );
+            this.defaultOptionBuilder.withShortName( "a" );
         }
     }
 
-    public void testWithDescription() {
+    /**
+     * DOCUMENT ME!
+     */
+    public void testWithDescription(  )
+    {
         String description = "desc";
-        this.defaultOptionBuilder.withShortName("a");
-        this.defaultOptionBuilder.withDescription(description);
+        this.defaultOptionBuilder.withShortName( "a" );
+        this.defaultOptionBuilder.withDescription( description );
 
-        DefaultOption opt = this.defaultOptionBuilder.create();
-        assertEquals("wrong description found", description, opt.getDescription());
+        DefaultOption opt = this.defaultOptionBuilder.create(  );
+        assertEquals( "wrong description found", description,
+            opt.getDescription(  ) );
     }
 
-    public void testWithRequired() {
+    /**
+     * DOCUMENT ME!
+     */
+    public void testWithRequired(  )
+    {
         {
             boolean required = false;
-            this.defaultOptionBuilder.withShortName("a");
-            this.defaultOptionBuilder.withRequired(required);
+            this.defaultOptionBuilder.withShortName( "a" );
+            this.defaultOptionBuilder.withRequired( required );
 
-            DefaultOption opt = this.defaultOptionBuilder.create();
-            assertEquals("wrong required found", required, opt.isRequired());
+            DefaultOption opt = this.defaultOptionBuilder.create(  );
+            assertEquals( "wrong required found", required, opt.isRequired(  ) );
         }
 
         {
             boolean required = true;
-            this.defaultOptionBuilder.withShortName("a");
-            this.defaultOptionBuilder.withRequired(required);
+            this.defaultOptionBuilder.withShortName( "a" );
+            this.defaultOptionBuilder.withRequired( required );
 
-            DefaultOption opt = this.defaultOptionBuilder.create();
-            assertEquals("wrong required found", required, opt.isRequired());
+            DefaultOption opt = this.defaultOptionBuilder.create(  );
+            assertEquals( "wrong required found", required, opt.isRequired(  ) );
         }
     }
 
-    public void testWithChildren() {
-        GroupBuilder gbuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testWithChildren(  )
+    {
+        GroupBuilder gbuilder = new GroupBuilder(  );
 
-        this.defaultOptionBuilder.withShortName("a");
-        this.defaultOptionBuilder.withRequired(true);
+        this.defaultOptionBuilder.withShortName( "a" );
+        this.defaultOptionBuilder.withRequired( true );
 
-        DefaultOption opt = this.defaultOptionBuilder.create();
+        DefaultOption opt = this.defaultOptionBuilder.create(  );
 
-        Group group = gbuilder.withName("withchildren").withOption(opt).create();
+        Group group = gbuilder.withName( "withchildren" ).withOption( opt )
+                              .create(  );
 
         {
-            this.defaultOptionBuilder.withShortName("b");
-            this.defaultOptionBuilder.withChildren(group);
+            this.defaultOptionBuilder.withShortName( "b" );
+            this.defaultOptionBuilder.withChildren( group );
 
-            DefaultOption option = this.defaultOptionBuilder.create();
-            assertEquals("wrong children found", group, option.getChildren());
+            DefaultOption option = this.defaultOptionBuilder.create(  );
+            assertEquals( "wrong children found", group, option.getChildren(  ) );
         }
     }
 
-    public void testWithArgument() {
-        ArgumentBuilder abuilder = new ArgumentBuilder();
-        abuilder.withName("myarg");
+    /**
+     * DOCUMENT ME!
+     */
+    public void testWithArgument(  )
+    {
+        ArgumentBuilder abuilder = new ArgumentBuilder(  );
+        abuilder.withName( "myarg" );
 
-        Argument arg = abuilder.create();
+        Argument arg = abuilder.create(  );
 
-        this.defaultOptionBuilder.withShortName("a");
-        this.defaultOptionBuilder.withRequired(true);
-        this.defaultOptionBuilder.withArgument(arg);
+        this.defaultOptionBuilder.withShortName( "a" );
+        this.defaultOptionBuilder.withRequired( true );
+        this.defaultOptionBuilder.withArgument( arg );
 
-        DefaultOption opt = this.defaultOptionBuilder.create();
+        DefaultOption opt = this.defaultOptionBuilder.create(  );
 
-        assertEquals("wrong argument found", arg, opt.getArgument());
+        assertEquals( "wrong argument found", arg, opt.getArgument(  ) );
     }
 
-    public void testWithId() {
-        this.defaultOptionBuilder.withShortName("a");
-        this.defaultOptionBuilder.withId(0);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testWithId(  )
+    {
+        this.defaultOptionBuilder.withShortName( "a" );
+        this.defaultOptionBuilder.withId( 0 );
 
-        DefaultOption opt = this.defaultOptionBuilder.create();
+        DefaultOption opt = this.defaultOptionBuilder.create(  );
 
-        assertEquals("wrong id found", 0, opt.getId());
+        assertEquals( "wrong id found", 0, opt.getId(  ) );
     }
 }

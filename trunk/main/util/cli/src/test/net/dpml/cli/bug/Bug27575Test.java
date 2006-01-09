@@ -15,26 +15,37 @@
  */
 package net.dpml.cli.bug;
 
-import java.util.Iterator;
-
 import junit.framework.TestCase;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.builder.PatternBuilder;
 import net.dpml.cli.option.GroupImpl;
 
-public class Bug27575Test extends TestCase {
+import java.util.Iterator;
 
-	public void testRequiredOptions(){
-		PatternBuilder builder = new PatternBuilder();
-		builder.withPattern("hc!<");
-		Option option = builder.create();
-		assertTrue(option instanceof GroupImpl);
-		
-		GroupImpl group = (GroupImpl)option;
-		Iterator i = group.getOptions().iterator();
-		assertEquals("[-h]",i.next().toString());
-		assertEquals("-c <arg>",i.next().toString());
-		assertFalse(i.hasNext());
-	}
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
+public class Bug27575Test extends TestCase
+{
+    /**
+     * DOCUMENT ME!
+     */
+    public void testRequiredOptions(  )
+    {
+        PatternBuilder builder = new PatternBuilder(  );
+        builder.withPattern( "hc!<" );
+
+        Option option = builder.create(  );
+        assertTrue( option instanceof GroupImpl );
+
+        GroupImpl group = (GroupImpl) option;
+        Iterator i = group.getOptions(  ).iterator(  );
+        assertEquals( "[-h]", i.next(  ).toString(  ) );
+        assertEquals( "-c <arg>", i.next(  ).toString(  ) );
+        assertFalse( i.hasNext(  ) );
+    }
 }

@@ -20,8 +20,12 @@ import net.dpml.cli.OptionException;
 /**
  * @author Rob Oxspring
  */
-public abstract class AbstractArgumentTestCase extends AbstractOptionTestCase {
-
-    public abstract void testProcessValues() throws OptionException;
-
+public abstract class AbstractArgumentTestCase extends AbstractOptionTestCase
+{
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public abstract void testProcessValues(  ) throws OptionException;
 }

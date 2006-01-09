@@ -15,12 +15,6 @@
  */
 package net.dpml.cli.option;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
-
 import net.dpml.cli.DisplaySetting;
 import net.dpml.cli.Option;
 import net.dpml.cli.OptionException;
@@ -30,26 +24,51 @@ import net.dpml.cli.commandline.WriteableCommandLineImpl;
 import net.dpml.cli.resource.ResourceConstants;
 import net.dpml.cli.resource.ResourceHelper;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+
 /**
  * @author Rob Oxspring
  *
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class CommandTest
-    extends AbstractParentTestCase {
-    public static Command buildStartCommand() {
-        return new Command("start", "Begins the process", Collections.singleton("go"), false, null,
-                           null, 0);
+public class CommandTest extends AbstractParentTestCase
+{
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public static Command buildStartCommand(  )
+    {
+        return new Command( "start", "Begins the process",
+            Collections.singleton( "go" ), false, null, null, 0 );
     }
 
-    public static Command buildCommitCommand() {
-        return new Command("commit", "Commit the changes to the database", null, true, null, null, 0);
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public static Command buildCommitCommand(  )
+    {
+        return new Command( "commit", "Commit the changes to the database",
+            null, true, null, null, 0 );
     }
 
-    public static Command buildLoginCommand() {
-        return new Command("login", "Initiates a session for the user", null, false,
-                           ArgumentTest.buildUsernameArgument(), null, 0);
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public static Command buildLoginCommand(  )
+    {
+        return new Command( "login", "Initiates a session for the user", null,
+            false, ArgumentTest.buildUsernameArgument(  ), null, 0 );
     }
 
     /*
@@ -57,34 +76,44 @@ public class CommandTest
      *
      * @see net.dpml.cli.ParentTestCase#testProcessParent()
      */
-    public void testProcessParent()
-        throws OptionException {
-        final Command option = buildStartCommand();
-        final List args = list("go");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
-        option.processParent(commandLine, iterator);
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testProcessParent(  ) throws OptionException
+    {
+        final Command option = buildStartCommand(  );
+        final List args = list( "go" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
+        option.processParent( commandLine, iterator );
 
-        assertFalse(iterator.hasNext());
-        assertTrue(commandLine.hasOption(option));
-        assertTrue(commandLine.hasOption("start"));
-        assertTrue(commandLine.hasOption("go"));
-        assertTrue(commandLine.getValues(option).isEmpty());
+        assertFalse( iterator.hasNext(  ) );
+        assertTrue( commandLine.hasOption( option ) );
+        assertTrue( commandLine.hasOption( "start" ) );
+        assertTrue( commandLine.hasOption( "go" ) );
+        assertTrue( commandLine.getValues( option ).isEmpty(  ) );
     }
 
-    public void testProcessParent_Spare()
-        throws OptionException {
-        final Command option = buildLoginCommand();
-        final List args = list("login", "rob");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
-        option.processParent(commandLine, iterator);
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testProcessParent_Spare(  ) throws OptionException
+    {
+        final Command option = buildLoginCommand(  );
+        final List args = list( "login", "rob" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
+        option.processParent( commandLine, iterator );
 
-        assertEquals("rob", iterator.next());
-        assertFalse(iterator.hasNext());
-        assertTrue(commandLine.hasOption(option));
-        assertTrue(commandLine.hasOption("login"));
-        assertTrue(commandLine.getValues(option).isEmpty());
+        assertEquals( "rob", iterator.next(  ) );
+        assertFalse( iterator.hasNext(  ) );
+        assertTrue( commandLine.hasOption( option ) );
+        assertTrue( commandLine.hasOption( "login" ) );
+        assertTrue( commandLine.getValues( option ).isEmpty(  ) );
     }
 
     /*
@@ -92,19 +121,34 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testCanProcess()
      */
-    public void testCanProcess() {
-        final Command option = buildStartCommand();
-        assertTrue(option.canProcess(new WriteableCommandLineImpl(option, null), "start"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess(  )
+    {
+        final Command option = buildStartCommand(  );
+        assertTrue( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), "start" ) );
     }
 
-    public void testCanProcess_BadMatch() {
-        final Command option = buildStartCommand();
-        assertFalse(option.canProcess(new WriteableCommandLineImpl(option, null), "stop"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess_BadMatch(  )
+    {
+        final Command option = buildStartCommand(  );
+        assertFalse( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), "stop" ) );
     }
 
-    public void testCanProcess_Alias() {
-        final Command option = buildStartCommand();
-        assertTrue(option.canProcess(new WriteableCommandLineImpl(option, null), "go"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess_Alias(  )
+    {
+        final Command option = buildStartCommand(  );
+        assertTrue( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), "go" ) );
     }
 
     /*
@@ -112,9 +156,13 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testPrefixes()
      */
-    public void testPrefixes() {
-        final Command option = buildStartCommand();
-        assertTrue(option.getPrefixes().isEmpty());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testPrefixes(  )
+    {
+        final Command option = buildStartCommand(  );
+        assertTrue( option.getPrefixes(  ).isEmpty(  ) );
     }
 
     /*
@@ -122,18 +170,23 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testProcess()
      */
-    public void testProcess()
-        throws OptionException {
-        final Command option = buildLoginCommand();
-        final List args = list("login", "rob");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
-        option.process(commandLine, iterator);
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testProcess(  ) throws OptionException
+    {
+        final Command option = buildLoginCommand(  );
+        final List args = list( "login", "rob" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
+        option.process( commandLine, iterator );
 
-        assertFalse(iterator.hasNext());
-        assertTrue(commandLine.hasOption(option));
-        assertTrue(commandLine.hasOption("login"));
-        assertEquals("rob", commandLine.getValue(option));
+        assertFalse( iterator.hasNext(  ) );
+        assertTrue( commandLine.hasOption( option ) );
+        assertTrue( commandLine.hasOption( "login" ) );
+        assertEquals( "rob", commandLine.getValue( option ) );
     }
 
     /*
@@ -141,10 +194,14 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testTriggers()
      */
-    public void testTriggers() {
-        final Command option = buildStartCommand();
-        final Set triggers = option.getTriggers();
-        assertContentsEqual(list("start", "go"), triggers);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testTriggers(  )
+    {
+        final Command option = buildStartCommand(  );
+        final Set triggers = option.getTriggers(  );
+        assertContentsEqual( list( "start", "go" ), triggers );
     }
 
     /*
@@ -152,15 +209,22 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testValidate()
      */
-    public void testValidate() {
-        final Parent option = buildCommitCommand();
-        final WriteableCommandLine commandLine = commandLine(option, list());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testValidate(  )
+    {
+        final Parent option = buildCommitCommand(  );
+        final WriteableCommandLine commandLine = commandLine( option, list(  ) );
 
-        try {
-            option.validate(commandLine);
-            fail("Missing an option");
-        } catch (OptionException moe) {
-            assertSame(option, moe.getOption());
+        try
+        {
+            option.validate( commandLine );
+            fail( "Missing an option" );
+        }
+        catch( OptionException moe )
+        {
+            assertSame( option, moe.getOption(  ) );
         }
     }
 
@@ -169,52 +233,82 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testAppendUsage()
      */
-    public void testAppendUsage() {
-        final Option option = buildStartCommand();
-        final StringBuffer buffer = new StringBuffer();
-        option.appendUsage(buffer, DisplaySetting.ALL, null);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testAppendUsage(  )
+    {
+        final Option option = buildStartCommand(  );
+        final StringBuffer buffer = new StringBuffer(  );
+        option.appendUsage( buffer, DisplaySetting.ALL, null );
 
-        assertEquals("[start (go)]", buffer.toString());
+        assertEquals( "[start (go)]", buffer.toString(  ) );
     }
 
-    public void testNullPreferredName() {
-        try {
-            new Command(null, "", Collections.singleton("go"), false, null, null, 0);
-        } catch (IllegalArgumentException exp) {
-            assertEquals("wrong exception name",
-                         ResourceHelper.getResourceHelper().getMessage(ResourceConstants.COMMAND_PREFERRED_NAME_TOO_SHORT),
-                         exp.getMessage());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNullPreferredName(  )
+    {
+        try
+        {
+            new Command( null, "", Collections.singleton( "go" ), false, null,
+                null, 0 );
+        }
+        catch( IllegalArgumentException exp )
+        {
+            assertEquals( "wrong exception name",
+                ResourceHelper.getResourceHelper(  )
+                              .getMessage( ResourceConstants.COMMAND_PREFERRED_NAME_TOO_SHORT ),
+                exp.getMessage(  ) );
         }
     }
 
-    public void testEmotyPreferredName() {
-        try {
-            new Command("", "", Collections.singleton("go"), false, null, null, 0);
-        } catch (IllegalArgumentException exp) {
-            assertEquals("wrong exception name",
-                         ResourceHelper.getResourceHelper().getMessage(ResourceConstants.COMMAND_PREFERRED_NAME_TOO_SHORT),
-                         exp.getMessage());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testEmotyPreferredName(  )
+    {
+        try
+        {
+            new Command( "", "", Collections.singleton( "go" ), false, null,
+                null, 0 );
+        }
+        catch( IllegalArgumentException exp )
+        {
+            assertEquals( "wrong exception name",
+                ResourceHelper.getResourceHelper(  )
+                              .getMessage( ResourceConstants.COMMAND_PREFERRED_NAME_TOO_SHORT ),
+                exp.getMessage(  ) );
         }
     }
 
-    public void testAppendUsage_NoOptional() {
-        final Option option = buildStartCommand();
-        final StringBuffer buffer = new StringBuffer();
-        final Set settings = new HashSet(DisplaySetting.ALL);
-        settings.remove(DisplaySetting.DISPLAY_OPTIONAL);
-        option.appendUsage(buffer, settings, null);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testAppendUsage_NoOptional(  )
+    {
+        final Option option = buildStartCommand(  );
+        final StringBuffer buffer = new StringBuffer(  );
+        final Set settings = new HashSet( DisplaySetting.ALL );
+        settings.remove( DisplaySetting.DISPLAY_OPTIONAL );
+        option.appendUsage( buffer, settings, null );
 
-        assertEquals("start (go)", buffer.toString());
+        assertEquals( "start (go)", buffer.toString(  ) );
     }
 
-    public void testAppendUsage_NoAlias() {
-        final Option option = buildStartCommand();
-        final StringBuffer buffer = new StringBuffer();
-        final Set settings = new HashSet(DisplaySetting.ALL);
-        settings.remove(DisplaySetting.DISPLAY_ALIASES);
-        option.appendUsage(buffer, settings, null);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testAppendUsage_NoAlias(  )
+    {
+        final Option option = buildStartCommand(  );
+        final StringBuffer buffer = new StringBuffer(  );
+        final Set settings = new HashSet( DisplaySetting.ALL );
+        settings.remove( DisplaySetting.DISPLAY_ALIASES );
+        option.appendUsage( buffer, settings, null );
 
-        assertEquals("[start]", buffer.toString());
+        assertEquals( "[start]", buffer.toString(  ) );
     }
 
     /*
@@ -222,9 +316,13 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testGetPreferredName()
      */
-    public void testGetPreferredName() {
-        final Option option = buildStartCommand();
-        assertEquals("start", option.getPreferredName());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testGetPreferredName(  )
+    {
+        final Option option = buildStartCommand(  );
+        assertEquals( "start", option.getPreferredName(  ) );
     }
 
     /*
@@ -232,9 +330,14 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testGetDescription()
      */
-    public void testGetDescription() {
-        final Option option = buildLoginCommand();
-        assertEquals("Initiates a session for the user", option.getDescription());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testGetDescription(  )
+    {
+        final Option option = buildLoginCommand(  );
+        assertEquals( "Initiates a session for the user",
+            option.getDescription(  ) );
     }
 
     /*
@@ -242,7 +345,11 @@ public class CommandTest
      *
      * @see net.dpml.cli.OptionTestCase#testHelpLines()
      */
-    public void testHelpLines() {
+    /**
+     * DOCUMENT ME!
+     */
+    public void testHelpLines(  )
+    {
         // TODO Auto-generated method stub
     }
 }

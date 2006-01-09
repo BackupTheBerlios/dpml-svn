@@ -15,9 +15,6 @@
  */
 package net.dpml.cli.util;
 
-import java.util.Collections;
-import java.util.List;
-
 import junit.framework.TestCase;
 
 import net.dpml.cli.AbstractCLITestCase;
@@ -28,193 +25,241 @@ import net.dpml.cli.option.GroupTest;
 import net.dpml.cli.option.ParentTest;
 import net.dpml.cli.option.SwitchTest;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Rob Oxspring
  */
-public class ComparatorsTest extends AbstractCLITestCase {
-    public void testGroupFirst() {
-        final Option o1 = GroupTest.buildAntGroup();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+public class ComparatorsTest extends AbstractCLITestCase
+{
+    /**
+     * DOCUMENT ME!
+     */
+    public void testGroupFirst(  )
+    {
+        final Option o1 = GroupTest.buildAntGroup(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.groupFirst());
+        Collections.sort( list, Comparators.groupFirst(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
 
-    public void testGroupLast() {
-        final Option o1 = GroupTest.buildAntGroup();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testGroupLast(  )
+    {
+        final Option o1 = GroupTest.buildAntGroup(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.groupLast());
+        Collections.sort( list, Comparators.groupLast(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testSwitchFirst() {
-        final Option o1 = SwitchTest.buildDisplaySwitch();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testSwitchFirst(  )
+    {
+        final Option o1 = SwitchTest.buildDisplaySwitch(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.switchFirst());
+        Collections.sort( list, Comparators.switchFirst(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
 
-    public void testSwitchLast() {
-        final Option o1 = SwitchTest.buildDisplaySwitch();
-        final Option o2 = ParentTest.buildLibParent();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testSwitchLast(  )
+    {
+        final Option o1 = SwitchTest.buildDisplaySwitch(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+
         //final Option o3 = new SwitchBuilder().withName("hidden").create();
-        final List list = AbstractCLITestCase.list(o1, o2);
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.switchLast());
+        Collections.sort( list, Comparators.switchLast(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testCommandFirst() {
-        final Option o1 = CommandTest.buildCommitCommand();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCommandFirst(  )
+    {
+        final Option o1 = CommandTest.buildCommitCommand(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.commandFirst());
+        Collections.sort( list, Comparators.commandFirst(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
 
-    public void testCommandLast() {
-        final Option o1 = CommandTest.buildCommitCommand();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCommandLast(  )
+    {
+        final Option o1 = CommandTest.buildCommitCommand(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.commandLast());
+        Collections.sort( list, Comparators.commandLast(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testDefaultOptionFirst() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = CommandTest.buildCommitCommand();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testDefaultOptionFirst(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = CommandTest.buildCommitCommand(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.defaultOptionFirst());
+        Collections.sort( list, Comparators.defaultOptionFirst(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
 
-    public void testDefaultOptionLast() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = CommandTest.buildCommitCommand();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testDefaultOptionLast(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = CommandTest.buildCommitCommand(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.defaultOptionLast());
+        Collections.sort( list, Comparators.defaultOptionLast(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testNamedFirst() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNamedFirst(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.namedFirst("--help"));
+        Collections.sort( list, Comparators.namedFirst( "--help" ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
 
-    public void testNamedLast() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNamedLast(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.namedLast("--help"));
+        Collections.sort( list, Comparators.namedLast( "--help" ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testPreferredNameFirst() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testPreferredNameFirst(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.preferredNameFirst());
+        Collections.sort( list, Comparators.preferredNameFirst(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
 
-    public void testPreferredNameLast() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = ParentTest.buildLibParent();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testPreferredNameLast(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = ParentTest.buildLibParent(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.preferredNameLast());
+        Collections.sort( list, Comparators.preferredNameLast(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testRequiredFirst() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = DefaultOptionTest.buildXOption();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testRequiredFirst(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = DefaultOptionTest.buildXOption(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.requiredFirst());
+        Collections.sort( list, Comparators.requiredFirst(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o2, o1),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o2, o1 ), list );
     }
 
-    public void testRequiredLast() {
-        final Option o1 = DefaultOptionTest.buildHelpOption();
-        final Option o2 = DefaultOptionTest.buildXOption();
-        final List list = AbstractCLITestCase.list(o1, o2);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testRequiredLast(  )
+    {
+        final Option o1 = DefaultOptionTest.buildHelpOption(  );
+        final Option o2 = DefaultOptionTest.buildXOption(  );
+        final List list = AbstractCLITestCase.list( o1, o2 );
 
-        Collections.sort(list, Comparators.requiredLast());
+        Collections.sort( list, Comparators.requiredLast(  ) );
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o1, o2),
-            list);
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o1, o2 ), list );
     }
-    
-    public void testChained() {
-        final Option o1 = CommandTest.buildCommitCommand();
-        final Option o2 = SwitchTest.buildDisplaySwitch();
-        final Option o3 = DefaultOptionTest.buildHelpOption();
-        final List list = AbstractCLITestCase.list(o1, o2, o3);
-        
-        Collections.sort(
-            list, 
-            Comparators.chain(
-                Comparators.namedFirst("--help"),
-                Comparators.commandFirst()));
 
-        AbstractCLITestCase.assertListContentsEqual(
-            AbstractCLITestCase.list(o3, o1, o2),
-            list);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testChained(  )
+    {
+        final Option o1 = CommandTest.buildCommitCommand(  );
+        final Option o2 = SwitchTest.buildDisplaySwitch(  );
+        final Option o3 = DefaultOptionTest.buildHelpOption(  );
+        final List list = AbstractCLITestCase.list( o1, o2, o3 );
+
+        Collections.sort( list,
+            Comparators.chain( Comparators.namedFirst( "--help" ),
+                Comparators.commandFirst(  ) ) );
+
+        AbstractCLITestCase.assertListContentsEqual( AbstractCLITestCase.list( 
+                o3, o1, o2 ), list );
     }
 }

@@ -34,116 +34,131 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Test to exercise nested groups developed to demonstrate bug 32533
  */
-public class NestedGroupTest extends AbstractCLITestCase {
-    final static DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
-    final static ArgumentBuilder abuilder = new ArgumentBuilder();
-    final static GroupBuilder gbuilder = new GroupBuilder();
+public class NestedGroupTest extends AbstractCLITestCase
+{
+    final static DefaultOptionBuilder obuilder = new DefaultOptionBuilder(  );
+    final static ArgumentBuilder abuilder = new ArgumentBuilder(  );
+    final static GroupBuilder gbuilder = new GroupBuilder(  );
 
-    static Group buildActionGroup() {
-        return gbuilder.withName("Action").withDescription("Action")
-                       .withMinimum(1).withMaximum(1)
-                       .withOption(obuilder.withId(5).withShortName("e")
-                                           .withLongName("encrypt")
-                                           .withDescription("Encrypt input")
-                                           .create())
-                       .withOption(obuilder.withId(6).withShortName("d")
-                                           .withLongName("decrypt")
-                                           .withDescription("Decrypt input")
-                                           .create()).create();
+    static Group buildActionGroup(  )
+    {
+        return gbuilder.withName( "Action" ).withDescription( "Action" )
+                       .withMinimum( 1 ).withMaximum( 1 )
+                       .withOption( obuilder.withId( 5 ).withShortName( "e" )
+                                            .withLongName( "encrypt" )
+                                            .withDescription( "Encrypt input" )
+                                            .create(  ) )
+                       .withOption( obuilder.withId( 6 ).withShortName( "d" )
+                                            .withLongName( "decrypt" )
+                                            .withDescription( "Decrypt input" )
+                                            .create(  ) ).create(  );
     }
 
-    static Group buildAlgorithmGroup() {
-        return gbuilder.withName("Algorithm")
-                       .withDescription("Encryption Algorithm").withMaximum(1)
-                       .withOption(obuilder.withId(0).withShortName("b")
-                                           .withLongName("blowfish")
-                                           .withDescription("Blowfish").create())
-                       .withOption(obuilder.withId(1).withShortName("3")
-                                           .withLongName("3DES")
-                                           .withDescription("Triple DES")
-                                           .create()).create();
+    static Group buildAlgorithmGroup(  )
+    {
+        return gbuilder.withName( "Algorithm" )
+                       .withDescription( "Encryption Algorithm" ).withMaximum( 1 )
+                       .withOption( obuilder.withId( 0 ).withShortName( "b" )
+                                            .withLongName( "blowfish" )
+                                            .withDescription( "Blowfish" )
+                                            .create(  ) )
+                       .withOption( obuilder.withId( 1 ).withShortName( "3" )
+                                            .withLongName( "3DES" )
+                                            .withDescription( "Triple DES" )
+                                            .create(  ) ).create(  );
     }
 
-    static Group buildInputGroup() {
-        return gbuilder.withName("Input").withDescription("Input").withMinimum(1)
-                       .withMaximum(1)
-                       .withOption(obuilder.withId(2).withShortName("f")
-                                           .withLongName("file")
-                                           .withDescription("Input file")
-                                           .withArgument(abuilder.withName(
-                    "file").withMinimum(1).withMaximum(1).create()).create())
-                       .withOption(obuilder.withId(3).withShortName("s")
-                                           .withLongName("string")
-                                           .withDescription("Input string")
-                                           .withArgument(abuilder.withName(
-                    "string").withMinimum(1).withMaximum(1).create()).create())
-                       .create();
+    static Group buildInputGroup(  )
+    {
+        return gbuilder.withName( "Input" ).withDescription( "Input" )
+                       .withMinimum( 1 ).withMaximum( 1 )
+                       .withOption( obuilder.withId( 2 ).withShortName( "f" )
+                                            .withLongName( "file" )
+                                            .withDescription( "Input file" )
+                                            .withArgument( abuilder.withName( 
+                    "file" ).withMinimum( 1 ).withMaximum( 1 ).create(  ) )
+                                            .create(  ) )
+                       .withOption( obuilder.withId( 3 ).withShortName( "s" )
+                                            .withLongName( "string" )
+                                            .withDescription( "Input string" )
+                                            .withArgument( abuilder.withName( 
+                    "string" ).withMinimum( 1 ).withMaximum( 1 ).create(  ) )
+                                            .create(  ) ).create(  );
     }
 
-    static Group buildEncryptionServiceGroup(Group[] nestedGroups) {
-        gbuilder.withName("encryptionService")
-                .withOption(obuilder.withId(4).withShortName("h")
-                                    .withLongName("help")
-                                    .withDescription("Print this message")
-                                    .create()).withOption(obuilder.withShortName(
-                "k").withLongName("key").withDescription("Encryption key")
-                                                                  .create());
+    static Group buildEncryptionServiceGroup( Group[] nestedGroups )
+    {
+        gbuilder.withName( "encryptionService" )
+                .withOption( obuilder.withId( 4 ).withShortName( "h" )
+                                     .withLongName( "help" )
+                                     .withDescription( "Print this message" )
+                                     .create(  ) )
+                .withOption( obuilder.withShortName( "k" ).withLongName( "key" )
+                                     .withDescription( "Encryption key" )
+                                     .create(  ) );
 
-        for (int i = 0; i < nestedGroups.length; i++) {
-            gbuilder.withOption(nestedGroups[i]);
+        for( int i = 0; i < nestedGroups.length; i++ )
+        {
+            gbuilder.withOption( nestedGroups[i] );
         }
 
-        return gbuilder.create();
+        return gbuilder.create(  );
     }
 
-    public void testNestedGroup()
-        throws OptionException {
-        final String[] args = {
-                "-eb",
-                "--file",
-                "/tmp/filename.txt"
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testNestedGroup(  ) throws OptionException
+    {
+        final String[] args = {"-eb", "--file", "/tmp/filename.txt"};
+
+        Group[] nestedGroups = 
+            {
+                buildActionGroup(  ), buildAlgorithmGroup(  ),
+                buildInputGroup(  )
             };
 
-        Group[] nestedGroups = {
-                buildActionGroup(),
-                buildAlgorithmGroup(),
-                buildInputGroup()
-            };
+        Parser parser = new Parser(  );
+        parser.setGroup( buildEncryptionServiceGroup( nestedGroups ) );
 
-        Parser parser = new Parser();
-        parser.setGroup(buildEncryptionServiceGroup(nestedGroups));
+        CommandLine commandLine = parser.parse( args );
 
-        CommandLine commandLine = parser.parse(args);
-
-        assertTrue("/tmp/filename.txt".equals(commandLine.getValue("-f")));
-        assertTrue(commandLine.hasOption("-e"));
-        assertTrue(commandLine.hasOption("-b"));
-        assertFalse(commandLine.hasOption("-d"));
+        assertTrue( "/tmp/filename.txt".equals( commandLine.getValue( "-f" ) ) );
+        assertTrue( commandLine.hasOption( "-e" ) );
+        assertTrue( commandLine.hasOption( "-b" ) );
+        assertFalse( commandLine.hasOption( "-d" ) );
     }
 
-    public void testNestedGroupHelp() {
-        Group[] nestedGroups = {
-                buildActionGroup(),
-                buildAlgorithmGroup(),
-                buildInputGroup()
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNestedGroupHelp(  )
+    {
+        Group[] nestedGroups = 
+            {
+                buildActionGroup(  ), buildAlgorithmGroup(  ),
+                buildInputGroup(  )
             };
 
-        HelpFormatter helpFormatter = new HelpFormatter();
-        helpFormatter.setGroup(buildEncryptionServiceGroup(nestedGroups));
+        HelpFormatter helpFormatter = new HelpFormatter(  );
+        helpFormatter.setGroup( buildEncryptionServiceGroup( nestedGroups ) );
 
-        final StringWriter out = new StringWriter();
-        helpFormatter.setPrintWriter(new PrintWriter(out));
+        final StringWriter out = new StringWriter(  );
+        helpFormatter.setPrintWriter( new PrintWriter( out ) );
 
-        try {
-            helpFormatter.print();
+        try
+        {
+            helpFormatter.print(  );
 
-            final BufferedReader bufferedReader = new BufferedReader(new StringReader(
-                        out.toString()));
-            final String[] expected = new String[] {
+            final BufferedReader bufferedReader = new BufferedReader( new StringReader( 
+                        out.toString(  ) ) );
+            final String[] expected = new String[]
+                {
                     "Usage:                                                                          ",
                     " [-h -k -e|-d -b|-3 -f <file>|-s <string>]                                      ",
                     "encryptionService                                                               ",
@@ -160,32 +175,36 @@ public class NestedGroupTest extends AbstractCLITestCase {
                     "    -s (--string) string    Input string                                        "
                 };
 
-            List actual = new ArrayList(expected.length);
+            List actual = new ArrayList( expected.length );
             String input;
 
-            while ((input = bufferedReader.readLine()) != null) {
-                actual.add(input);
+            while( ( input = bufferedReader.readLine(  ) ) != null )
+            {
+                actual.add( input );
             }
 
             // Show they are the same number of lines
-            assertEquals("Help text lines should be " + expected.length,
-                actual.size(), expected.length);
+            assertEquals( "Help text lines should be " + expected.length,
+                actual.size(  ), expected.length );
 
-            for (int i = 0; i < expected.length; i++) {
-                if (!expected[i].equals(actual.get(i))) {
-                    for (int x = 0; x < expected.length; i++) {
-                        System.out.println("   " + expected[i]);
-                        System.out.println((expected[i].equals(actual.get(i))
-                            ? "== "
-                            : "!= ") + actual.get(i));
+            for( int i = 0; i < expected.length; i++ )
+            {
+                if( !expected[i].equals( actual.get( i ) ) )
+                {
+                    for( int x = 0; x < expected.length; i++ )
+                    {
+                        System.out.println( "   " + expected[i] );
+                        System.out.println( ( expected[i].equals( actual.get( i ) )
+                            ? "== " : "!= " ) + actual.get( i ) );
                     }
                 }
 
-                assertEquals(expected[i], actual.get(i));
+                assertEquals( expected[i], actual.get( i ) );
             }
         }
-        catch (IOException e) {
-            fail(e.getLocalizedMessage());
+        catch( IOException e )
+        {
+            fail( e.getLocalizedMessage(  ) );
         }
     }
 }

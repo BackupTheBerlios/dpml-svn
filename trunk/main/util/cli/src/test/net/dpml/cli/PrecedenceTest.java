@@ -15,10 +15,6 @@
  */
 package net.dpml.cli;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
 import junit.framework.TestCase;
 
 import net.dpml.cli.builder.ArgumentBuilder;
@@ -26,390 +22,477 @@ import net.dpml.cli.builder.DefaultOptionBuilder;
 import net.dpml.cli.builder.GroupBuilder;
 import net.dpml.cli.commandline.Parser;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Rob Oxspring
- * 
+ *
  * To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
  */
-public class PrecedenceTest extends TestCase {
-    private final String[] args = new String[] { "-file" };
+public class PrecedenceTest extends TestCase
+{
+    private final String[] args = new String[]{"-file"};
 
-    public void testSimple() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testSimple(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
 
-        final Group options =
-            new GroupBuilder()
-                .withOption(oBuilder.withShortName("file").create())
-                .create();
+        final Group options = new GroupBuilder(  ).withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-file" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-file"}, cl );
     }
 
-    public void testArgument() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testArgument(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group options =
-            new GroupBuilder()
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withArgument(aBuilder.create())
-                        .create())
-                .create();
+        final Group options = new GroupBuilder(  ).withOption( oBuilder.withShortName( 
+                    "f" ).withArgument( aBuilder.create(  ) ).create(  ) )
+                                                  .create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void testBurst() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("f").create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testBurst(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final Group options = gBuilder.withOption( oBuilder.withShortName( "f" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f", "-i", "-l", "-e" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
-    public void testChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
-        final Group options =
-            gBuilder
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .create(  ) )
+                                       .create(  );
+        final Group options = gBuilder.withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f", "-i", "-l", "-e" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
-    public void XtestSimpleVsArgument() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsArgument(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withArgument(aBuilder.create())
-                        .create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void XtestSimpleVsBurst() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(oBuilder.withShortName("f").create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsBurst(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f", "-i", "-l", "-e" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
-    public void XtestSimpleVsChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("ci").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("cl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("ce").create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .withLongName( "ci" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .withLongName( "cl" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .withLongName( "ce" )
+                                                            .create(  ) )
+                                       .create(  );
 
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(
-            new String[] { "-f", "-i", "--ci", "-l", "--cl", "-e", "--ce" },
-            cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]
+            {
+                "-f", "-i", "--ci", "-l", "--cl", "-e", "--ce"
+            }, cl );
     }
 
-    public void testArgumentVsBurst() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testArgumentVsBurst(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group options =
-            gBuilder
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withArgument(aBuilder.create())
-                        .create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( "f" )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void testArgumentVsChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testArgumentVsChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
-        final Group options =
-            gBuilder
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .withArgument(aBuilder.create())
-                        .create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .create(  ) )
+                                       .create(  );
+        final Group options = gBuilder.withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void testBurstVsChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testBurstVsChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("ci").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("cl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("ce").create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .withLongName( "ci" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .withLongName( "cl" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .withLongName( "ce" )
+                                                            .create(  ) )
+                                       .create(  );
 
-        final Group options =
-            gBuilder
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .create())
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("bi").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("bl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("be").create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .withLongName( "bi" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .withLongName( "bl" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .withLongName( "be" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(
-            new String[] { "-f", "-i", "--ci", "-l", "--cl", "-e", "--ce" },
-            cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]
+            {
+                "-f", "-i", "--ci", "-l", "--cl", "-e", "--ce"
+            }, cl );
     }
 
-    public void XtestSimpleVsArgumentVsBurst() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsArgumentVsBurst(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withArgument(aBuilder.create())
-                        .create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void XtestSimpleVsArgumentVsChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsArgumentVsChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("ci").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("cl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("ce").create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .withLongName( "ci" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .withLongName( "cl" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .withLongName( "ce" )
+                                                            .create(  ) )
+                                       .create(  );
 
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .withArgument(aBuilder.create())
-                        .create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void XtestSimpleVsBurstVsChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsBurstVsChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("ci").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("cl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("ce").create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .withLongName( "ci" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .withLongName( "cl" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .withLongName( "ce" )
+                                                            .create(  ) )
+                                       .create(  );
 
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f", "-i", "-l", "-e" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f", "-i", "-l", "-e"}, cl );
     }
 
-    public void testArgumentVsBurstVsChildren() throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testArgumentVsBurstVsChildren(  ) throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("ci").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("cl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("ce").create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .withLongName( "ci" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .withLongName( "cl" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .withLongName( "ce" )
+                                                            .create(  ) )
+                                       .create(  );
 
-        final Group options =
-            gBuilder
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .withArgument(aBuilder.create())
-                        .create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public void XtestSimpleVsArgumentVsBurstVsChildren()
-        throws OptionException {
-        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder();
-        final GroupBuilder gBuilder = new GroupBuilder();
-        final ArgumentBuilder aBuilder = new ArgumentBuilder();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void XtestSimpleVsArgumentVsBurstVsChildren(  )
+        throws OptionException
+    {
+        final DefaultOptionBuilder oBuilder = new DefaultOptionBuilder(  );
+        final GroupBuilder gBuilder = new GroupBuilder(  );
+        final ArgumentBuilder aBuilder = new ArgumentBuilder(  );
 
-        final Group children =
-            gBuilder
-                .withOption(
-                    oBuilder.withShortName("i").withLongName("ci").create())
-                .withOption(
-                    oBuilder.withShortName("l").withLongName("cl").create())
-                .withOption(
-                    oBuilder.withShortName("e").withLongName("ce").create())
-                .create();
+        final Group children = gBuilder.withOption( oBuilder.withShortName( "i" )
+                                                            .withLongName( "ci" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "l" )
+                                                            .withLongName( "cl" )
+                                                            .create(  ) )
+                                       .withOption( oBuilder.withShortName( "e" )
+                                                            .withLongName( "ce" )
+                                                            .create(  ) )
+                                       .create(  );
 
-        final Group options =
-            gBuilder
-                .withOption(oBuilder.withShortName("file").create())
-                .withOption(
-                    oBuilder
-                        .withShortName("f")
-                        .withChildren(children)
-                        .withArgument(aBuilder.create())
-                        .create())
-                .withOption(oBuilder.withShortName("i").create())
-                .withOption(oBuilder.withShortName("l").create())
-                .withOption(oBuilder.withShortName("e").create())
-                .create();
+        final Group options = gBuilder.withOption( oBuilder.withShortName( 
+                    "file" ).create(  ) )
+                                      .withOption( oBuilder.withShortName( "f" )
+                                                           .withChildren( children )
+                                                           .withArgument( aBuilder.create(  ) )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "i" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "l" )
+                                                           .create(  ) )
+                                      .withOption( oBuilder.withShortName( "e" )
+                                                           .create(  ) ).create(  );
 
-        final CommandLine cl = buildCommandLine(options, args);
-        assertEquals(new String[] { "-f" }, cl);
+        final CommandLine cl = buildCommandLine( options, args );
+        assertEquals( new String[]{"-f"}, cl );
     }
 
-    public CommandLine buildCommandLine(final Group group, final String[] arguments)
-        throws OptionException {
-        Parser p = new Parser();
-        p.setGroup(group);
-        return p.parse(arguments);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param group DOCUMENT ME!
+     * @param arguments DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public CommandLine buildCommandLine( final Group group,
+        final String[] arguments ) throws OptionException
+    {
+        Parser p = new Parser(  );
+        p.setGroup( group );
+
+        return p.parse( arguments );
     }
 
-    public void assertEquals(final String options[], final CommandLine line) {
-        final List expected = Arrays.asList(options);
-        final Set actual = line.getOptionTriggers();
-
-        assertTrue(expected.containsAll(actual));
-        assertTrue(actual.containsAll(expected));
+    /**
+     * DOCUMENT ME!
+     *
+     * @param options DOCUMENT ME!
+     * @param line DOCUMENT ME!
+     */
+    public void assertEquals( final String[] options, final CommandLine line )
+    {
+        final List expected = Arrays.asList( options );
+        final Set actual = line.getOptionTriggers(  );
+        assertTrue( expected.containsAll( actual ) );
+        assertTrue( actual.containsAll( expected ) );
     }
-
 }

@@ -15,51 +15,72 @@
  */
 package net.dpml.cli.validation;
 
+import junit.framework.TestCase;
+
+import net.dpml.cli.resource.ResourceConstants;
+import net.dpml.cli.resource.ResourceHelper;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import junit.framework.TestCase;
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
+public class EnumValidatorTest extends TestCase
+{
+    private final static ResourceHelper resources = ResourceHelper.getResourceHelper(  );
+    private final Set enumSet = new TreeSet( Arrays.asList( 
+                new Object[]{"red", "green", "blue"} ) );
 
-import net.dpml.cli.resource.ResourceConstants;
-import net.dpml.cli.resource.ResourceHelper;
-
-public class EnumValidatorTest
-    extends TestCase {
-    private final static ResourceHelper resources = ResourceHelper.getResourceHelper();
-    private final Set enumSet = new TreeSet(Arrays.asList(new Object[] { "red", "green", "blue" }));
-
-    public void testValidate()
-        throws InvalidArgumentException {
-        final Object[] array = new Object[] { "red", "green" };
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws InvalidArgumentException DOCUMENT ME!
+     */
+    public void testValidate(  ) throws InvalidArgumentException
+    {
+        final Object[] array = new Object[]{"red", "green"};
 
         {
-            final List list = Arrays.asList(array);
-            final EnumValidator validator = new EnumValidator(enumSet);
-            assertEquals("valid values are incorrect", enumSet, validator.getValidValues());
-            validator.validate(list);
+            final List list = Arrays.asList( array );
+            final EnumValidator validator = new EnumValidator( enumSet );
+            assertEquals( "valid values are incorrect", enumSet,
+                validator.getValidValues(  ) );
+            validator.validate( list );
 
-            final Iterator i = list.iterator();
-            assertEquals("red", i.next());
-            assertEquals("green", i.next());
-            assertFalse(i.hasNext());
+            final Iterator i = list.iterator(  );
+            assertEquals( "red", i.next(  ) );
+            assertEquals( "green", i.next(  ) );
+            assertFalse( i.hasNext(  ) );
         }
     }
 
-    public void testNonMember() {
-        final Object[] array = new Object[] { "red", "pink" };
-        final List list = Arrays.asList(array);
-        final EnumValidator validator = new EnumValidator(enumSet);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testNonMember(  )
+    {
+        final Object[] array = new Object[]{"red", "pink"};
+        final List list = Arrays.asList( array );
+        final EnumValidator validator = new EnumValidator( enumSet );
 
-        try {
-            validator.validate(list);
-            fail("InvalidArgumentException");
-        } catch (InvalidArgumentException e) {
-            assertEquals(resources.getMessage(ResourceConstants.ENUM_ILLEGAL_VALUE,
-                                              new Object[] { "pink", validator.getValuesAsString() }),
-                         e.getMessage());
+        try
+        {
+            validator.validate( list );
+            fail( "InvalidArgumentException" );
+        }
+        catch( InvalidArgumentException e )
+        {
+            assertEquals( resources.getMessage( 
+                    ResourceConstants.ENUM_ILLEGAL_VALUE,
+                    new Object[]{"pink", validator.getValuesAsString(  )} ),
+                e.getMessage(  ) );
         }
     }
 }

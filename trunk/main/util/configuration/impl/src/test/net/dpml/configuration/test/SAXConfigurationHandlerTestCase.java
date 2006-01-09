@@ -5,9 +5,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,11 +31,19 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public final class SAXConfigurationHandlerTestCase extends TestCase
 {
-    public SAXConfigurationHandlerTestCase()
+    /**
+     * Creates a new SAXConfigurationHandlerTestCase object.
+     */
+    public SAXConfigurationHandlerTestCase(  )
     {
-        this("SAXConfigurationHandler Test Case ");
+        this( "SAXConfigurationHandler Test Case " );
     }
 
+    /**
+     * Creates a new SAXConfigurationHandlerTestCase object.
+     *
+     * @param name DOCUMENT ME!
+     */
     public SAXConfigurationHandlerTestCase( final String name )
     {
         super( name );
@@ -51,9 +59,9 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
      *   &lt;/rawName&gt;
      * </pre>
      */
-    public void testDefaultHandling() throws Exception
+    public void testDefaultHandling(  ) throws Exception
     {
-        SAXConfigurationHandler handler = new SAXConfigurationHandler( );
+        SAXConfigurationHandler handler = new SAXConfigurationHandler(  );
 
         final String rootURI = "";
         final String rootlocal = "rawName";
@@ -66,43 +74,47 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         final String attValue = "attValue";
         final String emptylocal = "emptyElement";
         final String emptyraw = emptylocal;
-        
-        final AttributesImpl emptyAttributes  = new AttributesImpl();
 
-        final AttributesImpl attributes  = new AttributesImpl();
-        attributes.addAttribute("",attqName,attqName,
-                                "CDATA",attValue);
+        final AttributesImpl emptyAttributes = new AttributesImpl(  );
 
-        final AttributesImpl childAttributes  = new AttributesImpl();
-        childAttributes.addAttribute("", "child", "xmlns:child", "CDATA", childURI);
+        final AttributesImpl attributes = new AttributesImpl(  );
+        attributes.addAttribute( "", attqName, attqName, "CDATA", attValue );
 
-        handler.startDocument();
+        final AttributesImpl childAttributes = new AttributesImpl(  );
+        childAttributes.addAttribute( "", "child", "xmlns:child", "CDATA",
+            childURI );
+
+        handler.startDocument(  );
         handler.startPrefixMapping( "child", childURI );
         handler.startElement( rootURI, rootlocal, rootraw, attributes );
-        handler.startElement( childURI,
-                                childlocal,
-                                childraw,
-                                childAttributes );
+        handler.startElement( childURI, childlocal, childraw, childAttributes );
 
-        handler.characters( childvalue.toCharArray(), 0, childvalue.length() );
+        handler.characters( childvalue.toCharArray(  ), 0, childvalue.length(  ) );
         handler.endElement( childURI, childlocal, childraw );
         handler.startElement( rootURI, emptylocal, emptyraw, emptyAttributes );
         handler.endElement( rootURI, emptylocal, emptyraw );
-        handler.endElement( null, null, rootraw);
+        handler.endElement( null, null, rootraw );
         handler.endPrefixMapping( "child" );
-        handler.endDocument();
+        handler.endDocument(  );
 
-        final Configuration configuration = handler.getConfiguration();
-        assertEquals( attValue, configuration.getAttribute(attqName));
-        assertEquals( childvalue, configuration.getChild(childraw).getValue());
-        assertEquals( "", configuration.getChild(childraw).getNamespace() );
-        assertEquals( rootraw, configuration.getName());
-        assertEquals( "test", configuration.getChild(emptyraw).getValue( "test" ) );
+        final Configuration configuration = handler.getConfiguration(  );
+        assertEquals( attValue, configuration.getAttribute( attqName ) );
+        assertEquals( childvalue,
+            configuration.getChild( childraw ).getValue(  ) );
+        assertEquals( "", configuration.getChild( childraw ).getNamespace(  ) );
+        assertEquals( rootraw, configuration.getName(  ) );
+        assertEquals( "test",
+            configuration.getChild( emptyraw ).getValue( "test" ) );
     }
 
-    public void testNamespaceHandling() throws Exception
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws Exception DOCUMENT ME!
+     */
+    public void testNamespaceHandling(  ) throws Exception
     {
-        SAXConfigurationHandler handler = new NamespacedSAXConfigurationHandler( );
+        SAXConfigurationHandler handler = new NamespacedSAXConfigurationHandler(  );
 
         final String rootURI = "";
         final String rootlocal = "rawName";
@@ -114,36 +126,30 @@ public final class SAXConfigurationHandlerTestCase extends TestCase
         final String attqName = "attqName";
         final String attValue = "attValue";
 
-        final AttributesImpl attributes  = new AttributesImpl();
-        attributes.addAttribute("",attqName,attqName,
-                                "CDATA",attValue);
+        final AttributesImpl attributes = new AttributesImpl(  );
+        attributes.addAttribute( "", attqName, attqName, "CDATA", attValue );
 
-        final AttributesImpl childAttributes  = new AttributesImpl();
-        childAttributes.addAttribute("", "child", "xmlns:child", "CDATA", childURI);
+        final AttributesImpl childAttributes = new AttributesImpl(  );
+        childAttributes.addAttribute( "", "child", "xmlns:child", "CDATA",
+            childURI );
 
-        handler.startDocument();
+        handler.startDocument(  );
         handler.startPrefixMapping( "child", childURI );
         handler.startElement( rootURI, rootlocal, rootraw, attributes );
-        handler.startElement( childURI,
-                                childlocal,
-                                childraw,
-                                childAttributes );
+        handler.startElement( childURI, childlocal, childraw, childAttributes );
 
-        handler.characters( childvalue.toCharArray(), 0, childvalue.length() );
+        handler.characters( childvalue.toCharArray(  ), 0, childvalue.length(  ) );
         handler.endElement( childURI, childlocal, childraw );
-        handler.endElement( null, null, rootraw);
+        handler.endElement( null, null, rootraw );
         handler.endPrefixMapping( "child" );
-        handler.endDocument();
+        handler.endDocument(  );
 
-        final Configuration configuration = handler.getConfiguration();
-        assertEquals( attValue, configuration.getAttribute(attqName));
-        assertEquals( childvalue, configuration.getChild(childlocal).getValue());
-        assertEquals( childURI, configuration.getChild(childlocal).getNamespace() );
-        assertEquals( rootraw, configuration.getName());
+        final Configuration configuration = handler.getConfiguration(  );
+        assertEquals( attValue, configuration.getAttribute( attqName ) );
+        assertEquals( childvalue,
+            configuration.getChild( childlocal ).getValue(  ) );
+        assertEquals( childURI,
+            configuration.getChild( childlocal ).getNamespace(  ) );
+        assertEquals( rootraw, configuration.getName(  ) );
     }
 }
-
-
-
-
-

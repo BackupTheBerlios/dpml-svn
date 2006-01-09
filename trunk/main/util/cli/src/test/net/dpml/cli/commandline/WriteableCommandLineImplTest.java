@@ -15,21 +15,38 @@
  */
 package net.dpml.cli.commandline;
 
+import net.dpml.cli.AbstractWriteableCommandLineTestCase;
+import net.dpml.cli.WriteableCommandLine;
+
 import java.util.ArrayList;
 
-import net.dpml.cli.WriteableCommandLine;
-import net.dpml.cli.AbstractWriteableCommandLineTestCase;
-
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
 public class WriteableCommandLineImplTest
-    extends AbstractWriteableCommandLineTestCase {
+    extends AbstractWriteableCommandLineTestCase
+{
     /* (non-Javadoc)
      * @see net.dpml.cli.WriteableCommandLineTest#createWriteableCommandLine()
      */
-    protected WriteableCommandLine createWriteableCommandLine() {
-        return new WriteableCommandLineImpl(root, new ArrayList());
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    protected WriteableCommandLine createWriteableCommandLine(  )
+    {
+        return new WriteableCommandLineImpl( m_root, new ArrayList(  ) );
     }
 
-    public void testToMakeEclipseSpotTheTestCase() {
+    /**
+     * DOCUMENT ME!
+     */
+    public void testToMakeEclipseSpotTheTestCase(  )
+    {
         // nothing to test
     }
 }

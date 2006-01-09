@@ -15,40 +15,81 @@
  */
 package net.dpml.cli.option;
 
-import java.util.List;
-
 import net.dpml.cli.AbstractCLITestCase;
 import net.dpml.cli.Option;
 import net.dpml.cli.OptionException;
 import net.dpml.cli.WriteableCommandLine;
 import net.dpml.cli.commandline.WriteableCommandLineImpl;
 
+import java.util.List;
+
 /**
  * @author Rob Oxspring
  */
-public abstract class AbstractOptionTestCase extends AbstractCLITestCase {
-
-    public static WriteableCommandLine commandLine(
-        final Option option,
-        final List args) {
-        return new WriteableCommandLineImpl(option, args);
+public abstract class AbstractOptionTestCase extends AbstractCLITestCase
+{
+    /**
+     * DOCUMENT ME!
+     *
+     * @param option DOCUMENT ME!
+     * @param args DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public static WriteableCommandLine commandLine( final Option option,
+        final List args )
+    {
+        return new WriteableCommandLineImpl( option, args );
     }
 
-    public abstract void testTriggers();
+    /**
+     * DOCUMENT ME!
+     */
+    public abstract void testTriggers(  );
 
-    public abstract void testPrefixes();
+    /**
+     * DOCUMENT ME!
+     */
+    public abstract void testPrefixes(  );
 
-    public abstract void testCanProcess();
+    /**
+     * DOCUMENT ME!
+     */
+    public abstract void testCanProcess(  );
 
-    public abstract void testProcess() throws OptionException;
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public abstract void testProcess(  ) throws OptionException;
 
-    public abstract void testValidate() throws OptionException;
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public abstract void testValidate(  ) throws OptionException;
 
-    public abstract void testAppendUsage() throws OptionException;
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public abstract void testAppendUsage(  ) throws OptionException;
 
-    public abstract void testGetPreferredName();
+    /**
+     * DOCUMENT ME!
+     */
+    public abstract void testGetPreferredName(  );
 
-    public abstract void testGetDescription();
+    /**
+     * DOCUMENT ME!
+     */
+    public abstract void testGetDescription(  );
 
-    public abstract void testHelpLines();
+    /**
+     * DOCUMENT ME!
+     */
+    public abstract void testHelpLines(  );
 }

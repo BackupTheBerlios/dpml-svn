@@ -15,6 +15,8 @@
  */
 package net.dpml.cli.bug;
 
+import junit.framework.TestCase;
+
 import net.dpml.cli.Argument;
 import net.dpml.cli.Group;
 import net.dpml.cli.Option;
@@ -24,55 +26,58 @@ import net.dpml.cli.builder.CommandBuilder;
 import net.dpml.cli.builder.DefaultOptionBuilder;
 import net.dpml.cli.builder.GroupBuilder;
 import net.dpml.cli.commandline.Parser;
-import junit.framework.TestCase;
 
-public class Bug28005Test extends TestCase {
-    public void testInfiniteLoop() {
-        final DefaultOptionBuilder optionBuilder = new DefaultOptionBuilder();
-        final ArgumentBuilder argumentBuilder = new ArgumentBuilder();
-        final GroupBuilder groupBuilder = new GroupBuilder();
-        final CommandBuilder commandBuilder = new CommandBuilder();
-        
-        final Option inputFormatOption = 
-            optionBuilder
-                .withLongName("input-format")
-                //.withArgument(argumentBuilder.create())
-                .create();
-                
-        final Argument argument = 
-            argumentBuilder
-                .withName("file")
-                .create();
-                
-        final Group children = 
-            groupBuilder
-                .withName("options")
-                .withOption(inputFormatOption)
-                .create();
-                
-        final Option command = 
-            commandBuilder
-                .withName("convert")
-                .withChildren(children)
-                .withArgument(argument)
-                .create();
-                
-        final Group root = 
-            groupBuilder
-                .withName("commands")
-                .withOption(command)
-                .create();
-                
-        final Parser parser = new Parser();
-        parser.setGroup(root);
-        final String[] args = new String[]{"convert", "test.txt",
-                "--input-format", "a"};
-                
-        try {
-            parser.parse(args);
-            fail("a isn't valid!!");
-        } catch (OptionException e) {
-            assertEquals("Unexpected a while processing commands",e.getMessage());
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
+public class Bug28005Test extends TestCase
+{
+    /**
+     * DOCUMENT ME!
+     */
+    public void testInfiniteLoop(  )
+    {
+        final DefaultOptionBuilder optionBuilder = new DefaultOptionBuilder(  );
+        final ArgumentBuilder argumentBuilder = new ArgumentBuilder(  );
+        final GroupBuilder groupBuilder = new GroupBuilder(  );
+        final CommandBuilder commandBuilder = new CommandBuilder(  );
+
+        final Option inputFormatOption = optionBuilder.withLongName( 
+                "input-format" ).create(  );
+
+        final Argument argument = argumentBuilder.withName( "file" ).create(  );
+
+        final Group children = groupBuilder.withName( "options" )
+                                           .withOption( inputFormatOption )
+                                           .create(  );
+
+        final Option command = commandBuilder.withName( "convert" )
+                                             .withChildren( children )
+                                             .withArgument( argument ).create(  );
+
+        final Group root = groupBuilder.withName( "commands" )
+                                       .withOption( command ).create(  );
+
+        final Parser parser = new Parser(  );
+        parser.setGroup( root );
+
+        final String[] args = new String[]
+            {
+                "convert", "test.txt", "--input-format", "a"
+            };
+
+        try
+        {
+            parser.parse( args );
+            fail( "a isn't valid!!" );
+        }
+        catch( OptionException e )
+        {
+            assertEquals( "Unexpected a while processing commands",
+                e.getMessage(  ) );
         }
     }
 }

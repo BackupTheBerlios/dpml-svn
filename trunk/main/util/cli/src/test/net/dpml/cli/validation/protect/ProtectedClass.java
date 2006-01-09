@@ -15,8 +15,13 @@
  */
 package net.dpml.cli.validation.protect;
 
-class ProtectedClass {
-    protected ProtectedClass() {
+class ProtectedClass
+{
+    /**
+     * Creates a new ProtectedClass object.
+     */
+    protected ProtectedClass(  )
+    {
         // used to test illegal attempts to load protected classes
     }
 }

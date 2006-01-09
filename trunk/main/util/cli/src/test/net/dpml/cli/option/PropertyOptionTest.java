@@ -15,12 +15,6 @@
  */
 package net.dpml.cli.option;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
-
 import net.dpml.cli.DisplaySetting;
 import net.dpml.cli.HelpLine;
 import net.dpml.cli.Option;
@@ -28,205 +22,292 @@ import net.dpml.cli.OptionException;
 import net.dpml.cli.WriteableCommandLine;
 import net.dpml.cli.commandline.WriteableCommandLineImpl;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+
 /**
  * @author Rob Oxspring
  */
-public class PropertyOptionTest extends AbstractOptionTestCase {
-
+public class PropertyOptionTest extends AbstractOptionTestCase
+{
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testCanProcess()
      */
-    public void testCanProcess() {
-        final Option option = new PropertyOption();
-        assertTrue(option.canProcess(new WriteableCommandLineImpl(option,null), "-Dmyprop=myval"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertTrue( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), "-Dmyprop=myval" ) );
     }
 
-    public void testCanProcess_Null() {
-        final Option option = new PropertyOption();
-        assertFalse(option.canProcess(new WriteableCommandLineImpl(option,null), (String) null));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess_Null(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertFalse( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), (String) null ) );
     }
 
-    public void testCanProcess_TooShort() {
-        final Option option = new PropertyOption();
-        assertFalse(option.canProcess(new WriteableCommandLineImpl(option,null), "-D"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess_TooShort(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertFalse( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), "-D" ) );
     }
 
-    public void testCanProcess_BadMatch() {
-        final Option option = new PropertyOption();
-        assertFalse(option.canProcess(new WriteableCommandLineImpl(option,null),"-dump"));
+    /**
+     * DOCUMENT ME!
+     */
+    public void testCanProcess_BadMatch(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertFalse( option.canProcess( 
+                new WriteableCommandLineImpl( option, null ), "-dump" ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testPrefixes()
      */
-    public void testPrefixes() {
-        final Option option = new PropertyOption();
-        assertContentsEqual(list("-D"), option.getPrefixes());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testPrefixes(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertContentsEqual( list( "-D" ), option.getPrefixes(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testProcess()
      */
-    public void testProcess() throws OptionException {
-        final Option option = new PropertyOption();
-        final List args = list("-Dmyprop=myvalue");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testProcess(  ) throws OptionException
+    {
+        final Option option = new PropertyOption(  );
+        final List args = list( "-Dmyprop=myvalue" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
 
-        option.process(commandLine, iterator);
-        assertEquals("myvalue", commandLine.getProperty("myprop"));
-        assertFalse(iterator.hasNext());
-        assertEquals(1, commandLine.getProperties().size());
+        option.process( commandLine, iterator );
+        assertEquals( "myvalue", commandLine.getProperty( "myprop" ) );
+        assertFalse( iterator.hasNext(  ) );
+        assertEquals( 1, commandLine.getProperties(  ).size(  ) );
     }
 
-    public void testProcess_UnexpectedOptionException() {
-        final Option option = new PropertyOption();
-        final List args = list("--help");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testProcess_UnexpectedOptionException(  )
+    {
+        final Option option = new PropertyOption(  );
+        final List args = list( "--help" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
 
-        try {
-            option.process(commandLine, iterator);
-            fail("UnexpectedOption");
+        try
+        {
+            option.process( commandLine, iterator );
+            fail( "UnexpectedOption" );
         }
-        catch (final OptionException uoe) {
-            assertEquals(option, uoe.getOption());
-            assertEquals(
-                "Unexpected --help while processing -Dproperty=value",
-                uoe.getMessage());
+        catch( final OptionException uoe )
+        {
+            assertEquals( option, uoe.getOption(  ) );
+            assertEquals( "Unexpected --help while processing -Dproperty=value",
+                uoe.getMessage(  ) );
         }
     }
 
-    public void testProcess_BadPropertyException() throws OptionException {
-        final Option option = new PropertyOption();
-        final List args = list("-Dmyprop");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testProcess_BadPropertyException(  ) throws OptionException
+    {
+        final Option option = new PropertyOption(  );
+        final List args = list( "-Dmyprop" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
 
-        option.process(commandLine, iterator);
+        option.process( commandLine, iterator );
 
-        assertEquals("true", commandLine.getProperty("myprop"));
+        assertEquals( "true", commandLine.getProperty( "myprop" ) );
     }
 
-    public void testProcess_SetToEmpty() throws OptionException {
-        final Option option = new PropertyOption();
-        final List args = list("-Dmyprop=");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testProcess_SetToEmpty(  ) throws OptionException
+    {
+        final Option option = new PropertyOption(  );
+        final List args = list( "-Dmyprop=" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
 
-        option.process(commandLine, iterator);
-        assertEquals("", commandLine.getProperty("myprop"));
-        assertFalse(iterator.hasNext());
-        assertEquals(1, commandLine.getProperties().size());
+        option.process( commandLine, iterator );
+        assertEquals( "", commandLine.getProperty( "myprop" ) );
+        assertFalse( iterator.hasNext(  ) );
+        assertEquals( 1, commandLine.getProperties(  ).size(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testTriggers()
      */
-    public void testTriggers() {
-        final Option option = new PropertyOption();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testTriggers(  )
+    {
+        final Option option = new PropertyOption(  );
 
-        assertContentsEqual(list("-D"), option.getTriggers());
+        assertContentsEqual( list( "-D" ), option.getTriggers(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testValidate()
      */
-    public void testValidate() throws OptionException {
-        final Option option = new PropertyOption();
-        final List args = list("-Dproperty=value");
-        final WriteableCommandLine commandLine = commandLine(option, args);
-        final ListIterator iterator = args.listIterator();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws OptionException DOCUMENT ME!
+     */
+    public void testValidate(  ) throws OptionException
+    {
+        final Option option = new PropertyOption(  );
+        final List args = list( "-Dproperty=value" );
+        final WriteableCommandLine commandLine = commandLine( option, args );
+        final ListIterator iterator = args.listIterator(  );
 
-        option.process(commandLine, iterator);
+        option.process( commandLine, iterator );
 
-        option.validate(commandLine);
+        option.validate( commandLine );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testAppendUsage()
      */
-    public void testAppendUsage() {
-        final Option option = new PropertyOption();
-        final StringBuffer buffer = new StringBuffer();
-        option.appendUsage(buffer, DisplaySetting.ALL, null);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testAppendUsage(  )
+    {
+        final Option option = new PropertyOption(  );
+        final StringBuffer buffer = new StringBuffer(  );
+        option.appendUsage( buffer, DisplaySetting.ALL, null );
 
-        assertEquals("-D<property>=<value>", buffer.toString());
+        assertEquals( "-D<property>=<value>", buffer.toString(  ) );
     }
 
-    public void testAppendUsage_Hidden() {
-        final Option option = new PropertyOption();
-        final StringBuffer buffer = new StringBuffer();
-        final Set settings = new HashSet(DisplaySetting.ALL);
-        settings.remove(DisplaySetting.DISPLAY_PROPERTY_OPTION);
-        option.appendUsage(buffer, settings, null);
+    /**
+     * DOCUMENT ME!
+     */
+    public void testAppendUsage_Hidden(  )
+    {
+        final Option option = new PropertyOption(  );
+        final StringBuffer buffer = new StringBuffer(  );
+        final Set settings = new HashSet( DisplaySetting.ALL );
+        settings.remove( DisplaySetting.DISPLAY_PROPERTY_OPTION );
+        option.appendUsage( buffer, settings, null );
 
-        assertEquals("", buffer.toString());
+        assertEquals( "", buffer.toString(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testGetPreferredName()
      */
-    public void testGetPreferredName() {
-        final Option option = new PropertyOption();
-        assertEquals("-D", option.getPreferredName());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testGetPreferredName(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertEquals( "-D", option.getPreferredName(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testGetDescription()
      */
-    public void testGetDescription() {
-        final Option option = new PropertyOption();
-        assertEquals(
-            PropertyOption.DEFAULT_DESCRIPTION,
-            option.getDescription());
+    /**
+     * DOCUMENT ME!
+     */
+    public void testGetDescription(  )
+    {
+        final Option option = new PropertyOption(  );
+        assertEquals( PropertyOption.DEFAULT_DESCRIPTION,
+            option.getDescription(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testHelpLines()
      */
-    public void testHelpLines() {
-        final Option option = new PropertyOption();
-        final List lines = option.helpLines(0, DisplaySetting.ALL, null);
-        final Iterator i = lines.iterator();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testHelpLines(  )
+    {
+        final Option option = new PropertyOption(  );
+        final List lines = option.helpLines( 0, DisplaySetting.ALL, null );
+        final Iterator i = lines.iterator(  );
 
-        final HelpLine line1 = (HelpLine)i.next();
-        assertEquals(0, line1.getIndent());
-        assertEquals(option, line1.getOption());
+        final HelpLine line1 = (HelpLine) i.next(  );
+        assertEquals( 0, line1.getIndent(  ) );
+        assertEquals( option, line1.getOption(  ) );
 
-        assertFalse(i.hasNext());
+        assertFalse( i.hasNext(  ) );
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see net.dpml.cli.OptionTestCase#testHelpLines()
      */
-    public void testHelpLines_NoDisplay() {
-        final Option option = new PropertyOption();
-        final Set settings = new HashSet(DisplaySetting.ALL);
-        settings.remove(DisplaySetting.DISPLAY_PROPERTY_OPTION);
-        final List lines = option.helpLines(0, settings, null);
-        final Iterator i = lines.iterator();
+    /**
+     * DOCUMENT ME!
+     */
+    public void testHelpLines_NoDisplay(  )
+    {
+        final Option option = new PropertyOption(  );
+        final Set settings = new HashSet( DisplaySetting.ALL );
+        settings.remove( DisplaySetting.DISPLAY_PROPERTY_OPTION );
 
-        assertFalse(i.hasNext());
+        final List lines = option.helpLines( 0, settings, null );
+        final Iterator i = lines.iterator(  );
+
+        assertFalse( i.hasNext(  ) );
     }
 }
