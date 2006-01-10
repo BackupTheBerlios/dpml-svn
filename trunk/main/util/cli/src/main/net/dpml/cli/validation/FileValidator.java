@@ -29,24 +29,18 @@ import java.util.ListIterator;
  * The following attributes can also be specified using the 
  * appropriate settors:
  * <ul>
- *  <li>writable</li>
- *  <li>readable</li>
  *  <li>existing</li>
  *  <li>is a file</li>
  *  <li>is a directory</li>
  * </ul>
  *
  * The following example shows how to limit the valid values
- * for the config attribute to files that are readable, writeable,
- * and that already existing.
+ * for the config attribute to files that exist.
  *
  * <pre>
  * ...
  * ArgumentBuilder builder = new ArgumentBuilder();
  * FileValidator validator = FileValidator.getExistingFileInstance();
- * validator.setReadable(true);
- * validator.setWritable(true);
- * 
  * Argument age = 
  *     builder.withName("config");
  *            .withValidator(validator);
@@ -95,12 +89,6 @@ public class FileValidator implements Validator
         return validator;
     }
 
-    /** whether the argument value is readable */
-    private boolean m_readable = false;
-    
-    /** whether the argument value is writable */
-    private boolean m_writable = false;
-    
     /** whether the argument value exists */
     private boolean m_existing = false;
     
@@ -109,9 +97,6 @@ public class FileValidator implements Validator
     
     /** whether the argument value is a file */
     private boolean m_file = false;
-
-    /** whether the argument value is a hidden file or directory */
-    //private boolean hidden = false;
 
    /**
     * Validate the list of values against the list of permitted values.
@@ -133,12 +118,9 @@ public class FileValidator implements Validator
             }
             final String name = (String) next;
             final File f = new File( name );
-            if ( ( m_existing && !f.exists() )
-                || ( m_file && !f.isFile() )
-                || ( m_directory && !f.isDirectory() )
-                //|| ( m_hidden && !f.isHidden() )
-                || ( m_readable && !f.canRead() )
-                || ( m_writable && !f.canWrite() ) ) 
+            if( ( m_existing && !f.exists() )
+              || ( m_file && !f.isFile() )
+              || ( m_directory && !f.isDirectory() ) )
             {
                 throw new InvalidArgumentException( name );
             }
@@ -210,81 +192,5 @@ public class FileValidator implements Validator
     public void setFile( boolean file )
     {
         m_file = file;
-    }
-
-    /**
-     * Returns whether the argument values must represent hidden 
-     * files/directories.
-     *
-     * @return whether the argument values must represent hidden 
-     * files/directories.
-     */
-     /*
-    public boolean isHidden() 
-    {
-        return m_hidden;
-    }
-    */
-
-    /**
-     * Specifies whether the argument values must represent hidden 
-     * files/directories.
-     *
-     * @param hidden specifies whether the argument values must 
-     * represent hidden files/directories.
-     */
-     /*
-    public void setHidden( boolean hidden )
-    {
-        m_hidden = hidden;
-    }
-    */
-
-    /**
-     * Returns whether the argument values must represent readable 
-     * files/directories.
-     *
-     * @return whether the argument values must represent readable 
-     * files/directories.
-     */
-    public boolean isReadable()
-    {
-        return m_readable;
-    }
-
-    /**
-     * Specifies whether the argument values must represent readable 
-     * files/directories.
-     *
-     * @param readable specifies whether the argument values must 
-     * represent readable files/directories.
-     */
-    public void setReadable( boolean readable ) 
-    {
-        m_readable = readable;
-    }
-
-    /**
-     * Returns whether the argument values must represent writable 
-     * files/directories.
-     *
-     * @return whether the argument values must represent writable 
-     * files/directories.
-     */
-    public boolean isWritable()
-    {
-        return m_writable;
-    }
-
-    /**
-     * Specifies whether the argument values must represent writable 
-     * files/directories.
-     *
-     * @param writable specifies whether the argument values must 
-     * represent writable files/directories.
-     */
-    public void setWritable( boolean writable )
-    {
-        m_writable = writable;
     }
 }
