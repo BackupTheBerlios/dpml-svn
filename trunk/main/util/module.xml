@@ -25,8 +25,10 @@
     </types>
     <properties>
       <property name="project.test.fork" value="true"/>
+      <!--
       <property name="project.test.halt-on-error" value="false"/>
       <property name="project.test.halt-on-failure" value="false"/>
+      -->
     </properties>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>

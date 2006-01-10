@@ -269,7 +269,7 @@
   <target name="checkstyle" depends="prepare">
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
-    <x:plugin uri="artifact:plugin:dpml/depot/dpml-depot-checkstyle#SNAPSHOT">
+    <x:plugin uri="link:plugin:dpml/depot/dpml-depot-checkstyle">
       <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>

@@ -19,11 +19,56 @@
       <subsection name="Build @VERSION@">
 
         <p>
-        Important update that resolve a issue concerning binary packaging.  The milestone
-        also includes updates to the replicate task to support selection of a target 
-        layout and from this the ability to migrate the local system repository to the 
-        <tt>modern</tt> layout strategy.
+        This milestone build resolves known issues
+        related to deployment under the *nix environment and 
+        all know issues related to JDK1.5.
         </p>
+        <p>
+        Key changes include:
+        </p>
+
+        <ul>
+          <li>
+          resolved issues concerning the building of the DPML 
+          system under the Unix environment - including resolution
+          of the bootstrap script and corrections to handling of 
+          runtime tool scripts
+          </li>
+
+          <li>
+          resolved issues related to build and runtime support
+          under the JDK 1.5 environment including resolution of 
+          xslt issue in the doc task, resolving issues in the 
+          checkstyle report creation process, and resolving 
+          issues in the javadoc generation process
+          </li>
+
+          <li>
+          bumped the version of checkstyle from 3.8.1 to 4.1 
+          adding support for Java 1.5 source validation
+          </li>
+
+          <li>
+          bumped the version of Jetty from 5.1.1 to 5.1.6 and 
+          resolved a number of deprecation issues in the process
+          </li>
+      
+          <li>
+          incorporated unit test sources into the overall DPML 
+          checkstyle validation resulting in the resolution of 
+          some 9,300 formatting and test documentation issues
+          </li>
+
+          <li>
+          resolved issues concerning the CLI2 date validator
+          </li>
+
+          <li>
+          completed some outstanding TODO items concerning 
+          component context and state change listener handling
+          </li>
+
+        </ul>
 
         <table>
           <tr>
@@ -52,6 +97,42 @@
 
       </subsection>
 
+
+      <subsection name="Build 20060101">
+
+        <p>
+        Important update that resolve a issue concerning binary packaging.  The milestone
+        also includes updates to the replicate task to support selection of a target 
+        layout and from this the ability to migrate the local system repository to the 
+        <tt>modern</tt> layout strategy.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-win32-20060101.zip">
+                dpml-sdk-win32-20060101.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-win32-20060101.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-linux-20060101.tar.gz">
+                dpml-sdk-linux-20060101.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-linux-20060101.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
 
       <subsection name="Build 20051231">
 
