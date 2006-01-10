@@ -433,26 +433,32 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
             }
             
             m_parts.commission();
-            
-            //
-            // activate the children
-            //
-            
-            //Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
-            //for( int i=0; i<components.length; i++ )
-            //{
-            //    Component component = components[i];
-            //    component.activate();
-            //}
-            
             m_active = true;
         }
         catch( RemoteException e )
         {
+            getLogger().warn( "activation failed due to a remote exception", e );
             deactivate();
             final String error = 
               "Remote exception raised while attempting to access component activation policy.";
             throw new ControllerException( error, e );
+        }
+        catch( ControlException e )
+        {
+            getLogger().warn( "activation failed due to a control exception", e );
+            deactivate();
+            throw e;
+        }
+        catch( InvocationTargetException e )
+        {
+            getLogger().warn( "activation failed due to a client initated invocation exception", e );
+            deactivate();
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            getLogger().warn( "activation failed due to a unexpected exception", e );
+            deactivate();
         }
         finally
         {
