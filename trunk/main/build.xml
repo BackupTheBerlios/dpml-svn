@@ -60,7 +60,9 @@
 
   <target name="replicate" depends="standard.install">
     <property name="share.local" location="${share}/local"/>
-    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
+    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern">
+      <include ref="jgoodies"/>
+    </x:replicate>
   </target>
 
   <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">

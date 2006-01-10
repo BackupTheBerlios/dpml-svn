@@ -95,6 +95,17 @@
           </tr>  
         </table>
 
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <p>
+        Online Javadoc is available at <a href="http://api.dpml.net/dpml/@VERSION@">http://api.dpml.net/dpml/@VERSION@</a>.
+        <br/>
+        <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit </a>, <a href="http://www.dpml.net/reports/@VERSION@/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are also available.
+        </p>
+
       </subsection>
 
 
@@ -131,6 +142,17 @@
             </td>
           </tr>  
         </table>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <p>
+        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20060101">http://api.dpml.net/dpml/20060101</a>.
+        <br/>
+        <a href="http://www.dpml.net/reports/20060101/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20060101/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060101/catalog/index.html">Catalog</a> reports are also available.
+        </p>
 
       </subsection>
 
