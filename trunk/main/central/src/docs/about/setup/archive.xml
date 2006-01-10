@@ -68,6 +68,14 @@
           component context and state change listener handling
           </li>
 
+          <li>
+          fixed issued concerning missing jgoodies package
+          </li>
+
+          <li>
+          improved error reporting on component deployment failure
+          </li>
+
         </ul>
 
         <table>
