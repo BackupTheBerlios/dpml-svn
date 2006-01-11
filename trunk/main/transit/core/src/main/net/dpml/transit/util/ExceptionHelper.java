@@ -200,7 +200,10 @@ public final class ExceptionHelper
         }
 
         buffer.append( "Exception: " + e.getClass().getName() + "\n" );
-        buffer.append( "Message: " + e.getMessage() + "\n" );
+        if( null != e.getMessage() )
+        {
+            buffer.append( "Message: " + e.getMessage() + "\n" );
+        }
         packCause( buffer, getCause( e ) ).toString();
         Throwable root = getLastThrowable( e );
         if( ( root != null ) && stack )
