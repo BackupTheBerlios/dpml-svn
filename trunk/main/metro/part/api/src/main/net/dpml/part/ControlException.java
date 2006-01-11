@@ -65,5 +65,32 @@ public class ControlException extends Exception
     {
         return m_uri;
     }
+    
+   /**
+    * Iterates through exceptiion to locate the root causal exception.
+    * @return the root exception (possibly null)
+    */ 
+    public Throwable getRootCause()
+    {
+        Throwable cause = getCause();
+        if( null == cause )
+        {
+            return null;
+        }
+        else
+        {
+            while( true )
+            {
+                if( null == cause.getCause() )
+                {
+                    return cause;
+                }
+                else
+                {
+                    cause = cause.getCause();
+                }
+            }
+        }
+    }
 }
 
