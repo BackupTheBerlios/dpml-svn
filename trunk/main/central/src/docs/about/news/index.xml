@@ -15,7 +15,8 @@
       <subsection name="10 January 2005 20060110 Milstone Distribution">
 
         <p>
-        The milestone build 20060110 incorporates a series of updates dealing
+        The milestone build <a href="../setup/archive.html#Build%20%20051228">20060110</a> 
+        incorporates a series of updates dealing
         with full support for both Unix and Windows under JDK 1.5.  The 
         milestone is released with the specific objective of binary 
         distribution validation.
@@ -23,7 +24,8 @@
 
       </subsection>
 
-      <subsection name="1 January 2006 Retrospective">
+      <subsection name="31 December 2005 Retrospective">
+
         <p>
         The DPML was established is October 2004.  Initial efforts focused 
         on infrastructure and migration of the Merlin codebase out of Apache
@@ -39,7 +41,20 @@
         improvements to the build and runtime management strategies.
         </p>
 
-        <!--<p><img src="/images/news/2005.png" alt="2005"/></p>-->
+        <p>
+        Traffic on the site reflecting growth of content from the series of 
+        milestone builds producted during the third and forth quarters of 2005.
+        </p>
+
+        <p><img src="/images/news/2005-06-12-hits.png" alt="2005"/></p>
+
+        <p>
+        Session traffic was largely flat during the last quarter of 2005 
+        presumably on the grounds that the DPML is for the moment dealing 
+        with milestone as opposed to versioned builds.
+        </p>
+
+        <p><img src="/images/news/2005-06-12-sessions.png" alt="2005"/></p>
 
         <p>
         Perhaps the most important achievement of 2005 is the validation of the principal that

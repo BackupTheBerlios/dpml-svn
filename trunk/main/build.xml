@@ -69,7 +69,7 @@
     <property name="filename" value="dpml-sdk-win32-${project.version}.zip"/>
     <property name="ziploc" location="target/dist"/>
     <mkdir dir="${ziploc}"/>
-    <zip destfile="${ziploc}/${filename}">
+    <zip destfile="${ziploc}/${filename}" duplicate="fail">
       <zipfileset dir="target/bundle" prefix="dpml">
         <exclude name="share/bin/depot"/>
         <exclude name="share/bin/build"/>
