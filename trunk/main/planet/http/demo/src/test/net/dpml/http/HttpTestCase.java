@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
+import net.dpml.part.ControlException;
 
 import net.dpml.http.demo.Demo;
 
@@ -50,8 +51,29 @@ public class HttpTestCase extends TestCase
         URI uri = new File( test, PATH ).toURI();
         Controller control = Controller.STANDARD;
         Component component = control.createComponent( uri );
-        Demo demo = (Demo) component.getProvider().getValue( false );
-        component.deactivate();
+        try
+        {
+            Demo demo = (Demo) component.getProvider().getValue( false );
+        }
+        catch( ControlException e )
+        {
+            Throwable cause = e.getRootCause();
+            if( cause instanceof SecurityException )
+            {
+                final String error = 
+                  "Skipping test due to security exception."
+                  + cause.getMessage();
+                System.out.println( error );
+            }
+            else
+            {
+                throw e;
+            }
+        }
+        finally
+        {
+            component.deactivate();
+        }
     }
 
     static
