@@ -434,8 +434,11 @@ public class StationPlugin
             getLogger().warn( message );
             return;
         }
+        
         ArrayList list = new ArrayList();
         list.add( "station" );
+        list.add( "-Ddpml.logging.config=local:properties:dpml/station/logging" );
+        
         Set propertyValue = line.getProperties();
         Iterator iterator = propertyValue.iterator();
         while( iterator.hasNext() )
@@ -444,7 +447,7 @@ public class StationPlugin
             String value = line.getProperty( name );
             list.add( "-D" + name + "=" + value );
         }
-
+        
         list.add( "-server" );
         list.add( "" + port );
         URI uri = getRegistryURI( line );

@@ -146,7 +146,8 @@
   <target name="data" depends="prepare">
     <mkdir dir="${data}/cache"/>
     <mkdir dir="${data}/work"/>
-    <mkdir dir="${data}/logs"/>
+    <mkdir dir="${data}/logs/station"/>
+    <mkdir dir="${data}/logs/transit"/>
     <mkdir dir="${data}/temp"/>
   </target>
 

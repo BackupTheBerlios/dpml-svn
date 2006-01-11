@@ -21,6 +21,7 @@ package net.dpml.depot;
 import java.net.URL;
 import java.net.URI;
 import java.rmi.RMISecurityManager;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -155,6 +156,7 @@ public final class Main //implements ShutdownHandler
     private void handleStation( String[] arguments )
     {
         String name = "station";
+        new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
         if( CLIHelper.isOptionPresent( arguments, "-server" ) )
         {
             String[] args = CLIHelper.consolidate( arguments, "-server" );

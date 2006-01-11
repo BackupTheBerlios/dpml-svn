@@ -104,7 +104,7 @@ public class ConfigurationHandler
         try
         {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            properties.store( out, "DPML Logging properties" );
+            properties.store( out, "DPML Logging Properties" );
             byte[] bytes = out.toByteArray();
             ByteArrayInputStream input = new ByteArrayInputStream( bytes );
             LogManager manager = LogManager.getLogManager();
