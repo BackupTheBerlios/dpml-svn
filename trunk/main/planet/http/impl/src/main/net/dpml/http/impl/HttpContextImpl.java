@@ -136,14 +136,23 @@ public class HttpContextImpl extends HttpContext
     * @param context the deplooyment context
     * @param conf supplimentary configuration
     * @exception ConfigurationException if a configuration error occurs
+    * @exception SecurityException if the temporary directory is not writable
     */
     public HttpContextImpl( Logger logger, Context context, Configuration conf )
-        throws ConfigurationException
+        throws ConfigurationException, SecurityException
     {
         m_logger = logger;
 
         File tmpDir = context.getTempDirectory();
         tmpDir.mkdirs();
+        if( !tmpDir.canWrite() )
+        {
+            final String error = 
+              "Assigned HTTP context temporary dir is not writable."
+              + "\nDirectory: " + tmpDir;
+            throw new SecurityException( error );
+        }
+        
         setTempDirectory( tmpDir );
         ClassLoader cl = HttpContextImpl.class.getClassLoader();
         setClassLoader( cl );
