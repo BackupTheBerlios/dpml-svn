@@ -17,18 +17,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TITLE="Starting Depot $DEPOT_VERSION."
-echo $TITLE
-echo "$TITLE" | sed 's/./=/g'
-echo "             Platform: $PLATFORM"
-echo "            Java Home: $JAVA_HOME"
-echo "          DPML System: $DPML_SYSTEM"
-echo "            DPML Home: $DPML_HOME"
-echo "      Security Policy: $DEPOT_SECURITY_POLICY"
-echo "          JVM Options: $DEPOT_JVM_OPTS"
-echo "            Classpath: $DEPOT_CLASSPATH"
-echo "      Depot Arguments: $DEPOT_ARGS"
-echo ""
+if [ "$DEPOT_DEBUG" = "true" ]; then
+    TITLE="Starting Depot $DEPOT_VERSION."
+    echo $TITLE
+    echo "$TITLE" | sed 's/./=/g'
+    echo "             Platform: $PLATFORM"
+    echo "            Java Home: $JAVA_HOME"
+    echo "          DPML System: $DPML_SYSTEM"
+    echo "            DPML Home: $DPML_HOME"
+    echo "      Security Policy: $DEPOT_SECURITY_POLICY"
+    echo "          JVM Options: $DEPOT_JVM_OPTS"
+    echo "            Classpath: $DEPOT_CLASSPATH"
+    echo "      Depot Arguments: $DEPOT_ARGS"
+    echo ""
+fi
 
 JAVA="$JAVA_HOME/bin/java"
 
