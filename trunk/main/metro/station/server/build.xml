@@ -21,7 +21,6 @@
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/*.bat"/>
-        <include name="bin/server/*.*"/>
         <exclude name="**/*.exe"/>
         <exclude name="**/*.EXE"/>
       </fileset>
@@ -38,8 +37,6 @@
   <target name="bin" depends="standard.install">
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true" filtering="false">
       <fileset dir="etc">
-        <include name="bin/server/*.exe"/>
-        <include name="bin/server/*.EXE"/>
         <include name="bin/scm/**/*.*"/>
       </fileset>
     </copy>

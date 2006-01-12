@@ -115,7 +115,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
             m_handler = handler;
             try
             {
-                //handler.activate();
                 m_instance = handler.getProvider();
                 setProcessState( ProcessState.STARTED );
             }
@@ -330,14 +329,12 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
         //
         
         Properties properties = m_descriptor.getSystemProperties();
+        properties.setProperty( "dpml.subprocess", "true" );
         if( null == properties.getProperty( "java.util.logging.config.class" ) )
         {
             properties.setProperty( 
               "java.util.logging.config.class", 
               "net.dpml.depot.DepotLoggingConfiguration" );
-            properties.setProperty(
-              "dpml.subprocess",
-              "true" );
         }
         Enumeration names = properties.propertyNames();
         while( names.hasMoreElements() )
@@ -372,13 +369,11 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     */
     public void stop() throws RemoteException
     {
-        getLogger().info( "stop" );
         handleStop( true );
     }
     
     void shutdown() throws IOException
     {
-        getLogger().info( "shutdown requested" );
         try
         {
             handleStop( false );
@@ -397,7 +392,6 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
     
     private void handleStop( boolean check ) throws ApplicationException
     {
-        getLogger().info( "stop requested" );
         synchronized( m_state )
         {
             if( m_state.equals( ProcessState.IDLE ) )
@@ -410,6 +404,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
             }
             else
             {
+                getLogger().info( "stopping application" );
                 setProcessState( ProcessState.STOPPING );
                 if( m_handler != null )
                 {

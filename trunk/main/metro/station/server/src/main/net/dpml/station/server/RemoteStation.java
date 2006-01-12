@@ -79,8 +79,8 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         m_port = port;
         m_store = registryStorageUrl;
         
-        
         m_rmiRegistry = getLocalRegistry( port );
+        
         try
         {
             m_rmiRegistry.bind( STATION_KEY, this );
@@ -199,9 +199,9 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
                 m_terminated = true;
             }
             
-            if( getLogger().isDebugEnabled() )
+            if( getLogger().isInfoEnabled() )
             {
-                getLogger().debug( "handling shutdown request" );
+                getLogger().info( "initiating station shutdown" );
             }
             
             try
@@ -236,11 +236,11 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             }
             finally
             {
-                if( getLogger().isDebugEnabled() )
+                if( getLogger().isInfoEnabled() )
                 {
-                    getLogger().debug( "shutdown complete" );
+                    getLogger().info( "station shutdown complete" );
                 }
-            
+                
                 if( exit )
                 {
                     if( getLogger().isDebugEnabled() )
