@@ -163,9 +163,8 @@ public class TransitConsoleHandler
         StringBuffer buffer = new StringBuffer();
         
         buffer.append( "\n\n  Version " + Transit.VERSION );
-        
-        buffer.append( "\n\n  Environment" );
-        buffer.append( "\n\n    ${dpml.home} \t" + Transit.DPML_HOME );
+        buffer.append( "\n\n  Environment\n" );
+        buffer.append( "\n    ${dpml.home} \t" + Transit.DPML_HOME );
         buffer.append( "\n    ${dpml.data} \t" + Transit.DPML_DATA );
         buffer.append( "\n    ${dpml.prefs} \t" + Transit.DPML_PREFS );
         buffer.append( "\n    ${dpml.system} \t" + Transit.DPML_SYSTEM );
@@ -206,11 +205,11 @@ public class TransitConsoleHandler
         
         CacheDirective cache = m_directive.getCacheDirective();
         
-        buffer.append( "\n\n  Cache and System Settings" );
-        buffer.append( "\n\n    Cache Directory: \t" + cache.getCache() );
+        buffer.append( "\n\n  Cache and System Settings\n" );
         buffer.append( "\n    Cache Layout: \t" + cache.getCacheLayout() );
+        buffer.append( "\n    Cache Directory: \t" + cache.getCache() );
         buffer.append( "\n    System Directory: \t" + cache.getLocal() );
-        buffer.append( "\n    Repository Layout: \t" + cache.getLocalLayout() );
+        buffer.append( "\n    System Layout: \t" + cache.getLocalLayout() );
         
         HostDirective[] hosts = cache.getHostDirectives();
         if( hosts.length > 0 )
