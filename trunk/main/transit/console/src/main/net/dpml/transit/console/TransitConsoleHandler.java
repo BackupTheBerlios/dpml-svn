@@ -161,6 +161,15 @@ public class TransitConsoleHandler
     private void processInfo( CommandLine line )
     {
         StringBuffer buffer = new StringBuffer();
+        
+        buffer.append( "\n\n  Version " + Transit.VERSION );
+        
+        buffer.append( "\n\n  Environment" );
+        buffer.append( "\n\n    ${dpml.home} \t" + Transit.DPML_HOME );
+        buffer.append( "\n    ${dpml.data} \t" + Transit.DPML_DATA );
+        buffer.append( "\n    ${dpml.prefs} \t" + Transit.DPML_PREFS );
+        buffer.append( "\n    ${dpml.system} \t" + Transit.DPML_SYSTEM );
+        
         ProxyDirective proxy = m_directive.getProxyDirective();
         if( null != proxy )
         {
