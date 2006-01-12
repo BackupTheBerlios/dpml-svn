@@ -449,7 +449,7 @@ public class StationPlugin
         }
         
         list.add( "-server" );
-        list.add( "" + port );
+        list.add( "-port " + port );
         URI uri = getRegistryURI( line );
         if( null != uri )
         {
