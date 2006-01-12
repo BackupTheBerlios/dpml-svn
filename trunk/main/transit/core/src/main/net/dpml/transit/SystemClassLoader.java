@@ -76,7 +76,17 @@ public final class SystemClassLoader extends StandardClassLoader
             URL url = urls[i];
             if( !list.contains( url ) )
             {
-                addURL( url );
+                try
+                {
+                    url.getContent();
+                    addURL( url );
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Failed to resolve url " + url;
+                    System.err.println( error );
+                }
             }
         }
     }

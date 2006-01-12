@@ -183,8 +183,29 @@ public class RepositoryMonitorAdapter extends AbstractAdapter
                 for( int i=0; i < urls.length; i++ )
                 {
                     URL url = urls[i];
-                    buffer.append( "\n(" + i + ") " + url.toString() );
+                    buffer.append( "\n  [" + i + "] \t" + url.toString() );
                 }
+            }
+            getAdapter().debug( buffer.toString() );
+        }
+    }
+    
+   /**
+    * Handle notification of system classloader expansion.
+    * @param plugin the uri of the plugin requesting system classloader expansion
+    * @param urls the array of urls added to the system classloader
+    */
+    public void systemExpanded( URI plugin, URL[] urls )
+    {
+        if( getAdapter().isDebugEnabled() )
+        {
+            StringBuffer buffer = new StringBuffer();
+            buffer.append( "system classloader expansion" );
+            buffer.append( "\n  plugin: " + plugin );
+            for( int i=0; i<urls.length; i++ )
+            {
+                int n = i+1;
+                buffer.append( "\n  [" + n + "] \t" + urls[i] );
             }
             getAdapter().debug( buffer.toString() );
         }

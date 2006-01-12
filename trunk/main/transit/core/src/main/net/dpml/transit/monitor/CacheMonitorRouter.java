@@ -103,7 +103,7 @@ public class CacheMonitorRouter extends AbstractMonitorRouter
     * @param artifact the requested artifact
     * @param cause the cause of the failure
     */ 
-    public void failedDownloadFromHost( String host, Artifact artifact, Exception cause )
+    public void failedDownloadFromHost( String host, Artifact artifact, Throwable cause )
     {
         Monitor[] monitors = getMonitors();
         for( int i=0; i < monitors.length; i++ )

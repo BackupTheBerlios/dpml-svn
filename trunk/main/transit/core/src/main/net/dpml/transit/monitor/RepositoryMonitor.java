@@ -19,6 +19,7 @@
 package net.dpml.transit.monitor;
 
 import java.net.URI;
+import java.net.URL;
 
 import java.lang.reflect.Constructor;
  
@@ -76,4 +77,11 @@ public interface RepositoryMonitor extends Monitor
     * @param classloader the new classloader 
     */
     void classloaderConstructed( String type, ClassLoader classloader );
+    
+   /**
+    * Handle notification of system classloader expansion.
+    * @param plugin the uri of the plugin requesting system classloader expansion
+    * @param urls the array of urls added to the system classloader
+    */
+    void systemExpanded( URI plugin, URL[] urls );
 }

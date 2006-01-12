@@ -597,7 +597,7 @@ class StandardLoader implements Repository
 
         URI[] systemArtifacts = descriptor.getDependencies( Category.SYSTEM );
         URL[] sysUrls = getURLs( systemArtifacts );
-        updateSystemClassLoader( sysUrls );
+        updateSystemClassLoader( plugin, sysUrls );
 
         URI[] apiArtifacts = descriptor.getDependencies( Category.PUBLIC );
         URL[] apis = getURLs( apiArtifacts  );
@@ -614,20 +614,24 @@ class StandardLoader implements Repository
         return classloader;
     }
 
-    private void updateSystemClassLoader( URL[] urls ) throws TransitException
+    private void updateSystemClassLoader( URI plugin, URL[] urls ) throws TransitException
     {
         ClassLoader parent = ClassLoader.getSystemClassLoader();
-        if( parent instanceof SystemClassLoader )
+        synchronized( parent )
         {
-            SystemClassLoader loader = (SystemClassLoader) parent;
-            loader.addDelegates( urls );
-        }
-        else
-        {
-            final String message =
-              "Cannot load system artifacts into a foreign classloader.";
-            getMonitor().sequenceInfo( message );
-            //throw new TransitException( error );
+            if( parent instanceof SystemClassLoader )
+            {
+                SystemClassLoader loader = (SystemClassLoader) parent;
+                loader.addDelegates( urls );
+                getMonitor().systemExpanded( plugin, urls );
+            }
+            else
+            {
+                final String message =
+                  "Cannot load system artifacts into a foreign classloader.";
+                getMonitor().sequenceInfo( message );
+                //throw new TransitException( error );
+            }
         }
     }
 
@@ -658,10 +662,6 @@ class StandardLoader implements Repository
     */
     private ClassLoader buildClassLoader( URI plugin, Category category, ClassLoader parent, URL[] urls )
     {
-        //ClassLoader loader = new StandardClassLoader( category, urls, parent );
-        //getMonitor().classloaderConstructed( category.toString(), loader );
-        //return loader;
-
         if( 0 == urls.length )
         {
             return parent;

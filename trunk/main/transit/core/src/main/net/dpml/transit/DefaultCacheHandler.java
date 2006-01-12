@@ -568,13 +568,14 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         {
             return false;
         }
+        
+        CacheMonitorRouter monitor = Transit.getInstance().getCacheMonitorRouter();
+        
         File parentDir = destination.getParentFile();
         File tempFile = File.createTempFile( "~dpml", ".tmp", parentDir );
         tempFile.deleteOnExit(); // safety harness in case we abort abnormally
-                                 // like a Ctrl-C.
         FileOutputStream tempOut = new FileOutputStream( tempFile );
-
-        CacheMonitorRouter monitor = Transit.getInstance().getCacheMonitorRouter();
+        
         try
         {
             Date lastModified = host.download( artifact, tempOut );
@@ -584,7 +585,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
             destination.setLastModified( lastModified.getTime() );
             return true;
         }
-        catch( IOException e )
+        catch( Throwable e )
         {
             tempFile.delete();
             if( monitor != null )

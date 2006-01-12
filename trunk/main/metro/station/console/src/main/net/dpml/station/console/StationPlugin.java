@@ -441,6 +441,7 @@ public class StationPlugin
         list.add( "" + port );
         
         list.add( "-Ddpml.logging.config=local:properties:dpml/station/logging" );
+        list.add( "-Ddpml.subprocess=true" );
         Set propertyValue = line.getProperties();
         Iterator iterator = propertyValue.iterator();
         while( iterator.hasNext() )

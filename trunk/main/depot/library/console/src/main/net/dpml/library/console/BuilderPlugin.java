@@ -67,7 +67,6 @@ public class BuilderPlugin
     private final DefaultLibrary m_library;
     
     private boolean m_verbose;
-    private Builder m_builder;
     
     // ------------------------------------------------------------------------
     // constructors
@@ -113,17 +112,6 @@ public class BuilderPlugin
                     }
                 }
                 
-                //
-                // setup the default project builder
-                //
-                
-                URI uri = (URI) line.getValue( BUILDER_URI_OPTION, ANT_BUILDER_URI );
-                m_builder = createBuilder( uri );
-                
-                //
-                // resolve and build the sorted set of projects
-                //
-                
                 if( line.hasOption( LIST_OPTION ) )
                 {
                     Resource[] resources = getTargetSelection( line );
@@ -136,7 +124,6 @@ public class BuilderPlugin
                     {
                         list( resources );
                     }
-                    
                 }
                 else
                 {
@@ -267,8 +254,11 @@ public class BuilderPlugin
     * @param line the commandline
     * @param resources the sorted sequence of prouject to build
     */
-    private void process( CommandLine line, Resource[] resources )
+    private void process( CommandLine line, Resource[] resources ) throws Exception
     {
+        URI uri = (URI) line.getValue( BUILDER_URI_OPTION, ANT_BUILDER_URI );
+        Builder builder = createBuilder( uri );
+        
         if( resources.length > 1 )
         {
             StringBuffer buffer = 
@@ -281,12 +271,13 @@ public class BuilderPlugin
             buffer.append( "\n" );
             getLogger().info( buffer.toString() );
         }
+        
         List list = line.getValues( TARGETS );
         String[] targets = (String[]) list.toArray( new String[ list.size() ] );
         for( int i=0; i<resources.length; i++ )
         {
             Resource resource = resources[i];
-            boolean status = m_builder.build( resource, targets );
+            boolean status = builder.build( resource, targets );
             if( !status )
             {
                 return;

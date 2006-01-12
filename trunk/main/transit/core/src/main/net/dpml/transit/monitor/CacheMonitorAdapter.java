@@ -97,7 +97,7 @@ public class CacheMonitorAdapter extends AbstractAdapter
     * @param artifact the requested artifact
     * @param e the exception causing the failure
     */
-    public void failedDownloadFromHost( String host, Artifact artifact, Exception e )
+    public void failedDownloadFromHost( String host, Artifact artifact, Throwable e )
     {
         if( getAdapter().isDebugEnabled() )
         {

@@ -335,6 +335,9 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
             properties.setProperty( 
               "java.util.logging.config.class", 
               "net.dpml.depot.DepotLoggingConfiguration" );
+            properties.setProperty(
+              "dpml.subprocess",
+              "true" );
         }
         Enumeration names = properties.propertyNames();
         while( names.hasMoreElements() )

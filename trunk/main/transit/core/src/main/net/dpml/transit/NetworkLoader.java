@@ -80,6 +80,7 @@ class NetworkLoader
                 throw new IOException( "Not authorized." );
             }
         }
+        
         InputStream in = connection.getInputStream();
         int expected = connection.getContentLength();
         StreamUtils.copyStream( m_monitor, url, expected, in, destination, true );

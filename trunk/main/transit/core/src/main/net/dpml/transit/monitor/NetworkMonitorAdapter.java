@@ -46,13 +46,13 @@ public class NetworkMonitorAdapter extends AbstractAdapter
     // NetworkMonitor
     // ------------------------------------------------------------------------
 
-    /**
-     * Handle the notification of an update in the download status.
-     *
-     * @param resource the name of the remote resource being downloaded.
-     * @param expected the expected number of bytes to be downloaded.
-     * @param count the number of bytes downloaded.
-     */
+   /**
+    * Handle the notification of an update in the download status.
+    *
+    * @param resource the name of the remote resource being downloaded.
+    * @param expected the expected number of bytes to be downloaded.
+    * @param count the number of bytes downloaded.
+    */
     public void notifyUpdate( URL resource, int expected, int count )
     {
         getAdapter().notify( resource, expected, count );
@@ -64,13 +64,9 @@ public class NetworkMonitorAdapter extends AbstractAdapter
      */
     public void notifyCompletion( URL resource )
     {
-        if( resource.toString().startsWith( "file:" ) )
+        if( getAdapter().isDebugEnabled() )
         {
-            getAdapter().debug( "located: " + resource );
-        }
-        else if( getAdapter().isInfoEnabled() )
-        {
-            getAdapter().info( "downloaded: " + resource );
+            getAdapter().debug( "downloaded: " + resource );
         }
     }
 }

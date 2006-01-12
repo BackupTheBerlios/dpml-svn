@@ -84,7 +84,7 @@ public final class Main //implements ShutdownHandler
         String[] args = arguments;
         
         //
-        // check for debug mode and tools flag
+        // check for debug mode
         //
         
         if( CLIHelper.isOptionPresent( args, "-debug" ) )
@@ -134,7 +134,7 @@ public final class Main //implements ShutdownHandler
         String[] args = processSystemProperties( arguments );
         String name = "build";
         String spec = "@DEPOT-BUILDER-URI@";
-        handlePlugin( name, spec, args, false, true );
+        handlePlugin( name, spec, args, false );
     }
 
     private void handleMetro( String[] arguments )
@@ -142,7 +142,7 @@ public final class Main //implements ShutdownHandler
         String[] args = processSystemProperties( arguments );
         String name = "metro";
         String spec = "@DEPOT-EXEC-URI@";
-        handlePlugin( name, spec, args );
+        handlePlugin( name, spec, args, true );
     }
 
     private void handleTransit( String[] arguments )
@@ -162,7 +162,7 @@ public final class Main //implements ShutdownHandler
             String[] args = CLIHelper.consolidate( arguments, "-server" );
             args = processSystemProperties( args );
             String spec = "@DEPOT-STATION-SERVER-URI@";
-            handlePlugin( name, spec, args );
+            handlePlugin( name, spec, args, true );
         }
         else
         {
@@ -171,24 +171,10 @@ public final class Main //implements ShutdownHandler
         }
     }
 
-    private void handlePlugin( String name, String spec, String[] args )
-    {
-        handlePlugin( name, spec, args, true );
-    }
-
     private void handlePlugin( String name, String spec, String[] args, boolean wait )
     {
-        handlePlugin( name, spec, args, wait, false );
-    }
-    
-    private void handlePlugin( String name, String spec, String[] args, boolean wait, boolean tools )
-    {
-        if( tools )
-        {
-            System.setProperty( "dpml.transit.include.tools", "true" );
-        }
         System.setSecurityManager( new RMISecurityManager() );
-        boolean waitForCompletion = deployHandler( name, spec, args, wait, tools );
+        boolean waitForCompletion = deployHandler( name, spec, args, wait );
         if( !waitForCompletion )
         {
             System.exit( 0 );
@@ -196,7 +182,7 @@ public final class Main //implements ShutdownHandler
     }
 
     private boolean deployHandler( 
-      String command, String path, String[] args, boolean waitFor, boolean tools )
+      String command, String path, String[] args, boolean waitFor )
     {
         Logger logger = getLogger().getChildLogger( command );
         if( m_debug )

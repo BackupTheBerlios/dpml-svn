@@ -70,7 +70,7 @@ public interface CacheMonitor extends Monitor
     * @param artifact the requested artifact
     * @param cause the exception causing the failure
     */
-    void failedDownloadFromHost( String host, Artifact artifact, Exception cause );
+    void failedDownloadFromHost( String host, Artifact artifact, Throwable cause );
 
    /**
     * Notify the monitor of a failed download attempt.

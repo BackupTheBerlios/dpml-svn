@@ -244,7 +244,12 @@ public class LoggingAdapter implements Adapter
      */
     public void notify( URL resource, int total, int count )
     {
-        if( isAnt() || ( null != System.getProperty( "dpml.spawn" ) ) )
+        String path = resource.toString();
+        if( path.startsWith( "file:" ) )
+        {
+            return;
+        }
+        if( isAnt() || ( "true".equals( System.getProperty( "dpml.subprocess" ) ) ) )
         {
             if( count == 0 )
             {
@@ -252,17 +257,15 @@ public class LoggingAdapter implements Adapter
             }
             return;
         }
-
+        
         if( isInfoEnabled() )
         {
             String max = getFranctionalValue( total );
-
             String value = getFranctionalValue( count );
             int pad = max.length() - value.length();
             String level = getLogHeader();
             String process = getProcessHeader();
             StringBuffer buffer = new StringBuffer( process + level );
-            String path = resource.toString();
             String name = path.substring( path.lastIndexOf( '/' ) + 1 );
             buffer.append( "(" + m_logger.getName() + "): " );
             buffer.append( "retrieving: " + name + " " );
@@ -351,6 +354,8 @@ public class LoggingAdapter implements Adapter
     */
     private boolean isAnt()
     {
+        return null != System.getProperty( "ant.home" );
+        /*
         try
         {
             ClassLoader.getSystemClassLoader().loadClass( "org.apache.tools.ant.launch.AntMain" );
@@ -360,6 +365,7 @@ public class LoggingAdapter implements Adapter
         {
             return false;
         }
+        */
     }
 
    /**

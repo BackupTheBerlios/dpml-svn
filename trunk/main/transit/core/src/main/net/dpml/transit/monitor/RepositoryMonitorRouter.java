@@ -19,6 +19,7 @@
 package net.dpml.transit.monitor;
 
 import java.net.URI;
+import java.net.URL;
 import java.lang.reflect.Constructor;
  
 /**
@@ -135,6 +136,21 @@ public class RepositoryMonitorRouter extends AbstractMonitorRouter
         {
             RepositoryMonitor monitor = (RepositoryMonitor) monitors[i];
             monitor.classloaderConstructed( type, classloader );
+        }
+    }
+
+   /**
+    * Handle notification of system classloader expansion.
+    * @param plugin the uri of the plugin requesting system classloader expansion
+    * @param urls the array of urls added to the system classloader
+    */
+    public void systemExpanded( URI plugin, URL[] urls )
+    {
+        Monitor[] monitors = getMonitors();
+        for( int i=0; i < monitors.length; i++ )
+        {
+            RepositoryMonitor monitor = (RepositoryMonitor) monitors[i];
+            monitor.systemExpanded( plugin, urls );
         }
     }
 
