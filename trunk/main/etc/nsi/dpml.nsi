@@ -15,25 +15,26 @@
 ; limitations under the License.
 
 !define ALL_USERS
-
 !define TEMP $R0
+!define VERSION '@PROJECT-VERSION@'
 
 !include "WriteEnvStr.nsh"
-!include "PathMunge.nsh"
+!include "PathManipulation.nsh"
 !include "MUI.nsh"
 
 ;--------------------------------
 ;Configuration
 
   ;General
-  Name "DPML SDK @PROJECT-VERSION@"
+  Name "DPML SDK"
+  Caption "DPML SDK (${VERSION}) Setup"
   OutFile "dpml-sdk-@PROJECT-VERSION@.exe"
 
   ;Folder selection page
-  InstallDir "C:\dpml"
-  
+  InstallDir $PROGRAMFILES\DPML
+ 
   ;Remember install folder
-  InstallDirRegKey HKCU "Software\DPML\@PROJECT-VERSION@" ""
+  InstallDirRegKey HKLM "Software\DPML" ""
 
 ;--------------------------------
 ;Variables
@@ -57,7 +58,7 @@
 
   ;Start Menu Folder Page Configuration
   !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU"
-  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Modern UI Test"
+  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\DPML"
   !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 
   !insertmacro MUI_PAGE_STARTMENU Application $STARTMENU_FOLDER
@@ -79,6 +80,9 @@
 ;Language Strings
 
   ;Description
+  LangString DESC_SecData  ${LANG_ENGLISH} "Installs Local data"
+  LangString DESC_SecPrefs  ${LANG_ENGLISH} "Installs Default Preferences"
+  LangString DESC_SecShare  ${LANG_ENGLISH} "Installs Shared Libraries"
   LangString DESC_SecPlatform ${LANG_ENGLISH} "Installs Transit Resource Management, Depot Build Management, Metro Runtime and the Station Application Controller"
   LangString DESC_SecStation  ${LANG_ENGLISH} "Installs Station SCM"
   LangString DESC_SecDoc      ${LANG_ENGLISH} "Installs Platform and API Documentation"
@@ -86,13 +90,13 @@
 ;--------------------------------
 ;Installer Sections
 
-Section "platform" SecPlatform
+Section "-platform" SecPlatform
 
   SetOutPath $INSTDIR
   File  ..\bundle\README.txt
   File  ..\bundle\LICENSE.txt
   File  ..\bundle\NOTICE.txt
-
+  
   Push "DPML_HOME"
   Push $INSTDIR
   Call WriteEnvStr
@@ -100,30 +104,66 @@ Section "platform" SecPlatform
   Push $INSTDIR\share\bin
   Call AddToPath
 
-  ;Store install folder
-  WriteRegStr HKCU "Software\DPML" "" $INSTDIR
-
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Home (local).lnk" "$INSTDIR\share\docs\index.html"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Platform API.lnk" "$INSTDIR\share\docs\api\dpml\@PROJECT-VERSION@\index.html"
-
   !insertmacro MUI_STARTMENU_WRITE_END
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
-  SetOutPath $INSTDIR
-  File /r ..\bundle\*
-
 SectionEnd
+
+Section "data" SecData
+  SectionIn RO
+  SetOutPath $INSTDIR\data
+  File /nonfatal /r  ..\bundle\data\*
+SectionEND
+
+Section "prefs" SecPrefs
+  SectionIn RO
+  SetOutPath $INSTDIR\prefs
+  File /r ..\bundle\prefs\*
+SectionEND
+
+Section "share" SecShare
+  SectionIn RO
+  SetOutPath $INSTDIR\share\bin
+  File ..\bundle\share\bin\security.policy
+  File ..\bundle\share\bin\transit.exe
+  File ..\bundle\share\bin\transit.lap
+  File ..\bundle\share\bin\depot.exe
+  File ..\bundle\share\bin\depot.lap
+  File ..\bundle\share\bin\build.exe
+  File ..\bundle\share\bin\build.lap
+  File ..\bundle\share\bin\metro.exe
+  File ..\bundle\share\bin\metro.lap
+  File ..\bundle\share\bin\station.exe
+  File ..\bundle\share\bin\station.lap
+  SetOutPath $INSTDIR\share\bin\scm
+  File /r ..\bundle\share\bin\scm\*
+  SetOutPath $INSTDIR\share\lib
+  File /r ..\bundle\share\lib\*
+  SetOutPath $INSTDIR\share\local
+  File /r ..\bundle\share\local\*
+SectionEND
+
+Section "docs" SecDoc
+  SetOutPath $INSTDIR\share\docs
+  File /r ..\bundle\share\docs\*
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Home (local).lnk" "$INSTDIR\share\docs\index.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Platform API.lnk" "$INSTDIR\share\docs\api\dpml\@PROJECT-VERSION@\index.html"
+  !insertmacro MUI_STARTMENU_WRITE_END
+SectionEND
 
 Section "station scm" SecStation
   Exec "$INSTDIR\share\bin\scm\wrapper.exe -i $INSTDIR\share\bin\scm\conf\wrapper.conf"
+SectionEND
+
+Section "-post"
+  WriteRegStr HKLM "Software\DPML" "" $INSTDIR
 SectionEND
 
 ;--------------------------------
@@ -144,22 +184,13 @@ Section "Uninstall"
   Push "DPML_HOME"
   Call un.DeleteEnvStr
 
-  Push $INSTDIR\bin
+  Push $INSTDIR\share\bin
   Call un.RemoveFromPath
 
   !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
 
   Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
   RMDir /r "$SMPROGRAMS\$MUI_TEMP"
-
   RMDir /r $INSTDIR
   
 SectionEnd
-
-; todo:
-;    Check for JVM and Version.  Install endorsed jars if needed
-;      see  http://nsis.sourceforge.net/archive/nsisweb.php?page=543&instances=0
-;    Check for if we are installing for one user or many
-;    Install a default app that includes the facilities
-
-; eof
