@@ -25,7 +25,7 @@ Function AddToPath
   Push $2
   Push $3
 
-  MessageBox MB_OK|MB_ICONINFORMATION "Starting path processing."
+  #MessageBox MB_OK|MB_ICONINFORMATION "Starting path processing."
 
   # don't add if the path doesn't exist
   #IfFileExists "$0\*.*" "" FileDoesNotExist
@@ -39,38 +39,38 @@ Function AddToPath
   Push "$0;"
   Call StrStr
   Pop $2
-  DetailPrint "Checkpoint 1."
-  MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
-  MessageBox MB_OK|MB_ICONINFORMATION "search: $0"
-  MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
+  #DetailPrint "Checkpoint 1."
+  #MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
+  #MessageBox MB_OK|MB_ICONINFORMATION "search: $0"
+  #MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
   StrCmp $2 "" "" AddToPath_done
   Push "$1;"
   Push "$0\;"
   Call StrStr
   Pop $2
-  DetailPrint "Checkpoint 2."
-  MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
-  MessageBox MB_OK|MB_ICONINFORMATION "search: $0"
-  MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
+  #DetailPrint "Checkpoint 2."
+  #MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
+  #MessageBox MB_OK|MB_ICONINFORMATION "search: $0"
+  #MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
   StrCmp $2 "" "" AddToPath_done
-  GetFullPathName /SHORT $3 $0
-  Push "$1;"
-  Push "$3;"
-  Call StrStr
-  Pop $2
-  DetailPrint "Checkpoint 3."
-  MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
-  MessageBox MB_OK|MB_ICONINFORMATION "search: $3"
-  MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
-  StrCmp $2 "" "" AddToPath_done
+  #GetFullPathName /SHORT $3 $0
+  #Push "$1;"
+  #Push "$3;"
+  #Call StrStr
+  #Pop $2
+  #DetailPrint "Checkpoint 3."
+  #MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
+  #MessageBox MB_OK|MB_ICONINFORMATION "search: $3"
+  #MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
+  #StrCmp $2 "" "" AddToPath_done
   Push "$1;"
   Push "$3\;"
   Call StrStr
   Pop $2
-  DetailPrint "Checkpoint 4."
-  MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
-  MessageBox MB_OK|MB_ICONINFORMATION "search: $3"
-  MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
+  #DetailPrint "Checkpoint 4."
+  #MessageBox MB_OK|MB_ICONINFORMATION "context: $1"
+  #MessageBox MB_OK|MB_ICONINFORMATION "search: $3"
+  #MessageBox MB_OK|MB_ICONINFORMATION "result: $2"
   StrCmp $2 "" "" AddToPath_done
 
   Call IsNT
@@ -90,7 +90,7 @@ Function AddToPath
     Goto AddToPath_done
 
   AddToPath_NT:
-    MessageBox MB_OK|MB_ICONINFORMATION "Reading NT Path"
+    #MessageBox MB_OK|MB_ICONINFORMATION "Reading NT Path"
     ReadRegStr $1 ${WriteEnvStr_RegKey} "PATH"
     StrCpy $2 $1 1 -1 # copy last char
     StrCmp $2 ";" 0 +2 # if last char == ;
@@ -102,7 +102,7 @@ Function AddToPath
       SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
 
   AddToPath_done:
-    MessageBox MB_OK|MB_ICONINFORMATION "Add to path - DONE"
+    #MessageBox MB_OK|MB_ICONINFORMATION "Add to path - DONE"
     Pop $3
     Pop $2
     Pop $1
