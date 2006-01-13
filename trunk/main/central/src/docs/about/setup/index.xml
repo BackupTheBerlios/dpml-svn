@@ -36,7 +36,14 @@
 
         <table>
           <tr>
-            <td>Windows</td>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
+                dpml-sdk-win32-@VERSION@.exe</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Windows Zip Archive</td>
             <td>
               <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
                 dpml-sdk-win32-@VERSION@.zip</a>
@@ -47,7 +54,7 @@
             </td>
           </tr>  
           <tr>
-            <td>Linux</td>
+            <td>Linux Archive</td>
             <td>
               <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
                 dpml-sdk-linux-@VERSION@.tar.gz</a>
