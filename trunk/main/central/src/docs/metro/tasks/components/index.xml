@@ -107,7 +107,7 @@
             <td>Declaration of a default parameters instance.</td>
           </tr>
           <tr>
-            <td><tt><a href="context.html">context</a></tt></td>
+            <td><tt><a href="context/index.html">context</a></tt></td>
             <td>Declaration of the component initial context state.</td>
           </tr>
         </table>

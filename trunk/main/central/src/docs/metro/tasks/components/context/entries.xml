@@ -37,8 +37,8 @@
                 the container to resolve a service instance type assignable to 
                 the <tt>Widget</tt> interface.  May not be used in conjunction 
                 with the class, method, or value attributes or nested values.
-                Supported uri schemes include: <tt>service:[interface]</tt>
-                and <tt>registry:[path]</tt>.
+                Supported uri schemes include: <tt><strong>lookup:</strong>[interface]
+                </tt> and <tt><strong>registry:</strong>[path]</tt>.
             </td>
           </tr>
           <tr>

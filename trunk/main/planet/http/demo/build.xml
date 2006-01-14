@@ -50,14 +50,14 @@
         <component type="net.dpml.http.impl.SocketListener" key="socketListener" collection="hard"
             activation="false">
           <context>
-            <entry key="httpServer" uri="service:net.dpml.http.spi.HttpService"/>
+            <entry key="httpServer" uri="lookup:net.dpml.http.spi.HttpService"/>
             <entry key="port" value="8080"/>
           </context>
         </component>
         <component key="context" type="net.dpml.http.impl.HttpContextImpl" collection="hard">
           <context>
-            <entry key="server" uri="service:net.dpml.http.spi.HttpService"/>
-            <entry key="requestLog" uri="service:org.mortbay.http.RequestLog"/>
+            <entry key="server" uri="lookup:net.dpml.http.spi.HttpService"/>
+            <entry key="requestLog" uri="lookup:org.mortbay.http.RequestLog"/>
             <entry key="tempDirectory" value="$${java.io.tmpdir}/http/context"/>
             <entry key="contextPath" value="/"/>
             <entry key="gracefulStop" value="true"/>
@@ -68,13 +68,13 @@
             <entry key="name" value="resource-handler"/>
             <entry key="dirAllowed" value="true"/>
             <entry key="allowedMethods" value="GET"/>
-            <entry key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
+            <entry key="httpContext" uri="lookup:net.dpml.http.spi.HttpContextService"/>
           </context>
         </component>
         <component key="notFoundHandler" type="net.dpml.http.impl.NotFoundHandler" collection="hard">
           <context>
             <entry key="name" value="not-found-handler"/>
-            <entry key="httpContext" uri="service:net.dpml.http.spi.HttpContextService"/>
+            <entry key="httpContext" uri="lookup:net.dpml.http.spi.HttpContextService"/>
           </context>
         </component>
       </parts>
