@@ -12,12 +12,23 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="13 January 2005 20060113 Milstone Distribution">
+
+        <p>
+        The <a href="../setup/archive.html#Build%20%20060113">20060113</a> 
+        milestone resolves some installation issues under Unix and closes 
+        an obscure bug in Transit resource management layer.  This milestone 
+        also includes a Windows installer.
+        </p>
+
+      </subsection>
+
       <subsection name="10 January 2005 20060110 Milstone Distribution">
 
         <p>
-        The milestone build <a href="../setup/archive.html#Build%20%20051228">20060110</a> 
-        incorporates a series of updates dealing
-        with full support for both Unix and Windows under JDK 1.5.  The 
+        The milestone build <a href="../setup/archive.html#Build%20%20051228">
+        20060110</a> incorporates a series of updates dealing with 
+        full support for both Unix and Windows under JDK 1.5.  The 
         milestone is released with the specific objective of binary 
         distribution validation.
         </p>

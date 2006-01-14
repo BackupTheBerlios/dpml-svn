@@ -23,7 +23,7 @@
         </tr>
         <tr>
           <td><a href="../../reports/@VERSION@/junit/index.html">JUnit</a></td>
-          <td>Contains the ressults of JUnit tests.</td>
+          <td>Contains the results of JUnit tests.</td>
         </tr>
         <tr>
           <td><a href="../../api/dpml/@VERSION@/index.html">Javadoc</a></td>
