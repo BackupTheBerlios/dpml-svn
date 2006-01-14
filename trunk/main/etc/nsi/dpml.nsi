@@ -28,7 +28,7 @@
   ;General
   Name "DPML SDK"
   Caption "DPML SDK (${VERSION}) Setup"
-  OutFile "dpml-sdk-@PROJECT-VERSION@.exe"
+  OutFile "dpml-sdk-win32-@PROJECT-VERSION@.exe"
 
   ;Folder selection page
   InstallDir $PROGRAMFILES\DPML
