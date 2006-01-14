@@ -240,7 +240,7 @@
           </component>
           <component key="listener" type="net.dpml.test.app.DefaultListener">
             <context>
-              <entry key="server" uri="service:net.dpml.test.app.Server"/>
+              <entry key="server" uri="lookup:net.dpml.test.app.Server"/>
             </context>
           </component>
         </parts>

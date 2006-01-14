@@ -631,7 +631,7 @@ class ComponentController
                     ReferenceDirective ref = (ReferenceDirective) directive;
                     URI uri = ref.getURI();
                     String scheme = uri.getScheme();
-                    if( "service".equals( scheme ) )
+                    if( "service".equals( scheme ) || "lookup".equals( scheme ) )
                     {
                         String spec = uri.getSchemeSpecificPart();
                         ServiceDescriptor request = new ServiceDescriptor( spec );
