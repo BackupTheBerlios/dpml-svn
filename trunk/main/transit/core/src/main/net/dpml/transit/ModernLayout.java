@@ -53,21 +53,19 @@ public class ModernLayout
             }
             else
             {
-                String group = artifact.getGroup();
-                group = group.replace( '.', '/' );
+                String group = getGroupPath( artifact );
                 return group + "/" + artifact.getName();
             }
         }
         else
         {
-            if( null == artifact.getGroup() )
+            if( null == artifact.getGroup( artifact ) )
             {
                 return artifact.getName() + "/" + version;
             }
             else
             {
-                String group = artifact.getGroup();
-                group = group.replace( '.', '/' );
+                String group = getGroupPath( artifact );
                 return group + "/" + artifact.getName() + "/" + version;
             }
         }
@@ -128,5 +126,17 @@ public class ModernLayout
         {
             return artifact.getName() + "-" + version + "." + artifact.getType();
         }
+    }
+    
+   /**
+    * To be compatible with the maven-2 strategy we need to subsitute period 
+    * characters with a group separator.
+    * @param artifact the artifact from which to resolve the group path
+    * @return the group path
+    */
+    private String getGroupPath( Artifact artifact )
+    {
+        String group = artifact.getGroup();
+        return group.replace( '.', '/' );
     }
 }
