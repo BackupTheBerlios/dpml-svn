@@ -16,10 +16,14 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.part.local;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+
+import net.dpml.part.ControlException;
+
+import net.dpml.part.remote.Provider;
 
 /**
  * Local interface through which a component implementation may 

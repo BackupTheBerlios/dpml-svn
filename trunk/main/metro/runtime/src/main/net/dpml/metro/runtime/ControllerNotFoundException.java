@@ -16,9 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.metro.runtime;
 
 import java.net.URI;
+
+import net.dpml.part.ControlException;
 
 /**
  * Exception thrown when an attempt is made to reference an unknown 

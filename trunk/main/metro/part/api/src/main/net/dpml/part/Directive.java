@@ -18,12 +18,14 @@
 
 package net.dpml.part;
 
+import java.io.Serializable;
+
 /**
  * Interface implemented by top-level directives.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Directive
+public interface Directive extends Serializable
 {
 }

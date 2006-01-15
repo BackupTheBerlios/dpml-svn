@@ -39,8 +39,8 @@ import net.dpml.metro.model.ContextModel;
 import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.ControlException;
-import net.dpml.part.ModelListener;
-import net.dpml.part.ModelEvent;
+import net.dpml.part.remote.ModelListener;
+import net.dpml.part.remote.ModelEvent;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.Configurable;

@@ -22,9 +22,9 @@ import java.io.File;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.part.ControllerContext;
-import net.dpml.part.ControllerContextListener;
-import net.dpml.part.ControllerContextEvent;
+import net.dpml.part.local.ControllerContext;
+import net.dpml.part.local.ControllerContextListener;
+import net.dpml.part.local.ControllerContextEvent;
 
 import net.dpml.transit.Logger;
 

@@ -24,10 +24,10 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Controller;
-import net.dpml.part.Component;
-import net.dpml.part.Provider;
-import net.dpml.part.Manager;
+import net.dpml.part.local.Controller;
+import net.dpml.part.remote.Component;
+import net.dpml.part.remote.Provider;
+import net.dpml.part.local.Manager;
 
 import net.dpml.test.composite.ChildComponent;
 import net.dpml.test.composite.CompositeComponent;

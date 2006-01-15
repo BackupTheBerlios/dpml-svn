@@ -26,12 +26,12 @@ import java.io.IOException;
 
 import net.dpml.transit.Logger;
 
-import net.dpml.part.Controller;
 import net.dpml.part.Directive;
-import net.dpml.part.Model;
-import net.dpml.part.Component;
-import net.dpml.part.Provider;
-import net.dpml.part.PartManager;
+import net.dpml.part.local.Controller;
+import net.dpml.part.local.PartManager;
+import net.dpml.part.remote.Model;
+import net.dpml.part.remote.Component;
+import net.dpml.part.remote.Provider;
 
 /**
  * URL content handler support the part datatype.

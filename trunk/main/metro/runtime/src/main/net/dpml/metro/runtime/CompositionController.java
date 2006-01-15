@@ -28,12 +28,11 @@ import net.dpml.logging.Logger;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.model.ComponentModel;
 
-import net.dpml.part.ControllerContext;
-import net.dpml.part.Model;
-import net.dpml.part.Component;
-import net.dpml.part.Controller;
+import net.dpml.part.local.ControllerContext;
+import net.dpml.part.remote.Model;
+import net.dpml.part.remote.Component;
+import net.dpml.part.local.Controller;
 import net.dpml.part.ControlException;
-import net.dpml.part.ControllerNotFoundException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Directive;
 import net.dpml.part.Part;

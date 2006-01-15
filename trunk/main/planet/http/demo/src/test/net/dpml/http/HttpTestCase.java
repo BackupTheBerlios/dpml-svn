@@ -24,8 +24,8 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Controller;
-import net.dpml.part.Component;
+import net.dpml.part.local.Controller;
+import net.dpml.part.remote.Component;
 import net.dpml.part.ControlException;
 
 import net.dpml.http.demo.Demo;

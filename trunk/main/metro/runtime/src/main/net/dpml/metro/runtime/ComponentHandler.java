@@ -43,17 +43,18 @@ import net.dpml.metro.model.ComponentModel;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.ActivationPolicy;
-import net.dpml.part.Component;
+import net.dpml.part.remote.Component;
 import net.dpml.part.ControlException;
 import net.dpml.part.Disposable;
-import net.dpml.part.Provider;
-import net.dpml.part.Service;
-import net.dpml.part.ServiceNotFoundException;
+import net.dpml.part.remote.Provider;
+import net.dpml.part.remote.Service;
+import net.dpml.part.remote.ServiceNotFoundException;
 import net.dpml.part.Version;
-import net.dpml.part.Manager;
-import net.dpml.part.ModelEvent;
-import net.dpml.part.ModelListener;
-import net.dpml.part.UnknownPartException;
+import net.dpml.part.local.Manager;
+import net.dpml.part.remote.ModelEvent;
+import net.dpml.part.remote.ModelListener;
+
+import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.state.State;
 
@@ -615,7 +616,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
     * @exception UnknownKeyException if the key does not match 
     *   any of the internal components managed by this component
     */
-    Component getPartHandler( String key ) throws UnknownPartException
+    Component getPartHandler( String key ) throws UnknownKeyException
     {
         return (Component) m_parts.getManager( key );
         

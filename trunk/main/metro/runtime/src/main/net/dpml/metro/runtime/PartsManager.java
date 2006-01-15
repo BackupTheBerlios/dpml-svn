@@ -27,11 +27,10 @@ import net.dpml.logging.Logger;
 
 import net.dpml.metro.model.ComponentModel;
 
-import net.dpml.part.Component;
 import net.dpml.part.ControlException;
-import net.dpml.part.Parts;
-import net.dpml.part.Manager;
-import net.dpml.part.UnknownPartException;
+import net.dpml.part.remote.Component;
+import net.dpml.part.local.Parts;
+import net.dpml.part.local.Manager;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -137,7 +136,7 @@ class PartsManager implements Parts
     * Return a component manager.
     * @return the local component manager
     */
-    public synchronized Manager getManager( String key ) throws UnknownPartException
+    public synchronized Manager getManager( String key ) throws UnknownKeyException
     {
         if( m_handlers.containsKey( key ) )
         {
@@ -145,7 +144,7 @@ class PartsManager implements Parts
         }
         else
         {
-            throw new UnknownPartException( key );
+            throw new UnknownKeyException( key );
         }
     }
     

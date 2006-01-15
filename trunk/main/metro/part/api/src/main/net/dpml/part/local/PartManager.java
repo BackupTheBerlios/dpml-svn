@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.part.local;
 
 import java.net.URI;
 import java.lang.reflect.Constructor;
@@ -36,7 +36,7 @@ import net.dpml.transit.Repository;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartManager // extends ContentHandler
+public class PartManager
 {
    /**
     * Static reference to the default controller.

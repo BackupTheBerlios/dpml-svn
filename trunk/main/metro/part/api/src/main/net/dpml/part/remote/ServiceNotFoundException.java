@@ -16,31 +16,33 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.part.remote;
+
+import java.net.URI;
+
+import net.dpml.part.ControlException;
 
 /**
- * Exception thrown when a component request an unknown part.
+ * Exception thrown by a handler in response to a request for an unknown service.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class UnknownPartException extends IllegalArgumentException 
+public class ServiceNotFoundException extends ControlException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    private String m_type;
-
    /**
-    * Creation of a new <tt>UnknownPartException</tt>.
-    * @param key the part key
+    * Creation of a new <tt>ServiceNotFoundException</tt>.
+    * @param uri the controller uri
+    * @param classname the service classname
     */
-    public UnknownPartException( String key )
+    public ServiceNotFoundException( URI uri, String classname )
     {
-        super( key );
+        super( uri, classname );
     }
 }
-
 

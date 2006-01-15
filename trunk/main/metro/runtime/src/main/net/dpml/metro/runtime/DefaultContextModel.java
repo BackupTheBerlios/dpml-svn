@@ -38,9 +38,9 @@ import net.dpml.metro.model.ValidationException.Issue;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.Directive;
-import net.dpml.part.ModelException;
-import net.dpml.part.ModelListener;
-import net.dpml.part.ModelEvent;
+import net.dpml.part.remote.ModelException;
+import net.dpml.part.remote.ModelListener;
+import net.dpml.part.remote.ModelEvent;
 
 import net.dpml.lang.UnknownKeyException;
 

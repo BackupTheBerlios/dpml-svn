@@ -24,7 +24,7 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 import net.dpml.part.Directive;
-import net.dpml.part.Controller;
+import net.dpml.part.local.Controller;
 
 /**
  * Testcase validating part loading from a uri.

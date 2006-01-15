@@ -22,9 +22,9 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import net.dpml.part.Manager;
-import net.dpml.part.Component;
-import net.dpml.part.Parts;
+import net.dpml.part.local.Manager;
+import net.dpml.part.remote.Component;
+import net.dpml.part.local.Parts;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 

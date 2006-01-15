@@ -16,42 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
-
-import java.net.URI;
+package net.dpml.part.local;
 
 /**
- * General exception thrown by a context model.
+ * Exception thrown when a component request an unknown part.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ModelException extends ControlException 
+public class UnknownPartException extends IllegalArgumentException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-   /**
-    * Creation of a new <tt>ModelException</tt>.
-    * @param uri the controller uri
-    * @param message the exception message
-    */
-    public ModelException( URI uri, String message )
-    {
-        super( uri, message );
-    }
+    private String m_type;
 
    /**
-    * Creation of a new <tt>ModelException</tt>.
-    * @param uri the controller uri
-    * @param message the exception message
-    * @param cause the causal exception
+    * Creation of a new <tt>UnknownPartException</tt>.
+    * @param key the part key
     */
-    public ModelException( URI uri, String message, Throwable cause )
+    public UnknownPartException( String key )
     {
-        super( uri, message, cause );
+        super( key );
     }
 }
+
 

@@ -26,7 +26,7 @@ import java.util.Properties;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.dpml.part.Component;
+import net.dpml.part.remote.Component;
 
 import net.dpml.station.Station;
 import net.dpml.station.Callback;

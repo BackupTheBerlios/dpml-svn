@@ -16,10 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.part.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+import net.dpml.part.Version;
+
 
 /**
  * The Component interface is implemented by objects that handle the runtime

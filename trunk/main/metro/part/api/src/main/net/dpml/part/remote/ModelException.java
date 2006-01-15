@@ -16,46 +16,44 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.part.remote;
 
 import java.net.URI;
 
+import net.dpml.part.ControlException;
+
 /**
- * Exception thrown when an strategy handler attempts to handle an 
- * incompatible type.
+ * General exception thrown by a context model.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class UnsupportedPartTypeException extends ControlRuntimeException 
+public class ModelException extends ControlException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    private String m_type;
-
    /**
-    * Creation of a new <tt>UnsupportedPartTypeException</tt>.
-    * @param uri the uri identifying the part controller
-    * @param classname the unsupport part classname
+    * Creation of a new <tt>ModelException</tt>.
+    * @param uri the controller uri
     * @param message the exception message
     */
-    public UnsupportedPartTypeException( URI uri, String classname, String message )
+    public ModelException( URI uri, String message )
     {
         super( uri, message );
-        m_type = classname;
     }
 
    /**
-    * Return the unsupported part classname.
-    * @return the classname
+    * Creation of a new <tt>ModelException</tt>.
+    * @param uri the controller uri
+    * @param message the exception message
+    * @param cause the causal exception
     */
-    public String getClassname()
+    public ModelException( URI uri, String message, Throwable cause )
     {
-        return m_type;
+        super( uri, message, cause );
     }
 }
-
 

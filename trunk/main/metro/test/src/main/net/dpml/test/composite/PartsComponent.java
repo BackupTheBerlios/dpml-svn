@@ -25,8 +25,10 @@ import net.dpml.logging.Logger;
 
 import net.dpml.test.ColorManager;
 
-import net.dpml.part.Parts;
-import net.dpml.part.Manager;
+import net.dpml.part.local.Parts;
+import net.dpml.part.local.Manager;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * This component declares an inner Parts interface through which 
@@ -84,7 +86,7 @@ public class PartsComponent implements ColorManager
     * @param context a context implementation
     * @param parts the parts manager
     */
-    public PartsComponent( final Logger logger, final Context context, final Parts parts )
+    public PartsComponent( final Logger logger, final Context context, final Parts parts ) throws UnknownKeyException
     {
         logger.debug( "instantiation" );
         

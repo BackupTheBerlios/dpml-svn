@@ -16,7 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.part.local;
+
+import net.dpml.part.ControlException;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Local interface through which a component implementation may 
@@ -39,7 +43,7 @@ public interface Parts
     * @return the local component manager
     * @exception UnknownPartException the key is not recognized
     */
-    Manager getManager( String key ) throws UnknownPartException;
+    Manager getManager( String key ) throws UnknownKeyException;
     
    /**
     * Return the commissioned state of the part collection.

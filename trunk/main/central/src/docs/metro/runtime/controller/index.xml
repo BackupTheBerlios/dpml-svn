@@ -19,7 +19,7 @@
       </p>
 
       <p>A reference to the default controller is resolved using the 
-      <tt>net.dpml.part.Controller</tt> interface:</p>
+      <tt>net.dpml.part.local.Controller</tt> interface:</p>
 
       <pre>Controller controller = <font color="darkred">Controller.STANDARD</font>;</pre>
 
