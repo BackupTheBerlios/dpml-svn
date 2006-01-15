@@ -53,7 +53,9 @@ public class ModernLayout
             }
             else
             {
-                return artifact.getGroup() + "/" + artifact.getName();
+                String group = artifact.getGroup();
+                group = group.replace( '.', '/' );
+                return group + "/" + artifact.getName();
             }
         }
         else
@@ -64,7 +66,9 @@ public class ModernLayout
             }
             else
             {
-                return artifact.getGroup() + "/" + artifact.getName() + "/" + version;
+                String group = artifact.getGroup();
+                group = group.replace( '.', '/' );
+                return group + "/" + artifact.getName() + "/" + version;
             }
         }
     }
