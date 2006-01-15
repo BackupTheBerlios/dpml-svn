@@ -29,8 +29,9 @@ import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryListener;
 import net.dpml.transit.model.LayoutRegistryEvent;
-import net.dpml.transit.model.DuplicateKeyException;
-import net.dpml.transit.model.UnknownKeyException;
+
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.DuplicateKeyException;
 
 /**
  * Default implementation of a layout registry model that maitains 

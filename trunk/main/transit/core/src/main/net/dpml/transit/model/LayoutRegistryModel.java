@@ -21,6 +21,8 @@ package net.dpml.transit.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.lang.UnknownKeyException;
+
 /**
  * A LayoutRegistryModel maintains a collection of layout models.
  *

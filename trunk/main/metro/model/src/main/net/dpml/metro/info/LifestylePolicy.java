@@ -19,7 +19,7 @@
 
 package net.dpml.metro.info;
 
-import net.dpml.transit.util.Enum;
+import net.dpml.lang.Enum;
 
 /**
  * Lifestyle policy enumeration.

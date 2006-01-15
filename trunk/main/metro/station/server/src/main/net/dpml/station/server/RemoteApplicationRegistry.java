@@ -46,10 +46,11 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.RegistryEvent;
 import net.dpml.station.RegistryListener;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.model.DuplicateKeyException;
-import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.util.StreamUtils;
+import net.dpml.transit.Logger;
+
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.DuplicateKeyException;
 
 /**
  * Implements of the application registry within which a set of application profiles 

@@ -25,7 +25,7 @@ import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.TransitRegistryModel;
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 /**
  *

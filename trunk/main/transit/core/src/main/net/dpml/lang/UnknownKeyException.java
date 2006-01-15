@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.model;
+package net.dpml.lang;
 
 /**
- * Exception to indicate an error arrising from the use of a duplicate key.
+ * Exception to indicate an error arrising from the use of an unknown key.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DuplicateKeyException extends ModelException
+public class UnknownKeyException extends Exception
 {
    /**
     * Serial version identifier.
@@ -32,13 +32,22 @@ public class DuplicateKeyException extends ModelException
     static final long serialVersionUID = 1L;
 
     /**
-     * Construct a new <code>DuplicateKeyException</code> instance.
+     * Construct a new <code>UnknownKeyException</code> instance.
      *
-     * @param key the duplicate key
+     * @param key the unknown key
      */
-    public DuplicateKeyException( final String key )
+    public UnknownKeyException( final String key )
     {
         super( key );
+    }
+
+   /**
+    * Return the key.
+    * @return the key
+    */
+    public String getKey()
+    {
+        return super.getMessage();
     }
 }
 

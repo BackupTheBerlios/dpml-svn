@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.util;
+package net.dpml.lang;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ import java.util.Map;
  * with the provided methods. Should be used as an abstract base. For example:
  *
  * <pre>
- * import net.dpml.transit.util.ValuedEnum;
+ * import net.dpml.lang.ValuedEnum;
  *
  * public final class JavaVersion
  *   extends ValuedEnum

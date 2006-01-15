@@ -37,12 +37,14 @@ import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.HostModel;
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.CacheDirectoryChangeEvent;
 import net.dpml.transit.model.CacheEvent;
 import net.dpml.transit.util.PropertyResolver;
+
+import net.dpml.lang.DuplicateKeyException;
+import net.dpml.lang.UnknownKeyException;
+
 
 /**
  * Default implementation of the cache model that maintains information 

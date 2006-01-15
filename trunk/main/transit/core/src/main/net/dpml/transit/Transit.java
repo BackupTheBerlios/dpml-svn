@@ -31,7 +31,7 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * The Transit class manages the establishment of a singleton transit instance

@@ -33,8 +33,9 @@ import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.DuplicateKeyException;
+
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.DuplicateKeyException;
 
 
 /**

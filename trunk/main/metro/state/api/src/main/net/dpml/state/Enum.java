@@ -26,7 +26,7 @@ import java.io.Serializable;
  * Basic enum class for type-safe enums. Should be used as an abstract base. For example:
  *
  * <pre>
- * import net.dpml.transit.util.Enum;
+ * import net.dpml.lang.Enum;
  *
  * public final class Color extends Enum {
  *   public static final Color RED = new Color( "Red" );

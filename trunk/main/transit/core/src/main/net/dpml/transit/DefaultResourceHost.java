@@ -51,9 +51,9 @@ import net.dpml.transit.model.HostNameEvent;
 import net.dpml.transit.model.HostChangeEvent;
 import net.dpml.transit.model.HostPriorityEvent;
 import net.dpml.transit.model.HostLayoutEvent;
-
 import net.dpml.transit.util.Util;
 
+import net.dpml.lang.UnknownKeyException;
 
 /** 
  * This class represents a single host where resources are stored at.
@@ -115,7 +115,7 @@ class DefaultResourceHost extends UnicastRemoteObject
      * @exception UnknownHostException if the supplied base url references an unknown host
      */
     public DefaultResourceHost( HostModel model, LayoutRegistry registry, Logger logger )
-        throws UnknownHostException, IOException
+        throws UnknownHostException, UnknownKeyException, IOException
     {
         super();
 

@@ -20,6 +20,8 @@ package net.dpml.transit;
 
 import java.io.IOException;
 
+import net.dpml.lang.UnknownKeyException;
+
 /**
  * A interface supporting access to pluggable content handlers.
  *
@@ -40,7 +42,8 @@ public interface LayoutRegistry
     *
     * @param id the layout identifier
     * @return the location resolver or null if not available
+    * @exception UnknownKeyException if the key is not recognized
     * @exception IOException if an IO error occurs
     */
-    Layout getLayout( final String id ) throws IOException;
+    Layout getLayout( final String id ) throws UnknownKeyException, IOException;
 }

@@ -59,7 +59,8 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.info.ValueDirective;
-import net.dpml.transit.model.UnknownKeyException;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Transit Plugin that provides support for the configuration of the Transit subsystem.

@@ -54,8 +54,9 @@ import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.Version;
 
 import net.dpml.transit.Category;
-import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.Value;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * The ComponentController class is a controller of a component instance.

@@ -238,6 +238,7 @@
         <package name="net.dpml.tools.*"/>
       </group>
       <group title="Transit">
+        <package name="net.dpml.lang"/>
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
       </group>

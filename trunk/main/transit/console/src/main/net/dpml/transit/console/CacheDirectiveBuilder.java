@@ -24,7 +24,8 @@ import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.info.LayoutDirective;
-import net.dpml.transit.model.UnknownKeyException;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Utuility class supporting mutation of a cache directive.

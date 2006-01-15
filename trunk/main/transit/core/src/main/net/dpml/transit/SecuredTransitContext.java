@@ -34,7 +34,7 @@ import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**

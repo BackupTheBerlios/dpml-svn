@@ -26,8 +26,8 @@ import java.io.IOException;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
 
-import net.dpml.transit.model.DuplicateKeyException;
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.DuplicateKeyException;
 
 /**
  * Registry of application profiles.

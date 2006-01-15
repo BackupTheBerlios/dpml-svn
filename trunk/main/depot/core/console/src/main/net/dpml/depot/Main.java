@@ -37,7 +37,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
-import net.dpml.transit.util.Enum;
+import net.dpml.lang.Enum;
 import net.dpml.transit.PID;
 
 /**

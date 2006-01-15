@@ -31,7 +31,7 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * The ComponentModel interface defines the remotely accessible aspects of a component

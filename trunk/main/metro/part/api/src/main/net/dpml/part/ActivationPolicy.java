@@ -18,7 +18,7 @@
 
 package net.dpml.part;
 
-import net.dpml.transit.util.Enum;
+import net.dpml.lang.Enum;
 
 /**
  * Policy enummeration for the declaration of activation semantics.

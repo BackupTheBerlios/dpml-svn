@@ -33,7 +33,7 @@ import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Processor;
 import net.dpml.tools.model.ProcessorNotFoundException;
 
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 import org.apache.tools.ant.Project;
 

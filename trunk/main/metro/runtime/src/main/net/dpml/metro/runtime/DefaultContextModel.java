@@ -42,7 +42,7 @@ import net.dpml.part.ModelException;
 import net.dpml.part.ModelListener;
 import net.dpml.part.ModelEvent;
 
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Default implementation of <tt>ContextModel</tt>.

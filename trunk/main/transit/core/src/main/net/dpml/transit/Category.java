@@ -18,7 +18,7 @@
 
 package net.dpml.transit;
 
-import net.dpml.transit.util.ValuedEnum;
+import net.dpml.lang.ValuedEnum;
 
 /**
  * Classoader category enumeration.

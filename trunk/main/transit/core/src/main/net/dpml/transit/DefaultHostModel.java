@@ -30,7 +30,6 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
-import net.dpml.transit.model.UnknownKeyException;
 import net.dpml.transit.model.HostListener;
 import net.dpml.transit.model.HostChangeEvent;
 import net.dpml.transit.model.HostLayoutEvent;
@@ -38,6 +37,8 @@ import net.dpml.transit.model.HostPriorityEvent;
 import net.dpml.transit.model.HostNameEvent;
 import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.util.PropertyResolver;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Default implementation of a host manager.

@@ -19,7 +19,7 @@
 
 package net.dpml.metro.info;
 
-import net.dpml.transit.util.ValuedEnum;
+import net.dpml.lang.ValuedEnum;
 
 /**
  * Logging priority enumeration.

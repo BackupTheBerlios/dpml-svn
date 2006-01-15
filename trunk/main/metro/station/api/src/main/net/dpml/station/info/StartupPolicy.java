@@ -18,7 +18,7 @@
 
 package net.dpml.station.info;
 
-import net.dpml.transit.util.Enum;
+import net.dpml.lang.Enum;
 
 /**
  * Lifestyle policy enumeration.

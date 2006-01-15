@@ -52,10 +52,11 @@ import net.dpml.state.Transition;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.PID;
-import net.dpml.transit.model.UnknownKeyException;
-import net.dpml.transit.model.DuplicateKeyException;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.ExceptionHelper;
+
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.DuplicateKeyException;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
@@ -999,7 +1000,7 @@ public class StationPlugin
       ApplicationRegistry registry, ApplicationDescriptor profile, String key, String title, URI uri, 
       int startup, int shutdown, Properties properties, String base, 
       StartupPolicy policy, URI config )
-      throws IOException
+      throws IOException, UnknownKeyException
     {
         if( null == registry )
         {

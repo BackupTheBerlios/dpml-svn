@@ -42,7 +42,8 @@ import net.dpml.transit.Logger;
 import net.dpml.transit.LoggingService;
 import net.dpml.transit.PID;
 import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.model.UnknownKeyException;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * The RemoteStation is responsible for the establishment of 

@@ -26,7 +26,7 @@ import java.beans.Encoder;
 import java.util.Properties;
 
 import net.dpml.transit.Category;
-import net.dpml.transit.util.Enum;
+import net.dpml.lang.Enum;
 
 /**
  * The IncludeDirective class describes a dependency on a named resource.

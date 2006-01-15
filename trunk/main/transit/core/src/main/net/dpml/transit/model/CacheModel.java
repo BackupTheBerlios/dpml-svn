@@ -22,6 +22,8 @@ import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.lang.UnknownKeyException;
+
 /**
  * A CacheModel maintains information about the configuration of the Transit
  * cache subsystem.  Instances of CacheModel shall be supplied to cache handler

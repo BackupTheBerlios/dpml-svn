@@ -52,7 +52,7 @@ import net.dpml.logging.Logger;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Default implementation of a mutable component model.

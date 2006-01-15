@@ -33,7 +33,7 @@ import net.dpml.part.Parts;
 import net.dpml.part.Manager;
 import net.dpml.part.UnknownPartException;
 
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * Default implementation of the local Parts interface.

@@ -30,7 +30,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.MutableComponentModel;
 
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.test.ExampleComponent;
 

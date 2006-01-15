@@ -30,6 +30,8 @@ import net.dpml.transit.model.LayoutRegistryListener;
 import net.dpml.transit.model.LayoutRegistryEvent;
 import net.dpml.transit.model.LayoutModel;
 
+import net.dpml.lang.UnknownKeyException;
+
 /**
  * A registry of descriptions of plugable layout models.
  *
@@ -68,7 +70,7 @@ class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistr
     // LayoutRegistry
     // ------------------------------------------------------------------------
 
-    public Layout getLayout( final String id ) throws IOException
+    public Layout getLayout( final String id ) throws UnknownKeyException, IOException
     {
         LayoutModel model = m_model.getLayoutModel( id );
         return getLayout( model );
@@ -79,7 +81,7 @@ class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistr
     * @param model the location resolver model
     * @return the resolver
     */
-    protected Layout getLayout( LayoutModel model ) throws IOException
+    protected Layout getLayout( LayoutModel model ) throws UnknownKeyException, IOException
     {
         String id = model.getID();
         String classname = model.getClassname();

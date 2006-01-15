@@ -21,6 +21,8 @@ package net.dpml.transit.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.lang.UnknownKeyException;
+
 /**
  * A RegistryModel maintains information about the configuration of the Transit
  * content registry subsystem.  Instances of RegistryModel shall be supplied to 

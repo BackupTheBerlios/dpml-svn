@@ -30,7 +30,7 @@ import net.dpml.library.model.Type;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Layout;
-import net.dpml.transit.model.UnknownKeyException;
+import net.dpml.lang.UnknownKeyException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
