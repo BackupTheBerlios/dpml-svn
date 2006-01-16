@@ -54,6 +54,11 @@ public class PluginTask extends TransitTask
     private String m_uri;
 
    /**
+    * Overloaded plugin urn.
+    */
+    private String m_urn;
+
+   /**
     * A list of tasks declared by the plugin declaration.
     */
     private List m_tasks = new ArrayList();
@@ -134,6 +139,15 @@ public class PluginTask extends TransitTask
     }
 
    /**
+    * Overload the urn to assign to the plugin.
+    * @param urn the urn to use
+    */
+    public void setUrn( String urn )
+    {
+        m_urn = urn;
+    }
+
+   /**
     * Return the artifact uri of the plugin.
     * @return the plugin uri
     */
@@ -168,7 +182,6 @@ public class PluginTask extends TransitTask
         }
 
         final Project project = getProject();
-        //ClassLoader classloader = this.getClass().getClassLoader();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         final ComponentHelper helper =
           ComponentHelper.getComponentHelper( project );
@@ -283,11 +296,7 @@ public class PluginTask extends TransitTask
             throw new BuildException( error, getLocation() );
         }
 
-        String urn = antlib.getURN();
-        if( null == urn )
-        {
-            urn = descriptor.getURN();
-        }
+        String urn = getAntLibURN( antlib, descriptor );
         if( null == urn )
         {
             final String error =
@@ -316,6 +325,23 @@ public class PluginTask extends TransitTask
             String name = ElementHelper.getAttribute( type, "name" );
             String classname = ElementHelper.getAttribute( type, "classname" );
             loadTypeDef( classloader, helper, classname, urn + ":" + name );
+        }
+    }
+    
+    private String getAntLibURN( Antlib antlib, Plugin descriptor )
+    {
+        if( null != m_urn )
+        {
+            return m_urn;
+        }
+        String urn = antlib.getURN();
+        if( null != urn )
+        {
+            return urn;
+        }
+        else
+        {
+            return descriptor.getURN();
         }
     }
 

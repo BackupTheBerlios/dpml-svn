@@ -51,6 +51,11 @@ public class JavadocTask extends GenericTask
     */
     public static final String JAVADOC_ACCESS_KEY = "project.javadoc.access";
 
+   /**
+    * Property key for declaration of the lionksource option.
+    */
+    public static final String JAVADOC_LINK_SOURCE_KEY = "project.javadoc.linksource";
+
     //-----------------------------------------------------------------------
     // state
     //-----------------------------------------------------------------------
@@ -187,6 +192,11 @@ public class JavadocTask extends GenericTask
         else
         {
             javadoc.setAccess( m_access );
+        }
+        
+        if( "true".equals( getContext().getProperty( JAVADOC_LINK_SOURCE_KEY, "false" ) ) )
+        {
+            javadoc.setLinksource( true );
         }
         
         aggregateLinks( javadoc, resource );
