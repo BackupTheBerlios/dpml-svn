@@ -59,7 +59,7 @@ public class ModernLayout
         }
         else
         {
-            if( null == artifact.getGroup( artifact ) )
+            if( null == artifact.getGroup() )
             {
                 return artifact.getName() + "/" + version;
             }
