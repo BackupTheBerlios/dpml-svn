@@ -24,6 +24,14 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <target name="prepare" depends="standard.prepare">
+    <x:plugin uri="link:plugin:dpml/depot/dpml-depot-j2h">
+      <task name="convert" class="de.java2html.anttasks.Java2HtmlTask"/>
+    </x:plugin>
+    <convert srcdir="target/build/main" destdir="target/reports/src"/>
+    <convert srcdir="target/build/test" destdir="target/reports/src"/>
+  </target>
+
   <target name="build" depends="standard.build">
 
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
@@ -83,9 +91,9 @@
         type="net.dpml.test.ExampleComponent" name="transient" collection="SOFT" lifestyle="transient">
       <context>
         <entry key="color">
-          <value class="float" value="100"/>
-          <value class="float" value="200"/>
-          <value class="float" value="0"/>
+          <value class="int" value="100"/>
+          <value class="int" value="200"/>
+          <value class="int" value="0"/>
         </entry>
       </context>
     </c:component>
