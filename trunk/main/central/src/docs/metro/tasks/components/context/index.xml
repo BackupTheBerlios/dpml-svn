@@ -54,8 +54,8 @@
 
 <pre><![CDATA[
 <context>
-  <entry key="name" value="${user.name}"/>
-  <entry key="printer" uri="service:org.acme.Printer"/>
+  <entry key="name" value="$${user.name}"/>
+  <entry key="printer" lookup="org.acme.Printer"/>
   <entry key="background" method="RED"/>
   <entry key="foreground">
     <value class="float" value="100"/>
