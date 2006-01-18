@@ -11,7 +11,7 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.6"/>
+      <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.10"/>
     </dependencies>
   </project>
 
@@ -36,8 +36,8 @@
       <include ref="dpml/util/dpml-logging-api" tag="protected"/>
       <include ref="dpml/util/dpml-configuration-api" tag="protected"/>
       <include ref="dpml/util/dpml-parameters-api" tag="protected"/>
-      <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.6"/>
-      <include urn="artifact:jar:jetty/org.mortbay.jaas#5.1.6"/>
+      <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.10"/>
+      <include urn="artifact:jar:jetty/org.mortbay.jaas#5.1.10"/>
       <include urn="artifact:jar:tomcat/jsp-api#5.0.18"/>
       <include urn="artifact:jar:tomcat/jasper-compiler#5.0.25"/>
       <include urn="artifact:jar:tomcat/jasper-runtime#5.0.25"/>
