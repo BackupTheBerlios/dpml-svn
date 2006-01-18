@@ -31,23 +31,12 @@
                for additional details concerning method to key transformation).</td>
           </tr>
           <tr>
-            <td><tt>uri</tt></td>
-            <td>The the value of the entry to a service uri.  For exmple, the 
-                the uri <tt>service:org.acme.Widget</tt> is an instruction to 
-                the container to resolve a service instance type assignable to 
-                the <tt>Widget</tt> interface.  May not be used in conjunction 
-                with the class, method, or value attributes or nested values.
-                Supported uri schemes include: <tt><strong>lookup:</strong>[interface]
-                </tt> and <tt><strong>registry:</strong>[path]</tt>.
-            </td>
-          </tr>
-          <tr>
             <td><tt>class</tt></td>
             <td>
               Optional declaration of a classname to be instantiated using
               any enclosed values. Classnames may include any class within 
               the scope of the component classloader or any primitive datatype.
-              May not be used in in conjunction with the <tt>uri</tt> attribute.
+              May not be used in in conjunction with the <tt>lookup</tt> attribute.
             </td>
           </tr>
           <tr>
@@ -59,14 +48,23 @@
               expression construction.  If the method name references a 
               static field the filed value will be used to establish the 
               target object. May not be used in in conjunction with the 
-              <tt>uri</tt> attribute.</td>
+              <tt>lookup</tt> attribute.</td>
           </tr>
           <tr>
             <td><tt>value</tt></td>
             <td>
               Optional declaration of string value used as a constructor
               or operation argument. May not be used in in conjunction with the 
-              <tt>uri</tt> attribute or <tt>value</tt> attribute.</td>
+              <tt>lookup</tt> attribute or <tt>value</tt> attribute.</td>
+          </tr>
+          <tr>
+            <td><tt>lookup</tt></td>
+            <td>Requested service interface classname.  For exmple, the 
+                the <tt>lookup="org.acme.Widget"</tt> is an instruction to 
+                the container to resolve a service instance type assignable to 
+                the <tt>Widget</tt> interface.  May not be used in conjunction 
+                with the class, method, or value attributes or nested values.
+            </td>
           </tr>
         </table>
 
@@ -80,7 +78,7 @@
             <td>The entry element may contain 0..n nested &lt;value&gt; directives.
               A value directive allows in-line construction of operation
               or constructor arguments.  Nested values may not be used in 
-              conjunction with the entry <tt>uri</tt> or <tt>value</tt>
+              conjunction with the entry <tt>lookup</tt> or <tt>value</tt>
               attributes.</td>
           </tr>
         </table>
