@@ -63,7 +63,33 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     {
         m_uri = uri;
     }
-
+    
+   /**
+    * Set the interface classname to locate with the enclosing component.
+    * @param service the service classname
+    */
+    public void setLookup( final String service )
+    {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Attributes 'feature', 'lookup' and 'uri' are mutually exlusive.";
+            throw new BuildException( error ); 
+        }
+        try
+        {
+            m_uri = new URI( "lookup:" + service );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Failed to set ["
+              + service
+              + "] lookup reference.";
+            throw new BuildException( error, e );
+        }
+    }
+    
    /**
     * Set the feature that this directive references.
     * @param feature the component feature
@@ -73,7 +99,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         if( null != m_uri )
         {
             final String error = 
-              "Attributes 'feature' and 'uri' are mutually exlusive.";
+              "Attributes 'feature', 'lookup' and 'uri' are mutually exlusive.";
             throw new BuildException( error ); 
         }
         try
