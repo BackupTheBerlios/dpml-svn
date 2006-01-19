@@ -133,7 +133,15 @@ public class BuilderPlugin
                         getLogger().info( "Empty selection." );
                         System.exit( 0 );
                     }
-                    process( line, resources );
+                    boolean result = process( line, resources );
+                    if( !result )
+                    {
+                        System.exit( 1 );
+                    }
+                    else
+                    {
+                        System.exit( 0 );
+                    }
                 }
             }
         }
@@ -254,7 +262,7 @@ public class BuilderPlugin
     * @param line the commandline
     * @param resources the sorted sequence of prouject to build
     */
-    private void process( CommandLine line, Resource[] resources ) throws Exception
+    private boolean process( CommandLine line, Resource[] resources ) throws Exception
     {
         URI uri = (URI) line.getValue( BUILDER_URI_OPTION, ANT_BUILDER_URI );
         Builder builder = createBuilder( uri );
@@ -280,10 +288,11 @@ public class BuilderPlugin
             boolean status = builder.build( resource, targets );
             if( !status )
             {
-                return;
+                return status;
             }
             System.gc();
         }
+        return true;
     }
 
     private static final URI ANT_BUILDER_URI;
