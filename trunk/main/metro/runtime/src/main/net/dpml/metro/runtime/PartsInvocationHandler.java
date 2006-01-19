@@ -22,9 +22,9 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import net.dpml.part.local.Manager;
+import net.dpml.part.local.Handler;
 import net.dpml.part.remote.Component;
-import net.dpml.part.local.Parts;
+import net.dpml.part.local.PartsManager;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 
@@ -43,7 +43,7 @@ class PartsInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
-    private final PartsManager m_manager;
+    private final DefaultPartsManager m_manager;
 
     //-------------------------------------------------------------------
     // constructor
@@ -54,7 +54,7 @@ class PartsInvocationHandler implements InvocationHandler
     *
     * @param handler the component handler
     */
-    PartsInvocationHandler( PartsManager manager )
+    PartsInvocationHandler( DefaultPartsManager manager )
     {
         m_manager = manager;
     }
@@ -80,7 +80,7 @@ class PartsInvocationHandler implements InvocationHandler
         {
             return method.invoke( this, args );
         }
-        else if( Parts.class == source )
+        else if( PartsManager.class == source )
         {
             return method.invoke( m_manager, args );
         }
@@ -89,7 +89,7 @@ class PartsInvocationHandler implements InvocationHandler
         String postfix = getPartPostfix( method );
         String key = getPartKey( method, semantic );
         
-        Manager manager = m_manager.getManager( key );
+        Handler handler = m_manager.getComponentHandler( key );
         
         if( GET == semantic )
         {
@@ -99,14 +99,14 @@ class PartsInvocationHandler implements InvocationHandler
                 {
                     try
                     {
-                        return manager.getProvider().getValue( false );
+                        return handler.getProvider().getValue( false );
                     }
                     catch( ClassCastException e )
                     {
                         final String error = 
-                          "Component handler ["
-                          + manager
-                          + "] could not be cast to an approriate service class.";
+                          "Component handler  ["
+                          + handler
+                          + "] value instance could not be cast to an approriate service class.";
                         throw new IllegalStateException( error );
                     }
                 }
@@ -117,7 +117,7 @@ class PartsInvocationHandler implements InvocationHandler
                     if( ( Boolean.TYPE == argClass ) || ( Boolean.class == argClass ) )
                     {
                         boolean policy = getBooleanValue( arg );
-                        return manager.getProvider().getValue( policy );
+                        return handler.getProvider().getValue( policy );
                     }
                     else
                     {
@@ -139,32 +139,32 @@ class PartsInvocationHandler implements InvocationHandler
             }
             else if( COMPONENT_KEY.equals( postfix ) )
             {
-                if( manager instanceof Component )
+                if( handler instanceof Component )
                 {
-                    return (Component) manager;
+                    return (Component) handler;
                 }
                 else
                 {
                     final String error = 
                       "Manager implementation ["
-                      + manager.getClass().getName() 
+                      + handler.getClass().getName() 
                       + "] does not implement "
                       + Component.class.getName()
                       + ".";
                     throw new IllegalStateException( error );
                 }
             }
-            else if( MANAGER_KEY.equals( postfix ) )
+            else if( HANDLER_KEY.equals( postfix ) )
             {
-                return manager;
+                return handler;
             }
             else if( MAP_KEY.equals( postfix ) )
             {
-                return manager.getContextMap();
+                return handler.getContextMap();
             }
             else if( PROVIDER_KEY.equals( postfix ) )
             {
-                return manager.getProvider();
+                return handler.getProvider();
             }
             else
             {
@@ -272,9 +272,9 @@ class PartsInvocationHandler implements InvocationHandler
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
             }
-            else if( name.endsWith( MANAGER_KEY ) )
+            else if( name.endsWith( HANDLER_KEY ) )
             {
-                int n = MANAGER_KEY.length();
+                int n = HANDLER_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
@@ -337,5 +337,5 @@ class PartsInvocationHandler implements InvocationHandler
     public static final String COMPONENT_KEY = "Component";
     public static final String MAP_KEY = "Map";
     public static final String PROVIDER_KEY = "Provider";
-    public static final String MANAGER_KEY = "Manager";
+    public static final String HANDLER_KEY = "Handler";
 }

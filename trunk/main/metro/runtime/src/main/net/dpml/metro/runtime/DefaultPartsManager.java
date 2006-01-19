@@ -29,8 +29,8 @@ import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;
-import net.dpml.part.local.Parts;
-import net.dpml.part.local.Manager;
+import net.dpml.part.local.PartsManager;
+import net.dpml.part.local.Handler;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -40,7 +40,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class PartsManager implements Parts
+class DefaultPartsManager implements PartsManager
 {
     //-------------------------------------------------------------------
     // state
@@ -73,7 +73,7 @@ class PartsManager implements Parts
     * @param handler the component handler
     * @param logger the logging channel
     */
-    PartsManager( ComponentController control, ComponentHandler handler, Logger logger ) 
+    DefaultPartsManager( ComponentController control, ComponentHandler handler, Logger logger ) 
       throws ControlException, RemoteException
     {
         m_handler = handler;
@@ -133,14 +133,14 @@ class PartsManager implements Parts
     }
     
    /**
-    * Return a component manager.
-    * @return the local component manager
+    * Return a component handler.
+    * @return the local component handler
     */
-    public synchronized Manager getManager( String key ) throws UnknownKeyException
+    public synchronized Handler getComponentHandler( String key ) throws UnknownKeyException
     {
         if( m_handlers.containsKey( key ) )
         {
-            return (Manager) m_handlers.get( key );
+            return (Handler) m_handlers.get( key );
         }
         else
         {

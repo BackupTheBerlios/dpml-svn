@@ -43,14 +43,14 @@ import net.dpml.metro.model.ComponentModel;
 import net.dpml.logging.Logger;
 
 import net.dpml.part.ActivationPolicy;
-import net.dpml.part.remote.Component;
-import net.dpml.part.ControlException;
 import net.dpml.part.Disposable;
+import net.dpml.part.ControlException;
+import net.dpml.part.Version;
+import net.dpml.part.local.Handler;
+import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
 import net.dpml.part.remote.Service;
 import net.dpml.part.remote.ServiceNotFoundException;
-import net.dpml.part.Version;
-import net.dpml.part.local.Manager;
 import net.dpml.part.remote.ModelEvent;
 import net.dpml.part.remote.ModelListener;
 
@@ -103,7 +103,7 @@ import net.dpml.state.State;
  * @see ComponentModel
  * @see Provider
  */
-public class ComponentHandler extends UnicastEventSource implements Component, Manager, Disposable, ModelListener
+public class ComponentHandler extends UnicastEventSource implements Component, Handler, Disposable, ModelListener
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -125,9 +125,8 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
     
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
-    //private final Map m_handlers = new Hashtable(); // part handlers
     
-    private final PartsManager m_parts;
+    private final DefaultPartsManager m_parts;
     
     //--------------------------------------------------------------------------
     // mutable state
@@ -241,7 +240,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
         // need to establish all of the component parts that are children of this 
         // component.
         
-        m_parts = new PartsManager( control, this, logger );
+        m_parts = new DefaultPartsManager( control, this, logger );
         
         getLogger().debug( "component controller [" + this + "] established" );
     }
@@ -263,7 +262,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
     }
     
     //--------------------------------------------------------------------------
-    // Manager
+    // Handler
     //--------------------------------------------------------------------------
     
    /**
@@ -280,7 +279,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
     * Return an <tt>Provider</tt> holder. The value returned will be a function 
     * of the lifestyle policy implemented by the component.
     * 
-    * @return the <tt>Provider</tt> manager
+    * @return the <tt>Provider</tt>
     * @exception InvocationTargetException if the request triggers the construction
     *   of a new provider instance and the provider raises an error during creation
     *   or activation
@@ -571,7 +570,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
     // ComponentHandler
     //--------------------------------------------------------------------------
     
-    PartsManager getPartsManager()
+    DefaultPartsManager getPartsManager()
     {
         return m_parts;
     }
@@ -618,19 +617,19 @@ public class ComponentHandler extends UnicastEventSource implements Component, M
     */
     Component getPartHandler( String key ) throws UnknownKeyException
     {
-        return (Component) m_parts.getManager( key );
-        
-        /*
-        Component handler = (Component) m_handlers.get( key );
-        if( null == handler )
+        Handler handler = m_parts.getComponentHandler( key );
+        if( handler instanceof Component )
         {
-            throw new UnknownKeyException( key );
+            return (Component) handler;
         }
         else
         {
-            return handler;
+            final String error = 
+              "Component handler [" 
+                + handler.getClass().getName()
+                + "] does not implement the component interface.";
+            throw new ControllerRuntimeException( error );
         }
-        */
     }
     
     Object getContextValue( String key ) throws ControlException

@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import net.dpml.part.local.Controller;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
-import net.dpml.part.local.Manager;
+import net.dpml.part.local.Handler;
 
 import net.dpml.test.composite.ChildComponent;
 import net.dpml.test.composite.CompositeComponent;
@@ -80,7 +80,7 @@ public class CompositeTestCase extends TestCase
     public void testOverloadedComposite() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Manager manager = (Manager) component;
+        Handler manager = (Handler) component;
         manager.getContextMap().put( "color", Color.YELLOW );
         Provider instance = component.getProvider();
         CompositeComponent parent = (CompositeComponent) instance.getValue( false );

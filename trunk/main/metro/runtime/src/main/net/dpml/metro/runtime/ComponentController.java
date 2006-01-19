@@ -45,13 +45,13 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.local.Parts;
 import net.dpml.part.Directive;
+import net.dpml.part.ControlException;
+import net.dpml.part.Version;
+import net.dpml.part.local.PartsManager;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
-import net.dpml.part.ControlException;
 import net.dpml.part.remote.ServiceNotFoundException;
-import net.dpml.part.Version;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.Value;
@@ -460,7 +460,7 @@ class ComponentController
         Class clazz = getInnerClass( subject, "$Parts" );
         if( null == clazz )
         {
-            return Parts.class;
+            return PartsManager.class;
         }
         else
         {
@@ -544,7 +544,7 @@ class ComponentController
     private Object createPartsInvocationHandler( ComponentHandler handler, Class clazz ) 
       throws ControlException
     {
-        PartsManager manager = handler.getPartsManager();
+        DefaultPartsManager manager = handler.getPartsManager();
         try
         {
             InvocationHandler invocationHandler = new PartsInvocationHandler( manager );

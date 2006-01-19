@@ -18,9 +18,13 @@
 
 package net.dpml.part.local;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
 import net.dpml.part.ControlException;
 
-import net.dpml.lang.UnknownKeyException;
+import net.dpml.part.remote.Component;
+import net.dpml.part.remote.Provider;
 
 /**
  * Local interface through which a component implementation may 
@@ -29,37 +33,23 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Parts
+public interface Handler
 {
    /**
-    * Return the array of keys used to idenetity internal parts.
-    * @return the part key array
+    * Return a mutible context map.
+    *
+    * @return the context map
     */
-    String[] getKeys();
+    Map getContextMap();
     
    /**
-    * Return a component manager.
-    * @param key the internal part key
-    * @return the local component manager
-    * @exception UnknownPartException the key is not recognized
+    * Return a reference to a managed provider.
+    * @return the service provider
+    * @exception InvocationTargetException if the component instantiation process 
+    *  is on demand and an target invocation error occurs
+    * @exception ControlException if the component could not be established due to a controller 
+    *  related error
     */
-    Manager getManager( String key ) throws UnknownKeyException;
-    
-   /**
-    * Return the commissioned state of the part collection.
-    * @return true if commissioned else false
-    */
-    boolean isCommissioned();
-    
-   /**
-    * Initiate the oprdered activation of all internal parts.
-    * @exception ControlException if an activation error occurs
-    */
-    void commission() throws ControlException;
-    
-   /**
-    * Initiate deactivation of all internal parts.
-    */
-    void decommission();
+    Provider getProvider() throws ControlException, InvocationTargetException;
 }
 
