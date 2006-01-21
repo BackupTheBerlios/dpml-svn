@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Niclas Hedhman.
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -23,22 +22,30 @@ import junit.framework.TestCase;
 
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.Transit;
-import net.dpml.transit.model.TransitModel;
 
 /**
  * Test execution of the disposal of the Transit model.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: OnlineTestCase.java 2926 2005-06-27 10:53:17Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class DisposalTestCase extends TestCase
 {
     private DefaultTransitModel m_model;
     
-    public void testTransitLifecycle() throws Exception
+    public void setUp() throws Exception
     {
         m_model = DefaultTransitModel.getDefaultModel();
         Transit.getInstance( m_model );
+    }
+    
+    public void testSetupAndTearDown()
+    {
+        // trigger setup and teardown
+    }
+
+    public void tearDown()
+    {
         m_model.dispose();
     }
 }

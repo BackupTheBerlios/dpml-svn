@@ -1,5 +1,6 @@
 /*
  * Copyright 2005 Niclas Hedhman
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -40,8 +41,8 @@ import net.dpml.transit.DefaultTransitModel;
 
 /**
  * LinkTestCase.
- * @author <a href="http://www.dpml.net/">The Digital Product Meta Library</a>
- * @version $Id$
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LinkTestCase extends TestCase
 {

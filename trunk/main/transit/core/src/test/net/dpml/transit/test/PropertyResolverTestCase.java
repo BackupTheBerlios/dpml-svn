@@ -1,6 +1,6 @@
 /*
  * Copyright 2004 Apache Software Foundation
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -28,8 +28,8 @@ import net.dpml.transit.util.PropertyResolver;
 /**
  * Testcases for the PropertyResolver
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version CVS $ Revision: 1.1 $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class PropertyResolverTestCase extends TestCase
 {

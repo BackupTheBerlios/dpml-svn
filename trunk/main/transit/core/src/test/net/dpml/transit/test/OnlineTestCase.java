@@ -1,6 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedhman.
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -42,8 +42,8 @@ import net.dpml.transit.DefaultTransitModel;
 /**
  * URL Handler TestCase for online operations.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
- * @version $Id: OnlineTestCase.java 2926 2005-06-27 10:53:17Z mcconnell@dpml.net $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class OnlineTestCase extends TestCase
 {
