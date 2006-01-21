@@ -494,29 +494,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
         
         m_parts.decommission();
         
-        //try
-        //{
-        //    Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
-        //    for( int i=0; i<components.length; i++ )
-        //    {
-        //        Component component = components[i];
-        //        try
-        //        {
-        //            component.deactivate();
-        //        }
-        //        catch( RemoteException e )
-        //        {
-        //            final String message = 
-        //              "Ignoring remote exception raised during deactivation.";
-        //            getLogger().warn( message, e );
-        //        }
-        //    }
-        //}
-        //finally
-        //{
-        //    m_active = false;
-        //}
-        
         m_active = false;
     }
     
