@@ -71,7 +71,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * @param logger the logging channel to assign to the model
     * @return the transit model
     */
-    public static TransitModel getSecureModel( Logger logger )
+    public static DefaultTransitModel getSecureModel( Logger logger )
     {
         try
         {
@@ -91,11 +91,25 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
     * default scenario will be returned.
     *
+    * @return the transit model
+    * @exception Exception if an error occurs during model construction
+    */
+    public static DefaultTransitModel getDefaultModel() throws Exception
+    {
+        LoggingAdapter adapter = new LoggingAdapter( "transit" );
+        return getDefaultModel( adapter );
+    }
+    
+   /**
+    * Resolve the transit configuration using the default resource path 
+    * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
+    * default scenario will be returned.
+    *
     * @param logger the logging channel
     * @return the transit model
     * @exception Exception if an error occurs during model construction
     */
-    public static TransitModel getDefaultModel( Logger logger ) throws Exception
+    public static DefaultTransitModel getDefaultModel( Logger logger ) throws Exception
     {
         String path = System.getProperty( PROFILE_KEY );
         if( null != path )
@@ -201,7 +215,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     public synchronized void dispose()
     {
         m_cache.dispose();
-        m_proxy.dispose();
+        if( null != m_proxy )
+        {
+            m_proxy.dispose();
+        }
         try
         {
             UnicastRemoteObject.unexportObject( m_cache, true );
@@ -210,13 +227,16 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         {
             getLogger().warn( "Remote error during disposal.", e );
         }
-        try
+        if( null != m_proxy )
         {
-            UnicastRemoteObject.unexportObject( m_proxy, true );
-        }
-        catch( RemoteException e )
-        {
-            getLogger().warn( "Remote error during disposal.", e );
+            try
+            {
+                UnicastRemoteObject.unexportObject( m_proxy, true );
+            }
+            catch( RemoteException e )
+            {
+                getLogger().warn( "Remote error during disposal.", e );
+            }
         }
     }
 
@@ -259,13 +279,13 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         }
     }
 
-    static TransitModel getBootstrapModel() throws Exception
+    static DefaultTransitModel getBootstrapModel() throws Exception
     {
         Logger logger = new LoggingAdapter( "transit" );
         return getSecureModel( logger );
     }
     
-    static TransitModel getClassicModel( Logger logger ) throws Exception
+    static DefaultTransitModel getClassicModel( Logger logger ) throws Exception
     {
         TransitDirective directive = TransitDirective.CLASSIC_PROFILE;
         return new DefaultTransitModel( logger, directive );

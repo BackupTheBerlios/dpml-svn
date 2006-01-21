@@ -44,5 +44,4 @@ public interface TransitModel extends Remote
     * @exception RemoteException if a remote exception occurs
     */
     CacheModel getCacheModel() throws RemoteException;
-
 }
