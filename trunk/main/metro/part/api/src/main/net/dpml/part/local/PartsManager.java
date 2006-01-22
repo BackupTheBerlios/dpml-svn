@@ -19,6 +19,8 @@
 package net.dpml.part.local;
 
 import net.dpml.part.ControlException;
+import net.dpml.part.remote.Component;
+import net.dpml.part.remote.Model;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -36,6 +38,20 @@ public interface PartsManager
     * @return the part key array
     */
     String[] getKeys();
+    
+   /**
+    * Return an internal component.
+    * @param key the internal component key
+    * @return the component
+    */
+    Component getComponent( String key ) throws UnknownKeyException;
+    
+   /**
+    * Return the component model for the supplied component.
+    * @param component the component
+    * @return the component model
+    */
+    Model getComponentModel( Component component );
     
    /**
     * Return a local component handler.

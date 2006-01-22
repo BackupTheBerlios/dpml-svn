@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.EventObject;
+import java.util.LinkedList;
+import java.util.List;
 
 import net.dpml.logging.Logger;
 
@@ -41,6 +44,7 @@ import net.dpml.part.PartHeader;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
+import net.dpml.transit.util.ExceptionHelper;
 
 /**
  * The composition controller is the controller used to establish remotely accessible
@@ -406,6 +410,117 @@ public class CompositionController implements Controller
         catch( Throwable e )
         {
             throw new RuntimeException( e );
+        }
+    }
+    
+    /**
+     * Queue of pending notification events.  When an event for which 
+     * there are one or more listeners occurs, it is placed on this queue 
+     * and the queue is notified.  A background thread waits on this queue 
+     * and delivers the events.  This decouples event delivery from 
+     * the application concern, greatly simplifying locking and reducing 
+     * opportunity for deadlock.
+     */
+    private static final List EVENT_QUEUE = new LinkedList();
+
+   /**
+    * Enqueue an event for delivery to registered
+    * listeners unless there are no registered
+    * listeners.
+    * @param event the event to enqueue
+    */
+    static void enqueueEvent( EventObject event )
+    {
+        synchronized( EVENT_QUEUE ) 
+        {
+            EVENT_QUEUE.add( event );
+            EVENT_QUEUE.notify();
+        }
+    }
+    
+    /**
+     * A single background thread ("the event notification thread") monitors
+     * the event queue and delivers events that are placed on the queue.
+     */
+    private static class EventDispatchThread extends Thread 
+    {
+        public void run() 
+        {
+            while( true ) 
+            {
+                // Wait on EVENT_QUEUE till an event is present
+                EventObject event = null;
+                synchronized( EVENT_QUEUE ) 
+                {
+                    try 
+                    {
+                        while( EVENT_QUEUE.isEmpty() )
+                        { 
+                            EVENT_QUEUE.wait();
+                        }
+                        Object object = EVENT_QUEUE.remove( 0 );
+                        try
+                        {
+                            event = (EventObject) object;
+                        }
+                        catch( ClassCastException cce )
+                        {
+                            final String error = 
+                              "Unexpected class cast exception while processing an event." 
+                              + "\nEvent: " + object;
+                            throw new IllegalStateException( error );
+                        }
+                    }
+                    catch( InterruptedException e )
+                    {
+                        return;
+                    }
+                }
+                
+                Object source = event.getSource();
+                if( source instanceof UnicastEventSource )
+                {
+                    UnicastEventSource producer = (UnicastEventSource) source;
+                    try
+                    {
+                        producer.processEvent( event );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error = 
+                          "Unexpected error while processing event."
+                          + "\nEvent: " + event
+                          + "\nSource: " + source;
+                        String msg = ExceptionHelper.packException( error, e, true );
+                        System.err.println( msg );
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Event source [" 
+                      + source.getClass().getName()
+                      + "] is not an instance of " + UnicastEventSource.class.getName();
+                    throw new IllegalStateException( error );
+                }
+            }
+        }
+    }
+
+    private static Thread m_EVENT_DISPATCH_THREAD = null;
+
+    /**
+     * This method starts the event dispatch thread the first time it
+     * is called.  The event dispatch thread will be started only
+     * if someone registers a listener.
+     */
+    static synchronized void startEventDispatchThread() 
+    {
+        if( m_EVENT_DISPATCH_THREAD == null ) 
+        {
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread();
+            m_EVENT_DISPATCH_THREAD.setDaemon( true );
+            m_EVENT_DISPATCH_THREAD.start();
         }
     }
 }

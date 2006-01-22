@@ -29,6 +29,7 @@ import net.dpml.metro.model.ComponentModel;
 
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;
+import net.dpml.part.remote.Model;
 import net.dpml.part.local.PartsManager;
 import net.dpml.part.local.Handler;
 
@@ -120,7 +121,7 @@ class DefaultPartsManager implements PartsManager
     }
     
     //-------------------------------------------------------------------
-    // Parts
+    // PartsManager
     //-------------------------------------------------------------------
 
    /**
@@ -134,6 +135,46 @@ class DefaultPartsManager implements PartsManager
     
    /**
     * Return a component handler.
+    * @param key the internal component key
+    * @return the local component handler
+    */
+    public synchronized Component getComponent( String key ) throws UnknownKeyException
+    {
+        if( m_handlers.containsKey( key ) )
+        {
+            return (Component) m_handlers.get( key );
+        }
+        else
+        {
+            throw new UnknownKeyException( key );
+        }
+    }
+    
+   /**
+    * Return the component model for the supplied component.
+    * @param component the component
+    * @return the component model
+    */
+    public Model getComponentModel( Component component )
+    {
+        if( component instanceof ComponentHandler )
+        {
+            ComponentHandler handler = (ComponentHandler) component;
+            return handler.getComponentModel();
+        }
+        else
+        {
+            final String error = 
+              "Component ["
+              + component 
+              + "] is not castable to net.dpml.metro.runtime.ComponentHandler.";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+   /**
+    * Return a component handler.
+    * @param key the internal component key
     * @return the local component handler
     */
     public synchronized Handler getComponentHandler( String key ) throws UnknownKeyException
@@ -148,6 +189,10 @@ class DefaultPartsManager implements PartsManager
         }
     }
     
+   /**
+    * Return the commissioned state of the part collection.
+    * @return true if commissioned else false
+    */
     public boolean isCommissioned()
     {
         return m_commissioned;
