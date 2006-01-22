@@ -19,7 +19,9 @@
 package net.dpml.transit;
 
 import java.io.File;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -283,11 +285,40 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
     * Disposal of the cache model.
     * @exception RemoteException if a remote exception occurs
     */
-    synchronized void dispose()
+    public synchronized void dispose()
     {
+        HostModel[] hosts = getHostModels();
+        for( int i=0; i<hosts.length; i++ )
+        {
+            HostModel host = hosts[i];
+            dispose( host );
+        }
+        dispose( m_registry );
+        dispose( m_content );
         super.dispose();
     }
-
+    
+    private void dispose( Object object )
+    {
+        if( object instanceof Disposable )
+        {
+            Disposable disposable = (Disposable) object;
+            disposable.dispose();
+        }
+        if( object instanceof Remote )
+        {
+            try
+            {
+                Remote remote = (Remote) object;
+                UnicastRemoteObject.unexportObject( remote, true );
+            }
+            catch( RemoteException re )
+            {
+                getLogger().warn( "Unexpected error during remote reference removal.", re );
+            }
+        }
+    }
+    
     // ------------------------------------------------------------------------
     // internal
     // ------------------------------------------------------------------------

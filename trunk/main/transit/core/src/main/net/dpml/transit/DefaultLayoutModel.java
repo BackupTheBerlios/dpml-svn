@@ -36,7 +36,7 @@ import net.dpml.transit.model.LayoutEvent;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel
+class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel, Disposable
 {
     //----------------------------------------------------------------------
     // state

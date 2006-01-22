@@ -55,7 +55,7 @@ import net.dpml.transit.monitor.CacheMonitorRouter;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Service
+class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, CacheListener, Disposable
 {
     // ------------------------------------------------------------------------
     // state
@@ -231,9 +231,9 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
                 {
                     getLogger().debug( "removing host: " + id );
                 }
-                if( host instanceof Service )
+                if( host instanceof Disposable )
                 {
-                    Service handler = (Service) host;
+                    Disposable handler = (Disposable) host;
                     handler.dispose();
                 }
                 m_resourceHosts.remove( id );
@@ -242,7 +242,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     }
 
     // ------------------------------------------------------------------------
-    // Service
+    // Disposable
     // ------------------------------------------------------------------------
 
    /**
@@ -257,14 +257,14 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
             m_model.removeCacheListener( this );
             synchronized( m_resourceHosts )
             {
-
-                ResourceHost[] hosts = (ResourceHost[]) m_resourceHosts.values().toArray( new ResourceHost[0] );
+                ResourceHost[] hosts = 
+                  (ResourceHost[]) m_resourceHosts.values().toArray( new ResourceHost[0] );
                 for( int i=0; i < hosts.length; i++ )
                 {
                     ResourceHost host = hosts[i];
-                    if( host instanceof Service )
+                    if( host instanceof Disposable )
                     {
-                        Service handler = (Service) host;
+                        Disposable handler = (Disposable) host;
                         handler.dispose();
                     }
                 }

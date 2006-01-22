@@ -301,9 +301,9 @@ public final class SecuredTransitContext
 
     private void handleDisposal( Object object ) 
     {
-        if( object instanceof Service )
+        if( object instanceof Disposable )
         {
-            Service handler = (Service) object;
+            Disposable handler = (Disposable) object;
             try
             {
                 handler.dispose();

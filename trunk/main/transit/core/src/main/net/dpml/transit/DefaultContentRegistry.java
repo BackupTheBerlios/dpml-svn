@@ -41,7 +41,7 @@ import net.dpml.lang.UnknownKeyException;
  * @version @PROJECT-VERSION@
  */
 class DefaultContentRegistry extends UnicastRemoteObject 
-  implements Service, ContentRegistry, ContentRegistryListener
+  implements ContentRegistry, ContentRegistryListener, Disposable
 {
     // ------------------------------------------------------------------------
     // state
@@ -76,7 +76,7 @@ class DefaultContentRegistry extends UnicastRemoteObject
     }
 
     // ------------------------------------------------------------------------
-    // Handler
+    // Disposable
     // ------------------------------------------------------------------------
 
    /**

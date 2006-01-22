@@ -36,7 +36,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class DefaultModel extends UnicastRemoteObject
+public abstract class DefaultModel extends UnicastRemoteObject implements Disposable
 {
     // ------------------------------------------------------------------------
     // state
@@ -151,7 +151,7 @@ public abstract class DefaultModel extends UnicastRemoteObject
         return m_logger;
     }
     
-    synchronized void dispose()
+    public synchronized void dispose()
     {
         EventListener[] listeners = listeners();
         for( int i=0; i < listeners.length; i++ )
@@ -159,6 +159,11 @@ public abstract class DefaultModel extends UnicastRemoteObject
             EventListener listener = listeners[i];
             removeListener( listener );
         }
+        getLogger().debug( "disposed" );
+    }
+    
+    synchronized void terminateDispatchThread()
+    {
         if( null != m_EVENT_DISPATCH_THREAD )
         {
             m_EVENT_DISPATCH_THREAD.dispose();

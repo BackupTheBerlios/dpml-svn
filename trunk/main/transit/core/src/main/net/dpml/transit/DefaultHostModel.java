@@ -46,7 +46,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultHostModel extends DefaultModel implements HostModel, Comparable
+class DefaultHostModel extends DefaultModel implements HostModel, Comparable, Disposable
 {
     private static final int DEFAULT_PRIORITY = 600;
 
@@ -121,7 +121,7 @@ class DefaultHostModel extends DefaultModel implements HostModel, Comparable
    /**
     * Dispose of the model.
     */
-    void dispose()
+    public void dispose()
     {
         super.dispose();
     }

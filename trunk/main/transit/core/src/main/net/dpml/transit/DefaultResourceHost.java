@@ -66,7 +66,7 @@ import net.dpml.lang.UnknownKeyException;
  * @version @PROJECT-VERSION@
  */
 class DefaultResourceHost extends UnicastRemoteObject 
-  implements ResourceHost, HostListener, Service
+  implements ResourceHost, HostListener, Disposable
 {
     // ------------------------------------------------------------------------
     // state
@@ -135,7 +135,7 @@ class DefaultResourceHost extends UnicastRemoteObject
     }
 
     // ------------------------------------------------------------------------
-    // Handler
+    // Disposable
     // ------------------------------------------------------------------------
 
    /**

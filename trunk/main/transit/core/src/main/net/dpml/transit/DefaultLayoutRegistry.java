@@ -38,7 +38,8 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultLayoutRegistry extends UnicastRemoteObject implements LayoutRegistry, LayoutRegistryListener
+class DefaultLayoutRegistry extends UnicastRemoteObject 
+  implements LayoutRegistry, LayoutRegistryListener
 {
     // ------------------------------------------------------------------------
     // state

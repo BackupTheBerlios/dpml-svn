@@ -214,34 +214,68 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     */
     public synchronized void dispose()
     {
-        m_cache.dispose();
-        if( null != m_proxy )
+        disposeCacheModel();
+        disposeProxyModel();
+        super.dispose();
+        terminateDispatchThread();
+        Thread thread = new Terminator( this );
+        thread.start();
+    }
+    
+    private class Terminator extends Thread
+    {
+        private final DefaultTransitModel m_model;
+        Terminator( DefaultTransitModel model )
+        {
+            m_model = model;
+        }
+        
+        public void run()
+        {
+            try
+            {
+                UnicastRemoteObject.unexportObject( m_model, true );
+            }
+            catch( RemoteException e )
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private synchronized void disposeProxyModel()
+    {
+        if( null == m_proxy )
+        {
+            return;
+        }
+        else
         {
             m_proxy.dispose();
-        }
-        try
-        {
-            UnicastRemoteObject.unexportObject( m_cache, true );
-        }
-        catch( RemoteException e )
-        {
-            getLogger().warn( "Remote error during disposal.", e );
-        }
-        if( null != m_proxy )
-        {
             try
             {
                 UnicastRemoteObject.unexportObject( m_proxy, true );
             }
             catch( RemoteException e )
             {
-                getLogger().warn( "Remote error during disposal.", e );
-            }
+                getLogger().warn( "Remote error during proxy reference removal.", e );
+            } 
         }
-
-        super.dispose();
     }
-
+    
+    private synchronized void disposeCacheModel()
+    {
+        m_cache.dispose();
+        try
+        {
+            UnicastRemoteObject.unexportObject( m_cache, true );
+        }
+        catch( RemoteException e )
+        {
+            getLogger().warn( "Remote error during cache reference removal.", e );
+        }
+    }
+    
     private DefaultProxyModel createProxyModel( final TransitDirective directive )
     {
         try

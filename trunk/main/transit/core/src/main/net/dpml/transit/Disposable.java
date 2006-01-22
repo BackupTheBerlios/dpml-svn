@@ -19,12 +19,12 @@
 package net.dpml.transit;
 
 /**
- * The Service interface is implemented by a disposable sub-system within Transit.
+ * The Disposable interface is implemented by a disposable sub-system within Transit.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Service
+public interface Disposable
 {
    /**
     * Dispose of the service.  During disposal a sub-system is required to 

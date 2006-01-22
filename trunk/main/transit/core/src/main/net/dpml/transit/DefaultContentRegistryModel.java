@@ -18,7 +18,9 @@
 
 package net.dpml.transit;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.List;
 import java.util.LinkedList;
@@ -42,7 +44,7 @@ import net.dpml.lang.DuplicateKeyException;
  * @version @PROJECT-VERSION@
  */
 class DefaultContentRegistryModel extends DefaultModel 
-  implements ContentRegistryModel
+  implements ContentRegistryModel, Disposable
 {
     // ------------------------------------------------------------------------
     // state
@@ -78,9 +80,49 @@ class DefaultContentRegistryModel extends DefaultModel
     }
 
     // ------------------------------------------------------------------------
-    // ContentRegistryModel
+    // Disposable
     // ------------------------------------------------------------------------
 
+   /**
+    * Disposal of the model.
+    * @exception RemoteException if a remote exception occurs
+    */
+    public synchronized void dispose()
+    {
+        ContentModel[] models = getContentModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            ContentModel model = models[i];
+            dispose( model );
+        }
+        super.dispose();
+    }
+
+    private void dispose( Object object )
+    {
+        if( object instanceof Disposable )
+        {
+            Disposable disposable = (Disposable) object;
+            disposable.dispose();
+        }
+        if( object instanceof Remote )
+        {
+            try
+            {
+                Remote remote = (Remote) object;
+                UnicastRemoteObject.unexportObject( remote, true );
+            }
+            catch( RemoteException re )
+            {
+                getLogger().warn( "Unexpected error during remote reference removal.", re );
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // ContentRegistryModel
+    // ------------------------------------------------------------------------
+    
    /**
     * Return an array of content models currently assigned to the registry.
     * @return the content model array

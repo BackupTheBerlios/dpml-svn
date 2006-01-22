@@ -34,7 +34,7 @@ import net.dpml.transit.model.ContentEvent;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultContentModel extends DefaultCodeBaseModel implements ContentModel
+class DefaultContentModel extends DefaultCodeBaseModel implements ContentModel, Disposable
 {
     //----------------------------------------------------------------------
     // state
@@ -108,7 +108,7 @@ class DefaultContentModel extends DefaultCodeBaseModel implements ContentModel
    /**
     * Dispose of the content model.
     */
-    void dispose()
+    public void dispose()
     {
         super.dispose();
     }

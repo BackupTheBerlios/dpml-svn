@@ -18,7 +18,9 @@
 
 package net.dpml.transit;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.EventObject;
@@ -85,7 +87,47 @@ class DefaultLayoutRegistryModel extends DefaultModel
             addLayoutModel( directive, false );
         }
     }
-
+    
+    // ------------------------------------------------------------------------
+    // Disposable
+    // ------------------------------------------------------------------------
+    
+   /**
+    * Disposal of the cache model.
+    * @exception RemoteException if a remote exception occurs
+    */
+    public synchronized void dispose()
+    {
+        LayoutModel[] models = getLayoutModels();
+        for( int i=0; i<models.length; i++ )
+        {
+            LayoutModel model = models[i];
+            dispose( model );
+        }
+        super.dispose();
+    }
+    
+    private void dispose( Object object )
+    {
+        if( object instanceof Disposable )
+        {
+            Disposable disposable = (Disposable) object;
+            disposable.dispose();
+        }
+        if( object instanceof Remote )
+        {
+            try
+            {
+                Remote remote = (Remote) object;
+                UnicastRemoteObject.unexportObject( remote, true );
+            }
+            catch( RemoteException re )
+            {
+                getLogger().warn( "Unexpected error during remote reference removal.", re );
+            }
+        }
+    }
+    
     // ------------------------------------------------------------------------
     // LayoutRegistryModel
     // ------------------------------------------------------------------------
