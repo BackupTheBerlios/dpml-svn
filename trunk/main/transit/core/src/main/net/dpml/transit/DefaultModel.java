@@ -229,7 +229,11 @@ public abstract class DefaultModel extends UnicastRemoteObject
         
         void dispose()
         {
-            m_continue = false;
+            synchronized( EVENT_QUEUE )
+            {
+                m_continue = false;
+                EVENT_QUEUE.notify();
+            }
         }
         
         private Logger getLogger()
@@ -247,9 +251,13 @@ public abstract class DefaultModel extends UnicastRemoteObject
                 {
                     try 
                     {
-                        while( m_continue && EVENT_QUEUE.isEmpty()  )
+                        while( m_continue && EVENT_QUEUE.isEmpty() )
                         { 
                             EVENT_QUEUE.wait();
+                        }
+                        if ( !m_continue )
+                        {
+                            break;
                         }
                         Object object = EVENT_QUEUE.remove( 0 );
                         try

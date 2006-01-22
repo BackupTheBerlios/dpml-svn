@@ -152,7 +152,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Creation of a new TransitModel using a supplied configuration
     * and logging channel.  The implementation will construct a proxy
-    * model, layout registry model, cache modle, content registry model, 
+    * model, layout registry model, cache model, content registry model, 
     * and repository codebase model using the supplied configuration.
     *
     * @param logger the assigned loging channel
@@ -238,6 +238,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
                 getLogger().warn( "Remote error during disposal.", e );
             }
         }
+
+        super.dispose();
     }
 
     private DefaultProxyModel createProxyModel( final TransitDirective directive )
