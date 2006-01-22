@@ -159,6 +159,10 @@ public abstract class DefaultModel extends UnicastRemoteObject
             EventListener listener = listeners[i];
             removeListener( listener );
         }
+        if( null != m_EVENT_DISPATCH_THREAD )
+        {
+            m_EVENT_DISPATCH_THREAD.dispose();
+        }
     }
     
    /**
@@ -214,13 +218,20 @@ public abstract class DefaultModel extends UnicastRemoteObject
      */
     private static class EventDispatchThread extends Thread 
     {
+        private boolean m_continue = true;
+        
         private Logger m_logger;
-
+        
         EventDispatchThread( Logger logger )
         {
             m_logger = logger;
         }
-
+        
+        void dispose()
+        {
+            m_continue = false;
+        }
+        
         private Logger getLogger()
         {
             return m_logger;
@@ -228,7 +239,7 @@ public abstract class DefaultModel extends UnicastRemoteObject
 
         public void run() 
         {
-            while( true ) 
+            while( m_continue ) 
             {
                 // Wait on EVENT_QUEUE till an event is present
                 EventObject event = null;
@@ -236,7 +247,7 @@ public abstract class DefaultModel extends UnicastRemoteObject
                 {
                     try 
                     {
-                        while( EVENT_QUEUE.isEmpty() )
+                        while( m_continue && EVENT_QUEUE.isEmpty()  )
                         { 
                             EVENT_QUEUE.wait();
                         }
@@ -287,7 +298,7 @@ public abstract class DefaultModel extends UnicastRemoteObject
         }
     }
 
-    private static Thread m_EVENT_DISPATCH_THREAD = null;
+    private static EventDispatchThread m_EVENT_DISPATCH_THREAD = null;
 
     /**
      * This method starts the event dispatch thread the first time it
