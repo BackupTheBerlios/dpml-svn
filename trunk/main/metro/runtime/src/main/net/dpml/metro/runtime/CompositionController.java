@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Stephen J. McConnell
+ * Copyright (c) 2005-2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -89,7 +89,7 @@ public class CompositionController implements Controller
        throws ControlException
     {
         super();
-
+        
         m_context = context;
         m_logger = new StandardLogger( context.getLogger() );
         m_loader = Transit.getInstance().getRepository();
@@ -304,45 +304,6 @@ public class CompositionController implements Controller
             return this;
         }
     }
-
-   /*
-    public Object getContent( URLConnection connection, Class[] classes ) throws IOException
-    {
-        URL url = connection.getURL();
-        try
-        {
-            if( classes.length == 0 )
-            {
-                return loadPart( url );
-            }
-            else
-            {
-                for( int i=0; i<classes.length; i++ )
-                {
-                    Class c = classes[i];
-                    if( Part.class.isAssignableFrom( c ) )
-                    {
-                        return loadPart( url );
-                    }
-                    else if( URI.class.isAssignableFrom( c ) )
-                    {
-                        Part part = loadPart( url );
-                        return part.getPartHandlerURI();
-                    }
-                }
-            }
-            return null;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Internal error whuile attempting to establish content for: " + url;
-            IOException cause = new IOException( error );
-            cause.initCause( e );
-            throw cause;
-        }
-    }
-    */
 
     private Controller resolveController( URI uri ) throws ControllerNotFoundException
     {
