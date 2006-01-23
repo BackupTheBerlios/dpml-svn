@@ -20,6 +20,9 @@ package net.dpml.part.local;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.util.EventObject;
 import java.util.EventListener;
@@ -46,66 +49,65 @@ public final class InitialContext extends LocalEventProducer
     // static
     //----------------------------------------------------------------------------
     
-    private static final InitialContext CONTEXT = new InitialContext();
+    private static InitalContext m_CONTEXT;
     
    /**
-    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
-    * @param thread the application thread
+    * Create the default controller.
     */
-    static
+    public static Controller createController()
     {
-        //
-        // Create a shutdown hook to trigger clean disposal of the
-        // controller
-        //
-        
-        Runtime.getRuntime().addShutdownHook(
-          new Thread()
-          {
-              public void run()
-              {
-                  try
-                  {
-                      CONTEXT.dispose();
-                  }
-                  catch( Throwable e )
-                  {
-                      boolean ignorable = true;
-                  }
-                  System.runFinalization();
-              }
-          }
-        );
+        return createController( null );
     }
-
-    public static final Controller CONTROLLER = newController( CONTEXT );
     
    /**
-    * Construct a controller.
+    * Create the default controller.
     * @param context the controller context
-    * @return the controller
     */
-    public static Controller newController( final ControllerContext context )
+    public static Controller createController( InitialContext context )
     {
-        if( null == context )
+        ControllerInvocationHandler handler = new ControllerInvocationHandler( context );
+        return (Controller) Proxy.newProxyInstance( 
+          Controller.class.getClassLoader(), new Class[]{Controller.class}, handler );
+    }
+    
+    private static class ControllerInvocationHandler implements InvocationHandler
+    {
+        private InitialContext m_context;
+        private Controller m_controller;
+        
+        private ControllerInvocationHandler( InitialContext context )
         {
-            throw new NullPointerException( "context" );
+            m_context = context;
         }
-        try
+        
+        /**
+        * Invoke the specified method on underlying object.
+        * This is called by the proxy object.
+        *
+        * @param proxy the proxy object
+        * @param method the method invoked on proxy object
+        * @param args the arguments supplied to method
+        * @return the return value of method
+        * @throws Throwable if an error occurs
+        */
+        public Object invoke( 
+          final Object proxy, final Method method, final Object[] args ) throws Throwable
         {
-            URI uri = getControllerURI();
-            ClassLoader classloader = InitialContext.class.getClassLoader();
-            Repository repository = Transit.getInstance().getRepository();
-            Class c = repository.getPluginClass( classloader, uri );
-            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
-            Controller controller = (Controller) constructor.newInstance( new Object[]{context} );
-            return controller;
+            Controller controller = getController();
+            return method.invoke( controller, args );
         }
-        catch( Throwable e )
+        
+        private synchronized Controller getController()
         {
-            final String error =
-              "Internal error while attempting to establish the default part handler.";
-            throw new RuntimeException( error, e );
+            if( null != m_controller )
+            {
+                return m_controller;
+            }
+            else
+            {
+                m_controller = InitialContext.newController( m_context );
+                return m_controller;
+            }
         }
     }
     
@@ -116,6 +118,38 @@ public final class InitialContext extends LocalEventProducer
             "dpml.part.controller.uri", 
             "@PART-HANDLER-URI@" );
         return new URI( spec );
+    }
+    
+   /**
+    * Construct a controller.
+    * @param context the controller context
+    * @return the controller
+    */
+    private static Controller newController( final InitialContext context )
+    {
+        InitialContext control = context;
+        if( null == control )
+        {
+            control = new InitialContext();
+            Runtime.getRuntime().addShutdownHook( new ContextShutdownHook( control ) );
+        }
+        
+        try
+        {
+            URI uri = getControllerURI();
+            ClassLoader classloader = InitialContext.class.getClassLoader();
+            Repository repository = Transit.getInstance().getRepository();
+            Class c = repository.getPluginClass( classloader, uri );
+            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
+            Controller controller = (Controller) constructor.newInstance( new Object[]{control} );
+            return controller;
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to establish the standard controller.";
+            throw new RuntimeException( error, e );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -414,4 +448,29 @@ public final class InitialContext extends LocalEventProducer
         }
     }
 
+    private static class ContextShutdownHook extends Thread
+    {
+        private InitialContext m_context;
+        
+        ContextShutdownHook( InitialContext context )
+        {
+            m_context = context;
+        }
+        
+        public void run()
+        {
+            try
+            {
+                m_context.dispose();
+            }
+            catch( Throwable e )
+            {
+                boolean ignorable = true;
+            }
+            finally
+            {
+                System.runFinalization();
+            }
+        }
+    }
 }

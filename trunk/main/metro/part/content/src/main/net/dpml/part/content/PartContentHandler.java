@@ -28,7 +28,7 @@ import net.dpml.transit.Logger;
 
 import net.dpml.part.Directive;
 import net.dpml.part.local.Controller;
-import net.dpml.part.local.PartManager;
+import net.dpml.part.local.InitialContext;
 import net.dpml.part.remote.Model;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
@@ -40,34 +40,7 @@ import net.dpml.part.remote.Provider;
  */
 public class PartContentHandler extends ContentHandler
 {
-    private final Logger m_logger;
-    private final Controller m_handler;
-
-   /**
-    * Creation of a new <tt>PartContentHandler</tt>.
-    * @param logger the assigned logging channel
-    * @exception IOException if an IO error occurs
-    */
-    public PartContentHandler( Logger logger ) throws IOException 
-    {
-        if( null == logger )
-        {
-            throw new NullPointerException( "logger" );
-        }
-        m_logger = logger;
-        try
-        {
-            m_handler = PartManager.newController( logger );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error while attempting to establish the part handler.";
-            IOException cause = new IOException( error );
-            cause.initCause( e );
-            throw cause;
-        }
-    }
+    private static final Controller CONTROLLER = Controller.STANDARD;
 
    /**
     * Return the content form the url connection.
@@ -104,23 +77,23 @@ public class PartContentHandler extends ContentHandler
                 Class c = classes[i];
                 if( Directive.class.isAssignableFrom( c ) )
                 {
-                    return m_handler.loadDirective( uri );
+                    return CONTROLLER.loadDirective( uri );
                 }
                 else if( Model.class.isAssignableFrom( c ) )
                 {
-                    return m_handler.createModel( uri );
+                    return CONTROLLER.createModel( uri );
                 }
                 else if( Component.class.isAssignableFrom( c ) )
                 {
-                    return m_handler.createComponent( uri );
+                    return CONTROLLER.createComponent( uri );
                 }
                 else if( Provider.class.isAssignableFrom( c ) )
                 {
-                    Component component = m_handler.createComponent( uri );
+                    Component component = CONTROLLER.createComponent( uri );
                     return component.getProvider();
                 }
             }
-            Component component = m_handler.createComponent( uri );
+            Component component = CONTROLLER.createComponent( uri );
             Provider provider = component.getProvider();
             return provider.getValue( false );
         }

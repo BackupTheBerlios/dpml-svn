@@ -70,7 +70,7 @@ public class PartLoadingTestCase extends TestCase
         // initialize the controller
         
         InitialContext context = new InitialContext();
-        Controller controller = InitialContext.newController( context );
+        Controller controller = InitialContext.createController( context );
         
         // do stuff
         
