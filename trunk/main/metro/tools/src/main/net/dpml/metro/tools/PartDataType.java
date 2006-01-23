@@ -29,6 +29,7 @@ import net.dpml.metro.info.Type;
 import net.dpml.part.Directive;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
+import net.dpml.part.local.Controller;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.tools.AntAdapter;
@@ -144,9 +145,10 @@ public class PartDataType extends Task implements PartReferenceBuilder
         URI uri = getURI();
         try
         {
-            Logger logger = new AntAdapter( this );
-            CompositionController controller = new CompositionController( logger );
-            return controller.loadDirective( uri );
+            //Logger logger = new AntAdapter( this );
+            //CompositionController controller = new CompositionController( logger );
+            //return controller.loadDirective( uri );
+            return Controller.STANDARD.loadDirective( uri );
         }
         catch( PartNotFoundException pnfe )
         {

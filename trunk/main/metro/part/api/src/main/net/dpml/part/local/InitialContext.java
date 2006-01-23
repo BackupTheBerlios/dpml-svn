@@ -49,10 +49,10 @@ public final class InitialContext extends LocalEventProducer
     // static
     //----------------------------------------------------------------------------
     
-    private static InitalContext m_CONTEXT;
-    
    /**
-    * Create the default controller.
+    * Create the default controller using the default initial context.
+    * The default context and associated controller disposal will be triggered 
+    * on JVM shutdown.
     */
     public static Controller createController()
     {
@@ -60,12 +60,15 @@ public final class InitialContext extends LocalEventProducer
     }
     
    /**
-    * Create the default controller.
+    * Create the default controller.  Controller disposal is the responsiblity
+    * of the client application.
+    *
     * @param context the controller context
     */
-    public static Controller createController( InitialContext context )
+    public static Controller createController( final InitialContext context )
     {
-        ControllerInvocationHandler handler = new ControllerInvocationHandler( context );
+        ControllerInvocationHandler handler = 
+          new ControllerInvocationHandler( context );
         return (Controller) Proxy.newProxyInstance( 
           Controller.class.getClassLoader(), new Class[]{Controller.class}, handler );
     }

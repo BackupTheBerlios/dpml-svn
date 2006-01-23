@@ -22,7 +22,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.metro.runtime.CompositionController;
+//import net.dpml.metro.runtime.CompositionController;
 
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
@@ -31,6 +31,8 @@ import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Resource;
+
+import net.dpml.part.local.Controller;
 
 import net.dpml.transit.tools.AntAdapter;
 import net.dpml.transit.Logger;
@@ -68,12 +70,13 @@ public abstract class ClassLoaderBuilderTask extends GenericTask
     * Get the composition controller.
     * @return the controller
     */
-    protected CompositionController getController()
+    protected Controller getController()
     {
         try
         {
-            Logger logger = new AntAdapter( this );
-            return new CompositionController( logger );
+            return Controller.STANDARD;
+            //Logger logger = new AntAdapter( this );
+            //return new CompositionController( logger );
         }
         catch( Throwable e )
         {
