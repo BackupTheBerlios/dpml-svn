@@ -18,6 +18,7 @@
 
 package net.dpml.part.remote;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.part.ActivationPolicy;
@@ -29,7 +30,7 @@ import net.dpml.part.ActivationPolicy;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Model
+public interface Model extends Remote
 {
    /**
     * The constant partition separator.
