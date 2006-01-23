@@ -179,8 +179,7 @@ public final class InitialContext extends LocalEventProducer
     //----------------------------------------------------------------------------
     
    /**
-    * Creation of a new <tt>CompositionContext</tt>.
-    * @param logger the assigned logging channel
+    * Creation of a new <tt>InitialContext</tt>.
     */
     public InitialContext()
     {
@@ -188,7 +187,7 @@ public final class InitialContext extends LocalEventProducer
     }
 
    /**
-    * Creation of a new <tt>CompositionContext</tt>.
+    * Creation of a new <tt>InitialContext</tt>.
     * @param logger the assigned logging channel
     */
     public InitialContext( Logger logger )
@@ -197,7 +196,7 @@ public final class InitialContext extends LocalEventProducer
     }
     
    /**
-    * Creation of a new <tt>CompositionContext</tt>.
+    * Creation of a new <tt>InitialContext</tt>.
     * @param logger the assigned logging channel
     * @param work the working directory
     * @param temp the temporary directory
