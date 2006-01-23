@@ -24,10 +24,8 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.HashMap;
 
 import net.dpml.transit.Logger;
-import net.dpml.transit.util.ExceptionHelper;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 
@@ -38,8 +36,18 @@ import net.dpml.transit.util.ExceptionHelper;
  */
 abstract class LocalEventProducer 
 {
-    private Map m_listeners = new HashMap();
+    //----------------------------------------------------------------------------
+    // state
+    //----------------------------------------------------------------------------
+
+   /**
+    * Weak hashmap of event listeners.
+    */
+    private Map m_listeners = new WeakHashMap();
     
+   /**
+    * Logging channel.
+    */
     private Logger m_logger;
     
    /**
@@ -47,16 +55,44 @@ abstract class LocalEventProducer
     */
     private final Object m_lock = new Object();
     
+    //----------------------------------------------------------------------------
+    // constructor
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Creation of a new local event producer.
+    * @param logger the assigned logging channel
+    */
     LocalEventProducer( Logger logger )
     {
         m_logger = logger;
     }
     
+    //----------------------------------------------------------------------------
+    // implementation
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Return the internal context logging channel.
+    * @return the logging channel
+    */
+    protected Logger getInternalLogger()
+    {
+        return m_logger;
+    }
+    
+   /**
+    * Return the synchronization lock.
+    * @return the lock
+    */
     protected Object getLock()
     {
         return m_lock;
     }
     
+   /**
+    * Dispose of the event producer.
+    */
     void dispose()
     {
         m_logger.debug( "context event channel disposal" );
@@ -160,15 +196,11 @@ abstract class LocalEventProducer
                 EventObject event = null;
                 synchronized( EVENT_QUEUE ) 
                 {
-                    try 
+                    try
                     {
-                        while( m_continue && EVENT_QUEUE.isEmpty() )
+                        while( EVENT_QUEUE.isEmpty() )
                         { 
                             EVENT_QUEUE.wait();
-                        }
-                        if ( !m_continue )
-                        {
-                            break;
                         }
                         Object object = EVENT_QUEUE.remove( 0 );
                         try
@@ -188,7 +220,7 @@ abstract class LocalEventProducer
                         return;
                     }
                 }
-
+                
                 Object source = event.getSource();
                 if( source instanceof LocalEventProducer )
                 {

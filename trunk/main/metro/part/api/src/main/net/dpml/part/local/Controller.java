@@ -39,7 +39,7 @@ public interface Controller
    /**
     * Static default controller.
     */
-    static final Controller STANDARD = PartManager.CONTROLLER;
+    static final Controller STANDARD = InitialContext.CONTROLLER;
 
    /**
     * Returns the identity of the object implementing this interface.

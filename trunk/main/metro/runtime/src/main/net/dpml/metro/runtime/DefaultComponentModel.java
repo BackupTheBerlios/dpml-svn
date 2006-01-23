@@ -75,7 +75,6 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
     private final HashMap m_parts = new HashMap();
     private final DefaultContextModel m_context;
     private final String m_path;
-    private final Logger m_logger;
     
     private String m_classname;
     private ActivationPolicy m_activation;
@@ -95,10 +94,8 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
       ComponentDirective directive, String partition ) 
       throws ControlException, RemoteException
     {
-        super();
+        super( new StandardLogger( partition.substring( 1 ).replace( '/', '.' ) ) );
         
-        m_logger = new StandardLogger( partition.substring( 1 ).replace( '/', '.' ) );
-
         m_controller = controller;
         m_path = partition + directive.getName();
 
@@ -115,7 +112,8 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
         m_configuration = directive.getConfiguration();
         
         ContextDirective context = directive.getContextDirective();
-        m_context = new DefaultContextModel( this, m_logger, m_classloader, m_type, context );
+        Logger logger = getLogger();
+        m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
         final String base = m_path + PARTITION_SEPARATOR;
         m_partKeys = getPartKeys( m_type );
@@ -158,7 +156,7 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
                     {
                         final String error =
                           "ModelListener change notification error.";
-                        m_logger.error( error, e );
+                        getLogger().error( error, e );
                     }
                 }
             }

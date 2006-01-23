@@ -46,6 +46,40 @@ public final class InitialContext extends LocalEventProducer
     // static
     //----------------------------------------------------------------------------
     
+    private static final InitialContext CONTEXT = new InitialContext();
+    
+   /**
+    * Create a shutdown hook that will trigger shutdown of the supplied plugin.
+    * @param thread the application thread
+    */
+    static
+    {
+        //
+        // Create a shutdown hook to trigger clean disposal of the
+        // controller
+        //
+        
+        Runtime.getRuntime().addShutdownHook(
+          new Thread()
+          {
+              public void run()
+              {
+                  try
+                  {
+                      CONTEXT.dispose();
+                  }
+                  catch( Throwable e )
+                  {
+                      boolean ignorable = true;
+                  }
+                  System.runFinalization();
+              }
+          }
+        );
+    }
+
+    public static final Controller CONTROLLER = newController( CONTEXT );
+    
    /**
     * Construct a controller.
     * @param context the controller context
@@ -167,10 +201,11 @@ public final class InitialContext extends LocalEventProducer
     */
     public void dispose()
     {
-        m_logger.debug( "context disposal" );
+        getInternalLogger().debug( "initiating context disposal" );
         ControllerDisposalEvent event = new ControllerDisposalEvent( this );
         enqueueEvent( event, false );
         super.dispose();
+        getInternalLogger().debug( "disposed" );
     }
 
     //----------------------------------------------------------------------------
@@ -288,7 +323,7 @@ public final class InitialContext extends LocalEventProducer
                 {
                     final String error =
                       "ControllerContextListener working dir change notification error.";
-                    getLogger().error( error, e );
+                    getInternalLogger().error( error, e );
                 }
             }
         }
@@ -311,7 +346,7 @@ public final class InitialContext extends LocalEventProducer
                 {
                     final String error =
                       "ControllerContextListener temp dir change notification error.";
-                    getLogger().error( error, e );
+                    getInternalLogger().error( error, e );
                 }
             }
         }
@@ -334,7 +369,7 @@ public final class InitialContext extends LocalEventProducer
                 {
                     final String error =
                       "ControllerContextListener disposal notification error.";
-                    getLogger().error( error, e );
+                    getInternalLogger().error( error, e );
                 }
             }
         }

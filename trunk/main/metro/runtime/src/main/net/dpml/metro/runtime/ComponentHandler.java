@@ -143,7 +143,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
       final ComponentController control, final ComponentModel model )
       throws RemoteException, ControlException
     {
-        super();
+        super( logger );
         
         m_parent = parent;
         m_classloader = classloader;
@@ -580,6 +580,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     {
         synchronized( getLock() )
         {
+            getLogger().debug( "disposal" );
             m_holder.dispose();
             super.dispose();
         }
@@ -666,15 +667,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
             classes[i] = m_services[i].getServiceClass();
         }
         return classes;
-    }
-    
-    //--------------------------------------------------------------------------
-    // internal
-    //--------------------------------------------------------------------------
-    
-    private Logger getLogger()
-    {
-        return m_logger;
     }
     
     //--------------------------------------------------------------------------

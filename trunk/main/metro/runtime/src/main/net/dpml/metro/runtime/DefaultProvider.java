@@ -69,11 +69,6 @@ class DefaultProvider extends UnicastEventSource implements Provider
     */
     private final DefaultStateMachine m_machine;
     
-   /**
-    * The logging channel.
-    */
-    private final Logger m_logger;
-
     //-------------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------------
@@ -111,7 +106,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
     DefaultProvider( ComponentHandler handler, Logger logger ) 
       throws RemoteException, ControlException, InvocationTargetException
     {
-        super();
+        super( logger );
         
         if( null == handler )
         {
@@ -122,7 +117,6 @@ class DefaultProvider extends UnicastEventSource implements Provider
             throw new NullPointerException( "logger" );
         }
         
-        m_logger = logger;
         m_handler = handler;
 
         State graph = handler.getStateGraph();
@@ -250,7 +244,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
             final String error =
               "Event type not supported."
               + "\nEvent Class: " + event.getClass().getName();
-            m_logger.warn( error );
+            getLogger().warn( error );
         }
     }
     
@@ -337,11 +331,6 @@ class DefaultProvider extends UnicastEventSource implements Provider
     {
         m_machine.removePropertyChangeListener( listener );
         m_handler.removePropertyChangeListener( listener );
-    }
-    
-    private Logger getLogger()
-    {
-        return m_logger;
     }
     
     private String createTag( Object instance )

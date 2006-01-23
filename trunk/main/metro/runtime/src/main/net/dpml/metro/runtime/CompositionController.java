@@ -66,6 +66,7 @@ public class CompositionController implements Controller
     private final ComponentController m_controller;
     private final HashMap m_handlers = new HashMap(); // foreign controllers
     private final Repository m_loader;
+    private final InternalControllerContextListener m_listener;
     
     //--------------------------------------------------------------------
     // mutable state
@@ -79,17 +80,6 @@ public class CompositionController implements Controller
 
    /**
     * Creation of a new controller.
-    * @param logger the logging chanel
-    * @exception ControlException if an error occurs during controller creation
-    */
-    public CompositionController( net.dpml.transit.Logger logger )
-       throws ControlException
-    {
-        this( new CompositionContext( logger, null, null ) );
-    }
-
-   /**
-    * Creation of a new controller.
     * @param context the control context
     * @exception ControlException if an error occurs during controller creation
     */
@@ -99,10 +89,10 @@ public class CompositionController implements Controller
         super();
         
         m_context = context;
-        m_logger = new StandardLogger( context.getLogger() );
-        
-        m_context.addControllerContextListener( 
-          new InternalControllerContextListener( this ) );
+        Logger root = new StandardLogger( context.getLogger() );
+        m_logger = root.getChildLogger( "control" );
+        m_listener = new InternalControllerContextListener( this );
+        m_context.addControllerContextListener( m_listener );
         m_loader = Transit.getInstance().getRepository();
         m_logger.debug( "controller: " + CONTROLLER_URI );
         m_controller = new ComponentController( m_logger, this );
@@ -357,15 +347,12 @@ public class CompositionController implements Controller
     
     void dispose()
     {
-        getLogger().info( "initating controller disposal" );
-        m_disposed = true;
+        getLogger().debug( "initating controller disposal" );
+        m_context.removeControllerContextListener( m_listener );
+        m_EVENT_DISPATCH_THREAD.dispose();
+        getLogger().debug( "disposal complete" );
     }
     
-    boolean isDisposed()
-    {
-        return m_disposed;
-    }
-
    /**
     * Static URI of this controller.
     */
@@ -428,19 +415,29 @@ public class CompositionController implements Controller
      */
     private static class EventDispatchThread extends Thread 
     {
-        private final CompositionController m_controller;
         private final Logger m_logger;
         
-        EventDispatchThread( CompositionController controller, Logger logger )
+        private boolean m_continue = true;
+        
+        EventDispatchThread( Logger logger )
         {
-            m_controller = controller;
             m_logger = logger;
             m_logger.debug( "starting event dispatch thread" );
         }
         
+        void dispose()
+        {
+            synchronized( EVENT_QUEUE )
+            {
+                m_logger.debug( "stopping event dispatch thread" );
+                m_continue = false;
+                EVENT_QUEUE.notify();
+            }
+        }
+        
         public void run() 
         {
-            while( !m_controller.isDisposed() ) 
+            while( m_continue ) 
             {
                 // Wait on EVENT_QUEUE till an event is present
                 EventObject event = null;
@@ -485,8 +482,7 @@ public class CompositionController implements Controller
                           "Unexpected error while processing event."
                           + "\nEvent: " + event
                           + "\nSource: " + source;
-                        String msg = ExceptionHelper.packException( error, e, true );
-                        System.err.println( msg );
+                        m_logger.warn( error, e );
                     }
                 }
                 else
@@ -514,8 +510,8 @@ public class CompositionController implements Controller
     {
         if( m_EVENT_DISPATCH_THREAD == null )
         {
-            Logger logger = getLogger();
-            m_EVENT_DISPATCH_THREAD = new EventDispatchThread( this, logger );
+            Logger logger = getLogger().getChildLogger( "event" );
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread( logger );
             m_EVENT_DISPATCH_THREAD.setDaemon( true );
             m_EVENT_DISPATCH_THREAD.start();
         }
@@ -554,7 +550,6 @@ public class CompositionController implements Controller
         */
         public void controllerDisposal( ControllerContextEvent event )
         {
-            System.out.println( "# DISPOSAL EVENT" );
             m_controller.dispose();
         }
     }

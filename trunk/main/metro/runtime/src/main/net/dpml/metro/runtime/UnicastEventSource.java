@@ -26,6 +26,8 @@ import java.util.EventListener;
 import java.util.List;
 import java.util.LinkedList;
 
+import net.dpml.logging.Logger;
+
 import net.dpml.transit.util.ExceptionHelper;
 
 /**
@@ -47,15 +49,31 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
     */
     private final Object m_lock = new Object();
     
+    private final Logger m_logger;
+    
     private boolean m_disposed = false;
 
    /**
     * Creation of a new <tt>UnicastEventSource</tt>.
     * @exception RemoteException if a remote I/O exception occurs
     */
-    protected UnicastEventSource() throws RemoteException
+    protected UnicastEventSource( Logger logger ) throws RemoteException
     {
         super();
+        m_logger = logger;
+    }
+    
+    //--------------------------------------------------------------------------
+    // internal
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Return the logging channel assigned to the event source.
+    * @return the logging channel
+    */
+    protected Logger getLogger()
+    {
+        return m_logger;
     }
     
    /**
@@ -168,16 +186,48 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         
         synchronized( m_lock )
         {
+            EventListener[] listeners = listeners();
+            for( int i=0; i < listeners.length; i++ )
+            {
+                EventListener listener = listeners[i];
+                removeListener( listener );
+            }
+            m_disposed = true;
+            getLogger().debug( "disposed" );
+        }
+        
+        Thread thread = new Terminator( this, m_logger );
+        thread.start();
+    }
+    
+    private class Terminator extends Thread
+    {
+        private final UnicastEventSource m_source;
+        private final Logger m_logger;
+        
+        Terminator( UnicastEventSource source, Logger logger )
+        {
+            m_source = source;
+            m_logger = logger;
+        }
+        
+        public void run()
+        {
             try
             {
-                unexportObject( this, false );
+                UnicastRemoteObject.unexportObject( m_source, true );
+                m_logger.debug( "terminated" );
             }
             catch( NoSuchObjectException e )
             {
-                // ignore
+                boolean ignoreThis = true; // objct has not been exported
             }
-            m_listeners = new EventListener[0];
-            m_disposed = true;
+            catch( RemoteException e )
+            {
+                final String error = 
+                  "Unexpected remote exception while retracting component handler remote reference.";
+                m_logger.warn( error, e );
+            }
         }
     }
     

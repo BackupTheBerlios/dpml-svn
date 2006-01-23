@@ -62,7 +62,6 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
     private final Map m_contextTable = 
       Collections.synchronizedMap( new HashMap() ); // (key,directive)
     private final DefaultComponentModel m_parent; 
-    private final Logger m_logger; 
     
     // ------------------------------------------------------------------------
     // mutable state
@@ -87,9 +86,8 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
       DefaultComponentModel parent, Logger logger, ClassLoader classloader, Type type, ContextDirective directive )
       throws ModelException, RemoteException
     {
-        super();
+        super( logger );
         
-        m_logger = logger;
         m_parent = parent;
         m_directive = directive;
         m_classloader = classloader;
@@ -155,7 +153,7 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
                     {
                         final String error =
                           "ModelListener change notification error.";
-                        m_logger.error( error, e );
+                        getLogger().error( error, e );
                     }
                 }
             }
