@@ -33,17 +33,30 @@ public class DisposalTestCase extends TestCase
 {
     private DefaultTransitModel m_model;
     
+   /**
+    * Setup the testcase during which an instance of DefaultTransitModel
+    * is created and cached so that we can invoke model tear-down on 
+    * completion of the test.
+    * @exception Exception if something goes pear-shaped
+    */
     public void setUp() throws Exception
     {
         m_model = DefaultTransitModel.getDefaultModel();
         Transit.getInstance( m_model );
     }
     
+   /**
+    * Nothing here - ant's Junit requires at least a single test but the
+    * real testing is in no exceptions under setup and teardown.
+    */
     public void testSetupAndTearDown()
     {
         // trigger setup and teardown
     }
 
+   /**
+    * Dispose of the transit model.
+    */
     public void tearDown()
     {
         m_model.dispose();

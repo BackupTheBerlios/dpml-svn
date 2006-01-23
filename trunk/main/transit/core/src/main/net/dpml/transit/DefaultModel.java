@@ -151,6 +151,9 @@ public abstract class DefaultModel extends UnicastRemoteObject implements Dispos
         return m_logger;
     }
     
+   /**
+    * Dispose of the model.
+    */
     public synchronized void dispose()
     {
         EventListener[] listeners = listeners();
@@ -162,6 +165,9 @@ public abstract class DefaultModel extends UnicastRemoteObject implements Dispos
         getLogger().debug( "disposed" );
     }
     
+   /**
+    * Terminate the dispatch thread.
+    */
     synchronized void terminateDispatchThread()
     {
         if( null != m_EVENT_DISPATCH_THREAD )

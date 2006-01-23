@@ -222,6 +222,9 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         thread.start();
     }
     
+   /**
+    * Internal model terminator.
+    */
     private class Terminator extends Thread
     {
         private final DefaultTransitModel m_model;
@@ -230,6 +233,9 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             m_model = model;
         }
         
+       /**
+        * Initiate model retraction from the RMI.
+        */
         public void run()
         {
             try

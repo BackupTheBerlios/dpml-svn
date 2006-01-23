@@ -22,8 +22,6 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-//import net.dpml.metro.runtime.CompositionController;
-
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
 
@@ -34,8 +32,6 @@ import net.dpml.library.model.Resource;
 
 import net.dpml.part.local.Controller;
 
-import net.dpml.transit.tools.AntAdapter;
-import net.dpml.transit.Logger;
 import net.dpml.transit.Category;
 
 import org.apache.tools.ant.AntClassLoader;

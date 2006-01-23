@@ -43,6 +43,7 @@ public interface PartsManager
     * Return an internal component.
     * @param key the internal component key
     * @return the component
+    * @exception UnknownKeyException the key is not recognized
     */
     Component getComponent( String key ) throws UnknownKeyException;
     
@@ -57,7 +58,7 @@ public interface PartsManager
     * Return a local component handler.
     * @param key the internal part key
     * @return the local component handler
-    * @exception UnknownPartException the key is not recognized
+    * @exception UnknownKeyException the key is not recognized
     */
     Handler getComponentHandler( String key ) throws UnknownKeyException;
     

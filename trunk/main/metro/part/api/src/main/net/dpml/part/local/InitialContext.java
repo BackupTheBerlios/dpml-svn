@@ -53,6 +53,8 @@ public final class InitialContext extends LocalEventProducer
     * Create the default controller using the default initial context.
     * The default context and associated controller disposal will be triggered 
     * on JVM shutdown.
+    *
+    * @return the default controller
     */
     public static Controller createController()
     {
@@ -64,6 +66,7 @@ public final class InitialContext extends LocalEventProducer
     * of the client application.
     *
     * @param context the controller context
+    * @return the controller
     */
     public static Controller createController( final InitialContext context )
     {
@@ -73,7 +76,11 @@ public final class InitialContext extends LocalEventProducer
           Controller.class.getClassLoader(), new Class[]{Controller.class}, handler );
     }
     
-    private static class ControllerInvocationHandler implements InvocationHandler
+   /**
+    * Internal invocation handler that delays controller instantiation
+    * until a request against the controller is made by a client.
+    */
+    private static final class ControllerInvocationHandler implements InvocationHandler
     {
         private InitialContext m_context;
         private Controller m_controller;
@@ -450,15 +457,25 @@ public final class InitialContext extends LocalEventProducer
         }
     }
 
+   /**
+    * Internal utility class to handle context disposal on JVM shutdown.
+    */
     private static class ContextShutdownHook extends Thread
     {
         private InitialContext m_context;
         
+       /**
+        * Creation of a new initial context shutdown hook.
+        * @param context the initional context to be shutdown on JVM shutdown
+        */
         ContextShutdownHook( InitialContext context )
         {
             m_context = context;
         }
         
+       /**
+        * Execute context disposal.
+        */
         public void run()
         {
             try

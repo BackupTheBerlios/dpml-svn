@@ -46,7 +46,6 @@ import net.dpml.part.remote.Component;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
-import net.dpml.transit.util.ExceptionHelper;
 
 /**
  * The composition controller is the controller used to establish remotely accessible
@@ -349,7 +348,7 @@ public class CompositionController implements Controller
     {
         getLogger().debug( "initating controller disposal" );
         m_context.removeControllerContextListener( m_listener );
-        m_EVENT_DISPATCH_THREAD.dispose();
+        m_dispatch.dispose();
         getLogger().debug( "disposal complete" );
     }
     
@@ -499,7 +498,7 @@ public class CompositionController implements Controller
         }
     }
 
-    private EventDispatchThread m_EVENT_DISPATCH_THREAD = null;
+    private EventDispatchThread m_dispatch = null;
 
     /**
      * This method starts the event dispatch thread the first time it
@@ -508,20 +507,27 @@ public class CompositionController implements Controller
      */
     private synchronized void startEventDispatchThread()
     {
-        if( m_EVENT_DISPATCH_THREAD == null )
+        if( m_dispatch == null )
         {
             Logger logger = getLogger().getChildLogger( "event" );
-            m_EVENT_DISPATCH_THREAD = new EventDispatchThread( logger );
-            m_EVENT_DISPATCH_THREAD.setDaemon( true );
-            m_EVENT_DISPATCH_THREAD.start();
+            m_dispatch = new EventDispatchThread( logger );
+            m_dispatch.setDaemon( true );
+            m_dispatch.start();
         }
     }
     
+   /**
+    * Controller context listener.
+    */
     private class InternalControllerContextListener implements ControllerContextListener
     {
         private final CompositionController m_controller;
         
-        public InternalControllerContextListener( final CompositionController controller )
+       /**
+        * Creation of a new controller context listener.
+        * @param controller the controller to which change event actions are applied
+        */
+        InternalControllerContextListener( final CompositionController controller )
         {
             m_controller = controller;
         }

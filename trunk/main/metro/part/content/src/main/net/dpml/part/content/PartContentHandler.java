@@ -24,11 +24,8 @@ import java.net.URLConnection;
 import java.net.URL;
 import java.io.IOException;
 
-import net.dpml.transit.Logger;
-
 import net.dpml.part.Directive;
 import net.dpml.part.local.Controller;
-import net.dpml.part.local.InitialContext;
 import net.dpml.part.remote.Model;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;

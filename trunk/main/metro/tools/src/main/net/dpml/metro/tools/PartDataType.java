@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.metro.runtime.CompositionController;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
@@ -30,9 +29,6 @@ import net.dpml.part.Directive;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
 import net.dpml.part.local.Controller;
-
-import net.dpml.transit.Logger;
-import net.dpml.transit.tools.AntAdapter;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;

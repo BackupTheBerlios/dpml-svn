@@ -23,12 +23,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.rmi.NoSuchObjectException;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.List;
-import java.util.LinkedList;
 
 import net.dpml.logging.Logger;
-
-import net.dpml.transit.util.ExceptionHelper;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 
@@ -55,6 +51,7 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
 
    /**
     * Creation of a new <tt>UnicastEventSource</tt>.
+    * @param logger the assigned logging channel
     * @exception RemoteException if a remote I/O exception occurs
     */
     protected UnicastEventSource( Logger logger ) throws RemoteException
@@ -205,12 +202,21 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         private final UnicastEventSource m_source;
         private final Logger m_logger;
         
+       /**
+        * Internal class terminator that handles unexport of an event source
+        * under a separate thread.
+        * @param source the event source instance
+        * @param logger the event source logger
+        */
         Terminator( UnicastEventSource source, Logger logger )
         {
             m_source = source;
             m_logger = logger;
         }
         
+       /**
+        * Terminator execution.
+        */
         public void run()
         {
             try

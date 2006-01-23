@@ -22,10 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import net.dpml.part.ControlException;
-
-import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
-import net.dpml.part.remote.Model;
 
 /**
  * Local interface through which a component implementation may 
