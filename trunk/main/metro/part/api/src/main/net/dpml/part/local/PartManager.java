@@ -73,6 +73,36 @@ public class PartManager
         }
     }
     
+   /**
+    * Construct a controller.
+    * @param context the controller context
+    * @return the controller
+    */
+    public static Controller newController( final ControllerContext context )
+    {
+        if( null == context )
+        {
+            throw new NullPointerException( "context" );
+        }
+        try
+        {
+            long now = new Date().getTime();
+            ClassLoader classloader = PartManager.class.getClassLoader();
+            URI uri = getControllerURI();
+            Repository repository = Transit.getInstance().getRepository();
+            Class c = repository.getPluginClass( classloader, uri );
+            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
+            Controller controller = (Controller) constructor.newInstance( new Object[]{context} );
+            return controller;
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to establish the default part handler.";
+            throw new RuntimeException( error, e );
+        }
+    }
+    
     private final Logger m_logger;
     private final Controller m_handler;
 

@@ -70,13 +70,19 @@ class DefaultLayoutRegistryModel extends DefaultModel
         // add the standard layouts
         
         LayoutModel modern = 
-          new StandardLayoutModel( logger, "modern", "Modern", ModernLayout.class.getName() );
+          new StandardLayoutModel( 
+            logger.getChildLogger( "modern" ), 
+            "modern", "Modern", ModernLayout.class.getName() );
         addLayoutModel( modern, false );
         LayoutModel classic = 
-          new StandardLayoutModel( logger, "classic", "Classic", ClassicLayout.class.getName() );
+          new StandardLayoutModel(   
+            logger.getChildLogger( "classic" ), 
+            "classic", "Classic", ClassicLayout.class.getName() );
         addLayoutModel( classic, false );
         LayoutModel eclipse = 
-          new StandardLayoutModel( logger, "eclipse", "Eclipse", EclipseLayout.class.getName() );
+          new StandardLayoutModel( 
+            logger.getChildLogger( "eclipse" ), 
+            "eclipse", "Eclipse", EclipseLayout.class.getName() );
         addLayoutModel( eclipse, false );
         
         // add the custom layouts

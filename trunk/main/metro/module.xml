@@ -68,6 +68,9 @@
     <types>
       <type id="jar"/>
     </types>
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
     <dependencies scope="build">
       <include key="dpml-metro-tools"/>
     </dependencies>

@@ -91,7 +91,6 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
             System.arraycopy( old, 0, m_listeners, 0, old.length );
             m_listeners[old.length] = listener;
         }
-        CompositionController.startEventDispatchThread();
     }
 
    /**

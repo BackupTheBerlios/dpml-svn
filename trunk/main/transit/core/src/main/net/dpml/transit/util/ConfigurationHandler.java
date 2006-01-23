@@ -49,7 +49,13 @@ public class ConfigurationHandler
     {
         
         String group = System.getProperty( "dpml.logging.category", "root" );
-        String level = System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
+        String level = 
+          System.getProperty( 
+            "dpml.logging.level", 
+            System.getProperty( 
+              ".level", 
+              "INFO" ) 
+          ).toUpperCase();
 
         Properties properties = new Properties();
 

@@ -31,9 +31,6 @@ import net.dpml.logging.Logger;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.model.ComponentModel;
 
-import net.dpml.part.local.ControllerContext;
-import net.dpml.part.remote.Model;
-import net.dpml.part.remote.Component;
 import net.dpml.part.local.Controller;
 import net.dpml.part.ControlException;
 import net.dpml.part.DelegationException;
@@ -41,6 +38,11 @@ import net.dpml.part.Directive;
 import net.dpml.part.Part;
 import net.dpml.part.PartBuilder;
 import net.dpml.part.PartHeader;
+import net.dpml.part.local.ControllerContext;
+import net.dpml.part.local.ControllerContextListener;
+import net.dpml.part.local.ControllerContextEvent;
+import net.dpml.part.remote.Model;
+import net.dpml.part.remote.Component;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
@@ -56,7 +58,7 @@ import net.dpml.transit.util.ExceptionHelper;
 public class CompositionController implements Controller
 {
     //--------------------------------------------------------------------
-    // state
+    // immutable state
     //--------------------------------------------------------------------
 
     private final Logger m_logger;
@@ -64,6 +66,12 @@ public class CompositionController implements Controller
     private final ComponentController m_controller;
     private final HashMap m_handlers = new HashMap(); // foreign controllers
     private final Repository m_loader;
+    
+    //--------------------------------------------------------------------
+    // mutable state
+    //--------------------------------------------------------------------
+    
+    private boolean m_disposed = false;
     
     //--------------------------------------------------------------------
     // constructor
@@ -92,9 +100,13 @@ public class CompositionController implements Controller
         
         m_context = context;
         m_logger = new StandardLogger( context.getLogger() );
+        
+        m_context.addControllerContextListener( 
+          new InternalControllerContextListener( this ) );
         m_loader = Transit.getInstance().getRepository();
         m_logger.debug( "controller: " + CONTROLLER_URI );
         m_controller = new ComponentController( m_logger, this );
+        startEventDispatchThread();
     }
     
     //--------------------------------------------------------------------
@@ -342,6 +354,17 @@ public class CompositionController implements Controller
             throw new ControllerNotFoundException( CONTROLLER_URI, uri, e );
         }
     }
+    
+    void dispose()
+    {
+        getLogger().info( "initating controller disposal" );
+        m_disposed = true;
+    }
+    
+    boolean isDisposed()
+    {
+        return m_disposed;
+    }
 
    /**
     * Static URI of this controller.
@@ -405,18 +428,28 @@ public class CompositionController implements Controller
      */
     private static class EventDispatchThread extends Thread 
     {
+        private final CompositionController m_controller;
+        private final Logger m_logger;
+        
+        EventDispatchThread( CompositionController controller, Logger logger )
+        {
+            m_controller = controller;
+            m_logger = logger;
+            m_logger.debug( "starting event dispatch thread" );
+        }
+        
         public void run() 
         {
-            while( true ) 
+            while( !m_controller.isDisposed() ) 
             {
                 // Wait on EVENT_QUEUE till an event is present
                 EventObject event = null;
                 synchronized( EVENT_QUEUE ) 
                 {
-                    try 
+                    try
                     {
                         while( EVENT_QUEUE.isEmpty() )
-                        { 
+                        {
                             EVENT_QUEUE.wait();
                         }
                         Object object = EVENT_QUEUE.remove( 0 );
@@ -465,23 +498,64 @@ public class CompositionController implements Controller
                     throw new IllegalStateException( error );
                 }
             }
+            
+            m_logger.info( "Controller event queue terminating." );
         }
     }
 
-    private static Thread m_EVENT_DISPATCH_THREAD = null;
+    private EventDispatchThread m_EVENT_DISPATCH_THREAD = null;
 
     /**
      * This method starts the event dispatch thread the first time it
      * is called.  The event dispatch thread will be started only
      * if someone registers a listener.
      */
-    static synchronized void startEventDispatchThread() 
+    private synchronized void startEventDispatchThread()
     {
-        if( m_EVENT_DISPATCH_THREAD == null ) 
+        if( m_EVENT_DISPATCH_THREAD == null )
         {
-            m_EVENT_DISPATCH_THREAD = new EventDispatchThread();
+            Logger logger = getLogger();
+            m_EVENT_DISPATCH_THREAD = new EventDispatchThread( this, logger );
             m_EVENT_DISPATCH_THREAD.setDaemon( true );
             m_EVENT_DISPATCH_THREAD.start();
+        }
+    }
+    
+    private class InternalControllerContextListener implements ControllerContextListener
+    {
+        private final CompositionController m_controller;
+        
+        public InternalControllerContextListener( final CompositionController controller )
+        {
+            m_controller = controller;
+        }
+        
+       /**
+        * Notify the listener that the working directory has changed.
+        *
+        * @param event the change event
+        */
+        public void workingDirectoryChanged( ControllerContextEvent event )
+        {
+        }
+
+       /**
+        * Notify the listener that the temporary directory has changed.
+        *
+        * @param event the change event
+        */
+        public void tempDirectoryChanged( ControllerContextEvent event )
+        {
+        }
+    
+       /**
+        * Notify listeners of the disposal of the controller.
+        * @param event the context event
+        */
+        public void controllerDisposal( ControllerContextEvent event )
+        {
+            System.out.println( "# DISPOSAL EVENT" );
+            m_controller.dispose();
         }
     }
 }

@@ -16,18 +16,20 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime;
+package net.dpml.part.local;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.net.URI;
 import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.part.Disposable;
-import net.dpml.part.local.ControllerContext;
-import net.dpml.part.local.ControllerContextListener;
-import net.dpml.part.local.ControllerContextEvent;
 
 import net.dpml.transit.Logger;
+import net.dpml.transit.Transit;
+import net.dpml.transit.Repository;
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * The CompositionControllerContext class wraps a ContentModel and supplies convinience
@@ -37,13 +39,55 @@ import net.dpml.transit.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class CompositionContext extends LocalWeakEventProducer 
+public final class InitialContext extends LocalEventProducer 
   implements ControllerContext, Disposable
 {
     //----------------------------------------------------------------------------
+    // static
+    //----------------------------------------------------------------------------
+    
+   /**
+    * Construct a controller.
+    * @param context the controller context
+    * @return the controller
+    */
+    public static Controller newController( final ControllerContext context )
+    {
+        if( null == context )
+        {
+            throw new NullPointerException( "context" );
+        }
+        try
+        {
+            URI uri = getControllerURI();
+            ClassLoader classloader = InitialContext.class.getClassLoader();
+            Repository repository = Transit.getInstance().getRepository();
+            Class c = repository.getPluginClass( classloader, uri );
+            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
+            Controller controller = (Controller) constructor.newInstance( new Object[]{context} );
+            return controller;
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to establish the default part handler.";
+            throw new RuntimeException( error, e );
+        }
+    }
+    
+    private static URI getControllerURI() throws Exception
+    {
+        String spec = 
+          System.getProperty( 
+            "dpml.part.controller.uri", 
+            "@PART-HANDLER-URI@" );
+        return new URI( spec );
+    }
+    
+    //----------------------------------------------------------------------------
     // state
     //----------------------------------------------------------------------------
-
+    
    /**
     * Working directory.
     */
@@ -62,30 +106,34 @@ public class CompositionContext extends LocalWeakEventProducer
     //----------------------------------------------------------------------------
     // constructor
     //----------------------------------------------------------------------------
+    
+   /**
+    * Creation of a new <tt>CompositionContext</tt>.
+    * @param logger the assigned logging channel
+    */
+    public InitialContext()
+    {
+        this( new LoggingAdapter( "metro" ), null, null );
+    }
 
    /**
     * Creation of a new <tt>CompositionContext</tt>.
     * @param logger the assigned logging channel
     */
-    public CompositionContext( Logger logger )
+    public InitialContext( Logger logger )
     {
         this( logger, null, null );
     }
-
+    
    /**
     * Creation of a new <tt>CompositionContext</tt>.
     * @param logger the assigned logging channel
     * @param work the working directory
     * @param temp the temporary directory
     */
-    public CompositionContext( Logger logger, File work, File temp )
+    public InitialContext( Logger logger, File work, File temp )
     {
-        super();
-
-        if( null == logger )
-        {
-            throw new NullPointerException( "logger" );
-        }
+        super( new LoggingAdapter( "metro.context" ) );
 
         m_logger = logger;
 
@@ -114,8 +162,15 @@ public class CompositionContext extends LocalWeakEventProducer
     // Disposable
     //----------------------------------------------------------------------------
     
+   /**
+    * Initiate disposal.
+    */
     public void dispose()
     {
+        m_logger.debug( "context disposal" );
+        ControllerDisposalEvent event = new ControllerDisposalEvent( this );
+        enqueueEvent( event, false );
+        super.dispose();
     }
 
     //----------------------------------------------------------------------------
@@ -213,10 +268,6 @@ public class CompositionContext extends LocalWeakEventProducer
         else if( event instanceof ControllerDisposalEvent )
         {
             processControllerDisposalEvent( (ControllerDisposalEvent) event );
-        }
-        else
-        {
-            super.processEvent( event );
         }
     }
 

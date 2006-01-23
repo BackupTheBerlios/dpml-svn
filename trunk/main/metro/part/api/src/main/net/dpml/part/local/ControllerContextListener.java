@@ -42,5 +42,10 @@ public interface ControllerContextListener extends EventListener
     * @param event the change event
     */
     void tempDirectoryChanged( ControllerContextEvent event );
-
+    
+   /**
+    * Notify listeners of the disposal of the controller.
+    * @param event the context event
+    */
+    void controllerDisposal( ControllerContextEvent event );
 }

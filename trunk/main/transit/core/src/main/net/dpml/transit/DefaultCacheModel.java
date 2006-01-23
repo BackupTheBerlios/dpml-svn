@@ -100,7 +100,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
         
         try
         {
-            Logger log = logger.getChildLogger( "registry" );
+            Logger log = logger.getChildLogger( "layout" );
             LayoutDirective[] layouts = directive.getLayoutDirectives();
             m_registry = new DefaultLayoutRegistryModel( log, layouts );
             String layout = directive.getCacheLayout();
