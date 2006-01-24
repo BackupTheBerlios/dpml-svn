@@ -22,7 +22,7 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import net.dpml.part.local.Handler;
+import net.dpml.metro.control.Handler;
 import net.dpml.part.remote.Component;
 import net.dpml.part.local.PartsManager;
 

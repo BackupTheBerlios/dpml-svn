@@ -48,7 +48,7 @@ import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Disposable;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
-import net.dpml.part.local.Handler;
+import net.dpml.metro.control.Handler;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
 import net.dpml.part.remote.Service;
