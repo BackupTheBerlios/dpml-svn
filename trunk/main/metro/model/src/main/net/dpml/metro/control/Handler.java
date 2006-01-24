@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.local;
+package net.dpml.metro.control;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
