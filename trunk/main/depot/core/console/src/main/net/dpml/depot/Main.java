@@ -25,6 +25,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import net.dpml.transit.Disposable;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.Repository;
@@ -174,16 +175,27 @@ public final class Main //implements ShutdownHandler
     private void handlePlugin( String name, String spec, String[] args, boolean wait )
     {
         System.setSecurityManager( new RMISecurityManager() );
-        boolean waitForCompletion = deployHandler( name, spec, args, wait );
+        TransitModel model = getTransitModel( args );
+        boolean waitForCompletion = deployHandler( model, name, spec, args, wait );
         if( !waitForCompletion )
         {
-            System.exit( 0 );
+            if( m_plugin instanceof Disposable )
+            {
+                Disposable disposable = (Disposable) m_plugin;
+                disposable.dispose();
+            }
+            if( model instanceof DefaultTransitModel )
+            {
+                DefaultTransitModel disposable = (DefaultTransitModel) model;
+                disposable.dispose();
+            }
         }
     }
-
+    
     private boolean deployHandler( 
-      String command, String path, String[] args, boolean waitFor )
+      TransitModel model, String command, String path, String[] args, boolean waitFor )
     {
+        
         Logger logger = getLogger().getChildLogger( command );
         if( m_debug )
         {
@@ -197,7 +209,6 @@ public final class Main //implements ShutdownHandler
         }
         try
         {
-            TransitModel model = getTransitModel( args );
             URI uri = new URI( path );
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) getLogger() );
@@ -251,7 +262,7 @@ public final class Main //implements ShutdownHandler
         }
     }
     
-    private TransitModel getTransitModel( String[] args ) throws Exception
+    private TransitModel getTransitModel( String[] args )
     {
         final String key = "dpml.transit.model";
         String property = null;
@@ -296,8 +307,17 @@ public final class Main //implements ShutdownHandler
         // otherwise let Transit handle model creation
         //
         
-        Logger logger = getLogger();
-        return DefaultTransitModel.getDefaultModel( logger );
+        try
+        {
+            Logger logger = getLogger();
+            return DefaultTransitModel.getDefaultModel( logger );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Transit model establishment failure.";
+            throw new TransitError( error, e );
+        }
     }
     
     private static Logger getLogger()
