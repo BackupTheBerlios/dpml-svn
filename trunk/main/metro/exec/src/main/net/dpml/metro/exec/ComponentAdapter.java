@@ -33,6 +33,8 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.part.local.Controller;
+import net.dpml.part.local.ControllerContext;
+import net.dpml.part.local.InitialContext;
 import net.dpml.part.remote.Component;
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Provider;
@@ -103,8 +105,9 @@ public class ComponentAdapter extends AbstractAdapter
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
-            Constructor constructor = c.getConstructor( new Class[]{Logger.class} );
-            m_controller = (Controller) constructor.newInstance( new Object[]{logger} );
+            InitialContext context = new InitialContext( logger );
+            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
+            m_controller = (Controller) constructor.newInstance( new Object[]{context} );
         }
         catch( Exception e )
         {
