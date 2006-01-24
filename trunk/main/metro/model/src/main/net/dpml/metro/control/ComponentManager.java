@@ -40,14 +40,6 @@ public interface ComponentManager
     String[] getKeys();
     
    /**
-    * Return an internal component.
-    * @param key the internal component key
-    * @return the component
-    * @exception UnknownKeyException the key is not recognized
-    */
-    Component getComponent( String key ) throws UnknownKeyException;
-    
-   /**
     * Return a local component handler.
     * @param key the internal part key
     * @return the local component handler
