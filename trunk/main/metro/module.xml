@@ -27,12 +27,6 @@
 
   <project name="dpml-part-api" basedir="part/api">
     <types>
-      <!--
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-          value="net.dpml.part.local.PartManager"/>
-      </type>
-      -->
       <type id="jar"/>
     </types>
     <dependencies>
