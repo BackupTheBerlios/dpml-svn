@@ -62,7 +62,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
    /**
     * The component handler.
     */
-    private final ComponentHandler m_handler;
+    private final DefaultComponentHandler m_handler;
     
    /**
     * The state machine that tracks the instance state.
@@ -103,7 +103,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
     * @param handler the component handler
     * @param logger the logging channel
     */
-    DefaultProvider( ComponentHandler handler, Logger logger ) 
+    DefaultProvider( DefaultComponentHandler handler, Logger logger ) 
       throws RemoteException, ControlException, InvocationTargetException
     {
         super( logger );
@@ -316,7 +316,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
         }
     }
     
-    ComponentHandler getComponentHandler()
+    DefaultComponentHandler getDefaultComponentHandler()
     {
         return m_handler;
     }

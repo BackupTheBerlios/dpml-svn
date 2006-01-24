@@ -31,7 +31,7 @@ import net.dpml.part.ActivationPolicy;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface MutableComponentModel extends ComponentModel
+public interface ComponentModelManager extends ComponentModelOperations
 {
    /**
     * Set the component activation policy to the supplied value.

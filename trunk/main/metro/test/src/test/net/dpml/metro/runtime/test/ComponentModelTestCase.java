@@ -28,7 +28,6 @@ import net.dpml.part.ActivationPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.MutableComponentModel;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -43,7 +42,7 @@ public class ComponentModelTestCase extends TestCase
 {    
     private static final Controller CONTROLLER = Controller.STANDARD;
 
-    private MutableComponentModel m_model;
+    private ComponentModel m_model;
     
    /**
     * Testcase setup during which the part defintion 'example.part'
@@ -55,7 +54,7 @@ public class ComponentModelTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_model = (MutableComponentModel) CONTROLLER.createModel( uri );
+        m_model = (ComponentModel) CONTROLLER.createModel( uri );
     }
     
    /**

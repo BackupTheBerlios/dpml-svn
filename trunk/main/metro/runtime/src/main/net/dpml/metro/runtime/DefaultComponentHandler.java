@@ -41,7 +41,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.control.Handler;
+import net.dpml.metro.control.ComponentHandler;
 
 import net.dpml.logging.Logger;
 
@@ -105,7 +105,7 @@ import net.dpml.state.State;
  * @see ComponentModel
  * @see Provider
  */
-public class ComponentHandler extends UnicastEventSource implements Component, Handler, Disposable, ModelListener
+public class DefaultComponentHandler extends UnicastEventSource implements Component, ComponentHandler, Disposable, ModelListener
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -128,7 +128,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     private final Map m_map = new Hashtable(); // symbolic value map
     private final Map m_cache = new Hashtable(); // context entry/value cache
     
-    private final DefaultPartsManager m_parts;
+    private final DefaultComponentManager m_parts;
     private final boolean m_flag;
     
     //--------------------------------------------------------------------------
@@ -141,7 +141,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     // constructor
     //--------------------------------------------------------------------------
     
-    ComponentHandler( 
+    DefaultComponentHandler( 
       final Component parent, final ClassLoader classloader, final Logger logger, 
       final ComponentController control, final ComponentModel model, boolean flag )
       throws RemoteException, ControlException
@@ -244,7 +244,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
         // need to establish all of the component parts that are children of this 
         // component.
         
-        m_parts = new DefaultPartsManager( control, this, logger );
+        m_parts = new DefaultComponentManager( control, this, logger );
         
         getLogger().debug( "component controller [" + this + "] established" );
     }
@@ -266,7 +266,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     }
     
     //--------------------------------------------------------------------------
-    // Handler
+    // ComponentHandler
     //--------------------------------------------------------------------------
     
    /**
@@ -293,6 +293,15 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     {
         activate();
         return m_holder.getProvider();
+    }
+    
+   /**
+    * Return the component model assiged to the handler.
+    * @return the component model
+    */
+    public ComponentModel getComponentModel()
+    {
+        return m_model;
     }
     
     //--------------------------------------------------------------------------
@@ -329,7 +338,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
         }
         
         Component[] components = m_parts.getComponents();
-        //Component[] components = (Component[]) m_handlers.values().toArray( new Component[0] );
         for( int i=0; i<components.length; i++ )
         {
             Component component = components[i];
@@ -548,10 +556,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     }
     
     //--------------------------------------------------------------------------
-    // ComponentHandler
+    // DefaultComponentHandler
     //--------------------------------------------------------------------------
     
-    DefaultPartsManager getPartsManager()
+    DefaultComponentManager getComponentManager()
     {
         return m_parts;
     }
@@ -607,7 +615,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     */
     Component getPartHandler( String key ) throws UnknownKeyException
     {
-        Handler handler = m_parts.getComponentHandler( key );
+        ComponentHandler handler = m_parts.getComponentHandler( key );
         if( handler instanceof Component )
         {
             return (Component) handler;
@@ -615,9 +623,10 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
         else
         {
             final String error = 
-              "Component handler [" 
-                + handler.getClass().getName()
-                + "] does not implement the component interface.";
+              "Internal error. Component handler ["
+              + handler
+              + "] is not an instance of "
+              + Component.class.getName();
             throw new ControllerRuntimeException( error );
         }
     }
@@ -659,11 +668,6 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     String getPath()
     {
         return m_path;
-    }
-    
-    ComponentModel getComponentModel()
-    {
-        return m_model;
     }
     
     Object createNewObject( DefaultProvider provider ) throws ControlException, InvocationTargetException

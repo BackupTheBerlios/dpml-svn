@@ -26,7 +26,7 @@ import net.dpml.part.remote.Component;
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Provider;
 import net.dpml.part.remote.Service;
-import net.dpml.part.remote.ServiceNotFoundException;
+import net.dpml.part.ServiceNotFoundException;
 
 import net.dpml.transit.Logger;
 

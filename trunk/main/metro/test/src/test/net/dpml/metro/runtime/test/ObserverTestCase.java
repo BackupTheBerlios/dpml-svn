@@ -29,7 +29,7 @@ import net.dpml.part.local.Controller;
 import net.dpml.part.remote.Provider;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.MutableContextModel;
+import net.dpml.metro.model.ContextModel;
 
 /**
  * Test aspects of the component model implementation.
@@ -58,7 +58,7 @@ public class ObserverTestCase extends TestCase
     */
     public void testContextModel() throws Exception
     {
-        MutableContextModel context = (MutableContextModel) m_model.getContextModel();
+        ContextModel context = (ContextModel) m_model.getContextModel();
         Component component = Controller.STANDARD.createComponent( m_model );
         Provider provider = component.getProvider();
         Object instance = provider.getValue( false );

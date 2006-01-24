@@ -18,12 +18,11 @@
 
 package net.dpml.metro.control;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import net.dpml.part.ControlException;
 import net.dpml.part.ComponentOperations;
-import net.dpml.part.remote.Provider;
+
+import net.dpml.metro.model.ComponentModel;
 
 /**
  * Local interface through which a component implementation may 
@@ -32,7 +31,7 @@ import net.dpml.part.remote.Provider;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Handler extends ComponentOperations
+public interface ComponentHandler extends ComponentOperations
 {
    /**
     * Return a mutible context map.
@@ -42,13 +41,10 @@ public interface Handler extends ComponentOperations
     Map getContextMap();
     
    /**
-    * Return a reference to a managed provider.
-    * @return the service provider
-    * @exception InvocationTargetException if the component instantiation process 
-    *  is on demand and an target invocation error occurs
-    * @exception ControlException if the component could not be established due to a controller 
-    *  related error
+    * Return the component model associated with the component handler.
+    * @return the component model
     */
-    //Provider getProvider() throws ControlException, InvocationTargetException;
+    ComponentModel getComponentModel();
+    
 }
 

@@ -33,7 +33,6 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.MutableComponentModel;
 import net.dpml.metro.model.ContextModel;
 
 import net.dpml.part.Directive;
@@ -60,7 +59,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultComponentModel extends UnicastEventSource implements MutableComponentModel, Configurable
+class DefaultComponentModel extends UnicastEventSource implements ComponentModel, Configurable
 {
     // ------------------------------------------------------------------------
     // state

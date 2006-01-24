@@ -211,7 +211,7 @@ public class CompositionController implements Controller
         if( model instanceof ComponentModel )
         {
             ComponentModel componentModel = (ComponentModel) model;
-            return m_controller.createComponentHandler( componentModel, flag );
+            return m_controller.createDefaultComponentHandler( componentModel, flag );
         }
         else
         {

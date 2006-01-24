@@ -85,7 +85,7 @@
               <li>Packaging of default part with a component (e.g. [classname].parts) is required.</li>
               <li>The &lt;type&gt; task needs to be updated to include the part association or we could put in place a .parts serialized object colocated with the class.</li>
               <li>Parts builders need to updated to load and check for pre-declared default part entries.</li>
-              <li>The PartsManager is not currently implemented (however, it is expected that this will follow closely the general approach used for context management.</li>
+              <li>The ComponentManager is not currently implemented (however, it is expected that this will follow closely the general approach used for context management.</li>
             </ol>
           </li>
           <li>integration between FT and classic

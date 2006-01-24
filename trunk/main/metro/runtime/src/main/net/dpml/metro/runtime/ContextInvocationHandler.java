@@ -46,7 +46,7 @@ class ContextInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
-    private final ComponentHandler m_handler;
+    private final DefaultComponentHandler m_handler;
 
     //-------------------------------------------------------------------
     // constructor
@@ -60,14 +60,14 @@ class ContextInvocationHandler implements InvocationHandler
     ContextInvocationHandler( DefaultProvider provider )
     {
         m_provider = provider;
-        m_handler = provider.getComponentHandler();
+        m_handler = provider.getDefaultComponentHandler();
     }
 
     //-------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------
 
-    private ComponentHandler getComponentHandler()
+    private DefaultComponentHandler getDefaultComponentHandler()
     {
         return m_handler;
     }
@@ -91,7 +91,7 @@ class ContextInvocationHandler implements InvocationHandler
         }
         else
         {
-            ComponentHandler handler = getComponentHandler();
+            DefaultComponentHandler handler = getDefaultComponentHandler();
             String name = method.getName();
             if( name.startsWith( "get" ) )
             {

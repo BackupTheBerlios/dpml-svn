@@ -25,8 +25,8 @@ import net.dpml.logging.Logger;
 
 import net.dpml.test.ColorManager;
 
-import net.dpml.metro.control.PartsManager;
-import net.dpml.metro.control.Handler;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ComponentHandler;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -74,7 +74,7 @@ public class PartsComponent implements ColorManager
    /**
     * The assigned part manager.
     */
-    private final PartsManager m_parts;
+    private final ComponentManager m_parts;
 
     //------------------------------------------------------------------
     // constructor
@@ -88,7 +88,7 @@ public class PartsComponent implements ColorManager
     * @exception UnknownKeyException if the implementation uses a bad reference
     */
     public PartsComponent( 
-      final Logger logger, final Context context, final PartsManager parts ) 
+      final Logger logger, final Context context, final ComponentManager parts ) 
       throws UnknownKeyException
     {
         logger.debug( "instantiation" );
@@ -97,7 +97,7 @@ public class PartsComponent implements ColorManager
         m_logger = logger;
         m_parts = parts;
         
-        Handler handler = parts.getComponentHandler( "child" );
+        ComponentHandler handler = parts.getComponentHandler( "child" );
         Map map = handler.getContextMap();
         map.put( "color", context.getColor() );
     }
@@ -126,7 +126,7 @@ public class PartsComponent implements ColorManager
     */
     public ChildComponent getChild() throws Exception
     {
-        Handler handler = m_parts.getComponentHandler( "child" );
+        ComponentHandler handler = m_parts.getComponentHandler( "child" );
         return (ChildComponent) handler.getProvider().getValue( false );
     }
     

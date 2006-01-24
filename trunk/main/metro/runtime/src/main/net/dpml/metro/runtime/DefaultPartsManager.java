@@ -30,8 +30,8 @@ import net.dpml.metro.model.ComponentModel;
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
-import net.dpml.metro.control.PartsManager;
-import net.dpml.metro.control.Handler;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ComponentHandler;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -41,7 +41,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultPartsManager implements PartsManager
+class DefaultComponentManager implements ComponentManager
 {
     //-------------------------------------------------------------------
     // state
@@ -50,7 +50,7 @@ class DefaultPartsManager implements PartsManager
    /**
     * The component handler.
     */
-    private final ComponentHandler m_handler;
+    private final DefaultComponentHandler m_handler;
     
    /**
     * The logging channel.
@@ -74,7 +74,7 @@ class DefaultPartsManager implements PartsManager
     * @param handler the component handler
     * @param logger the logging channel
     */
-    DefaultPartsManager( ComponentController control, ComponentHandler handler, Logger logger ) 
+    DefaultComponentManager( ComponentController control, DefaultComponentHandler handler, Logger logger ) 
       throws ControlException, RemoteException
     {
         m_handler = handler;
@@ -89,7 +89,7 @@ class DefaultPartsManager implements PartsManager
             try
             {
                 ComponentModel m = model.getComponentModel( key );
-                Component h = control.createComponentHandler( handler, classloader, m, true );
+                Component h = control.createDefaultComponentHandler( handler, classloader, m, true );
                 m_handlers.put( key, h );
             }
             catch( UnknownKeyException e )
@@ -121,7 +121,7 @@ class DefaultPartsManager implements PartsManager
     }
     
     //-------------------------------------------------------------------
-    // PartsManager
+    // ComponentManager
     //-------------------------------------------------------------------
 
    /**
@@ -157,9 +157,9 @@ class DefaultPartsManager implements PartsManager
     */
     public Model getComponentModel( Component component )
     {
-        if( component instanceof ComponentHandler )
+        if( component instanceof DefaultComponentHandler )
         {
-            ComponentHandler handler = (ComponentHandler) component;
+            DefaultComponentHandler handler = (DefaultComponentHandler) component;
             return handler.getComponentModel();
         }
         else
@@ -167,7 +167,7 @@ class DefaultPartsManager implements PartsManager
             final String error = 
               "Component ["
               + component 
-              + "] is not castable to net.dpml.metro.runtime.ComponentHandler.";
+              + "] is not castable to net.dpml.metro.runtime.DefaultComponentHandler.";
             throw new IllegalArgumentException( error );
         }
     }
@@ -177,11 +177,11 @@ class DefaultPartsManager implements PartsManager
     * @param key the internal component key
     * @return the local component handler
     */
-    public synchronized Handler getComponentHandler( String key ) throws UnknownKeyException
+    public synchronized ComponentHandler getComponentHandler( String key ) throws UnknownKeyException
     {
         if( m_handlers.containsKey( key ) )
         {
-            return (Handler) m_handlers.get( key );
+            return (ComponentHandler) m_handlers.get( key );
         }
         else
         {

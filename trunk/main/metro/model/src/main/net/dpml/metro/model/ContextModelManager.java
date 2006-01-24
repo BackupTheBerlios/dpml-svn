@@ -33,7 +33,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface MutableContextModel extends ContextModel
+public interface ContextModelManager extends ContextModelOperations
 {
    /**
     * Set a context entry directive value.

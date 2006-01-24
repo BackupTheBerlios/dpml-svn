@@ -31,7 +31,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface PartsManager
+public interface ComponentManager
 {
    /**
     * Return the array of keys used to idenetity internal parts.
@@ -48,19 +48,12 @@ public interface PartsManager
     Component getComponent( String key ) throws UnknownKeyException;
     
    /**
-    * Return the component model for the supplied component.
-    * @param component the component
-    * @return the component model
-    */
-    Model getComponentModel( Component component );
-    
-   /**
     * Return a local component handler.
     * @param key the internal part key
     * @return the local component handler
     * @exception UnknownKeyException the key is not recognized
     */
-    Handler getComponentHandler( String key ) throws UnknownKeyException;
+    ComponentHandler getComponentHandler( String key ) throws UnknownKeyException;
     
    /**
     * Return the commissioned state of the part collection.

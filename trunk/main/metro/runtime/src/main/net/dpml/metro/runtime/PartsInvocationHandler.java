@@ -22,9 +22,9 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import net.dpml.metro.control.Handler;
+import net.dpml.metro.control.ComponentHandler;
 import net.dpml.part.remote.Component;
-import net.dpml.metro.control.PartsManager;
+import net.dpml.metro.control.ComponentManager;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 
@@ -43,7 +43,7 @@ class PartsInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
-    private final DefaultPartsManager m_manager;
+    private final DefaultComponentManager m_manager;
 
     //-------------------------------------------------------------------
     // constructor
@@ -54,7 +54,7 @@ class PartsInvocationHandler implements InvocationHandler
     *
     * @param handler the component handler
     */
-    PartsInvocationHandler( DefaultPartsManager manager )
+    PartsInvocationHandler( DefaultComponentManager manager )
     {
         m_manager = manager;
     }
@@ -80,7 +80,7 @@ class PartsInvocationHandler implements InvocationHandler
         {
             return method.invoke( this, args );
         }
-        else if( PartsManager.class == source )
+        else if( ComponentManager.class == source )
         {
             return method.invoke( m_manager, args );
         }
@@ -89,7 +89,7 @@ class PartsInvocationHandler implements InvocationHandler
         String postfix = getPartPostfix( method );
         String key = getPartKey( method, semantic );
         
-        Handler handler = m_manager.getComponentHandler( key );
+        ComponentHandler handler = m_manager.getComponentHandler( key );
         
         if( GET == semantic )
         {

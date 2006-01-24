@@ -32,17 +32,18 @@ import net.dpml.station.ApplicationException;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.data.ValueDirective;
 
+import net.dpml.part.ControlException;
+import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.local.Controller;
 import net.dpml.part.local.ControllerContext;
 import net.dpml.part.local.InitialContext;
 import net.dpml.part.remote.Component;
-import net.dpml.part.ControlException;
 import net.dpml.part.remote.Provider;
 import net.dpml.part.remote.Model;
 import net.dpml.part.remote.Service;
-import net.dpml.part.remote.ServiceNotFoundException;
-import net.dpml.metro.model.MutableComponentModel;
-import net.dpml.metro.model.MutableContextModel;
+
+import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.model.ContextModel;
 
 import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
@@ -154,10 +155,10 @@ public class ComponentAdapter extends AbstractAdapter
             throw new UnsupportedOperationException( "Parameters not currently supported." );
         }
         
-        if( model instanceof MutableComponentModel )
+        if( model instanceof ComponentModel )
         {
-            MutableComponentModel componentModel = (MutableComponentModel) model;
-            MutableContextModel cm = (MutableContextModel) componentModel.getContextModel();
+            ComponentModel componentModel = (ComponentModel) model;
+            ContextModel cm = componentModel.getContextModel();
             Enumeration names = properties.propertyNames();
             while( names.hasMoreElements() )
             {

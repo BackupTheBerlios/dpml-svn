@@ -34,7 +34,7 @@ import net.dpml.part.remote.Provider;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentHandlerTestCase extends TestCase
+public class DefaultComponentHandlerTestCase extends TestCase
 {   
     private static final Controller CONTROLLER = Controller.STANDARD;
     

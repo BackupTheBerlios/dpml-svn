@@ -20,8 +20,8 @@ package net.dpml.test.app;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.metro.control.PartsManager;
-import net.dpml.metro.control.Handler;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ComponentHandler;
 
 /**
  * The demo class is used to aggregate a collection of components and 
@@ -32,7 +32,7 @@ import net.dpml.metro.control.Handler;
  */
 public class Demo
 {
-    private final PartsManager m_parts;
+    private final ComponentManager m_parts;
     private final Logger m_logger;
     
    /**
@@ -40,7 +40,7 @@ public class Demo
     * @param logger a logging channel
     * @param parts the internal parts
     */
-    public Demo( Logger logger, PartsManager parts )
+    public Demo( Logger logger, ComponentManager parts )
     {
         m_logger = logger;
         m_parts = parts;
@@ -62,13 +62,13 @@ public class Demo
     
     DefaultServer getServer() throws Exception
     {
-        Handler handler = m_parts.getComponentHandler( "server" );
+        ComponentHandler handler = m_parts.getComponentHandler( "server" );
         return (DefaultServer) handler.getProvider().getValue( false );
     }
     
     DefaultListener getListener() throws Exception
     {
-        Handler handler = m_parts.getComponentHandler( "listener" );
+        ComponentHandler handler = m_parts.getComponentHandler( "listener" );
         return (DefaultListener) handler.getProvider().getValue( false );
     }
 }

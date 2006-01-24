@@ -28,12 +28,12 @@ import net.dpml.lang.UnknownKeyException;
 
 
 /**
- * The ContextModel interface defines the remotely accessible component context. 
+ * The ContextModelOperations interface defines the common local and remotely accessible component context. 
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ContextModel extends Remote, ContextModelManager
+public interface ContextModelOperations
 {
    /**
     * Return the set of context entries descriptors.

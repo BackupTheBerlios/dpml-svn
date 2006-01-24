@@ -48,7 +48,7 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Directive;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
-import net.dpml.metro.control.PartsManager;
+import net.dpml.metro.control.ComponentManager;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
 import net.dpml.part.ServiceNotFoundException;
@@ -105,11 +105,11 @@ class ComponentController
     * @param flag if true the component model is responsible for model lifecycle
     * @return the runtime handler
     */
-    public ComponentHandler createComponentHandler( 
+    public DefaultComponentHandler createDefaultComponentHandler( 
       ComponentModel model, boolean flag ) throws ControlException
     {
         ClassLoader anchor = Thread.currentThread().getContextClassLoader();
-        return createComponentHandler( anchor, model, flag );
+        return createDefaultComponentHandler( anchor, model, flag );
     }
     
     public ClassLoader createClassLoader( 
@@ -169,10 +169,10 @@ class ComponentController
     * @param context the managed context
     * @return the runtime handler
     */
-    ComponentHandler createComponentHandler( 
+    DefaultComponentHandler createDefaultComponentHandler( 
       ClassLoader anchor, ComponentModel context, boolean flag ) throws ControlException
     {
-        return createComponentHandler( null, anchor, context, flag );
+        return createDefaultComponentHandler( null, anchor, context, flag );
     }
     
    /**
@@ -182,7 +182,7 @@ class ComponentController
     * @param context the managed context
     * @return the runtime handler
     */
-    ComponentHandler createComponentHandler( 
+    DefaultComponentHandler createDefaultComponentHandler( 
       Component parent, ClassLoader anchor, ComponentModel context, boolean flag ) 
       throws ControlException
     {
@@ -193,7 +193,7 @@ class ComponentController
             Logger logger = new StandardLogger( path.substring( 1 ).replace( '/', '.' ) );
             final ClassLoaderDirective directive = context.getClassLoaderDirective();
             ClassLoader classloader = createClassLoader( anchor, directive, name );
-            return new ComponentHandler( parent, classloader, logger, this, context, flag );
+            return new DefaultComponentHandler( parent, classloader, logger, this, context, flag );
         }
         catch( RemoteException e )
         {
@@ -205,7 +205,7 @@ class ComponentController
     
     Object createInstance( DefaultProvider provider ) throws ControlException, InvocationTargetException
     {
-        ComponentHandler handler = provider.getComponentHandler();
+        DefaultComponentHandler handler = provider.getDefaultComponentHandler();
         Class subject = handler.getImplementationClass();
         Constructor constructor = getConstructor( subject );
         Class parts = getPartsClass( subject );
@@ -328,12 +328,12 @@ class ComponentController
         }
     }
     
-    File getWorkDirectory( ComponentHandler handler )
+    File getWorkDirectory( DefaultComponentHandler handler )
     {
         return m_controller.getControllerContext().getWorkingDirectory();
     }
     
-    File getTempDirectory( ComponentHandler handler )
+    File getTempDirectory( DefaultComponentHandler handler )
     {
         return m_controller.getControllerContext().getTempDirectory();
     }
@@ -346,7 +346,7 @@ class ComponentController
     * @exception ControlException if an error occurs while attempting to load a 
     *   declared service class
     */
-    DefaultService[] loadServices( ComponentHandler handler ) throws ControlException
+    DefaultService[] loadServices( DefaultComponentHandler handler ) throws ControlException
     {
         Type type = handler.getType();
         ClassLoader classloader = handler.getClassLoader();
@@ -465,7 +465,7 @@ class ComponentController
         Class clazz = getInnerClass( subject, "$Parts" );
         if( null == clazz )
         {
-            return PartsManager.class;
+            return ComponentManager.class;
         }
         else
         {
@@ -493,7 +493,7 @@ class ComponentController
         return null;
     }
 
-    private Object createParametersArgument( ComponentHandler handler ) throws ControlException
+    private Object createParametersArgument( DefaultComponentHandler handler ) throws ControlException
     {
         try
         {
@@ -511,7 +511,7 @@ class ComponentController
         }
     }
 
-    private Object createConfigurationArgument( ComponentHandler handler ) throws ControlException
+    private Object createConfigurationArgument( DefaultComponentHandler handler ) throws ControlException
     {
         try
         {
@@ -546,10 +546,10 @@ class ComponentController
         }
     }
 
-    private Object createPartsInvocationHandler( ComponentHandler handler, Class clazz ) 
+    private Object createPartsInvocationHandler( DefaultComponentHandler handler, Class clazz ) 
       throws ControlException
     {
-        DefaultPartsManager manager = handler.getPartsManager();
+        DefaultComponentManager manager = handler.getComponentManager();
         try
         {
             InvocationHandler invocationHandler = new PartsInvocationHandler( manager );
@@ -564,13 +564,13 @@ class ComponentController
         }
     }
 
-    String getPathForLogger( ComponentHandler handler )
+    String getPathForLogger( DefaultComponentHandler handler )
     {
         String path = handler.getPath();
         return path.substring( 1 ).replace( '/', '.' );
     }
     
-    Object getContextValue( ComponentHandler handler, String key ) throws ControlException
+    Object getContextValue( DefaultComponentHandler handler, String key ) throws ControlException
     {
         try
         {
@@ -706,7 +706,7 @@ class ComponentController
         }
     }
     
-    private Object executeLookup( ComponentHandler handler, DefaultService service ) 
+    private Object executeLookup( DefaultComponentHandler handler, DefaultService service ) 
       throws Exception
     {
         Component parent = handler.getParentHandler();
@@ -770,7 +770,7 @@ class ComponentController
     }
     
     private DefaultService loadService( 
-      ComponentHandler handler, ServiceDescriptor service ) throws ControlException
+      DefaultComponentHandler handler, ServiceDescriptor service ) throws ControlException
     {
         ClassLoader classloader = handler.getClassLoader();
         final String classname = service.getClassname();
