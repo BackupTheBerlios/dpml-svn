@@ -21,6 +21,7 @@ package net.dpml.transit;
 import java.io.File;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -311,6 +312,10 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
             {
                 Remote remote = (Remote) object;
                 UnicastRemoteObject.unexportObject( remote, true );
+            }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
             }
             catch( RemoteException re )
             {

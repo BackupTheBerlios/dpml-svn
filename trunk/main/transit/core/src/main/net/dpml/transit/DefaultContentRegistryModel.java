@@ -20,6 +20,7 @@ package net.dpml.transit;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collections;
 import java.util.List;
@@ -111,6 +112,10 @@ class DefaultContentRegistryModel extends DefaultModel
             {
                 Remote remote = (Remote) object;
                 UnicastRemoteObject.unexportObject( remote, true );
+            }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
             }
             catch( RemoteException re )
             {

@@ -19,6 +19,7 @@
 package net.dpml.transit;
 
 import java.rmi.RemoteException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
 import java.beans.XMLDecoder;
@@ -294,6 +295,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             {
                 UnicastRemoteObject.unexportObject( m_model, true );
             }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
+            }
             catch( RemoteException e )
             {
                 e.printStackTrace();
@@ -314,6 +319,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             {
                 UnicastRemoteObject.unexportObject( m_proxy, true );
             }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
+            }
             catch( RemoteException e )
             {
                 getLogger().warn( "Remote error during proxy reference removal.", e );
@@ -327,6 +336,10 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         try
         {
             UnicastRemoteObject.unexportObject( m_cache, true );
+        }
+        catch( NoSuchObjectException e )
+        {
+            // ignore
         }
         catch( RemoteException e )
         {
