@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.File;
 import java.net.URL;
 import java.net.URI;
+import java.util.EventListener;
 
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.ProxyDirective;
@@ -35,6 +36,8 @@ import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.model.DisposalEvent;
+import net.dpml.transit.model.DisposalListener;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
@@ -197,12 +200,59 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     }
 
    /**
+    * Add a disposal listener to the model.
+    * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
+    */
+    public void addDisposalListener( DisposalListener listener )
+    {
+        super.addListener( listener );
+    }
+
+   /**
+    * Remove a disposal listener from the model.
+    * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
+    */
+    public void removeDisposalListener( DisposalListener listener )
+    {
+        super.removeListener( listener );
+    }
+
+   /**
     * Internal event handler.
     * @param eventObject the event to handle
     */
     protected void processEvent( EventObject eventObject )
     {
-        // no event in this object
+        if( eventObject instanceof DisposalEvent )
+        {
+            DisposalEvent event = (DisposalEvent) eventObject;
+            processDisposalEvent( event );
+        }
+    }
+    
+    private void processDisposalEvent( DisposalEvent event )
+    {
+        EventListener[] listeners = super.listeners();
+        for( int i=0; i < listeners.length; i++ )
+        {
+            EventListener listener = listeners[i];
+            if( listener instanceof DisposalListener )
+            {
+                DisposalListener pl = (DisposalListener) listener;
+                try
+                {
+                    pl.notifyDisposal( event );
+                }
+                catch( Throwable e )
+                {
+                    final String error =
+                      "Disposal notification error.";
+                    getLogger().error( error, e );
+                }
+            }
+        }
     }
     
     // ------------------------------------------------------------------------
@@ -214,6 +264,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     */
     public synchronized void dispose()
     {
+        DisposalEvent event = new DisposalEvent( this );
+        enqueueEvent( event, true );
         disposeCacheModel();
         disposeProxyModel();
         super.dispose();

@@ -197,6 +197,9 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
         thread.start();
     }
     
+   /**
+    * Internal class that handles instance retraction for the RMI runtime.
+    */
     private class Terminator extends Thread
     {
         private final UnicastEventSource m_source;

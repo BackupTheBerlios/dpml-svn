@@ -20,6 +20,8 @@
 package net.dpml.transit;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.net.PasswordAuthentication;
@@ -34,6 +36,8 @@ import net.dpml.transit.model.ProxyModel;
 import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
+import net.dpml.transit.model.DisposalListener;
+import net.dpml.transit.model.DisposalEvent;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.transit.monitor.LoggingAdapter;
 
@@ -145,6 +149,10 @@ public final class SecuredTransitContext
     * The repository service provider.
     */
     private Repository m_repository;
+    
+    private ProxyController m_proxyController;
+    
+    private DisposalController m_disposalController;
 
     //------------------------------------------------------------------
     // constructors
@@ -170,10 +178,12 @@ public final class SecuredTransitContext
             synchronized( proxy )
             {
                 setupProxy();
-                ProxyController controller = new ProxyController();
-                proxy.addProxyListener( controller );
+                m_proxyController = new ProxyController();
+                proxy.addProxyListener( m_proxyController );
             }
         }
+        m_disposalController = new DisposalController();
+        model.addDisposalListener( m_disposalController );
     }
 
     //------------------------------------------------------------------
@@ -299,23 +309,6 @@ public final class SecuredTransitContext
         getCacheHandler().initialize();
     }
 
-    private void handleDisposal( Object object ) 
-    {
-        if( object instanceof Disposable )
-        {
-            Disposable handler = (Disposable) object;
-            try
-            {
-                handler.dispose();
-            }
-            catch( Throwable e )
-            {
-                // interesting but ignorable
-                e.printStackTrace();
-            }
-        }
-    }
-
    /**
     * Internal listener to the proxy model.
     */
@@ -349,6 +342,80 @@ public final class SecuredTransitContext
         }
     }
 
+   /**
+    * Internal listener to the proxy model.
+    */
+    private class DisposalController extends UnicastRemoteObject implements DisposalListener
+    {
+       /**
+        * Listener creation.
+        * @exeption RemoteException if a remote error occurs
+        */
+        public DisposalController() throws RemoteException
+        {
+            super();
+        }
+        
+       /**
+        * Notify a listener of transit model disposal.
+        * @param event the disposal event
+        */
+        public void notifyDisposal( DisposalEvent event )
+        {
+            Thread thread = new Terminator();
+            thread.start();
+        }
+    }
+    
+   /**
+    * Internal model terminator.
+    */
+    private class Terminator extends Thread
+    {
+        Terminator()
+        {
+        }
+        
+       /**
+        * Initiate model retraction from the RMI.
+        */
+        public void run()
+        {
+            m_logger.debug( "initiating transit runtime disposal" );
+            terminate( m_proxyController );
+            terminate( m_cacheHandler );
+            terminate( m_disposalController );
+            m_logger.debug( "transit runtime disposal complete" );
+        }
+        
+        private void terminate( Object object )
+        {
+            if( object instanceof Disposable )
+            {
+                Disposable disposable = (Disposable) object;
+                disposable.dispose();
+            }
+            if( object instanceof Remote )
+            {
+                try
+                {
+                    Remote remote = (Remote) object;
+                    UnicastRemoteObject.unexportObject( remote, true );
+                }
+                catch( NoSuchObjectException e )
+                {
+                    // ignore
+                }
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Unexpected error encountered during transit runtime termination.";
+                    m_logger.warn( error, e );
+                }
+            }
+        }
+    }
+    
     private Logger getLogger()
     {
         return m_logger;

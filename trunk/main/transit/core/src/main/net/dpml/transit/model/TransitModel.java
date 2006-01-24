@@ -44,4 +44,18 @@ public interface TransitModel extends Remote
     * @exception RemoteException if a remote exception occurs
     */
     CacheModel getCacheModel() throws RemoteException;
+
+   /**
+    * Add a disposal listener to the model.
+    * @param listener the listener to add
+    * @exception RemoteException if a remote exception occurs
+    */
+    void addDisposalListener( DisposalListener listener ) throws RemoteException;
+
+   /**
+    * Remove a disposal listener from the model.
+    * @param listener the listener to remove
+    * @exception RemoteException if a remote exception occurs
+    */
+    void removeDisposalListener( DisposalListener listener ) throws RemoteException;
 }

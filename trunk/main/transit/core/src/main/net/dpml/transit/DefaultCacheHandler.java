@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.UnknownHostException;
+import java.rmi.Remote;
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
@@ -250,7 +252,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     * release all references such as listeners and internal resources
     * in preparation for garbage collection.
     */
-    public void dispose()
+    public synchronized void dispose()
     {
         try
         {
@@ -262,20 +264,43 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
                 for( int i=0; i < hosts.length; i++ )
                 {
                     ResourceHost host = hosts[i];
-                    if( host instanceof Disposable )
-                    {
-                        Disposable handler = (Disposable) host;
-                        handler.dispose();
-                    }
+                    terminate( host );
                 }
                 m_resourceHosts.clear();
             }
+            terminate( m_registry );
+            terminate( m_content );
         }
         catch( RemoteException e )
         {
             final String warning = 
               "Unexpected remote exception occured while attempting to dispose of the cache handler.";
             getLogger().error( warning, e );
+        }
+    }
+
+    private void terminate( Object object )
+    {
+        if( object instanceof Disposable )
+        {
+            Disposable disposable = (Disposable) object;
+            disposable.dispose();
+        }
+        if( object instanceof Remote )
+        {
+            try
+            {
+                Remote remote = (Remote) object;
+                UnicastRemoteObject.unexportObject( remote, true );
+            }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
+            }
+            catch( Throwable e )
+            {
+                e.printStackTrace();
+            }
         }
     }
 
