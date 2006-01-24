@@ -41,6 +41,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.control.Handler;
 
 import net.dpml.logging.Logger;
 
@@ -48,11 +49,10 @@ import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Disposable;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
-import net.dpml.metro.control.Handler;
+import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
 import net.dpml.part.remote.Service;
-import net.dpml.part.remote.ServiceNotFoundException;
 import net.dpml.part.remote.ModelEvent;
 import net.dpml.part.remote.ModelListener;
 

@@ -51,7 +51,7 @@ import net.dpml.part.Version;
 import net.dpml.metro.control.PartsManager;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
-import net.dpml.part.remote.ServiceNotFoundException;
+import net.dpml.part.ServiceNotFoundException;
 
 import net.dpml.transit.Category;
 import net.dpml.transit.Value;

@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import net.dpml.part.ControlException;
+import net.dpml.part.ComponentOperations;
 import net.dpml.part.remote.Provider;
 
 /**
@@ -31,7 +32,7 @@ import net.dpml.part.remote.Provider;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Handler
+public interface Handler extends ComponentOperations
 {
    /**
     * Return a mutible context map.
@@ -48,6 +49,6 @@ public interface Handler
     * @exception ControlException if the component could not be established due to a controller 
     *  related error
     */
-    Provider getProvider() throws ControlException, InvocationTargetException;
+    //Provider getProvider() throws ControlException, InvocationTargetException;
 }
 

@@ -16,11 +16,9 @@
  * limitations under the License.
  */
 
-package net.dpml.part.remote;
+package net.dpml.part;
 
 import java.net.URI;
-
-import net.dpml.part.ControlException;
 
 /**
  * Exception thrown by a handler in response to a request for an unknown service.
