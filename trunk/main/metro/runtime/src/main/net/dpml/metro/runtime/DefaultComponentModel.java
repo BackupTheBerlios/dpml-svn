@@ -124,7 +124,8 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
             if( part instanceof ComponentDirective )
             {
                 ComponentDirective component = (ComponentDirective) part;
-                ComponentModel model = m_controller.createComponentModel( m_classloader, base, component );
+                ComponentModel model = 
+                  m_controller.createComponentModel( m_classloader, base, component );
                 m_parts.put( key, model );
             }
             else
@@ -400,9 +401,19 @@ class DefaultComponentModel extends UnicastEventSource implements MutableCompone
     }
     
     // ------------------------------------------------------------------------
-    // internals
+    // Disposable
     // ------------------------------------------------------------------------
 
+    public void dispose()
+    {
+        m_context.dispose();
+        super.dispose();
+    }
+    
+    // ------------------------------------------------------------------------
+    // internals
+    // ------------------------------------------------------------------------
+    
     private String[] getPartKeys( Type type )
     {
         PartReference[] references = m_type.getPartReferences();

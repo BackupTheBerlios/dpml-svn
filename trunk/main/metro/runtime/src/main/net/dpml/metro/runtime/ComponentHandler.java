@@ -27,6 +27,8 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.rmi.RemoteException;
+import java.rmi.NoSuchObjectException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
 import java.util.Map;
 import java.util.Hashtable;
@@ -127,6 +129,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     private final Map m_cache = new Hashtable(); // context entry/value cache
     
     private final DefaultPartsManager m_parts;
+    private final boolean m_flag;
     
     //--------------------------------------------------------------------------
     // mutable state
@@ -140,7 +143,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
     
     ComponentHandler( 
       final Component parent, final ClassLoader classloader, final Logger logger, 
-      final ComponentController control, final ComponentModel model )
+      final ComponentController control, final ComponentModel model, boolean flag )
       throws RemoteException, ControlException
     {
         super( logger );
@@ -151,6 +154,7 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
         m_controller = control;
         m_model = model;
         m_path = model.getContextPath();
+        m_flag = flag;
         
         m_support = new PropertyChangeSupport( this );
         model.addModelListener( this );
@@ -582,6 +586,14 @@ public class ComponentHandler extends UnicastEventSource implements Component, H
         {
             getLogger().debug( "disposal" );
             m_holder.dispose();
+            if( m_flag )
+            {
+                if( m_model instanceof Disposable )
+                {
+                    Disposable disposable = (Disposable) m_model;
+                    disposable.dispose();
+                }
+            }
             super.dispose();
         }
     }

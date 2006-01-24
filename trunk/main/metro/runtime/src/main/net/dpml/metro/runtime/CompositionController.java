@@ -185,7 +185,7 @@ public class CompositionController implements Controller
     public Component createComponent( URI uri ) throws Exception
     {
         Model model = createModel( uri );
-        return createComponent( model );
+        return createComponent( model, true );
     }
 
    /**
@@ -196,10 +196,22 @@ public class CompositionController implements Controller
     */
     public Component createComponent( Model model ) throws Exception
     {
+        return createComponent( model, false );
+    }
+    
+   /**
+    * Create and return a remote reference to a component handler.
+    * @param model the component model
+    * @param flag if true the component is responsible for model retraction
+    * @return the component handler
+    * @exception Exception if an error occurs during component creation
+    */
+    private Component createComponent( Model model, boolean flag ) throws Exception
+    {
         if( model instanceof ComponentModel )
         {
             ComponentModel componentModel = (ComponentModel) model;
-            return m_controller.createComponentHandler( componentModel );
+            return m_controller.createComponentHandler( componentModel, flag );
         }
         else
         {
@@ -349,7 +361,6 @@ public class CompositionController implements Controller
         getLogger().debug( "initating controller disposal" );
         m_context.removeControllerContextListener( m_listener );
         m_dispatch.dispose();
-        getLogger().debug( "disposal complete" );
     }
     
    /**

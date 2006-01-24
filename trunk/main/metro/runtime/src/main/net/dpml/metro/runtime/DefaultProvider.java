@@ -288,7 +288,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
         return m_activated;
     }
 
-    void dispose()
+    public void dispose()
     {
         synchronized( getLock() )
         {

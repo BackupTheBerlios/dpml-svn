@@ -83,7 +83,8 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
     * @exception RemoteException if a remote I/O error occurs
     */
     DefaultContextModel( 
-      DefaultComponentModel parent, Logger logger, ClassLoader classloader, Type type, ContextDirective directive )
+      DefaultComponentModel parent, Logger logger, ClassLoader classloader, 
+      Type type, ContextDirective directive )
       throws ModelException, RemoteException
     {
         super( logger );
@@ -314,7 +315,7 @@ class DefaultContextModel extends UnicastEventSource implements MutableContextMo
     // ------------------------------------------------------------------------
     // internals
     // ------------------------------------------------------------------------
-
+    
     private void validatePartReferences( final PartReference[] references ) throws UnknownKeyException
     {
         int n = references.length;

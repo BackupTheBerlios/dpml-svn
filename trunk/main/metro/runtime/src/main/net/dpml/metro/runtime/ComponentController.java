@@ -102,15 +102,18 @@ class ComponentController
    /**
     * Create a new runtime handler using a supplied context.
     * @param model the managed context
+    * @param flag if true the component model is responsible for model lifecycle
     * @return the runtime handler
     */
-    public ComponentHandler createComponentHandler( ComponentModel model ) throws ControlException
+    public ComponentHandler createComponentHandler( 
+      ComponentModel model, boolean flag ) throws ControlException
     {
         ClassLoader anchor = Thread.currentThread().getContextClassLoader();
-        return createComponentHandler( anchor, model );
+        return createComponentHandler( anchor, model, flag );
     }
     
-    public ClassLoader createClassLoader( ClassLoader anchor, ComponentModel model ) throws ControlException
+    public ClassLoader createClassLoader( 
+      ClassLoader anchor, ComponentModel model ) throws ControlException
     {
         try
         {
@@ -166,9 +169,10 @@ class ComponentController
     * @param context the managed context
     * @return the runtime handler
     */
-    ComponentHandler createComponentHandler( ClassLoader anchor, ComponentModel context ) throws ControlException
+    ComponentHandler createComponentHandler( 
+      ClassLoader anchor, ComponentModel context, boolean flag ) throws ControlException
     {
-        return createComponentHandler( null, anchor, context );
+        return createComponentHandler( null, anchor, context, flag );
     }
     
    /**
@@ -179,7 +183,8 @@ class ComponentController
     * @return the runtime handler
     */
     ComponentHandler createComponentHandler( 
-      Component parent, ClassLoader anchor, ComponentModel context ) throws ControlException
+      Component parent, ClassLoader anchor, ComponentModel context, boolean flag ) 
+      throws ControlException
     {
         try
         {
@@ -188,7 +193,7 @@ class ComponentController
             Logger logger = new StandardLogger( path.substring( 1 ).replace( '/', '.' ) );
             final ClassLoaderDirective directive = context.getClassLoaderDirective();
             ClassLoader classloader = createClassLoader( anchor, directive, name );
-            return new ComponentHandler( parent, classloader, logger, this, context );
+            return new ComponentHandler( parent, classloader, logger, this, context, flag );
         }
         catch( RemoteException e )
         {

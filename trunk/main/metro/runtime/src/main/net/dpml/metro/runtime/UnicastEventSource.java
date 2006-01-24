@@ -26,6 +26,8 @@ import java.util.EventListener;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.part.Disposable;
+
 /**
  * A abstract base class that established an event queue and handles event dispatch 
  * operations for listeners declared in a class extending this base class.
@@ -33,7 +35,7 @@ import net.dpml.logging.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class UnicastEventSource extends UnicastRemoteObject
+public abstract class UnicastEventSource extends UnicastRemoteObject implements Disposable
 {
    /**
     * Registered event listeners.
@@ -174,7 +176,7 @@ public abstract class UnicastEventSource extends UnicastRemoteObject
    /**
     * Dispose of the event source.
     */
-    void dispose()
+    public void dispose()
     {
         if( m_disposed )
         {
