@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 
 import net.dpml.metro.control.Handler;
 import net.dpml.part.remote.Component;
-import net.dpml.part.local.PartsManager;
+import net.dpml.metro.control.PartsManager;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 

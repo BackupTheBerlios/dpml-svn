@@ -48,7 +48,7 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Directive;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
-import net.dpml.part.local.PartsManager;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
 import net.dpml.part.remote.ServiceNotFoundException;

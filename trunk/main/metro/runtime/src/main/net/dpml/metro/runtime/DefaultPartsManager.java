@@ -30,7 +30,7 @@ import net.dpml.metro.model.ComponentModel;
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
-import net.dpml.part.local.PartsManager;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.metro.control.Handler;
 
 import net.dpml.lang.UnknownKeyException;
@@ -89,7 +89,7 @@ class DefaultPartsManager implements PartsManager
             try
             {
                 ComponentModel m = model.getComponentModel( key );
-                Component h = control.createComponentHandler( handler, classloader, m );
+                Component h = control.createComponentHandler( handler, classloader, m, true );
                 m_handlers.put( key, h );
             }
             catch( UnknownKeyException e )

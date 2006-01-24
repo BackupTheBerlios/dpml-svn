@@ -25,7 +25,7 @@ import net.dpml.logging.Logger;
 
 import net.dpml.test.ColorManager;
 
-import net.dpml.part.local.PartsManager;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.metro.control.Handler;
 
 import net.dpml.lang.UnknownKeyException;
