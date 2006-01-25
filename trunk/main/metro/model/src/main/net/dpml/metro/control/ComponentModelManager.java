@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.model;
+package net.dpml.metro.control;
 
 import java.rmi.RemoteException;
 
 import net.dpml.metro.info.CollectionPolicy;
 
 import net.dpml.part.ActivationPolicy;
+
+import net.dpml.metro.model.ComponentModelOperations;
 
 /**
  * The MutableComponentModel interface extends ComponentModel with a set of 
@@ -34,17 +36,23 @@ import net.dpml.part.ActivationPolicy;
 public interface ComponentModelManager extends ComponentModelOperations
 {
    /**
+    * Return the context model manager.
+    * @return the context model manager
+    */
+    ContextModelManager getContextModelManager();
+    
+   /**
     * Set the component activation policy to the supplied value.
     * @param policy the new activation policy
     * @exception RemoteException if a remote exception occurs
     */
-    void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
+    void setActivationPolicy( ActivationPolicy policy );
 
    /**
     * Override the assigned collection policy.
     * @param policy the collection policy value
     * @exception RemoteException if a remote exception occurs
     */
-    void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
+    void setCollectionPolicy( CollectionPolicy policy );
 }
 

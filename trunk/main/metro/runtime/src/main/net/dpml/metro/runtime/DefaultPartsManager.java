@@ -30,7 +30,7 @@ import net.dpml.metro.model.ComponentModel;
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
-import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.metro.control.ComponentHandler;
 
 import net.dpml.lang.UnknownKeyException;
@@ -41,7 +41,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultComponentManager implements ComponentManager
+class DefaultPartsManager implements PartsManager
 {
     //-------------------------------------------------------------------
     // state
@@ -74,7 +74,7 @@ class DefaultComponentManager implements ComponentManager
     * @param handler the component handler
     * @param logger the logging channel
     */
-    DefaultComponentManager( ComponentController control, DefaultComponentHandler handler, Logger logger ) 
+    DefaultPartsManager( ComponentController control, DefaultComponentHandler handler, Logger logger ) 
       throws ControlException, RemoteException
     {
         m_handler = handler;
@@ -121,7 +121,7 @@ class DefaultComponentManager implements ComponentManager
     }
     
     //-------------------------------------------------------------------
-    // ComponentManager
+    // PartsManager
     //-------------------------------------------------------------------
 
    /**

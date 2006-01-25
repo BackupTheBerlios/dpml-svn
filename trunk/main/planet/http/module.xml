@@ -57,6 +57,7 @@
       <property name="project.test.halt-on-failure" value="true"/>
     </properties>
     <dependencies>
+      <include ref="dpml/metro/dpml-metro-model"/>
       <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
       <include key="dpml-http-impl"/>
     </dependencies>

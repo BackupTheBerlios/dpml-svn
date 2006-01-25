@@ -41,7 +41,14 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentModel extends Model, ComponentModelManager
+public interface ComponentModel extends Model, ComponentModelOperations
 {
+   /**
+    * Return the current context model.
+    *
+    * @return the context model
+    * @exception RemoteException if a remote exception occurs
+    */
+    ContextModel getContextModel() throws RemoteException;
 }
 

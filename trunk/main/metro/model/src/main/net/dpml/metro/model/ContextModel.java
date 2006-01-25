@@ -33,39 +33,6 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ContextModel extends Remote, ContextModelManager
+public interface ContextModel extends Remote, ContextModelOperations
 {
-   /**
-    * Return the set of context entries descriptors.
-    *
-    * @return context entry descriptor array
-    * @exception RemoteException if a remote exception occurs
-    */
-    EntryDescriptor[] getEntryDescriptors() throws RemoteException;
-    
-   /**
-    * Return  a of context entry descriptor.
-    *
-    * @param key the entry key
-    * @return the entry descriptor
-    * @exception UnknownKeyException if the key is unknown
-    * @exception RemoteException if a remote exception occurs
-    */
-    EntryDescriptor getEntryDescriptor( String key ) throws UnknownKeyException, RemoteException;
-    
-   /**
-    * Return the current directive assigned to a context entry.
-    * @param key the context entry key
-    * @return the directive
-    * @exception UnknownKeyException if the key is unknown
-    * @exception RemoteException if a remote exception occurs
-    */
-    Directive getEntryDirective( String key ) throws UnknownKeyException, RemoteException;
-
-   /**
-    * Validate the model.
-    * @exception ValidationException if one or more issues exist within the model
-    * @exception RemoteException if a remote exception occurs
-    */
-    void validate() throws ValidationException, RemoteException;
 }

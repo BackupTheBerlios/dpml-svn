@@ -44,7 +44,18 @@ public interface ComponentHandler extends ComponentOperations
     * Return the component model associated with the component handler.
     * @return the component model
     */
-    ComponentModel getComponentModel();
+    //ComponentModel getComponentModel();
     
+   /**
+    * Return the component model manager associated with the component handler.
+    * @return the component model manager
+    */
+    ComponentModelManager getComponentModelManager();
+    
+   /**
+    * Return the internal parts manager.
+    * @return the parts manager
+    */
+    PartsManager getPartsManager();
 }
 

@@ -34,6 +34,8 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.control.ComponentModelManager;
+import net.dpml.metro.control.ContextModelManager;
 
 import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
@@ -59,7 +61,8 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultComponentModel extends UnicastEventSource implements ComponentModel, Configurable
+class DefaultComponentModel extends UnicastEventSource 
+  implements ComponentModel, ComponentModelManager, Configurable
 {
     // ------------------------------------------------------------------------
     // state
@@ -306,6 +309,24 @@ class DefaultComponentModel extends UnicastEventSource implements ComponentModel
     public ContextModel getContextModel()
     {
         return m_context;
+    }
+    
+   /**
+    * Return the context manager.
+    * @return the context manager
+    */
+    public ContextModelManager getContextModelManager()
+    {
+        if( m_context instanceof ContextModelManager )
+        {
+            return (ContextModelManager) m_context;
+        }
+        else
+        {
+            final String error = 
+              "Cannot cast context model to the manager interface.";
+            throw new IllegalStateException( error );
+        }
     }
     
    /**

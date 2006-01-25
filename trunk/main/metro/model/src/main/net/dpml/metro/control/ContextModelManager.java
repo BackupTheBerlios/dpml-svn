@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.model;
+package net.dpml.metro.control;
 
 import java.rmi.RemoteException;
 
@@ -25,6 +25,7 @@ import net.dpml.part.Directive;
 
 import net.dpml.lang.UnknownKeyException;
 
+import net.dpml.metro.model.ContextModelOperations;
 
 /**
  * The MutableContextModel interface extends ContextModel with operations supporting
@@ -36,14 +37,28 @@ import net.dpml.lang.UnknownKeyException;
 public interface ContextModelManager extends ContextModelOperations
 {
    /**
+    * Set a context entry value.
+    * @param key the context entry key
+    * @param value the context entry value
+    * @exception UnknownKeyException if the key is unknown
+    */
+    //void setEntry( String key, Object value ) throws UnknownKeyException;
+    
+   /**
+    * Return a context entry value.
+    * @return the context entry value
+    * @exception UnknownKeyException if the key is unknown
+    */
+    //Object getEntry( String key ) throws UnknownKeyException;
+
+   /**
     * Set a context entry directive value.
     * @param key the context entry key
     * @param directive the context entry directive
     * @exception UnknownKeyException if the key is unknown
-    * @exception RemoteException if a remote exception occurs
     */
-    void setEntryDirective( String key, Directive directive ) throws UnknownKeyException, RemoteException;
-
+    void setEntryDirective( String key, Directive directive ) throws UnknownKeyException;
+    
    /**
     * Apply an array of tagged directive as an atomic operation.  Application of 
     * directives to the context model is atomic such that changes are applied under a 
@@ -52,8 +67,7 @@ public interface ContextModelManager extends ContextModelOperations
     * @param directives an array of part references
     * @exception UnknownKeyException if a key within the array does not match a key within
     *   the context model.
-    * @exception RemoteException if a remote exception occurs
     */
-    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException, RemoteException;
+    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException;
 
 }

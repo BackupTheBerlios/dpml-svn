@@ -42,6 +42,8 @@ import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.control.ComponentHandler;
+import net.dpml.metro.control.PartsManager;
+import net.dpml.metro.control.ComponentModelManager;
 
 import net.dpml.logging.Logger;
 
@@ -105,7 +107,8 @@ import net.dpml.state.State;
  * @see ComponentModel
  * @see Provider
  */
-public class DefaultComponentHandler extends UnicastEventSource implements Component, ComponentHandler, Disposable, ModelListener
+public class DefaultComponentHandler extends UnicastEventSource 
+  implements Component, ComponentHandler, Disposable, ModelListener
 {
     //--------------------------------------------------------------------------
     // immutable state
@@ -124,11 +127,9 @@ public class DefaultComponentHandler extends UnicastEventSource implements Compo
     private final Holder m_holder;
     private final Component m_parent;
     private final PropertyChangeSupport m_support;
-    
+    private final Map m_cache = new Hashtable(); // context overloading entry/value cache
     private final Map m_map = new Hashtable(); // symbolic value map
-    private final Map m_cache = new Hashtable(); // context entry/value cache
-    
-    private final DefaultComponentManager m_parts;
+    private final DefaultPartsManager m_parts;
     private final boolean m_flag;
     
     //--------------------------------------------------------------------------
@@ -244,7 +245,7 @@ public class DefaultComponentHandler extends UnicastEventSource implements Compo
         // need to establish all of the component parts that are children of this 
         // component.
         
-        m_parts = new DefaultComponentManager( control, this, logger );
+        m_parts = new DefaultPartsManager( control, this, logger );
         
         getLogger().debug( "component controller [" + this + "] established" );
     }
@@ -270,16 +271,6 @@ public class DefaultComponentHandler extends UnicastEventSource implements Compo
     //--------------------------------------------------------------------------
     
    /**
-    * Return a mutable context map.
-    *
-    * @return the context map
-    */
-    public Map getContextMap()
-    {
-        return m_cache;
-    }
-    
-   /**
     * Return an <tt>Provider</tt> holder. The value returned will be a function 
     * of the lifestyle policy implemented by the component.
     * 
@@ -302,6 +293,34 @@ public class DefaultComponentHandler extends UnicastEventSource implements Compo
     public ComponentModel getComponentModel()
     {
         return m_model;
+    }
+    
+   /**
+    * Return the component model assiged to the handler.
+    * @return the component model
+    */
+    public ComponentModelManager getComponentModelManager()
+    {
+        if( m_model instanceof ComponentModelManager )
+        {
+            return (ComponentModelManager) m_model;
+        }
+        else
+        {
+            final String error = 
+              "Cannot cast componet model to the manager interface.";
+            throw new IllegalStateException( error );
+        }
+    }
+    
+   /**
+    * Return a mutible context map.
+    *
+    * @return the context map
+    */
+    public Map getContextMap()
+    {
+        return m_cache;
     }
     
     //--------------------------------------------------------------------------
@@ -559,7 +578,7 @@ public class DefaultComponentHandler extends UnicastEventSource implements Compo
     // DefaultComponentHandler
     //--------------------------------------------------------------------------
     
-    DefaultComponentManager getComponentManager()
+    public PartsManager getPartsManager()
     {
         return m_parts;
     }

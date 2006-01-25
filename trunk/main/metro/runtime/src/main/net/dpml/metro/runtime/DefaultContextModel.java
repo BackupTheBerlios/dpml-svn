@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
+import java.util.Hashtable;
 
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.info.EntryDescriptor;
@@ -34,6 +35,7 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
+import net.dpml.metro.control.ContextModelManager;
 
 import net.dpml.logging.Logger;
 
@@ -50,7 +52,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultContextModel extends UnicastEventSource implements ContextModel
+class DefaultContextModel extends UnicastEventSource implements ContextModel, ContextModelManager
 {
     // ------------------------------------------------------------------------
     // immutable state
@@ -62,7 +64,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
     private final Map m_contextTable = 
       Collections.synchronizedMap( new HashMap() ); // (key,directive)
     private final DefaultComponentModel m_parent; 
-    
+
     // ------------------------------------------------------------------------
     // mutable state
     // ------------------------------------------------------------------------
@@ -164,7 +166,7 @@ class DefaultContextModel extends UnicastEventSource implements ContextModel
     // ------------------------------------------------------------------------
     // ContextModel
     // ------------------------------------------------------------------------
-
+    
    /**
     * Validate the model.
     * @exception ValidationException if one or more issues exist within the model

@@ -20,7 +20,7 @@ package net.dpml.test.app;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.metro.control.ComponentHandler;
 
 /**
@@ -32,7 +32,7 @@ import net.dpml.metro.control.ComponentHandler;
  */
 public class Demo
 {
-    private final ComponentManager m_parts;
+    private final PartsManager m_parts;
     private final Logger m_logger;
     
    /**
@@ -40,7 +40,7 @@ public class Demo
     * @param logger a logging channel
     * @param parts the internal parts
     */
-    public Demo( Logger logger, ComponentManager parts )
+    public Demo( Logger logger, PartsManager parts )
     {
         m_logger = logger;
         m_parts = parts;

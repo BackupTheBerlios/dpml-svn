@@ -220,33 +220,6 @@ public class ProviderTestCase extends TestCase
         }
     }
     
-   /**
-    * Test provider context mutation.
-    * @exception Exception if an error occurs
-    */
-    public void testContextMutation() throws Exception
-    {
-        ComponentModel model = (ComponentModel) CONTROLLER.createModel( m_uri );
-        Component component = Controller.STANDARD.createComponent( model );
-        component.activate();
-        try
-        {
-            Provider instance = component.getProvider();
-            ColorManager manager = (ColorManager) instance.getValue( true );
-            Color color = manager.getColor();
-            assertEquals( "initial-color", Color.RED, color );
-            ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
-            ContextModel context = (ContextModel) model.getContextModel();
-            context.setEntryDirective( "color", newDirective );
-            color = manager.getColor();
-            assertEquals( "mutated-color", Color.BLUE, color );
-        }
-        finally
-        {
-            component.deactivate();
-        }
-    }
-
     static
     {
         System.setProperty( 

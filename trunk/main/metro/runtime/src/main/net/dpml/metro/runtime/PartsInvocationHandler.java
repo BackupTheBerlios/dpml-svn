@@ -23,8 +23,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import net.dpml.metro.control.ComponentHandler;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.part.remote.Component;
-import net.dpml.metro.control.ComponentManager;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 
@@ -43,18 +43,18 @@ class PartsInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
-    private final DefaultComponentManager m_manager;
+    private final PartsManager m_manager;
 
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
    /**
-    * Create a context invocation handler.
+    * Create a parts invocation handler.
     *
     * @param handler the component handler
     */
-    PartsInvocationHandler( DefaultComponentManager manager )
+    PartsInvocationHandler( PartsManager manager )
     {
         m_manager = manager;
     }
@@ -75,21 +75,21 @@ class PartsInvocationHandler implements InvocationHandler
     */
     public Object invoke( final Object proxy, final Method method, final Object[] args ) throws Throwable
     {
-        Class source = method.getDeclaringClass();
+        final Class source = method.getDeclaringClass();
         if( Object.class == source )
         {
             return method.invoke( this, args );
         }
-        else if( ComponentManager.class == source )
+        else if( PartsManager.class == source )
         {
             return method.invoke( m_manager, args );
         }
         
-        int semantic = getPartSemantic( method );
-        String postfix = getPartPostfix( method );
-        String key = getPartKey( method, semantic );
+        final int semantic = getPartSemantic( method );
+        final String postfix = getPartPostfix( method );
+        final String key = getPartKey( method, semantic );
         
-        ComponentHandler handler = m_manager.getComponentHandler( key );
+        final ComponentHandler handler = m_manager.getComponentHandler( key );
         
         if( GET == semantic )
         {
@@ -232,13 +232,17 @@ class PartsInvocationHandler implements InvocationHandler
         {
             return COMPONENT_KEY;
         }
-        if( name.endsWith( MAP_KEY ) )
+        else if( name.endsWith( HANDLER_KEY ) )
         {
-            return MAP_KEY;
+            return HANDLER_KEY;
         }
-        if( name.endsWith( PROVIDER_KEY ) )
+        else if( name.endsWith( PROVIDER_KEY ) )
         {
             return PROVIDER_KEY;
+        }
+        else if( name.endsWith( MAP_KEY ) )
+        {
+            return MAP_KEY;
         }
         else
         {
@@ -258,13 +262,6 @@ class PartsInvocationHandler implements InvocationHandler
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
             }
-            else if( name.endsWith( MAP_KEY ) )
-            {
-                int n = MAP_KEY.length();
-                int j = name.length() - n;
-                String substring = name.substring( 0, j );
-                return formatKey( substring, 3 );
-            }
             else if( name.endsWith( PROVIDER_KEY ) )
             {
                 int n = PROVIDER_KEY.length();
@@ -275,6 +272,13 @@ class PartsInvocationHandler implements InvocationHandler
             else if( name.endsWith( HANDLER_KEY ) )
             {
                 int n = HANDLER_KEY.length();
+                int j = name.length() - n;
+                String substring = name.substring( 0, j );
+                return formatKey( substring, 3 );
+            }
+            else if( name.endsWith( MAP_KEY ) )
+            {
+                int n = MAP_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
@@ -335,7 +339,7 @@ class PartsInvocationHandler implements InvocationHandler
     public static final String GET_KEY = "get";
     public static final String RELEASE_KEY = "release";
     public static final String COMPONENT_KEY = "Component";
-    public static final String MAP_KEY = "Map";
     public static final String PROVIDER_KEY = "Provider";
     public static final String HANDLER_KEY = "Handler";
+    public static final String MAP_KEY = "Map";
 }

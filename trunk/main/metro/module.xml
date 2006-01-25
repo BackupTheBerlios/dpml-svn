@@ -105,7 +105,6 @@
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
-      <!--<include ref="dpml/util/dpml-activity-api" tag="public"/>-->
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
       <include key="dpml-state-impl"/>

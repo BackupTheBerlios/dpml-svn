@@ -38,6 +38,7 @@ import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.control.ContextModelManager;
 
 import net.dpml.configuration.Configuration;
 
@@ -48,7 +49,7 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Directive;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
-import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.PartsManager;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
 import net.dpml.part.ServiceNotFoundException;
@@ -465,7 +466,7 @@ class ComponentController
         Class clazz = getInnerClass( subject, "$Parts" );
         if( null == clazz )
         {
-            return ComponentManager.class;
+            return PartsManager.class;
         }
         else
         {
@@ -549,7 +550,7 @@ class ComponentController
     private Object createPartsInvocationHandler( DefaultComponentHandler handler, Class clazz ) 
       throws ControlException
     {
-        DefaultComponentManager manager = handler.getComponentManager();
+        PartsManager manager = handler.getPartsManager();
         try
         {
             InvocationHandler invocationHandler = new PartsInvocationHandler( manager );
@@ -563,7 +564,7 @@ class ComponentController
             throw new ControllerException( error, e );
         }
     }
-
+    
     String getPathForLogger( DefaultComponentHandler handler )
     {
         String path = handler.getPath();
@@ -575,13 +576,18 @@ class ComponentController
         try
         {
             ComponentModel model = handler.getComponentModel();
+            ContextModel context = model.getContextModel();
+            
+            // check for an overriding locally assigned value
+            
             Map map = handler.getContextMap();
             if( map.containsKey( key ) )
             {
-                return map.get( key ); 
-                // TODO: validation of values mapping to return type prerequisies
+                return map.get( key );
             }
-            ContextModel context = model.getContextModel();
+            
+            // resolve using defaults
+            
             Directive directive = context.getEntryDirective( key );
             if( null == directive )
             {

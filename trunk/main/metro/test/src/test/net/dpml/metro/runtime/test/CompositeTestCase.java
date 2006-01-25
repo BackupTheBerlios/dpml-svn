@@ -80,8 +80,8 @@ public class CompositeTestCase extends TestCase
     public void testOverloadedComposite() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        ComponentHandler manager = (ComponentHandler) component;
-        manager.getContextMap().put( "color", Color.YELLOW );
+        ComponentHandler handler = (ComponentHandler) component;
+        handler.getContextMap().put( "color", Color.YELLOW );
         Provider instance = component.getProvider();
         CompositeComponent parent = (CompositeComponent) instance.getValue( false );
         Color color = parent.getColor();

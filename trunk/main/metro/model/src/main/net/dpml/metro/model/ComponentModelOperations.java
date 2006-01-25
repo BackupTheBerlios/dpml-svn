@@ -84,14 +84,6 @@ public interface ComponentModelOperations
     CollectionPolicy getCollectionPolicy() throws RemoteException;
 
    /**
-    * Return the current context model.
-    *
-    * @return the context model
-    * @exception RemoteException if a remote exception occurs
-    */
-    ContextModel getContextModel() throws RemoteException;
-    
-   /**
     * Return the set of component model keys.
     * @return the component part keys
     * @exception RemoteException if a remote exception occurs
