@@ -62,6 +62,7 @@
       <include name="**/DefaultLayoutRegistry.class"/> <!-- -->
       <include name="**/DefaultResourceHost.class"/> <!-- -->
       <include name="**/SecuredTransitContext$ProxyController.class"/> <!-- -->
+      <include name="**/SecuredTransitContext$DisposalController.class"/> <!-- -->
     </rmic>
   </target>
 
