@@ -43,7 +43,7 @@ import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.control.ComponentHandler;
 import net.dpml.metro.control.PartsManager;
-import net.dpml.metro.control.ComponentModelManager;
+import net.dpml.metro.control.ComponentManager;
 
 import net.dpml.logging.Logger;
 
@@ -299,11 +299,11 @@ public class DefaultComponentHandler extends UnicastEventSource
     * Return the component model assiged to the handler.
     * @return the component model
     */
-    public ComponentModelManager getComponentModelManager()
+    public ComponentManager getComponentManager()
     {
-        if( m_model instanceof ComponentModelManager )
+        if( m_model instanceof ComponentManager )
         {
-            return (ComponentModelManager) m_model;
+            return (ComponentManager) m_model;
         }
         else
         {

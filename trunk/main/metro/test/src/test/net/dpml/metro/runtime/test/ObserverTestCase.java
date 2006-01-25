@@ -30,8 +30,8 @@ import net.dpml.part.remote.Provider;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.control.ComponentModelManager;
-import net.dpml.metro.control.ContextModelManager;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ContextManager;
 
 /**
  * Test aspects of the component model implementation.
@@ -40,7 +40,7 @@ import net.dpml.metro.control.ContextModelManager;
  */
 public class ObserverTestCase extends TestCase
 {    
-    private ComponentModelManager m_model;
+    private ComponentManager m_model;
     
    /**
     * Test case setup.
@@ -51,7 +51,7 @@ public class ObserverTestCase extends TestCase
         final String path = "observer.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_model = (ComponentModelManager) Controller.STANDARD.createModel( uri );
+        m_model = (ComponentManager) Controller.STANDARD.createModel( uri );
     }
     
    /**
@@ -60,7 +60,7 @@ public class ObserverTestCase extends TestCase
     */
     public void testContextModel() throws Exception
     {
-        ContextModelManager context = (ContextModelManager) m_model.getContextModelManager();
+        ContextManager context = (ContextManager) m_model.getContextManager();
         Component component = Controller.STANDARD.createComponent( (ComponentModel) m_model );
         Provider provider = component.getProvider();
         Object instance = provider.getValue( false );

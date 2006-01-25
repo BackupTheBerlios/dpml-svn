@@ -34,8 +34,8 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.control.ComponentModelManager;
-import net.dpml.metro.control.ContextModelManager;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ContextManager;
 
 import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
@@ -62,7 +62,7 @@ import net.dpml.lang.UnknownKeyException;
  * @version @PROJECT-VERSION@
  */
 class DefaultComponentModel extends UnicastEventSource 
-  implements ComponentModel, ComponentModelManager, Configurable
+  implements ComponentModel, ComponentManager, Configurable
 {
     // ------------------------------------------------------------------------
     // state
@@ -315,11 +315,11 @@ class DefaultComponentModel extends UnicastEventSource
     * Return the context manager.
     * @return the context manager
     */
-    public ContextModelManager getContextModelManager()
+    public ContextManager getContextManager()
     {
-        if( m_context instanceof ContextModelManager )
+        if( m_context instanceof ContextManager )
         {
-            return (ContextModelManager) m_context;
+            return (ContextManager) m_context;
         }
         else
         {

@@ -50,7 +50,7 @@ public interface ComponentHandler extends ComponentOperations
     * Return the component model manager associated with the component handler.
     * @return the component model manager
     */
-    ComponentModelManager getComponentModelManager();
+    ComponentManager getComponentManager();
     
    /**
     * Return the internal parts manager.

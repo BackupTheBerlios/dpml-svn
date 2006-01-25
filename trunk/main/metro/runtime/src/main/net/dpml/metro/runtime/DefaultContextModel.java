@@ -35,7 +35,7 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.model.ValidationException;
 import net.dpml.metro.model.ValidationException.Issue;
-import net.dpml.metro.control.ContextModelManager;
+import net.dpml.metro.control.ContextManager;
 
 import net.dpml.logging.Logger;
 
@@ -52,7 +52,7 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultContextModel extends UnicastEventSource implements ContextModel, ContextModelManager
+class DefaultContextModel extends UnicastEventSource implements ContextModel, ContextManager
 {
     // ------------------------------------------------------------------------
     // immutable state

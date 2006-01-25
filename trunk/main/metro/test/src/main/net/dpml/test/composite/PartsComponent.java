@@ -27,8 +27,8 @@ import net.dpml.test.ColorManager;
 
 import net.dpml.metro.control.PartsManager;
 import net.dpml.metro.control.ComponentHandler;
-import net.dpml.metro.control.ComponentModelManager;
-import net.dpml.metro.control.ContextModelManager;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ContextManager;
 
 import net.dpml.lang.UnknownKeyException;
 

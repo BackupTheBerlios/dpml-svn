@@ -34,7 +34,7 @@ import net.dpml.metro.model.ContextModelOperations;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ContextModelManager extends ContextModelOperations
+public interface ContextManager extends ContextModelOperations
 {
    /**
     * Set a context entry value.

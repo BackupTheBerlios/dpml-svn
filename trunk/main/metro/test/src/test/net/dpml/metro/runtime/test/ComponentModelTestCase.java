@@ -96,7 +96,7 @@ public class ComponentModelTestCase extends TestCase
         assertEquals( "initial-activation", ActivationPolicy.STARTUP, m_model.getActivationPolicy() );
         ActivationPolicy policy = ActivationPolicy.DEMAND;
         
-        // uncomment remainder as this is under the ComponentModelManager
+        // uncomment remainder as this is under the ComponentManager
         //m_model.setActivationPolicy( policy );
         //assertEquals( "mutated-activation", policy, m_model.getActivationPolicy() );
     }
@@ -119,7 +119,7 @@ public class ComponentModelTestCase extends TestCase
         assertEquals( "initial-collection", CollectionPolicy.SYSTEM, m_model.getCollectionPolicy() );
         CollectionPolicy policy = CollectionPolicy.SOFT;
 
-        // uncomment remainder as this is under the ComponentModelManager
+        // uncomment remainder as this is under the ComponentManager
         //m_model.setCollectionPolicy( policy );
         //assertEquals( "mutated-collection", policy, m_model.getCollectionPolicy() );
     }

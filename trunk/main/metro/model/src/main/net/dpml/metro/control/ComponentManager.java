@@ -33,13 +33,13 @@ import net.dpml.metro.model.ComponentModelOperations;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentModelManager extends ComponentModelOperations
+public interface ComponentManager extends ComponentModelOperations
 {
    /**
     * Return the context model manager.
     * @return the context model manager
     */
-    ContextModelManager getContextModelManager();
+    ContextManager getContextManager();
     
    /**
     * Set the component activation policy to the supplied value.

@@ -44,8 +44,8 @@ import net.dpml.part.remote.Service;
 
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.control.ComponentModelManager;
-import net.dpml.metro.control.ContextModelManager;
+import net.dpml.metro.control.ComponentManager;
+import net.dpml.metro.control.ContextManager;
 
 import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
@@ -157,10 +157,10 @@ public class ComponentAdapter extends AbstractAdapter
             throw new UnsupportedOperationException( "Parameters not currently supported." );
         }
         
-        if( model instanceof ComponentModelManager )
+        if( model instanceof ComponentManager )
         {
-            ComponentModelManager componentModel = (ComponentModelManager) model;
-            ContextModelManager cm = componentModel.getContextModelManager();
+            ComponentManager componentModel = (ComponentManager) model;
+            ContextManager cm = componentModel.getContextManager();
             Enumeration names = properties.propertyNames();
             while( names.hasMoreElements() )
             {
