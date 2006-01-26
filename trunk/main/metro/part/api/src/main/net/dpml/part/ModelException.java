@@ -16,36 +16,42 @@
  * limitations under the License.
  */
 
-package net.dpml.part.local;
+package net.dpml.part;
 
-import java.util.EventListener;
+import java.net.URI;
 
 /**
- * An interface implementation by controller concerned with or responsible 
- * for handling changes in a local runtime directory context.
+ * General exception thrown by a context model.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ControllerContextListener extends EventListener
+public class ModelException extends ControlException 
 {
    /**
-    * Notify the listener that the working directory has changed.
-    *
-    * @param event the change event
+    * Serial version identifier.
     */
-    void workingDirectoryChanged( ControllerContextEvent event );
+    static final long serialVersionUID = 1L;
 
    /**
-    * Notify the listener that the temporary directory has changed.
-    *
-    * @param event the change event
+    * Creation of a new <tt>ModelException</tt>.
+    * @param uri the controller uri
+    * @param message the exception message
     */
-    void tempDirectoryChanged( ControllerContextEvent event );
-    
+    public ModelException( URI uri, String message )
+    {
+        super( uri, message );
+    }
+
    /**
-    * Notify listeners of the disposal of the controller.
-    * @param event the context event
+    * Creation of a new <tt>ModelException</tt>.
+    * @param uri the controller uri
+    * @param message the exception message
+    * @param cause the causal exception
     */
-    void controllerDisposal( ControllerContextEvent event );
+    public ModelException( URI uri, String message, Throwable cause )
+    {
+        super( uri, message, cause );
+    }
 }
+

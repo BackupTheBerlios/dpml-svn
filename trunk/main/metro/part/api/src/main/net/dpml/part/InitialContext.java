@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.local;
+package net.dpml.part;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -26,8 +26,6 @@ import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.util.EventObject;
 import java.util.EventListener;
-
-import net.dpml.part.Disposable;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;

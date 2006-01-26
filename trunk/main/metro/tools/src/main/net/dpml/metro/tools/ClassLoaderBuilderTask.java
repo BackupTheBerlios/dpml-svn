@@ -30,7 +30,7 @@ import net.dpml.tools.tasks.GenericTask;
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Resource;
 
-import net.dpml.part.local.Controller;
+import net.dpml.part.Controller;
 
 import net.dpml.transit.Category;
 

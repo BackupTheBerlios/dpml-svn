@@ -16,16 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.part.local;
+package net.dpml.part;
 
 import java.io.IOException;
 import java.net.URI;
-
-import net.dpml.part.remote.Component;
-import net.dpml.part.remote.Model;
-
-import net.dpml.part.Directive;
-import net.dpml.part.ControlException;
 
 /**
  * The Controller interface defines the a contract for an object that provides generalized

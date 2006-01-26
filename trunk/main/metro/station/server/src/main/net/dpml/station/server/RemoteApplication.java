@@ -34,8 +34,8 @@ import java.util.EventListener;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 
-import net.dpml.part.remote.Component;
-import net.dpml.part.remote.Provider;
+import net.dpml.part.Component;
+import net.dpml.part.Provider;
 
 import net.dpml.station.Callback;
 import net.dpml.station.ProcessState;

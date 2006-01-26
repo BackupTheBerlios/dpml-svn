@@ -16,36 +16,36 @@
  * limitations under the License.
  */
 
-package net.dpml.part.remote;
+package net.dpml.part;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import net.dpml.part.Version;
-
+import java.util.EventListener;
 
 /**
- * The Component interface is implemented by objects that handle the runtime
- * state of a component instance.
+ * An interface implementation by controller concerned with or responsible 
+ * for handling changes in a local runtime directory context.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Service extends Remote
+public interface ControllerContextListener extends EventListener
 {
    /**
-    * Return the service class.
-    * @return the service class
-    * @exception RemoteException if a remoting I/O error occurs
+    * Notify the listener that the working directory has changed.
+    *
+    * @param event the change event
     */
-    Class getServiceClass() throws RemoteException;
+    void workingDirectoryChanged( ControllerContextEvent event );
+
+   /**
+    * Notify the listener that the temporary directory has changed.
+    *
+    * @param event the change event
+    */
+    void tempDirectoryChanged( ControllerContextEvent event );
     
    /**
-    * Return the service version.
-    * @return the version
-    * @exception RemoteException if a remoting I/O error occurs
+    * Notify listeners of the disposal of the controller.
+    * @param event the context event
     */
-    Version getVersion() throws RemoteException;
-    
+    void controllerDisposal( ControllerContextEvent event );
 }
-

@@ -23,7 +23,7 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.local.Controller;
+import net.dpml.part.Controller;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;

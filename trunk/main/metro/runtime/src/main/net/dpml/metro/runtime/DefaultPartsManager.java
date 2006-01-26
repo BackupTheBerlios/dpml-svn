@@ -31,8 +31,8 @@ import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ComponentModel;
 
 import net.dpml.part.ControlException;
-import net.dpml.part.remote.Component;
-import net.dpml.part.remote.Model;
+import net.dpml.part.Component;
+import net.dpml.part.Model;
 
 import net.dpml.lang.UnknownKeyException;
 

@@ -16,12 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.part.remote;
+package net.dpml.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import net.dpml.part.ActivationPolicy;
 
 /**
  * The Model interfaces is used mark a object as manageable context used in 

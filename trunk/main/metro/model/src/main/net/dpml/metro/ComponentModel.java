@@ -20,7 +20,7 @@ package net.dpml.metro;
 
 import java.rmi.RemoteException;
 
-import net.dpml.part.remote.Model;
+import net.dpml.part.Model;
 
 /**
  * The ComponentModel interface defines the remotely accessible aspects of a component

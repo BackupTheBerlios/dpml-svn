@@ -31,18 +31,18 @@ import net.dpml.logging.Logger;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.ComponentModel;
 
-import net.dpml.part.local.Controller;
+import net.dpml.part.Controller;
 import net.dpml.part.ControlException;
 import net.dpml.part.DelegationException;
 import net.dpml.part.Directive;
 import net.dpml.part.Part;
 import net.dpml.part.PartBuilder;
 import net.dpml.part.PartHeader;
-import net.dpml.part.local.ControllerContext;
-import net.dpml.part.local.ControllerContextListener;
-import net.dpml.part.local.ControllerContextEvent;
-import net.dpml.part.remote.Model;
-import net.dpml.part.remote.Component;
+import net.dpml.part.ControllerContext;
+import net.dpml.part.ControllerContextListener;
+import net.dpml.part.ControllerContextEvent;
+import net.dpml.part.Model;
+import net.dpml.part.Component;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;

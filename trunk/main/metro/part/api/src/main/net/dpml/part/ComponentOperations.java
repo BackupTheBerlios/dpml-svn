@@ -18,12 +18,8 @@
 
 package net.dpml.part;
 
-import java.rmi.RemoteException;
 import java.lang.reflect.InvocationTargetException;
-
-import net.dpml.part.remote.Component;
-import net.dpml.part.remote.Service;
-import net.dpml.part.remote.Provider;
+import java.rmi.RemoteException;
 
 /**
  * The ComponentOperations represents the set of operations shared between 

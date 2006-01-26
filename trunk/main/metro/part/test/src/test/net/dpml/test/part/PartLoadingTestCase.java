@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 import net.dpml.part.Directive;
-import net.dpml.part.local.Controller;
-import net.dpml.part.local.InitialContext;
+import net.dpml.part.Controller;
+import net.dpml.part.InitialContext;
 
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.Transit;

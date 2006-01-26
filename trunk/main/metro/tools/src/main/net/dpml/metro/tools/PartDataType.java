@@ -28,7 +28,7 @@ import net.dpml.metro.info.Type;
 import net.dpml.part.Directive;
 import net.dpml.part.DelegationException;
 import net.dpml.part.PartNotFoundException;
-import net.dpml.part.local.Controller;
+import net.dpml.part.Controller;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;

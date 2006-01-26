@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Stephen J. McConnell
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,31 +16,16 @@
  * limitations under the License.
  */
 
-package net.dpml.part.local;
+package net.dpml.part;
+
+import java.rmi.Remote;
 
 /**
- * Exception thrown when a component request an unknown part.
+ * Provider holder.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class UnknownPartException extends IllegalArgumentException 
+public interface Provider extends Remote, ProviderOperations
 {
-   /**
-    * Serial version identifier.
-    */
-    static final long serialVersionUID = 1L;
-
-    private String m_type;
-
-   /**
-    * Creation of a new <tt>UnknownPartException</tt>.
-    * @param key the part key
-    */
-    public UnknownPartException( String key )
-    {
-        super( key );
-    }
 }
-
-

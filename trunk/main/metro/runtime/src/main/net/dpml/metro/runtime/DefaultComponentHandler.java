@@ -50,11 +50,11 @@ import net.dpml.part.Disposable;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
 import net.dpml.part.ServiceNotFoundException;
-import net.dpml.part.remote.Component;
-import net.dpml.part.remote.Provider;
-import net.dpml.part.remote.Service;
-import net.dpml.part.remote.ModelEvent;
-import net.dpml.part.remote.ModelListener;
+import net.dpml.part.Component;
+import net.dpml.part.Provider;
+import net.dpml.part.Service;
+import net.dpml.part.ModelEvent;
+import net.dpml.part.ModelListener;
 
 import net.dpml.lang.UnknownKeyException;
 

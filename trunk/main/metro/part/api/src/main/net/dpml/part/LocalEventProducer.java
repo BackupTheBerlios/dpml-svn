@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.local;
+package net.dpml.part;
 
 import java.util.EventObject;
 import java.util.EventListener;
