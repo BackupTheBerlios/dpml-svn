@@ -30,7 +30,6 @@ import net.dpml.part.remote.Provider;
 
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.ComponentModel;
-import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ContextManager;
 

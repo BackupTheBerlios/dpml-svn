@@ -18,19 +18,15 @@
 
 package net.dpml.metro;
 
-import java.rmi.RemoteException;
-
 import net.dpml.metro.info.CollectionPolicy;
 
 import net.dpml.part.ActivationPolicy;
 
-import net.dpml.metro.ComponentModelOperations;
-
 import net.dpml.lang.UnknownKeyException;
 
 /**
- * The MutableComponentModel interface extends ComponentModel with a set of 
- * operations supporting model changes.
+ * The ComponentManager interface provides support for manipulatation of 
+ * a local component model.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -38,34 +34,35 @@ import net.dpml.lang.UnknownKeyException;
 public interface ComponentManager extends ComponentModelOperations
 {
    /**
-    * Return the set of component model keys.
-    * @return the component part keys
-    */
-    String[] getPartKeys();
-
-   /**
-    * Return the set of component model keys.
-    * @return the component part keys
-    */
-    ComponentManager getComponentManager( String key ) throws UnknownKeyException;
-
-   /**
     * Return the context model manager.
     * @return the context model manager
     */
     ContextManager getContextManager();
     
    /**
+    * Return the set of subsidiary component model keys.
+    * @return the part keys
+    */
+    String[] getPartKeys();
+
+   /**
+    * Return a subsidiary component manager.
+    * @param key the component part key
+    * @return the component manager
+    * @exception UnknownKeyException if the key is not recognized
+    * @see #getPartKeys()
+    */
+    ComponentManager getComponentManager( String key ) throws UnknownKeyException;
+
+   /**
     * Set the component activation policy to the supplied value.
     * @param policy the new activation policy
-    * @exception RemoteException if a remote exception occurs
     */
     void setActivationPolicy( ActivationPolicy policy );
 
    /**
     * Override the assigned collection policy.
     * @param policy the collection policy value
-    * @exception RemoteException if a remote exception occurs
     */
     void setCollectionPolicy( CollectionPolicy policy );
 }

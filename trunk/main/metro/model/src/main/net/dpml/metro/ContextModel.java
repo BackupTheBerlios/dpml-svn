@@ -20,8 +20,6 @@ package net.dpml.metro;
 
 import java.rmi.Remote;
 
-import net.dpml.metro.ContextModelOperations;
-
 /**
  * The ContextModel interface defines the remotely accessible component context. 
  *

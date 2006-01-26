@@ -19,10 +19,7 @@
 package net.dpml.part.remote;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.part.ControlException;
 import net.dpml.part.ComponentOperations;
 
 /**

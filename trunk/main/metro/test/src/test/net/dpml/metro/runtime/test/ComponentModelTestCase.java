@@ -29,8 +29,6 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.ComponentModel;
 
-import net.dpml.lang.UnknownKeyException;
-
 import net.dpml.test.ExampleComponent;
 
 /**

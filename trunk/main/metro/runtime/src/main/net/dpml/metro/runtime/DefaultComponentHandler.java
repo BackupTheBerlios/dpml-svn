@@ -27,8 +27,6 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.rmi.RemoteException;
-import java.rmi.NoSuchObjectException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
 import java.util.Map;
 import java.util.Hashtable;
@@ -578,6 +576,10 @@ public class DefaultComponentHandler extends UnicastEventSource
     // DefaultComponentHandler
     //--------------------------------------------------------------------------
     
+   /**
+    * Return the internal parts manager.
+    * @return the part manager
+    */
     public PartsManager getPartsManager()
     {
         return m_parts;

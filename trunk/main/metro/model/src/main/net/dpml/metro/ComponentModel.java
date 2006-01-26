@@ -18,22 +18,9 @@
 
 package net.dpml.metro;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.ComponentModelOperations;
-
 import net.dpml.part.remote.Model;
-
-import net.dpml.configuration.Configuration;
-
-import net.dpml.parameters.Parameters;
-
-import net.dpml.lang.UnknownKeyException;
 
 /**
  * The ComponentModel interface defines the remotely accessible aspects of a component

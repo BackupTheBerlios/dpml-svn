@@ -42,8 +42,6 @@ import net.dpml.part.remote.Provider;
 import net.dpml.part.remote.Model;
 import net.dpml.part.remote.Service;
 
-import net.dpml.metro.ComponentModel;
-import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ContextManager;
 

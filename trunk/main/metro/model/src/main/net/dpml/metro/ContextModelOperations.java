@@ -18,7 +18,6 @@
 
 package net.dpml.metro;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.metro.info.EntryDescriptor;
@@ -27,7 +26,8 @@ import net.dpml.part.Directive;
 import net.dpml.lang.UnknownKeyException;
 
 /**
- * The ContextModelOperations interface defines the common local and remotely accessible component context. 
+ * The ContextModelOperations interface defines the operations common to 
+ * local and remote consumers of a component context. 
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

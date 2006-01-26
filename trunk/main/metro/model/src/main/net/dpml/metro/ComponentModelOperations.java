@@ -18,7 +18,6 @@
 
 package net.dpml.metro;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.metro.info.LifestylePolicy;
@@ -26,17 +25,13 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.CategoryDirective;
 
-import net.dpml.part.remote.Model;
-
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.lang.UnknownKeyException;
-
 /**
- * The ComponentModel interface defines the remotely accessible aspects of a component
- * configuration.
+ * The ComponentModelOperations interface defines the set of operations shared
+ * across local and remote clients.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -82,22 +77,6 @@ public interface ComponentModelOperations
     * @exception RemoteException if a remote exception occurs
     */
     CollectionPolicy getCollectionPolicy() throws RemoteException;
-
-   /**
-    * Return the set of component model keys.
-    * @return the component part keys
-    * @exception RemoteException if a remote exception occurs
-    */
-    //String[] getPartKeys() throws RemoteException;
-
-   /**
-    * Return the component model of an internal part referenced by the supplied key.
-    * @param key the part key
-    * @return the internal part component model 
-    * @exception UnknownKeyException if the key is unknown
-    * @exception RemoteException if a remote exception occurs
-    */
-    //ComponentModel getComponentModel( String key ) throws UnknownKeyException, RemoteException;
 
    /**
     * Return the component configuration.

@@ -203,7 +203,6 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Add a disposal listener to the model.
     * @param listener the listener to add
-    * @exception RemoteException if a remote exception occurs
     */
     public void addDisposalListener( DisposalListener listener )
     {
@@ -213,7 +212,6 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Remove a disposal listener from the model.
     * @param listener the listener to remove
-    * @exception RemoteException if a remote exception occurs
     */
     public void removeDisposalListener( DisposalListener listener )
     {

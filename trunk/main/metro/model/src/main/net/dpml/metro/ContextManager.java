@@ -18,39 +18,20 @@
 
 package net.dpml.metro;
 
-import java.rmi.RemoteException;
-
 import net.dpml.metro.info.PartReference;
+
 import net.dpml.part.Directive;
 
 import net.dpml.lang.UnknownKeyException;
 
-import net.dpml.metro.ContextModelOperations;
-
 /**
- * The MutableContextModel interface extends ContextModel with operations supporting
- * context entry value mutation. 
+ * The ContextManager interface exposes a management view of a local context model 
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public interface ContextManager extends ContextModelOperations
 {
-   /**
-    * Set a context entry value.
-    * @param key the context entry key
-    * @param value the context entry value
-    * @exception UnknownKeyException if the key is unknown
-    */
-    //void setEntry( String key, Object value ) throws UnknownKeyException;
-    
-   /**
-    * Return a context entry value.
-    * @return the context entry value
-    * @exception UnknownKeyException if the key is unknown
-    */
-    //Object getEntry( String key ) throws UnknownKeyException;
-
    /**
     * Set a context entry directive value.
     * @param key the context entry key

@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
-import java.util.Hashtable;
 
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.info.EntryDescriptor;

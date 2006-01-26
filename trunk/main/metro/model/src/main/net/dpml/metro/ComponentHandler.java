@@ -22,11 +22,9 @@ import java.util.Map;
 
 import net.dpml.part.ComponentOperations;
 
-import net.dpml.metro.ComponentModel;
-
 /**
  * Local interface through which a component implementation may 
- * interact with subsidary parts.
+ * interact with the assigned model, subsidary parts, and context.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -34,14 +32,16 @@ import net.dpml.metro.ComponentModel;
 public interface ComponentHandler extends ComponentOperations
 {
    /**
-    * Return a mutible context map.
+    * Return a mutible context map.  The map may be used by component
+    * implementations to override context entries in the associated 
+    * component instance.
     *
     * @return the context map
     */
     Map getContextMap();
     
    /**
-    * Return the component model manager associated with the component handler.
+    * Return the component model manager.
     * @return the component model manager
     */
     ComponentManager getComponentManager();

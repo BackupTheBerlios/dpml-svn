@@ -30,7 +30,6 @@ import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ContextManager;
 import net.dpml.metro.ValidationException;
 import net.dpml.metro.ValidationException.Issue;
-import net.dpml.metro.ContextModel;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.info.EntryDescriptor;
 

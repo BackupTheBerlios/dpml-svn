@@ -19,7 +19,6 @@
 package net.dpml.test.composite;
 
 import java.awt.Color;
-import java.util.Map;
 
 import net.dpml.logging.Logger;
 
@@ -27,8 +26,6 @@ import net.dpml.test.ColorManager;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.ComponentManager;
-import net.dpml.metro.ContextManager;
 
 import net.dpml.lang.UnknownKeyException;
 

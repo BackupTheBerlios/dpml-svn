@@ -18,7 +18,6 @@
 
 package net.dpml.part;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.lang.reflect.InvocationTargetException;
 
