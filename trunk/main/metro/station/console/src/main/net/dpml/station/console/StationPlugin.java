@@ -28,6 +28,7 @@ import java.rmi.RemoteException;
 import java.rmi.ConnectException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -52,6 +53,7 @@ import net.dpml.state.Transition;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.PID;
+import net.dpml.transit.Disposable;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.ExceptionHelper;
 
@@ -81,13 +83,17 @@ import net.dpml.cli.validation.NumberValidator;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class StationPlugin 
+public class StationPlugin implements Disposable
 {
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
 
     private final Logger m_logger;
+    
+    private boolean m_flag = false; // true if we have to take down the registry on exit
+    
+    private ApplicationRegistry m_registry; // contains the ref to the registry used during disposal
     
     // ------------------------------------------------------------------------
     // constructor
@@ -204,6 +210,25 @@ public class StationPlugin
         catch( OptionException e )
         {
             m_logger.error( e.getMessage() );
+        }
+    }
+    
+    // ------------------------------------------------------------------------
+    // Disposable
+    // ------------------------------------------------------------------------
+    
+    public void dispose()
+    {
+        if( m_flag && ( null != m_registry ) )
+        {
+            try
+            {
+                UnicastRemoteObject.unexportObject( m_registry, true );
+            }
+            catch( Throwable e )
+            {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -1194,13 +1219,22 @@ public class StationPlugin
         }
     }
     
+   /**
+    * Create a new local application registry using the supplied uri.
+    * As a side effect the internal state of this class is updated to reflect 
+    * the fact that this class is responsible for RMI cleanup.
+    * @param uri the registry stoarage uri
+    * @return the aplication registry
+    */
     private ApplicationRegistry getLocalApplicationRegistry( URI uri )
     {
         try
         {
             Logger logger = getLogger();
             URL url = getStorageURL( uri );
-            return new RemoteApplicationRegistry( logger, url );
+            m_flag = true;
+            m_registry = new RemoteApplicationRegistry( logger, url );
+            return m_registry;
         }
         catch( Exception e )
         {
