@@ -25,13 +25,14 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 import net.dpml.part.local.Controller;
+
+import net.dpml.metro.ComponentManager;
+import net.dpml.metro.ContextManager;
+import net.dpml.metro.ValidationException;
+import net.dpml.metro.ValidationException.Issue;
+import net.dpml.metro.model.ContextModel;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.control.ComponentManager;
-import net.dpml.metro.control.ContextManager;
-import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.model.ValidationException;
-import net.dpml.metro.model.ValidationException.Issue;
 
 /**
  * Test aspects of the component context model implementation.

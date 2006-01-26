@@ -27,11 +27,12 @@ import junit.framework.TestCase;
 import net.dpml.part.remote.Component;
 import net.dpml.part.local.Controller;
 import net.dpml.part.remote.Provider;
+
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.control.ComponentManager;
-import net.dpml.metro.control.ContextManager;
+import net.dpml.metro.ComponentManager;
+import net.dpml.metro.ContextManager;
 
 /**
  * Test aspects of the component model implementation.

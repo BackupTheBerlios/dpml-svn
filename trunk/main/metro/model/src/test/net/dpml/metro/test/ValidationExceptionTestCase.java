@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.model.test;
+package net.dpml.metro.test;
 
 import java.net.URI;
 
-import net.dpml.metro.model.ValidationException;
-import net.dpml.metro.model.ValidationException.Issue;
+import net.dpml.metro.ValidationException;
+import net.dpml.metro.ValidationException.Issue;
 
 import junit.framework.TestCase;
 

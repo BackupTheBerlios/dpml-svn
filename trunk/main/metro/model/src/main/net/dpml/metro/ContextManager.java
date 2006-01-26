@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.control;
+package net.dpml.metro;
 
 import java.rmi.RemoteException;
 
@@ -25,7 +25,7 @@ import net.dpml.part.Directive;
 
 import net.dpml.lang.UnknownKeyException;
 
-import net.dpml.metro.model.ContextModelOperations;
+import net.dpml.metro.ContextModelOperations;
 
 /**
  * The MutableContextModel interface extends ContextModel with operations supporting

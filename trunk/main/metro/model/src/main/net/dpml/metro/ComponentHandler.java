@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.control;
+package net.dpml.metro;
 
 import java.util.Map;
 
@@ -39,12 +39,6 @@ public interface ComponentHandler extends ComponentOperations
     * @return the context map
     */
     Map getContextMap();
-    
-   /**
-    * Return the component model associated with the component handler.
-    * @return the component model
-    */
-    //ComponentModel getComponentModel();
     
    /**
     * Return the component model manager associated with the component handler.

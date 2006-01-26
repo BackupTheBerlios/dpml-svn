@@ -38,7 +38,7 @@ import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.control.ContextManager;
+import net.dpml.metro.ContextManager;
 
 import net.dpml.configuration.Configuration;
 
@@ -49,7 +49,7 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.Directive;
 import net.dpml.part.ControlException;
 import net.dpml.part.Version;
-import net.dpml.metro.control.PartsManager;
+import net.dpml.metro.PartsManager;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Model;
 import net.dpml.part.ServiceNotFoundException;

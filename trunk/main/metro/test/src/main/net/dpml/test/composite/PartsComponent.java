@@ -25,10 +25,10 @@ import net.dpml.logging.Logger;
 
 import net.dpml.test.ColorManager;
 
-import net.dpml.metro.control.PartsManager;
-import net.dpml.metro.control.ComponentHandler;
-import net.dpml.metro.control.ComponentManager;
-import net.dpml.metro.control.ContextManager;
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentHandler;
+import net.dpml.metro.ComponentManager;
+import net.dpml.metro.ContextManager;
 
 import net.dpml.lang.UnknownKeyException;
 

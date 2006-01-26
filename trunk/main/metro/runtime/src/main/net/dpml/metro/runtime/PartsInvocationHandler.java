@@ -22,8 +22,8 @@ import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import net.dpml.metro.control.ComponentHandler;
-import net.dpml.metro.control.PartsManager;
+import net.dpml.metro.ComponentHandler;
+import net.dpml.metro.PartsManager;
 import net.dpml.part.remote.Component;
 
 /**

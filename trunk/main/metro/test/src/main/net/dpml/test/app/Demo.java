@@ -20,8 +20,8 @@ package net.dpml.test.app;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.metro.control.PartsManager;
-import net.dpml.metro.control.ComponentHandler;
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentHandler;
 
 /**
  * The demo class is used to aggregate a collection of components and 

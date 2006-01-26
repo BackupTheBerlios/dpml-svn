@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.control;
+package net.dpml.metro;
 
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;

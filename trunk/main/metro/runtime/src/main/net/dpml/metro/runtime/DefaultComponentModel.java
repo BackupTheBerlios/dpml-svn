@@ -34,8 +34,8 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.model.ComponentModel;
 import net.dpml.metro.model.ContextModel;
-import net.dpml.metro.control.ComponentManager;
-import net.dpml.metro.control.ContextManager;
+import net.dpml.metro.ComponentManager;
+import net.dpml.metro.ContextManager;
 
 import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
@@ -342,9 +342,9 @@ class DefaultComponentModel extends UnicastEventSource
     * Return the component model of an internal part referenced by the supplied key.
     * @return the internal part component model 
     */
-    public ComponentModel getComponentModel( String key ) throws UnknownKeyException
+    public ComponentManager getComponentManager( String key ) throws UnknownKeyException
     {
-        ComponentModel model = (ComponentModel) m_parts.get( key );
+        ComponentManager model = (ComponentManager) m_parts.get( key );
         if( null == model )
         {
             throw new UnknownKeyException( key );

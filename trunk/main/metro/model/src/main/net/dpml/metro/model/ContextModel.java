@@ -19,13 +19,8 @@
 package net.dpml.metro.model;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
-import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.part.Directive;
-
-import net.dpml.lang.UnknownKeyException;
-
+import net.dpml.metro.ContextModelOperations;
 
 /**
  * The ContextModel interface defines the remotely accessible component context. 

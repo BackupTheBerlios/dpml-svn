@@ -27,7 +27,8 @@ import junit.framework.TestCase;
 import net.dpml.part.local.Controller;
 import net.dpml.part.remote.Component;
 import net.dpml.part.remote.Provider;
-import net.dpml.metro.control.ComponentHandler;
+
+import net.dpml.metro.ComponentHandler;
 
 import net.dpml.test.composite.ChildComponent;
 import net.dpml.test.composite.CompositeComponent;

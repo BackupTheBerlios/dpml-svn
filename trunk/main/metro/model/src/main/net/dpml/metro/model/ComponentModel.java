@@ -25,6 +25,7 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.CategoryDirective;
+import net.dpml.metro.ComponentModelOperations;
 
 import net.dpml.part.remote.Model;
 

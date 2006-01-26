@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.control;
+package net.dpml.metro;
 
 import java.rmi.RemoteException;
 
@@ -24,7 +24,9 @@ import net.dpml.metro.info.CollectionPolicy;
 
 import net.dpml.part.ActivationPolicy;
 
-import net.dpml.metro.model.ComponentModelOperations;
+import net.dpml.metro.ComponentModelOperations;
+
+import net.dpml.lang.UnknownKeyException;
 
 /**
  * The MutableComponentModel interface extends ComponentModel with a set of 
@@ -35,6 +37,18 @@ import net.dpml.metro.model.ComponentModelOperations;
  */
 public interface ComponentManager extends ComponentModelOperations
 {
+   /**
+    * Return the set of component model keys.
+    * @return the component part keys
+    */
+    String[] getPartKeys();
+
+   /**
+    * Return the set of component model keys.
+    * @return the component part keys
+    */
+    ComponentManager getComponentManager( String key ) throws UnknownKeyException;
+
    /**
     * Return the context model manager.
     * @return the context model manager

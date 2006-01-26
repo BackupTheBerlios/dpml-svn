@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.model;
+package net.dpml.metro;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -88,7 +88,7 @@ public interface ComponentModelOperations
     * @return the component part keys
     * @exception RemoteException if a remote exception occurs
     */
-    String[] getPartKeys() throws RemoteException;
+    //String[] getPartKeys() throws RemoteException;
 
    /**
     * Return the component model of an internal part referenced by the supplied key.
@@ -97,7 +97,7 @@ public interface ComponentModelOperations
     * @exception UnknownKeyException if the key is unknown
     * @exception RemoteException if a remote exception occurs
     */
-    ComponentModel getComponentModel( String key ) throws UnknownKeyException, RemoteException;
+    //ComponentModel getComponentModel( String key ) throws UnknownKeyException, RemoteException;
 
    /**
     * Return the component configuration.
