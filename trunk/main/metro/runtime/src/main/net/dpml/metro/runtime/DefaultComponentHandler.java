@@ -40,7 +40,7 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentManager;

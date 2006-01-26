@@ -32,8 +32,8 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ContextManager;
 

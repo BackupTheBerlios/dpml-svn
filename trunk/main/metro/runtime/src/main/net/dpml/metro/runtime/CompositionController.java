@@ -29,7 +29,7 @@ import java.util.List;
 import net.dpml.logging.Logger;
 
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.ComponentModel;
 
 import net.dpml.part.local.Controller;
 import net.dpml.part.ControlException;

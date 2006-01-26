@@ -22,7 +22,7 @@ import java.util.Map;
 
 import net.dpml.part.ComponentOperations;
 
-import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.ComponentModel;
 
 /**
  * Local interface through which a component implementation may 

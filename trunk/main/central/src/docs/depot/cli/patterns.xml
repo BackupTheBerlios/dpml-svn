@@ -112,7 +112,7 @@ test:
     [junit] Tests run: 11, Failures: 0, Errors: 0, Time elapsed: 0.063 sec
     [junit] Running net.dpml.metro.info.test.TypeTestCase
     [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.125 sec
-    [junit] Running net.dpml.metro.model.test.ValidationExceptionTestCase
+    [junit] Running net.dpml.metro.test.ValidationExceptionTestCase
     [junit] Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0.015 sec
 
 install:

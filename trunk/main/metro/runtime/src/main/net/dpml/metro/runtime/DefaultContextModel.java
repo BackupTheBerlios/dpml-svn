@@ -35,7 +35,7 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.ContextManager;
 import net.dpml.metro.ValidationException;
 import net.dpml.metro.ValidationException.Issue;
-import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.ContextModel;
 
 import net.dpml.logging.Logger;
 

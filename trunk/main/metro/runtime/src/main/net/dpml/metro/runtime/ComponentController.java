@@ -36,8 +36,8 @@ import net.dpml.metro.data.ReferenceDirective;
 import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ContextModel;
 import net.dpml.metro.ContextManager;
 
 import net.dpml.configuration.Configuration;

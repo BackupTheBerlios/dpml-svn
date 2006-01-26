@@ -34,8 +34,8 @@ import net.dpml.state.State;
 import net.dpml.state.StateListener;
 import net.dpml.state.impl.DefaultStateListener;
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ContextModel;
 
 import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;

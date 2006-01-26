@@ -27,7 +27,7 @@ import net.dpml.part.local.Controller;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.ComponentModel;
 
 import net.dpml.lang.UnknownKeyException;
 

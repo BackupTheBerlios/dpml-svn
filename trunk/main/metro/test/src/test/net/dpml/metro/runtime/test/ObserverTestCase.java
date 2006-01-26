@@ -29,8 +29,8 @@ import net.dpml.part.local.Controller;
 import net.dpml.part.remote.Provider;
 
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.model.ComponentModel;
-import net.dpml.metro.model.ContextModel;
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ContextManager;
 

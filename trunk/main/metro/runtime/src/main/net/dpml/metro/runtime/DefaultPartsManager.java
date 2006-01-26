@@ -28,7 +28,7 @@ import net.dpml.logging.Logger;
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.ComponentManager;
-import net.dpml.metro.model.ComponentModel;
+import net.dpml.metro.ComponentModel;
 
 import net.dpml.part.ControlException;
 import net.dpml.part.remote.Component;
