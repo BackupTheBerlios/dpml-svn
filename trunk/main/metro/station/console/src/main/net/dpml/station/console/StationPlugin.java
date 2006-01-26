@@ -217,6 +217,11 @@ public class StationPlugin implements Disposable
     // Disposable
     // ------------------------------------------------------------------------
     
+   /**
+    * Initiate disposal of the station plugin.  If the pugin has established 
+    * the applications registry (occurs if the station is not running as a remote
+    * process and the implementation loads the application repository).
+    */
     public void dispose()
     {
         if( m_flag && ( null != m_registry ) )
