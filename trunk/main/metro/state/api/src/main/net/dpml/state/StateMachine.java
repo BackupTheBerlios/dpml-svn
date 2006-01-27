@@ -85,7 +85,7 @@ public interface StateMachine
     State initialize( Object object ) throws InvocationTargetException;
     
    /**
-    * Invoke execution of a named operation on the supplied object.
+    * Execute a named operation on the supplied object.
     * @param name an operation name
     * @param object the target object
     * @param args operation argument array
@@ -96,6 +96,20 @@ public interface StateMachine
     */
     Object execute( String name, Object object, Object[] args ) 
       throws UnknownOperationException, InvocationTargetException;
+    
+   /**
+    * Invoke a management method on the supplied object.
+    * @param object the target object
+    * @param method the method name
+    * @param args method parameter arguments
+    * @return the return value
+    * @exception IllegalStateException if the method is recognized but not available
+    * @exception UnknownOperationException if the operation is unknown
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of operation execution
+    */
+    Object invoke( Object object, String method, Object[] args ) 
+      throws UnknownOperationException, InvocationTargetException, IllegalStateException;
     
    /**
     * Apply a named state transition.

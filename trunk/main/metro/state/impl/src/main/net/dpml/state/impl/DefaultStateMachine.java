@@ -272,6 +272,39 @@ public class DefaultStateMachine implements StateMachine
     }
     
    /**
+    * Invoke a management method on the supplied object.
+    * @param object the target object
+    * @param method the method name
+    * @param args method parameter arguments
+    * @return the return value
+    * @exception IllegalStateException if the method is recognized but not available
+    * @exception UnknownOperationException if the operation is unknown
+    * @exception InvocationTargetException if an invocation error occurs as a 
+    *   result of operation execution
+    */
+    public Object invoke( Object object, String method, Object[] args ) 
+      throws UnknownOperationException, InvocationTargetException, IllegalStateException
+    {
+        checkDisposed();
+        
+        // TODO: validate exposure of declaring interface
+        
+        try
+        {
+            Expression expression = new Expression( object, method, args );
+            return expression.getValue();
+        }
+        catch( InvocationTargetException e )
+        {
+            throw e;
+        }
+        catch( Exception e )
+        {
+            throw new InvocationTargetException( e );
+        }
+    }
+    
+   /**
     * Apply a named transition to the target object.
     * @param name the transition name
     * @param object the object against which any transition handler action are to be applied

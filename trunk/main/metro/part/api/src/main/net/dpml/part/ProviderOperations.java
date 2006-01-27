@@ -93,4 +93,16 @@ public interface ProviderOperations
     Object exec( String name, Object[] args ) 
       throws UnknownOperationException, InvocationTargetException, RemoteException;
     
+   /**
+    * Invoke an operation on the instance.
+    * @param method the operation name
+    * @param args operation arguments
+    * @return the result of the operation invocation
+    * @exception UnknownOperationException if the supplied key does not map to an available operation
+    * @exception InvocationTargetException if an invocation error occurs
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    Object invoke( String method, Object[] args ) 
+      throws UnknownOperationException, InvocationTargetException, IllegalStateException, RemoteException;
+    
 }

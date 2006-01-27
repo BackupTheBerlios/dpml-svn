@@ -820,6 +820,55 @@ public class StationPlugin implements Disposable
                             System.out.println( e.toString() );
                         }
                     }
+                    else if( commandline.hasOption( CONTROL_INVOKE_COMMAND ) )
+                    {
+                        String method = (String) commandline.getValues( CONTROL_INVOKE_COMMAND ).get( 0 );
+                        System.out.println( "\napplying operation: " + method );
+                        try
+                        {
+                            String[] applyArgs = getInvokeArgs( commandline );
+                            Object result = application.getProvider().invoke( method, applyArgs );
+                            if( null != result )
+                            {
+                                System.out.println( "listing return value\n" );
+                                if( result instanceof Object[] )
+                                {
+                                    Object[] values = (Object[]) result;
+                                    for( int i=0; i<values.length; i++ )
+                                    {
+                                        System.out.println( values[i].toString() );
+                                    }
+                                }
+                                else
+                                {
+                                    System.out.println( result.toString() );
+                                }
+                                System.out.println( "\ndone" );
+                            }
+                            else
+                            {
+                                System.out.println( "done" );
+                            }
+                        }
+                        catch( InvocationTargetException e )
+                        {
+                            Throwable cause = e.getCause();
+                            if( null != cause )
+                            {
+                                String error = ExceptionHelper.packException( cause, true );
+                                System.out.println( error );
+                            }
+                            else
+                            {
+                                String error = ExceptionHelper.packException( e, true );
+                                System.out.println( error );
+                            }
+                        }
+                        catch( Throwable e )
+                        {
+                            System.out.println( e.toString() );
+                        }
+                    }
                 }
                 catch( Exception e )
                 {
@@ -832,7 +881,17 @@ public class StationPlugin implements Disposable
     
     private String[] getExecArgs( CommandLine line )
     {
-        List args = line.getValues( CONTROL_EXEC_COMMAND );
+        return getArgs( CONTROL_EXEC_COMMAND, line );
+    }
+    
+    private String[] getInvokeArgs( CommandLine line )
+    {
+        return getArgs( CONTROL_INVOKE_COMMAND, line );
+    }
+    
+    private String[] getArgs( Option option, CommandLine line )
+    {
+        List args = line.getValues( option );
         String[] elements = (String[]) args.toArray( new String[0] );
         if( elements.length < 2 )
         {
@@ -872,6 +931,12 @@ public class StationPlugin implements Disposable
             {
                 Operation operation = operations[i];
                 System.out.println( "  [" + ( i+1 ) + "] " + operation.getName() );
+            }
+            Interface[] interfaces = state.getInterfaces();
+            System.out.println( "Interfaces: " + interfaces.length );
+            for( int i=0; i<interfaces.length; i++ )
+            {
+                System.out.println( "  [" + ( i+1 ) + "] " + interfaces[i] );
             }
         }
         System.out.println( "" );
@@ -1666,6 +1731,18 @@ public class StationPlugin implements Disposable
             .create() )
         .create();
     
+    private static final Option CONTROL_INVOKE_COMMAND =
+      COMMAND_BUILDER
+        .withName( "invoke" )
+        .withDescription( "Invoke a management operation." )
+        .withArgument(
+          ARGUMENT_BUILDER 
+            .withDescription( "Operation name." )
+            .withName( "method" )
+            .withMinimum( 1 )
+            .create() )
+        .create();
+    
     private static final Option CONTROL_HELP_COMMAND =
       COMMAND_BUILDER
         .withName( "help" )
@@ -1677,6 +1754,7 @@ public class StationPlugin implements Disposable
         .withName( "options" )
         .withOption( CONTROL_INFO_COMMAND )
         .withOption( CONTROL_APPLY_COMMAND )
+        .withOption( CONTROL_INVOKE_COMMAND )
         .withOption( CONTROL_EXEC_COMMAND )
         .withOption( CONTROL_EXIT_COMMAND )
         .withOption( CONTROL_HELP_COMMAND )
