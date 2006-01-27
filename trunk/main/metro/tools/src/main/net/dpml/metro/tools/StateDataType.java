@@ -32,6 +32,7 @@ import net.dpml.tools.tasks.GenericTask;
 import net.dpml.state.Trigger;
 import net.dpml.state.State;
 import net.dpml.state.Operation;
+import net.dpml.state.Interface;
 import net.dpml.state.Transition;
 import net.dpml.state.StateBuilder;
 import net.dpml.state.impl.DefaultState;
@@ -56,6 +57,7 @@ public class StateDataType
     private String m_name;
     private List m_states = new ArrayList();
     private List m_operations = new ArrayList();
+    private List m_interfaces = new ArrayList();
     private List m_transitions = new ArrayList();
     private List m_triggers = new ArrayList();
     private boolean m_terminal = false;
@@ -195,6 +197,29 @@ public class StateDataType
     }
     
    /**
+    * Add an interface within this state.
+    * @return the interface datatype
+    */
+    public InterfaceDataType createInterface()
+    {
+        if( null != m_uri )
+        {
+            final String error = 
+              "Interfaces may not be used in conjuction with a uri import.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        if( null != m_classname )
+        {
+            final String error = 
+              "Interfaces may not be used in conjuction with the class attribute.";
+            throw new BuildException( error, m_task.getLocation() );
+        }
+        final InterfaceDataType data = new InterfaceDataType();
+        m_interfaces.add( data );
+        return data;
+    }
+    
+   /**
     * Add an transition within this state.
     * @return the operation datatype
     */
@@ -269,9 +294,10 @@ public class StateDataType
             String name = getStateName();
             Trigger[] triggers = getTriggers();
             Operation[] operations = getOperations();
+            Interface[] interfaces = getInterfaces();
             Transition[] transitions = getTransitions();
             State[] states = getStates();
-            return new DefaultState( name, triggers, transitions, operations, states, m_terminal );
+            return new DefaultState( name, triggers, transitions, interfaces, operations, states, m_terminal );
         }
     }
 
@@ -307,6 +333,18 @@ public class StateDataType
         {
             OperationDataType data = types[i];
             values[i] = data.getOperation();
+        }
+        return values;
+    }
+    
+    Interface[] getInterfaces()
+    {
+        InterfaceDataType[] types = (InterfaceDataType[]) m_interfaces.toArray( new InterfaceDataType[0] );
+        Interface[] values = new Interface[ types.length ];
+        for( int i=0; i<types.length; i++ )
+        {
+            InterfaceDataType data = types[i];
+            values[i] = data.getInterface();
         }
         return values;
     }

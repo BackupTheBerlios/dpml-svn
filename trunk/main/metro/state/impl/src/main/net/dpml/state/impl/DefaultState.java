@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 import net.dpml.state.State;
 import net.dpml.state.Transition;
+import net.dpml.state.Interface;
 import net.dpml.state.Operation;
 import net.dpml.state.Trigger;
 import net.dpml.state.Action;
@@ -38,6 +39,7 @@ public class DefaultState implements State, Serializable
     private final String m_name;
     private final Transition[] m_transitions;
     private final Operation[] m_operations;
+    private final Interface[] m_interfaces;
     private final State[] m_states;
     private final Trigger[] m_triggers;
     private final boolean m_terminal;
@@ -50,7 +52,7 @@ public class DefaultState implements State, Serializable
     */
     public DefaultState( final String name )
     {
-        this( name, new Trigger[0], new Transition[0], new Operation[0], new State[0], true );
+        this( name, new Trigger[0], new Transition[0], new Interface[0], new Operation[0], new State[0], true );
     }
     
    /**
@@ -58,14 +60,15 @@ public class DefaultState implements State, Serializable
     * @param name the state name
     * @param triggers an array of triggers
     * @param transitions an array of state transitions
+    * @param interfaces an array of management interface declarations
     * @param operations an array of operations
     * @param states an array of substates
     */
     public DefaultState( 
       final String name, final Trigger[] triggers, final Transition[] transitions, 
-      final Operation[] operations, final State[] states )
+      final Interface[] interfaces, final Operation[] operations, final State[] states )
     {
-        this( name, triggers, transitions, operations, states, false );
+        this( name, triggers, transitions, interfaces, operations, states, false );
     }
     
    /**
@@ -73,13 +76,14 @@ public class DefaultState implements State, Serializable
     * @param name the state name
     * @param triggers an array of triggers
     * @param transitions an array of state transitions
+    * @param interfaces an array of management interface declarations
     * @param operations an array of operations
     * @param states an array of substates
     * @param terminal the terminal flag
     */
     public DefaultState( 
       final String name, final Trigger[] triggers, final Transition[] transitions, 
-      final Operation[] operations, final State[] states, boolean terminal )
+      final Interface[] interfaces, final Operation[] operations, final State[] states, boolean terminal )
     {
         if( null == name )
         {
@@ -99,6 +103,7 @@ public class DefaultState implements State, Serializable
         m_triggers = triggers;
         m_transitions = transitions;
         m_operations = operations;
+        m_interfaces = interfaces;
         m_states = states;
         m_terminal = terminal;
         
@@ -124,6 +129,15 @@ public class DefaultState implements State, Serializable
             {
                 Transition transition = (Transition) action;
                 transition.setState( this );
+            }
+        }
+        
+        for( int i=0; i<interfaces.length; i++ )
+        {
+            Interface description = interfaces[i];
+            if( null == description )
+            {
+                throw new NullPointerException( "interface/" + i );
             }
         }
         
@@ -230,6 +244,15 @@ public class DefaultState implements State, Serializable
     public Operation[] getOperations()
     {
         return m_operations;
+    }
+    
+   /**
+    * Return the array of management interfaces associated with the state.
+    * @return the interfaces array
+    */
+    public Interface[] getInterfaces()
+    {
+        return m_interfaces;
     }
     
    /**

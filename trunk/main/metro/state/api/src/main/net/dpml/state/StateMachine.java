@@ -122,6 +122,12 @@ public interface StateMachine
     Operation[] getOperations();
     
    /**
+    * Return all of the available interfaces relative to the current state.
+    * @return the available interface declarations
+    */
+    Interface[] getInterfaces();
+    
+   /**
     * Invoke termination of the supplied object using the termination action
     * declared under the current state path.
     * 

@@ -30,6 +30,7 @@
       <state>
         <operation name="memory" method="getMemoryStats"/>
         <operation name="stats" method="getStats"/>
+        <interface name="control" class="net.dpml.http.demo.ManagementOperations"/>
       </state>
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" key="server" collection="hard">

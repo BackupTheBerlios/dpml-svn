@@ -20,47 +20,58 @@ package net.dpml.state.impl;
 
 import java.io.Serializable;
 
-import net.dpml.state.Action;
+import net.dpml.state.Interface;
 
 /**
- * Default implementation of delegating action.
+ * Default implementation of an operation.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ExecAction implements Action, Serializable
+public class DefaultInterface implements Interface, Serializable
 {
-    private final String m_id;
+    private final String m_classname;
     
    /**
-    * Creation of a new exec action.
-    * @param id operation name
+    * Creation of a new interface declaration.
+    * @param classname the overriding method name
+    * @exception NullPointerException if the operation name is null
     */
-    public ExecAction( final String id )
+    public DefaultInterface( String classname ) throws NullPointerException
     {
-        if( null == id )
+        if( null == classname )
         {
-            throw new NullPointerException( "id" );
+            throw new NullPointerException( "classname" );
         }
-        m_id = id;
+        m_classname = classname;
     }
     
    /**
-    * Return the action name.
-    * @return the name
+    * Overriden method returning the interface classname.
+    * @return the name (interface classname)
+    * @see #getClassname()
     */
     public String getName()
     {
-        return "exec:" + m_id;
+        return getClassname();
     }
     
    /**
-    * Return the id of the transition to apply.
-    * @return the transition id
+    * Return the interface classname.
+    * @return the classname
     */
-    public String getID()
+    public String getClassname()
     {
-        return m_id;
+        return m_classname;
+    }
+    
+   /**
+    * Return a string representation of the instance.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return "interface:" + m_classname;
     }
     
    /**
@@ -74,10 +85,10 @@ public class ExecAction implements Action, Serializable
         {
             return false;
         }
-        else if( other instanceof ExecAction )
+        else if( other instanceof DefaultInterface )
         {
-            ExecAction action = (ExecAction) other;
-            return m_id.equals( action.getID() );
+            DefaultInterface description = (DefaultInterface) other;
+            return m_classname.equals( description.m_classname );
         }
         else
         {
@@ -91,15 +102,8 @@ public class ExecAction implements Action, Serializable
     */
     public int hashCode()
     {
-        return m_id.hashCode();
-    }
-
-   /**
-    * Return a string representation of the instance.
-    * @return the string value
-    */
-    public String toString()
-    {
-        return "exec:" + m_id;
+        int hash = getClass().hashCode();
+        hash ^= m_classname.hashCode();
+        return hash;
     }
 }

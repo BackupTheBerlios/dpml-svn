@@ -21,8 +21,10 @@ package net.dpml.state.test;
 import net.dpml.state.State;
 import net.dpml.state.Transition;
 import net.dpml.state.Operation;
+import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
 import net.dpml.state.impl.DefaultOperation;
+import net.dpml.state.impl.DefaultInterface;
 import net.dpml.state.impl.DefaultTransition;
 import net.dpml.state.impl.DefaultState;
 
@@ -36,6 +38,7 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
     private String m_name;
     private Transition[] m_transitions;
     private Operation[] m_operations;
+    private Interface[] m_interfaces;
     private State[] m_states;
     private Trigger[] m_triggers;
     private State m_state;
@@ -57,10 +60,15 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
           {
             new DefaultOperation( "audit" )
           };
+        m_interfaces = 
+          new Interface[]
+          {
+            new DefaultInterface( "net.dpml.activity.Executable" )
+          };
         m_states = 
           new State[]
           {
-            new DefaultState( "sub-one", new Trigger[0], new Transition[0], new Operation[0], new State[0] ),
+            new DefaultState( "sub-one", new Trigger[0], new Transition[0], new Interface[0], new Operation[0], new State[0] ),
             new DefaultState( "sub-two" ),
           };
         m_triggers = 
@@ -69,7 +77,7 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
           };
         m_state = 
           new DefaultState(
-            m_name, m_triggers, m_transitions, m_operations, m_states );
+            m_name, m_triggers, m_transitions, m_interfaces, m_operations, m_states );
     }
     
    /**
@@ -106,6 +114,15 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
     public void testOperations() throws Exception
     {
         assertEquals( "operations", m_operations, m_state.getOperations() );
+    }
+
+   /**
+    * Test interfaces accessor.
+    * @exception Exception if an error occurs
+    */
+    public void testInterfacess() throws Exception
+    {
+        assertEquals( "interrfaces", m_interfaces, m_state.getInterfaces() );
     }
 
    /**

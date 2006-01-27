@@ -102,6 +102,15 @@ public final class NullState implements State, Serializable
     }
     
    /**
+    * Return the array of operations associated with the state.
+    * @return the operation array
+    */
+    public Interface[] getInterfaces()
+    {
+        return new Interface[0];
+    }
+    
+   /**
     * Test is the state is a terminal state.
     * @return true if terminal
     */

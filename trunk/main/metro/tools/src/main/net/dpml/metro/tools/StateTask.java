@@ -95,6 +95,15 @@ public class StateTask extends GenericTask
     }
     
    /**
+    * Add an interface within this state.
+    * @return the interface datatype
+    */
+    public InterfaceDataType createInterface()
+    {
+        return getData().createInterface();
+    }
+    
+   /**
     * Add an transition within this state.
     * @return the operation datatype
     */

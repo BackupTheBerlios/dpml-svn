@@ -12,6 +12,7 @@
      <transition name="terminate" target="../terminated"/>
    </trigger>
     <state name="started">
+      <interface class="org.acme.ManagementInterface"/>
       <transition name="stop" target="../stopped">
         <operation name="shutdown" method="stop"/>
       </transition>
@@ -27,3 +28,4 @@
   </state>
   <state name="terminated" terminal="true"/>
 </state>
+

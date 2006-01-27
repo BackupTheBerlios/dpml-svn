@@ -28,7 +28,7 @@ import net.dpml.http.spi.SocketListenerService;
  * and testing and validating interfaces and implementations related
  * to remote management and control of interal parts.
  */
-public class Demo
+public class Demo implements ManagementOperations
 {
    /**
     * HTTP Demo component context.
@@ -80,13 +80,23 @@ public class Demo
     }
     
    /**
-    * Return 
+    * Testing management interface declarations.
+    */
+    public void doSomething()
+    {
+        getLogger().info( "Hello World!" );
+    }
+    
+   /**
+    * Return the logging channel.
+    * @return the logger
     */
     private Logger getLogger()
     {
         return m_logger;
     }
     
+
    /**
     * Return some stats infomation using a supplied argument.
     * @param arg a value such as 'memory'

@@ -87,6 +87,13 @@ public interface State
     Operation[] getOperations();
     
    /**
+    * Return the array of management interfaces associated with 
+    * the state.
+    * @return the interfaces array
+    */
+    Interface[] getInterfaces();
+    
+   /**
     * Test is the state is a terminal state.
     * @return true if terminal
     */

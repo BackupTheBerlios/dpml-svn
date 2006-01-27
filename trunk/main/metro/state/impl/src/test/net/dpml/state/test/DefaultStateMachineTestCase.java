@@ -27,6 +27,7 @@ import java.util.List;
 import net.dpml.state.State;
 import net.dpml.state.Transition;
 import net.dpml.state.Operation;
+import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
 import net.dpml.state.Action;
 import net.dpml.state.impl.DefaultStateMachine;
@@ -255,6 +256,16 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
               + "(" + ( i+1 ) + "): [" 
               + transition.getName() 
               + "] --> [" + transition.getTargetName() 
+              + "]" );
+        }
+        Interface[] classes = state.getInterfaces();
+        for( int i=0; i<classes.length; i++ )
+        {
+            Interface interfaceDef = classes[i];
+            System.out.println( 
+              pad + "# interface " 
+              + "(" + ( i+1 ) + "): [" 
+              + interfaceDef.getClassname() 
               + "]" );
         }
         Operation[] operations = state.getOperations();

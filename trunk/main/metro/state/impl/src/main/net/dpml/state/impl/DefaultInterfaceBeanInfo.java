@@ -19,15 +19,14 @@ package net.dpml.state.impl;
 import java.beans.SimpleBeanInfo;
 import java.beans.BeanDescriptor;
 import java.beans.DefaultPersistenceDelegate;
-import java.beans.PropertyDescriptor;
 
 /**
- * BeanInfo for the DefaltState class that declares a persistence delegate.
+ * BeanInfo for the DefaultInterface class that declares a persistence delegate.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class DefaultStateBeanInfo extends SimpleBeanInfo
+public final class DefaultInterfaceBeanInfo extends SimpleBeanInfo
 {
     private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
     
@@ -41,27 +40,15 @@ public final class DefaultStateBeanInfo extends SimpleBeanInfo
     }
     
    /**
-    * Return the property descriptors.
-    * @return the descriptors
-    */
-    public PropertyDescriptor[] getPropertyDescriptors()
-    {
-        return new PropertyDescriptor[0];
-    }
-    
-   /**
     * Internal persistence delagate.
     * @return the bean descriptor
     */
     private static BeanDescriptor setupBeanDescriptor()
     {
-        BeanDescriptor descriptor = new BeanDescriptor( DefaultState.class );
+        BeanDescriptor descriptor = new BeanDescriptor( DefaultInterface.class );
         descriptor.setValue( 
           "persistenceDelegate", 
-          new DefaultPersistenceDelegate( 
-            new String[]{
-              "name", "triggers", "transitions", "interfaces", "operations",
-              "states", "terminal"} ) );
+          new DefaultPersistenceDelegate( new String[]{"classname"} ) );
         return descriptor;
     }
 }

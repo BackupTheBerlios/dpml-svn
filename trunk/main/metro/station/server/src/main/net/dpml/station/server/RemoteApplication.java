@@ -643,4 +643,5 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
                  getLogger().error( "Process read error.", e );
             }
         }
-    }}
+    }
+}

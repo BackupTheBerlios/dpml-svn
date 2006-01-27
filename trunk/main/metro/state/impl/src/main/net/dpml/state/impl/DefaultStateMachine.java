@@ -37,6 +37,7 @@ import net.dpml.configuration.impl.ConfigurationUtil;
 import net.dpml.state.State;
 import net.dpml.state.Transition;
 import net.dpml.state.Operation;
+import net.dpml.state.Interface;
 import net.dpml.state.StateBuilderRuntimeException;
 import net.dpml.state.Trigger;
 import net.dpml.state.Trigger.TriggerEvent;
@@ -340,6 +341,32 @@ public class DefaultStateMachine implements StateMachine
             }
         }
         return (Operation[]) table.values().toArray( new Operation[0] );
+    }
+    
+   /**
+    * Return all of the available interfaces relative to the current state.
+    * @return the available interface declarations
+    */
+    public Interface[] getInterfaces()
+    {
+        checkDisposed();
+        Hashtable table = new Hashtable();
+        State[] states = m_state.getStatePath();
+        for( int i=( states.length-1 ); i>-1; i-- )
+        {
+            State state = states[i];
+            Interface[] interfaces = state.getInterfaces();
+            for( int j=0; j<interfaces.length; j++ )
+            {
+                Interface data = interfaces[j];
+                String name = data.getName();
+                if( null == table.get( name ) )
+                {
+                    table.put( name, data );
+                }
+            }
+        }
+        return (Interface[]) table.values().toArray( new Interface[0] );
     }
     
    /**
@@ -943,6 +970,7 @@ public class DefaultStateMachine implements StateMachine
         }
         ArrayList transitionList = new ArrayList();
         ArrayList operationList = new ArrayList();
+        ArrayList interfaceList = new ArrayList();
         ArrayList stateList = new ArrayList();
         ArrayList triggerList = new ArrayList();
         Configuration[] children = config.getChildren();
@@ -959,6 +987,11 @@ public class DefaultStateMachine implements StateMachine
             {
                 Operation operation = buildOperation( child );
                 operationList.add( operation );
+            }
+            else if( name.equals( "interface" ) )
+            {
+                Interface data = buildInterface( child );
+                interfaceList.add( data );
             }
             else if( name.equals( "state" ) )
             {
@@ -984,9 +1017,10 @@ public class DefaultStateMachine implements StateMachine
         }
         DefaultTransition[] transitions = (DefaultTransition[]) transitionList.toArray( new DefaultTransition[0] );
         DefaultOperation[] operations = (DefaultOperation[]) operationList.toArray( new DefaultOperation[0] );
+        DefaultInterface[] interfaces = (DefaultInterface[]) interfaceList.toArray( new DefaultInterface[0] );
         DefaultState[] states = (DefaultState[]) stateList.toArray( new DefaultState[0] );
         DefaultTrigger[] triggers = (DefaultTrigger[]) triggerList.toArray( new DefaultTrigger[0] );
-        return new DefaultState( stateName, triggers, transitions, operations, states, terminal );
+        return new DefaultState( stateName, triggers, transitions, interfaces, operations, states, terminal );
     }
     
     private static Trigger buildTrigger( Configuration config ) throws Exception
@@ -1063,6 +1097,28 @@ public class DefaultStateMachine implements StateMachine
             String operationName = config.getAttribute( "name" );
             String methodName = config.getAttribute( "method", null );
             return new DefaultOperation( operationName, methodName );
+        }
+        else
+        {
+            final String error = 
+              "Illegal element name ["
+              + name
+              + "] supplied to operation builder.";
+            throw new StateBuilderRuntimeException( error );
+        }
+    }
+    
+    private static DefaultInterface buildInterface( Configuration config ) throws Exception
+    {
+        if( null == config )
+        {
+            return null;
+        }
+        String name = config.getName();
+        if( name.equals( "interface" ) )
+        {
+            String className = config.getAttribute( "class", null );
+            return new DefaultInterface( className );
         }
         else
         {

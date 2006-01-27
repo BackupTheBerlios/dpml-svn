@@ -46,9 +46,11 @@ import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
 
 import net.dpml.part.Provider;
+
 import net.dpml.state.State;
 import net.dpml.state.Operation;
 import net.dpml.state.Transition;
+import net.dpml.state.Interface;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
@@ -106,7 +108,7 @@ public class StationPlugin implements Disposable
     *
     * @param logger the assigned logging channel
     * @param args command line arguments
-    * @exception Exception if an error occurs duirng plugin establishment
+    * @exception Exception if an error occurs during plugin establishment
     */
     public StationPlugin( Logger logger, String[] args ) throws Exception
     {
@@ -631,6 +633,15 @@ public class StationPlugin implements Disposable
                             for( int i=0; i<operations.length; i++ )
                             {
                                 System.out.println( "    " + operations[i] );
+                            }
+                        }
+                        Interface[] interfaces = state.getInterfaces();
+                        if( interfaces.length > 0 ) 
+                        {
+                            System.out.println( "  Interfaces: (" + interfaces.length + ")" );
+                            for( int i=0; i<interfaces.length; i++ )
+                            {
+                                System.out.println( "    " + interfaces[i] );
                             }
                         }
                         Transition[] transitions = state.getTransitions();
