@@ -32,7 +32,7 @@ import net.dpml.lang.UnknownKeyException;
 public interface PartsManager
 {
    /**
-    * Return the array of keys used to idenetity internal parts.
+    * Return the array of keys used to identify internal parts.
     * @return the part key array
     */
     String[] getKeys();

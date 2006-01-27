@@ -22,6 +22,7 @@ import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import net.dpml.metro.ComponentContext;
 import net.dpml.metro.info.EntryDescriptor;
 
 /**
@@ -88,6 +89,10 @@ class ContextInvocationHandler implements InvocationHandler
         if( Object.class == source )
         {
             return method.invoke( this, args );
+        }
+        else if( ComponentContext.class == source )
+        {
+            return method.invoke( m_handler, args );
         }
         else
         {

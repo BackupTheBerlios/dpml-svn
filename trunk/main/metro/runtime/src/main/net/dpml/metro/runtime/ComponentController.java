@@ -86,6 +86,11 @@ class ComponentController
     //--------------------------------------------------------------------------
     // ComponentController
     //--------------------------------------------------------------------------
+    
+    CompositionController getCompositionController()
+    {
+        return m_controller;
+    }
 
    /**
     * Create a new remotely manageable component model.

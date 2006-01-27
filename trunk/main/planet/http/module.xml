@@ -65,6 +65,20 @@
       <include ref="dpml/metro/dpml-part-api"/>
       <include ref="ant/ant-junit"/>
     </dependencies>
+    <dependencies scope="build">
+      <include key="dpml-http-context"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-http-context" basedir="parts/context">
+    <types>
+      <type id="part" alias="true"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/metro/dpml-metro-model"/>
+      <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+      <include key="dpml-http-impl"/>
+    </dependencies>
   </project>
 
 </module>

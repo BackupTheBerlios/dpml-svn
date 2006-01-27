@@ -275,15 +275,6 @@ public class CompositionController implements Controller
                 Controller controller = getPrimaryController( controllerURI );
                 return controller.loadDirective( uri );
             }
-            
-            /*
-            ClassLoader loader = ComponentDirective.class.getClassLoader();
-            Thread.currentThread().setContextClassLoader( loader );
-            URL url = uri.toURL();
-            InputStream input = url.openStream();
-            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-            return (Directive) decoder.readObject();
-            */
         }
         catch( Exception e )
         {

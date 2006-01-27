@@ -29,10 +29,10 @@ import net.dpml.part.ComponentOperations;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentHandler extends ComponentOperations
+public interface ComponentHandler extends ComponentOperations, ComponentContext
 {
    /**
-    * Return a mutible context map.  The map may be used by component
+    * Return a mutable context map.  The map may be used by component
     * implementations to override context entries in the associated 
     * component instance.
     *
@@ -41,7 +41,7 @@ public interface ComponentHandler extends ComponentOperations
     Map getContextMap();
     
    /**
-    * Return the component model manager.
+    * Return the manager for the assigned component model.
     * @return the component model manager
     */
     ComponentManager getComponentManager();

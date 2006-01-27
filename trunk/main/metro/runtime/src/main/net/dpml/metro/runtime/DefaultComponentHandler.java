@@ -38,6 +38,7 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
+import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
@@ -45,6 +46,8 @@ import net.dpml.metro.ComponentManager;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.part.Controller;
+import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Disposable;
 import net.dpml.part.ControlException;
@@ -248,6 +251,48 @@ public class DefaultComponentHandler extends UnicastEventSource
         getLogger().debug( "component controller [" + this + "] established" );
     }
     
+    //--------------------------------------------------------------------------
+    // ComponentContext
+    //--------------------------------------------------------------------------
+    
+   /**
+    * Return the current controller.
+    * @return the root system controller
+    */
+    public Controller getController()
+    {
+        return m_controller.getCompositionController();
+    }
+    
+   /**
+    * Create a nested component handler.
+    * @param anchor the anchor classloader
+    * @param uri the component part definition
+    * @return the component handler
+    * @exception Exception if an error occurs during component loading or establishment
+    */
+    public ComponentHandler createComponentHandler( ClassLoader anchor, URI uri ) throws Exception
+    {
+        Directive directive = getController().loadDirective( uri );
+        if( directive instanceof ComponentDirective )
+        {
+            ComponentDirective cd = (ComponentDirective) directive;
+            String partition = getPath() + "/";
+            ComponentModel model = 
+              m_controller.createComponentModel( anchor, partition, cd );
+            return m_controller.createDefaultComponentHandler( 
+              this, anchor, model, true );
+        }
+        else
+        {
+            final String error = 
+              "Component directive class ["
+              + directive.getClass()
+              + "] is not supported.";
+            throw new IllegalArgumentException( error );
+        }
+    }
+
     //--------------------------------------------------------------------------
     // ModelListener
     //--------------------------------------------------------------------------

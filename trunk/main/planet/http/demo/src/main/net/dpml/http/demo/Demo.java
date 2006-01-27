@@ -16,12 +16,21 @@
 package net.dpml.http.demo;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.Hashtable;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.metro.ComponentContext;
+import net.dpml.metro.ComponentHandler;
+
+import net.dpml.part.Controller;
+import net.dpml.part.Directive;
+
 import net.dpml.http.spi.SocketListenerService;
+import net.dpml.http.impl.HttpContextImpl;
 
 /**
  * Working demo/test component.  This component is aimed primarily 
@@ -37,7 +46,7 @@ public class Demo implements ManagementOperations
    /**
     * HTTP Demo component context.
     */
-    public interface Context
+    public interface Context extends ComponentContext
     {
        /**
         * Get the port on which the demo listener will be assigned.
@@ -70,7 +79,9 @@ public class Demo implements ManagementOperations
     //---------------------------------------------------------
 
     private final Logger m_logger;
+    private final Context m_context;
     private final Parts m_parts;
+    private final Map m_httpContextTable = new Hashtable(); // context path to context mapping
     
     //---------------------------------------------------------
     // constructor
@@ -86,9 +97,10 @@ public class Demo implements ManagementOperations
     {
         m_logger = logger;
         m_parts = parts;
+        m_context = context;
         int port = context.getPort( 8080 );
         parts.getSocketListenerMap().put( "port", new Integer( port ) );
-        m_parts.getSocketListener();
+        m_parts.getSocketListener(); // trigger activation
     }
     
     //---------------------------------------------------------
@@ -96,20 +108,33 @@ public class Demo implements ManagementOperations
     //---------------------------------------------------------
     
    /**
-    * Testing management interface declarations.
+    * Add a new http context to the application. This implementation 
+    * is experimental and can be very significantly optimized however
+    * the primary object here is to test dynamic component loading.
+    * @param path the http context path
     */
-    public void doSomething()
+    public void addContext( String path ) throws Exception
     {
-        getLogger().info( "Hello World!" );
-    }
-    
-   /**
-    * Add a new http context to the application.
-    * @param path the context path
-    */
-    public void addContext( String path )
-    {
+        if( m_httpContextTable.containsKey( path ) )
+        {
+            final String error = 
+              "Component path ["
+              + path 
+              + "] is already assigned to a http context instance.";
+            throw new IllegalArgumentException( error );
+        }
+        
         getLogger().info( "# ADD: " + path );
+        URI uri = new URI( "link:part:dpml/planet/http/dpml-http-context" );
+        ClassLoader anchor = ManagementOperations.class.getClassLoader();
+        ComponentHandler handler = m_context.createComponentHandler( anchor, uri );
+        handler.getContextMap().put( "contextPath", path );
+        getLogger().info( "# HANDLER: " + handler );
+        m_httpContextTable.put( path, handler );
+        Object value = handler.getProvider().getValue( false );
+        getLogger().info( "# VALUE: " + value );
+        
+        // .. now we can move ahead with dynamic addition of handlers to a context
     }
     
    /**
@@ -127,8 +152,9 @@ public class Demo implements ManagementOperations
     */
     public String[] getContextPaths()
     {
+        String[] keys = (String[]) m_httpContextTable.keySet().toArray( new String[0] );
         getLogger().info( "# LIST" );
-        return new String[0];
+        return keys;
     }
 
     //---------------------------------------------------------

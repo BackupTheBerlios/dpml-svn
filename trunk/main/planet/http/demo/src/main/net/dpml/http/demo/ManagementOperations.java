@@ -21,15 +21,10 @@ package net.dpml.http.demo;
 public interface ManagementOperations
 {
    /**
-    * Do something.
-    */
-    void doSomething();
-    
-   /**
     * Add a new http context to the application.
     * @param path the context path
     */
-    void addContext( String path );
+    void addContext( String path ) throws Exception;
     
    /**
     * Remove an http context from the application.

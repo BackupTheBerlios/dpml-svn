@@ -49,6 +49,11 @@ class DefaultPartsManager implements PartsManager
     //-------------------------------------------------------------------
 
    /**
+    * Internal handle to the component controller.
+    */
+    private final ComponentController m_control;
+    
+   /**
     * The component handler.
     */
     private final DefaultComponentHandler m_handler;
@@ -78,6 +83,7 @@ class DefaultPartsManager implements PartsManager
     DefaultPartsManager( ComponentController control, DefaultComponentHandler handler, Logger logger ) 
       throws ControlException, RemoteException
     {
+        m_control = control;
         m_handler = handler;
         m_logger = logger;
         
