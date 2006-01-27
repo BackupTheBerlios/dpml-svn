@@ -24,5 +24,24 @@ public interface ManagementOperations
     * Do something.
     */
     void doSomething();
+    
+   /**
+    * Add a new http context to the application.
+    * @param path the context path
+    */
+    void addContext( String path );
+    
+   /**
+    * Remove an http context from the application.
+    * @param path the context path
+    */
+    void removeContext( String path );
+    
+   /**
+    * Strurn the array of context paths.
+    * @return the context path array
+    */
+    String[] getContextPaths();
+    
 }
 

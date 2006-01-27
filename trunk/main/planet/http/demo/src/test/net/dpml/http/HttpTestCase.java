@@ -54,6 +54,7 @@ public class HttpTestCase extends TestCase
         try
         {
             Demo demo = (Demo) component.getProvider().getValue( false );
+            demo.doSomething();
         }
         catch( ControlException e )
         {

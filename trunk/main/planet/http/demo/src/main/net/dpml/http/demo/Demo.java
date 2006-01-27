@@ -30,6 +30,10 @@ import net.dpml.http.spi.SocketListenerService;
  */
 public class Demo implements ManagementOperations
 {
+    //---------------------------------------------------------
+    // criteria
+    //---------------------------------------------------------
+
    /**
     * HTTP Demo component context.
     */
@@ -61,9 +65,17 @@ public class Demo implements ManagementOperations
         SocketListenerService getSocketListener();
     }
     
+    //---------------------------------------------------------
+    // immutable state
+    //---------------------------------------------------------
+
     private final Logger m_logger;
     private final Parts m_parts;
     
+    //---------------------------------------------------------
+    // constructor
+    //---------------------------------------------------------
+
    /**
     * Creation of the HTTP Demo Component.
     * @param logger the assigned logging channel
@@ -79,6 +91,10 @@ public class Demo implements ManagementOperations
         m_parts.getSocketListener();
     }
     
+    //---------------------------------------------------------
+    // ManagementOperations
+    //---------------------------------------------------------
+    
    /**
     * Testing management interface declarations.
     */
@@ -88,14 +104,36 @@ public class Demo implements ManagementOperations
     }
     
    /**
-    * Return the logging channel.
-    * @return the logger
+    * Add a new http context to the application.
+    * @param path the context path
     */
-    private Logger getLogger()
+    public void addContext( String path )
     {
-        return m_logger;
+        getLogger().info( "# ADD: " + path );
     }
     
+   /**
+    * Remove an http context from the application.
+    * @param path the context path
+    */
+    public void removeContext( String path )
+    {
+        getLogger().info( "# REMOVE: " + path );
+    }
+    
+   /**
+    * Strurn the array of context paths.
+    * @return the context path array
+    */
+    public String[] getContextPaths()
+    {
+        getLogger().info( "# LIST" );
+        return new String[0];
+    }
+
+    //---------------------------------------------------------
+    // declared operations
+    //---------------------------------------------------------
 
    /**
     * Return some stats infomation using a supplied argument.
@@ -125,6 +163,23 @@ public class Demo implements ManagementOperations
         return new MemoryStats();
     }
     
+    //---------------------------------------------------------
+    // implementation
+    //---------------------------------------------------------
+    
+   /**
+    * Return the logging channel.
+    * @return the logger
+    */
+    private Logger getLogger()
+    {
+        return m_logger;
+    }
+    
+    //---------------------------------------------------------
+    // utilities
+    //---------------------------------------------------------
+
    /**
     * Utility stats class.
     */
