@@ -189,6 +189,7 @@ public final class Main //implements ShutdownHandler
                 DefaultTransitModel disposable = (DefaultTransitModel) model;
                 disposable.dispose();
             }
+            System.exit( 0 );
         }
     }
     
