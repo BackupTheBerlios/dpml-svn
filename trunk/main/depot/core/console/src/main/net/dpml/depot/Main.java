@@ -90,9 +90,10 @@ public final class Main //implements ShutdownHandler
         
         if( CLIHelper.isOptionPresent( args, "-debug" ) )
         {
+            System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
             args = CLIHelper.consolidate( args, "-debug" );
-            System.setProperty( "dpml.logging.level", 
-              System.getProperty( "dpml.logging.level", "FINE" ) );
+            //System.setProperty( "dpml.logging.level", 
+            //  System.getProperty( "dpml.logging.level", "FINE" ) );
             m_debug = true;
             for( int i=0; i<arguments.length; i++ )
             {
