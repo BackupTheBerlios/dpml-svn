@@ -57,12 +57,12 @@
       <include name="**/DefaultRepositoryModel.class"/>
       <include name="**/DefaultTransitModel.class"/>
       <include name="**/DefaultProxyModel.class"/>
-      <include name="**/DefaultCacheHandler.class"/> <!-- -->
-      <include name="**/DefaultContentRegistry.class"/> <!-- -->
-      <include name="**/DefaultLayoutRegistry.class"/> <!-- -->
-      <include name="**/DefaultResourceHost.class"/> <!-- -->
-      <include name="**/SecuredTransitContext$ProxyController.class"/> <!-- -->
-      <include name="**/SecuredTransitContext$DisposalController.class"/> <!-- -->
+      <include name="**/DefaultCacheHandler.class"/>
+      <include name="**/DefaultContentRegistry.class"/>
+      <include name="**/DefaultLayoutRegistry.class"/>
+      <include name="**/DefaultResourceHost.class"/>
+      <include name="**/SecuredTransitContext$ProxyController.class"/>
+      <include name="**/SecuredTransitContext$DisposalController.class"/>
     </rmic>
   </target>
 
@@ -104,6 +104,15 @@
     <copy preservelastmodified="true" overwrite="true"
       tofile="${user.home}/.ant/lib/${short.filename}" 
       file="${target.deliverables.jars.dir}/${long.filename}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.prefs}/dpml/transit"/>
+    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
+      <fileset dir="${basedir}/target/prefs"/>
+    </copy>
   </target>
 
 </project>
