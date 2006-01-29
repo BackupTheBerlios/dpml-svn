@@ -27,6 +27,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.logging.LogRecord;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.EventObject;
 
 import net.dpml.station.Application;
 import net.dpml.station.Callback;
@@ -94,6 +97,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         }
         
         setShutdownHook( this );
+        startEventDispatchThread();
 
         try
         {
@@ -220,6 +224,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
                 {
                     RemoteApplication application = applications[i];
                     application.shutdown();
+                    UnicastRemoteObject.unexportObject( application, true );
                 }
                 UnicastRemoteObject.unexportObject( m_registry, true );
             }
@@ -254,6 +259,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
                       {
                         public void run()
                         {
+                            RemoteStation.m_dispatch.dispose();
                             System.exit( 0 );
                         }
                       }
@@ -360,7 +366,140 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             return registry;
         }
     }
+
+    /**
+     * Queue of pending notification events.  When an event for which 
+     * there are one or more listeners occurs, it is placed on this queue 
+     * and the queue is notified.  A background thread waits on this queue 
+     * and delivers the events.  This decouples event delivery from 
+     * the application concern, greatly simplifying locking and reducing 
+     * opportunity for deadlock.
+     */
+    private static final List EVENT_QUEUE = new LinkedList();
+
+   /**
+    * Enqueue an event for delivery to registered
+    * listeners unless there are no registered
+    * listeners.
+    * @param event the event to enqueue
+    */
+    static void enqueueEvent( EventObject event )
+    {
+        synchronized( EVENT_QUEUE ) 
+        {
+            EVENT_QUEUE.add( event );
+            EVENT_QUEUE.notify();
+        }
+    }
     
+    /**
+     * A single background thread ("the event notification thread") monitors
+     * the event queue and delivers events that are placed on the queue.
+     */
+    private static class EventDispatchThread extends Thread 
+    {
+        private final Logger m_logger;
+        
+        private boolean m_continue = true;
+        
+        EventDispatchThread( Logger logger )
+        {
+            m_logger = logger;
+            m_logger.debug( "starting event dispatch thread" );
+        }
+        
+        void dispose()
+        {
+            synchronized( EVENT_QUEUE )
+            {
+                m_logger.debug( "stopping event dispatch thread" );
+                m_continue = false;
+                EVENT_QUEUE.notify();
+            }
+        }
+        
+        public void run() 
+        {
+            while( m_continue ) 
+            {
+                // Wait on EVENT_QUEUE till an event is present
+                EventObject event = null;
+                synchronized( EVENT_QUEUE ) 
+                {
+                    try
+                    {
+                        while( EVENT_QUEUE.isEmpty() )
+                        {
+                            EVENT_QUEUE.wait();
+                        }
+                        Object object = EVENT_QUEUE.remove( 0 );
+                        try
+                        {
+                            event = (EventObject) object;
+                        }
+                        catch( ClassCastException cce )
+                        {
+                            final String error = 
+                              "Unexpected class cast exception while processing an event." 
+                              + "\nEvent: " + object;
+                            throw new IllegalStateException( error );
+                        }
+                    }
+                    catch( InterruptedException e )
+                    {
+                        return;
+                    }
+                }
+                
+                Object source = event.getSource();
+                if( source instanceof UnicastEventSource )
+                {
+                    UnicastEventSource producer = (UnicastEventSource) source;
+                    try
+                    {
+                        producer.processEvent( event );
+                    }
+                    catch( Throwable e )
+                    {
+                        final String error = 
+                          "Unexpected error while processing event."
+                          + "\nEvent: " + event
+                          + "\nSource: " + source;
+                        m_logger.warn( error, e );
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Event source [" 
+                      + source.getClass().getName()
+                      + "] is not an instance of " + UnicastEventSource.class.getName();
+                    throw new IllegalStateException( error );
+                }
+            }
+            
+            m_logger.info( "Controller event queue terminating." );
+        }
+    }
+
+    private static EventDispatchThread m_dispatch = null;
+
+    /**
+     * This method starts the event dispatch thread the first time it
+     * is called.  The event dispatch thread will be started only
+     * if someone registers a listener.
+     */
+    private synchronized void startEventDispatchThread()
+    {
+        if( m_dispatch == null )
+        {
+            Logger logger = getLogger().getChildLogger( "event" );
+            m_dispatch = new EventDispatchThread( logger );
+            m_dispatch.setDaemon( true );
+            m_dispatch.start();
+        }
+    }
+        
    /**
     * Create a shutdown hook that will trigger shutdown of the supplied plugin.
     * @param station the station

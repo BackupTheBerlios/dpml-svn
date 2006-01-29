@@ -54,7 +54,7 @@ import net.dpml.transit.PID;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class RemoteApplication extends EventChannel implements Callback, Application
+public class RemoteApplication extends UnicastEventSource implements Callback, Application
 {
     private final Logger m_logger;
     private final ApplicationDescriptor m_descriptor;
@@ -386,7 +386,7 @@ public class RemoteApplication extends EventChannel implements Callback, Applica
         }
         finally
         {
-            UnicastRemoteObject.unexportObject( this, true );
+            //UnicastRemoteObject.unexportObject( this, true ); // handled in station
         }
     }
     
