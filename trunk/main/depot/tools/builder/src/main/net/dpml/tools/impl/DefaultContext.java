@@ -283,7 +283,7 @@ final class DefaultContext implements Context
     */
     public File getSrcDocsDirectory()
     {
-        String path = getProperty( "project.src.test", "docs" );
+        String path = getProperty( "project.src.docs", "docs" );
         return new File( getSrcDirectory(), path );
     }
     
