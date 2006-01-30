@@ -263,7 +263,8 @@ final class DefaultContext implements Context
     */
     public File getSrcMainDirectory()
     {
-        return new File( getSrcDirectory(), "main" );
+        String path = getProperty( "project.src.main", "main" );
+        return new File( getSrcDirectory(), path );
     }
     
    /**
@@ -272,7 +273,8 @@ final class DefaultContext implements Context
     */
     public File getSrcTestDirectory()
     {
-        return new File( getSrcDirectory(), "test" );
+        String path = getProperty( "project.src.test", "test" );
+        return new File( getSrcDirectory(), path );
     }
     
    /**
@@ -281,7 +283,8 @@ final class DefaultContext implements Context
     */
     public File getSrcDocsDirectory()
     {
-        return new File( getSrcDirectory(), "docs" );
+        String path = getProperty( "project.src.test", "docs" );
+        return new File( getSrcDirectory(), path );
     }
     
    /**
@@ -290,7 +293,8 @@ final class DefaultContext implements Context
     */
     public File getEtcDirectory()
     {
-        return createFile( "etc" );
+        String path = getProperty( "project.etc", "etc" );
+        return createFile( path );
     }
 
    /**
