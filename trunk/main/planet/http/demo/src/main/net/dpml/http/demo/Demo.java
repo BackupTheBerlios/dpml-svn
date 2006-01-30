@@ -25,19 +25,20 @@ import net.dpml.logging.Logger;
 
 import net.dpml.metro.ComponentContext;
 import net.dpml.metro.ComponentHandler;
+import net.dpml.metro.PartsManager;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Directive;
+import net.dpml.part.Disposable;
 
 import net.dpml.http.spi.SocketListenerService;
-import net.dpml.http.impl.HttpContextImpl;
 
 /**
  * Working demo/test component.  This component is aimed primarily 
  * and testing and validating interfaces and implementations related
  * to remote management and control of interal parts.
  */
-public class Demo implements ManagementOperations
+public class Demo implements ManagementOperations, Disposable
 {
     //---------------------------------------------------------
     // criteria
@@ -59,7 +60,7 @@ public class Demo implements ManagementOperations
    /**
     * Internal part managmeent interface.
     */
-    public interface Parts
+    public interface Parts extends PartsManager
     {
        /**
         * Return the context map associated with the socket listener.
@@ -72,6 +73,7 @@ public class Demo implements ManagementOperations
         * @return the socket listener
         */
         SocketListenerService getSocketListener();
+        
     }
     
     //---------------------------------------------------------
@@ -93,7 +95,7 @@ public class Demo implements ManagementOperations
     * @param context the public component context
     * @param parts the internal parts manager
     */
-    public Demo( Logger logger, Context context, Parts parts )
+    public Demo( Logger logger, Context context, Parts parts ) throws Exception
     {
         m_logger = logger;
         m_parts = parts;
@@ -101,6 +103,13 @@ public class Demo implements ManagementOperations
         int port = context.getPort( 8080 );
         parts.getSocketListenerMap().put( "port", new Integer( port ) );
         m_parts.getSocketListener(); // trigger activation
+        ComponentHandler handler = parts.getComponentHandler( "context" );
+        m_httpContextTable.put( "/", handler );
+    }
+    
+    public void dispose()
+    {
+        getLogger().info( "# DISPOSAL IN DEMO" );
     }
     
     //---------------------------------------------------------
@@ -111,9 +120,10 @@ public class Demo implements ManagementOperations
     * Add a new http context to the application. This implementation 
     * is experimental and can be very significantly optimized however
     * the primary object here is to test dynamic component loading.
+    * @param base the http resource base
     * @param path the http context path
     */
-    public void addContext( String path ) throws Exception
+    public void addContext( String base, String path ) throws Exception
     {
         if( m_httpContextTable.containsKey( path ) )
         {
@@ -124,17 +134,39 @@ public class Demo implements ManagementOperations
             throw new IllegalArgumentException( error );
         }
         
-        getLogger().info( "# ADD: " + path );
+        getLogger().info( "# BASE: " + base );
+        getLogger().info( "# PATH: " + path );
         URI uri = new URI( "link:part:dpml/planet/http/dpml-http-context" );
         ClassLoader anchor = ManagementOperations.class.getClassLoader();
         ComponentHandler handler = m_context.createComponentHandler( anchor, uri );
+        handler.getContextMap().put( "resourceBase", base );
         handler.getContextMap().put( "contextPath", path );
-        getLogger().info( "# HANDLER: " + handler );
         m_httpContextTable.put( path, handler );
         Object value = handler.getProvider().getValue( false );
         getLogger().info( "# VALUE: " + value );
-        
-        // .. now we can move ahead with dynamic addition of handlers to a context
+    }
+
+   /**
+    * Add a new http content handler to a http context.
+    * @param context the http context path
+    */
+    public void addResourceHandler( String path ) throws Exception
+    {
+        getLogger().info( "# adding resource handler to path: " + path );
+        ComponentHandler httpContextHandler = (ComponentHandler) m_httpContextTable.get( path );
+        if( null == httpContextHandler )
+        {
+            final String error = 
+              "Http context path [" + path + "] is undefined.";
+            throw new IllegalArgumentException( error );
+        }
+        URI uri = new URI( "link:part:dpml/planet/http/dpml-http-resource" );
+        ClassLoader anchor = ManagementOperations.class.getClassLoader();
+        ComponentHandler handler = m_context.createComponentHandler( anchor, uri );
+        Object httpContext = httpContextHandler.getProvider().getValue( false );
+        handler.getContextMap().put( "httpContext", httpContext );
+        Object value = handler.getProvider().getValue( false );
+        getLogger().info( "# VALUE: " + value );
     }
     
    /**

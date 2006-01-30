@@ -56,17 +56,22 @@
       <property name="project.test.halt-on-error" value="true"/>
       <property name="project.test.halt-on-failure" value="true"/>
     </properties>
-    <dependencies>
-      <include ref="dpml/metro/dpml-metro-model"/>
+    <dependencies scope="build">
+      <include key="dpml-http-context"/>
+      <include key="dpml-http-resource"/>
+      <include key="dpml-http-impl"/>
+    </dependencies>
+    <dependencies scope="runtime">
+      <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
+      <include ref="dpml/util/dpml-logging-api" tag="protected"/>
       <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+      <include key="dpml-http-spi" tag="protected"/>
+      <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" tag="protected"/>
       <include key="dpml-http-impl"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="dpml/metro/dpml-part-api"/>
       <include ref="ant/ant-junit"/>
-    </dependencies>
-    <dependencies scope="build">
-      <include key="dpml-http-context"/>
     </dependencies>
   </project>
 
@@ -76,7 +81,16 @@
     </types>
     <dependencies>
       <include ref="dpml/metro/dpml-metro-model"/>
-      <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+      <include key="dpml-http-impl"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-http-resource" basedir="parts/resource">
+    <types>
+      <type id="part" alias="true"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/metro/dpml-metro-model"/>
       <include key="dpml-http-impl"/>
     </dependencies>
   </project>

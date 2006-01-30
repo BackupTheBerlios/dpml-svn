@@ -54,7 +54,7 @@ public class HttpTestCase extends TestCase
         try
         {
             Demo demo = (Demo) component.getProvider().getValue( false );
-            demo.addContext( "/test" );
+            demo.addContext( "${dpml.data}/docs", "/test" );
         }
         catch( ControlException e )
         {
@@ -79,11 +79,11 @@ public class HttpTestCase extends TestCase
 
     static
     {
+        System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
         System.setProperty( 
           "java.util.logging.config.class", 
           System.getProperty( 
             "java.util.logging.config.class", 
             "net.dpml.transit.util.ConfigurationHandler" ) );
     }
-
 }

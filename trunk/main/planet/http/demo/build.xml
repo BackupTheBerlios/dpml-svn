@@ -31,6 +31,9 @@
         <operation name="memory" method="getMemoryStats"/>
         <operation name="stats" method="getStats"/>
         <interface name="control" class="net.dpml.http.demo.ManagementOperations"/>
+        <trigger event="termination">
+          <operation name="dispose" method="dispose"/>
+        </trigger>
       </state>
       <parts>
         <component type="net.dpml.http.impl.HttpServerImpl" key="server" collection="hard">
@@ -60,13 +63,15 @@
             <entry key="server" lookup="net.dpml.http.spi.HttpService"/>
             <entry key="requestLog" lookup="org.mortbay.http.RequestLog"/>
             <entry key="tempDirectory" value="$${java.io.tmpdir}/http/context"/>
-            <entry key="contextPath" value="/"/>
+            <entry key="contextPath" value="/dpml"/>
             <entry key="gracefulStop" value="true"/>
+            <entry key="resourceBase" value="$${dpml.data}/docs"/>
           </context>
         </component>
         <component key="httpHandler" type="net.dpml.http.impl.ResourceHandler" collection="hard">
           <context>
             <entry key="name" value="resource-handler"/>
+            <entry key="handlerIndex" value="0"/>
             <entry key="dirAllowed" value="true"/>
             <entry key="allowedMethods" value="GET"/>
             <entry key="httpContext" lookup="net.dpml.http.spi.HttpContextService"/>
@@ -74,6 +79,7 @@
         </component>
         <component key="notFoundHandler" type="net.dpml.http.impl.NotFoundHandler" collection="hard">
           <context>
+            <entry key="handlerIndex" value="1"/>
             <entry key="name" value="not-found-handler"/>
             <entry key="httpContext" lookup="net.dpml.http.spi.HttpContextService"/>
           </context>

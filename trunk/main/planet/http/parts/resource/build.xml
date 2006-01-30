@@ -15,7 +15,7 @@
  * limitations under the License.
 -->
 
-<project name="dpml-http-context" default="install" basedir="." 
+<project name="dpml-http-resource" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:depot="dpml:depot" >
 
@@ -23,14 +23,12 @@
 
   <target name="build" depends="standard.build">
     <depot:plugin uri="link:plugin:dpml/metro/dpml-metro-tools" urn="metro"/>
-    <component xmlns="metro" type="net.dpml.http.impl.HttpContextImpl" collection="hard">
+    <component xmlns="metro" type="net.dpml.http.impl.ResourceHandler" collection="hard">
       <context>
-        <entry key="server" lookup="net.dpml.http.spi.HttpService"/>
-        <entry key="requestLog" lookup="org.mortbay.http.RequestLog"/>
-        <entry key="tempDirectory" value="$${dpml.data}/temp/http/context"/>
-        <entry key="contextPath" value="/"/>
-        <entry key="resourceBase" value="."/>
-        <entry key="gracefulStop" value="true"/>
+        <entry key="httpContext" lookup="net.dpml.http.spi.HttpContextService"/>
+        <entry key="name" value="$${name}"/>
+        <entry key="dirAllowed" value="true"/>
+        <entry key="allowedMethods" value="GET"/>
       </context>
     </component>
   </target>

@@ -22,9 +22,16 @@ public interface ManagementOperations
 {
    /**
     * Add a new http context to the application.
+    * @param base the resource base path
     * @param path the context path
     */
-    void addContext( String path ) throws Exception;
+    void addContext( String base, String path ) throws Exception;
+    
+   /**
+    * Add a new http content handler to a http context.
+    * @param path the http context path
+    */
+    void addResourceHandler( String path ) throws Exception;
     
    /**
     * Remove an http context from the application.
