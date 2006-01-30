@@ -58,6 +58,7 @@ import net.dpml.transit.PID;
 import net.dpml.transit.Disposable;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.transit.util.PropertyResolver;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;
@@ -228,9 +229,11 @@ public class StationPlugin implements Disposable
     {
         if( m_flag && ( null != m_registry ) )
         {
+            getLogger().debug( "retracting registry from rmi" );
             try
             {
                 UnicastRemoteObject.unexportObject( m_registry, true );
+                m_registry = null;
             }
             catch( Throwable e )
             {
@@ -747,7 +750,8 @@ public class StationPlugin implements Disposable
             {
                 try
                 {
-                    String[] args = line.split( " " );
+                    String[] arguments = line.split( " " );
+                    String[] args = expandArgs( arguments );
                     CommandLine commandline = parser.parse( args );
                     if( commandline.hasOption( CONTROL_HELP_COMMAND ) )
                     {
@@ -877,6 +881,18 @@ public class StationPlugin implements Disposable
             }
             System.out.print( prompt );
         }
+    }
+    
+    private String[] expandArgs( String[] args )
+    {
+        String[] result = new String[ args.length ];
+        for( int i=0; i<args.length; i++ )
+        {
+            String arg = args[i];
+            String value = PropertyResolver.resolve( arg );
+            result[i] = value;
+        }
+        return result;
     }
     
     private String[] getExecArgs( CommandLine line )
