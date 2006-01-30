@@ -159,6 +159,13 @@
   </target>
 
   <target name="prefs" depends="prepare">
+    <property name="prefs.transit" location="${prefs}/dpml/transit"/>
+    <mkdir dir="${prefs.transit}"/>
+    <copy todir="${prefs.transit}" filtering="false">
+      <fileset dir="transit/core/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
     <property name="prefs.tools" location="${prefs}/dpml/tools"/>
     <mkdir dir="${prefs.tools}"/>
     <copy todir="${prefs.tools}" filtering="false">
