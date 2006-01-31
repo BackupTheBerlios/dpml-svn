@@ -85,9 +85,9 @@ public class Server extends org.mortbay.jetty.Server
         m_logger = logger;
         m_context = context;
         
-        
         URI standard = new URI( "local:xml:dpml/planet/web/jetty" );
         URI uri = context.getConfiguration( standard );
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         if( null != uri )
         {
             getLogger().info( "configuration: " + uri );

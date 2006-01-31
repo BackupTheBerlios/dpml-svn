@@ -41,15 +41,6 @@
     <Set name="connectors">
       <Array type="org.mortbay.jetty.Connector">
 
-        <!-- Use this connector if NIO is not available.
-        <Item>
-          <New class="org.mortbay.jetty.bio.SocketConnector">
-            <Set name="port">8080</Set>
-            <Set name="maxIdleTime">50000</Set>
-          </New>
-        </Item>
-        -->
-
         <!-- Use this connector for few very active connections.
         <Item>
           <New class="org.mortbay.jetty.nio.BlockingChannelConnector">
@@ -97,7 +88,6 @@
         <!-- ======================================================= -->
 
         <!-- REMOVED PENDING PROPER SETUP -->
-        <!--
         <Item>
           <New id="testWebAppContext"  class="org.mortbay.jetty.webapp.WebAppContext">
             <Set name="contextPath">/test</Set>
@@ -108,43 +98,42 @@
             </Get>
           </New>
         </Item>
+        <!--
         -->
 
         <!-- ======================================================= -->
         <!-- Configure a context directly - no XML parser required   -->
         <!-- ======================================================= -->
         <Item>
-          <New id="javadocContext"  class="net.dpml.web.server.ContextHandler">
+          <New id="docsContext"  class="net.dpml.web.server.ContextHandler">
             <Set name="contextPath">/docs</Set>
             <Set name="resourceBase">${dpml.data}/docs</Set>
             <Set name="handler">
-              <New id="javadocServletHandler" class="org.mortbay.jetty.servlet.ServletHandler">
+              <New id="docsServletHandler" class="org.mortbay.jetty.servlet.ServletHandler">
                 <Set name="servlets">
-                    <Array type="org.mortbay.jetty.servlet.ServletHolder">
-                        <Item>
-                           <New class="org.mortbay.jetty.servlet.ServletHolder">
-                               <Set name="name">Default</Set>
-                               <Set name="className">org.mortbay.jetty.servlet.DefaultServlet</Set>
-                           </New>
-                        </Item>
-                     </Array>
-                 </Set>
-
+                  <Array type="org.mortbay.jetty.servlet.ServletHolder">
+                    <Item>
+                      <New class="org.mortbay.jetty.servlet.ServletHolder">
+                        <Set name="name">Default</Set>
+                        <Set name="className">org.mortbay.jetty.servlet.DefaultServlet</Set>
+                      </New>
+                    </Item>
+                  </Array>
+                </Set>
                 <Set name="servletMappings">
-                    <Array type="org.mortbay.jetty.servlet.ServletMapping">
-                        <Item>
-                           <New class="org.mortbay.jetty.servlet.ServletMapping">
-                             <Set name="pathSpec">/</Set>
-                             <Set name="servletName">Default</Set>
-                           </New>
-                        </Item>
-                    </Array>
+                  <Array type="org.mortbay.jetty.servlet.ServletMapping">
+                    <Item>
+                      <New class="org.mortbay.jetty.servlet.ServletMapping">
+                        <Set name="pathSpec">/</Set>
+                        <Set name="servletName">Default</Set>
+                      </New>
+                    </Item>
+                  </Array>
                 </Set>
               </New>
             </Set>
           </New>
         </Item>
-
       </Array>
     </Set>
 
@@ -154,7 +143,6 @@
     <!-- =========================================================== -->
     <!-- Additional contexts not defined above                       -->
     <!-- =========================================================== -->
-    <!--
     <Call class="org.mortbay.jetty.webapp.WebAppContext" name="addWebApplications">
       <Arg><Ref id="Server"/></Arg>
       <Arg>./webapps</Arg>
@@ -162,6 +150,7 @@
       <Arg type="boolean">True</Arg>
       <Arg type="boolean">True</Arg>
     </Call>
+    <!--
     -->
 
     <!-- REMOVED PENDING PROPER SETUP -->
