@@ -9,11 +9,13 @@
   <project name="dpml-http-server" basedir="server">
     <types>
       <type id="jar"/>
+      <type id="part"/>
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api"/>
       <include urn="artifact:jar:servletapi/servletapi#2.4" tag="public"/>
-      <include urn="artifact:jar:jetty/jetty#SNAPSHOT"/>
+      <include urn="artifact:jar:jetty/jetty#6.0.0-20060131"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
     </dependencies>
   </project>
 

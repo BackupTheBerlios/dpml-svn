@@ -15,11 +15,15 @@
  */
 package net.dpml.web.server;
 
+import java.net.URI;
+import java.net.URL;
+
 import net.dpml.logging.Logger;
 
 import org.mortbay.thread.ThreadPool;
 import org.mortbay.jetty.RequestLog;
 import org.mortbay.jetty.Handler;
+import org.mortbay.xml.XmlConfiguration;
 
 /**
  * HTTP server implementation.
@@ -32,31 +36,38 @@ public class Server extends org.mortbay.jetty.Server
     public interface Context
     {
        /**
+        * Get the Jetty XML configuration uri.
+        * @param uri the default uri
+        * @return a uri referencing a Jetty configuration
+        */
+        URI getConfiguration( URI uri );
+        
+       /**
         * Get the thread pool.
         * @param pool the fallback thread pool (may be null)
         * @return the thread pool
         */
-        ThreadPool getThreadPool( ThreadPool fallback );
+        //ThreadPool getThreadPool( ThreadPool fallback );
         
        /**
         * Get the request log.
         * @param log the fallback request log (may be null)
         * @return the resolved request log
         */
-        RequestLog getRequestLog( RequestLog log );
+        //RequestLog getRequestLog( RequestLog log );
         
        /**
         * Get the request log.
         * @param handler the fallback not-found handler
         * @return the resolved handler
         */
-        Handler getNotFoundHandler( Handler handler );
+        //Handler getNotFoundHandler( Handler handler );
         
        /**
         * Get the stop-at-shutdown policy.
         * @return true if the server should be stopped at shutdown
         */
-        boolean getShutdownPolicy( boolean flag );
+        //boolean getShutdownPolicy( boolean flag );
     }
     
     private final Logger m_logger;
@@ -67,13 +78,27 @@ public class Server extends org.mortbay.jetty.Server
     * @param logger the assigned logging channel
     * @param context the assigned deployment context
     */
-    public Server( Logger logger, Context context )
+    public Server( Logger logger, Context context ) throws Exception
     {
         super();
         
         m_logger = logger;
         m_context = context;
         
+        
+        URI standard = new URI( "local:xml:dpml/planet/web/jetty" );
+        URI uri = context.getConfiguration( standard );
+        if( null != uri )
+        {
+            getLogger().info( "configuration: " + uri );
+            URL url = uri.toURL();
+            XmlConfiguration config = new XmlConfiguration( url );
+            config.configure( this );
+        }
+        
+        getLogger().info( "ready: " + this );
+        
+        /*
         ThreadPool pool = context.getThreadPool( null );
         if( null != pool )
         {
@@ -97,5 +122,11 @@ public class Server extends org.mortbay.jetty.Server
         {
             setStopAtShutdown( policy );
         }
+        */
+    }
+    
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 }
