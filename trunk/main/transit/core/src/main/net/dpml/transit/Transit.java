@@ -68,6 +68,11 @@ public final class Transit
     public static final String SYSTEM_KEY = "dpml.system";
 
    /**
+    * Transit share key (alias to dpml.system).
+    */
+    public static final String SHARE_KEY = "dpml.share";
+
+   /**
     * DPML environment variable string.
     */
     public static final String HOME_SYMBOL = "DPML_HOME";
@@ -118,6 +123,7 @@ public final class Transit
         DPML_PREFS = resolvePreferencesDirectory( DPML_HOME );
 
         System.setProperty( SYSTEM_KEY, DPML_SYSTEM.getAbsolutePath() );
+        System.setProperty( SHARE_KEY, DPML_SYSTEM.getAbsolutePath() );
         System.setProperty( HOME_KEY, DPML_HOME.getAbsolutePath() );
         System.setProperty( DATA_KEY, DPML_DATA.getAbsolutePath() );
         System.setProperty( PREFS_KEY, DPML_PREFS.getAbsolutePath() );
