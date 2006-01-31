@@ -77,7 +77,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private boolean m_threadsafe = false;
     private PartsDataType m_parts;
     private StateDataType m_state;
-
+    private ServicesDataType m_services;
+    
     //---------------------------------------------------------------
     // setters
     //---------------------------------------------------------------
@@ -142,6 +143,25 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         {
              final String error =
               "Illegal attempt to create a duplicate parts element.";
+             throw new BuildException( error, getLocation() );
+        }
+    }
+    
+   /**
+    * Create a new services datatype.
+    * @return a new services datatype
+    */
+    public ServicesDataType createServices()
+    {
+        if( m_services == null )
+        {
+            m_services = new ServicesDataType();
+            return m_services;
+        }
+        else
+        {
+             final String error =
+              "Illegal attempt to create a duplicate services element.";
              throw new BuildException( error, getLocation() );
         }
     }
@@ -393,8 +413,15 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
 
     private ServiceDescriptor[] createServiceDescriptors( Class subject )
     {
-        ArrayList list = new ArrayList();
-        return createServiceDescriptors( subject, list );
+        if( null == m_services )
+        {
+            ArrayList list = new ArrayList();
+            return createServiceDescriptors( subject, list );
+        }
+        else
+        {
+            return m_services.getServiceDescriptors();
+        }
     }
 
     private ServiceDescriptor[] createServiceDescriptors( Class subject, List list )

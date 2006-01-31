@@ -215,17 +215,6 @@ public class Type implements Serializable
     {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         
-        //try
-        //{
-        //    Class c = context.loadClass( "net.dpml.configuration.impl.DefaultConfiguration" );
-        //}
-        //catch( ClassNotFoundException ce )
-        //{
-        //    final String error = 
-        //      "Context classloader does not include the configuration implementation in the supplied classloader:\n"
-        //      + context;
-        //    throw new IllegalStateException( error );
-        //}
         try
         {
             Thread.currentThread().setContextClassLoader( context );
