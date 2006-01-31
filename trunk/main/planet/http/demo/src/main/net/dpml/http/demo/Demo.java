@@ -107,6 +107,9 @@ public class Demo implements ManagementOperations, Disposable
         m_httpContextTable.put( "/", handler );
     }
     
+   /**
+    * Dispose of the component.
+    */
     public void dispose()
     {
         getLogger().info( "# DISPOSAL IN DEMO" );
@@ -148,7 +151,7 @@ public class Demo implements ManagementOperations, Disposable
 
    /**
     * Add a new http content handler to a http context.
-    * @param context the http context path
+    * @param path the http context path
     */
     public void addResourceHandler( String path ) throws Exception
     {
