@@ -112,7 +112,7 @@ public class TransitDirective extends AbstractDirective
     
     private static TransitDirective createClassicProfile()
     {
-        HostDirective[] hosts = new HostDirective[3];
+        HostDirective[] hosts = new HostDirective[4];
         hosts[0] = 
           new HostDirective( 
             "dpml", 40, "http://repository.dpml.net/classic", null, null, null, 
@@ -123,7 +123,11 @@ public class TransitDirective extends AbstractDirective
             true, false, "classic", null, null );
         hosts[2] = 
           new HostDirective( 
-            "apache", 100, "http://www.apache.org/dist/java-repository", null, null, null,
+            "m2", 100, "http://www.ibiblio.org/maven2", null, null, null, 
+            true, false, "modern", null, null );
+        hosts[3] = 
+          new HostDirective( 
+            "apache", 140, "http://www.apache.org/dist/java-repository", null, null, null,
             true, false, "classic", null, null );
         
         CacheDirective cache = 
