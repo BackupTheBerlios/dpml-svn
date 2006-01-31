@@ -18,18 +18,16 @@ package net.dpml.web.server;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * HTTP server implementation.
+ * Context handler.
  */
 public class ContextHandler extends org.mortbay.jetty.handler.ContextHandler
 {
     /**
-     * @param resourceBase The base resource as a string.
+     * @param path The base resource as a string.
      */
-    public void setResourceBase( String resourceBase ) 
+    public void setResourceBase( String path ) 
     {
-        String resolved = PropertyResolver.resolve( resourceBase );
-        System.out.println( "## RESOURCE BASE: " + resolved );
+        String resolved = PropertyResolver.resolve( path );
         super.setResourceBase( resolved );
     }
-
 }

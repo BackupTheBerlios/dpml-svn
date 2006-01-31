@@ -63,12 +63,13 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Add a HTTPS SSL listener on port 8443                           -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- DISABLED: something wrong with bundled certificates -->
         <!--
         <Item>
-          <New class="org.mortbay.jetty.security.SslSocketConnector">
+          <New class="net.dpml.web.server.SslSocketConnector">
             <Set name="Port">8443</Set>
             <Set name="maxIdleTime">30000</Set>
-            <Set name="Keystore"><SystemProperty name="jetty.home" default="." />/etc/keystore</Set>
+            <Set name="Keystore">local:keystore:dpml/planet/web/jetty</Set>
             <Set name="Password">OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4</Set>
             <Set name="KeyPassword">OBF:1u2u1wml1z7s1z7a1wnl1u2g</Set>
           </New>
@@ -87,7 +88,6 @@
         <!-- Configure a test web application with web.xml           -->
         <!-- ======================================================= -->
 
-        <!-- REMOVED PENDING PROPER SETUP -->
         <Item>
           <New id="testWebAppContext"  class="org.mortbay.jetty.webapp.WebAppContext">
             <Set name="contextPath">/test</Set>
@@ -98,8 +98,6 @@
             </Get>
           </New>
         </Item>
-        <!--
-        -->
 
         <!-- ======================================================= -->
         <!-- Configure a context directly - no XML parser required   -->
@@ -138,8 +136,6 @@
     </Set>
 
 
-    <!-- REMOVED PENDING PROPER SETUP -->
-
     <!-- =========================================================== -->
     <!-- Additional contexts not defined above                       -->
     <!-- =========================================================== -->
@@ -150,25 +146,20 @@
       <Arg type="boolean">True</Arg>
       <Arg type="boolean">True</Arg>
     </Call>
-    <!--
-    -->
 
-    <!-- REMOVED PENDING PROPER SETUP -->
     <!-- =========================================================== -->
     <!-- Configure Realms                                            -->
     <!-- =========================================================== -->
-    <!--
     <Set name="UserRealms">
       <Array type="org.mortbay.jetty.security.UserRealm">
         <Item>
-          <New class="org.mortbay.jetty.security.HashUserRealm">
+          <New class="net.dpml.web.server.HashUserRealm">
             <Set name="name">Test Realm</Set>
-            <Set name="config">etc/realm.properties</Set>
+            <Set name="config">local:properties:dpml/planet/web/realm</Set>
           </New>
         </Item>
       </Array>
     </Set>
-    -->
     
     <!-- =========================================================== -->
     <!-- Configure Request Log                                       -->
