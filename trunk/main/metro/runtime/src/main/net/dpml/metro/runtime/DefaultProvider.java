@@ -174,7 +174,14 @@ class DefaultProvider extends UnicastEventSource implements Provider
         }
         if( isolate )
         {
-            return m_proxy;
+            if( null != m_proxy )
+            {
+                return m_proxy;
+            }
+            else
+            {
+                return m_value;
+            }
         }
         else
         {
@@ -288,8 +295,15 @@ class DefaultProvider extends UnicastEventSource implements Provider
         {
             ClassLoader classloader = m_handler.getClassLoader();
             Class[] services = m_handler.getServiceClassArray();
-            InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
-            m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
+            if( allClassesAreInterfaces( services ) )
+            {
+                InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
+                m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
+            }
+            else
+            {
+                m_proxy = null;
+            }
             m_value = m_handler.createNewObject( this );
             m_tag = createTag( m_value );
             getLogger().debug( m_tag + "activating instance" );
@@ -297,6 +311,19 @@ class DefaultProvider extends UnicastEventSource implements Provider
             m_activated = true;
         }
     }
+    
+    private boolean allClassesAreInterfaces( Class[] classes )
+    {
+        for( int i=0; i<classes.length; i++ )
+        {
+            Class c = classes[i];
+            if( !c.isInterface() )
+            {
+                return false;
+            }
+        }
+        return true;
+    } 
 
     boolean isAvailable()
     {
