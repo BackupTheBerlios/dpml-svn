@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -383,10 +382,6 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
             final String error = 
               "Application shutdown error.";
             getLogger().warn( error, e );
-        }
-        finally
-        {
-            //UnicastRemoteObject.unexportObject( this, true ); // handled in station
         }
     }
     

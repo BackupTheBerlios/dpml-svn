@@ -131,6 +131,18 @@ public class StandardClassLoader extends URLClassLoader
         return buffer.toString().trim();
     }
 
+   /**
+    * Return a string representing of the classloader.
+    * @param expanded if true return an expanded representation of the classloader
+    * @return the string representation 
+    */
+    public String toString( boolean expanded )
+    {
+        StringBuffer buffer = new StringBuffer();
+        listClasspath( buffer );
+        return buffer.toString();
+    }
+
     //--------------------------------------------------------------------
     // Object
     //--------------------------------------------------------------------
@@ -141,9 +153,11 @@ public class StandardClassLoader extends URLClassLoader
     */
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer();
-        listClasspath( buffer );
-        return buffer.toString();
+        final String label = 
+          getClass().getName() 
+          + "#" 
+          + System.identityHashCode( this );
+        return label;
     }
 
    /**

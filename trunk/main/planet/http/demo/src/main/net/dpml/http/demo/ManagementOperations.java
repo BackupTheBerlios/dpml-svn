@@ -24,12 +24,14 @@ public interface ManagementOperations
     * Add a new http context to the application.
     * @param base the resource base path
     * @param path the context path
+    * @exception Exception if an error occurs
     */
     void addContext( String base, String path ) throws Exception;
     
    /**
     * Add a new http content handler to a http context.
     * @param path the http context path
+    * @exception Exception if an error occurs
     */
     void addResourceHandler( String path ) throws Exception;
     

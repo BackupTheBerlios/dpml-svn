@@ -259,7 +259,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
                       {
                         public void run()
                         {
-                            RemoteStation.m_dispatch.dispose();
+                            RemoteStation.m_DISPATCH.dispose();
                             System.exit( 0 );
                         }
                       }
@@ -482,7 +482,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         }
     }
 
-    private static EventDispatchThread m_dispatch = null;
+    private static EventDispatchThread m_DISPATCH = null;
 
     /**
      * This method starts the event dispatch thread the first time it
@@ -491,12 +491,12 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
      */
     private synchronized void startEventDispatchThread()
     {
-        if( m_dispatch == null )
+        if( m_DISPATCH == null )
         {
             Logger logger = getLogger().getChildLogger( "event" );
-            m_dispatch = new EventDispatchThread( logger );
-            m_dispatch.setDaemon( true );
-            m_dispatch.start();
+            m_DISPATCH = new EventDispatchThread( logger );
+            m_DISPATCH.setDaemon( true );
+            m_DISPATCH.start();
         }
     }
         

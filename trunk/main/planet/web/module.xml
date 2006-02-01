@@ -19,7 +19,7 @@
       <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
       <include urn="artifact:jar:jetty/jetty#6.0.0-20060131"/>
       <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
-      <include urn="artifact:jar:org/slf4j/slf4j-simple#1.0-rc5"/>
+      <include urn="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
       <include urn="artifact:jar:commons-el/commons-el#1.0"/>
       <include ref="dpml/transit/dpml-transit-main"/>
     </dependencies>

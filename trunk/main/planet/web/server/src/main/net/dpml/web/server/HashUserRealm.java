@@ -31,10 +31,9 @@ public class HashUserRealm extends org.mortbay.jetty.security.HashUserRealm
      * an optional comma separated list of role names.
      *
      * @param config Filename or url of user properties file.
-     * @exception IOException 
+     * @exception IOException is an IO error occurs
      */
-    public void setConfig( String config )
-        throws IOException
+    public void setConfig( String config ) throws IOException
     {
         String resolved = PropertyResolver.resolve( config );
         if( resolved.startsWith( "local:" ) )
@@ -42,7 +41,7 @@ public class HashUserRealm extends org.mortbay.jetty.security.HashUserRealm
             try
             {
                 URI uri = new URI( resolved );
-                File file = (File) uri.toURL().getContent( new Class[]{ File.class } );
+                File file = (File) uri.toURL().getContent( new Class[]{File.class} );
                 super.setConfig( file.getCanonicalPath() );
             }
             catch( Exception e )

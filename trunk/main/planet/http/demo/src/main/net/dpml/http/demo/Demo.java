@@ -27,8 +27,6 @@ import net.dpml.metro.ComponentContext;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
 
-import net.dpml.part.Controller;
-import net.dpml.part.Directive;
 import net.dpml.part.Disposable;
 
 import net.dpml.http.spi.SocketListenerService;
@@ -94,6 +92,7 @@ public class Demo implements ManagementOperations, Disposable
     * @param logger the assigned logging channel
     * @param context the public component context
     * @param parts the internal parts manager
+    * @exception Exception if an error occurs
     */
     public Demo( Logger logger, Context context, Parts parts ) throws Exception
     {
@@ -125,6 +124,7 @@ public class Demo implements ManagementOperations, Disposable
     * the primary object here is to test dynamic component loading.
     * @param base the http resource base
     * @param path the http context path
+    * @exception Exception if an error occurs
     */
     public void addContext( String base, String path ) throws Exception
     {
@@ -152,6 +152,7 @@ public class Demo implements ManagementOperations, Disposable
    /**
     * Add a new http content handler to a http context.
     * @param path the http context path
+    * @exception Exception if an error occurs
     */
     public void addResourceHandler( String path ) throws Exception
     {
