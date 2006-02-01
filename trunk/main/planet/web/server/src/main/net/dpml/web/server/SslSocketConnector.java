@@ -21,6 +21,8 @@ import java.net.URI;
 
 import net.dpml.transit.util.PropertyResolver;
 
+import org.mortbay.log.Log;
+
 /**
  * SSL socket connector with enhanced keystore resolution semantics.
  */
@@ -38,13 +40,25 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
     public void setKeystore( String keystore )
     {
         String resolved = PropertyResolver.resolve( keystore );
+        Log.info( "# resolved keystore argument: [" + resolved + "]" );
         if( resolved.startsWith( "local:" ) )
         {
+            Log.info( "# argument is a local value" );
             try
             {
                 URI uri = new URI( resolved );
                 File file = (File) uri.toURL().getContent( new Class[]{ File.class } );
-                super.setKeystore( file.getCanonicalPath() );
+                if( !file.exists() )
+                {
+                    final String error = 
+                      "Keystore file ["
+                      + file
+                      + "] does not exist.";
+                    throw new IllegalArgumentException( error );
+                }
+                String path = file.getCanonicalPath();
+                Log.info( "# validated keystore exists\npath: " + path );
+                super.setKeystore( path );
             }
             catch( Exception e )
             {
@@ -55,6 +69,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         }
         else
         {
+            Log.info( "# keystore location: " + resolved );
             super.setKeystore( resolved );
         }
     }
