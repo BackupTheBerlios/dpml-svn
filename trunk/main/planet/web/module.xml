@@ -6,7 +6,7 @@
     <type id="module" alias="true"/>
   </types>
 
-  <project name="dpml-http-server" basedir="server">
+  <project name="dpml-web-server" basedir="server">
     <types>
       <type id="jar"/>
       <type id="part"/>
@@ -30,9 +30,16 @@
       <type id="jar"/>
       <type id="war"/>
     </types>
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
     <dependencies>
       <include urn="artifact:jar:servletapi/servletapi#2.4" tag="public"/>
       <include urn="artifact:jar:jetty/jetty#6.0.0-20060131"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="dpml/metro/dpml-part-api"/>
+      <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
 

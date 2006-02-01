@@ -27,6 +27,12 @@
     <property name="war.path" value="${war.dir}/${project.filename}"/>
   </target>
 
+  <target name="prepare" depends="standard.prepare">
+    <mkdir dir="target/test"/>
+    <depot:property name="cached.path" feature="path" type="part" key="dpml-web-server"/>
+    <copy file="${cached.path}" toFile="target/test/demo.part"/>
+  </target>
+
   <target name="package" depends="standard.package">
     <echo message="${project.filename}"/>
     <mkdir dir="${war.dir}"/>
@@ -40,13 +46,6 @@
       description="Unpacks the war file to the root directory.">
     <mkdir dir="webapps/test"/>
     <unzip src="${war.path}" dest="webapps/test"/>
-    <!--
-    <copy toDir=".">
-      <fileset dir="target">
-        <include name="webapps/**"/>
-      </fileset>
-    </copy>
-    -->
   </target>
 
 </project>

@@ -41,33 +41,6 @@ public class Server extends org.mortbay.jetty.Server
         * @return a uri referencing a Jetty configuration
         */
         URI getConfiguration( URI uri );
-        
-       /**
-        * Get the thread pool.
-        * @param pool the fallback thread pool (may be null)
-        * @return the thread pool
-        */
-        //ThreadPool getThreadPool( ThreadPool fallback );
-        
-       /**
-        * Get the request log.
-        * @param log the fallback request log (may be null)
-        * @return the resolved request log
-        */
-        //RequestLog getRequestLog( RequestLog log );
-        
-       /**
-        * Get the request log.
-        * @param handler the fallback not-found handler
-        * @return the resolved handler
-        */
-        //Handler getNotFoundHandler( Handler handler );
-        
-       /**
-        * Get the stop-at-shutdown policy.
-        * @return true if the server should be stopped at shutdown
-        */
-        //boolean getShutdownPolicy( boolean flag );
     }
     
     private final Logger m_logger;
@@ -97,32 +70,6 @@ public class Server extends org.mortbay.jetty.Server
         }
         
         getLogger().info( "ready: " + this );
-        
-        /*
-        ThreadPool pool = context.getThreadPool( null );
-        if( null != pool )
-        {
-            setThreadPool( pool );
-        }
-        
-        RequestLog log = context.getRequestLog( null );
-        if( null != log )
-        {
-            setRequestLog( log );
-        }
-        
-        Handler handler = context.getNotFoundHandler( null );
-        if( null != handler )
-        {
-            setNotFoundHandler( handler );
-        }
-        
-        boolean policy = context.getShutdownPolicy( false );
-        if( !policy )
-        {
-            setStopAtShutdown( policy );
-        }
-        */
     }
     
     private Logger getLogger()
