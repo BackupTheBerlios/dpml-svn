@@ -22,10 +22,19 @@ import java.net.URI;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * SSL socket connector.
+ * SSL socket connector with enhanced keystore resolution semantics.
  */
 public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConnector
 {
+   /**
+    * Set the location of the keystore.  The implementation supports
+    * resolution of files using the Transit local resource protocol
+    * together with system property symbolic resolution. Following argument
+    * evalution the implementation delegates subsequent actions to the 
+    * Jetty implementation class.
+    *
+    * @param keystore the keystore value
+    */
     public void setKeystore( String keystore )
     {
         String resolved = PropertyResolver.resolve( keystore );

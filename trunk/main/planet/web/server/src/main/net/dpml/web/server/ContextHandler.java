@@ -18,13 +18,17 @@ package net.dpml.web.server;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * Context handler.
+ * Context handler with enhanced support for symbolic property dereferencing. 
  */
 public class ContextHandler extends org.mortbay.jetty.handler.ContextHandler
 {
-    /**
-     * @param path The base resource as a string.
-     */
+   /**
+    * Set the context reosurce base.  The supplied path argument
+    * may contain system property references as symbolic references in the 
+    * form ${key} which will be expanded prior to value assignment.
+    *
+    * @param path the base resource as a string
+    */
     public void setResourceBase( String path ) 
     {
         String resolved = PropertyResolver.resolve( path );

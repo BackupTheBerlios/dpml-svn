@@ -22,13 +22,16 @@ import java.net.URI;
 import net.dpml.transit.util.PropertyResolver;
 
 /**
- * Hash user realm.
+ * Hash user realm with enhanced keystore resolution semantics.
  */
 public class HashUserRealm extends org.mortbay.jetty.security.HashUserRealm
 {
-    /** Load realm users from properties file.
+    /** 
+     * Load realm users from properties file.
      * The property file maps usernames to password specs followed by
-     * an optional comma separated list of role names.
+     * an optional comma separated list of role names.  The implementation
+     * provides support for Transit local protocol resoution and system
+     * property symbolic expansion.
      *
      * @param config Filename or url of user properties file.
      * @exception IOException is an IO error occurs

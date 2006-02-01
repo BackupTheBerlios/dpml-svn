@@ -31,7 +31,7 @@ import org.mortbay.xml.XmlConfiguration;
 public class Server extends org.mortbay.jetty.Server
 {
    /**
-    * Component context.
+    * Component context through which the server configuration uri may be declared.
     */
     public interface Context
     {
@@ -55,6 +55,7 @@ public class Server extends org.mortbay.jetty.Server
     {
         super();
         
+        getLogger().debug( "commancing http server deployment" );
         m_logger = logger;
         m_context = context;
         
@@ -68,8 +69,7 @@ public class Server extends org.mortbay.jetty.Server
             XmlConfiguration config = new XmlConfiguration( url );
             config.configure( this );
         }
-        
-        getLogger().info( "ready: " + this );
+        getLogger().debug( "http server is configured" );
     }
     
     private Logger getLogger()
