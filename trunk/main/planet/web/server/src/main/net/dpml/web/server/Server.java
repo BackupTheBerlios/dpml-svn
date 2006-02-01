@@ -55,10 +55,10 @@ public class Server extends org.mortbay.jetty.Server
     {
         super();
         
-        getLogger().debug( "commancing http server deployment" );
         m_logger = logger;
         m_context = context;
         
+        getLogger().debug( "commancing http server deployment" );
         URI standard = new URI( "local:xml:dpml/planet/web/jetty" );
         URI uri = context.getConfiguration( standard );
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );

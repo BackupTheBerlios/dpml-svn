@@ -18,6 +18,8 @@
 
 package net.dpml.tools.tasks;
 
+import java.io.File;
+
 import net.dpml.library.model.ResourceNotFoundException;
 import net.dpml.library.model.Resource;
 
@@ -181,6 +183,30 @@ public abstract class FeatureTask extends GenericTask
             else
             {
                 return path + "#" + version;
+            }
+        }
+        else if( m_feature.equals( "path" ) )
+        {
+            if( null == m_type )
+            {
+                final String error = 
+                  "Type attribute must be supplied in conjuction with the uri attribute.";
+                throw new BuildException( error, getLocation() );
+            }
+            else
+            {
+                Artifact artifact = resource.getArtifact( m_type );
+                try
+                {
+                    File cached = (File) artifact.toURL().getContent( new Class[]{File.class});
+                    return cached.getCanonicalPath();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unable to resolve resource path.";
+                    throw new BuildException( error, e, getLocation() );
+                }
             }
         }
         else if( m_feature.equals( "filename" ) )
