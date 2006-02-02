@@ -9,7 +9,7 @@
   <project name="dpml-web-server" basedir="server">
     <types>
       <type id="jar"/>
-      <type id="part"/>
+      <type id="part" alias="true"/>
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api"/>

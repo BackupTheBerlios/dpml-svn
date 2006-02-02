@@ -21,6 +21,8 @@ package net.dpml.web.test;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URL;
+import java.security.KeyStore;
 
 import junit.framework.TestCase;
 
@@ -30,6 +32,8 @@ import net.dpml.part.ControlException;
 
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.Handler;
+import org.mortbay.jetty.security.Password;
+import org.mortbay.resource.Resource;
 
 /**
  * Test a simple component case.
@@ -46,6 +50,29 @@ public class ServerTestCase extends TestCase
     * Test the deployment of the Jetty server.
     * @exception Exception if an error occurs
     */
+    public void testPassword() throws Exception
+    {
+        Password password = new Password( "OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4" );
+        System.out.println( "# PASSWORD: :" + password.toString() );
+    }
+    
+   /**
+    * Test keystroe loading
+    */
+    public void testKeystore() throws Exception
+    {
+        KeyStore keyStore = KeyStore.getInstance( "JKS" );
+        String password = "password";
+        //URL url = new URL( "local:keystore:dpml/planet/web/demo" );
+        //keyStore.load( url.openStream(), password.toCharArray() );
+        Resource resource = Resource.newResource( "local:keystore:dpml/planet/web/demo" );
+        keyStore.load( resource.getInputStream(), password.toCharArray() );
+    }
+    
+   /**
+    * Test the deployment of the Jetty server.
+    * @exception Exception if an error occurs
+    */
     public void testServerDeployment() throws Exception
     {
         File test = new File( System.getProperty( TEST_DIR_KEY ) );
@@ -57,6 +84,10 @@ public class ServerTestCase extends TestCase
             Server server = (Server) component.getProvider().getValue( false );
             Handler[] handlers = server.getHandlers();
             assertEquals( "handler count", 2, handlers.length );
+            for( int i=0; i<handlers.length; i++ )
+            {
+                System.out.println( handlers[i].toString() );
+            }
         }
         catch( ControlException e )
         {
@@ -81,6 +112,7 @@ public class ServerTestCase extends TestCase
 
     static
     {
+        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         //System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
         System.setProperty( 
           "java.util.logging.config.class", 

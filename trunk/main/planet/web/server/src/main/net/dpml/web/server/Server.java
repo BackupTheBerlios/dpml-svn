@@ -17,6 +17,7 @@ package net.dpml.web.server;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
 
 import net.dpml.logging.Logger;
 
@@ -24,6 +25,7 @@ import org.mortbay.thread.ThreadPool;
 import org.mortbay.jetty.RequestLog;
 import org.mortbay.jetty.Handler;
 import org.mortbay.xml.XmlConfiguration;
+import org.mortbay.util.LazyList;
 
 /**
  * HTTP server implementation.
@@ -71,6 +73,23 @@ public class Server extends org.mortbay.jetty.Server
         }
         getLogger().debug( "http server is configured" );
     }
+    
+    /*
+    public void addHandler( Handler handler )
+        throws Exception
+    {
+        Handler[] handlers = getHandlers();
+        Handler[] newHandlers = (Handler[]) LazyList.addToArray( handlers, handler );
+        Arrays.sort( newHandlers );
+        super.setHandlers( newHandlers );
+    }
+    
+    public void setHandlers( Handler[] handlers )
+    {
+        Arrays.sort( handlers );
+        super.setHandlers( handlers );
+    }
+    */
     
     private Logger getLogger()
     {

@@ -63,8 +63,6 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Add a HTTPS SSL listener on port 8443                           -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <!-- DISABLED: something wrong with bundled certificates -->
-        <!--
         <Item>
           <New class="net.dpml.web.server.SslSocketConnector">
             <Set name="Port">8443</Set>
@@ -74,7 +72,6 @@
             <Set name="KeyPassword">OBF:1u2u1wml1z7s1z7a1wnl1u2g</Set>
           </New>
         </Item>
-        -->
       </Array>
     </Set>
 
@@ -85,27 +82,13 @@
       <Array type="org.mortbay.jetty.Handler">
 
         <!-- ======================================================= -->
-        <!-- Configure a test web application with web.xml           -->
-        <!-- ======================================================= -->
-
-        <Item>
-          <New id="testWebAppContext"  class="org.mortbay.jetty.webapp.WebAppContext">
-            <Set name="contextPath">/test</Set>
-            <Set name="war">./webapps/test</Set>
-            <Set name="VirtualHosts"><Array type="java.lang.String"></Array></Set>
-            <Get name="SessionHandler">
-              <Set name="SessionManager"><New class="org.mortbay.jetty.servlet.HashSessionManager"/></Set>
-            </Get>
-          </New>
-        </Item>
-
-        <!-- ======================================================= -->
         <!-- Configure a context directly - no XML parser required   -->
         <!-- ======================================================= -->
         <Item>
           <New id="docsContext"  class="net.dpml.web.server.ContextHandler">
             <Set name="contextPath">/docs</Set>
             <Set name="resourceBase">${dpml.data}/docs</Set>
+            <Set name="priority">100</Set>
             <Set name="handler">
               <New id="docsServletHandler" class="org.mortbay.jetty.servlet.ServletHandler">
                 <Set name="servlets">
@@ -132,6 +115,23 @@
             </Set>
           </New>
         </Item>
+
+        <!-- ======================================================= -->
+        <!-- Configure a test web application with web.xml           -->
+        <!-- ======================================================= -->
+
+        <Item>
+          <New id="testWebAppContext"  class="org.mortbay.jetty.webapp.WebAppContext">
+            <!--<Set name="contextPath">/test</Set>-->
+            <Set name="contextPath">/</Set>
+            <Set name="war">./webapps/test</Set>
+            <Set name="VirtualHosts"><Array type="java.lang.String"></Array></Set>
+            <Get name="SessionHandler">
+              <Set name="SessionManager"><New class="org.mortbay.jetty.servlet.HashSessionManager"/></Set>
+            </Get>
+          </New>
+        </Item>
+
       </Array>
     </Set>
 

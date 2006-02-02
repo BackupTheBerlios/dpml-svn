@@ -59,7 +59,7 @@
   <target name="install" depends="standard.install">
     <property name="prefs" location="${dpml.prefs}/dpml/planet/web"/>
     <mkdir dir="${prefs}"/>
-    <copy toDir="${prefs}">
+    <copy toDir="${prefs}" filtering="false">
       <fileset dir="target/prefs">
         <include name="**/*"/>
       </fileset>

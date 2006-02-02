@@ -22,6 +22,7 @@ import java.net.URI;
 import net.dpml.transit.util.PropertyResolver;
 
 import org.mortbay.log.Log;
+import org.mortbay.resource.Resource;
 
 /**
  * SSL socket connector with enhanced keystore resolution semantics.
@@ -37,6 +38,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
     *
     * @param keystore the keystore value
     */
+    /*
     public void setKeystore( String keystore )
     {
         String resolved = PropertyResolver.resolve( keystore );
@@ -57,7 +59,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
                     throw new IllegalArgumentException( error );
                 }
                 String path = file.getCanonicalPath();
-                Log.info( "# validated keystore exists\npath: " + path );
+                Log.info( "# keystore\npath: " + path );
                 super.setKeystore( path );
             }
             catch( Exception e )
@@ -73,4 +75,5 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
             super.setKeystore( resolved );
         }
     }
+    */
 }
