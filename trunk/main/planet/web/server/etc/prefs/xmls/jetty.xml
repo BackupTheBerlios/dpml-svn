@@ -63,6 +63,7 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <!-- Add a HTTPS SSL listener on port 8443                           -->
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!--
         <Item>
           <New class="net.dpml.web.server.SslSocketConnector">
             <Set name="Port">8443</Set>
@@ -72,6 +73,18 @@
             <Set name="KeyPassword">OBF:1u2u1wml1z7s1z7a1wnl1u2g</Set>
           </New>
         </Item>
+        -->
+
+        <Item>
+          <New class="net.dpml.web.server.SslSocketConnector">
+            <Set name="Port">8443</Set>
+            <Set name="maxIdleTime">30000</Set>
+            <Set name="Keystore">local:keystore:dpml/planet/web/demo</Set>
+            <Set name="Password">password</Set>
+            <Set name="KeyPassword">password</Set>
+          </New>
+        </Item>
+
       </Array>
     </Set>
 
