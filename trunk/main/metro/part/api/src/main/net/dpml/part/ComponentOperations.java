@@ -48,6 +48,20 @@ public interface ComponentOperations
     boolean isaCandidate( Service service ) throws RemoteException;
     
    /**
+    * Get the activation policy.  If the activation policy is STARTUP, an implementation
+    * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND
+    * an implementation shall defer activiation until an explicit request is received.  If 
+    * the policy if SYSTEM activation may occur at the discretion of an implementation.
+    *
+    * @return the activation policy
+    * @exception RemoteException if a remote exception occurs
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
+    */
+    ActivationPolicy getActivationPolicy() throws RemoteException;
+    
+   /**
     * Initiate activation of a runtime handler.
     * @exception ControlException if an activation error occurs
     * @exception InvocationTargetException if the component declares activation on startup

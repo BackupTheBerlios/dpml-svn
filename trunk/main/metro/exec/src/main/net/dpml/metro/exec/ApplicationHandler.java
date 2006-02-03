@@ -156,12 +156,11 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             m_callback = new LocalCallback();
         }
         
-        Properties properties = getCommandLineProperties( line );
-        properties.list( System.out );
         
         URI config = getConfigurationURI( line );
         URI params = getParametersURI( line );
         URI categories = getCategoriesURI( line );
+        Properties properties = getCommandLineProperties( line );
         
         Component component = resolveTargetComponent( logger, uri, config, params, categories, properties );
         m_callback.started( PROCESS_ID, component );

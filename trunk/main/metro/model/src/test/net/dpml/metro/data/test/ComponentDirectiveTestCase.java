@@ -59,6 +59,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     private Configuration m_configuration;
     private ClassLoaderDirective m_classloader;
     private ComponentDirective m_directive;
+    private PartReference[] m_parts;
     
    /**
     * Setup the test case.
@@ -76,10 +77,11 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         m_parameters = DefaultParameters.EMPTY_PARAMETERS;
         m_configuration = new DefaultConfiguration( "" );
         m_classloader = createClassLoaderDirective();
+        m_parts = new PartReference[0];
         m_directive = 
           new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
-            m_categories, m_context, m_parameters, m_configuration, m_classloader );
+            m_categories, m_context, m_parameters, m_configuration, m_classloader, m_parts );
     }
     
    /**
@@ -122,7 +124,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
             fail( "Did not throw an IllegalArgumentException for a '' name." ); 
         }
         catch( IllegalArgumentException e )
@@ -140,7 +142,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred.blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
             fail( "Did not throw an IllegalArgumentException for a name with a period." ); 
         }
         catch( IllegalArgumentException e )
@@ -158,7 +160,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred,blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
             fail( "Did not throw an IllegalArgumentException for a name with a comma." ); 
         }
         catch( IllegalArgumentException e )
@@ -176,7 +178,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred/blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader );
+              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
             fail( "Did not throw an IllegalArgumentException for a name with a '/'." ); 
         }
         catch( IllegalArgumentException e )

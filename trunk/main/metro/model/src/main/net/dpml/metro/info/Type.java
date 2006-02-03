@@ -54,7 +54,7 @@ import net.dpml.state.State;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Type implements Serializable
+public class Type extends Composite implements Serializable
 {
     static final long serialVersionUID = 1L;
 
@@ -260,7 +260,6 @@ public class Type implements Serializable
     private final CategoryDescriptor[] m_categories;
     private final ContextDescriptor m_context;
     private final ServiceDescriptor[] m_services;
-    private final PartReference[] m_parts;
     private final State m_graph;
 
    /**
@@ -284,6 +283,8 @@ public class Type implements Serializable
       final PartReference[] parts, State graph )
       throws NullPointerException 
     {
+        super( parts );
+        
         if( null == info )
         {
             throw new NullPointerException( "info" );
@@ -313,15 +314,6 @@ public class Type implements Serializable
         m_categories = loggers;
         m_context = context;
         m_graph = graph;
-
-        if( null == parts )
-        {
-            m_parts = new PartReference[0];
-        }
-        else
-        {
-            m_parts = parts;
-        }
     }
     
    /**
@@ -444,35 +436,6 @@ public class Type implements Serializable
     //}
 
     /**
-     * Returns the parts declared by this component type.
-     *
-     * @return the part descriptors
-     */
-    public PartReference[] getPartReferences()
-    {
-        return m_parts;
-    }
-
-    /**
-     * Retrieve an identified directive.
-     *
-     * @param key the directive key
-     * @return the directive or null if the directive key is unknown
-     */
-    public Directive getDirective( final String key )
-    {
-        for ( int i = 0; i < m_parts.length; i++ )
-        {
-            PartReference reference = m_parts[i];
-            if( reference.getKey().equals( key ) )
-            {
-                return reference.getDirective();
-            }
-        }
-        return null;
-    }
-
-    /**
      * Return a string representation of the type.
      * @return the stringified type
      */
@@ -488,7 +451,7 @@ public class Type implements Serializable
     */
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( !super.equals( other ) )
         {
             return false;
         }
@@ -500,20 +463,6 @@ public class Type implements Serializable
         if( !m_info.equals( t.m_info ) )
         {
             return false;
-        }
-        if( m_parts.length != t.m_parts.length )
-        {
-            return false;
-        }
-        else
-        {
-            for( int i=0; i<m_parts.length; i++ )
-            {
-                if( !m_parts[i].equals( t.m_parts[i] ) )
-                {
-                    return false;
-                }
-            }
         }
         if( !m_context.equals( t.m_context ) )
         {
@@ -546,14 +495,10 @@ public class Type implements Serializable
     */
     public int hashCode()
     {
-        int hash = m_info.hashCode();
+        int hash = super.hashCode();
+        hash ^= m_info.hashCode();
         hash ^= m_context.hashCode();
         hash ^= m_graph.hashCode();
-        for( int i = 0; i < m_parts.length; i++ )
-        {
-            hash ^= m_parts[i].hashCode();
-            hash = hash - 163611323;
-        }
         for( int i = 0; i < m_services.length; i++ )
         {
             hash ^= m_services[i].hashCode();

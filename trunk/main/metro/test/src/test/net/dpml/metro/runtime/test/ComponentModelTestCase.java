@@ -91,7 +91,7 @@ public class ComponentModelTestCase extends TestCase
     */
     public void testActivationPolicy() throws Exception
     {
-        assertEquals( "initial-activation", ActivationPolicy.STARTUP, m_model.getActivationPolicy() );
+        assertEquals( "initial-activation", ActivationPolicy.SYSTEM, m_model.getActivationPolicy() );
         ActivationPolicy policy = ActivationPolicy.DEMAND;
         
         // uncomment remainder as this is under the ComponentManager

@@ -25,6 +25,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.part.Directive;
 import net.dpml.metro.data.ReferenceDirective;
+import net.dpml.metro.data.NullDirective;
 import net.dpml.metro.data.FeatureDirective;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
@@ -45,6 +46,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     private ClassLoader m_classloader;
     private URI m_uri;
     private int m_feature = -1;
+    private boolean m_validate = true;
 
    /**
     * Set the key that this directive qualifies.
@@ -62,6 +64,15 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     public void setURI( final URI uri )
     {
         m_uri = uri;
+    }
+    
+   /**
+    * Set the validation flag.
+    * @param flag if false entry validation is disabled
+    */
+    public void setValidate( final boolean flag )
+    {
+        m_validate = flag;
     }
     
    /**
@@ -164,21 +175,29 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     public PartReference buildPartReference( ClassLoader classloader, Type type )
     {
         String key = getKey();
-        URI uri = getURI();
-        if( null != uri )
+        if( !m_validate )
         {
-            Directive directive = new ReferenceDirective( m_uri );
-            return new PartReference( key, directive );
-        }
-        else if( m_feature > -1 )
-        {
-            Directive directive = new FeatureDirective( key, m_feature );
+            Directive directive = new NullDirective();
             return new PartReference( key, directive );
         }
         else
         {
-            Directive directive = getValueDirective( classloader, type );
-            return new PartReference( key, directive );
+            URI uri = getURI();
+            if( null != uri )
+            {
+                Directive directive = new ReferenceDirective( m_uri );
+                return new PartReference( key, directive );
+            }
+            else if( m_feature > -1 )
+            {
+                Directive directive = new FeatureDirective( key, m_feature );
+                return new PartReference( key, directive );
+            }
+            else
+            {
+                Directive directive = getValueDirective( classloader, type );
+                return new PartReference( key, directive );
+            }
         }
     }
 

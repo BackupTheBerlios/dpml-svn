@@ -22,6 +22,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.EventObject;
 import java.util.EventListener;
+import java.util.Map;
 
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ClassLoaderDirective;
@@ -32,6 +33,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
+import net.dpml.metro.info.Composite;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentManager;
@@ -73,7 +75,7 @@ class DefaultComponentModel extends UnicastEventSource
     private final Type m_type;
     private final ComponentDirective m_directive;
     private final ClassLoader m_classloader;
-    private final String[] m_partKeys;
+    //private final String[] m_partKeys;
     private final HashMap m_parts = new HashMap();
     private final DefaultContextModel m_context;
     private final String m_path;
@@ -118,22 +120,33 @@ class DefaultComponentModel extends UnicastEventSource
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
         final String base = m_path + PARTITION_SEPARATOR;
-        m_partKeys = getPartKeys( m_type );
-        for( int i=0; i < m_partKeys.length; i++ )
+        processParts( controller, classloader, m_type, m_parts, base );
+        processParts( controller, classloader, m_directive, m_parts, base );
+    }
+    
+    private void processParts(
+      ComponentController controller, ClassLoader classloader, Composite composite, Map map, String base )
+      throws ControlException, RemoteException
+    {
+        PartReference[] references = composite.getPartReferences();
+        for( int i=0; i < references.length; i++ )
         {
-            String key = m_partKeys[i];
-            Directive part = m_type.getDirective( key );
+            PartReference ref = references[i];
+            String key = ref.getKey();
+            Directive part = composite.getDirective( key );
             if( part instanceof ComponentDirective )
             {
                 ComponentDirective component = (ComponentDirective) part;
                 ComponentModel model = 
-                  m_controller.createComponentModel( m_classloader, base, component );
-                m_parts.put( key, model );
+                  controller.createComponentModel( classloader, base, component );
+                map.put( key, model );
             }
             else
             {
                 final String error = 
-                  "Support for foreign parts not supported at this time.";
+                  "Foreign part [" 
+                  + part.getClass() 
+                  + "] not supported.";
                 throw new UnsupportedOperationException( error );
             }
         }
@@ -330,12 +343,12 @@ class DefaultComponentModel extends UnicastEventSource
     }
     
    /**
-    * Return the set of component model keys.
+    * Return the internal part keys.
     * @return the component part keys
     */
     public String[] getPartKeys()
     {
-        return m_partKeys;
+        return (String[]) m_parts.keySet().toArray( new String[0] );
     }
     
    /**

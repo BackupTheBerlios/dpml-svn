@@ -19,6 +19,8 @@
 package net.dpml.metro.data;
 
 import net.dpml.part.ActivationPolicy;
+import net.dpml.metro.info.Composite;
+import net.dpml.metro.info.PartReference;
 
 /**
  * Abstract base class for the ComponentDirective.
@@ -26,7 +28,7 @@ import net.dpml.part.ActivationPolicy;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class DeploymentDirective extends AbstractDirective implements Comparable
+public abstract class DeploymentDirective extends Composite implements Comparable
 {
     //--------------------------------------------------------------------------
     // static
@@ -81,8 +83,10 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     */
     public DeploymentDirective( 
       final String name, ActivationPolicy activation, CategoriesDirective categories, 
-      ClassLoaderDirective classloader ) 
+      ClassLoaderDirective classloader, PartReference[] parts ) 
     {
+        super( parts );
+        
         m_activation = activation;
 
         if( null == categories )
@@ -204,7 +208,7 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     */
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( !super.equals( other ) )
         {
             return false;
         }
@@ -243,11 +247,11 @@ public abstract class DeploymentDirective extends AbstractDirective implements C
     */
     public int hashCode()
     {
-        int hash = m_name.hashCode();
+        int hash = super.hashCode();
+        hash ^= m_name.hashCode();
         hash ^= m_activation.hashCode();
         hash ^= m_categories.hashCode();
         hash ^= m_classloader.hashCode();
         return hash;
     }
-
 }

@@ -166,7 +166,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           CollectionPolicy.SYSTEM, 
           LifestylePolicy.TRANSIENT,
           classname, 
-          null, null, null, null, null );
+          null, null, null, null, null, null );
     }
 
    /**
@@ -186,7 +186,8 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           template.getContextDirective(),
           template.getParameters(),
           template.getConfiguration(),
-          template.getClassLoaderDirective() );
+          template.getClassLoaderDirective(),
+          template.getPartReferences() );
     }
 
    /**
@@ -212,9 +213,10 @@ public class ComponentDirective extends DeploymentDirective implements Directive
            final ContextDirective context,
            final Parameters parameters,
            final Configuration config,
-           final ClassLoaderDirective classloader )
+           final ClassLoaderDirective classloader,
+           final PartReference[] parts )
     {
-        super( name, activation, categories, classloader );
+        super( name, activation, categories, classloader, parts );
 
         if( null == classname )
         {
@@ -339,19 +341,19 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         {
             return false;
         }
-        else if( !m_context.equals( profile.getContextDirective() ) )
+        if( !m_context.equals( profile.getContextDirective() ) )
         {
             return false;
         }
-        else if( !equals( m_collection, profile.getCollectionPolicy() ) )
+        if( !equals( m_collection, profile.getCollectionPolicy() ) )
         {
             return false;
         }
-        else if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
+        if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
         {
             return false;
         }
-        else if( !equals( m_parameters, profile.getParameters() ) )
+        if( !equals( m_parameters, profile.getParameters() ) )
         {
             return false;
         }

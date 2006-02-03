@@ -652,6 +652,7 @@ class ComponentController
                         String spec = uri.getSchemeSpecificPart();
                         ServiceDescriptor request = new ServiceDescriptor( spec );
                         DefaultService service = loadService( handler, request );
+                        
                         try
                         {
                             return executeLookup( handler, service );
@@ -695,7 +696,7 @@ class ComponentController
                 else
                 {
                     final String error =
-                      "Unsuppored context directive argument class: " + directive;
+                      "Unsuppored context directive class: " + directive.getClass();
                     throw new ControllerException( error );
                 }
             }
@@ -725,7 +726,6 @@ class ComponentController
             try
             {
                 Component component = parent.lookup( service );
-                component.activate();
                 return component.getProvider().getValue( false );
             }
             catch( RemoteException e )

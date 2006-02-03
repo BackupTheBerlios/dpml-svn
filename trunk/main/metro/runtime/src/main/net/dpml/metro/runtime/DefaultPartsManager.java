@@ -30,9 +30,12 @@ import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ComponentModel;
 
+import net.dpml.part.ActivationPolicy;
 import net.dpml.part.ControlException;
 import net.dpml.part.Component;
 import net.dpml.part.Model;
+import net.dpml.part.Service;
+import net.dpml.part.Version;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -133,7 +136,7 @@ class DefaultPartsManager implements PartsManager
     //-------------------------------------------------------------------
 
    /**
-    * Return the array of keys used to idenetity internal parts.
+    * Return the array of keys used to identify internal parts.
     * @return the part key array
     */
     public String[] getKeys()
@@ -156,6 +159,41 @@ class DefaultPartsManager implements PartsManager
         {
             throw new UnknownKeyException( key );
         }
+    }
+
+   /**
+    * Return an array of component handlers assignable to the supplied service.
+    * @param clazz the service class to match against
+    * @return the local component handler array
+    */
+    public ComponentHandler[] getComponentHandlers( Class clazz )
+    {
+        Service service = new DefaultService( clazz, Version.getVersion( "-1" ) );
+        ArrayList list = new ArrayList();
+        Component[] components = getComponents();
+        for( int i=0; i<components.length; i++ )
+        {
+            Component component = components[i];
+            if( component instanceof ComponentHandler )
+            {
+                ComponentHandler handler = (ComponentHandler) component;
+                try
+                {
+                    if( handler.isaCandidate( service ) )
+                    {
+                        list.add( component );
+                    }
+                }
+                catch( RemoteException e )
+                {
+                    final String error = 
+                      "Unexpected remote exception raised during subsidiary component evaluation."
+                      + "\nEnclosing Component: " + m_handler;
+                    throw new ControllerRuntimeException( error, e );
+                }
+            }
+        }
+        return (ComponentHandler[]) list.toArray( new ComponentHandler[0] );
     }
     
    /**
@@ -187,6 +225,10 @@ class DefaultPartsManager implements PartsManager
     */
     public synchronized ComponentHandler getComponentHandler( String key ) throws UnknownKeyException
     {
+        if( null == key )
+        {
+            throw new NullPointerException( "key" );
+        }
         if( m_handlers.containsKey( key ) )
         {
             return (ComponentHandler) m_handlers.get( key );
@@ -223,7 +265,7 @@ class DefaultPartsManager implements PartsManager
             throw new IllegalStateException( error );
         }
         
-        getLogger().debug( "commissioning" );
+        getLogger().debug( "commissioning internal parts" );
         ArrayList list = new ArrayList();
         Component[] components = getComponents();
         ControlException exception = null;
@@ -232,8 +274,11 @@ class DefaultPartsManager implements PartsManager
             Component component = components[i];
             try
             {
-                component.activate();
-                list.add( component );
+                if( component.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
+                {
+                    component.activate();
+                    list.add( component );
+                }
             }
             catch( Throwable e )
             {
@@ -241,7 +286,7 @@ class DefaultPartsManager implements PartsManager
                   "Error during the commission of the internal parts of a component."
                   + "\nEnclosing Component: " + m_handler
                   + "\nInternal Part: " + component;
-                  exception = new ControllerException( error, e );
+                exception = new ControllerException( error, e );
                 break;
             }
         }

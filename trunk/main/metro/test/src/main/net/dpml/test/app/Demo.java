@@ -56,8 +56,10 @@ public class Demo
     public int test( String message ) throws Exception
     {
         m_logger.debug( "test: " + message );
-        getServer().triggerNotify( message );
-        return getListener().getCount();
+        DefaultServer server = getServer();
+        DefaultListener listener = getListener();
+        server.triggerNotify( message );
+        return listener.getCount();
     }
     
     DefaultServer getServer() throws Exception

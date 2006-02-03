@@ -64,7 +64,7 @@ public final class ComponentDirectiveBeanInfo extends SimpleBeanInfo
         public Expression instantiate( Object old, Encoder encoder )
         {
             ComponentDirective directive = (ComponentDirective) old;
-            Object[] args = new Object[10];
+            Object[] args = new Object[11];
             args[0] = directive.getName();
             args[1] = directive.getActivationPolicy();
             args[2] = directive.getCollectionPolicy();
@@ -75,6 +75,7 @@ public final class ComponentDirectiveBeanInfo extends SimpleBeanInfo
             args[7] = directive.getParameters();
             args[8] = directive.getConfiguration();
             args[9] = directive.getClassLoaderDirective();
+            args[10] = directive.getPartReferences();
             return new Expression( old, old.getClass(), "new", args );
         }
     }

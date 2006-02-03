@@ -65,15 +65,16 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private String m_classname;
     private LifestylePolicy m_lifestyle;
     private CollectionPolicy m_collection;
-    private boolean m_activation = true;
+    private ActivationPolicy m_activation = ActivationPolicy.SYSTEM;
     private CategoriesDataType m_categories;
     private ContextDataType m_context;
     private ParametersDataType m_parameters;
     private ConfigurationDataType m_configuration;
+    private PartsDataType m_parts;
     private File m_output;
     private Type m_type;
     private ComponentDirective m_profile;
-
+    
    /**
     * Override the default output destination.
     *
@@ -151,9 +152,9 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     * Set the activation policy value.
     * @param policy the activation policy
     */
-    public void setActivation( boolean policy )
+    public void setActivation( String policy )
     {
-        m_activation = policy;
+        m_activation = ActivationPolicy.parse( policy );
     }
 
    /**
@@ -235,6 +236,25 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     }
 
    /**
+    * Create a new part datatype.
+    * @return a new part datatype
+    */
+    public PartsDataType createParts()
+    {
+        if( m_parts == null )
+        {
+            m_parts = new PartsDataType( this );
+            return m_parts;
+        }
+        else
+        {
+             final String error =
+              "Illegal attempt to create a duplicate parts element.";
+             throw new BuildException( error, getLocation() );
+        }
+    }
+    
+   /**
     * Execute the task.
     */
     public void execute()
@@ -292,53 +312,6 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             {
                 Thread.currentThread().setContextClassLoader( current );
             }
-            
-            /*
-            FileOutputStream output = new FileOutputStream( file );
-            BufferedOutputStream buffer = new BufferedOutputStream( output );
-            XMLEncoder encoder = new XMLEncoder( buffer );
-            encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
-            encoder.setExceptionListener( 
-              new ExceptionListener()
-              {
-                public void exceptionThrown( Exception e )
-                {
-                    e.printStackTrace();
-                    throw new BuildException( "Directive encoding failure.", e );
-                }
-              }
-            );
-            try
-            {
-                encoder.writeObject( profile );
-            }
-            catch( Exception e )
-            {
-                e.printStackTrace();
-                throw new BuildException( "Directive encoding error.", e );
-            }
-            finally
-            {
-                Thread.currentThread().setContextClassLoader( current );
-                encoder.close();
-            }
-            */
-            
-            /*
-            URI uri = getResource().getArtifact( Part.ARTIFACT_TYPE ).toURI();
-            if( null == m_output )
-            {
-                log( "saving part to: " + uri );
-            }
-            else
-            {
-                log( "saving part to: " + m_output );
-            }
-            URI handler = getPartHandlerURI();
-            byte[] bytes = SerializableObjectHelper.writeToByteArray( profile );
-            PartHolder holder = new PartHolder( handler, bytes );
-            SerializableObjectHelper.write( holder, file );
-            */
             
             return profile;
             
@@ -492,7 +465,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     }
 
    /**
-    * Build a pert reference.
+    * Build a part reference.
     * @param classloader the classloader
     * @param type the component type
     * @return the part reference
@@ -565,6 +538,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         ContextDirective context = getContextDirective( classloader, type );
         Parameters parameters = getParameters();
         Configuration configuration = getConfiguration();
+        PartReference[] parts = getParts( classloader );
         
         //
         // return the component profile
@@ -572,7 +546,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         return new ComponentDirective( 
           id, activation, collection, lifestyle, classname, categories, context, 
-          parameters, configuration, cld );
+          parameters, configuration, cld, parts );
     }
 
     private Type loadType( ClassLoader classloader, String classname )
@@ -701,14 +675,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     */
     public ActivationPolicy getActivationPolicy()
     {
-        if( m_activation )
-        {
-            return ActivationPolicy.STARTUP;
-        }
-        else
-        {
-            return m_profile.getActivationPolicy();
-        }
+        return m_activation;
     }
 
    /**
@@ -810,6 +777,28 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         else
         {
             return m_configuration.getConfiguration();
+        }
+    }
+
+    private PartReference[] getParts( ClassLoader classloader ) 
+      throws IntrospectionException, IOException
+    {
+        if( null != m_parts )
+        {
+            try
+            {
+                return m_parts.getParts( classloader, null );
+            }
+            catch( ClassNotFoundException cnfe )
+            {
+                final String error = 
+                  "Unable to load a class referenced by a nested part within a component type.";
+                throw new BuildException( error, cnfe );
+            }
+        }
+        else
+        {
+            return new PartReference[0];
         }
     }
 

@@ -19,6 +19,7 @@
 package net.dpml.metro;
 
 import net.dpml.part.ControlException;
+import net.dpml.part.Service;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -44,6 +45,13 @@ public interface PartsManager
     * @exception UnknownKeyException the key is not recognized
     */
     ComponentHandler getComponentHandler( String key ) throws UnknownKeyException;
+    
+   /**
+    * Return an array of component handlers assignable to the supplied service.
+    * @param service the service class to match against
+    * @return the local component handler array
+    */
+    ComponentHandler[] getComponentHandlers( Class service );
     
    /**
     * Return the commissioned state of the part collection.

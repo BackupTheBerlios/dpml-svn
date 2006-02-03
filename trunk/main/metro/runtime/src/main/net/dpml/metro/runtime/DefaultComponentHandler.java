@@ -399,6 +399,15 @@ public class DefaultComponentHandler extends UnicastEventSource
               + "]." );
         }
         
+        // check if this component can handle the request
+        
+        //if( isaCandidate( service ) )
+        //{
+        //    return this;
+        //}
+        
+        // check if a child component can handle the request
+        
         Component[] components = m_parts.getComponents();
         for( int i=0; i<components.length; i++ )
         {
@@ -408,6 +417,9 @@ public class DefaultComponentHandler extends UnicastEventSource
                 return component;
             }
         }
+        
+        // delegate to the parent
+        
         if( m_parent != null )
         {
             return m_parent.lookup( service );
@@ -545,6 +557,23 @@ public class DefaultComponentHandler extends UnicastEventSource
     }
     
    /**
+    * Get the activation policy.  If the activation policy is STARTUP, an implementation
+    * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND
+    * an implementation shall defer activiation until an explicit request is received.  If 
+    * the policy if SYSTEM activation may occur at the discretion of an implementation.
+    *
+    * @return the activation policy
+    * @exception RemoteException if a remote exception occurs
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
+    */
+    public ActivationPolicy getActivationPolicy() throws RemoteException
+    {
+        return m_model.getActivationPolicy();
+    }
+    
+   /**
     * Deactivate the component.
     */
     public synchronized void deactivate()
@@ -579,7 +608,7 @@ public class DefaultComponentHandler extends UnicastEventSource
     {
         return m_services;
     }
-
+    
    /**
     * Return true if this handler is a candidate for the supplied service definition.
     * @param service the service definition
@@ -596,7 +625,13 @@ public class DefaultComponentHandler extends UnicastEventSource
             DefaultService s = services[i];
             Version v = s.getVersion();
             Class c = s.getServiceClass();
-            if( v.complies( version ) && clazz.isAssignableFrom( c ) )
+            
+            //System.out.println( "# CLASS: " + clazz + " / " + c + ", " + clazz.isAssignableFrom( c ) );
+            //System.out.println( "# VERSION: " + version + " / " + v + ", " +  v.complies( version ) );
+            //System.out.println( "# VERSION/2: " + version.complies( v ) );
+            //if( v.complies( version ) && clazz.isAssignableFrom( c ) )
+            
+            if( version.complies( v ) && clazz.isAssignableFrom( c ) )
             {
                 return true;
             }

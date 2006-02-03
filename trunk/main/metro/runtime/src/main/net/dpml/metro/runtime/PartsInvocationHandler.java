@@ -18,6 +18,7 @@
 
 package net.dpml.metro.runtime;
 
+import java.util.Map;
 import java.beans.Introspector;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -25,6 +26,7 @@ import java.lang.reflect.Method;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
 import net.dpml.part.Component;
+import net.dpml.part.Provider;
 
 /**
  * Invoication handler for the Context inner class.  The invocation handler is 
@@ -87,7 +89,7 @@ class PartsInvocationHandler implements InvocationHandler
         
         final int semantic = getPartSemantic( method );
         final String postfix = getPartPostfix( method );
-        final String key = getPartKey( method, semantic );
+        final String key = getPartKey( method, semantic, postfix );
         
         final ComponentHandler handler = m_manager.getComponentHandler( key );
         
@@ -227,20 +229,21 @@ class PartsInvocationHandler implements InvocationHandler
     
     public static String getPartPostfix( Method method )
     {
+        Class type = method.getReturnType();
         String name = method.getName();
-        if( name.endsWith( COMPONENT_KEY ) )
+        if( name.endsWith( COMPONENT_KEY ) && Component.class.isAssignableFrom( type ) )
         {
             return COMPONENT_KEY;
         }
-        else if( name.endsWith( HANDLER_KEY ) )
+        else if( name.endsWith( HANDLER_KEY ) && ComponentHandler.class.isAssignableFrom( type ) )
         {
             return HANDLER_KEY;
         }
-        else if( name.endsWith( PROVIDER_KEY ) )
+        else if( name.endsWith( PROVIDER_KEY ) && Provider.class.isAssignableFrom( type ) )
         {
             return PROVIDER_KEY;
         }
-        else if( name.endsWith( MAP_KEY ) )
+        else if( name.endsWith( MAP_KEY ) && Map.class.isAssignableFrom( type ) )
         {
             return MAP_KEY;
         }
@@ -250,33 +253,37 @@ class PartsInvocationHandler implements InvocationHandler
         }
     }
     
-    public static String getPartKey( Method method, int semantic )
+    public static String getPartKey( Method method, int semantic, String postfix )
     {
         String name = method.getName();
         if( GET == semantic )
         {
-            if( name.endsWith( COMPONENT_KEY ) )
+            if( null == postfix )
+            {
+               return formatKey( name, 3 );
+            }
+            else if( COMPONENT_KEY.equals( postfix ) )
             {
                 int n = COMPONENT_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
             }
-            else if( name.endsWith( PROVIDER_KEY ) )
+            else if( PROVIDER_KEY.equals( postfix ) )
             {
                 int n = PROVIDER_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
             }
-            else if( name.endsWith( HANDLER_KEY ) )
+            else if( HANDLER_KEY.equals( postfix ) )
             {
                 int n = HANDLER_KEY.length();
                 int j = name.length() - n;
                 String substring = name.substring( 0, j );
                 return formatKey( substring, 3 );
             }
-            else if( name.endsWith( MAP_KEY ) )
+            else if( MAP_KEY.equals( postfix ) )
             {
                 int n = MAP_KEY.length();
                 int j = name.length() - n;
@@ -285,7 +292,9 @@ class PartsInvocationHandler implements InvocationHandler
             }
             else
             {
-               return formatKey( name, 3 );
+                final String error = 
+                  "Unrecognized part postfix argument [" + postfix + "].";
+                throw new IllegalArgumentException( error );
             }
         }
         else if( RELEASE == semantic )

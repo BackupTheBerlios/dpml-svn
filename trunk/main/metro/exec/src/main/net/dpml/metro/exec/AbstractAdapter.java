@@ -27,6 +27,7 @@ import net.dpml.part.ControlException;
 import net.dpml.part.Provider;
 import net.dpml.part.Service;
 import net.dpml.part.ServiceNotFoundException;
+import net.dpml.part.ActivationPolicy;
 
 import net.dpml.transit.Logger;
 
@@ -66,6 +67,23 @@ public class AbstractAdapter extends UnicastRemoteObject implements Component
     // Component
     //------------------------------------------------------------------------------
     
+   /**
+    * Get the activation policy.  If the activation policy is STARTUP, an implementation
+    * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND
+    * an implementation shall defer activiation until an explicit request is received.  If 
+    * the policy if SYSTEM activation may occur at the discretion of an implementation.
+    *
+    * @return the activation policy
+    * @exception RemoteException if a remote exception occurs
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
+    */
+    public ActivationPolicy getActivationPolicy() throws RemoteException
+    {
+        return ActivationPolicy.SYSTEM;
+    }
+
    /**
     * Return a handler capable of supporting the requested service.
     * @param service the service descriptor
