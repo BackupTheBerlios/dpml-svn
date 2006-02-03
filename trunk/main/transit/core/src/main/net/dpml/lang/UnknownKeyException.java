@@ -30,6 +30,8 @@ public class UnknownKeyException extends Exception
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
+    
+    private final String m_key;
 
     /**
      * Construct a new <code>UnknownKeyException</code> instance.
@@ -38,7 +40,9 @@ public class UnknownKeyException extends Exception
      */
     public UnknownKeyException( final String key )
     {
-        super( key );
+        super( "[" + key + "]" );
+        
+        m_key = key;
     }
 
    /**
@@ -47,7 +51,7 @@ public class UnknownKeyException extends Exception
     */
     public String getKey()
     {
-        return super.getMessage();
+        return m_key;
     }
 }
 
