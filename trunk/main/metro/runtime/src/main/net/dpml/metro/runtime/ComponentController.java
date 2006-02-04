@@ -292,18 +292,6 @@ class ComponentController
               + "].";
             throw new ControllerException( error, e );
         }
-        catch( InvocationTargetException e )
-        {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected error in ["
-              + handler
-              + "].";
-            throw new ControllerException( error, e );
-        }
     }
     
    /**

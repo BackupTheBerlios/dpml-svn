@@ -425,11 +425,14 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             }
             catch( Exception e )
             {
+                final String error = 
+                  "Initiating process deactivation due to an application error.";
+                getLogger().error( error, e );
                 try
                 {
                     handler.deactivate();
                 }
-                catch( Exception ee )
+                catch( Exception deactivationError )
                 {
                     // ignore
                 }
