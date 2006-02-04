@@ -448,14 +448,6 @@ public class Construct implements Value, Serializable
                 }
             }
         }
-        System.out.println( "TARGET: " + target );
-        System.out.println( "METHOD: " + method );
-        System.out.println( "INSTANCES: " + instances.length );
-        for( int i=0; i<instances.length; i++ )
-        {
-            Object instance = instances[i];
-            System.out.println( "INSTANCE: " + instance.getClass().getName() );
-        }
         Expression expression = new Expression( target, method, instances );
         return expression.getValue();
     }
