@@ -89,19 +89,20 @@ public class ArrayDataType implements ValueBuilder
     
    /**
     * Build a value datastructure.
+    * @param classname the default classname
     * @return the serializable value descriptor
     */
     public Value buildValue( String classname )
     {
+        String name = getClassname( classname );
         ValueBuilder[] params = getValueBuilders();
         Value[] values = new Value[ params.length ];
         for( int i=0; i<values.length; i++ )
         {
             ValueBuilder p = params[i];
-            values[i] = p.buildValue( classname );
+            values[i] = p.buildValue( name );
         }
-        String cname = getClassname( classname );
-        return new Array( cname, values );
+        return new Array( name, values );
     }
     
     String getClassname( String fallback )
