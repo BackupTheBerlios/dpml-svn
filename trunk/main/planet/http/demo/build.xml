@@ -52,7 +52,7 @@
           </context>
         </component>
         <component type="net.dpml.http.impl.SocketListener" key="socketListener" collection="hard"
-            activation="false">
+            activation="demand">
           <context>
             <entry key="httpServer" lookup="net.dpml.http.spi.HttpService"/>
             <entry key="port" value="8080"/>

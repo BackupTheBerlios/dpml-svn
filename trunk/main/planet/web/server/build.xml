@@ -48,7 +48,7 @@
         </state>
       </state>
     </type>
-    <component xmlns="metro" type="net.dpml.web.server.Server" activation="true" collection="hard"/>
+    <component xmlns="metro" type="net.dpml.web.server.Server" activation="system" collection="hard"/>
     <catalog xmlns="metro" title="Test Catalog">
       <fileset dir="${basedir}">
         <include name="**/target/classes/main/**/*.type"/>
