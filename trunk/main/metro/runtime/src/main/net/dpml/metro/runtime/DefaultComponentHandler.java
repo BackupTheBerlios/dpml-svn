@@ -822,9 +822,7 @@ public class DefaultComponentHandler extends UnicastEventSource
     {
         try
         {
-            getLogger().info( "creating provider" );
             DefaultProvider provider = new DefaultProvider( this, getLogger() );
-            getLogger().info( "created provider" );
             return provider;
         }
         catch( RemoteException e )
