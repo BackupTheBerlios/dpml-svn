@@ -42,6 +42,7 @@ public class ArrayDataType implements ValueBuilder
     */
     public void setClass( final String classname )
     {
+        System.out.println( "SET CLASSNAME: " + classname );
         m_classname = classname;
     }
 
@@ -71,6 +72,7 @@ public class ArrayDataType implements ValueBuilder
     */
     public ArrayDataType createArray()
     {
+        System.out.println( "CREATE ARRAY" );
         final ArrayDataType param = new ArrayDataType();
         m_params.add( param );
         return param;
@@ -84,21 +86,33 @@ public class ArrayDataType implements ValueBuilder
     {
         return (ValueBuilder[]) m_params.toArray( new ValueBuilder[0] );
     }
-
+    
    /**
     * Build a value datastructure.
     * @return the serializable value descriptor
     */
-    public Value buildValue()
+    public Value buildValue( String classname )
     {
-        String classname = getClassname();
         ValueBuilder[] params = getValueBuilders();
         Value[] values = new Value[ params.length ];
         for( int i=0; i<values.length; i++ )
         {
             ValueBuilder p = params[i];
-            values[i] = p.buildValue();
+            values[i] = p.buildValue( classname );
         }
-        return new Array( classname, values );
+        String cname = getClassname( classname );
+        return new Array( cname, values );
+    }
+    
+    String getClassname( String fallback )
+    {
+        if( null == m_classname )
+        {
+            return fallback;
+        }
+        else
+        {
+            return m_classname;
+        }
     }
 }
