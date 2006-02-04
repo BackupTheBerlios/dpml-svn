@@ -42,10 +42,10 @@
           </tr>
           <tr>
             <td><tt>activation</tt></td>
-            <td>Set the auto-activation policy (optional).  The default value is TRUE.  If set
-            to false the component instantiation will occur on demand.  If true
-            instiation will occur during activation of the parent or during deployment
-            in the case of a top-level component.</td>
+            <td>Set the auto-activation policy (optional).  The default value is SYSTEM.  
+            Possible values include STARTUP (triggers activation on startup), DEMAND 
+            (activation trigger on demand) and SYSTEM (activation decesions are delagated 
+            to the container).</td>
           </tr>
           <tr>
             <td><tt>collection</tt></td>
