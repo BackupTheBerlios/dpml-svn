@@ -17,24 +17,63 @@ package net.dpml.web.server;
 
 import net.dpml.transit.util.PropertyResolver;
 
+import net.dpml.logging.Logger;
+
+import org.mortbay.jetty.Handler;
+
 /**
  * Context handler with enhanced support for symbolic property dereferencing. 
  */
-public class ContextHandler extends org.mortbay.jetty.handler.ContextHandler implements Comparable
+public class ContextHandler extends ResolvingContextHandler implements Comparable
 {
+   /**
+    * HTTP Context handler context defintion.
+    */
+    public interface Context
+    {
+       /**
+        * Get the required HTTP server.
+        * @return the assigned http server
+        */
+        Server getServer();
+        
+       /**
+        * Get the http context resource base.  The value may contain symbolic
+        * property references and should resolve to a local directory.
+        *
+        * @return the resource base
+        */
+        String getResourceBase();
+        
+       /**
+        * Get the context path under which the http context instance will 
+        * be associated.
+        *
+        * @return the assigned context path
+        */
+        String getContextPath();
+        
+       /**
+        * Get the internal context handler's handler.
+        *
+        * @return the handler
+        */
+        Handler getHandler();
+        
+    }
+    
     private int m_priority = 0;
     
-   /**
-    * Set the context reosurce base.  The supplied path argument
-    * may contain system property references as symbolic references in the 
-    * form ${key} which will be expanded prior to value assignment.
-    *
-    * @param path the base resource as a string
-    */
-    public void setResourceBase( String path ) 
+    public ContextHandler( Context context ) throws Exception
     {
-        String resolved = PropertyResolver.resolve( path );
-        super.setResourceBase( resolved );
+        String base = context.getResourceBase();
+        super.setResourceBase( base );
+        String path = context.getContextPath();
+        super.setContextPath( path );
+        Handler handler = context.getHandler();
+        super.setHandler( handler );
+        Server server = context.getServer();
+        server.addHandler( this );
     }
     
    /**

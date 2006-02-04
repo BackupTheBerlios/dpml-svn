@@ -118,7 +118,6 @@ class DefaultProvider extends UnicastEventSource implements Provider
         }
         
         m_handler = handler;
-
         State graph = handler.getStateGraph();
         m_machine = new DefaultStateMachine( graph );
         m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );

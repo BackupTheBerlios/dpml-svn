@@ -30,6 +30,7 @@ import net.dpml.metro.data.FeatureDirective;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 
+import net.dpml.transit.Value;
 import net.dpml.transit.Construct;
 
 import org.apache.tools.ant.BuildException;
@@ -262,12 +263,12 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         }
         else
         {
-            ValueDataType[] params = getValueDataTypes();
-            Construct[] values = new Construct[ params.length ];
+            ValueBuilder[] params = getValueBuilders();
+            Value[] values = new Value[ params.length ];
             for( int i=0; i<params.length; i++ )
             {
-                 ValueDataType p = params[i];
-                 values[i] = p.newConstruct();
+                 ValueBuilder p = params[i];
+                 values[i] = p.buildValue();
             }
             return new ValueDirective( classname, method, values );
         }

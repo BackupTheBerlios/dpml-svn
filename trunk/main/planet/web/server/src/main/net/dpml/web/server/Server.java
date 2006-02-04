@@ -21,9 +21,14 @@ import java.util.Arrays;
 
 import net.dpml.logging.Logger;
 
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentHandler;
+import net.dpml.part.Provider;
+
 import org.mortbay.thread.ThreadPool;
 import org.mortbay.jetty.RequestLog;
 import org.mortbay.jetty.Handler;
+import org.mortbay.jetty.RequestLog;
 import org.mortbay.xml.XmlConfiguration;
 import org.mortbay.util.LazyList;
 
@@ -38,11 +43,28 @@ public class Server extends org.mortbay.jetty.Server
     public interface Context
     {
        /**
-        * Get the Jetty XML configuration uri.
+        * Get the Jetty XML configuration uri.  The configuration uri is 
+        * used to establish the default server configuration.
+        *
         * @param uri the default uri
-        * @return a uri referencing a Jetty configuration
+        * @return a uri referencing a Jetty configuration profile
         */
         URI getConfiguration( URI uri );
+        
+       /**
+        * Get the assigned request logger. If no request logger is 
+        * assigned by the deployment scenario a default request logger
+        * will be established.
+        *
+        * @param logger the default value
+        * @return the resolved request logger
+        */
+        RequestLog getRequestLog( RequestLog logger );
+    }
+    
+    public interface Parts extends PartsManager
+    {
+        RequestLog getRequestLog();
     }
     
     private final Logger m_logger;
@@ -53,15 +75,15 @@ public class Server extends org.mortbay.jetty.Server
     * @param logger the assigned logging channel
     * @param context the assigned deployment context
     */
-    public Server( Logger logger, Context context ) throws Exception
+    public Server( Logger logger, Context context, Parts parts ) throws Exception
     {
         super();
         
         m_logger = logger;
         m_context = context;
         
-        getLogger().debug( "commancing http server deployment" );
-        URI standard = new URI( "local:xml:dpml/planet/web/jetty" );
+        getLogger().debug( "commencing http server deployment" );
+        URI standard = new URI( "local:xml:dpml/planet/web/default" );
         URI uri = context.getConfiguration( standard );
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         if( null != uri )
@@ -71,6 +93,52 @@ public class Server extends org.mortbay.jetty.Server
             XmlConfiguration config = new XmlConfiguration( url );
             config.configure( this );
         }
+        
+        //
+        // setup the request log
+        //
+        
+        RequestLog log = context.getRequestLog( null );
+        if( null != log )
+        {
+            super.setRequestLog( log );
+        }
+        else
+        {
+            super.setRequestLog( parts.getRequestLog() );
+        }
+        
+        //
+        // check for any internal parts that are context handlers
+        //
+        
+        getLogger().info( "# START HANDLER ADDITION" );
+        ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.handler.ContextHandler.class );
+        for( int i=0; i<handlers.length; i++ )
+        {
+            getLogger().info( "# HANDLER START " + (i+1) );
+            ComponentHandler handler = handlers[i];
+            try
+            {
+                getLogger().info( "# A" );
+                handler.getContextMap().put( "server", this );
+                getLogger().info( "# B" );
+                Provider provider = handler.getProvider();
+                getLogger().info( "# C" );
+                ContextHandler ch = (ContextHandler) provider.getValue( false );
+                getLogger().info( "# D" );
+                super.addHandler( ch );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Failed to deploy content handler: " + handler;
+                throw new Exception( error, e );
+            }
+            getLogger().info( "# HANDLER DONE " + (i+1) );
+        }
+        getLogger().info( "# STOP HANDLER ADDITION" );
+        
         getLogger().debug( "http server is configured" );
     }
     

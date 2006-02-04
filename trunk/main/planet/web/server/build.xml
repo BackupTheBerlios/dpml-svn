@@ -17,15 +17,28 @@
 -->
 
 <project default="install"
-    xmlns:transit="antlib:net.dpml.transit" xmlns:depot="dpml:depot" >
+    xmlns:transit="antlib:net.dpml.transit" xmlns:depot="dpml:depot">
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="build" depends="standard.build">
     <depot:plugin uri="link:plugin:dpml/metro/dpml-metro-tools" urn="metro"/>
-    <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true">
+
+    <type xmlns="metro" class="net.dpml.web.server.NCSARequestLog" threadsafe="true" name="ncsa">
       <services>
-        <service class="org.mortbay.jetty.Server"/>
+        <service class="org.mortbay.jetty.RequestLog"/>
+      </services>
+    </type>
+
+    <type xmlns="metro" name="context" class="net.dpml.web.server.ContextHandler" threadsafe="true" >
+      <services>
+        <service class="org.mortbay.jetty.handler.ContextHandler"/>
+      </services>
+    </type>
+
+    <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true" collection="hard">
+      <services>
+        <service class="net.dpml.web.server.Server"/>
       </services>
       <state>
         <trigger event="initialization">
@@ -47,13 +60,65 @@
           </transition>
         </state>
       </state>
+      <parts>
+        <component key="requestLog" 
+            type="net.dpml.web.server.NCSARequestLog" collection="hard" activation="DEMAND">
+          <context>
+            <entry key="filename" value="$${dpml.data}/logs/http/request.log"/>
+            <entry key="append" value="true"/>
+            <entry key="extended" value="true"/>
+          </context>
+        </component>
+      </parts>
     </type>
-    <component xmlns="metro" type="net.dpml.web.server.Server" activation="system" collection="hard"/>
+
+    <!--
+    Creation of a HTTP server configured to present static content in 
+    the ${dpml.share}/docs directory.
+    -->
+    <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
+      <parts>
+        <component key="context" type="net.dpml.web.server.ContextHandler">
+          <context>
+            <entry key="server" validate="false"/>
+            <entry key="resourceBase" value="${dpml.share}/docs"/>
+            <entry key="contextPath" value="/docs"/>
+            <entry key="handler" class="net.dpml.web.server.ResourceHandler">
+              <value value="resources"/>
+              <value value="/"/>
+            </entry>
+          </context>
+        </component>
+        <component key="servlets" type="net.dpml.web.server.ContextHandler">
+          <context>
+            <entry key="server" validate="false"/>
+            <entry key="resourceBase" value="${dpml.data}/temp/http/context"/>
+            <entry key="contextPath" value="/"/>
+            <entry key="handler" class="net.dpml.web.server.ServletHandler">
+              <array class="net.dpml.web.server.ServletHolder">
+                <value class="net.dpml.web.server.ServletHolder">
+                  <value value="hello"/>
+                  <value value="org.mortbay.jetty.servlet.DefaultServlet"/>
+                </value>
+              </array>
+              <array class="net.dpml.web.server.ServletMapping">
+                <value class="net.dpml.web.server.ServletMapping">
+                  <value value="hello"/>
+                  <value value="/"/>
+                </value>
+              </array>
+            </entry>
+          </context>
+        </component>
+      </parts>
+    </component>
+
     <catalog xmlns="metro" title="Test Catalog">
       <fileset dir="${basedir}">
         <include name="**/target/classes/main/**/*.type"/>
       </fileset>
     </catalog>
+
   </target>
 
   <target name="install" depends="standard.install">
@@ -67,3 +132,4 @@
   </target>
 
 </project>
+

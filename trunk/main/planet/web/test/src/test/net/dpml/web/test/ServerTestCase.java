@@ -50,29 +50,6 @@ public class ServerTestCase extends TestCase
     * Test the deployment of the Jetty server.
     * @exception Exception if an error occurs
     */
-    public void testPassword() throws Exception
-    {
-        Password password = new Password( "OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4" );
-        System.out.println( "# PASSWORD: :" + password.toString() );
-    }
-    
-   /**
-    * Test keystroe loading
-    */
-    public void testKeystore() throws Exception
-    {
-        KeyStore keyStore = KeyStore.getInstance( "JKS" );
-        String password = "password";
-        //URL url = new URL( "local:keystore:dpml/planet/web/demo" );
-        //keyStore.load( url.openStream(), password.toCharArray() );
-        Resource resource = Resource.newResource( "local:keystore:dpml/planet/web/demo" );
-        keyStore.load( resource.getInputStream(), password.toCharArray() );
-    }
-    
-   /**
-    * Test the deployment of the Jetty server.
-    * @exception Exception if an error occurs
-    */
     public void testServerDeployment() throws Exception
     {
         File test = new File( System.getProperty( TEST_DIR_KEY ) );
@@ -112,12 +89,12 @@ public class ServerTestCase extends TestCase
 
     static
     {
-        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         //System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
         System.setProperty( 
           "java.util.logging.config.class", 
           System.getProperty( 
             "java.util.logging.config.class", 
             "net.dpml.transit.util.ConfigurationHandler" ) );
+        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
     }
 }

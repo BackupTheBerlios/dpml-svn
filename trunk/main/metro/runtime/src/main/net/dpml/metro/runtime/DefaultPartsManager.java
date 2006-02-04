@@ -265,29 +265,32 @@ class DefaultPartsManager implements PartsManager
             throw new IllegalStateException( error );
         }
         
-        getLogger().debug( "commissioning internal parts" );
+        ControlException exception = null;
         ArrayList list = new ArrayList();
         Component[] components = getComponents();
-        ControlException exception = null;
-        for( int i=0; i<components.length; i++ )
+        if( components.length > 0 )
         {
-            Component component = components[i];
-            try
+            getLogger().debug( "commissioning internal parts" );
+            for( int i=0; i<components.length; i++ )
             {
-                if( component.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
+                Component component = components[i];
+                try
                 {
-                    component.activate();
-                    list.add( component );
+                    if( component.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
+                    {
+                        component.activate();
+                        list.add( component );
+                    }
                 }
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Error during the commission of the internal parts of a component."
-                  + "\nEnclosing Component: " + m_handler
-                  + "\nInternal Part: " + component;
-                exception = new ControllerException( error, e );
-                break;
+                catch( Throwable e )
+                {
+                    final String error = 
+                      "Error during the commission of the internal parts of a component."
+                      + "\nEnclosing Component: " + m_handler
+                      + "\nInternal Part: " + component;
+                    exception = new ControllerException( error, e );
+                    break;
+                }
             }
         }
         

@@ -24,6 +24,7 @@ import java.util.List;
 import net.dpml.metro.data.ValueDirective;
 
 import net.dpml.transit.Construct;
+import net.dpml.transit.Value;
 
 /**
  * Defintion of a context entry parameter directive.
@@ -31,13 +32,12 @@ import net.dpml.transit.Construct;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ValueDataType
+public class ValueDataType implements ValueBuilder
 {
     private String m_classname;
     private String m_method;
     private String m_value;
     private List m_params = new ArrayList();
-
 
    /**
     * Set the context entry classname.
@@ -97,7 +97,6 @@ public class ValueDataType
     * Create, assign and return a new nested entry constructor parameter.
     * @return the new context entry param
     */
-    //public ValueDataType createParam()
     public ValueDataType createValue()
     {
         final ValueDataType param = new ValueDataType();
@@ -106,19 +105,30 @@ public class ValueDataType
     }
 
    /**
-    * Return the set of nested param directives.
-    * @return the params
+    * Create, assign and return a new nested array datatype.
+    * @return the new array datatype
     */
-    public ValueDataType[] getValueDataTypes()
+    public ArrayDataType createArray()
     {
-        return (ValueDataType[]) m_params.toArray( new ValueDataType[0] );
+        final ArrayDataType param = new ArrayDataType();
+        m_params.add( param );
+        return param;
     }
 
    /**
-    * Construct a value directive.
-    * @return the constructed value directive
+    * Return the set of nested param directives.
+    * @return the params
     */
-    public ValueDirective constructValue()
+    public ValueBuilder[] getValueBuilders()
+    {
+        return (ValueBuilder[]) m_params.toArray( new ValueBuilder[0] );
+    }
+
+   /**
+    * Build a value datastructure.
+    * @return the serializable value descriptor
+    */
+    public Value buildValue()
     {
         String classname = getClassname();
         String method = getMethodName();
@@ -129,12 +139,12 @@ public class ValueDataType
         }
         else
         {
-            ValueDataType[] params = getValueDataTypes();
-            Construct[] values = new Construct[ params.length ];
+            ValueBuilder[] params = getValueBuilders();
+            Value[] values = new Value[ params.length ];
             for( int i=0; i<values.length; i++ )
             {
-                ValueDataType p = params[i];
-                values[i] = p.newConstruct();
+                ValueBuilder p = params[i];
+                values[i] = p.buildValue();
             }
             return new ValueDirective( classname, method, values );
         }
@@ -144,6 +154,7 @@ public class ValueDataType
     * Create a construct for the datatype.
     * @return the construct
     */
+    /*
     public Construct newConstruct()
     {
         String classname = getClassname();
@@ -165,4 +176,5 @@ public class ValueDataType
             return new Construct( classname, method, values );
         }
     }
+    */
 }

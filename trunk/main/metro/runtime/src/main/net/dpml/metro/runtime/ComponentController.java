@@ -271,12 +271,16 @@ class ComponentController
             }
         }
 
+System.out.println( "#10" );
         try
         {
-            return constructor.newInstance( args );
+            Object instance = constructor.newInstance( args );
+System.out.println( "#11" );
+            return instance;
         }
         catch( InstantiationException e )
         {
+System.out.println( "#12" );
             final String error = 
               "Instantiation failure within the component ["
               + handler
@@ -285,8 +289,24 @@ class ComponentController
         }
         catch( IllegalAccessException e )
         {
+System.out.println( "#13" );
             final String error = 
               "Cannot access component constructor in ["
+              + handler
+              + "].";
+            throw new ControllerException( error, e );
+        }
+        catch( InvocationTargetException e )
+        {
+System.out.println( "#14" );
+            getLogger().error( "ITC", e );
+            throw e;
+        }
+        catch( Throwable e )
+        {
+System.out.println( "#15" );
+            final String error = 
+              "Unexpected error in ["
               + handler
               + "].";
             throw new ControllerException( error, e );
