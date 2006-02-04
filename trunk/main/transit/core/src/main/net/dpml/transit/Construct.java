@@ -18,6 +18,10 @@
 
 package net.dpml.transit;
 
+import java.beans.SimpleBeanInfo;
+import java.beans.BeanDescriptor;
+import java.beans.DefaultPersistenceDelegate;
+import java.beans.Encoder;
 import java.beans.Expression;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -444,6 +448,14 @@ public class Construct implements Value, Serializable
                 }
             }
         }
+        System.out.println( "TARGET: " + target );
+        System.out.println( "METHOD: " + method );
+        System.out.println( "INSTANCES: " + instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            System.out.println( "INSTANCE: " + instance.getClass().getName() );
+        }
         Expression expression = new Expression( target, method, instances );
         return expression.getValue();
     }
@@ -725,6 +737,214 @@ public class Construct implements Value, Serializable
         else
         {
             return a.equals( b );
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    // Array
+    //--------------------------------------------------------------------------
+    
+    public static final class Array implements Value
+    {
+       /**
+        * Serial version identifier.
+        */
+        static final long serialVersionUID = 1L;
+        
+        //--------------------------------------------------------------------------
+        // state
+        //--------------------------------------------------------------------------
+    
+        private final String m_classname;
+        private final Value[] m_values;
+        
+        //--------------------------------------------------------------------------
+        // constructors
+        //--------------------------------------------------------------------------
+        
+       /**
+        * Create a new array construct.
+        *
+        * @param classname the array type
+        * @param values the construct values
+        */
+        public Array( String classname, Value[] values )
+        {
+            if( null == classname )
+            {
+                m_classname = Object.class.getName();
+            }
+            else
+            {
+                m_classname = classname;
+            }
+            
+            m_values = values;
+        }
+        
+        //--------------------------------------------------------------------------
+        // ArrayDirective
+        //--------------------------------------------------------------------------
+    
+        public String getClassname()
+        {
+            return m_classname;
+        }
+        
+        public Value[] getValues()
+        {
+            return m_values;
+        }
+        
+        //--------------------------------------------------------------------------
+        // Value
+        //--------------------------------------------------------------------------
+        
+       /**
+        * Resolve an instance from the value using the context classloader.
+        * @return the resolved instance
+        * @exception Exception if error occurs during instance resolution
+        */
+        public Object resolve() throws Exception
+        {
+            return resolve( null, false );
+        }
+        
+       /**
+        * Resolve an instance from the value using a supplied context map. If any 
+        * target expressions in immediate or nested values contain a symbolic
+        * expression the value will be resolved using the supplied map.
+        *
+        * @param map the context map
+        * @return the resolved instance
+        * @exception Exception if error occurs during instance resolution
+        */
+        public Object resolve( Map map ) throws Exception
+        {
+            return resolve( map, false );
+        }
+    
+       /**
+        * Resolve an instance from the value using a supplied isolvation policy. 
+        *
+        * @param isolate the isolation policy
+        * @return the resolved instance
+        * @exception Exception if error occurs during instance resolution
+        */
+        public Object resolve( boolean isolate ) throws Exception
+        {
+            return resolve( null, isolate );
+        }
+    
+       /**
+        * Resolve an instance from the value using a supplied context map. If any 
+        * target expressions in immediate or nested values contain a symbolic
+        * expression the value will be resolved using the supplied map.
+        *
+        * @param map the context map
+        * @param isolate the isolation policy
+        * @return the resolved instance
+        * @exception Exception if error occurs during instance resolution
+        */
+        public Object resolve( Map map, boolean isolate ) throws Exception
+        {
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            Class c = loader.loadClass( m_classname );
+            Object[] instances = 
+              (Object[]) java.lang.reflect.Array.newInstance( c, m_values.length );
+            for( int i=0; i<m_values.length; i++ )
+            {
+                Value value = m_values[i];
+                instances[i] = value.resolve( map, isolate );
+            }
+            return instances;
+        }
+        
+       /**
+        * Test if the supplied object is equal to this object.
+        * @param other the object to compare with this instance
+        * @return TRUE if the supplied object is equal to this object
+        */
+        public boolean equals( Object other )
+        {
+            if( null == other )
+            {
+                return false;
+            }
+            if( !( other instanceof Array ) )
+            {
+                return false;
+            }
+            else
+            {
+                Array directive = (Array) other;
+                if( !m_classname.equals( directive.m_classname ) )
+                {
+                    return false;
+                }
+                else
+                {
+                    return Arrays.equals( m_values, directive.m_values );
+                }
+            }
+        }
+        
+       /**
+        * Return the hashcode for the instance.
+        * @return the instance hashcode
+        */
+        public int hashCode()
+        {
+            int hash = m_classname.hashCode();
+            for( int i=0; i<m_values.length; i++ )
+            {
+                hash ^= m_values[i].hashCode();
+            }
+            return hash;
+        }
+    }
+
+    public static final class ArrayBeanInfo extends SimpleBeanInfo
+    {
+        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
+        
+       /**
+        * Return the bean descriptor.
+        * @return the descriptor
+        */
+        public BeanDescriptor getBeanDescriptor()
+        {
+            return BEAN_DESCRIPTOR;
+        }
+        
+        private static BeanDescriptor setupBeanDescriptor()
+        {
+            BeanDescriptor descriptor = new BeanDescriptor( Array.class );
+            descriptor.setValue( 
+              "persistenceDelegate", 
+              new ArrayPersistenceDelegate() );
+            return descriptor;
+        }
+        
+       /**
+        * Persistence delegate implementation.
+        */
+        private static class ArrayPersistenceDelegate extends DefaultPersistenceDelegate
+        {
+           /**
+            * Return the expression value.
+            * @param old the old instance
+            * @param encoder the encoder
+            * @return the expression
+            */
+            public Expression instantiate( Object old, Encoder encoder )
+            {
+                Array construct = (Array) old;
+                Object[] args = new Object[2];
+                args[0] = construct.getClassname();
+                args[1] = construct.getValues();
+                return new Expression( old, old.getClass(), "new", args );
+            }
         }
     }
 }
