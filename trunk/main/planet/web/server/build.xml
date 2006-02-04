@@ -96,13 +96,13 @@
             <entry key="contextPath" value="/"/>
             <entry key="handler" class="net.dpml.web.server.ServletHandler">
               <array class="net.dpml.web.server.ServletHolder">
-                <value class="net.dpml.web.server.ServletHolder">
+                <value>
                   <value value="hello"/>
                   <value value="org.mortbay.jetty.servlet.DefaultServlet"/>
                 </value>
               </array>
               <array class="net.dpml.web.server.ServletMapping">
-                <value class="net.dpml.web.server.ServletMapping">
+                <value>
                   <value value="hello"/>
                   <value value="/"/>
                 </value>
