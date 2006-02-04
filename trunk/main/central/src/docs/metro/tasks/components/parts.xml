@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Categories Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Parts">
+
+      <subsection name="Description">
+
+        <p>
+        A <tt>&lt;parts&gt;</tt> elements enables the declaration of 
+        0..n nested components.
+        </p>
+
+      </subsection>
+
+      <subsection name="Part Nested Elements">
+
+        <table>
+          <tr>
+            <td><a href="index.html"><tt>component</tt></a></td>
+            <td><tt>0..n</tt> nested components.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following component definition has a parts element containing 
+      two nested component definitions.  The top-level component is defining 
+      a HTTP server.  The two internal parts are HTTP context handlers.  The 
+      first component is a static content handler presenting the contents of 
+      DPML documents under the context <tt>/docs</tt>.  The second component
+      is establishing a servlet to handle requests for the context <tt>/</tt>
+      relative to the resource base directory <tt>${dpml.data}/temp/http/context</tt>.
+      </p>
+
+<pre><![CDATA[
+    <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
+      <parts>
+        <component key="context" type="net.dpml.web.server.ContextHandler">
+          <context>
+            <entry key="server" validate="false"/>
+            <entry key="resourceBase" value="${dpml.share}/docs"/>
+            <entry key="contextPath" value="/docs"/>
+            <entry key="handler" class="net.dpml.web.server.ResourceHandler">
+              <value value="resources"/>
+              <value value="/"/>
+            </entry>
+          </context>
+        </component>
+        <component key="servlets" type="net.dpml.web.server.ContextHandler">
+          <context>
+            <entry key="server" validate="false"/>
+            <entry key="resourceBase" value="${dpml.data}/temp/http/context"/>
+            <entry key="contextPath" value="/"/>
+            <entry key="handler" class="net.dpml.web.server.ServletHandler">
+              <array class="net.dpml.web.server.ServletHolder">
+                <value class="net.dpml.web.server.ServletHolder">
+                  <value value="hello"/>
+                  <value value="org.mortbay.jetty.servlet.DefaultServlet"/>
+                </value>
+              </array>
+              <array class="net.dpml.web.server.ServletMapping">
+                <value class="net.dpml.web.server.ServletMapping">
+                  <value value="hello"/>
+                  <value value="/"/>
+                </value>
+              </array>
+            </entry>
+          </context>
+        </component>
+      </parts>
+    </component>
+]]></pre>
+
+    </section>
+
+  </body>
+
+</document>

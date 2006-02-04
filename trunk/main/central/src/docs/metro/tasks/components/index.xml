@@ -110,6 +110,10 @@
             <td><tt><a href="context/index.html">context</a></tt></td>
             <td>Declaration of the component initial context state.</td>
           </tr>
+          <tr>
+            <td><tt><a href="parts.html">parts</a></tt></td>
+            <td>Declaration of the nested componets.</td>
+          </tr>
         </table>
 
       </subsection>
