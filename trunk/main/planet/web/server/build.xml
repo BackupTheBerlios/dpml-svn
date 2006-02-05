@@ -36,6 +36,12 @@
       </services>
     </type>
 
+    <type xmlns="metro" name="context" class="net.dpml.web.server.ResourceContextHandler" threadsafe="true" >
+      <services>
+        <service class="net.dpml.web.server.ResourceContextHandler"/>
+      </services>
+    </type>
+
     <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true" collection="hard">
       <services>
         <service class="net.dpml.web.server.Server"/>
@@ -78,15 +84,11 @@
     -->
     <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
       <parts>
-        <component key="context" type="net.dpml.web.server.ContextHandler">
+        <component key="context" type="net.dpml.web.server.ResourceContextHandler">
           <context>
             <entry key="server" validate="false"/>
             <entry key="resourceBase" value="${dpml.share}/docs"/>
             <entry key="contextPath" value="/docs"/>
-            <entry key="handler" class="net.dpml.web.server.ResourceHandler">
-              <value value="resources"/>
-              <value value="/"/>
-            </entry>
           </context>
         </component>
         <component key="servlets" type="net.dpml.web.server.ContextHandler">

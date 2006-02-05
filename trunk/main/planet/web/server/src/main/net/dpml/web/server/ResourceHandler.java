@@ -27,12 +27,6 @@ import org.mortbay.jetty.servlet.ServletMapping;
  */
 public class ResourceHandler extends org.mortbay.jetty.servlet.ServletHandler
 {
-    public interface Context
-    {
-        String getName();
-        String getPath( String path );
-    }
-    
     public ResourceHandler( String name, String path )
     {
         super();
