@@ -900,7 +900,6 @@ public class DefaultComponentHandler extends UnicastEventSource
         
         DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
-            getLogger().debug( "resolving singleton provider" );
             if( m_reference == null )
             {
                 getLogger().error( "null reference" );
@@ -910,16 +909,13 @@ public class DefaultComponentHandler extends UnicastEventSource
             DefaultProvider instance = (DefaultProvider) m_reference.get();
             if( null == instance )
             {
-                getLogger().info( "initializing provider instance" );
                 instance = createDefaultProvider();
                 getLogger().info( "provider instance established" );
                 m_reference = createReference( instance );
-                getLogger().info( "returing provider" );
                 return instance;
             }
             else
             {
-                getLogger().info( "returing existing provider" );
                 return instance;
             }
         }
