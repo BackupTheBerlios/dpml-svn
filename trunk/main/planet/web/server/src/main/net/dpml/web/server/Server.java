@@ -88,7 +88,7 @@ public class Server extends org.mortbay.jetty.Server
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         if( null != uri )
         {
-            getLogger().info( "configuration: " + uri );
+            getLogger().debug( "server configuration: " + uri );
             URL url = uri.toURL();
             XmlConfiguration config = new XmlConfiguration( url );
             config.configure( this );
@@ -112,21 +112,17 @@ public class Server extends org.mortbay.jetty.Server
         // check for any internal parts that are context handlers
         //
         
-        getLogger().info( "# START HANDLER ADDITION" );
+        getLogger().debug( "commencing context handler addition" );
         ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.handler.ContextHandler.class );
         for( int i=0; i<handlers.length; i++ )
         {
-            getLogger().info( "# HANDLER START " + (i+1) );
             ComponentHandler handler = handlers[i];
+            getLogger().info( "adding handler: " + handler );
             try
             {
-                getLogger().info( "# A" );
                 handler.getContextMap().put( "server", this );
-                getLogger().info( "# B" );
                 Provider provider = handler.getProvider();
-                getLogger().info( "# C" );
                 ContextHandler ch = (ContextHandler) provider.getValue( false );
-                getLogger().info( "# D" );
                 super.addHandler( ch );
             }
             catch( Throwable e )
@@ -135,11 +131,8 @@ public class Server extends org.mortbay.jetty.Server
                   "Failed to deploy content handler: " + handler;
                 throw new Exception( error, e );
             }
-            getLogger().info( "# HANDLER DONE " + (i+1) );
         }
-        getLogger().info( "# STOP HANDLER ADDITION" );
-        
-        getLogger().debug( "http server is configured" );
+        getLogger().debug( "server established" );
     }
     
     /*
