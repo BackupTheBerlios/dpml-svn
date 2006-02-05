@@ -375,7 +375,7 @@ public class Construct implements Value, Serializable
             catch( Throwable e )
             {
                 final String error = 
-                  "Internal error while evalue expression using:"
+                  "Internal error while evalating simple expression using:"
                   + "\n target: " 
                   + m_target 
                   + " (" 
@@ -399,10 +399,10 @@ public class Construct implements Value, Serializable
             catch( Throwable e )
             {
                 final String error = 
-                  "Internal error while evalue expression using:"
+                  "Internal error while evaluating expression using:"
                   + "\n target: " + m_target + " (" + target + ")"
                   + "\n method: " + m_method + " (" + method + ")"
-                  + "\n value: " + m_value + "(" + value + ")";
+                  + "\n value: " + m_value + " (" + value.getClass().getName() + ")";
                 throw new ValueException( error, e );
             }
         }
@@ -449,7 +449,23 @@ public class Construct implements Value, Serializable
             }
         }
         Expression expression = new Expression( target, method, instances );
-        return expression.getValue();
+        try
+        {
+            return expression.getValue();
+        }
+        catch( Throwable e )
+        {
+            StringBuffer buffer = new StringBuffer();
+            buffer.append( "Internal error while evaluating compound expression." );
+            buffer.append( "\n target: " + m_target + " (" + target + ")" );
+            buffer.append( "\n method: " + m_method + " (" + method + ")" );
+            for( int i=0; i<instances.length; i++ )
+            {
+                buffer.append( "\n param " + (i+1) + ": " + instances[i].getClass().getName() );
+            }
+            String error = buffer.toString();
+            throw new ValueException( error, e );
+        }
     }
     
     private Object[] getInstanceValues( Map map, ClassLoader classloader, Value[] args ) throws Exception
