@@ -25,6 +25,8 @@ import net.dpml.transit.Value;
 import net.dpml.transit.Construct;
 import net.dpml.transit.Construct.Array;
 
+import org.apache.tools.ant.BuildException;
+
 /**
  * Defintion of a context entry parameter directive.
  *
@@ -42,7 +44,6 @@ public class ArrayDataType implements ValueBuilder
     */
     public void setClass( final String classname )
     {
-        System.out.println( "SET CLASSNAME: " + classname );
         m_classname = classname;
     }
 
@@ -61,8 +62,10 @@ public class ArrayDataType implements ValueBuilder
     */
     public void addConfiguredValue( ValueDataType param )
     {
-        System.out.println( "ADD CONFIGURED VALUE: " + param );
-        param.setClass( m_classname );
+        if( null == param.getClassname() )
+        {
+            param.setClass( m_classname );
+        }
         m_params.add( param );
     }
     
@@ -72,8 +75,10 @@ public class ArrayDataType implements ValueBuilder
     */
     public void addConfiguredArray( ArrayDataType param )
     {
-        System.out.println( "ADD CONFIGURED ARRAY: " + param );
-        param.setClass( m_classname );
+        if( null == param.getClassname() )
+        {
+            param.setClass( m_classname );
+        }
         m_params.add( param );
     }
 
@@ -88,19 +93,79 @@ public class ArrayDataType implements ValueBuilder
     
    /**
     * Build a value datastructure.
+    * @param classloader the working classloader
     * @return the serializable value descriptor
     */
-    public Value buildValue()
+    public Value buildValue( ClassLoader classloader )
     {
         String classname = getClassname();
-        ValueBuilder[] params = getValueBuilders();
-        Value[] values = new Value[ params.length ];
-        for( int i=0; i<values.length; i++ )
+        Class base = getBaseClass( classloader, classname );
+        try
         {
-            ValueBuilder p = params[i];
-            values[i] = p.buildValue();
+            ValueBuilder[] params = getValueBuilders();
+            Value[] values = new Value[ params.length ];
+            for( int i=0; i<values.length; i++ )
+            {
+                ValueBuilder p = params[i];
+                Class target = p.getTargetClass( classloader );
+                if( base.isAssignableFrom( target ) )
+                {
+                    values[i] = p.buildValue( classloader );
+                }
+                else
+                {
+                    final String error = 
+                      "A value entry of the type [" 
+                      + target.getName()
+                      + "] is not assignable to the array class ["
+                      + base.getName() 
+                      + "].";
+                    throw new BuildException( error );
+                }
+            }
+            return new Array( classname, values );
         }
-        return new Array( classname, values );
+        catch( BuildException e )
+        {
+            throw e;
+        }
+        catch( Exception e )
+        {
+            final String error =
+              "An error occured while building array datatype.";
+            throw new BuildException( error, e );
+        }
     }
     
+   /**
+    * Return the base classname.
+    * @param classloader the working classloader
+    * @return the target class
+    */
+    public Class getTargetClass( ClassLoader classloader )
+    {
+        String classname = getClassname();
+        return getBaseClass( classloader, classname );
+    }
+    
+    private Class getBaseClass( ClassLoader classloader, String classname )
+    {
+        if( null == classname )
+        {
+            return Object.class;
+        }
+        else
+        {
+            try
+            {
+                return classloader.loadClass( classname );
+            }
+            catch( ClassNotFoundException e )
+            {
+                final String error = 
+                  "The array type [" + classname + "] is unknown.";
+                throw new BuildException( error, e );
+            }
+        }
+    }
 }

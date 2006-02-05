@@ -226,6 +226,22 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     {
         String key = getKey();
         String classname = getClassname();
+        if( null != classname )
+        {
+            try
+            {
+                classloader.loadClass( classname );
+            }
+            catch( ClassNotFoundException e )
+            {
+                final String error =
+                  "Entry directive overriding class ["
+                  + classname
+                  + "] is unknown.";
+                throw new BuildException( error, e );
+            }
+        }
+        
         String method = getMethodName();
 
         if( null != type )
@@ -255,7 +271,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
               + "].";
             throw new ConstructionException( error );
         }
-
+        
         String value = getValue();
         if( null != value )
         {
@@ -268,7 +284,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
             for( int i=0; i<params.length; i++ )
             {
                  ValueBuilder p = params[i];
-                 values[i] = p.buildValue();
+                 values[i] = p.buildValue( classloader );
             }
             return new ValueDirective( classname, method, values );
         }

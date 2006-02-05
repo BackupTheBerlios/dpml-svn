@@ -26,6 +26,8 @@ import net.dpml.metro.data.ValueDirective;
 import net.dpml.transit.Construct;
 import net.dpml.transit.Value;
 
+import org.apache.tools.ant.BuildException;
+
 /**
  * Defintion of a context entry parameter directive.
  *
@@ -126,9 +128,10 @@ public class ValueDataType implements ValueBuilder
 
    /**
     * Build a value datastructure.
+    * 2param classloader the working classloader
     * @return the serializable value descriptor
     */
-    public Value buildValue()
+    public Value buildValue( ClassLoader classloader )
     {
         String classname = getClassname();
         String method = getMethodName();
@@ -144,9 +147,41 @@ public class ValueDataType implements ValueBuilder
             for( int i=0; i<values.length; i++ )
             {
                 ValueBuilder p = params[i];
-                values[i] = p.buildValue();
+                values[i] = p.buildValue( classloader );
             }
             return new ValueDirective( classname, method, values );
+        }
+    }
+
+   /**
+    * Return the base classname.
+    * @param classloader the working classloader
+    * @return the target class
+    */
+    public Class getTargetClass( ClassLoader classloader )
+    {
+        String classname = getClassname();
+        return getBaseClass( classloader, classname );
+    }
+    
+    private Class getBaseClass( ClassLoader classloader, String classname )
+    {
+        if( null == classname )
+        {
+            return String.class;
+        }
+        else
+        {
+            try
+            {
+                return classloader.loadClass( classname );
+            }
+            catch( ClassNotFoundException e )
+            {
+                final String error = 
+                  "The value type base class [" + classname + "] is unknown.";
+                throw new BuildException( error, e );
+            }
         }
     }
 }

@@ -31,8 +31,15 @@ public interface ValueBuilder
 {
    /**
     * Build a value datastructure.
+    * @param classloader the working classloader
     * @return the serializable value descriptor
     */
-    Value buildValue();
+    Value buildValue( ClassLoader classloader );
     
+   /**
+    * Return the base classname.
+    * @param classloader the working classloader
+    * @return the target class
+    */
+    Class getTargetClass( ClassLoader classloader );
 }
