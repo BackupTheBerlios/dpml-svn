@@ -268,7 +268,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
             for( int i=0; i<params.length; i++ )
             {
                  ValueBuilder p = params[i];
-                 values[i] = p.buildValue( classname );
+                 values[i] = p.buildValue();
             }
             return new ValueDirective( classname, method, values );
         }

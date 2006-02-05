@@ -59,25 +59,24 @@ public class ArrayDataType implements ValueBuilder
     * Create, assign and return a new nested entry constructor parameter.
     * @return the new context entry param
     */
-    public ValueDataType createValue()
+    public void addConfiguredValue( ValueDataType param )
     {
-        final ValueDataType param = new ValueDataType();
+        System.out.println( "ADD CONFIGURED VALUE: " + param );
+        param.setClass( m_classname );
         m_params.add( param );
-        return param;
-    }
-
-   /**
-    * Create, assign and return a new nested array.
-    * @return the new array parameter
-    */
-    public ArrayDataType createArray()
-    {
-        System.out.println( "CREATE ARRAY" );
-        final ArrayDataType param = new ArrayDataType();
-        m_params.add( param );
-        return param;
     }
     
+   /**
+    * Create, assign and return a new nested entry constructor parameter.
+    * @return the new context entry param
+    */
+    public void addConfiguredArray( ArrayDataType param )
+    {
+        System.out.println( "ADD CONFIGURED ARRAY: " + param );
+        param.setClass( m_classname );
+        m_params.add( param );
+    }
+
    /**
     * Return the set of nested param directives.
     * @return the params
@@ -89,31 +88,19 @@ public class ArrayDataType implements ValueBuilder
     
    /**
     * Build a value datastructure.
-    * @param classname the default classname
     * @return the serializable value descriptor
     */
-    public Value buildValue( String classname )
+    public Value buildValue()
     {
-        String name = getClassname( classname );
+        String classname = getClassname();
         ValueBuilder[] params = getValueBuilders();
         Value[] values = new Value[ params.length ];
         for( int i=0; i<values.length; i++ )
         {
             ValueBuilder p = params[i];
-            values[i] = p.buildValue( name );
+            values[i] = p.buildValue();
         }
-        return new Array( name, values );
+        return new Array( classname, values );
     }
     
-    String getClassname( String fallback )
-    {
-        if( null == m_classname )
-        {
-            return fallback;
-        }
-        else
-        {
-            return m_classname;
-        }
-    }
 }

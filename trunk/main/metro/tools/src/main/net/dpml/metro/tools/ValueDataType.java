@@ -126,12 +126,11 @@ public class ValueDataType implements ValueBuilder
 
    /**
     * Build a value datastructure.
-    * @param name the default classname
     * @return the serializable value descriptor
     */
-    public Value buildValue( String name )
+    public Value buildValue()
     {
-        String classname = getClassname( name );
+        String classname = getClassname();
         String method = getMethodName();
         String value = getValue();
         if( null != value )
@@ -145,21 +144,9 @@ public class ValueDataType implements ValueBuilder
             for( int i=0; i<values.length; i++ )
             {
                 ValueBuilder p = params[i];
-                values[i] = p.buildValue( classname );
+                values[i] = p.buildValue();
             }
             return new ValueDirective( classname, method, values );
-        }
-    }
-
-    String getClassname( String fallback )
-    {
-        if( null == m_classname )
-        {
-            return fallback;
-        }
-        else
-        {
-            return m_classname;
         }
     }
 }

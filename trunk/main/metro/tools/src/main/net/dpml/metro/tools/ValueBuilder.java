@@ -31,9 +31,8 @@ public interface ValueBuilder
 {
    /**
     * Build a value datastructure.
-    * @param classname the default classname
     * @return the serializable value descriptor
     */
-    Value buildValue( String classname );
+    Value buildValue();
     
 }
