@@ -117,7 +117,7 @@ public class Server extends org.mortbay.jetty.Server
         for( int i=0; i<handlers.length; i++ )
         {
             ComponentHandler handler = handlers[i];
-            getLogger().info( "adding handler: " + handler );
+            getLogger().debug( "adding handler: " + handler );
             try
             {
                 handler.getContextMap().put( "server", this );

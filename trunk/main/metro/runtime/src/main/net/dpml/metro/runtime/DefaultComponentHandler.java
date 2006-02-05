@@ -910,7 +910,6 @@ public class DefaultComponentHandler extends UnicastEventSource
             if( null == instance )
             {
                 instance = createDefaultProvider();
-                getLogger().info( "provider instance established" );
                 m_reference = createReference( instance );
                 return instance;
             }
