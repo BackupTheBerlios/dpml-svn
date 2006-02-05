@@ -84,12 +84,12 @@
       </parts>
     </type>
 
-    <!--
-    Creation of a HTTP server configured to present static content in 
-    the ${dpml.share}/docs directory.
-    -->
     <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
       <parts>
+        <!--
+        Creation of a HTTP server configured to present static content in 
+        the ${dpml.share}/docs directory.
+        -->
         <component key="context" type="net.dpml.web.server.ResourceContextHandler">
           <context>
             <entry key="server" validate="false"/>
@@ -97,6 +97,9 @@
             <entry key="contextPath" value="/docs"/>
           </context>
         </component>
+        <!--
+        Add an experimental servlet context.
+        -->
         <component key="servlets" type="net.dpml.web.server.ServletContextHandler">
           <context>
             <entry key="server" validate="false"/>
