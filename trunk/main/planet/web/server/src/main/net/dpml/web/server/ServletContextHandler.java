@@ -59,10 +59,14 @@ public class ServletContextHandler extends ResolvingContextHandler
         String getContextPath();
     }
     
+    private final Logger m_logger;
+    
     private int m_priority = 0;
     
-    public ServletContextHandler( Context context, Configuration config ) throws Exception
+    public ServletContextHandler( Logger logger, Context context, Configuration config ) throws Exception
     {
+        m_logger = logger;
+        
         String base = context.getResourceBase();
         super.setResourceBase( base );
         String path = context.getContextPath();
@@ -75,9 +79,11 @@ public class ServletContextHandler extends ResolvingContextHandler
     
     private Handler buildHandler( Configuration config ) throws ConfigurationException
     {
+        getLogger().debug( "configuration " + config );
         Configuration servlets = config.getChild( "servlets" );
         ArrayList servletList = new ArrayList();
         Configuration[] servletConfigs = servlets.getChildren( "servlet" );
+        getLogger().debug( "servlet count: " + servletConfigs.length );
         for( int i=0; i<servletConfigs.length; i++ )
         {
             Configuration servletConfig = servletConfigs[i];
@@ -88,7 +94,8 @@ public class ServletContextHandler extends ResolvingContextHandler
         }
         ArrayList mappingList = new ArrayList();
         Configuration mappings = config.getChild( "mappings" );
-        Configuration[] servletMappings = config.getChildren( "map" );
+        Configuration[] servletMappings = mappings.getChildren( "map" );
+        getLogger().debug( "mapping count: " + servletMappings.length );
         for( int i=0; i<servletMappings.length; i++ )
         {
             Configuration servletMap = servletMappings[i];
@@ -100,5 +107,10 @@ public class ServletContextHandler extends ResolvingContextHandler
         ServletHolder[] servletArray = (ServletHolder[]) servletList.toArray( new ServletHolder[0] );
         ServletMapping[] mappingArray = (ServletMapping[]) mappingList.toArray( new ServletMapping[0] );
         return new ServletHandler( servletArray, mappingArray );
+    }
+    
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 }
