@@ -36,9 +36,15 @@
       </services>
     </type>
 
-    <type xmlns="metro" name="context" class="net.dpml.web.server.ResourceContextHandler" threadsafe="true" >
+    <type xmlns="metro" name="static" class="net.dpml.web.server.ResourceContextHandler" threadsafe="true" >
       <services>
         <service class="net.dpml.web.server.ResourceContextHandler"/>
+      </services>
+    </type>
+
+    <type xmlns="metro" name="static" class="net.dpml.web.server.ServletContextHandler" threadsafe="true" >
+      <services>
+        <service class="net.dpml.web.server.ServletContextHandler"/>
       </services>
     </type>
 
@@ -87,30 +93,24 @@
         <component key="context" type="net.dpml.web.server.ResourceContextHandler">
           <context>
             <entry key="server" validate="false"/>
-            <entry key="resourceBase" value="${dpml.share}/docs"/>
+            <entry key="resourceBase" value="$${dpml.share}/docs"/>
             <entry key="contextPath" value="/docs"/>
           </context>
         </component>
-        <component key="servlets" type="net.dpml.web.server.ContextHandler">
+        <component key="servlets" type="net.dpml.web.server.ServletContextHandler">
           <context>
             <entry key="server" validate="false"/>
             <entry key="resourceBase" value="${dpml.data}"/>
             <entry key="contextPath" value="/"/>
-            <entry key="handler" class="net.dpml.web.server.ServletHandler">
-              <array class="net.dpml.web.server.ServletHolder">
-                <value>
-                  <value value="data"/>
-                  <value value="org.mortbay.jetty.servlet.DefaultServlet"/>
-                </value>
-              </array>
-              <array class="net.dpml.web.server.ServletMapping">
-                <value>
-                  <value value="data"/>
-                  <value value="/"/>
-                </value>
-              </array>
-            </entry>
           </context>
+          <configuration>
+            <servlets>
+              <servlet name="data" class="org.mortbay.jetty.servlet.DefaultServlet"/>
+            </servlets>
+            <mappings>
+              <map servlet="data" path="/"/>
+            </mappings>
+          </configuration>
         </component>
       </parts>
     </component>
