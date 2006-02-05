@@ -172,8 +172,7 @@ public class Type extends Composite implements Serializable
     {
         String path = clazz.getName().replace( '.', '/' ) + ".type";
         URL url = clazz.getClassLoader().getResource( path );
-        InputStream input = url.openStream();
-        if( null == input )
+        if( null == url )
         {
             // no component type defined ..
             // create a default type definition
@@ -183,6 +182,7 @@ public class Type extends Composite implements Serializable
         {
             try
             {
+                InputStream input = url.openStream();
                 return decode( context, input );
             }
             catch( IOException e )
