@@ -526,7 +526,8 @@ public class CatalogTask extends Task
 
             writer.write( "\n    <table class=\"menubar\">" );
             writer.write( "\n      <tr>" );
-            writer.write( "<td class=\"package\"><a class=\"package\" href=\"" + offset + "/packages-overview.html\">" );
+            writer.write( "<td class=\"package\"><a class=\"package\" href=\"" 
+              + offset + "/packages-overview.html\">" );
             writer.write( "overview" );
             writer.write( "</a></td>" );
             writer.write( "<td class=\"package\"><a class=\"package\" href=\"overview.html\">" );
@@ -549,10 +550,14 @@ public class CatalogTask extends Task
             //
 
             writer.write( "\n    <table>" );
-            writer.write( "\n      <tr><td class=\"feature\">Version:</td><td>" + type.getInfo().getVersion() + "</td></tr>" );
-            writer.write( "\n      <tr><td class=\"feature\">Name:</td><td>" + type.getInfo().getName() + "</td></tr>" );
-            writer.write( "\n      <tr><td class=\"feature\">Lifestyle:</td><td>" + type.getInfo().getLifestyle().getName() + "</td></tr>" );
-            writer.write( "\n      <tr><td class=\"feature\">Thread-Safe:</td><td>" + type.getInfo().isThreadsafe() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Version:</td><td>" 
+              + type.getInfo().getVersion() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Name:</td><td>" 
+              + type.getInfo().getName() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Lifestyle:</td><td>" 
+              + type.getInfo().getLifestyle().getName() + "</td></tr>" );
+            writer.write( "\n      <tr><td class=\"feature\">Thread-Safe:</td><td>" 
+              + type.getInfo().getThreadSafePolicy() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Collection:</td><td>" 
               + type.getInfo().getCollectionPolicy().getName() + "</td></tr>" );
             writer.write( "\n    </table>" );

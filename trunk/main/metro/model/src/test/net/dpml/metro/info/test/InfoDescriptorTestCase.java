@@ -22,6 +22,7 @@ import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.info.ThreadSafePolicy;
 
 import net.dpml.part.Version;
 
@@ -38,7 +39,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     private final Version m_version = Version.getVersion( "1.2.3" );
     private final LifestylePolicy m_lifestyle = LifestylePolicy.SINGLETON;
     private final CollectionPolicy m_collection = CollectionPolicy.WEAK;
-    private final boolean m_threadsafe = false;
+    private final ThreadSafePolicy m_threadsafe = ThreadSafePolicy.FALSE;
     
     private InfoDescriptor m_info;
     
@@ -88,7 +89,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     */
     public void testThreadsafeCapable()
     {
-        assertEquals( m_threadsafe, m_info.isThreadsafe() );
+        assertEquals( m_threadsafe, m_info.getThreadSafePolicy() );
     }
     
    /**
@@ -131,7 +132,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
         assertEquals( m_classname, info.getClassname() );
         assertEquals( m_version, info.getVersion() );
         assertEquals( m_lifestyle, info.getLifestyle() );
-        assertEquals( m_threadsafe, info.isThreadsafe() );
+        assertEquals( m_threadsafe, info.getThreadSafePolicy() );
         assertEquals( m_collection, info.getCollectionPolicy() );
     }
 

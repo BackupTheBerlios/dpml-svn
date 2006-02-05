@@ -93,9 +93,9 @@ public final class InfoDescriptor extends Descriptor
     private final CollectionPolicy m_collection;
 
     /**
-     * Flag indicating if the type is threadsafe.
+     * Threadsafe policy.
      */
-    private final boolean m_threadsafe;
+    private final ThreadSafePolicy m_threadsafe;
 
 
     //-------------------------------------------------------------------
@@ -114,7 +114,7 @@ public final class InfoDescriptor extends Descriptor
     public InfoDescriptor( final String name, final String classname )
             throws IllegalArgumentException, NullPointerException
     {
-        this( name, classname, null, null, CollectionPolicy.SYSTEM, false, null );
+        this( name, classname, null, null, CollectionPolicy.SYSTEM, ThreadSafePolicy.UNKNOWN, null );
     }
 
     /**
@@ -136,7 +136,7 @@ public final class InfoDescriptor extends Descriptor
                            final Version version,
                            final LifestylePolicy lifestyle,
                            final CollectionPolicy collection,
-                           final boolean threadsafe,
+                           final ThreadSafePolicy threadsafe,
                            final Properties attributes )
             throws IllegalArgumentException, NullPointerException
     {
@@ -167,7 +167,7 @@ public final class InfoDescriptor extends Descriptor
         
         if( lifestyle == null )
         {
-            if( threadsafe )
+            if( threadsafe == ThreadSafePolicy.TRUE )
             {
                 m_lifestyle = LifestylePolicy.SINGLETON;
             }
@@ -300,11 +300,11 @@ public final class InfoDescriptor extends Descriptor
     }
 
     /**
-     * Ruturn TRUE is this type is threadsafe.
+     * Ruturn the thread-safe policy value.
      *
-     * @return the threadsafe status
+     * @return the thread-safe policy value
      */
-    public boolean isThreadsafe()
+    public ThreadSafePolicy getThreadSafePolicy()
     {
         return m_threadsafe;
     }
@@ -329,7 +329,7 @@ public final class InfoDescriptor extends Descriptor
         if( isEqual )
         {
             InfoDescriptor info = (InfoDescriptor) other;
-            isEqual = isEqual && m_threadsafe == info.m_threadsafe;
+            isEqual = isEqual && m_threadsafe.equals( info.m_threadsafe );
             isEqual = isEqual && m_classname.equals( info.m_classname );
             isEqual = isEqual && m_collection.equals( info.m_collection );
             isEqual = isEqual && m_name.equals( info.m_name );
@@ -354,14 +354,7 @@ public final class InfoDescriptor extends Descriptor
     {
         int hash = super.hashCode();
         hash ^= m_collection.hashCode();
-        if( m_threadsafe )
-        {
-            hash = hash + 383972391;
-        }
-        else
-        {
-            hash = hash - 113741397;
-        }
+        hash ^= m_threadsafe.hashCode();
         hash ^= m_classname.hashCode();
         if ( null != m_name )
         {

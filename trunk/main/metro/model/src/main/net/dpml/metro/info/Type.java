@@ -173,22 +173,31 @@ public class Type extends Composite implements Serializable
         String path = clazz.getName().replace( '.', '/' ) + ".type";
         URL url = clazz.getClassLoader().getResource( path );
         InputStream input = url.openStream();
-        try
+        if( null == input )
         {
-            return decode( context, input );
+            // no component type defined ..
+            // create a default type definition
+            return createType( clazz );
         }
-        catch( IOException e )
+        else
         {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected error occured while attempting to load an encoded type."
-              + "\nResource path: " + path;
-            IOException ioe = new IOException( error );
-            ioe.initCause( e );
-            throw ioe;
+            try
+            {
+                return decode( context, input );
+            }
+            catch( IOException e )
+            {
+                throw e;
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Unexpected error occured while attempting to load an encoded type."
+                  + "\nResource path: " + path;
+                IOException ioe = new IOException( error );
+                ioe.initCause( e );
+                throw ioe;
+            }
         }
     }
    
@@ -511,13 +520,21 @@ public class Type extends Composite implements Serializable
         }
         return hash;
     }
-
+    
     private static Type createObjectType()
     {
-        final InfoDescriptor info = new InfoDescriptor( "object", Object.class.getName() );
+        return createType( Object.class );
+    }
+    
+    private static Type createType( Class clazz )
+    {
+        final InfoDescriptor info = new InfoDescriptor( "object", clazz.getName() );
         final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
-        final ServiceDescriptor[] services = new ServiceDescriptor[0];
+        final ServiceDescriptor[] services = 
+          new ServiceDescriptor[]{
+            new ServiceDescriptor( clazz.getName() )
+          };
         final PartReference[] parts = new PartReference[0];
         return new Type( info, loggers, context, services, parts, State.NULL_STATE );
     }

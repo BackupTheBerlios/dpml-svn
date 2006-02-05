@@ -32,6 +32,7 @@ import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.ThreadSafePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.ServiceDescriptor;
@@ -135,7 +136,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
 
     private static InfoDescriptor createSimpleInfo( String classname )
     {
-        return new InfoDescriptor( null, classname, null, null, CollectionPolicy.WEAK, false, null );
+        return new InfoDescriptor( null, classname, null, null, CollectionPolicy.WEAK, ThreadSafePolicy.FALSE, null );
     }
     
    /**

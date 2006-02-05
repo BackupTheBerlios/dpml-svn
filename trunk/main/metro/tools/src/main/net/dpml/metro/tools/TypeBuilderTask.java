@@ -43,6 +43,7 @@ import net.dpml.metro.info.EncodingException;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
+import net.dpml.metro.info.ThreadSafePolicy;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
@@ -74,7 +75,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private Class m_class;
     private LifestylePolicy m_lifestyle;
     private CollectionPolicy m_collection;
-    private boolean m_threadsafe = false;
+    private ThreadSafePolicy m_threadsafe = ThreadSafePolicy.UNKNOWN;
     private PartsDataType m_parts;
     private StateDataType m_state;
     private ServicesDataType m_services;
@@ -105,9 +106,16 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     * Set the threadsafe flag.
     * @param value true if the component type is threadsafe
     */
-    public void setThreadsafe( boolean value )
+    public void setThreadsafe( boolean flag )
     {
-        m_threadsafe = value;
+        if( flag )
+        {
+            m_threadsafe = ThreadSafePolicy.TRUE;
+        }
+        else
+        {
+            m_threadsafe = ThreadSafePolicy.FALSE;
+        }
     }
 
    /**
@@ -364,13 +372,13 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     {
         String name = getName();
         String classname = subject.getName();
-        boolean threadsafe = getThreadSafeCapability( subject );
+        ThreadSafePolicy threadsafe = getThreadSafeCapability( subject );
         Properties properties = getTypeProperties( subject );
         return new InfoDescriptor( 
           name, classname, null, m_lifestyle, m_collection, threadsafe, properties );
     }
 
-    private boolean getThreadSafeCapability( Class subject ) 
+    private ThreadSafePolicy getThreadSafeCapability( Class subject ) 
       throws IntrospectionException
     {
         return m_threadsafe;
