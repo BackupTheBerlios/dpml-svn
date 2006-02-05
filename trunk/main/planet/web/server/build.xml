@@ -42,7 +42,7 @@
       </services>
     </type>
 
-    <type xmlns="metro" name="static" class="net.dpml.web.server.ServletContextHandler" threadsafe="true" >
+    <type xmlns="metro" name="servlets" class="net.dpml.web.server.ServletContextHandler" threadsafe="true" >
       <services>
         <service class="net.dpml.web.server.ServletContextHandler"/>
       </services>
@@ -100,7 +100,7 @@
         <component key="servlets" type="net.dpml.web.server.ServletContextHandler">
           <context>
             <entry key="server" validate="false"/>
-            <entry key="resourceBase" value="${dpml.data}"/>
+            <entry key="resourceBase" value="$${dpml.data}"/>
             <entry key="contextPath" value="/"/>
           </context>
           <configuration>
