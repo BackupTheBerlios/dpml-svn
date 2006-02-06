@@ -106,9 +106,8 @@
         -->
         <component key="apps" type="net.dpml.web.server.WebAppContextHandler">
           <context>
-            <entry key="server" validate="false"/>
-            <entry key="contextPath" value="/"/>
             <entry key="war" value="link:war:dpml/planet/web/dpml-web-app"/>
+            <entry key="contextPath" value="/"/>
           </context>
         </component>
         <!--
@@ -117,7 +116,6 @@
         -->
         <component key="context" type="net.dpml.web.server.ResourceContextHandler">
           <context>
-            <entry key="server" validate="false"/>
             <entry key="resourceBase" value="$${dpml.share}/docs"/>
             <entry key="contextPath" value="/docs"/>
           </context>
@@ -130,7 +128,6 @@
         -->
         <component key="servlets" type="net.dpml.web.server.ServletContextHandler">
           <context>
-            <entry key="server" validate="false"/>
             <entry key="resourceBase" value="$${dpml.data}"/>
             <entry key="contextPath" value="/demo"/>
           </context>
