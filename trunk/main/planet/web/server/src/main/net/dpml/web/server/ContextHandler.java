@@ -32,12 +32,6 @@ public class ContextHandler extends ResolvingContextHandler implements Comparabl
     public interface Context
     {
        /**
-        * Get the required HTTP server.
-        * @return the assigned http server
-        */
-        Server getServer();
-        
-       /**
         * Get the http context resource base.  The value may contain symbolic
         * property references and should resolve to a local directory.
         *
@@ -64,7 +58,7 @@ public class ContextHandler extends ResolvingContextHandler implements Comparabl
     
     private int m_priority = 0;
     
-    public ContextHandler( Context context ) throws Exception
+    public ContextHandler( Server server, Context context ) throws Exception
     {
         String base = context.getResourceBase();
         super.setResourceBase( base );
@@ -72,8 +66,6 @@ public class ContextHandler extends ResolvingContextHandler implements Comparabl
         super.setContextPath( path );
         Handler handler = context.getHandler();
         super.setHandler( handler );
-        Server server = context.getServer();
-        server.addHandler( this );
     }
     
    /**

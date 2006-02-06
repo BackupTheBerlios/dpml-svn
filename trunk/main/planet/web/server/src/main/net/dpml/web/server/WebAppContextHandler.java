@@ -38,12 +38,6 @@ public class WebAppContextHandler extends org.mortbay.jetty.webapp.WebAppContext
     public interface Context
     {
        /**
-        * Get the required HTTP server.
-        * @return the assigned http server
-        */
-        Server getServer();
-        
-       /**
         * Get the context path under which the http context instance will 
         * be associated.
         *

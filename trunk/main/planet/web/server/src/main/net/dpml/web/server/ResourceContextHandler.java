@@ -32,12 +32,6 @@ public class ResourceContextHandler extends ResolvingContextHandler
     public interface Context
     {
        /**
-        * Get the required HTTP server.
-        * @return the assigned http server
-        */
-        Server getServer();
-        
-       /**
         * Get the http context resource base.  The value may contain symbolic
         * property references and should resolve to a local directory.
         *
@@ -64,8 +58,6 @@ public class ResourceContextHandler extends ResolvingContextHandler
         super.setContextPath( path );
         ResourceHandler handler = new ResourceHandler( "static", "/" );
         super.setHandler( handler );
-        Server server = context.getServer();
-        server.addHandler( this );
     }
     
 }

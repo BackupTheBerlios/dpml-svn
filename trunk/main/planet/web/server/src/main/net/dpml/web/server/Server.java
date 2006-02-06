@@ -120,7 +120,6 @@ public class Server extends org.mortbay.jetty.Server
             getLogger().debug( "adding handler: " + handler );
             try
             {
-                handler.getContextMap().put( "server", this );
                 Provider provider = handler.getProvider();
                 org.mortbay.jetty.handler.ContextHandler ch = 
                   (org.mortbay.jetty.handler.ContextHandler) provider.getValue( false );
