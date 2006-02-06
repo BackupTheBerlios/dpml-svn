@@ -19,46 +19,37 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
-import net.dpml.transit.util.PropertyResolver;
-
 /**
  * Hash user realm with enhanced keystore resolution semantics.
  */
 public class HashUserRealm extends org.mortbay.jetty.security.HashUserRealm
 {
-    /** 
-     * Load realm users from properties file.
-     * The property file maps usernames to password specs followed by
-     * an optional comma separated list of role names.  The implementation
-     * provides support for Transit local protocol resoution and system
-     * property symbolic expansion.
-     *
-     * @param config Filename or url of user properties file.
-     * @exception IOException is an IO error occurs
-     */
-    public void setConfig( String config ) throws IOException
+   /**
+    * HTTP Context handler context defintion.
+    */
+    public interface Context
     {
-        String resolved = PropertyResolver.resolve( config );
-        if( resolved.startsWith( "local:" ) )
-        {
-            try
-            {
-                URI uri = new URI( resolved );
-                File file = (File) uri.toURL().getContent( new Class[]{File.class} );
-                super.setConfig( file.getCanonicalPath() );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Invalid local resource specification: " + resolved;
-                IOException ioe = new IOException( error );
-                ioe.initCause( e );
-                throw ioe;
-            }
-        }
-        else
-        {
-            super.setConfig( resolved );
-        }
+       /**
+        * Get the user realm name.
+        *
+        * @return the realm name
+        */
+        String getName();
+        
+       /**
+        * Return a uri of the real configuration properties file.
+        *
+        * @return the realm configuration uri
+        */
+        URI getURI();
+        
+    }
+
+    public HashUserRealm( Context context ) throws Exception
+    {
+        String name = context.getName();
+        super.setName( name );
+        URI config = context.getURI();
+        setConfig( config.toASCIIString() );
     }
 }

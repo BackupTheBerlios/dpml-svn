@@ -18,6 +18,7 @@ package net.dpml.web.server;
 import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 import net.dpml.logging.Logger;
 
@@ -31,6 +32,7 @@ import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.RequestLog;
 import org.mortbay.xml.XmlConfiguration;
 import org.mortbay.util.LazyList;
+import org.mortbay.jetty.security.UserRealm;
 
 /**
  * HTTP server implementation.
@@ -108,10 +110,15 @@ public class Server extends org.mortbay.jetty.Server
             super.setRequestLog( parts.getRequestLog() );
         }
         
-        //
-        // check for any internal parts that are context handlers
-        //
+        // add realms and context handlers
         
+        addUserRealms( parts );
+        addContextHandlers( parts );
+        getLogger().debug( "server established" );
+    }
+    
+    private void addContextHandlers( PartsManager parts ) throws Exception
+    {
         getLogger().debug( "commencing context handler addition" );
         ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.handler.ContextHandler.class );
         for( int i=0; i<handlers.length; i++ )
@@ -132,7 +139,33 @@ public class Server extends org.mortbay.jetty.Server
                 throw new Exception( error, e );
             }
         }
-        getLogger().debug( "server established" );
+    }
+    
+    private void addUserRealms( PartsManager parts )  throws Exception
+    {
+        getLogger().debug( "commencing realm addition" );
+        ArrayList list = new ArrayList();
+        ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.security.UserRealm.class );
+        for( int i=0; i<handlers.length; i++ )
+        {
+            ComponentHandler handler = handlers[i];
+            getLogger().debug( "adding realm: " + handler );
+            try
+            {
+                Provider provider = handler.getProvider();
+                org.mortbay.jetty.security.UserRealm ch = 
+                  (org.mortbay.jetty.security.UserRealm) provider.getValue( false );
+                  list.add( ch );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Failed to deploy user realm: " + handler;
+                throw new Exception( error, e );
+            }
+        }
+        UserRealm[] realms = (UserRealm[]) list.toArray( new UserRealm[0] );
+        setUserRealms( realms );
     }
     
     /*

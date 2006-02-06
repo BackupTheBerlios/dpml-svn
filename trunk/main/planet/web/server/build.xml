@@ -24,18 +24,6 @@
   <target name="build" depends="standard.build">
     <depot:plugin uri="link:plugin:dpml/metro/dpml-metro-tools" urn="metro"/>
 
-    <type xmlns="metro" class="net.dpml.web.server.NCSARequestLog" threadsafe="true" name="ncsa">
-      <services>
-        <service class="org.mortbay.jetty.RequestLog"/>
-      </services>
-    </type>
-
-    <type xmlns="metro" name="context" class="net.dpml.web.server.ContextHandler" threadsafe="true" >
-      <services>
-        <service class="org.mortbay.jetty.handler.ContextHandler"/>
-      </services>
-    </type>
-
     <type xmlns="metro" name="static" class="net.dpml.web.server.ResourceContextHandler" threadsafe="true" >
       <services>
         <service class="net.dpml.web.server.ResourceContextHandler"/>
@@ -51,6 +39,18 @@
     <type xmlns="metro" name="apps" class="net.dpml.web.server.WebAppContextHandler" threadsafe="true" >
       <services>
         <service class="net.dpml.web.server.WebAppContextHandler"/>
+      </services>
+    </type>
+
+    <type xmlns="metro" class="net.dpml.web.server.NCSARequestLog" threadsafe="true" name="ncsa">
+      <services>
+        <service class="org.mortbay.jetty.RequestLog"/>
+      </services>
+    </type>
+
+    <type xmlns="metro" class="net.dpml.web.server.HashUserRealm" threadsafe="true" name="realm">
+      <services>
+        <service class="org.mortbay.jetty.security.UserRealm"/>
       </services>
     </type>
 
@@ -92,6 +92,15 @@
 
     <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
       <parts>
+        <!--
+        Add a user realm.
+        -->
+        <component key="realm" type="net.dpml.web.server.HashUserRealm">
+          <context>
+            <entry key="name" value="Test Realm"/>
+            <entry key="URI" value="local:properties:dpml/planet/web/realm"/>
+          </context>
+        </component>
         <!--
         Add an experimental web app.
         -->
