@@ -48,6 +48,12 @@
       </services>
     </type>
 
+    <type xmlns="metro" name="apps" class="net.dpml.web.server.WebAppContextHandler" threadsafe="true" >
+      <services>
+        <service class="net.dpml.web.server.WebAppContextHandler"/>
+      </services>
+    </type>
+
     <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true" collection="hard">
       <services>
         <service class="net.dpml.web.server.Server"/>
@@ -87,6 +93,16 @@
     <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
       <parts>
         <!--
+        Add an experimental web app.
+        -->
+        <component key="apps" type="net.dpml.web.server.WebAppContextHandler">
+          <context>
+            <entry key="server" validate="false"/>
+            <entry key="contextPath" value="/"/>
+            <entry key="war" value="link:war:dpml/planet/web/dpml-web-app"/>
+          </context>
+        </component>
+        <!--
         Creation of a HTTP server configured to present static content in 
         the ${dpml.share}/docs directory.
         -->
@@ -99,12 +115,15 @@
         </component>
         <!--
         Add an experimental servlet context.
+        (Need to add context cloassloader configuration but this requires 
+        per-component threads - currently limited to classes declared within
+        the part classloader).
         -->
         <component key="servlets" type="net.dpml.web.server.ServletContextHandler">
           <context>
             <entry key="server" validate="false"/>
             <entry key="resourceBase" value="$${dpml.data}"/>
-            <entry key="contextPath" value="/"/>
+            <entry key="contextPath" value="/demo"/>
           </context>
           <configuration>
             <servlets>
