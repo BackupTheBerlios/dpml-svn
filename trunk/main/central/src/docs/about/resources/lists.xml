@@ -28,14 +28,6 @@
       DPML Development List</a> is concerned with the overall development of the 
       DPML product family.</li>
 
-      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/pr-dpml">
-      DPML Public Relations List</a> is concerned with project promotion and relationships
-      with sponsoring organizations.</li>
-
-      <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/admin-dpml">
-      DPML Admin List</a> is concerned with infrastructure and general administrative
-      issues.</li>
-
       <li>The <a href="http://lists.ibiblio.org/mailman/listinfo/notify-dpml">
       DPML Notify List</a> handles svn commit messages and other low-level notifications.</li>
     </ul>
@@ -51,12 +43,6 @@
 
       <li><a href="http://lists.ibiblio.org/pipermail/dev-dpml/">
       DPML Development Archive</a></li>
-
-      <li><a href="http://lists.ibiblio.org/pipermail/pr-dpml/">
-      DPML Public Relations Archive</a></li>
-
-      <li><a href="http://lists.ibiblio.org/pipermail/admin-dpml/">
-      DPML Admin Archive</a></li>
 
       <li><a href="http://lists.ibiblio.org/pipermail/notify-dpml/">
       DPML Notify Archive</a></li>
