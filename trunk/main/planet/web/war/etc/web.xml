@@ -23,15 +23,6 @@
     <servlet-name>*</servlet-name>
   </filter-mapping>
   
-  <filter>
-    <filter-name>Chat</filter-name>
-    <filter-class>org.acme.ChatFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>Chat</filter-name>
-    <url-pattern>/chat/*</url-pattern>
-  </filter-mapping>
-
   <servlet>
     <servlet-name>Hello</servlet-name>
     <servlet-class>org.acme.HelloWorld</servlet-class>
