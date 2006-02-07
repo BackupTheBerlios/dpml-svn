@@ -46,10 +46,6 @@
         runtime service providers bound to the type/directive combination. 
         </p>
 
-      </subsection>
-
-      <subsection name="Handler Configuration">
-
         <p>
         Creation of a new <tt>Component</tt> is managed exclusively by the top-level
         <a href="../controller/index.html">controller</a>.  An new component may be created
@@ -68,6 +64,67 @@
         Inversely, an existing controller can incorproate components based on legacy 
         implementations.
         </p>
+
+      </subsection>
+      
+      <subsection name="Principal Interfaces">
+
+        <p>Principal interfaces used in the component model include:</p>
+
+        <table>
+          <tr>
+            <td>Component</td>
+            <td>
+              A remotely accessible view of a component.  The Component interface
+              exposes information about the component activation policy, access to 
+              instance handlers (the Provider) and general operations supporting
+              component assembly.
+            </td>
+          </tr>
+          <tr>
+            <td>Provider</td>
+            <td>
+              A remotely accessible view of a managed component instance. The 
+              <tt>Provider</tt> is in effect an component instance with associated
+              deployment state,  A given component instance may have 0..n provider 
+              instances associated with it (controller by the associated component 
+              lifestyle policy).
+            </td>
+          </tr>
+        </table>
+        
+        <p>
+        Component implementation acting in the capacity of a container (a component
+        with one or more internal parts) can aquire access to privilaged management
+        interfaces enabling fine grain control of a composition.  These management 
+        interface include:
+        </p>
+
+        <table>
+          <tr>
+            <td>PartsManager</td>
+            <td>
+              The PartsManager interface is a local interface accessible to 
+              component implementations that are acting in the role of a container
+              (i.e. a component managing a collection of subsidiary components. Using
+              the parts manager a component implementation can directly access 
+              internal components as <tt>ComponentHandler</tt> instances.  The 
+              <tt>PartsManager</tt> may be declared as a component implementation 
+              constructor argument.
+            </td>
+          </tr>
+          <tr>
+            <td>ComponentHandler</td>
+            <td>
+              The ComponentHandler interface provides a set of operations that 
+              enable local management of the component context, configuration and 
+              related policies. In addition the component handler exposes operations
+              through which the managing implementation may navigate the structure 
+              of its internal parts.  <tt>ComponentHandler</tt> instances may be 
+              resolved via the <tt>Partsmanager</tt>.
+            </td>
+          </tr>
+        </table>
 
       </subsection>
 

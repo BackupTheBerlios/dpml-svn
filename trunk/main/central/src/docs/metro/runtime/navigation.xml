@@ -26,9 +26,8 @@
 
     <menu>
       <item name="Controllers" href="controller/index.html"/>
-      <item name="Models" href="models.html"/>
       <item name="Components" href="components/index.html"/>
-      <item name="Parts" href="parts/index.html"/>
+      <item name="Directives" href="parts/index.html"/>
       <item name="Types" href="types.html"/>
       <item name="CLI" href="cli/index.html"/>
     </menu>

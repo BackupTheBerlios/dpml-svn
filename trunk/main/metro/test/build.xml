@@ -99,21 +99,21 @@
     </c:component>
 
     <c:component dest="target/test/example-3.part" test="true"
-        type="net.dpml.test.SingletonComponent" name="singleton" collection="weak">
+        type="net.dpml.test.SingletonComponent" lifestyle="SINGLETON" collection="WEAK">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
 
     <c:component dest="target/test/example-4.part" test="true"
-        type="net.dpml.test.SingletonComponent" name="singleton" collection="hard">
+        type="net.dpml.test.SingletonComponent" name="singleton" collection="HARD">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
 
     <c:component dest="target/test/context.part" test="true"
-        type="net.dpml.test.ContextTestComponent" name="context" collection="soft">
+        type="net.dpml.test.ContextTestComponent" name="context" collection="SOFT">
       <context>
         <entry key="color" method="RED"/>
         <entry key="integer" value="0"/>
@@ -157,14 +157,14 @@
     </types>
 
     <c:component dest="target/test/composite.part" test="true" 
-        type="net.dpml.test.composite.CompositeComponent" collection="hard">
+        type="net.dpml.test.composite.CompositeComponent" collection="HARD">
       <context>
         <entry key="color" method="RED"/>
       </context>
     </c:component>
 
     <c:component dest="target/test/parts.part" test="true" 
-        type="net.dpml.test.composite.PartsComponent" collection="hard">
+        type="net.dpml.test.composite.PartsComponent" collection="HARD">
       <context>
         <entry key="color" method="RED"/>
       </context>
@@ -196,7 +196,7 @@
     </c:type>
 
     <c:component dest="target/test/lifecycle.part" test="true" 
-        type="net.dpml.test.lifecycle.StartableComponent" collection="hard">
+        type="net.dpml.test.lifecycle.StartableComponent" collection="HARD">
     </c:component>
 
     <!-- categories component -->

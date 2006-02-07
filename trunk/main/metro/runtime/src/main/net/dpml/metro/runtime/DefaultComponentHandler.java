@@ -136,7 +136,7 @@ public class DefaultComponentHandler extends UnicastEventSource
     //--------------------------------------------------------------------------
     // mutable state
     //--------------------------------------------------------------------------
-
+    
     private boolean m_active = false;
     
     //--------------------------------------------------------------------------
@@ -822,8 +822,7 @@ public class DefaultComponentHandler extends UnicastEventSource
     {
         try
         {
-            DefaultProvider provider = new DefaultProvider( this, getLogger() );
-            return provider;
+            return new DefaultProvider( this, getLogger() );
         }
         catch( RemoteException e )
         {
@@ -900,22 +899,16 @@ public class DefaultComponentHandler extends UnicastEventSource
         
         DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
-            if( m_reference == null )
+            DefaultProvider provider = (DefaultProvider) m_reference.get();
+            if( null == provider )
             {
-                getLogger().error( "null reference" );
-                throw new IllegalStateException( "disposed" );
-            }
-            
-            DefaultProvider instance = (DefaultProvider) m_reference.get();
-            if( null == instance )
-            {
-                instance = createDefaultProvider();
-                m_reference = createReference( instance );
-                return instance;
+                provider = createDefaultProvider();
+                m_reference = createReference( provider );
+                return provider;
             }
             else
             {
-                return instance;
+                return provider;
             }
         }
         
@@ -923,10 +916,10 @@ public class DefaultComponentHandler extends UnicastEventSource
         {
             if( !isDisposed() )
             {
-                DefaultProvider instance = (DefaultProvider) m_reference.get();
-                if( instance != null )
+                DefaultProvider provider = (DefaultProvider) m_reference.get();
+                if( provider != null )
                 {
-                    instance.dispose();
+                    provider.dispose();
                 }
                 m_reference.clear();
                 super.dispose();
@@ -1089,7 +1082,19 @@ public class DefaultComponentHandler extends UnicastEventSource
             // otherwise use SOFT collection as the SYSTEM default
             //
             
-            if( policy.equals( CollectionPolicy.SYSTEM ) )
+            if( policy.equals( CollectionPolicy.SOFT ) )
+            {
+                return new SoftReference( object );
+            }
+            else if( policy.equals( CollectionPolicy.WEAK ) )
+            {
+                return new WeakReference( object );
+            }
+            else if( policy.equals( CollectionPolicy.HARD ) )
+            {
+                return new HardReference( object );
+            }
+            else // SYSTEM
             {
                 if( null == m_parent ) 
                 {
@@ -1099,18 +1104,6 @@ public class DefaultComponentHandler extends UnicastEventSource
                 {
                     return new SoftReference( object );
                 }
-            }
-            else if( policy.equals( CollectionPolicy.SOFT ) )
-            {
-                return new SoftReference( object );
-            }
-            else if( policy.equals( CollectionPolicy.WEAK ) )
-            {
-                return new WeakReference( object );
-            }
-            else
-            {
-                return new HardReference( object );
             }
         }
         catch( RemoteException e )

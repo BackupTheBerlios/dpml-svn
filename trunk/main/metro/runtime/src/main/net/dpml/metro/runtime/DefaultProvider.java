@@ -92,6 +92,11 @@ class DefaultProvider extends UnicastEventSource implements Provider
     * The available state.
     */
     private boolean m_activated = false;
+    
+   /**
+    * The available state.
+    */
+    private boolean m_disposed = false;
 
     //-------------------------------------------------------------------
     // constructor
@@ -123,11 +128,11 @@ class DefaultProvider extends UnicastEventSource implements Provider
         m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );
         initialize();
     }
-    
+
     //-------------------------------------------------------------------
     // Provider
     //-------------------------------------------------------------------
-
+    
    /**
     * Returns the current state of the instance.
     * @return the current runtime state
@@ -333,6 +338,11 @@ class DefaultProvider extends UnicastEventSource implements Provider
     {
         synchronized( getLock() )
         {
+            if( m_disposed )
+            {
+                return;
+            }
+            m_disposed = true;
             getLogger().debug( m_tag + "instance disposal" );
             deactivate();
             m_machine.dispose();

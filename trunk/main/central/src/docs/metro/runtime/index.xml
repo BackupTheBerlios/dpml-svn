@@ -43,19 +43,13 @@
             use by deployment tools and the runtime system.
           </li>
           <li>
-            <a href="parts/index.html">part:</a> 
-            a standalone component definition referencable via the <tt>artifact</tt>
-            uri using the <tt>part</tt> type identifier.  The part definition contains 
-            the default deployment profile for a component including the definition of 
+            <a href="parts/index.html">directive:</a> 
+            a XML component definition referencable via the <tt>artifact</tt>
+            uri using the <tt>part</tt> type identifier.  The part directive contains 
+            the default deployment profile including the definition of 
             the component inital context, dependency solutions, and any related 
-            configuration information.  The <tt>part</tt> serves as the initial data 
+            configuration information.  The directives serves as the initial data 
             used to establish a component model.
-          </li>
-          <li>
-            <a href="controller/models.html">model:</a> 
-            management of component and context state is supported though a set of 
-            model interfaces that are using in conjuction with the reference 
-            implementation.
           </li>
         </ul>
 
@@ -71,11 +65,11 @@
         </p>
 
         <p>
-        Using a network accessible <tt>part</tt>, the Metro 
+        Using a network accessible <tt>part</tt> datastructrues, the Metro 
         runtime provides support for the creation of a <tt>Component</tt> via 
         a <tt>Controller</tt>. The <tt>Component</tt> handles scopped requests 
         for locating service providers and establishment of managed 
-        <tt>Instance</tt>(s).
+        <tt>Provider</tt>(s).
         </p>
 
         <ul>
