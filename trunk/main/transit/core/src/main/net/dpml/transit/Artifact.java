@@ -155,10 +155,6 @@ public final class Artifact implements Serializable, Comparable
     public static Artifact createArtifact( String group, String name, String version, String type )
         throws NullArgumentException
     {
-        //if( group == null )
-        //{
-        //    throw new NullArgumentException( "group" );
-        //}
         if( name == null )
         {
             throw new NullArgumentException( "name" );
@@ -166,10 +162,6 @@ public final class Artifact implements Serializable, Comparable
         if( type == null )
         {
             throw new NullArgumentException( "type" );
-        }
-        if( version == null )
-        {
-            version = "";
         }
         String composite = buildComposite( group, name, version, type );
         try
