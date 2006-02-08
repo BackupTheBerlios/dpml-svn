@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.ContentHandler;
 import java.net.UnknownServiceException;
 import java.net.URI;
@@ -204,8 +205,20 @@ public class ArtifactURLConnection extends URLConnection
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             URI uri = m_artifact.toURI();
             if( classes.length == 0 )
-            { 
-                return loader.getPlugin( classloader, uri, new Object[0] );
+            {
+                try
+                {
+                    return loader.getPlugin( classloader, uri, new Object[0] );
+                }
+                catch( InvocationTargetException e )
+                {
+                    final String error = 
+                      "Plugin constructor invocation exception."
+                      + "\nURI: " + uri;
+                    IOException ioe = new IOException( error );
+                    ioe.initCause( e );
+                    throw ioe;
+                }
             }
             else
             {

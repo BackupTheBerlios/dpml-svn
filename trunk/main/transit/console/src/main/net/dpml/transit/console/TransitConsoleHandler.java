@@ -173,8 +173,10 @@ public class TransitConsoleHandler
         {
             URI uri = (URI) line.getValue( LOAD_COMMAND, null );
             ClassLoader loader = ClassLoader.getSystemClassLoader();
+            List list = line.getValues( ARGUMENTS );
+            String[] args = (String[]) list.toArray( new String[ list.size() ] );
             Object instance = 
-              Transit.getInstance().getRepository().getPlugin( loader, uri, new Object[0] );
+              Transit.getInstance().getRepository().getPlugin( loader, uri, new Object[]{ args } );
             if( instance instanceof Runnable )
             {
                 Runnable runnable = (Runnable) instance;
@@ -1499,6 +1501,11 @@ public class TransitConsoleHandler
             .create() )
         .create();
     
+    private static final Option ARGUMENTS = 
+        ARGUMENT_BUILDER
+          .withName( "args" )
+          .create();
+
     private static final Group COMMAND_GROUP =
       GROUP_BUILDER
         .withOption( INFO_COMMAND )
@@ -1517,6 +1524,7 @@ public class TransitConsoleHandler
         .withName( "command" )
         .withOption( PROFILE_URI_OPTION )
         .withOption( COMMAND_GROUP )
+        .withOption( ARGUMENTS )
         .withMinimum( 0 )
         .create();
 
