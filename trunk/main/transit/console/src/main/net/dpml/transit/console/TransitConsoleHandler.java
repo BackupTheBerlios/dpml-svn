@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -51,6 +52,8 @@ import net.dpml.cli.validation.NumberValidator;
 
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
+import net.dpml.transit.RepositoryException;
+import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.ProxyDirective;
@@ -59,6 +62,7 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.util.ExceptionHelper;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -149,6 +153,10 @@ public class TransitConsoleHandler
         {
             export( TransitDirective.CLASSIC_PROFILE );
         }
+        else if( line.hasOption( LOAD_COMMAND ) )
+        {
+            processLoad( line );
+        }
         else
         {
             processHelp();
@@ -158,6 +166,54 @@ public class TransitConsoleHandler
     // ------------------------------------------------------------------------
     // command handling
     // ------------------------------------------------------------------------
+    
+    private void processLoad( CommandLine line )
+    {
+        try
+        {
+            URI uri = (URI) line.getValue( LOAD_COMMAND, null );
+            ClassLoader loader = ClassLoader.getSystemClassLoader();
+            Object instance = 
+              Transit.getInstance().getRepository().getPlugin( loader, uri, new Object[0] );
+            if( instance instanceof Runnable )
+            {
+                Runnable runnable = (Runnable) instance;
+                runnable.run();
+            }
+        }
+        catch( RepositoryException e )
+        {
+            boolean stack = isDebugEnabled();
+            String message = ExceptionHelper.packException( e, stack ); 
+            System.out.println( message );
+        }
+        catch( Throwable e )
+        {
+            processException( e );
+        }
+    }
+    
+    private void processException( Throwable e )
+    {
+        if( e instanceof InvocationTargetException )
+        {
+            InvocationTargetException ite = (InvocationTargetException) e;
+            Throwable cause = ite.getCause();
+            processException( cause );
+        }
+        else
+        {
+            final String error = 
+              "Plugin exception.";
+            String message = ExceptionHelper.packException( error, e, true ); 
+            System.out.println( message );
+        }
+    }
+    
+    private boolean isDebugEnabled()
+    {
+        return "true".equals( System.getProperty( "dpml.debug", "false" ) );
+    }
     
     private void processInfo( CommandLine line )
     {
@@ -1430,6 +1486,19 @@ public class TransitConsoleHandler
         .withDescription( "Set configuration to default." )
         .create();
 
+    private static final Option LOAD_COMMAND =
+      COMMAND_BUILDER
+        .withName( "load" )
+        .withDescription( "Load a transit plugin." )
+        .withArgument(
+          ARGUMENT_BUILDER 
+            .withName( "uri" )
+            .withMinimum( 1 )
+            .withMaximum( 1 )
+            .withValidator( new URIValidator() )
+            .create() )
+        .create();
+    
     private static final Group COMMAND_GROUP =
       GROUP_BUILDER
         .withOption( INFO_COMMAND )
@@ -1437,6 +1506,7 @@ public class TransitConsoleHandler
         .withOption( SET_COMMAND )
         .withOption( REMOVE_COMMAND )
         .withOption( REVERT_COMMAND )
+        .withOption( LOAD_COMMAND )
         .withOption( HELP_COMMAND )
         .withMinimum( 1 )
         .withMaximum( 1 )

@@ -137,11 +137,12 @@ class StandardLoader implements Repository
     * @param args commandline arguments
     * @return the plugin instance
     * @exception IOException if a plugin creation error occurs
+    * @exception InvocationTargetException if the plugin constructor invocation error occurs
     * @exception NullArgumentException if the supplied parent classloader,
     *    uri or args are null
     */
     public Object getPlugin( ClassLoader parent, URI uri, Object[] args  )
-      throws IOException, NullArgumentException
+      throws IOException, InvocationTargetException, NullArgumentException
     {
         if( null == uri )
         {
@@ -184,11 +185,15 @@ class StandardLoader implements Repository
         {
             throw re;
         }
+        catch( InvocationTargetException e )
+        {
+            throw e;
+        }
         catch( Exception ce )
         {
             String error = "Unable to create a plugin using [" + uri + "].";
             getMonitor().exceptionOccurred( "getPlugin", ce );
-            throw new RepositoryException( error, ce );
+            throw new InvocationTargetException( ce );
         }
     }
     
@@ -293,11 +298,12 @@ class StandardLoader implements Repository
     * @param args the command line args
     * @return the plugin instance
     * @exception IOException if a plugin creation error occurs
+    * @exception InvocationTargetException if a plugin constructor invocation error occurs
     * @exception NullArgumentException if the any one of supplied classloader, descriptor,
     *   class arguments are null
     */
     private Object createPlugin( ClassLoader classloader, Plugin descriptor, Class clazz, Object[] args )
-        throws IOException, NullArgumentException
+        throws IOException, NullArgumentException, InvocationTargetException
     {
         if( null == clazz )
         {
@@ -327,7 +333,7 @@ class StandardLoader implements Repository
         return instantiate( clazz, args );
     }
 
-    public Object instantiate( Class clazz, Object[] args ) throws RepositoryException
+    public Object instantiate( Class clazz, Object[] args ) throws RepositoryException, InvocationTargetException
     {
         if( null == clazz )
         {
@@ -364,6 +370,14 @@ class StandardLoader implements Repository
                 Expression expression = new Expression( clazz, "new", args );
                 return expression.getValue();
             }
+            catch( InvocationTargetException e )
+            {
+                throw e;
+            }
+            catch( RepositoryException e )
+            {
+                throw e;
+            }
             catch( Throwable e )
             {
                 final String error = 
@@ -372,13 +386,13 @@ class StandardLoader implements Repository
             }
         }
     }
-
-    public Object instantiate( Constructor constructor, Object[] args ) throws RepositoryException
+    
+    public Object instantiate( Constructor constructor, Object[] args ) throws RepositoryException, InvocationTargetException
     {
         Object[] arguments = populate( constructor, args );
         return newInstance( constructor, arguments );
     }
-
+    
     protected Object[] populate( Constructor constructor, Object[] args ) throws RepositoryException
     {
         if( null == constructor )
@@ -389,7 +403,7 @@ class StandardLoader implements Repository
         {
             throw new NullArgumentException( "args" );
         }
-
+        
         Class[] classes = constructor.getParameterTypes();
         Object[] arguments = new Object[ classes.length ];
         ArrayList list = new ArrayList();
@@ -495,7 +509,8 @@ class StandardLoader implements Repository
         }
     }
 
-    private Object newInstance( Constructor constructor, Object[] arguments ) throws RepositoryException
+    private Object newInstance( Constructor constructor, Object[] arguments )
+      throws RepositoryException, InvocationTargetException
     {
         try
         {
@@ -505,12 +520,7 @@ class StandardLoader implements Repository
         }
         catch( InvocationTargetException e )
         {
-            final String error =
-              "Cannot create an instance of ["
-              + constructor.getDeclaringClass().getName()
-              + "] due to an invocation failure.";
-            Throwable cause = e.getTargetException();
-            throw new RepositoryException( error, cause );
+            throw e;
         }
         catch( Throwable e )
         {

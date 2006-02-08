@@ -20,6 +20,7 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import java.net.URI;
 
@@ -71,9 +72,10 @@ public interface Repository
     * @param args instantiation arguments
     * @return the plugin instance
     * @exception IOException if plugin loading exception occurs
+    * @exception InvocationTargetException if the plugin constructor invocation error occurs
     */
     Object getPlugin( ClassLoader parent, URI uri, Object[] args  )
-        throws IOException;
+        throws IOException, InvocationTargetException;
 
    /**
     * Instantiate an instance of a class using the supplied array of constructor 
