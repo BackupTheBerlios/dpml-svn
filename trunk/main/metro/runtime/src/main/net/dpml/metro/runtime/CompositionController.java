@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
+import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.logging.Logger;
 
@@ -344,6 +345,13 @@ public class CompositionController implements Controller
         catch( IOException e )
         {
             throw new ControllerNotFoundException( CONTROLLER_URI, uri, e );
+        }
+        catch( InvocationTargetException e )
+        {
+            final String error =
+              "Controller instantiation failure."
+              + "URI: " + uri;
+            throw new ControllerRuntimeException( error );
         }
     }
     
