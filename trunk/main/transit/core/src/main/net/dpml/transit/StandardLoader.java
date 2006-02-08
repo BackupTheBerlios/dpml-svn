@@ -21,6 +21,7 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
 import java.beans.Expression;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -601,6 +602,18 @@ class StandardLoader implements Repository
         if( null == base )
         {
             throw new NullArgumentException( "base" );
+        }
+        
+        // load any native libraries declared by the plugin
+        
+        URI[] libraries = descriptor.getNativeDependencies();
+        for( int i=0; i<libraries.length; i++ )
+        {
+            URI library = libraries[i];
+            File source = (File) library.toURL().getContent( new Class[]{File.class} );
+            String path = source.getAbsolutePath();
+            getMonitor().sequenceInfo( "loading: " + path );
+            System.load( path );
         }
 
         URI plugin = descriptor.getURI();

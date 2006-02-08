@@ -121,6 +121,15 @@ public class PluginExportTask extends GenericTask
     */
     public static final String ARTIFACT_PRIVATE = "dpml.artifact.dependency";
 
+   /**
+    * The constant artifact native w32 dependencies.
+    */
+    public static final String ARTIFACT_NATIVE_W32 = "dpml.artifact.native.w32";
+
+   /**
+    * The constant artifact native nix dependencies.
+    */
+    public static final String ARTIFACT_NATIVE_NIX = "dpml.artifact.native.nix";
 
     // ------------------------------------------------------------------------
     // state
@@ -240,6 +249,7 @@ public class PluginExportTask extends GenericTask
         //    return;
         //}
         //else
+        
         if( !file.exists() )
         {
             log( "Creating plugin directive" );
@@ -330,10 +340,26 @@ public class PluginExportTask extends GenericTask
         final Date created = new Date( file.lastModified() );
         return getSignature( created );
     }
-
+    
     private void writeClasspath( final Writer writer )
         throws Exception
     {
+        Resource[] w32Resources = getResource().getClasspathProviders( Category.W32 );
+        if( w32Resources.length > 0 )
+        {
+            final String label = "Native W32 dependencies.";
+            final String lead = ARTIFACT_NATIVE_W32;
+            writeRefs( writer, w32Resources, lead, label );
+        }
+        
+        Resource[] nixResources = getResource().getClasspathProviders( Category.NIX );
+        if( nixResources.length > 0 )
+        {
+            final String label = "Native NIX dependencies.";
+            final String lead = ARTIFACT_NATIVE_NIX;
+            writeRefs( writer, nixResources, lead, label );
+        }
+        
         Resource[] systemResources = getResource().getClasspathProviders( Category.SYSTEM );
         if( systemResources.length > 0 )
         {
@@ -394,19 +420,53 @@ public class PluginExportTask extends GenericTask
         writer.write( lead );
         writer.write( "." + i );
         writer.write( " = " );
-        try
+        if( resource.isa( "jar" ) )
         {
-            Artifact artifact = resource.getArtifact( "jar" );
-            String uri = artifact.toURI().toString();
-            writer.write( uri );
+            try
+            {
+                Artifact artifact = resource.getArtifact( "jar" );
+                String uri = artifact.toURI().toString();
+                writer.write( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unexpected error while attempting to write resource.";
+                IOException ioe = new IOException( error );
+                ioe.initCause( e );
+                throw ioe;
+            }
         }
-        catch( Exception e )
+        else
         {
-            final String error = 
-              "Unexpected error while attempting to write resource.";
-            IOException ioe = new IOException( error );
-            ioe.initCause( e );
-            throw ioe;
+            if( resource.getTypes().length == 1 )
+            {
+                String type = resource.getTypes()[0].getName();
+                try
+                {
+                    Artifact artifact = resource.getArtifact( type );
+                    String uri = artifact.toURI().toString();
+                    writer.write( uri );
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unexpected error while attempting to write resource."
+                      + "\nResource: " + resource;
+                    IOException ioe = new IOException( error );
+                    ioe.initCause( e );
+                    throw ioe;
+                }
+            }
+            else
+            {
+                final String error = 
+                  "Ambiguity in resource selection - the resource ["
+                  + resource
+                  + "] declares multiple types.";
+                throw new IOException( error );
+             
+            }
         }
     }
 

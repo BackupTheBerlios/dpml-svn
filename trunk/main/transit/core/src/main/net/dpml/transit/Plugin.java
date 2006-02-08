@@ -63,11 +63,18 @@ public interface Plugin
    /**
     * Return the implementation dependencies
     *
-    * @param key SYSTEM, PRIVATE, PROTECTED or PUBLIC constants.
+    * @param key NATIVE, SYSTEM, PRIVATE, PROTECTED or PUBLIC constants.
     *
     * @return the uris matching the key
     */
     URI[] getDependencies( Category key );
+
+   /**
+    * Return the native dependencies
+    *
+    * @return the uris to native libraries
+    */
+    URI[] getNativeDependencies();
 
    /**
     * Return the aggregated set of dependency uris.
