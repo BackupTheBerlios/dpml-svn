@@ -260,12 +260,6 @@ public class JUnitTestTask extends GenericTask
           getBooleanProperty(
             HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
             
-        String mx = getContext().getProperty( MX_KEY );
-        if( null != mx )
-        {
-            junit.setMaxmemory( mx );
-        }
-
         final File reports = getContext().getTargetReportsTestDirectory();
         mkDir( reports );
 
@@ -335,6 +329,11 @@ public class JUnitTestTask extends GenericTask
             {
                 log( "Executing forked test with mode: '" + mode + "'." );
                 junit.setForkMode( mode );
+            }
+            String mx = getContext().getProperty( MX_KEY );
+            if( null != mx )
+            {
+                junit.setMaxmemory( mx );
             }
         }
         else
