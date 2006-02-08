@@ -30,7 +30,7 @@ import java.util.Properties;
 import net.dpml.lang.Enum;
 
 /**
- * The ModuleDirective class describes a module data-structure.
+ * The ResourceDirective class describes an available resource.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

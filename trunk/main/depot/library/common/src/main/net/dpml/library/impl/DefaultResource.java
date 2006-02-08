@@ -187,6 +187,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             return getStandardVersion();
         }
         String version = m_directive.getVersion();
+        if( ResourceDirective.ANONYMOUS.equals( getClassifier() ) )
+        {
+            return version;
+        }
         if( null == version )
         {
             if( null != m_parent ) 
