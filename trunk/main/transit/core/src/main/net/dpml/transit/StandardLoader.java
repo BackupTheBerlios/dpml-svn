@@ -266,7 +266,7 @@ class StandardLoader implements Repository
         {
             throw new NullArgumentException( "uri" );
         }
-
+        
         Artifact artifact = getArtifact( uri );
 
         if( !"plugin".equals( artifact.getType() ) )
