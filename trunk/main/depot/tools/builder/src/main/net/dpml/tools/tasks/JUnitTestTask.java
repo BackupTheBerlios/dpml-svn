@@ -44,6 +44,11 @@ import org.apache.tools.ant.types.Path;
 public class JUnitTestTask extends GenericTask
 {
    /**
+    * Constant for lookup of mx value.
+    */
+    public static final String MX_KEY = "project.test.mx";
+
+   /**
     * Constant test enabled key.
     */
     public static final String TEST_ENABLED_KEY = "project.test.enabled";
@@ -254,6 +259,12 @@ public class JUnitTestTask extends GenericTask
         junit.setHaltonfailure(
           getBooleanProperty(
             HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
+            
+        String mx = getContext().getProperty( MX_KEY );
+        if( null != mx )
+        {
+            junit.setMaxmemory( mx );
+        }
 
         final File reports = getContext().getTargetReportsTestDirectory();
         mkDir( reports );
