@@ -87,7 +87,9 @@ abstract class TransitTask extends Task
                 }
                 catch( TransitAlreadyInitializedException e )
                 {
-                    // move on
+                    Adapter logger = new AntAdapter( task );
+                    Transit transit = Transit.getInstance();
+                    setupMonitors( transit, logger );
                 }
                 catch( Throwable e )
                 {
@@ -192,14 +194,21 @@ abstract class TransitTask extends Task
    /**
     * Setup the monitors.
     */
-    private static void setupMonitors( Transit instance, Adapter adapter ) throws Exception
+    private static void setupMonitors( Transit instance, Adapter adapter )
     {
-        instance.getRepositoryMonitorRouter().addMonitor(
-          new RepositoryMonitorAdapter( adapter ) );
-        instance.getCacheMonitorRouter().addMonitor(
-          new CacheMonitorAdapter( adapter ) );
-        instance.getNetworkMonitorRouter().addMonitor(
-          new NetworkMonitorAdapter( adapter ) );
+        try
+        {
+            instance.getRepositoryMonitorRouter().addMonitor(
+              new RepositoryMonitorAdapter( adapter ) );
+            instance.getCacheMonitorRouter().addMonitor(
+              new CacheMonitorAdapter( adapter ) );
+            instance.getNetworkMonitorRouter().addMonitor(
+              new NetworkMonitorAdapter( adapter ) );
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
     }
 }
 

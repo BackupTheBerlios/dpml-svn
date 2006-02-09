@@ -295,7 +295,8 @@ public final class SecuredTransitContext
     protected void initialize() throws IOException
     {
         m_linkManager = new ArtifactLinkManager();
-        m_repository = new StandardLoader();
+        Logger logger = getLogger().getChildLogger( "cache" );
+        m_repository = new StandardLoader( logger );
         initializeCache();
     }
 

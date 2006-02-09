@@ -36,6 +36,7 @@ import java.util.Properties;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
+import net.dpml.transit.Logger;
 
 /**
  * Utility class supporting downloading of resources based on
@@ -46,6 +47,17 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
  */
 class StandardLoader implements Repository
 {
+    private final Logger m_logger;
+    
+   /**
+    * Creation of a new repository handler.
+    * @param logger the assigned logging channel
+    */
+    StandardLoader( Logger logger )
+    {
+        m_logger = logger;
+    }
+
     // ------------------------------------------------------------------------
     // Repository
     // ------------------------------------------------------------------------
@@ -155,8 +167,9 @@ class StandardLoader implements Repository
         }
         try
         {
+            getLogger().debug( "loading plugin: " + uri );
+            //getMonitor().getPluginRequested( parent, uri, args );
             Plugin descriptor = getPluginDescriptor( uri );
-            getMonitor().sequenceInfo( "building classload stack" );
             ClassLoader classloader = createClassLoader( parent, descriptor );
             String classname = descriptor.getClassname();
             if( null == classname )
@@ -171,7 +184,8 @@ class StandardLoader implements Repository
             try
             {
                 Class clazz = loadPluginClass( classloader, classname );
-                getMonitor().establishedPluginClass( clazz );
+                getLogger().debug( "established plugin class: " + clazz.getName() );
+                //getMonitor().establishedPluginClass( clazz );
                 return createPlugin( classloader, descriptor, clazz, args );
             }
             catch( ClassNotFoundException e )
@@ -193,7 +207,8 @@ class StandardLoader implements Repository
         catch( Exception ce )
         {
             String error = "Unable to create a plugin using [" + uri + "].";
-            getMonitor().exceptionOccurred( "getPlugin", ce );
+            getLogger().error( error, ce );
+            //getMonitor().exceptionOccurred( "getPlugin", ce );
             throw new InvocationTargetException( ce );
         }
     }
@@ -611,11 +626,11 @@ class StandardLoader implements Repository
         {
             URI library = libraries[i];
             File source = (File) library.toURL().getContent( new Class[]{File.class} );
-            String path = source.getAbsolutePath();
-            getMonitor().sequenceInfo( "loading: " + path );
+            String path = source.getCanonicalPath();
             System.load( path );
+            getLogger().debug( "loaded library: " + path );
         }
-
+        
         URI plugin = descriptor.getURI();
 
         URI[] systemArtifacts = descriptor.getDependencies( Category.SYSTEM );
@@ -652,8 +667,7 @@ class StandardLoader implements Repository
             {
                 final String message =
                   "Cannot load system artifacts into a foreign classloader.";
-                getMonitor().sequenceInfo( message );
-                //throw new TransitException( error );
+                getLogger().warn( message );
             }
         }
     }
@@ -771,7 +785,6 @@ class StandardLoader implements Repository
         }
         catch( ClassNotFoundException e )
         {
-            System.out.println( "# CL: " + classloader );
             throw e;
         }
         catch( Throwable e )
@@ -858,6 +871,11 @@ class StandardLoader implements Repository
     private RepositoryMonitorRouter getMonitor()
     {
         return Transit.getInstance().getRepositoryMonitorRouter();
+    }
+
+    private Logger getLogger()
+    {
+        return m_logger;
     }
 
     private static final int THREE = 3;
