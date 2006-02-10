@@ -73,16 +73,6 @@ class PropertiesPlugin
     static final String PP_IMP_KEY = "dpml.artifact.dependency";
 
    /**
-    * key to designate w32 native libraries
-    */
-    static final String PP_NATIVE_W32_KEY = "dpml.artifact.native.w32";
-
-   /**
-    * key to designate nix native libraries
-    */
-    static final String PP_NATIVE_NIX_KEY = "dpml.artifact.native.nix";
-
-   /**
     * key to designate the plugin classname.
     */
     static final String PP_FACTORY_KEY = "dpml.plugin.class";
@@ -150,16 +140,6 @@ class PropertiesPlugin
     * The set of uris representing the implementation.
     */
     private final URI[] m_imp;
-
-   /**
-    * The set of uris representing the native w32 libraries.
-    */
-    private final URI[] m_w32;
-
-   /**
-    * The set of uris representing the native nix libraries.
-    */
-    private final URI[] m_nix;
 
    /**
     * Plugin group.
@@ -240,8 +220,6 @@ class PropertiesPlugin
 
         m_uri = Artifact.createArtifact( m_group, m_name, m_version, "plugin" ).toURI();
 
-        m_w32 = buildDependents( attributes, PP_NATIVE_W32_KEY );
-        m_nix = buildDependents( attributes, PP_NATIVE_NIX_KEY );
         m_sys = buildDependents( attributes, PP_SYS_KEY );
         m_api = buildDependents( attributes, PP_API_KEY );
         m_spi = buildDependents( attributes, PP_SPI_KEY );
@@ -377,10 +355,6 @@ class PropertiesPlugin
     */
     public URI[] getDependencies( Category key )
     {
-        //if( key == Category.ANY )
-        //{
-        //    return getDependencies();
-        //}
         if( key == Category.SYSTEM )
         {
             return m_sys;
@@ -402,23 +376,6 @@ class PropertiesPlugin
             final String error =
               "Invalid dependency key: " + key;
             throw new IllegalArgumentException( error );
-        }
-    }
-    
-   /**
-    * Return the native dependencies
-    *
-    * @return the uris to native libraries
-    */
-    public URI[] getNativeDependencies()
-    {
-        if( Environment.isUnix() )
-        {
-            return m_nix;
-        }
-        else
-        {
-            return m_w32;
         }
     }
     

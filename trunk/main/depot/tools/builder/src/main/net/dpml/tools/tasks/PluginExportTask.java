@@ -121,16 +121,6 @@ public class PluginExportTask extends GenericTask
     */
     public static final String ARTIFACT_PRIVATE = "dpml.artifact.dependency";
 
-   /**
-    * The constant artifact native w32 dependencies.
-    */
-    public static final String ARTIFACT_NATIVE_W32 = "dpml.artifact.native.w32";
-
-   /**
-    * The constant artifact native nix dependencies.
-    */
-    public static final String ARTIFACT_NATIVE_NIX = "dpml.artifact.native.nix";
-
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
@@ -344,22 +334,6 @@ public class PluginExportTask extends GenericTask
     private void writeClasspath( final Writer writer )
         throws Exception
     {
-        Resource[] w32Resources = getResource().getClasspathProviders( Category.W32 );
-        if( w32Resources.length > 0 )
-        {
-            final String label = "Native W32 dependencies.";
-            final String lead = ARTIFACT_NATIVE_W32;
-            writeRefs( writer, w32Resources, lead, label );
-        }
-        
-        Resource[] nixResources = getResource().getClasspathProviders( Category.NIX );
-        if( nixResources.length > 0 )
-        {
-            final String label = "Native NIX dependencies.";
-            final String lead = ARTIFACT_NATIVE_NIX;
-            writeRefs( writer, nixResources, lead, label );
-        }
-        
         Resource[] systemResources = getResource().getClasspathProviders( Category.SYSTEM );
         if( systemResources.length > 0 )
         {

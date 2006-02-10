@@ -50,20 +50,10 @@ public final class Category extends ValuedEnum
     public static final Category PRIVATE = new Category( "private", 3 );
 
    /**
-    * Native category.
-    */
-    public static final Category W32 = new Category( "w32", 4 );
-
-   /**
-    * Native category.
-    */
-    public static final Category NIX = new Category( "nix", 5 );
-
-   /**
     * Array of scope enumeration values.
     */
     private static final Category[] ENUM_VALUES = 
-      new Category[]{SYSTEM, PUBLIC, PROTECTED, PRIVATE, W32, NIX};
+      new Category[]{SYSTEM, PUBLIC, PROTECTED, PRIVATE};
 
    /**
     * Returns an array of activation enum values.
@@ -117,14 +107,6 @@ public final class Category extends ValuedEnum
         else if( value.equalsIgnoreCase( "private" ) )
         {
             return PRIVATE;
-        }
-        else if( value.equalsIgnoreCase( "w32" ) )
-        {
-            return W32;
-        }
-        else if( value.equalsIgnoreCase( "nix" ) )
-        {
-            return NIX;
         }
         else
         {

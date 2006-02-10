@@ -70,13 +70,6 @@ public interface Plugin
     URI[] getDependencies( Category key );
 
    /**
-    * Return the native dependencies
-    *
-    * @return the uris to native libraries
-    */
-    URI[] getNativeDependencies();
-
-   /**
     * Return the aggregated set of dependency uris.
     *
     * @return the dependency artifacts

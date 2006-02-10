@@ -168,7 +168,6 @@ class StandardLoader implements Repository
         try
         {
             getLogger().debug( "loading plugin: " + uri );
-            //getMonitor().getPluginRequested( parent, uri, args );
             Plugin descriptor = getPluginDescriptor( uri );
             ClassLoader classloader = createClassLoader( parent, descriptor );
             String classname = descriptor.getClassname();
@@ -185,8 +184,7 @@ class StandardLoader implements Repository
             {
                 Class clazz = loadPluginClass( classloader, classname );
                 getLogger().debug( "established plugin class: " + clazz.getName() );
-                //getMonitor().establishedPluginClass( clazz );
-                return createPlugin( classloader, descriptor, clazz, args );
+                return createPlugin( clazz, args );
             }
             catch( ClassNotFoundException e )
             {
@@ -208,7 +206,6 @@ class StandardLoader implements Repository
         {
             String error = "Unable to create a plugin using [" + uri + "].";
             getLogger().error( error, ce );
-            //getMonitor().exceptionOccurred( "getPlugin", ce );
             throw new InvocationTargetException( ce );
         }
     }
@@ -308,17 +305,14 @@ class StandardLoader implements Repository
    /**
     * Create a factory using a supplied class and command line arguments.
     *
-    * @param descriptor the plugin descriptor
-    * @param classloader the classloader to be used for plugin creation
     * @param clazz the the factory class
     * @param args the command line args
     * @return the plugin instance
     * @exception IOException if a plugin creation error occurs
     * @exception InvocationTargetException if a plugin constructor invocation error occurs
-    * @exception NullArgumentException if the any one of supplied classloader, descriptor,
-    *   class arguments are null
+    * @exception NullArgumentException if the class or args argument is null
     */
-    private Object createPlugin( ClassLoader classloader, Plugin descriptor, Class clazz, Object[] args )
+    private Object createPlugin( Class clazz, Object[] args )
         throws IOException, NullArgumentException, InvocationTargetException
     {
         if( null == clazz )
@@ -329,23 +323,6 @@ class StandardLoader implements Repository
         {
             throw new NullArgumentException( "args" );
         }
-        if( null == classloader )
-        {
-            throw new NullArgumentException( "classloader" );
-        }
-        if( null == descriptor )
-        {
-            throw new NullArgumentException( "descriptor" );
-        }
-        //Object[] params = new Object[ args.length + THREE ];
-        //for( int i=0; i < args.length; i++ )
-        //{
-        //    params[i] = args[i];
-        //}
-        //params[ args.length ] = classloader;
-        //params[ args.length + 1 ] = descriptor;
-        //params[ args.length + 2 ] = this;
-        //return instantiate( clazz, params );
         return instantiate( clazz, args );
     }
 
@@ -617,18 +594,6 @@ class StandardLoader implements Repository
         if( null == base )
         {
             throw new NullArgumentException( "base" );
-        }
-        
-        // load any native libraries declared by the plugin
-        
-        URI[] libraries = descriptor.getNativeDependencies();
-        for( int i=0; i<libraries.length; i++ )
-        {
-            URI library = libraries[i];
-            File source = (File) library.toURL().getContent( new Class[]{File.class} );
-            String path = source.getCanonicalPath();
-            System.load( path );
-            getLogger().debug( "loaded library: " + path );
         }
         
         URI plugin = descriptor.getURI();
