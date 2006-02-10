@@ -58,7 +58,7 @@ public class ArrayDataType implements ValueBuilder
 
    /**
     * Create, assign and return a new nested entry constructor parameter.
-    * @return the new context entry param
+    * @param param the configured value data type
     */
     public void addConfiguredValue( ValueDataType param )
     {
@@ -71,7 +71,7 @@ public class ArrayDataType implements ValueBuilder
     
    /**
     * Create, assign and return a new nested entry constructor parameter.
-    * @return the new context entry param
+    * @param param the configured array data type
     */
     public void addConfiguredArray( ArrayDataType param )
     {

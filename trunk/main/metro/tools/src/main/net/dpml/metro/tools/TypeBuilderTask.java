@@ -104,7 +104,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
 
    /**
     * Set the threadsafe flag.
-    * @param value true if the component type is threadsafe
+    * @param flag true if the component type is threadsafe
     */
     public void setThreadsafe( boolean flag )
     {
