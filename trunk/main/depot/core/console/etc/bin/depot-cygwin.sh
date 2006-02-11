@@ -24,8 +24,11 @@ JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
 JAVA_HOME=`cygpath --windows "$JAVA_HOME"`
 DPML_HOME=`cygpath --windows "$DPML_HOME"`
 DPML_SYSTEM=`cygpath --windows "$DPML_SYSTEM"`
-DEPOT_CLASSPATH=`cygpath --windows "$DEPOT_CLASSPATH"`
+DEPOT_SECURITY_POLICY=`cygpath --windows "$DEPOT_SECURITY_POLICY"`
+DEPOT_CLASSPATH=`cygpath --path --windows "$DEPOT_CLASSPATH"`
 [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+
+DEPOT_JVM_OPTS="\"-Djava.security.policy=$DEPOT_SECURITY_POLICY\" $DEPOT_JVM_OPTS"
 
 if [ "$DEPOT_DEBUG" = "true" ]; then
     TITLE="Starting Depot $DEPOT_VERSION."

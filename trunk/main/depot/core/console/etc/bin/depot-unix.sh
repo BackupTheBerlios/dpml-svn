@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+DEPOT_JVM_OPTS="\"-Djava.security.policy=$DEPOT_SECURITY_POLICY\" $DEPOT_JVM_OPTS"
+
 if [ "$DEPOT_DEBUG" = "true" ]; then
     TITLE="Starting Depot $DEPOT_VERSION."
     echo $TITLE
