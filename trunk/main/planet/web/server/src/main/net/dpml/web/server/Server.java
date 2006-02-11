@@ -62,11 +62,31 @@ public class Server extends org.mortbay.jetty.Server
         * @return the resolved request logger
         */
         RequestLog getRequestLog( RequestLog logger );
+        
+       /**
+        * Get the assigned thread pool. If no thread pool is 
+        * assigned by the deployment scenario a default pool
+        * will be established.
+        *
+        * @param pool the default value
+        * @return the resolved thread pool
+        */
+        ThreadPool getThreadPool( ThreadPool pool );
     }
     
     public interface Parts extends PartsManager
     {
+       /**
+        * Return the default request log.
+        * @return the default request log.
+        */
         RequestLog getRequestLog();
+        
+       /**
+        * Return the default thread pool.
+        * @return the default thread pool.
+        */
+        ThreadPool getThreadPool();
     }
     
     private final Logger m_logger;
@@ -97,6 +117,20 @@ public class Server extends org.mortbay.jetty.Server
         }
         
         //
+        // setup the thread pool
+        //
+        
+        ThreadPool pool = context.getThreadPool( null );
+        if( null != pool )
+        {
+            super.setThreadPool( pool );
+        }
+        else
+        {
+            super.setThreadPool( parts.getThreadPool() );
+        }
+        
+        //
         // setup the request log
         //
         
@@ -110,7 +144,9 @@ public class Server extends org.mortbay.jetty.Server
             super.setRequestLog( parts.getRequestLog() );
         }
         
+        //
         // add realms and context handlers
+        //
         
         addUserRealms( parts );
         addContextHandlers( parts );

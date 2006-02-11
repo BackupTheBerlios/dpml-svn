@@ -54,6 +54,12 @@
       </services>
     </type>
 
+    <type xmlns="metro" class="net.dpml.web.server.BoundedThreadPool" threadsafe="true" name="pool">
+      <services>
+        <service class="org.mortbay.thread.ThreadPool"/>
+      </services>
+    </type>
+
     <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true" collection="hard">
       <services>
         <service class="net.dpml.web.server.Server"/>
@@ -85,6 +91,13 @@
             <entry key="filename" value="$${dpml.data}/logs/http/request.log"/>
             <entry key="append" value="true"/>
             <entry key="extended" value="true"/>
+          </context>
+        </component>
+        <component key="threadPool" 
+            type="net.dpml.web.server.BoundedThreadPool" collection="hard" activation="DEMAND">
+          <context>
+            <entry key="min" value="10"/>
+            <entry key="max" value="100"/>
           </context>
         </component>
       </parts>
