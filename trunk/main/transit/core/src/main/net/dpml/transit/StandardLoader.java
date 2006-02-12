@@ -631,8 +631,12 @@ class StandardLoader implements Repository
             else
             {
                 final String message =
-                  "Cannot load system artifacts into a foreign classloader.";
-                getLogger().warn( message );
+                  "Cannot load [" 
+                  + urls.length 
+                  + "] system artifacts from [" 
+                  + plugin
+                  + "] into a foreign system classloader.";
+                getLogger().debug( message );
             }
         }
     }
