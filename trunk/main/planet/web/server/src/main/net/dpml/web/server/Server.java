@@ -33,6 +33,7 @@ import org.mortbay.jetty.RequestLog;
 import org.mortbay.xml.XmlConfiguration;
 import org.mortbay.util.LazyList;
 import org.mortbay.jetty.security.UserRealm;
+import org.mortbay.jetty.Connector;
 
 /**
  * HTTP server implementation.
@@ -46,7 +47,9 @@ public class Server extends org.mortbay.jetty.Server
     {
        /**
         * Get the Jetty XML configuration uri.  The configuration uri is 
-        * used to establish the default server configuration.
+        * used to establish the default server configuration prior to 
+        * customization via the server context. If not supplied the server
+        * will be deployed relative to the supplied context.
         *
         * @param uri the default uri
         * @return a uri referencing a Jetty configuration profile
@@ -105,12 +108,11 @@ public class Server extends org.mortbay.jetty.Server
         m_context = context;
         
         getLogger().debug( "commencing http server deployment" );
-        URI standard = new URI( "local:xml:dpml/planet/web/default" );
-        URI uri = context.getConfiguration( standard );
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        URI uri = context.getConfiguration( null );
         if( null != uri )
         {
-            getLogger().debug( "server configuration: " + uri );
+            getLogger().debug( "applying server configuration: " + uri );
             URL url = uri.toURL();
             XmlConfiguration config = new XmlConfiguration( url );
             config.configure( this );
@@ -145,12 +147,39 @@ public class Server extends org.mortbay.jetty.Server
         }
         
         //
-        // add realms and context handlers
+        // add connectors, realms and context handlers
         //
         
+        addConnectors( parts );
         addUserRealms( parts );
         addContextHandlers( parts );
         getLogger().debug( "server established" );
+    }
+    
+    private void addConnectors( PartsManager parts ) throws Exception
+    {
+        getLogger().debug( "commencing connector addition" );
+        ComponentHandler[] handlers = parts.getComponentHandlers( Connector.class );
+        ArrayList list = new ArrayList();
+        for( int i=0; i<handlers.length; i++ )
+        {
+            ComponentHandler handler = handlers[i];
+            getLogger().debug( "adding connector: " + handler );
+            try
+            {
+                Provider provider = handler.getProvider();
+                Connector ch = (Connector) provider.getValue( false );
+                list.add( ch );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Failed to deploy content handler: " + handler;
+                throw new Exception( error, e );
+            }
+        }
+        Connector[] connectors = (Connector[]) list.toArray( new Connector[0] );
+        setConnectors( connectors );
     }
     
     private void addContextHandlers( PartsManager parts ) throws Exception

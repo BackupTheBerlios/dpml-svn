@@ -25,55 +25,174 @@ import org.mortbay.log.Log;
 import org.mortbay.resource.Resource;
 
 /**
- * SSL socket connector with enhanced keystore resolution semantics.
+ * SSL socket connector.
  */
 public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConnector
 {
+    private static final int HEADER_BUFFER_SIZE = 4*1024;
+    private static final int REQUEST_BUFFER_SIZE = 8*1024;
+    private static final int RESPONSE_BUFFER_SIZE = 32*1024;
+    private static final int MAXIMUM_IDLE_TIME = 30000;
+    private static final int ACCEPT_QUEUE_SIZE = 0;
+    private static final int ACCEPTORS = 1;
+    private static final int SO_LINGER_TIME = 1000;
+    private static final int CONFIDENTIAL_PORT = 0;
+    private static final int INTEGRAL_PORT = 0;
+    private static final boolean ASSUME_SHORT_DISPATCH = false;
+    
    /**
-    * Set the location of the keystore.  The implementation supports
-    * resolution of files using the Transit local resource protocol
-    * together with system property symbolic resolution. Following argument
-    * evalution the implementation delegates subsequent actions to the 
-    * Jetty implementation class.
-    *
-    * @param keystore the keystore value
+    * SSL connector context definition.
     */
-    /*
-    public void setKeystore( String keystore )
+    public interface Context extends ConnectorContext
     {
-        String resolved = PropertyResolver.resolve( keystore );
-        Log.info( "# resolved keystore argument: [" + resolved + "]" );
-        if( resolved.startsWith( "local:" ) )
-        {
-            Log.info( "# argument is a local value" );
-            try
-            {
-                URI uri = new URI( resolved );
-                File file = (File) uri.toURL().getContent( new Class[]{ File.class } );
-                if( !file.exists() )
-                {
-                    final String error = 
-                      "Keystore file ["
-                      + file
-                      + "] does not exist.";
-                    throw new IllegalArgumentException( error );
-                }
-                String path = file.getCanonicalPath();
-                Log.info( "# keystore\npath: " + path );
-                super.setKeystore( path );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Invalid local keystore specification: " + resolved;
-                throw new RuntimeException( error, e );
-            }
-        }
-        else
-        {
-            Log.info( "# keystore location: " + resolved );
-            super.setKeystore( resolved );
-        }
+        //setCipherSuites( String[] suites );
+
+       /**
+        * Return the certificate password.
+        * @param password implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getPassword( String password );
+        
+       /**
+        * Return the keystore password.
+        * @param password implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getKeyPassword( String password );
+        
+       /**
+        * Return the keystore algorithm.
+        * @param algorithm implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getAlgorithm( String algorithm );
+        
+       /**
+        * Return the keystore protocol.
+        * @param protocol implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getProtocol( String protocol );
+        
+       /**
+        * Return the keystore location uri.
+        * @param keystore implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        URI getKeystore( URI keystore );
+        
+       /**
+        * Return the keystore type.
+        * @param type implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getKeystoreType( String type );
+        
+       /**
+        * Return the 'want-client-authentication' policy.
+        * @param flag implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        boolean getWantClientAuth( boolean flag );
+        
+       /**
+        * Return the 'need-client-authentication' policy.
+        * @param flag implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        boolean getNeedClientAuth( boolean flag );
     }
-    */
+
+    public SslSocketConnector( Context context ) throws Exception
+    {
+        super();
+        
+        String host = context.getHost( null );
+        if( null != host )
+        {
+            setHost( host );
+        }
+    
+        int port = context.getPort();
+        setPort( port );
+        
+        int headerBufferSize = context.getHeaderBufferSize( HEADER_BUFFER_SIZE );
+        setHeaderBufferSize( headerBufferSize );
+        
+        int requestBufferSize = context.getRequestBufferSize( REQUEST_BUFFER_SIZE );
+        setRequestBufferSize( requestBufferSize );
+        
+        int responseBufferSize = context.getResponseBufferSize( RESPONSE_BUFFER_SIZE );
+        setResponseBufferSize( responseBufferSize );
+        
+        int maxIdle = context.getMaxIdleTime( MAXIMUM_IDLE_TIME );
+        setMaxIdleTime( maxIdle );
+        
+        int queueSize = context.getAcceptQueueSize( ACCEPT_QUEUE_SIZE );
+        setAcceptQueueSize( queueSize );
+        
+        int acceptCount = context.getAcceptors( ACCEPTORS );
+        setAcceptors( acceptCount );
+        
+        int linger = context.getSoLingerTime( SO_LINGER_TIME );
+        setSoLingerTime( linger );
+        
+        int confidentialPort = context.getConfidentialPort( CONFIDENTIAL_PORT );
+        setConfidentialPort( confidentialPort );
+        
+        Scheme confidentialScheme = Scheme.parse( context.getConfidentialScheme( "https" ) );
+        setConfidentialScheme( confidentialScheme.getName() );
+        
+        int integralPort = context.getIntegralPort( INTEGRAL_PORT );
+        setIntegralPort( integralPort );
+        
+        Scheme integralScheme = Scheme.parse( context.getIntegralScheme( "https" ) );
+        setIntegralScheme( integralScheme.getName() );
+        
+        // SslSocketConnector$Context
+        
+        String password = context.getPassword( null );
+        if( null != password )
+        {
+            setPassword( password );
+        }
+        
+        String keyPassword = context.getKeyPassword( null );
+        if( null != keyPassword )
+        {
+            setKeyPassword( keyPassword );
+        }
+        
+        String algorithm = context.getAlgorithm( null );
+        if( null != algorithm )
+        {
+            setAlgorithm( algorithm );
+        }
+        
+        String protocol = context.getProtocol( null );
+        if( null != protocol )
+        {
+            setProtocol( protocol );
+        }
+        
+        URI keystore = context.getKeystore( null );
+        if( null != keystore )
+        {
+            String keystorePath = keystore.toASCIIString();
+            setKeystore( keystorePath );
+        }
+        
+        String keystoreType = context.getKeystoreType( null );
+        if( null != keystoreType )
+        {
+            setKeystoreType( keystoreType );
+        }
+        
+        boolean wantClientAuth = context.getWantClientAuth( false );
+        setWantClientAuth( wantClientAuth );
+        
+        boolean needClientAuth = context.getNeedClientAuth( false );
+        setNeedClientAuth( needClientAuth );
+    }
 }

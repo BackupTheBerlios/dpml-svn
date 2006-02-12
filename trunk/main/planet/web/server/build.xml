@@ -60,6 +60,18 @@
       </services>
     </type>
 
+    <type xmlns="metro" class="net.dpml.web.server.SelectChannelConnector" threadsafe="true" name="sc-connector">
+      <services>
+        <service class="org.mortbay.jetty.Connector"/>
+      </services>
+    </type>
+
+    <type xmlns="metro" class="net.dpml.web.server.SslSocketConnector" threadsafe="true" name="ssl">
+      <services>
+        <service class="org.mortbay.jetty.Connector"/>
+      </services>
+    </type>
+
     <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true" collection="hard">
       <services>
         <service class="net.dpml.web.server.Server"/>
@@ -105,6 +117,28 @@
 
     <component xmlns="metro" type="net.dpml.web.server.Server" lifestyle="singleton">
       <parts>
+        <!-- 
+        Add a select channel connector to 8080.
+        -->
+        <component key="plain" type="net.dpml.web.server.SelectChannelConnector">
+          <context>
+            <entry key="port" value="8080"/>
+            <entry key="maxIdleTime" value="50000"/>
+            <entry key="acceptors" value="10"/>
+          </context>
+        </component>
+        <!--
+        Add a SSL connector to 8443.
+        -->
+        <component key="ssl" type="net.dpml.web.server.SslSocketConnector">
+          <context>
+            <entry key="port" value="8443"/>
+            <entry key="maxIdleTime" value="30000"/>
+            <entry key="keystore" value="local:keystore:dpml/planet/web/jetty"/>
+            <entry key="password" value="OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4"/>
+            <entry key="keyPassword" value="OBF:1u2u1wml1z7s1z7a1wnl1u2g"/>
+          </context>
+        </component>
         <!--
         Add a user realm.
         -->
@@ -115,7 +149,7 @@
           </context>
         </component>
         <!--
-        Add an experimental web app.
+        Add an web app.
         -->
         <component key="apps" type="net.dpml.web.server.WebAppContextHandler">
           <context>
