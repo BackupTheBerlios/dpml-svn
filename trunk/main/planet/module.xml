@@ -6,7 +6,6 @@
     <type id="module" alias="true"/>
   </types>
 
-  <module base="http"/>
   <module base="web"/>
 
 </module>
