@@ -4,6 +4,8 @@ DPML Planet Web - README
 
 Projects defined here include:
 
+  war    - an example war file creation project
+
   server - the server project contains the primary HTTP server class 
            net.dpml.web.server.Server which is an extension of the 
            Jetty 6.X Server implemetnation.  The DPML implementation 
@@ -12,8 +14,7 @@ Projects defined here include:
            a server definition (including http context types and 
            content handlers for static content, servlets, and web-apps).
 
-  war    - an example war file creation project
-
-  test   - project used to test deployment of the server
+  test   - project used to test deployment of the server which is 
+           preconfigured to use the example war artifact
 
   
