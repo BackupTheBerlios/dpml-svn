@@ -19,21 +19,13 @@
 
 package net.dpml.web.test;
 
-import java.io.File;
 import java.net.URI;
-import java.net.URL;
-import java.security.KeyStore;
 
 import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
-
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.security.Password;
-import org.mortbay.resource.Resource;
 
 /**
  * Test a simple component case.
@@ -43,28 +35,18 @@ import org.mortbay.resource.Resource;
  */
 public class ServerTestCase extends TestCase
 {
-    private static final String PATH = "demo.part";
-    private static final String TEST_DIR_KEY = "project.test.dir";
-    
    /**
     * Test the deployment of the Jetty server.
     * @exception Exception if an error occurs
     */
     public void testServerDeployment() throws Exception
     {
-        File test = new File( System.getProperty( TEST_DIR_KEY ) );
-        URI uri = new File( test, PATH ).toURI();
+        URI uri = new URI( "link:part:dpml/planet/web/dpml-web-server" );
         Controller control = Controller.STANDARD;
         Component component = control.createComponent( uri );
         try
         {
-            Server server = (Server) component.getProvider().getValue( false );
-            Handler[] handlers = server.getHandlers();
-            assertEquals( "handler count", 2, handlers.length );
-            for( int i=0; i<handlers.length; i++ )
-            {
-                System.out.println( handlers[i].toString() );
-            }
+            component.getProvider().getValue( false );
         }
         catch( ControlException e )
         {
@@ -86,7 +68,7 @@ public class ServerTestCase extends TestCase
             component.deactivate();
         }
     }
-
+    
     static
     {
         //System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );

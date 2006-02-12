@@ -149,7 +149,7 @@
           </context>
         </component>
         <!--
-        Add an web app.
+        Add a web application.
         -->
         <component key="apps" type="net.dpml.web.server.WebAppContextHandler">
           <context>
