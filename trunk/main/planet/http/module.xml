@@ -14,11 +14,11 @@
       <include ref="dpml/metro/dpml-metro-model"/>
       <include ref="dpml/util/dpml-logging-api"/>
       <include ref="dpml/util/dpml-configuration-api"/>
-      <include urn="artifact:jar:jetty/servlet-api-2.5#20060131" tag="PUBLIC"/>
+      <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
       <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
       <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
       <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
-      <include urn="artifact:jar:jetty/jetty#6.0.0-20060131"/>
+      <include urn="artifact:jar:org/mortbay/jetty#20060213"/>
       <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
       <include urn="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
       <include urn="artifact:jar:commons-el/commons-el#1.0"/>
@@ -32,7 +32,7 @@
       <type id="war" alias="true"/>
     </types>
     <dependencies>
-      <include urn="artifact:jar:servletapi/servletapi#2.4"/>
+      <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
     </dependencies>
   </project>
 
@@ -44,7 +44,7 @@
       <include key="dpml-http-app"/>
     </dependencies>
     <dependencies scope="RUNTIME">
-      <include urn="artifact:jar:jetty/servlet-api-2.5#20060131" tag="PUBLIC"/>
+      <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
       <include key="dpml-http-impl"/>
     </dependencies>
   </project>
