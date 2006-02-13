@@ -16,7 +16,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-http-server" basedir="server">
+  <project name="dpml-http-impl" basedir="impl">
     <types>
       <type id="jar"/>
       <type id="part" alias="true"/>
@@ -48,7 +48,7 @@
       <property name="project.test.fork" value="true"/>
     </properties>
     <dependencies scope="build">
-      <include key="dpml-http-server"/>
+      <include key="dpml-http-impl"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="dpml/metro/dpml-metro-model"/>
