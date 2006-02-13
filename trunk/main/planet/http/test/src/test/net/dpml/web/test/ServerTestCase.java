@@ -41,7 +41,7 @@ public class ServerTestCase extends TestCase
     */
     public void testServerDeployment() throws Exception
     {
-        URI uri = new URI( "link:part:dpml/planet/web/dpml-web-server" );
+        URI uri = new URI( "link:part:dpml/planet/http/dpml-http-server" );
         Controller control = Controller.STANDARD;
         Component component = control.createComponent( uri );
         try

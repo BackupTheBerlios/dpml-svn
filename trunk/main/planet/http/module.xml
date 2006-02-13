@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<module name="web">
+<module name="http">
 
   <types>
     <type id="module" alias="true"/>
   </types>
 
-  <project name="dpml-http-app" basedir="war">
-    <types>
-      <type id="jar"/>
-      <type id="war" alias="true"/>
-    </types>
-    <dependencies>
-      <include urn="artifact:jar:servletapi/servletapi#2.4" tag="public"/>
-    </dependencies>
-  </project>
-
   <project name="dpml-http-impl" basedir="impl">
     <types>
       <type id="jar"/>
-      <type id="part" alias="true"/>
     </types>
-    <dependencies scope="BUILD">
-      <include key="dpml-http-app"/>
-    </dependencies>
     <dependencies scope="RUNTIME">
       <include ref="dpml/metro/dpml-metro-model"/>
       <include ref="dpml/util/dpml-logging-api"/>
       <include ref="dpml/util/dpml-configuration-api"/>
-      <include urn="artifact:jar:jetty/servlet-api-2.5#20060131"/>
+      <include urn="artifact:jar:jetty/servlet-api-2.5#20060131" tag="PUBLIC"/>
       <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
       <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
       <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
@@ -40,6 +26,29 @@
     </dependencies>
   </project>
 
+  <project name="dpml-http-app" basedir="war">
+    <types>
+      <type id="jar"/>
+      <type id="war" alias="true"/>
+    </types>
+    <dependencies>
+      <include urn="artifact:jar:servletapi/servletapi#2.4"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-http-server" basedir="server">
+    <types>
+      <type id="part" alias="true"/>
+    </types>
+    <dependencies scope="BUILD">
+      <include key="dpml-http-app"/>
+    </dependencies>
+    <dependencies scope="RUNTIME">
+      <include urn="artifact:jar:jetty/servlet-api-2.5#20060131" tag="PUBLIC"/>
+      <include key="dpml-http-impl"/>
+    </dependencies>
+  </project>
+
   <project name="dpml-http-test" basedir="test">
     <types>
       <type id="jar"/>
@@ -48,7 +57,7 @@
       <property name="project.test.fork" value="true"/>
     </properties>
     <dependencies scope="build">
-      <include key="dpml-http-impl"/>
+      <include key="dpml-http-server"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="dpml/metro/dpml-metro-model"/>
