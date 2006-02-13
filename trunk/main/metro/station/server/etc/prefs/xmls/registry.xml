@@ -6,7 +6,7 @@
     <object class="net.dpml.station.info.RegistryDescriptor$Entry"> 
      <string>demo</string> 
      <object class="net.dpml.station.info.ApplicationDescriptor"> 
-      <string>link:part:dpml/planet/http/dpml-http-demo</string> 
+      <string>link:part:dpml/planet/http/dpml-http-server</string> 
       <string>demo</string> 
       <array class="net.dpml.transit.info.ValueDirective" length="0"/> 
       <string>${dpml.data}/work</string> 
