@@ -58,7 +58,7 @@ public class BoundedThreadPool extends org.mortbay.thread.BoundedThreadPool
        /**
         * Get the thread pool priority.
         *
-        * @param value the thread pool priority
+        * @param priority the thread pool priority
         * @return the priority
         */
         int getPriority( int priority );
@@ -66,13 +66,18 @@ public class BoundedThreadPool extends org.mortbay.thread.BoundedThreadPool
        /**
         * Get the maximum idle time.
         *
-        * @param the default maximum idle time
-        * @return the maximum idele time in milliseconds
+        * @param idle the default maximum idle time
+        * @return the maximum idle time in milliseconds
         */
         int getIdle( int idle );
         
     }
 
+   /**
+    * Creation of a new blocking thread pool.
+    * @param context the component context
+    * @exception Exception if an instantiation error occurs
+    */
     public BoundedThreadPool( Context context ) throws Exception
     {
         super();
