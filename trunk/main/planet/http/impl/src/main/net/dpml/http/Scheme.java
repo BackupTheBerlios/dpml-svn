@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.web.server;
+package net.dpml.http;
 
 import net.dpml.lang.Enum;
 

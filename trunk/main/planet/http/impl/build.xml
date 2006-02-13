@@ -24,57 +24,57 @@
   <target name="build" depends="standard.build">
     <depot:plugin uri="link:plugin:dpml/metro/dpml-metro-tools" urn="metro"/>
 
-    <type xmlns="metro" name="static" class="net.dpml.web.server.ResourceContextHandler" threadsafe="true" >
+    <type xmlns="metro" name="static" class="net.dpml.http.ResourceContextHandler" threadsafe="true" >
       <services>
-        <service class="net.dpml.web.server.ResourceContextHandler"/>
+        <service class="net.dpml.http.ResourceContextHandler"/>
       </services>
     </type>
 
-    <type xmlns="metro" name="servlets" class="net.dpml.web.server.ServletContextHandler" threadsafe="true" >
+    <type xmlns="metro" name="servlets" class="net.dpml.http.ServletContextHandler" threadsafe="true" >
       <services>
-        <service class="net.dpml.web.server.ServletContextHandler"/>
+        <service class="net.dpml.http.ServletContextHandler"/>
       </services>
     </type>
 
-    <type xmlns="metro" name="apps" class="net.dpml.web.server.WebAppContextHandler" threadsafe="true" >
+    <type xmlns="metro" name="apps" class="net.dpml.http.WebAppContextHandler" threadsafe="true" >
       <services>
-        <service class="net.dpml.web.server.WebAppContextHandler"/>
+        <service class="net.dpml.http.WebAppContextHandler"/>
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.web.server.NCSARequestLog" threadsafe="true" name="ncsa">
+    <type xmlns="metro" class="net.dpml.http.NCSARequestLog" threadsafe="true" name="ncsa">
       <services>
         <service class="org.mortbay.jetty.RequestLog"/>
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.web.server.HashUserRealm" threadsafe="true" name="realm">
+    <type xmlns="metro" class="net.dpml.http.HashUserRealm" threadsafe="true" name="realm">
       <services>
         <service class="org.mortbay.jetty.security.UserRealm"/>
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.web.server.BoundedThreadPool" threadsafe="true" name="pool">
+    <type xmlns="metro" class="net.dpml.http.BoundedThreadPool" threadsafe="true" name="pool">
       <services>
         <service class="org.mortbay.thread.ThreadPool"/>
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.web.server.SelectChannelConnector" threadsafe="true" name="sc-connector">
+    <type xmlns="metro" class="net.dpml.http.SelectChannelConnector" threadsafe="true" name="sc-connector">
       <services>
         <service class="org.mortbay.jetty.Connector"/>
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.web.server.SslSocketConnector" threadsafe="true" name="ssl">
+    <type xmlns="metro" class="net.dpml.http.SslSocketConnector" threadsafe="true" name="ssl">
       <services>
         <service class="org.mortbay.jetty.Connector"/>
       </services>
     </type>
 
-    <type xmlns="metro" name="server" class="net.dpml.web.server.Server" threadsafe="true" collection="hard">
+    <type xmlns="metro" name="server" class="net.dpml.http.Server" threadsafe="true" collection="hard">
       <services>
-        <service class="net.dpml.web.server.Server"/>
+        <service class="net.dpml.http.Server"/>
       </services>
       <state>
         <trigger event="initialization">
@@ -98,7 +98,7 @@
       </state>
       <parts>
         <component key="requestLog" 
-            type="net.dpml.web.server.NCSARequestLog" collection="hard" activation="DEMAND">
+            type="net.dpml.http.NCSARequestLog" collection="hard" activation="DEMAND">
           <context>
             <entry key="filename" value="$${dpml.data}/logs/http/request.log"/>
             <entry key="append" value="true"/>
@@ -106,7 +106,7 @@
           </context>
         </component>
         <component key="threadPool" 
-            type="net.dpml.web.server.BoundedThreadPool" collection="hard" activation="DEMAND">
+            type="net.dpml.http.BoundedThreadPool" collection="hard" activation="DEMAND">
           <context>
             <entry key="min" value="10"/>
             <entry key="max" value="100"/>

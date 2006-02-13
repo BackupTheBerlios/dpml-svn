@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.web.test;
+package net.dpml.http.test;
 
 import java.net.URI;
 
