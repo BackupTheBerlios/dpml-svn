@@ -6,13 +6,23 @@
     <type id="module" alias="true"/>
   </types>
 
-  <project name="dpml-web-server" basedir="server">
+  <project name="dpml-http-app" basedir="war">
+    <types>
+      <type id="jar"/>
+      <type id="war" alias="true"/>
+    </types>
+    <dependencies>
+      <include urn="artifact:jar:servletapi/servletapi#2.4" tag="public"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-http-server" basedir="server">
     <types>
       <type id="jar"/>
       <type id="part" alias="true"/>
     </types>
     <dependencies scope="BUILD">
-      <include key="dpml-web-app"/>
+      <include key="dpml-http-app"/>
     </dependencies>
     <dependencies scope="RUNTIME">
       <include ref="dpml/metro/dpml-metro-model"/>
@@ -30,20 +40,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-web-app" basedir="war">
-    <types>
-      <type id="jar"/>
-      <type id="war" alias="true"/>
-    </types>
-    <properties>
-      <property name="project.test.fork" value="true"/>
-    </properties>
-    <dependencies>
-      <include urn="artifact:jar:servletapi/servletapi#2.4" tag="public"/>
-    </dependencies>
-  </project>
-
-  <project name="dpml-web-test" basedir="test">
+  <project name="dpml-http-test" basedir="test">
     <types>
       <type id="jar"/>
     </types>
@@ -51,7 +48,7 @@
       <property name="project.test.fork" value="true"/>
     </properties>
     <dependencies scope="build">
-      <include key="dpml-web-server"/>
+      <include key="dpml-http-server"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="dpml/metro/dpml-metro-model"/>
