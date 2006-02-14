@@ -27,7 +27,7 @@ import net.dpml.logging.Logger;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.ComponentManager;
+import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ComponentModel;
 
 import net.dpml.part.ActivationPolicy;
@@ -91,14 +91,14 @@ class DefaultPartsManager implements PartsManager
         m_logger = logger;
         
         ClassLoader classloader = handler.getClassLoader();
-        ComponentManager model = handler.getComponentManager();
+        ComponentModelManager model = handler.getComponentManager();
         String[] keys = model.getPartKeys();
         for( int i=0; i<keys.length; i++ )
         {
             String key = keys[i];
             try
             {
-                ComponentManager m = model.getComponentManager( key );
+                ComponentModelManager m = model.getComponentManager( key );
                 ComponentModel cm = (ComponentModel) m;
                 Component h = control.createDefaultComponentHandler( handler, classloader, cm, true );
                 m_handlers.put( key, h );

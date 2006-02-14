@@ -19,6 +19,7 @@
 package net.dpml.metro;
 
 import java.net.URI;
+import java.rmi.RemoteException;
 
 import net.dpml.part.Controller;
 
@@ -36,7 +37,7 @@ public interface ComponentContext
     * Return the current controller.
     * @return the root system controller
     */
-    Controller getController();
+    Controller getController() throws RemoteException;
     
    /**
     * Create a nested component handler.

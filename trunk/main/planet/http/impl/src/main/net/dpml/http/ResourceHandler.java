@@ -15,10 +15,6 @@
  */
 package net.dpml.http;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.servlet.ServletMapping;
 
@@ -27,6 +23,11 @@ import org.mortbay.jetty.servlet.ServletMapping;
  */
 public class ResourceHandler extends org.mortbay.jetty.servlet.ServletHandler
 {
+   /**
+    * Creation of a new resource handler.
+    * @param name the resource handler name
+    * @param path the resourdce path
+    */
     public ResourceHandler( String name, String path )
     {
         super();

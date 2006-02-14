@@ -17,8 +17,6 @@ package net.dpml.http;
 
 import java.util.ArrayList;
 
-import net.dpml.transit.util.PropertyResolver;
-
 import net.dpml.logging.Logger;
 
 import net.dpml.configuration.Configuration;
@@ -47,7 +45,15 @@ public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHand
     
     private int m_priority = 0;
     
-    public ServletContextHandler( Logger logger, Context context, Configuration config ) throws Exception
+   /**
+    * Creation of a new servlet context handler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @param config the deployment configuration
+    * @exception Exception if an instantiation error occurs
+    */
+    public ServletContextHandler( 
+      Logger logger, Context context, Configuration config ) throws Exception
     {
         super();
         
@@ -61,7 +67,8 @@ public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHand
         super.setHandler( handler );
     }
     
-    private Handler buildHandler( Logger logger, Configuration config ) throws ConfigurationException
+    private Handler buildHandler( 
+      Logger logger, Configuration config ) throws ConfigurationException
     {
         logger.debug( "configuration " + config );
         Configuration servlets = config.getChild( "servlets" );
@@ -88,8 +95,10 @@ public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHand
             ServletMapping mapping = new ServletMapping( name, path );
             mappingList.add( mapping );
         }
-        ServletHolder[] servletArray = (ServletHolder[]) servletList.toArray( new ServletHolder[0] );
-        ServletMapping[] mappingArray = (ServletMapping[]) mappingList.toArray( new ServletMapping[0] );
+        ServletHolder[] servletArray = 
+          (ServletHolder[]) servletList.toArray( new ServletHolder[0] );
+        ServletMapping[] mappingArray = 
+          (ServletMapping[]) mappingList.toArray( new ServletMapping[0] );
         return new ServletHandler( servletArray, mappingArray );
     }
 }

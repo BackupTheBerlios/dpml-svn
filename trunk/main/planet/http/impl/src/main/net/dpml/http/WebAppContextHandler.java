@@ -16,16 +16,12 @@
 package net.dpml.http;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Map;
 import java.security.PermissionCollection;
 import java.io.File;
 
-import net.dpml.transit.util.PropertyResolver;
-
 import net.dpml.logging.Logger;
 
-import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.security.SecurityHandler;
 import org.mortbay.jetty.servlet.SessionHandler;
 import org.mortbay.jetty.servlet.ServletHandler;
@@ -98,20 +94,29 @@ public class WebAppContextHandler extends org.mortbay.jetty.webapp.WebAppContext
     
     private int m_priority = 0;
     
+   /**
+    * Creation of a new web-application context handler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @exception Exception if an instantiation error occurs
+    */
     public WebAppContextHandler( Logger logger, Context context ) throws Exception
     {
         ContextHelper helper = new ContextHelper( logger );
         helper.contextualize( this, context );
         
-        SecurityHandler securityHandler = context.getSecurityHandler( new SecurityHandler() );
+        SecurityHandler securityHandler = 
+          context.getSecurityHandler( new SecurityHandler() );
         setSecurityHandler( securityHandler );
         setHandler( securityHandler );
         
-        SessionHandler sessionHandler = context.getSessionHandler( new SessionHandler() );
+        SessionHandler sessionHandler = 
+          context.getSessionHandler( new SessionHandler() );
         securityHandler.setHandler( sessionHandler );
         setSessionHandler( sessionHandler );
         
-        ServletHandler servletHandler = context.getServletHandler( new ServletHandler() );
+        ServletHandler servletHandler = 
+          context.getServletHandler( new ServletHandler() );
         sessionHandler.setHandler( servletHandler );
         setServletHandler( servletHandler );
         

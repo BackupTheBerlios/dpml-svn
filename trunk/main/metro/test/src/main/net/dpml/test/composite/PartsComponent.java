@@ -19,6 +19,7 @@
 package net.dpml.test.composite;
 
 import java.awt.Color;
+import java.rmi.RemoteException;
 
 import net.dpml.logging.Logger;
 
@@ -88,7 +89,7 @@ public class PartsComponent implements ColorManager
     */
     public PartsComponent( 
       final Logger logger, final Context context, final PartsManager parts ) 
-      throws UnknownKeyException
+      throws UnknownKeyException, RemoteException
     {
         logger.debug( "instantiation" );
         

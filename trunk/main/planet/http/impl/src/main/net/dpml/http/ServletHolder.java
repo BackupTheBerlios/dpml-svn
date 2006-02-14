@@ -20,6 +20,11 @@ package net.dpml.http;
  */
 public class ServletHolder extends org.mortbay.jetty.servlet.ServletHolder
 {
+   /**
+    * Creation of a new servlet holder.
+    * @param name the servlet name
+    * @param classname the servlet classname
+    */
     public ServletHolder( String name, String classname )
     {
         super();

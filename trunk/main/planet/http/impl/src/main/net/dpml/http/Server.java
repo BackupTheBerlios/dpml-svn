@@ -17,7 +17,6 @@ package net.dpml.http;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ArrayList;
 
 import net.dpml.logging.Logger;
@@ -28,10 +27,7 @@ import net.dpml.part.Provider;
 
 import org.mortbay.thread.ThreadPool;
 import org.mortbay.jetty.RequestLog;
-import org.mortbay.jetty.Handler;
-import org.mortbay.jetty.RequestLog;
 import org.mortbay.xml.XmlConfiguration;
-import org.mortbay.util.LazyList;
 import org.mortbay.jetty.security.UserRealm;
 import org.mortbay.jetty.Connector;
 
@@ -77,6 +73,9 @@ public class Server extends org.mortbay.jetty.Server
         ThreadPool getThreadPool( ThreadPool pool );
     }
     
+   /**
+    * Internal parts managemwent interface.
+    */
     public interface Parts extends PartsManager
     {
        /**
@@ -99,6 +98,8 @@ public class Server extends org.mortbay.jetty.Server
     * Creation of a new HTTP server implementation.
     * @param logger the assigned logging channel
     * @param context the assigned deployment context
+    * @param parts the parts manager
+    * @exception Exception if an instantiation error occurs
     */
     public Server( Logger logger, Context context, Parts parts ) throws Exception
     {

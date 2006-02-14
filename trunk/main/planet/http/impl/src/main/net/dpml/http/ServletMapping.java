@@ -20,6 +20,11 @@ package net.dpml.http;
  */
 public class ServletMapping extends org.mortbay.jetty.servlet.ServletMapping
 {
+   /**
+    * Creation of a new servlet mapping.
+    * @param name the servlet name
+    * @param path the path
+    */
     public ServletMapping( String name, String path )
     {
         super();

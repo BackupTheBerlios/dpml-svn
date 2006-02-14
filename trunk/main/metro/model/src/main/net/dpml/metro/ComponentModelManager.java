@@ -18,6 +18,8 @@
 
 package net.dpml.metro;
 
+import java.rmi.RemoteException;
+
 import net.dpml.metro.info.CollectionPolicy;
 
 import net.dpml.part.ActivationPolicy;
@@ -31,19 +33,19 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentManager extends ComponentModelOperations
+public interface ComponentModelManager extends ComponentModel
 {
    /**
     * Return the context model manager.
     * @return the context model manager
     */
-    ContextManager getContextManager();
+    ContextModelManager getContextManager() throws RemoteException;
     
    /**
     * Return the set of subsidiary component model keys.
     * @return the part keys
     */
-    String[] getPartKeys();
+    String[] getPartKeys() throws RemoteException;
 
    /**
     * Return a subsidiary component manager.
@@ -52,18 +54,18 @@ public interface ComponentManager extends ComponentModelOperations
     * @exception UnknownKeyException if the key is not recognized
     * @see #getPartKeys()
     */
-    ComponentManager getComponentManager( String key ) throws UnknownKeyException;
+    ComponentModelManager getComponentManager( String key ) throws UnknownKeyException, RemoteException;
 
    /**
     * Set the component activation policy to the supplied value.
     * @param policy the new activation policy
     */
-    void setActivationPolicy( ActivationPolicy policy );
+    void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
 
    /**
     * Override the assigned collection policy.
     * @param policy the collection policy value
     */
-    void setCollectionPolicy( CollectionPolicy policy );
+    void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
 }
 

@@ -15,8 +15,6 @@
  */
 package net.dpml.http;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -42,9 +40,13 @@ public class HashUserRealm extends org.mortbay.jetty.security.HashUserRealm
         * @return the realm configuration uri
         */
         URI getURI();
-        
     }
 
+   /**
+    * Creation of a new hash user realm.
+    * @param context the deployment context
+    * @exception Exception if an instantiation error occurs
+    */
     public HashUserRealm( Context context ) throws Exception
     {
         String name = context.getName();

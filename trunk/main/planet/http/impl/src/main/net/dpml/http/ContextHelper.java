@@ -15,17 +15,10 @@
  */
 package net.dpml.http;
 
-import java.util.ArrayList;
 import java.util.Map;
-
-import net.dpml.transit.util.PropertyResolver;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.ConfigurationException;
-
-import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.MimeTypes;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.handler.ErrorHandler;

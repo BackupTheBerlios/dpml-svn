@@ -25,11 +25,9 @@ import java.net.URI;
 import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
-import net.dpml.part.Component;
 import net.dpml.part.ControlException;
 
 import net.dpml.metro.PartsManager;
-import net.dpml.metro.ComponentManager;
 import net.dpml.metro.ComponentHandler;
 
 

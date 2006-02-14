@@ -15,11 +15,7 @@
  */
 package net.dpml.http;
 
-import net.dpml.transit.util.PropertyResolver;
-
 import net.dpml.logging.Logger;
-
-import org.mortbay.jetty.Handler;
 
 /**
  * Context handler with enhanced support for symbolic property dereferencing. 
@@ -42,6 +38,12 @@ public class ResourceContextHandler extends org.mortbay.jetty.handler.ContextHan
     
     private int m_priority = 0;
     
+   /**
+    * Creation of a new resource context handler.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @exception Exception if an instantiation error occurs
+    */
     public ResourceContextHandler( Logger logger, Context context ) throws Exception
     {
         ContextHelper helper = new ContextHelper( logger );

@@ -26,8 +26,8 @@ import junit.framework.TestCase;
 
 import net.dpml.part.Controller;
 
-import net.dpml.metro.ComponentManager;
-import net.dpml.metro.ContextManager;
+import net.dpml.metro.ComponentModelManager;
+import net.dpml.metro.ContextModelManager;
 import net.dpml.metro.ValidationException;
 import net.dpml.metro.ValidationException.Issue;
 import net.dpml.metro.data.ValueDirective;
@@ -40,7 +40,7 @@ import net.dpml.metro.info.EntryDescriptor;
  */
 public class ContextModelTestCase extends TestCase
 {    
-    private ComponentManager m_model;
+    private ComponentModelManager m_model;
     
    /**
     * Testcase setup during which the part definition 'example.part'
@@ -52,7 +52,7 @@ public class ContextModelTestCase extends TestCase
         final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         final URI uri = new File( test, path ).toURI();
-        m_model = (ComponentManager) Controller.STANDARD.createModel( uri );
+        m_model = (ComponentModelManager) Controller.STANDARD.createModel( uri );
     }
     
    /**
@@ -61,7 +61,7 @@ public class ContextModelTestCase extends TestCase
     */
     public void testContextModel() throws Exception
     {
-        ContextManager context = m_model.getContextManager();
+        ContextModelManager context = m_model.getContextManager();
         assertNotNull( "context", context );
         EntryDescriptor[] entries = context.getEntryDescriptors();
         assertEquals( "entries", 1, entries.length );
@@ -83,7 +83,7 @@ public class ContextModelTestCase extends TestCase
     */
     public void testValidationWithoutCause() throws Exception
     {
-        ContextManager context = m_model.getContextManager();
+        ContextModelManager context = m_model.getContextManager();
         context.validate();
     }
     
@@ -93,7 +93,7 @@ public class ContextModelTestCase extends TestCase
     */
     public void testValidationWithCause() throws Exception
     {
-        ContextManager context = m_model.getContextManager();
+        ContextModelManager context = m_model.getContextManager();
         context.setEntryDirective( "color", null );
         try
         {

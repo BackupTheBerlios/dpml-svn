@@ -18,6 +18,8 @@
 
 package net.dpml.metro;
 
+import java.rmi.RemoteException;
+
 import net.dpml.metro.info.PartReference;
 
 import net.dpml.part.Directive;
@@ -25,12 +27,12 @@ import net.dpml.part.Directive;
 import net.dpml.lang.UnknownKeyException;
 
 /**
- * The ContextManager interface exposes a management view of a local context model 
+ * The ContextModelManager interface exposes a management view of a local context model 
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ContextManager extends ContextModelOperations
+public interface ContextModelManager extends ContextModel
 {
    /**
     * Set a context entry directive value.
@@ -38,7 +40,7 @@ public interface ContextManager extends ContextModelOperations
     * @param directive the context entry directive
     * @exception UnknownKeyException if the key is unknown
     */
-    void setEntryDirective( String key, Directive directive ) throws UnknownKeyException;
+    void setEntryDirective( String key, Directive directive ) throws UnknownKeyException, RemoteException;
     
    /**
     * Apply an array of tagged directive as an atomic operation.  Application of 
@@ -49,6 +51,6 @@ public interface ContextManager extends ContextModelOperations
     * @exception UnknownKeyException if a key within the array does not match a key within
     *   the context model.
     */
-    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException;
+    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException, RemoteException;
 
 }

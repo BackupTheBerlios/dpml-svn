@@ -15,14 +15,7 @@
  */
 package net.dpml.http;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
-
-import net.dpml.transit.util.PropertyResolver;
-
-import org.mortbay.log.Log;
-import org.mortbay.resource.Resource;
 
 /**
  * SSL socket connector.
@@ -104,6 +97,11 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         boolean getNeedClientAuth( boolean flag );
     }
 
+   /**
+    * Creation of a new ssl connector.
+    * @param context the deployment context
+    * @exception Exception if an instantiation error occurs
+    */
     public SslSocketConnector( Context context ) throws Exception
     {
         super();

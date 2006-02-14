@@ -18,8 +18,10 @@
 
 package net.dpml.metro;
 
+import java.rmi.RemoteException;
 import java.util.Map;
 
+import net.dpml.part.Component;
 import net.dpml.part.ComponentOperations;
 
 /**
@@ -29,7 +31,8 @@ import net.dpml.part.ComponentOperations;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentHandler extends ComponentOperations, ComponentContext
+//public interface ComponentHandler extends ComponentOperations, ComponentContext
+public interface ComponentHandler extends Component, ComponentContext
 {
    /**
     * Return a mutable context map.  The map may be used by component
@@ -38,18 +41,18 @@ public interface ComponentHandler extends ComponentOperations, ComponentContext
     *
     * @return the context map
     */
-    Map getContextMap();
+    Map getContextMap() throws RemoteException;
     
    /**
     * Return the manager for the assigned component model.
     * @return the component model manager
     */
-    ComponentManager getComponentManager();
+    ComponentModelManager getComponentManager() throws RemoteException;
     
    /**
     * Return the internal parts manager.
     * @return the parts manager
     */
-    PartsManager getPartsManager();
+    PartsManager getPartsManager() throws RemoteException;
 }
 

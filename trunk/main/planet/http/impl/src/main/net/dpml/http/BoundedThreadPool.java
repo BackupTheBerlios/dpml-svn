@@ -28,6 +28,7 @@ public class BoundedThreadPool extends org.mortbay.thread.BoundedThreadPool
        /**
         * Get the minimum thread level.
         *
+        * @param min the default minimum value
         * @return the minimum thread level
         */
         int getMin( int min );
@@ -35,6 +36,7 @@ public class BoundedThreadPool extends org.mortbay.thread.BoundedThreadPool
        /**
         * Return maximum thread level.
         *
+        * @param max the default maximum value
         * @return the maximum thread level
         */
         int getMax( int max );

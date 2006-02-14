@@ -23,7 +23,6 @@ import java.util.List;
 
 import net.dpml.metro.data.ValueDirective;
 
-import net.dpml.transit.Construct;
 import net.dpml.transit.Value;
 
 import org.apache.tools.ant.BuildException;
@@ -128,7 +127,7 @@ public class ValueDataType implements ValueBuilder
 
    /**
     * Build a value datastructure.
-    * 2param classloader the working classloader
+    * @param classloader the working classloader
     * @return the serializable value descriptor
     */
     public Value buildValue( ClassLoader classloader )

@@ -22,6 +22,15 @@ import java.rmi.RemoteException;
 
 import net.dpml.part.Model;
 
+import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.metro.data.CategoryDirective;
+
+import net.dpml.configuration.Configuration;
+
+import net.dpml.parameters.Parameters;
+
 /**
  * The ComponentModel interface defines the remotely accessible aspects of a component
  * configuration.
@@ -29,7 +38,7 @@ import net.dpml.part.Model;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface ComponentModel extends Model, ComponentModelOperations
+public interface ComponentModel extends Model
 {
    /**
     * Return the current context model.
@@ -38,5 +47,65 @@ public interface ComponentModel extends Model, ComponentModelOperations
     * @exception RemoteException if a remote exception occurs
     */
     ContextModel getContextModel() throws RemoteException;
-}
+
+   /**
+    * Return the component name.
+    * @return the name
+    * @exception RemoteException if a remote exception occurs
+    */
+    String getName() throws RemoteException;
+
+   /**
+    * Return the component implementation class name.
+    *
+    * @return the classname of the implementation 
+    * @exception RemoteException if a remote exception occurs
+    */
+    String getImplementationClassName() throws RemoteException;
+    
+   /**
+    * Return the component classloader directive.
+    *
+    * @return the classloader directive for the component
+    * @exception RemoteException if a remote exception occurs
+    */
+    ClassLoaderDirective getClassLoaderDirective() throws RemoteException;
+    
+   /**
+    * Return the component lifestyle policy.
+    *
+    * @return the lifestyle policy value
+    * @exception RemoteException if a remote exception occurs
+    */
+    LifestylePolicy getLifestylePolicy() throws RemoteException;
+
+   /**
+    * Return the current component collection policy.  If null, the component
+    * type collection policy will be returned.
+    *
+    * @return a HARD, WEAK, SOFT or SYSTEM
+    * @exception RemoteException if a remote exception occurs
+    */
+    CollectionPolicy getCollectionPolicy() throws RemoteException;
+
+   /**
+    * Return the component configuration.
+    * @return the configuration
+    * @exception RemoteException if a remote exception occurs
+    */
+    Configuration getConfiguration() throws RemoteException;
+
+   /**
+    * Return the component parameters.
+    * @return the parameters
+    * @exception RemoteException if a remote exception occurs
+    */
+    Parameters getParameters() throws  RemoteException;
+    
+   /**
+    * Return the component logging categories.
+    * @return the categories
+    * @exception RemoteException if a remote exception occurs
+    */
+    CategoryDirective[] getCategoryDirectives() throws  RemoteException;}
 

@@ -24,6 +24,11 @@ import org.mortbay.jetty.servlet.ServletMapping;
  */
 public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
 {
+   /**
+    * Creation of a new servlet handler.
+    * @param servlets the servlet holder array
+    * @param maps the servlet mappings
+    */
     public ServletHandler( ServletHolder[] servlets, ServletMapping[] maps )
     {
         super();

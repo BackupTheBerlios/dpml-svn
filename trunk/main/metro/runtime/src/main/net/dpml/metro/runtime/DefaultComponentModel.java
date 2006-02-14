@@ -36,8 +36,8 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Composite;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ContextModel;
-import net.dpml.metro.ComponentManager;
-import net.dpml.metro.ContextManager;
+import net.dpml.metro.ComponentModelManager;
+import net.dpml.metro.ContextModelManager;
 
 import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
@@ -64,7 +64,7 @@ import net.dpml.lang.UnknownKeyException;
  * @version @PROJECT-VERSION@
  */
 class DefaultComponentModel extends UnicastEventSource 
-  implements ComponentModel, ComponentManager, Configurable
+  implements ComponentModelManager, Configurable
 {
     // ------------------------------------------------------------------------
     // state
@@ -328,11 +328,11 @@ class DefaultComponentModel extends UnicastEventSource
     * Return the context manager.
     * @return the context manager
     */
-    public ContextManager getContextManager()
+    public ContextModelManager getContextManager()
     {
-        if( m_context instanceof ContextManager )
+        if( m_context instanceof ContextModelManager )
         {
-            return (ContextManager) m_context;
+            return (ContextModelManager) m_context;
         }
         else
         {
@@ -355,9 +355,9 @@ class DefaultComponentModel extends UnicastEventSource
     * Return the component model of an internal part referenced by the supplied key.
     * @return the internal part component model 
     */
-    public ComponentManager getComponentManager( String key ) throws UnknownKeyException
+    public ComponentModelManager getComponentManager( String key ) throws UnknownKeyException
     {
-        ComponentManager model = (ComponentManager) m_parts.get( key );
+        ComponentModelManager model = (ComponentModelManager) m_parts.get( key );
         if( null == model )
         {
             throw new UnknownKeyException( key );
