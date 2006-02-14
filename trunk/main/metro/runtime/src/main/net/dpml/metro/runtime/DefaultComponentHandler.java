@@ -248,7 +248,7 @@ public class DefaultComponentHandler extends UnicastEventSource
         
         m_parts = new DefaultPartsManager( control, this, logger );
         
-        getLogger().debug( "component controller [" + this + "] established" );
+        getLogger().debug( "component hander [" + this + "] established" );
     }
     
     //--------------------------------------------------------------------------
