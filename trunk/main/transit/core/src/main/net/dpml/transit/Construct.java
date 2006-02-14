@@ -461,14 +461,20 @@ public class Construct implements Value, Serializable
             buffer.append( "\n method: " + m_method + " (" + method + ")" );
             for( int i=0; i<instances.length; i++ )
             {
-                buffer.append( "\n param " + (i+1) + ": " + instances[i].getClass().getName() );
+                buffer.append( 
+                  "\n param " 
+                  + ( i+1 ) 
+                  + ": " 
+                  + instances[i].getClass().getName()
+                );
             }
             String error = buffer.toString();
             throw new ValueException( error, e );
         }
     }
     
-    private Object[] getInstanceValues( Map map, ClassLoader classloader, Value[] args ) throws Exception
+    private Object[] getInstanceValues( 
+      Map map, ClassLoader classloader, Value[] args ) throws Exception
     {
         Object[] instances = new Object[ args.length ];
         for( int i=0; i < args.length; i++ )
@@ -752,6 +758,9 @@ public class Construct implements Value, Serializable
     // Array
     //--------------------------------------------------------------------------
     
+   /**
+    * Array value defintion.
+    */
     public static final class Array implements Value
     {
        /**
@@ -794,11 +803,19 @@ public class Construct implements Value, Serializable
         // ArrayDirective
         //--------------------------------------------------------------------------
     
+       /**
+        * Return the array classname.
+        * @return the classname of the array elements
+        */
         public String getClassname()
         {
             return m_classname;
         }
         
+       /**
+        * Return an array of value element constructor elements.
+        * @return the value array
+        */
         public Value[] getValues()
         {
             return m_values;
@@ -912,6 +929,9 @@ public class Construct implements Value, Serializable
         }
     }
 
+   /**
+    * Array bean info.
+    */
     public static final class ArrayBeanInfo extends SimpleBeanInfo
     {
         private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
@@ -937,7 +957,8 @@ public class Construct implements Value, Serializable
        /**
         * Persistence delegate implementation.
         */
-        private static class ArrayPersistenceDelegate extends DefaultPersistenceDelegate
+        private static class ArrayPersistenceDelegate 
+          extends DefaultPersistenceDelegate
         {
            /**
             * Return the expression value.

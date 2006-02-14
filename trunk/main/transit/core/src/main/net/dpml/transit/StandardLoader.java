@@ -21,7 +21,6 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.File;
 import java.beans.Expression;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -36,7 +35,6 @@ import java.util.Properties;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
-import net.dpml.transit.Logger;
 
 /**
  * Utility class supporting downloading of resources based on

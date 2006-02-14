@@ -53,7 +53,6 @@ import net.dpml.cli.validation.NumberValidator;
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.RepositoryException;
-import net.dpml.transit.UnsupportedSchemeException;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.ProxyDirective;
@@ -176,7 +175,8 @@ public class TransitConsoleHandler
             List list = line.getValues( ARGUMENTS );
             String[] args = (String[]) list.toArray( new String[ list.size() ] );
             Object instance = 
-              Transit.getInstance().getRepository().getPlugin( loader, uri, new Object[]{ args } );
+              Transit.getInstance().getRepository().getPlugin( 
+                loader, uri, new Object[]{args} );
             if( instance instanceof Runnable )
             {
                 Runnable runnable = (Runnable) instance;

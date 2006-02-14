@@ -73,15 +73,22 @@ public class ArrayTestCase extends AbstractEncodingTestCase
         assertNotNull( "demo", demo );
     }
     
+   /**
+    * Test class.
+    */
     public static class Demo
     {
+       /**
+        * Create a new demo class.
+        * @param args the args
+        */
         public Demo( String[] args )
         {
             for( int i=0; i<args.length; i++ )
             {
                 System.out.print( args[i] );
             }
-            System.out.println("");
+            System.out.println( "" );
         }
     }
 }
