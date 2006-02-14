@@ -600,16 +600,19 @@ class StandardLoader implements Repository
 
         URI[] systemArtifacts = descriptor.getDependencies( Category.SYSTEM );
         URL[] sysUrls = getURLs( systemArtifacts );
-        updateSystemClassLoader( plugin, sysUrls );
-
+        if( sysUrls.length > 0 )
+        {
+            updateSystemClassLoader( plugin, sysUrls );
+        }
+        
         URI[] apiArtifacts = descriptor.getDependencies( Category.PUBLIC );
         URL[] apis = getURLs( apiArtifacts  );
         ClassLoader api = buildClassLoader( plugin, Category.PUBLIC, base, apis );
-
+        
         URI[] spiArtifacts = descriptor.getDependencies( Category.PROTECTED );
         URL[] spis = getURLs( spiArtifacts );
         ClassLoader spi = buildClassLoader( plugin, Category.PROTECTED, api, spis );
-
+        
         URI[] impArtifacts = descriptor.getDependencies( Category.PRIVATE );
         URL[] imps = getURLs( impArtifacts );
         ClassLoader classloader = buildClassLoader( plugin, Category.PRIVATE, spi, imps );
