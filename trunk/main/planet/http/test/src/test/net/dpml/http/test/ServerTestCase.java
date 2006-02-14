@@ -19,6 +19,7 @@
 
 package net.dpml.http.test;
 
+import java.io.File;
 import java.net.URI;
 
 import junit.framework.TestCase;
@@ -26,6 +27,11 @@ import junit.framework.TestCase;
 import net.dpml.part.Controller;
 import net.dpml.part.Component;
 import net.dpml.part.ControlException;
+
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentManager;
+import net.dpml.metro.ComponentHandler;
+
 
 /**
  * Test a simple component case.
@@ -43,9 +49,13 @@ public class ServerTestCase extends TestCase
     {
         URI uri = new URI( "link:part:dpml/planet/http/dpml-http-server" );
         Controller control = Controller.STANDARD;
-        Component component = control.createComponent( uri );
+        ComponentHandler component = (ComponentHandler) control.createComponent( uri );
         try
         {
+            PartsManager parts = component.getPartsManager();
+            ComponentHandler webapp = parts.getComponentHandler( "webapp" );
+            File temp = new File( "target/test/temp" );
+            webapp.getContextMap().put( "tempDirectory", temp );
             component.getProvider().getValue( false );
         }
         catch( ControlException e )

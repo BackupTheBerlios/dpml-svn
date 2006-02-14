@@ -24,12 +24,12 @@ import org.mortbay.jetty.Handler;
 /**
  * Context handler with enhanced support for symbolic property dereferencing. 
  */
-public class ResourceContextHandler extends ResolvingContextHandler
+public class ResourceContextHandler extends org.mortbay.jetty.handler.ContextHandler
 {
    /**
     * HTTP static resource vontext handler parameters.
     */
-    public interface Context
+    public interface Context extends ContextHandlerContext
     {
        /**
         * Get the http context resource base.  The value may contain symbolic
@@ -38,26 +38,20 @@ public class ResourceContextHandler extends ResolvingContextHandler
         * @return the resource base
         */
         String getResourceBase();
-        
-       /**
-        * Get the context path under which the http context instance will 
-        * be associated.
-        *
-        * @return the assigned context path
-        */
-        String getContextPath();
     }
     
     private int m_priority = 0;
     
-    public ResourceContextHandler( Context context ) throws Exception
+    public ResourceContextHandler( Logger logger, Context context ) throws Exception
     {
+        ContextHelper helper = new ContextHelper( logger );
+        helper.contextualize( this, context );
+        
         String base = context.getResourceBase();
         super.setResourceBase( base );
-        String path = context.getContextPath();
-        super.setContextPath( path );
+        logger.debug( "resource path: " + base );
+        
         ResourceHandler handler = new ResourceHandler( "static", "/" );
         super.setHandler( handler );
     }
-    
 }

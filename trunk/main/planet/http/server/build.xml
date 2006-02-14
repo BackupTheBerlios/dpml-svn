@@ -61,10 +61,10 @@
         <!--
         Add a web application.
         -->
-        <component key="apps" type="net.dpml.http.WebAppContextHandler">
+        <component key="webapp" type="net.dpml.http.WebAppContextHandler">
           <context>
-            <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
             <entry key="contextPath" value="/"/>
+            <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
           </context>
         </component>
         <!--
@@ -86,7 +86,7 @@
         <component key="servlets" type="net.dpml.http.ServletContextHandler">
           <context>
             <entry key="resourceBase" value="$${dpml.data}"/>
-            <entry key="contextPath" value="/demo"/>
+            <entry key="contextPath" value="/data"/>
           </context>
           <configuration>
             <servlets>

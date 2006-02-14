@@ -33,6 +33,12 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
     public interface Context
     {
        /**
+        * Get the array of ignore paths.
+        * @return the ignore path array
+        */
+        //String[] getIgnorePaths();
+        
+       /**
         * Return the append policy.
         * @param value the default policy value
         * @return the resolved value
@@ -87,6 +93,22 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         * @return the resolved value
         */
         int getRetainDays( int value );
+        
+       /**
+        * Get the log latency policy. Ig true the request processing latency will
+        * included in the reqwuest log messages.
+        * @param flag the log latency default value
+        * @return the resulted log latency policy
+        */
+        boolean getLogLatency( boolean flag );
+        
+       /**
+        * Get the preference policy concerning address registration.
+        * @param flag the proxy preferred policy - if tue the proxy 
+        *   address will be used in preference to the request header address
+        * @return the resulted proxy preferred policy
+        */
+        boolean getUseProxyPreference( boolean flag );
     }
 
    /**
@@ -138,6 +160,12 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         {
             setRetainDays( retain );
         }
+        
+        boolean recordLatencyPolicy = context.getLogLatency( false );
+        setLogLatency( recordLatencyPolicy );
+        
+        boolean useProxyAddressPolicy = context.getUseProxyPreference( false );
+        setPreferProxiedForAddress( useProxyAddressPolicy );
     }
     
    /**

@@ -29,12 +29,12 @@ import org.mortbay.jetty.Handler;
 /**
  * Servlet context handler. 
  */
-public class ServletContextHandler extends ResolvingContextHandler
+public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHandler
 {
    /**
     * HTTP static resource vontext handler parameters.
     */
-    public interface Context
+    public interface Context extends ContextHandlerContext
     {
        /**
         * Get the http context resource base.  The value may contain symbolic
@@ -43,39 +43,31 @@ public class ServletContextHandler extends ResolvingContextHandler
         * @return the resource base
         */
         String getResourceBase();
-        
-       /**
-        * Get the context path under which the http context instance will 
-        * be associated.
-        *
-        * @return the assigned context path
-        */
-        String getContextPath();
     }
-    
-    private final Logger m_logger;
     
     private int m_priority = 0;
     
     public ServletContextHandler( Logger logger, Context context, Configuration config ) throws Exception
     {
-        m_logger = logger;
+        super();
+        
+        ContextHelper helper = new ContextHelper( logger );
+        helper.contextualize( this, context );
         
         String base = context.getResourceBase();
         super.setResourceBase( base );
-        String path = context.getContextPath();
-        super.setContextPath( path );
-        Handler handler = buildHandler( config );
+        
+        Handler handler = buildHandler( logger, config );
         super.setHandler( handler );
     }
     
-    private Handler buildHandler( Configuration config ) throws ConfigurationException
+    private Handler buildHandler( Logger logger, Configuration config ) throws ConfigurationException
     {
-        getLogger().debug( "configuration " + config );
+        logger.debug( "configuration " + config );
         Configuration servlets = config.getChild( "servlets" );
         ArrayList servletList = new ArrayList();
         Configuration[] servletConfigs = servlets.getChildren( "servlet" );
-        getLogger().debug( "servlet count: " + servletConfigs.length );
+       logger.debug( "servlet count: " + servletConfigs.length );
         for( int i=0; i<servletConfigs.length; i++ )
         {
             Configuration servletConfig = servletConfigs[i];
@@ -87,7 +79,7 @@ public class ServletContextHandler extends ResolvingContextHandler
         ArrayList mappingList = new ArrayList();
         Configuration mappings = config.getChild( "mappings" );
         Configuration[] servletMappings = mappings.getChildren( "map" );
-        getLogger().debug( "mapping count: " + servletMappings.length );
+        logger.debug( "mapping count: " + servletMappings.length );
         for( int i=0; i<servletMappings.length; i++ )
         {
             Configuration servletMap = servletMappings[i];
@@ -99,10 +91,5 @@ public class ServletContextHandler extends ResolvingContextHandler
         ServletHolder[] servletArray = (ServletHolder[]) servletList.toArray( new ServletHolder[0] );
         ServletMapping[] mappingArray = (ServletMapping[]) mappingList.toArray( new ServletMapping[0] );
         return new ServletHandler( servletArray, mappingArray );
-    }
-    
-    private Logger getLogger()
-    {
-        return m_logger;
     }
 }

@@ -17,10 +17,18 @@ package net.dpml.http;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Map;
+import java.security.PermissionCollection;
+import java.io.File;
 
 import net.dpml.transit.util.PropertyResolver;
 
+import net.dpml.logging.Logger;
+
 import org.mortbay.jetty.Handler;
+import org.mortbay.jetty.security.SecurityHandler;
+import org.mortbay.jetty.servlet.SessionHandler;
+import org.mortbay.jetty.servlet.ServletHandler;
 
 /**
  * Servlet context handler. 
@@ -30,30 +38,105 @@ public class WebAppContextHandler extends org.mortbay.jetty.webapp.WebAppContext
    /**
     * HTTP static resource vontext handler parameters.
     */
-    public interface Context
+    public interface Context extends ContextHandlerContext
     {
-       /**
-        * Get the context path under which the http context instance will 
-        * be associated.
-        *
-        * @return the assigned context path
-        */
-        String getContextPath();
-        
        /**
         * Get the war artifact uri.
         * @return the uri identifying the war artifact
         */
         URI getWar();
+        
+       /**
+        * Get the assigned temp directory.
+        * @param dir the default temp directory
+        * @return the resolved temp directory
+        */
+        File getTempDirectory( File dir );
+        
+       /**
+        * Get the resource alias map.
+        * @param map the default mapping
+        * @return the resolved map
+        */
+        Map getResourceAliases( Map map );
+        
+       /**
+        * Get the war extraction policy.
+        * @param policy the default policy (true)
+        * @return the resolved policy
+        */
+        boolean getExtractionPolicy( boolean policy );
+        
+       /**
+        * Get the assigned permission collection.
+        * @param permissions the default permissions value
+        * @return the resolved permissions collection
+        */
+        PermissionCollection getPermissions( PermissionCollection permissions );
+        
+       /**
+        * Get the assigned security handler.
+        * @param handler the default value
+        * @return the resolved handler
+        */
+        SecurityHandler getSecurityHandler( SecurityHandler handler );
+        
+       /**
+        * Get the assigned session handler.
+        * @param handler the default value
+        * @return the resolved handler
+        */
+        SessionHandler getSessionHandler( SessionHandler handler );
+        
+       /**
+        * Get the assigned servlet handler.
+        * @param handler the default value
+        * @return the resolved handler
+        */
+        ServletHandler getServletHandler( ServletHandler handler );
     }
     
     private int m_priority = 0;
     
-    public WebAppContextHandler( Context context ) throws Exception
+    public WebAppContextHandler( Logger logger, Context context ) throws Exception
     {
-        String path = context.getContextPath();
-        setContextPath( path );
-        getSessionHandler().setSessionManager( new org.mortbay.jetty.servlet.HashSessionManager() );
-        setWar( context.getWar().toString() );
+        ContextHelper helper = new ContextHelper( logger );
+        helper.contextualize( this, context );
+        
+        SecurityHandler securityHandler = context.getSecurityHandler( new SecurityHandler() );
+        setSecurityHandler( securityHandler );
+        setHandler( securityHandler );
+        
+        SessionHandler sessionHandler = context.getSessionHandler( new SessionHandler() );
+        securityHandler.setHandler( sessionHandler );
+        setSessionHandler( sessionHandler );
+        
+        ServletHandler servletHandler = context.getServletHandler( new ServletHandler() );
+        sessionHandler.setHandler( servletHandler );
+        setServletHandler( servletHandler );
+        
+        URI uri = context.getWar();
+        setWar( uri.toASCIIString() );
+
+        File temp = context.getTempDirectory( null );
+        if( null != temp )
+        {
+            setTempDirectory( temp );
+        }
+        
+        Map map = context.getResourceAliases( null );
+        if( null != map )
+        {
+            setResourceAliases( map );
+        }
+        
+        boolean extractionPolicy = context.getExtractionPolicy( true );
+        setExtractWAR( extractionPolicy );
+        
+        PermissionCollection permissions = context.getPermissions( null );
+        if( null != permissions )
+        {
+            setPermissions( permissions );
+        }
     }
 }
