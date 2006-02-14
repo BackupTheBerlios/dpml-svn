@@ -50,8 +50,8 @@
               InfoDescriptor</a></td>
           <td>The <tt>InfoDescriptor</tt> class holds information about 
             component name, the component implementation classname, the 
-            implementation version, the component <a href="profiles/lifestyle.html">lifestyle</a>, 
-            and garbage <a href="profiles/collection.html">collection</a> policy.
+            implementation version, the component <a href="parts/lifestyle.html">lifestyle</a>, 
+            and garbage <a href="parts/collection.html">collection</a> policy.
           </td>
         </tr>
         <tr>

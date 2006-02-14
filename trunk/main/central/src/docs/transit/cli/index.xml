@@ -24,13 +24,14 @@
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ transit info | add <id> | set <id> | remove <id> | revert | help [-profile <uri>]]]></pre>
+<pre><![CDATA[$ transit load <uri> | info | add <id> | set <id> | remove <id> | revert | help [-profile <uri>]]]></pre>
 
       </subsection>
 
       <subsection name="Options">
 
         <table>
+          <tr><td>load</td><td>Loads a plugin refernced by a supplied uri.</td></tr>
           <tr><td>info</td><td>Lists the current configration to console.</td></tr>
           <tr><td>add</td><td>Add a new host, layout or content handler.</td></tr>
           <tr><td>set</td><td>Update a feature of a host, layout, content handler, 
@@ -49,10 +50,10 @@
 $ transit help]]></pre>
 <source><![CDATA[
 Usage:
-transit [-profile <uri> info|add|set|remove|revert|help]
+transit [-profile <uri> info|add|set|remove|revert|load <uri>|help]
 command
   -profile <uri>                                      Configuration profile uri.
-  info|add|set|remove|revert|help
+  info|add|set|remove|revert|load|help
     info                                              List configuration.
     add
       host handler layout
@@ -125,6 +126,7 @@ command
         layout <id>                                   Layout scheme selection.
         proxy                                         Delete proxy settings.
     revert                                            Set configuration to default.
+    load <uri>                                        Load a transit plugin.
     help                                              Print command help.]]></source>
 
       </subsection>
