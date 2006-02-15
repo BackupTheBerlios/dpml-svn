@@ -24,7 +24,7 @@
             <property name="tokens" value="METHOD_DEF, VARIABLE_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.TodoCommentCheck">
-            <property name="severity" value="warning"/>
+            <property name="severity" value="ignore"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.UpperEllCheck">
             <property name="severity" value="warning"/>

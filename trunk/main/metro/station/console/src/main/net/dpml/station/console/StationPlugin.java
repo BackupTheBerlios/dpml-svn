@@ -122,7 +122,7 @@ public class StationPlugin implements Disposable
         
         if( m_logger.isDebugEnabled() )
         {
-            logRawArguments(logger, args );
+            logRawArguments( logger, args );
         }
         
         // handle commands
