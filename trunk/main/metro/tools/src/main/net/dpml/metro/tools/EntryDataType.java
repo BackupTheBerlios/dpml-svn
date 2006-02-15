@@ -31,7 +31,6 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 
 import net.dpml.transit.Value;
-import net.dpml.transit.Construct;
 
 import org.apache.tools.ant.BuildException;
 

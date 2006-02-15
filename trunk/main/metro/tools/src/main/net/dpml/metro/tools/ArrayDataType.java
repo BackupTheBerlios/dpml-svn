@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.dpml.transit.Value;
-import net.dpml.transit.Construct;
 import net.dpml.transit.Construct.Array;
 
 import org.apache.tools.ant.BuildException;

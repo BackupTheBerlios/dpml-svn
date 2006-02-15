@@ -86,6 +86,7 @@ public class PartsComponent implements ColorManager
     * @param context a context implementation
     * @param parts the parts manager
     * @exception UnknownKeyException if the implementation uses a bad reference
+    * @exception RemoteException if a remote I/O error occurs
     */
     public PartsComponent( 
       final Logger logger, final Context context, final PartsManager parts ) 

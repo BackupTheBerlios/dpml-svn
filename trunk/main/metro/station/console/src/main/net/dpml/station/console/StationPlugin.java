@@ -122,29 +122,13 @@ public class StationPlugin implements Disposable
         
         if( m_logger.isDebugEnabled() )
         {
-            StringBuffer buffer = 
-              new StringBuffer( 
-                "Processing [" 
-                + args.length 
-                + "] args." );
-            for( int i=0; i<args.length; i++ )
-            {
-                buffer.append( 
-                  "\n  " 
-                  + ( i+1 ) 
-                  + " " 
-                  + args[i] );
-            }
-            String message = buffer.toString();
-            m_logger.debug( message );
+            logRawArguments(logger, args );
         }
         
-        // parse the command group model
+        // handle commands
         
         Parser parser = new Parser();
         parser.setGroup( COMMAND_GROUP );
-        
-        // handle command
         
         try
         {
@@ -729,7 +713,6 @@ public class StationPlugin implements Disposable
     */
     private void processControlCommand( Manager manager, String key ) throws Exception
     {
-        //getLogger().info( "connecting to application [" + key + "]" );
         Application application = manager.getApplication( key );
         InputStreamReader isr = new InputStreamReader( System.in );
         BufferedReader reader = new BufferedReader( isr );
@@ -769,109 +752,15 @@ public class StationPlugin implements Disposable
                     }
                     else if( commandline.hasOption( CONTROL_APPLY_COMMAND ) )
                     {
-                        String id = (String) commandline.getValue( CONTROL_APPLY_COMMAND, null );
-                        System.out.println( "\napplying transition: " + id );
-                        State state = application.getProvider().apply( id );
-                        System.out.println( "current state: " + state );
-                        System.out.println( "" );
+                        applyTransition( application, commandline );
                     }
                     else if( commandline.hasOption( CONTROL_EXEC_COMMAND ) )
                     {
-                        String id = (String) commandline.getValues( CONTROL_EXEC_COMMAND ).get( 0 );
-                        System.out.println( "\napplying operation: " + id );
-                        try
-                        {
-                            String[] applyArgs = getExecArgs( commandline );
-                            Object result = application.getProvider().exec( id, applyArgs );
-                            if( null != result )
-                            {
-                                System.out.println( "listing return value\n" );
-                                if( result instanceof Object[] )
-                                {
-                                    Object[] values = (Object[]) result;
-                                    for( int i=0; i<values.length; i++ )
-                                    {
-                                        System.out.println( values[i].toString() );
-                                    }
-                                }
-                                else
-                                {
-                                    System.out.println( result.toString() );
-                                }
-                                System.out.println( "\ndone" );
-                            }
-                            else
-                            {
-                                System.out.println( "done" );
-                            }
-                        }
-                        catch( InvocationTargetException e )
-                        {
-                            Throwable cause = e.getCause();
-                            if( null != cause )
-                            {
-                                String error = ExceptionHelper.packException( cause, true );
-                                System.out.println( error );
-                            }
-                            else
-                            {
-                                String error = ExceptionHelper.packException( e, true );
-                                System.out.println( error );
-                            }
-                        }
-                        catch( Throwable e )
-                        {
-                            System.out.println( e.toString() );
-                        }
+                        execOperation( application, commandline );
                     }
                     else if( commandline.hasOption( CONTROL_INVOKE_COMMAND ) )
                     {
-                        String method = (String) commandline.getValues( CONTROL_INVOKE_COMMAND ).get( 0 );
-                        System.out.println( "\napplying operation: " + method );
-                        try
-                        {
-                            String[] applyArgs = getInvokeArgs( commandline );
-                            Object result = application.getProvider().invoke( method, applyArgs );
-                            if( null != result )
-                            {
-                                System.out.println( "listing return value\n" );
-                                if( result instanceof Object[] )
-                                {
-                                    Object[] values = (Object[]) result;
-                                    for( int i=0; i<values.length; i++ )
-                                    {
-                                        System.out.println( values[i].toString() );
-                                    }
-                                }
-                                else
-                                {
-                                    System.out.println( result.toString() );
-                                }
-                                System.out.println( "\ndone" );
-                            }
-                            else
-                            {
-                                System.out.println( "done" );
-                            }
-                        }
-                        catch( InvocationTargetException e )
-                        {
-                            Throwable cause = e.getCause();
-                            if( null != cause )
-                            {
-                                String error = ExceptionHelper.packException( cause, true );
-                                System.out.println( error );
-                            }
-                            else
-                            {
-                                String error = ExceptionHelper.packException( e, true );
-                                System.out.println( error );
-                            }
-                        }
-                        catch( Throwable e )
-                        {
-                            System.out.println( e.toString() );
-                        }
+                        invokeOperation( application, commandline );
                     }
                 }
                 catch( Exception e )
@@ -956,6 +845,115 @@ public class StationPlugin implements Disposable
             }
         }
         System.out.println( "" );
+    }
+    
+    private void applyTransition( Application application, CommandLine commandline ) throws Exception
+    {
+        String id = (String) commandline.getValue( CONTROL_APPLY_COMMAND, null );
+        System.out.println( "\napplying transition: " + id );
+        State state = application.getProvider().apply( id );
+        System.out.println( "current state: " + state );
+        System.out.println( "" );
+    }
+    
+    private void invokeOperation( Application application, CommandLine commandline ) throws Exception
+    {
+        String method = (String) commandline.getValues( CONTROL_INVOKE_COMMAND ).get( 0 );
+        System.out.println( "\ninvoking operation: " + method );
+        try
+        {
+            String[] applyArgs = getInvokeArgs( commandline );
+            Object result = application.getProvider().invoke( method, applyArgs );
+            if( null != result )
+            {
+                System.out.println( "listing return value\n" );
+                if( result instanceof Object[] )
+                {
+                    Object[] values = (Object[]) result;
+                    for( int i=0; i<values.length; i++ )
+                    {
+                        System.out.println( values[i].toString() );
+                    }
+                }
+                else
+                {
+                    System.out.println( result.toString() );
+                }
+                System.out.println( "\ndone" );
+            }
+            else
+            {
+                System.out.println( "done" );
+            }
+        }
+        catch( InvocationTargetException e )
+        {
+            Throwable cause = e.getCause();
+            if( null != cause )
+            {
+                String error = ExceptionHelper.packException( cause, true );
+                System.out.println( error );
+            }
+            else
+            {
+                String error = ExceptionHelper.packException( e, true );
+                System.out.println( error );
+            }
+        }
+        catch( Throwable e )
+        {
+            System.out.println( e.toString() );
+        }
+    }
+    
+    private void execOperation( Application application, CommandLine commandline ) throws Exception
+    {
+        String id = (String) commandline.getValues( CONTROL_EXEC_COMMAND ).get( 0 );
+        System.out.println( "\napplying operation: " + id );
+        try
+        {
+            String[] applyArgs = getExecArgs( commandline );
+            Object result = application.getProvider().exec( id, applyArgs );
+            if( null != result )
+            {
+                System.out.println( "listing return value\n" );
+                if( result instanceof Object[] )
+                {
+                    Object[] values = (Object[]) result;
+                    for( int i=0; i<values.length; i++ )
+                    {
+                        System.out.println( values[i].toString() );
+                    }
+                }
+                else
+                {
+                    System.out.println( result.toString() );
+                }
+                System.out.println( "\ndone" );
+            }
+            else
+            {
+                System.out.println( "done" );
+            }
+        }
+        catch( InvocationTargetException e )
+        {
+            Throwable cause = e.getCause();
+            if( null != cause )
+            {
+                String error = ExceptionHelper.packException( cause, true );
+                System.out.println( error );
+            }
+            else
+            {
+                String error = ExceptionHelper.packException( e, true );
+                System.out.println( error );
+            }
+        }
+        catch( Throwable e )
+        {
+            System.out.println( e.toString() );
+        }
     }
     
    /**
@@ -1252,6 +1250,25 @@ public class StationPlugin implements Disposable
     private Logger getLogger()
     {
         return m_logger;
+    }
+    
+    private void logRawArguments( Logger logger, String[] args )
+    {
+        StringBuffer buffer = 
+          new StringBuffer( 
+            "Processing [" 
+            + args.length 
+            + "] args." );
+        for( int i=0; i<args.length; i++ )
+        {
+            buffer.append( 
+              "\n  " 
+              + ( i+1 ) 
+              + " " 
+              + args[i] );
+        }
+        String message = buffer.toString();
+        logger.debug( message );
     }
     
     private Station getStation( int port ) throws Exception
