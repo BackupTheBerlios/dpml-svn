@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package net.dpml.http.test;
+package net.dpml.test.http;
 
 import java.io.IOException;
 
