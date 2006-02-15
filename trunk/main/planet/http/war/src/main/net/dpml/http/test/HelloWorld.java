@@ -66,7 +66,6 @@ public class HelloWorld extends HttpServlet
         ServletOutputStream out = response.getOutputStream();
         out.println( "<html>" );
         out.println( "<h1>Hello World<h1>" );
-        out.println( "Blah blah blah." );
         out.println( "</html>" );
         out.flush();
     }
