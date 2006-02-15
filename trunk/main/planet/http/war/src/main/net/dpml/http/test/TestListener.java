@@ -13,7 +13,7 @@
 //limitations under the License.
 //========================================================================
 
-package org.acme;
+package net.dpml.http.test;
 
 import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
