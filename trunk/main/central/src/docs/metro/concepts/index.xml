@@ -16,7 +16,7 @@
        </p>
        
        <p>
-       Metro is an IOC <a href="ioc.html">IOC</a> Container  
+       Metro is an <a href="ioc.html">IOC</a> Container  
        that handles and deployment of component-based applications. Beyond this Metro
        delivers pure framework independent component-driven <a href="ioc.html">Adaptive 
        Context</a> support backed by an <a href="management.html">Active State</a>, 
