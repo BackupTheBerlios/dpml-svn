@@ -26,8 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-/* ------------------------------------------------------------ */
 /** Test Servlet Sessions.
  *
  * @author Greg Wilkins (gregw)
@@ -35,127 +33,142 @@ import javax.servlet.http.HttpSession;
 public class SessionDump extends HttpServlet
 {
 
-    int redirectCount=0;
-    /* ------------------------------------------------------------ */
-    String pageType;
+    private int m_redirectCount = 0;
 
-    /* ------------------------------------------------------------ */
-    public void init(ServletConfig config)
-         throws ServletException
+   /**
+    * Servlet initialization.
+    * @param config the servlet configuration
+    * @exception ServletException if a configuration error occurs
+    */
+    public void init( ServletConfig config ) throws ServletException
     {
-        super.init(config);        
+        super.init( config );        
     }
 
-    /* ------------------------------------------------------------ */
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) 
+   /**
+    * Process an incomming post request.
+    * @param request the http request
+    * @param response the http response
+    * @exception ServletException if a servlet processing error occurs
+    * @exception IOException if an IO error occurs
+    */
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) 
         throws ServletException, IOException
     {
-        HttpSession session = request.getSession(false);
-        String action = request.getParameter("Action");
-        String name =  request.getParameter("Name");
-        String value =  request.getParameter("Value");
+        HttpSession session = request.getSession( false );
+        String action = request.getParameter( "Action" );
+        String name =  request.getParameter( "Name" );
+        String value =  request.getParameter( "Value" );
 
-        String nextUrl = getURI(request)+"?R="+redirectCount++;
-        if (action.equals("New Session"))
+        String nextUrl = getURI( request ) + "?R=" + m_redirectCount++;
+        if( action.equals( "New Session" ) )
         {   
-            session = request.getSession(true);
-            session.setAttribute("test","value");
+            session = request.getSession( true );
+            session.setAttribute( "test", "value" );
         }
-        else 
-        if (session!=null)
+        else if( session!=null )
         {
-            if (action.equals("Invalidate"))
+            if( action.equals( "Invalidate" ) )
+            {
                 session.invalidate();
-            else if (action.equals("Set") && name!=null && name.length()>0)
-            {   
-                session.setAttribute(name,value);
             }
-            else if (action.equals("Remove"))
-                session.removeAttribute(name);
+            else if( action.equals( "Set" ) && ( name != null ) && ( name.length() > 0 ) )
+            {   
+                session.setAttribute( name, value );
+            }
+            else if( action.equals( "Remove" ) )
+            {
+                session.removeAttribute( name );
+            }
         }
 
-        String encodedUrl=response.encodeRedirectURL(nextUrl);
-        response.sendRedirect(encodedUrl);
-        
+        String encodedUrl = response.encodeRedirectURL( nextUrl );
+        response.sendRedirect( encodedUrl );
     }
     
-        
-    /* ------------------------------------------------------------ */
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) 
+   /**
+    * Process an incomming get request.
+    * @param request the http request
+    * @param response the http response
+    * @exception ServletException if a servlet processing error occurs
+    * @exception IOException if an IO error occurs
+    */
+    public void doGet( HttpServletRequest request, HttpServletResponse response ) 
         throws ServletException, IOException
     {
-        response.setContentType("text/html");
+        response.setContentType( "text/html" );
 
-        HttpSession session = request.getSession(getURI(request).indexOf("new")>0);
+        HttpSession session = request.getSession( getURI( request ).indexOf( "new" ) > 0 );
         
         PrintWriter out = response.getWriter();
-        out.println("<h1>Session Dump Servlet:</h1>"); 
-        out.println("<form action=\""+response.encodeURL(getURI(request))+"\" method=\"post\">");       
+        out.println( "<h1>Session Dump Servlet:</h1>" ); 
+        out.println( "<form action=\"" + response.encodeURL( getURI( request ) ) + "\" method=\"post\">" );
         
-        if (session==null)
+        if( session == null )
         {
-            out.println("<H3>No Session</H3>");
-            out.println("<input type=\"submit\" name=\"Action\" value=\"New Session\"/>");
+            out.println( "<H3>No Session</H3>" );
+            out.println( "<input type=\"submit\" name=\"Action\" value=\"New Session\"/>" );
         }
         else
         {
             try
             {  
-                out.println("<b>ID:</b> "+session.getId()+"<br/>");
-                out.println("<b>New:</b> "+session.isNew()+"<br/>");
-                out.println("<b>Created:</b> "+new Date(session.getCreationTime())+"<br/>");
-                out.println("<b>Last:</b> "+new Date(session.getLastAccessedTime())+"<br/>");
-                out.println("<b>Max Inactive:</b> "+session.getMaxInactiveInterval()+"<br/>");
-                out.println("<b>Context:</b> "+session.getServletContext()+"<br/>");
+                out.println( "<b>ID:</b> " + session.getId() + "<br/>" );
+                out.println( "<b>New:</b> " + session.isNew() + "<br/>" );
+                out.println( "<b>Created:</b> " + new Date( session.getCreationTime() ) + "<br/>" );
+                out.println( "<b>Last:</b> " + new Date( session.getLastAccessedTime() ) + "<br/>" );
+                out.println( "<b>Max Inactive:</b> " + session.getMaxInactiveInterval() + "<br/>" );
+                out.println( "<b>Context:</b> " + session.getServletContext() + "<br/>" );
                 
-              
-                Enumeration keys=session.getAttributeNames();
-                while(keys.hasMoreElements())
+                Enumeration keys = session.getAttributeNames();
+                while( keys.hasMoreElements() )
                 {
-                    String name=(String)keys.nextElement();
-                    String value=(String)session.getAttribute(name);
-
-                    out.println("<b>"+name+":</b> "+value+"<br/>");
+                    String name = (String) keys.nextElement();
+                    String value = (String) session.getAttribute( name );
+                    out.println( "<b>" + name + ":</b> " + value + "<br/>" );
                 }
 
-                out.println("<b>Name:</b><input type=\"text\" name=\"Name\" /><br/>");
-                out.println("<b>Value:</b><input type=\"text\" name=\"Value\" /><br/>");
+                out.println( "<b>Name:</b><input type=\"text\" name=\"Name\" /><br/>" );
+                out.println( "<b>Value:</b><input type=\"text\" name=\"Value\" /><br/>" );
 
-                out.println("<input type=\"submit\" name=\"Action\" value=\"Set\"/>");
-                out.println("<input type=\"submit\" name=\"Action\" value=\"Remove\"/>");
-                out.println("<input type=\"submit\" name=\"Action\" value=\"Invalidate\"/><br/>");
+                out.println( "<input type=\"submit\" name=\"Action\" value=\"Set\"/>" );
+                out.println( "<input type=\"submit\" name=\"Action\" value=\"Remove\"/>" );
+                out.println( "<input type=\"submit\" name=\"Action\" value=\"Invalidate\"/><br/>" );
                 
-                out.println("</form><br/>");
+                out.println( "</form><br/>" );
                 
-                if (request.isRequestedSessionIdFromCookie())
-                    out.println("<P>Turn off cookies in your browser to try url encoding<BR>");
-                
-                if (request.isRequestedSessionIdFromURL())
-                    out.println("<P>Turn on cookies in your browser to try cookie encoding<BR>");
-                
+                if( request.isRequestedSessionIdFromCookie() )
+                {
+                    out.println( "<P>Turn off cookies in your browser to try url encoding<BR>" );
+                }
+                if( request.isRequestedSessionIdFromURL() )
+                {
+                    out.println( "<P>Turn on cookies in your browser to try cookie encoding<BR>" );
+                }
             }
-            catch (IllegalStateException e)
+            catch( IllegalStateException e )
             {
                 e.printStackTrace();
             }
         }
-
     }
 
-    /* ------------------------------------------------------------ */
-    public String getServletInfo() {
+   /**
+    * Return the servlet info.
+    * @return the info
+    */
+    public String getServletInfo() 
+    {
         return "Session Dump Servlet";
     }
 
-    /* ------------------------------------------------------------ */
-    private String getURI(HttpServletRequest request)
+    private String getURI( HttpServletRequest request )
     {
-        String uri=(String)request.getAttribute("javax.servlet.forward.request_uri");
-        if (uri==null)
-            uri=request.getRequestURI();
+        String uri = (String) request.getAttribute( "javax.servlet.forward.request_uri" );
+        if( uri == null )
+        {
+            uri = request.getRequestURI();
+        }
         return uri;
     }
-    
 }
