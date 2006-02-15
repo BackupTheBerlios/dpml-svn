@@ -35,9 +35,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
  */
 public class DispatchServlet extends HttpServlet
 {
-
-    String pageType;
-
    /**
     * Servlet initialization.
     * @param config the servlet config
@@ -104,243 +101,31 @@ public class DispatchServlet extends HttpServlet
         
         if( info.startsWith( "/includeW/" ) )
         {
-            sres.setContentType( "text/html" );
-            info = info.substring( 9 );
-            if( info.indexOf( '?' ) < 0 )
-            {
-                info += "?Dispatch=include";
-            }
-            else
-            {
-                info += "&Dispatch=include";
-            }
-            
-            PrintWriter pout = null;
-            pout = sres.getWriter();
-            pout.write( 
-              "<H1>Include (writer): " 
-              + info 
-              + "</H1><HR>" );
-            
-            RequestDispatcher dispatch = 
-              getServletContext().getRequestDispatcher(info);
-            if( dispatch == null )
-            {
-                pout = sres.getWriter();
-                pout.write( "<H1>Null dispatcher</H1>" );
-            }
-            else
-            {
-                dispatch.include( sreq, sres );
-            }
-            pout.write( "<HR><H1>-- Included (writer)</H1>" );
+            doGetIncludeW( info, sreq, sres );
         }
-        else if( info.startsWith("/includeS/" ) )
+        else if( info.startsWith( "/includeS/" ) )
         {
-            sres.setContentType( "text/html" );
-            info = info.substring( 9 );
-            if( info.indexOf( '?' ) < 0 )
-            {
-                info += "?Dispatch=include";
-            }
-            else
-            {
-                info += "&Dispatch=include";
-            }
-            
-            OutputStream out = null;
-            out = sres.getOutputStream();
-            out.write( 
-              (
-                "<H1>Include (outputstream): " 
-                + info 
-                + "</H1><HR>" 
-              ).getBytes() 
-            );
-            
-            RequestDispatcher dispatch = 
-              getServletContext().getRequestDispatcher( info );
-            if( dispatch == null )
-            {
-                out = sres.getOutputStream();
-                out.write( "<H1>Null dispatcher</H1>".getBytes() );
-            }
-            else
-            {
-                dispatch.include( sreq, sres );
-            }
-            out.write( "<HR><H1>-- Included (outputstream)</H1>".getBytes() );
-            
+            doGetIncludeS( info, sreq, sres );
         }
-        else if( info.startsWith("/forward/" ) )
+        else if( info.startsWith( "/forward/" ) )
         {
-            info= info.substring(8);
-            if( info.indexOf('?') < 0 )
-            {
-                info += "?Dispatch=forward";
-            }
-            else
-            {
-                info += "&Dispatch=forward";
-            }
-            
-            RequestDispatcher dispatch = 
-              getServletContext().getRequestDispatcher( info );
-              
-            if( dispatch != null )
-            {
-                ServletOutputStream out = sres.getOutputStream();
-                out.print( "Can't see this" );
-                dispatch.forward( sreq, sres );
-                try
-                {
-                    out.println( "IOException" );
-                    throw new IllegalStateException();
-                }
-                catch( IOException e )
-                {
-                }
-            }
-            else
-            {
-                sres.setContentType( "text/html" );
-                PrintWriter pout= sres.getWriter();
-                pout.write( "<H1>No dispatcher for: " + info + "</H1><HR>" );
-                pout.flush();
-            }
+            doGetForward( info, sreq, sres );
         }
         else if( info.startsWith( "/forwardC/" ) )
         {
-            info = info.substring( 9 );
-            if( info.indexOf( '?' ) < 0 )
-            {
-                info += "?Dispatch=forward";
-            }
-            else
-            {
-                info += "&Dispatch=forward";
-            }
-            
-            String cpath = info.substring( 0, info.indexOf( '/', 1 ) );
-            info = info.substring( cpath.length() );
-            ServletContext context= getServletContext().getContext( cpath );
-            RequestDispatcher dispatch = context.getRequestDispatcher( info );
-            
-            if( dispatch != null )
-            {
-                dispatch.forward( sreq, sres );
-            }
-            else
-            {
-                sres.setContentType( "text/html" );
-                PrintWriter pout = sres.getWriter();
-                pout.write( 
-                  "<H1>No dispatcher for: " 
-                  + cpath 
-                  + "/" 
-                  + info 
-                  + "</H1><HR>" );
-                pout.flush();
-            }
+            doGetForwardC( info, sreq, sres );
         }
         else if( info.startsWith( "/forwardSC/" ) )
         {
-            sreq.getSession( true );
-            info = info.substring( 10 );
-            if( info.indexOf( '?' ) < 0 )
-            {
-                info += "?Dispatch=forward";
-            }
-            else
-            {
-                info += "&Dispatch=forward";
-            }
-            String cpath = info.substring( 0, info.indexOf( '/', 1 ) );
-            info = info.substring( cpath.length() );
-            
-            ServletContext context = getServletContext().getContext( cpath );
-            RequestDispatcher dispatch = context.getRequestDispatcher( info );
-            
-            if( dispatch != null )
-            {
-                dispatch.forward( sreq, sres );
-            }
-            else
-            {
-                sres.setContentType( "text/html" );
-                PrintWriter pout= sres.getWriter();
-                pout.write( 
-                  "<H1>No dispatcher for: " 
-                  + cpath 
-                  + "/" 
-                  + info 
-                  + "</H1><HR>" );
-                pout.flush();
-            }
+            doGetForwardSC( info, sreq, sres );
         }
         else if( info.startsWith( "/includeN/" ) )
         {
-            sres.setContentType( "text/html" );
-            info = info.substring( 10 );
-            if( info.indexOf( "/" ) >= 0 )
-            {
-                info= info.substring(0, info.indexOf("/"));
-            }
-            PrintWriter pout;
-            if( info.startsWith( "/null" ) )
-            {
-                info= info.substring(5);
-            }
-            else
-            {
-                pout = sres.getWriter();
-                pout.write( 
-                  "<H1>Include named: " 
-                  + info 
-                  + "</H1><HR>" );
-            }
-            
-            RequestDispatcher dispatch = 
-              getServletContext().getNamedDispatcher( info );
-            if( dispatch != null )
-            {
-                dispatch.include( sreq, sres );
-            }
-            else
-            {
-                pout = sres.getWriter();
-                pout.write( 
-                  "<H1>No servlet named: " 
-                  + info 
-                  + "</H1>" );
-            }
-            
-            pout = sres.getWriter();
-            pout.write( "<HR><H1>Included " );
+            doGetIncludeN( info, sreq, sres );
         }
         else if( info.startsWith( "/forwardN/" ) )
         {
-            info = info.substring( 10 );
-            if( info.indexOf("/") >= 0 )
-            {
-                info= info.substring( 0, info.indexOf( "/" ) );
-            }
-            RequestDispatcher dispatch = 
-              getServletContext().getNamedDispatcher( info );
-            if( dispatch != null )
-            {
-                dispatch.forward( sreq, sres );
-            }
-            else
-            {
-                sres.setContentType( "text/html" );
-                PrintWriter pout = sres.getWriter();
-                pout.write(
-                  "<H1>No servlet named: " 
-                  + info 
-                  + "</H1>" );
-                pout.flush();
-            }
+            doGetForwardN( info, sreq, sres );
         }
         else
         {
@@ -365,6 +150,259 @@ public class DispatchServlet extends HttpServlet
         }
     }
 
+    private void doGetIncludeW( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        sres.setContentType( "text/html" );
+        info = info.substring( 9 );
+        if( info.indexOf( '?' ) < 0 )
+        {
+            info += "?Dispatch=include";
+        }
+        else
+        {
+            info += "&Dispatch=include";
+        }
+        
+        PrintWriter pout = null;
+        pout = sres.getWriter();
+        pout.write( 
+          "<H1>Include (writer): " 
+          + info 
+          + "</H1><HR>" );
+        
+        RequestDispatcher dispatch = 
+          getServletContext().getRequestDispatcher(info);
+        if( dispatch == null )
+        {
+            pout = sres.getWriter();
+            pout.write( "<H1>Null dispatcher</H1>" );
+        }
+        else
+        {
+            dispatch.include( sreq, sres );
+        }
+        pout.write( "<HR><H1>-- Included (writer)</H1>" );
+    }
+    
+    private void doGetIncludeS( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        sres.setContentType( "text/html" );
+        info = info.substring( 9 );
+        if( info.indexOf( '?' ) < 0 )
+        {
+            info += "?Dispatch=include";
+        }
+        else
+        {
+            info += "&Dispatch=include";
+        }
+        
+        OutputStream out = null;
+        out = sres.getOutputStream();
+        out.write( 
+          (
+            "<H1>Include (outputstream): " 
+            + info 
+            + "</H1><HR>" 
+          ).getBytes() 
+        );
+        
+        RequestDispatcher dispatch = 
+          getServletContext().getRequestDispatcher( info );
+        if( dispatch == null )
+        {
+            out = sres.getOutputStream();
+            out.write( "<H1>Null dispatcher</H1>".getBytes() );
+        }
+        else
+        {
+            dispatch.include( sreq, sres );
+        }
+        out.write( "<HR><H1>-- Included (outputstream)</H1>".getBytes() );
+    }
+    
+    private void doGetForward( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        info = info.substring( 8 );
+        if( info.indexOf( '?' ) < 0 )
+        {
+            info += "?Dispatch=forward";
+        }
+        else
+        {
+            info += "&Dispatch=forward";
+        }
+        
+        RequestDispatcher dispatch = 
+          getServletContext().getRequestDispatcher( info );
+          
+        if( dispatch != null )
+        {
+            ServletOutputStream out = sres.getOutputStream();
+            out.print( "Can't see this" );
+            dispatch.forward( sreq, sres );
+            try
+            {
+                out.println( "IOException" );
+                throw new IllegalStateException();
+            }
+            catch( IOException e )
+            {
+            }
+        }
+        else
+        {
+            sres.setContentType( "text/html" );
+            PrintWriter pout= sres.getWriter();
+            pout.write( "<H1>No dispatcher for: " + info + "</H1><HR>" );
+            pout.flush();
+        }
+    }
+    
+    private void doGetForwardC( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        info = info.substring( 9 );
+        if( info.indexOf( '?' ) < 0 )
+        {
+            info += "?Dispatch=forward";
+        }
+        else
+        {
+            info += "&Dispatch=forward";
+        }
+        
+        String cpath = info.substring( 0, info.indexOf( '/', 1 ) );
+        info = info.substring( cpath.length() );
+        ServletContext context= getServletContext().getContext( cpath );
+        RequestDispatcher dispatch = context.getRequestDispatcher( info );
+        
+        if( dispatch != null )
+        {
+            dispatch.forward( sreq, sres );
+        }
+        else
+        {
+            sres.setContentType( "text/html" );
+            PrintWriter pout = sres.getWriter();
+            pout.write( 
+              "<H1>No dispatcher for: " 
+              + cpath 
+              + "/" 
+              + info 
+              + "</H1><HR>" );
+            pout.flush();
+        }
+    }
+    
+    private void doGetForwardSC( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        sreq.getSession( true );
+        info = info.substring( 10 );
+        if( info.indexOf( '?' ) < 0 )
+        {
+            info += "?Dispatch=forward";
+        }
+        else
+        {
+            info += "&Dispatch=forward";
+        }
+        String cpath = info.substring( 0, info.indexOf( '/', 1 ) );
+        info = info.substring( cpath.length() );
+        
+        ServletContext context = getServletContext().getContext( cpath );
+        RequestDispatcher dispatch = context.getRequestDispatcher( info );
+        
+        if( dispatch != null )
+        {
+            dispatch.forward( sreq, sres );
+        }
+        else
+        {
+            sres.setContentType( "text/html" );
+            PrintWriter pout= sres.getWriter();
+            pout.write( 
+              "<H1>No dispatcher for: " 
+              + cpath 
+              + "/" 
+              + info 
+              + "</H1><HR>" );
+            pout.flush();
+        }
+    }
+    
+    private void doGetIncludeN( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        sres.setContentType( "text/html" );
+        info = info.substring( 10 );
+        if( info.indexOf( "/" ) >= 0 )
+        {
+            info = info.substring(0, info.indexOf( "/" ) );
+        }
+        PrintWriter pout;
+        if( info.startsWith( "/null" ) )
+        {
+            info = info.substring( 5 );
+        }
+        else
+        {
+            pout = sres.getWriter();
+            pout.write( 
+              "<H1>Include named: " 
+              + info 
+              + "</H1><HR>" );
+        }
+        
+        RequestDispatcher dispatch = 
+          getServletContext().getNamedDispatcher( info );
+        if( dispatch != null )
+        {
+            dispatch.include( sreq, sres );
+        }
+        else
+        {
+            pout = sres.getWriter();
+            pout.write( 
+              "<H1>No servlet named: " 
+              + info 
+              + "</H1>" );
+        }
+        
+        pout = sres.getWriter();
+        pout.write( "<HR><H1>Included " );
+    }
+    
+    private void doGetForwardN( String info, HttpServletRequest sreq, HttpServletResponse sres ) 
+      throws ServletException, IOException
+    {
+        info = info.substring( 10 );
+        if( info.indexOf( "/" ) >= 0 )
+        {
+            info= info.substring( 0, info.indexOf( "/" ) );
+        }
+        RequestDispatcher dispatch = 
+          getServletContext().getNamedDispatcher( info );
+        if( dispatch != null )
+        {
+            dispatch.forward( sreq, sres );
+        }
+        else
+        {
+            sres.setContentType( "text/html" );
+            PrintWriter pout = sres.getWriter();
+            pout.write(
+              "<H1>No servlet named: " 
+              + info 
+              + "</H1>" );
+            pout.flush();
+        }
+    }
+    
    /**
     * Return thr servlet info.
     * @return the info

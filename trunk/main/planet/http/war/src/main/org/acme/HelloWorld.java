@@ -24,34 +24,50 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/* ------------------------------------------------------------ */
-/** Dump Servlet Request.
- * 
+/** 
+ * Hello World Servlet
  */
 public class HelloWorld extends HttpServlet
 {
-    /* ------------------------------------------------------------ */
-    public void init(ServletConfig config) throws ServletException
+   /**
+    * Servlet initialization.
+    * @param config the servlet configuration
+    * @exception ServletException if a configuration error occurs
+    */
+    public void init( ServletConfig config ) throws ServletException
     {
-    	super.init(config);
+        super.init( config );
     }
 
-    /* ------------------------------------------------------------ */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   /**
+    * Process an incomming post request.
+    * @param request the http request
+    * @param response the http response
+    * @exception ServletException if a servlet processing error occurs
+    * @exception IOException if an IO error occurs
+    */
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) 
+      throws ServletException, IOException
     {
-        doGet(request, response);
+        doGet( request, response );
     }
 
-    /* ------------------------------------------------------------ */
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   /**
+    * Process an incomming get request.
+    * @param request the http request
+    * @param response the http response
+    * @exception ServletException if a servlet processing error occurs
+    * @exception IOException if an IO error occurs
+    */
+    public void doGet( HttpServletRequest request, HttpServletResponse response ) 
+      throws ServletException, IOException
     {
-        response.setContentType("text/html");
+        response.setContentType( "text/html" );
         ServletOutputStream out = response.getOutputStream();
-        out.println("<html>");
-        out.println("<h1>Hello World<h1>");
-        out.println("Blah blah blah.");
-        out.println("</html>");
+        out.println( "<html>" );
+        out.println( "<h1>Hello World<h1>" );
+        out.println( "Blah blah blah." );
+        out.println( "</html>" );
         out.flush();
     }
-
 }

@@ -64,7 +64,7 @@ public class TestFilter implements Filter
             Integer value = null;
             if( null == oldValue )
             {
-                value = new Integer(1);
+                value = new Integer( 1 );
             }
             else
             {

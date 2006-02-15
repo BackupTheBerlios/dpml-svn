@@ -29,89 +29,160 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+/**
+ * Test listeners.
+ */
 public class TestListener implements HttpSessionListener,  HttpSessionAttributeListener, HttpSessionActivationListener, ServletContextListener, ServletContextAttributeListener, ServletRequestListener, ServletRequestAttributeListener
 {
-    public void attributeAdded(HttpSessionBindingEvent se)
+   /**
+    * Attribute added.
+    * @param se binding event
+    */
+    public void attributeAdded( HttpSessionBindingEvent se )
     {
         // System.err.println("attributedAdded "+se);
     }
 
-    public void attributeRemoved(HttpSessionBindingEvent se)
+   /**
+    * Attribute removed.
+    * @param se binding event
+    */
+    public void attributeRemoved( HttpSessionBindingEvent se )
     {
         // System.err.println("attributeRemoved "+se);
     }
 
-    public void attributeReplaced(HttpSessionBindingEvent se)
+   /**
+    * Attribute replaced.
+    * @param se binding event
+    */
+    public void attributeReplaced( HttpSessionBindingEvent se )
     {
         // System.err.println("attributeReplaced "+se);
     }
 
-    public void sessionWillPassivate(HttpSessionEvent se)
+   /**
+    * Session passivate notification
+    * @param se session event
+    */
+    public void sessionWillPassivate( HttpSessionEvent se )
     {
         // System.err.println("sessionWillPassivate "+se);
     }
 
-    public void sessionDidActivate(HttpSessionEvent se)
+   /**
+    * Session did activate notification
+    * @param se session event
+    */
+    public void sessionDidActivate( HttpSessionEvent se )
     {
         // System.err.println("sessionDidActivate "+se);
     }
 
-    public void contextInitialized(ServletContextEvent sce)
+   /**
+    * Context initiated notification
+    * @param sce servlet context event
+    */
+    public void contextInitialized( ServletContextEvent sce )
     {
         // System.err.println("contextInitialized "+sce);
     }
 
-    public void contextDestroyed(ServletContextEvent sce)
+   /**
+    * Context destroy notification
+    * @param sce servlet context event
+    */
+    public void contextDestroyed( ServletContextEvent sce )
     {
         // System.err.println("contextDestroyed "+sce);
     }
 
-    public void attributeAdded(ServletContextAttributeEvent scab)
+   /**
+    * Attribute added notification
+    * @param scab servlet context attribute event
+    */
+    public void attributeAdded( ServletContextAttributeEvent scab )
     {
         // System.err.println("attributeAdded "+scab);
     }
 
-    public void attributeRemoved(ServletContextAttributeEvent scab)
+   /**
+    * Attribute removed notification
+    * @param scab servlet context attribute event
+    */
+    public void attributeRemoved( ServletContextAttributeEvent scab )
     {
         // System.err.println("attributeRemoved "+scab);
     }
 
-    public void attributeReplaced(ServletContextAttributeEvent scab)
+   /**
+    * Attribute replaced notification
+    * @param scab servlet context attribute event
+    */
+    public void attributeReplaced( ServletContextAttributeEvent scab )
     {
         // System.err.println("attributeReplaced "+scab);
     }
 
-    public void requestDestroyed(ServletRequestEvent sre)
+   /**
+    * Request destroyed notification
+    * @param sre servlet request event
+    */
+    public void requestDestroyed( ServletRequestEvent sre )
     {
         // System.err.println("requestDestroyed "+sre);
     }
 
-    public void requestInitialized(ServletRequestEvent sre)
+   /**
+    * Request initialized notification
+    * @param sre servlet request event
+    */
+    public void requestInitialized( ServletRequestEvent sre )
     {
         // System.err.println("requestInitialized "+sre);
     }
 
-    public void attributeAdded(ServletRequestAttributeEvent srae)
+   /**
+    * Attribute added notification
+    * @param srae servlet request attribute event
+    */
+    public void attributeAdded( ServletRequestAttributeEvent srae )
     {
         // System.err.println("attributeAdded "+srae);
     }
 
-    public void attributeRemoved(ServletRequestAttributeEvent srae)
+   /**
+    * Attribute removed notification
+    * @param srae servlet request attribute event
+    */
+    public void attributeRemoved( ServletRequestAttributeEvent srae )
     {
         // System.err.println("attributeRemoved "+srae);
     }
 
-    public void attributeReplaced(ServletRequestAttributeEvent srae)
+   /**
+    * Attribute replaced notification
+    * @param srae servlet request attribute event
+    */
+    public void attributeReplaced( ServletRequestAttributeEvent srae )
     {
         // System.err.println("attributeReplaced "+srae);
     }
 
-    public void sessionCreated(HttpSessionEvent se)
+   /**
+    * Session created notification
+    * @param se session event
+    */
+    public void sessionCreated( HttpSessionEvent se )
     {
         // System.err.println("sessionCreated "+se);
     }
 
-    public void sessionDestroyed(HttpSessionEvent se)
+   /**
+    * Session destroyed notification
+    * @param se session event
+    */
+    public void sessionDestroyed( HttpSessionEvent se )
     {
         // System.err.println("sessionDestroyed "+se);
     }
