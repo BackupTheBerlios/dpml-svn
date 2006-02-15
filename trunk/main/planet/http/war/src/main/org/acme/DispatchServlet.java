@@ -172,7 +172,7 @@ public class DispatchServlet extends HttpServlet
           + "</H1><HR>" );
         
         RequestDispatcher dispatch = 
-          getServletContext().getRequestDispatcher(info);
+          getServletContext().getRequestDispatcher( info );
         if( dispatch == null )
         {
             pout = sres.getWriter();
@@ -342,7 +342,7 @@ public class DispatchServlet extends HttpServlet
         info = info.substring( 10 );
         if( info.indexOf( "/" ) >= 0 )
         {
-            info = info.substring(0, info.indexOf( "/" ) );
+            info = info.substring( 0, info.indexOf( "/" ) );
         }
         PrintWriter pout;
         if( info.startsWith( "/null" ) )
