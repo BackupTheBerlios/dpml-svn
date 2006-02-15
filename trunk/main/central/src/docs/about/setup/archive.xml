@@ -20,12 +20,13 @@
 
         <p>
         The 20060215 milestone represents the completion of the part and component 
-        model API with the notable addition of compomponnet composition at the 
-        level of a component defintion.  The Planet HTTP package has been rewritten 
-        to leverage the composition functionality together with a major updated to 
-        the Jetty 6.X implementation. Web application samples are included. 
-        Transit has been updated to include deployment support in the CLI hanlder. 
-        Numerouse bug fixes are included.
+        model API with the notable addition of component composition at the 
+        level of a deployment definition.  Deployment directives have been extended 
+        to include array datatypes as nested constructor elements (top-level arrays 
+        as constext arguments is in progress).  The Planet HTTP package has been 
+        rewritten to leverage the composition functionality together with a major 
+        updated to the Jetty 6.X implementation. Web application samples are included. 
+        Transit has also been updated to include deployment support in the CLI handler. 
         </p>
 
         <table>
