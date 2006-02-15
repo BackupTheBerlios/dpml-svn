@@ -36,6 +36,7 @@ public interface ComponentContext
    /**
     * Return the current controller.
     * @return the root system controller
+    * @exception RemoteException if a remote I/O error occurs
     */
     Controller getController() throws RemoteException;
     
@@ -46,6 +47,7 @@ public interface ComponentContext
     * @return the component handler
     * @exception Exception if an error occurs during component loading or establishment
     */
-    ComponentHandler createComponentHandler( ClassLoader anchor, URI uri ) throws Exception;
+    ComponentHandler createComponentHandler( 
+      ClassLoader anchor, URI uri ) throws Exception;
 }
 

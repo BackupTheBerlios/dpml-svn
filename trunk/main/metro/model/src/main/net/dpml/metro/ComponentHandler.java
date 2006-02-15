@@ -22,7 +22,6 @@ import java.rmi.RemoteException;
 import java.util.Map;
 
 import net.dpml.part.Component;
-import net.dpml.part.ComponentOperations;
 
 /**
  * Local interface through which a component implementation may 
@@ -40,18 +39,21 @@ public interface ComponentHandler extends Component, ComponentContext
     * component instance.
     *
     * @return the context map
+    * @exception RemoteException if a remote I/O error occurs
     */
     Map getContextMap() throws RemoteException;
     
    /**
     * Return the manager for the assigned component model.
     * @return the component model manager
+    * @exception RemoteException if a remote I/O error occurs
     */
     ComponentModelManager getComponentManager() throws RemoteException;
     
    /**
     * Return the internal parts manager.
     * @return the parts manager
+    * @exception RemoteException if a remote I/O error occurs
     */
     PartsManager getPartsManager() throws RemoteException;
 }

@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
-import net.dpml.part.Directive;
 import net.dpml.state.State;
 
 /**

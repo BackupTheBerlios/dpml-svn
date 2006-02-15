@@ -38,12 +38,14 @@ public interface ComponentModelManager extends ComponentModel
    /**
     * Return the context model manager.
     * @return the context model manager
+    * @exception RemoteException if a remote I/O error occurs
     */
     ContextModelManager getContextManager() throws RemoteException;
     
    /**
     * Return the set of subsidiary component model keys.
     * @return the part keys
+    * @exception RemoteException if a remote I/O error occurs
     */
     String[] getPartKeys() throws RemoteException;
 
@@ -52,19 +54,23 @@ public interface ComponentModelManager extends ComponentModel
     * @param key the component part key
     * @return the component manager
     * @exception UnknownKeyException if the key is not recognized
+    * @exception RemoteException if a remote I/O error occurs
     * @see #getPartKeys()
     */
-    ComponentModelManager getComponentManager( String key ) throws UnknownKeyException, RemoteException;
+    ComponentModelManager getComponentManager( String key ) 
+      throws UnknownKeyException, RemoteException;
 
    /**
     * Set the component activation policy to the supplied value.
     * @param policy the new activation policy
+    * @exception RemoteException if a remote I/O error occurs
     */
     void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
 
    /**
     * Override the assigned collection policy.
     * @param policy the collection policy value
+    * @exception RemoteException if a remote I/O error occurs
     */
     void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
 }

@@ -19,7 +19,6 @@
 package net.dpml.metro;
 
 import net.dpml.part.ControlException;
-import net.dpml.part.Service;
 
 import net.dpml.lang.UnknownKeyException;
 

@@ -80,6 +80,7 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
     * @param activation the activation policy
     * @param categories logging category directives
     * @param classloader the classloader directive
+    * @param parts the internal component parts
     */
     public DeploymentDirective( 
       final String name, ActivationPolicy activation, CategoriesDirective categories, 

@@ -202,6 +202,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     * @param parameters the default parameters
     * @param config the default configuration
     * @param classloader the component classloader directive
+    * @param parts the component internal parts
     */
     public ComponentDirective(
            final String name,

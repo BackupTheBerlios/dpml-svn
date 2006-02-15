@@ -198,7 +198,8 @@ public abstract class FeatureTask extends GenericTask
                 Artifact artifact = resource.getArtifact( m_type );
                 try
                 {
-                    File cached = (File) artifact.toURL().getContent( new Class[]{File.class});
+                    File cached = 
+                      (File) artifact.toURL().getContent( new Class[]{File.class} );
                     return cached.getCanonicalPath();
                 }
                 catch( Exception e )

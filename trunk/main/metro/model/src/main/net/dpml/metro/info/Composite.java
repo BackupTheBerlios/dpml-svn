@@ -19,25 +19,12 @@
 
 package net.dpml.metro.info;
 
-import java.beans.Encoder;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.DefaultPersistenceDelegate;
 import java.io.Serializable;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 
 import net.dpml.part.Directive;
-import net.dpml.state.State;
 
 /**
- *
+ * Abstract base class for composite entities.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */

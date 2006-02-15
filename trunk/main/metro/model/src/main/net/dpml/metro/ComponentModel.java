@@ -107,5 +107,6 @@ public interface ComponentModel extends Model
     * @return the categories
     * @exception RemoteException if a remote exception occurs
     */
-    CategoryDirective[] getCategoryDirectives() throws  RemoteException;}
+    CategoryDirective[] getCategoryDirectives() throws  RemoteException;
+}
 

@@ -27,7 +27,8 @@ import net.dpml.part.Directive;
 import net.dpml.lang.UnknownKeyException;
 
 /**
- * The ContextModelManager interface exposes a management view of a local context model 
+ * The ContextModelManager interface exposes a management view of 
+ * a local context model 
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -39,8 +40,10 @@ public interface ContextModelManager extends ContextModel
     * @param key the context entry key
     * @param directive the context entry directive
     * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote I/O error occurs
     */
-    void setEntryDirective( String key, Directive directive ) throws UnknownKeyException, RemoteException;
+    void setEntryDirective( String key, Directive directive ) 
+      throws UnknownKeyException, RemoteException;
     
    /**
     * Apply an array of tagged directive as an atomic operation.  Application of 
@@ -48,9 +51,11 @@ public interface ContextModelManager extends ContextModel
     * 'all-or-nothing' policy.
     *
     * @param directives an array of part references
-    * @exception UnknownKeyException if a key within the array does not match a key within
-    *   the context model.
+    * @exception UnknownKeyException if a key within the array does not match a 
+    *     key within the context model.
+    * @exception RemoteException if a remote I/O error occurs
     */
-    void setEntryDirectives( PartReference[] directives ) throws UnknownKeyException, RemoteException;
+    void setEntryDirectives( PartReference[] directives ) 
+      throws UnknownKeyException, RemoteException;
 
 }
