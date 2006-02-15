@@ -16,6 +16,57 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build 20060215">
+
+        <p>
+        The 20060215 milestone represents the completion of the part and component 
+        model API with the notable addition of compomponnet composition at the 
+        level of a component defintion.  The Planet HTTP package has been rewritten 
+        to leverage the composition functionality together with a major updated to 
+        the Jetty 6.X implementation. Web application samples are included. 
+        Transit has been updated to include deployment support in the CLI hanlder. 
+        Numerouse bug fixes are included.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.zip">
+                dpml-sdk-win32-20060215.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.zip">
+                dpml-sdk-win32-20060215.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-linux-20060215.tar.gz">
+                dpml-sdk-linux-20060215.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-linux-20060215.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/20060113">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/20060113/junit">JUnit</a>, <a href="http://www.dpml.net/reports/20060113/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060113/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+
       <subsection name="Build 20060113">
 
         <p>
