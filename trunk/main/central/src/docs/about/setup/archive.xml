@@ -16,6 +16,54 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
+      <subsection name="Build @VERSION@">
+
+        <p>
+        The @VERSION@ milestone adds support for array datatype (primitive and complext type)
+        to the context IOC model. 
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+                dpml-sdk-win32-@VERSION@.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+                dpml-sdk-win32-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
+                dpml-sdk-linux-@VERSION@.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a>, <a href="http://www.dpml.net/reports/@VERSION@/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+
+
+
       <subsection name="Build 20060215">
 
         <p>
@@ -23,7 +71,7 @@
         model API with the notable addition of component composition at the 
         level of a deployment definition.  Deployment directives have been extended 
         to include array datatypes as nested constructor elements (top-level arrays 
-        as constext arguments is in progress).  The Planet HTTP package has been 
+        as context arguments is in progress).  The Planet HTTP package has been 
         rewritten to leverage the composition functionality together with a major 
         updated to the Jetty 6.X implementation. Web application samples are included. 
         Transit has also been updated to include deployment support in the CLI handler. 
