@@ -46,16 +46,7 @@ public class ValueDataType implements ValueBuilder
     */
     public void setClass( final String classname )
     {
-        if( classname.endsWith( "[]" ) )
-        {
-            int n = classname.length() - 2;
-            m_classname = "[L" + classname.substring( 0, n ) + ";";
-            System.out.println( "## " + m_classname );
-        }
-        else
-        {
-            m_classname = classname;
-        }
+        m_classname = classname;
     }
 
    /**

@@ -24,27 +24,26 @@ import org.mortbay.jetty.handler.ErrorHandler;
  */
 public interface ContextHandlerContext
 {
-
    /**
     * Get the array of virtual hosts.
-    * @param hosts the default virtual host array (empty)
-    * @return the virtual host array.
+    * @param hosts the default virtual host array
+    * @return the resolved virtual host array
     */
-    //String[] getVitualHosts( String[] hosts );
+    String[] getVirtualHosts( String[] hosts );
     
    /**
-    * Get the array of hosts server by the context.
-    * @param hosts the default host array (empty)
-    * @return the host array.
+    * Get the array of hosts.
+    * @param hosts the default host array
+    * @return the resolved host array
     */
-    //String[] getHosts( String[] hosts );
+    String[] getHosts( String[] hosts );
     
    /**
     * Get the array of welcome files.
     * @param values the default welcome file values
     * @return the resolved array of welcome files
     */
-    //String[] getWelcomeFiles( String[] values );
+    String[] getWelcomeFiles( String[] values );
     
    /**
     * Get the classloader to assign to the context handler.

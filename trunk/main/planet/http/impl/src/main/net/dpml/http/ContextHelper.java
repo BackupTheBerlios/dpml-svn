@@ -58,6 +58,24 @@ class ContextHelper
             handler.setDisplayName( name );
         }
         
+        String[] hosts = context.getHosts( null );
+        if( null != hosts )
+        {
+            handler.setHosts( hosts );
+        }
+        
+        String[] virtual = context.getVirtualHosts( null );
+        if( null != virtual )
+        {
+            handler.setVirtualHosts( virtual );
+        }
+        
+        String[] welcome = context.getWelcomeFiles( null );
+        if( null != welcome )
+        {
+            handler.setWelcomeFiles( welcome );
+        }
+        
         Map map = context.getMimeTypes( null );
         if( null != map )
         {
