@@ -19,7 +19,7 @@
       <subsection name="Build @VERSION@">
 
         <p>
-        The @VERSION@ milestone adds support for array datatype (primitive and complext type)
+        The @VERSION@ milestone adds support for array datatype (primitive and complex)
         to the context IOC model. 
         </p>
 
