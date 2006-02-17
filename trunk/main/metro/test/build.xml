@@ -270,6 +270,19 @@
     <c:component dest="target/test/state.part" test="true" activation="STARTUP"
         type="net.dpml.test.state.ManagedComponent" collection="hard"/>
 
+    <!-- array test -->
+
+    <c:type class="net.dpml.test.array.ArrayTestComponent" name="array"/>
+    <c:component dest="target/test/array.part" test="true"
+        type="net.dpml.test.array.ArrayTestComponent">
+      <context>
+        <entry key="values">
+          <value value="Hello"/>
+          <value value="World"/>
+        </entry>
+      </context>
+    </c:component>
+
   </target>
 
   <target name="install" depends="standard.install">

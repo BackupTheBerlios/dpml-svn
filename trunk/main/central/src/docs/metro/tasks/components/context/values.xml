@@ -59,9 +59,10 @@
           <tr>
             <td><tt><a href="values.html">value</a></tt></td>
             <td>The value element may contain 0..n nested &lt;value&gt; directives.
-              A value directive allows in-line construction of operation
-              or constructor arguments. Nested values may not be used in 
-              cnjuntion with the <tt>value</tt> attribute.</td>
+              If the value class is an array class the nested values are 
+              interprited as array entries otherwise nested values are interprited 
+              as constructor parameter values. Nested values may not be used in 
+              conjuntion with the <tt>value</tt> attribute.</td>
           </tr>
         </table>
 
@@ -97,7 +98,7 @@
 
       </subsection>
 
-      <subsection name="Construct Example">
+      <subsection name="Constructor Example">
 
         <p>
           Example of the creation of an instance of <tt>java.awt.Color</tt> 

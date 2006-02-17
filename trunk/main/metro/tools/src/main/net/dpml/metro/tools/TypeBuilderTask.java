@@ -563,7 +563,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             //
 
             validateNonNullReturnType( method );
-            validateNonArrayReturnType( method, returnType );
+            //validateNonArrayReturnType( method, returnType );
             String type = returnType.getName();
             return new EntryDescriptor( key, type, EntryDescriptor.REQUIRED );
         }

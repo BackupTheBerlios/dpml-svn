@@ -46,7 +46,16 @@ public class ValueDataType implements ValueBuilder
     */
     public void setClass( final String classname )
     {
-        m_classname = classname;
+        if( classname.endsWith( "[]" ) )
+        {
+            int n = classname.length() - 2;
+            m_classname = "[L" + classname.substring( 0, n ) + ";";
+            System.out.println( "## " + m_classname );
+        }
+        else
+        {
+            m_classname = classname;
+        }
     }
 
    /**
@@ -101,17 +110,6 @@ public class ValueDataType implements ValueBuilder
     public ValueDataType createValue()
     {
         final ValueDataType param = new ValueDataType();
-        m_params.add( param );
-        return param;
-    }
-
-   /**
-    * Create, assign and return a new nested array datatype.
-    * @return the new array datatype
-    */
-    public ArrayDataType createArray()
-    {
-        final ArrayDataType param = new ArrayDataType();
         m_params.add( param );
         return param;
     }

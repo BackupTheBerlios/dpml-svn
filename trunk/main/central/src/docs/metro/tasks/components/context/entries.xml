@@ -20,8 +20,7 @@
 
       </subsection>
       
-      <subsection name="Entry Attributes (Reference)">
-
+      <subsection name="Entry Attributes (Common)">
         <table>
           <tr>
             <td><tt>key</tt></td>
@@ -30,6 +29,11 @@
                <tt>totalWidth</tt>. (refer java.beans.Introspector#decapitalize
                for additional details concerning method to key transformation).</td>
           </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Entry Attributes (for non-array entries)">
+        <table>
           <tr>
             <td><tt>class</tt></td>
             <td>
@@ -67,7 +71,6 @@
             </td>
           </tr>
         </table>
-
       </subsection>
 
       <subsection name="Nested Elements">
@@ -76,8 +79,8 @@
           <tr>
             <td><tt><a href="values.html">value</a></tt></td>
             <td>The entry element may contain 0..n nested &lt;value&gt; directives.
-              A value directive allows in-line construction of operation
-              or constructor arguments.  Nested values may not be used in 
+              A value directive allows in-line construction of operation parameters,
+              array entries, or constructor arguments.  Nested values may not be used in 
               conjunction with the entry <tt>lookup</tt> or <tt>value</tt>
               attributes.</td>
           </tr>

@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.Hashtable;
+import java.util.Arrays;
 
 import net.dpml.transit.Value;
 import net.dpml.transit.Construct;
@@ -197,6 +198,57 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         }
     }
     
+    public void testSimpleArray() throws Exception
+    {
+        String[] args = new String[]{"aaa", "bbb"};
+        Value s1 = new Construct( "aaa" );
+        Value s2 = new Construct( "bbb" );
+        Value construct = new Construct( args.getClass().getName(), new Value[]{s1, s2} );
+        String[] result = (String[]) construct.resolve();
+        boolean equal = Arrays.equals( args, result );
+        assertTrue( "simple-array", equal );
+    }
+    
+    public void testZeroLengthArray() throws Exception
+    {
+        String[] args = new String[0];
+        Value construct = new Construct( args.getClass().getName(), new Value[0] );
+        String[] result = (String[]) construct.resolve();
+        boolean equal = Arrays.equals( args, result );
+        assertTrue( "zero-length-array", equal );
+    }
+    
+   /**
+    * Test creation of a simple construct.
+    * @exception Exception if an unexpected error occurs.
+    */
+    public void testArrayAsCompositeArgument() throws Exception
+    {
+        Construct a = new Construct( "Hello " );
+        Construct b = new Construct( "World!" );
+        Construct array = new Construct( String[].class.getName(), new Value[]{a, b} );
+        Construct construct = new Construct( Demo.class.getName(), new Value[]{array} );
+        Demo demo = (Demo) construct.resolve();
+        assertNotNull( "demo", demo );
+    }
+    
+   /**
+    * Test creation of a simple construct.
+    * @exception Exception if an unexpected error occurs.
+    */
+    public void testPrimitiveArray() throws Exception
+    {
+        int[] args = new int[]{ 1, 2, 3 };
+        Value p1 = new Construct( "int", "1" );
+        Value p2 = new Construct( "int", "2" );
+        Value p3 = new Construct( "int", "3" );
+        Value construct = new Construct( "int[]", new Value[]{p1, p2, p3} );
+        Object result = construct.resolve();
+        int[] array = (int[]) construct.resolve();
+        boolean equal = Arrays.equals( args, array );
+        assertTrue( "primitive-array", equal );
+    }
+
    /**
     * Test construct encoding.
     * @exception Exception if an unexpected error occurs.
@@ -210,6 +262,25 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertEquals( "encoding", construct, result );
     }
 
+   /**
+    * Test class.
+    */
+    public static class Demo
+    {
+       /**
+        * Create a new demo class.
+        * @param args the args
+        */
+        public Demo( String[] args )
+        {
+            for( int i=0; i<args.length; i++ )
+            {
+                System.out.print( args[i] );
+            }
+            System.out.println( "" );
+        }
+    }
+    
    /**
     * Mock class.
     */

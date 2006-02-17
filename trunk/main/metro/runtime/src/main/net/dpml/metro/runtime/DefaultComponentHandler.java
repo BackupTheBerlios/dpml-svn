@@ -95,7 +95,6 @@ import net.dpml.state.State;
    Directive part = controller.loadDirective( uri );
    Context context = controller.createContext( part ); // management info
    Component handler = controller.createComponent( context ); // runtime controller
-   handler.activate();
    Provider instance = handler.getProvider(); // instance controller
    Object value = instance.getValue( true ); // service instance
  * </pre>
@@ -108,7 +107,7 @@ import net.dpml.state.State;
  * @see ComponentModel
  * @see Provider
  */
-public class DefaultComponentHandler extends UnicastEventSource 
+class DefaultComponentHandler extends UnicastEventSource 
   implements Component, ComponentHandler, Disposable, ModelListener
 {
     //--------------------------------------------------------------------------

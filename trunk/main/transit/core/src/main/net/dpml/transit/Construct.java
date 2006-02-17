@@ -25,6 +25,7 @@ import java.beans.Encoder;
 import java.beans.Expression;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -414,6 +415,236 @@ public class Construct implements Value, Serializable
         Object[] instances = getInstanceValues( map, classloader, args );
         String method = getMethodName();
         boolean isaClass = ( target.getClass() == Class.class );
+        
+        //
+        // check if we are dealing with an array class and if so return and 
+        // array created from the array of nested values
+        //
+        
+        if( isaClass ) 
+        {
+            Class c = (Class) target;
+            if( c.isArray() )
+            {
+                Class type = c.getComponentType();
+                if( type.isPrimitive() )
+                {
+                    Object result = Array.newInstance( type, instances.length );
+                    if( Integer.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Integer )
+                            {
+                                Integer integer = (Integer) instance;
+                                int v = integer.intValue();
+                                Array.setInt( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied int array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an Integer.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Short.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Short )
+                            {
+                                Short primitive = (Short) instance;
+                                short v = primitive.shortValue();
+                                Array.setShort( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied short array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Short.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Long.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Long )
+                            {
+                                Long primitive = (Long) instance;
+                                long v = primitive.longValue();
+                                Array.setLong( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied long array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Long.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Byte.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Byte )
+                            {
+                                Byte primitive = (Byte) instance;
+                                byte v = primitive.byteValue();
+                                Array.setByte( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied byte array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Byte.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Double.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Double )
+                            {
+                                Double primitive = (Double) instance;
+                                double v = primitive.doubleValue();
+                                Array.setDouble( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied double array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Double.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Float.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Float )
+                            {
+                                Float primitive = (Float) instance;
+                                float v = primitive.floatValue();
+                                Array.setFloat( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied float array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Float.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Character.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Character )
+                            {
+                                Character primitive = (Character) instance;
+                                char v = primitive.charValue();
+                                Array.setChar( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied char array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Character.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else if( Boolean.TYPE == type )
+                    {
+                        for( int i=0; i<instances.length; i++ )
+                        {
+                            Object instance = instances[i];
+                            if( instance instanceof Boolean )
+                            {
+                                Boolean primitive = (Boolean) instance;
+                                boolean v = primitive.booleanValue();
+                                Array.setBoolean( result, i, v );
+                            }
+                            else
+                            {
+                                final String error = 
+                                  "Supplied boolean array argument class ["
+                                  + instance.getClass().getName()
+                                  + "] is not an instance of Boolean.";
+                                throw new ValueException( error );
+                            }
+                        }
+                        return result;
+                    }
+                    else
+                    {
+                        final String error = 
+                          "Primitive array class [" 
+                          + type.getName() 
+                          + "] is not recognized.";
+                        throw new UnsupportedOperationException( error );
+                    }
+                }
+                else
+                {
+                    Object[] result = 
+                      (Object[]) Array.newInstance( type, instances.length );
+                    for( int i=0; i<instances.length; i++ )
+                    {
+                        Object instance = instances[i];
+                        if( type.isAssignableFrom( instance.getClass() ) )
+                        {
+                            result[i] = instances[i];
+                        }
+                        else
+                        {
+                            final String error =
+                              "Array [" 
+                              + type.getName() 
+                              
+                              + "] contains an invalid element [" 
+                              + instance.getClass().getName() 
+                              + "].";
+                            throw new ValueException( error );
+                        }
+                    }
+                    return result;
+                }
+            }
+        }
+        
+        // otherwise its a regular expression
+        
         if( null == method )
         {
             if( isaClass )
@@ -537,15 +768,25 @@ public class Construct implements Value, Serializable
      */
     private Object getTargetObject( Map map, ClassLoader loader ) throws ValueException
     {
-        if( null == m_target )
+        return getTargetObject( map, loader, m_target );
+    }
+    
+    /**
+     * Return the instance class using the context classloader.
+     * @return the target object or class
+     * @exception ValueException if target related error occurs
+     */
+    private Object getTargetObject( Map map, ClassLoader loader, String target ) throws ValueException
+    {
+        if( null == target )
         {
             return null;
         }
-        else if( m_target.startsWith( "${" ) )
+        else if( target.startsWith( "${" ) )
         {
             if( null != map )
             {
-                String pre = m_target.substring( 2 );
+                String pre = target.substring( 2 );
                 String key = pre.substring( 0, pre.length() -1 );
                 if( map.containsKey( key ) )
                 {
@@ -555,22 +796,33 @@ public class Construct implements Value, Serializable
                 {
                     final String error = 
                       "Unresolvable target symbolic expression ["
-                      + m_target
+                      + target
                       + "].";
                     throw new ValueException( error );
                 }
             }
             else
             {
-                return PropertyResolver.resolve( m_target );
+                String resolved = PropertyResolver.resolve( target );
+                return getTargetObject( map, loader, resolved );
             }
         }
         else
         {
-            return resolveClass( loader, m_target );
+            if( target.endsWith( "[]" ) )
+            {
+                int n = target.length() - 2;
+                String componentClassname = target.substring( 0, n );
+                Class componentClass = resolveType( loader, componentClassname );
+                return Array.newInstance( componentClass, 0 ).getClass();
+            }
+            else
+            {
+                return resolveClass( loader, target );
+            }
         }
     }
-
+    
     /**
      * Return the instance class using the context classloader.
      * @return the class
@@ -627,6 +879,62 @@ public class Construct implements Value, Serializable
         }
     }
 
+    /**
+     * Return the instance class using the context classloader.
+     * @return the class
+     * @exception ComponentException if the parameter class cannot be resolved
+     */
+    private Class resolveType( ClassLoader loader, String classname ) throws ValueException
+    {
+        try
+        {
+            return loader.loadClass( classname );
+        }
+        catch( final ClassNotFoundException e )
+        {
+            if( classname.equals( "int" ) )
+            {
+                return Integer.TYPE;
+            }
+            else if( classname.equals( "short" ) )
+            {
+                return Short.TYPE;
+            }
+            else if( classname.equals( "long" ) )
+            {
+                return Long.TYPE;
+            }
+            else if( classname.equals( "byte" ) )
+            {
+                return Byte.TYPE;
+            }
+            else if( classname.equals( "double" ) )
+            {
+                return Double.TYPE;
+            }
+            else if( classname.equals( "float" ) )
+            {
+                return Float.TYPE;
+            }
+            else if( classname.equals( "char" ) )
+            {
+                return Character.TYPE;
+            }
+            else if( classname.equals( "boolean" ) )
+            {
+                return Boolean.TYPE;
+            }
+            else
+            {
+                final String error =
+                  "Class not found ["
+                  + classname 
+                  + "].";
+               throw new ValueException( error, e );
+            }
+        }
+    }
+    
     private ClassLoader resolveClassLoader( ClassLoader classloader )
     {
         if( null != classloader )
@@ -751,229 +1059,6 @@ public class Construct implements Value, Serializable
         else
         {
             return a.equals( b );
-        }
-    }
-    
-    //--------------------------------------------------------------------------
-    // Array
-    //--------------------------------------------------------------------------
-    
-   /**
-    * Array value defintion.
-    */
-    public static final class Array implements Value
-    {
-       /**
-        * Serial version identifier.
-        */
-        static final long serialVersionUID = 1L;
-        
-        //--------------------------------------------------------------------------
-        // state
-        //--------------------------------------------------------------------------
-    
-        private final String m_classname;
-        private final Value[] m_values;
-        
-        //--------------------------------------------------------------------------
-        // constructors
-        //--------------------------------------------------------------------------
-        
-       /**
-        * Create a new array construct.
-        *
-        * @param classname the array type
-        * @param values the construct values
-        */
-        public Array( String classname, Value[] values )
-        {
-            if( null == classname )
-            {
-                m_classname = Object.class.getName();
-            }
-            else
-            {
-                m_classname = classname;
-            }
-            
-            m_values = values;
-        }
-        
-        //--------------------------------------------------------------------------
-        // ArrayDirective
-        //--------------------------------------------------------------------------
-    
-       /**
-        * Return the array classname.
-        * @return the classname of the array elements
-        */
-        public String getClassname()
-        {
-            return m_classname;
-        }
-        
-       /**
-        * Return an array of value element constructor elements.
-        * @return the value array
-        */
-        public Value[] getValues()
-        {
-            return m_values;
-        }
-        
-        //--------------------------------------------------------------------------
-        // Value
-        //--------------------------------------------------------------------------
-        
-       /**
-        * Resolve an instance from the value using the context classloader.
-        * @return the resolved instance
-        * @exception Exception if error occurs during instance resolution
-        */
-        public Object resolve() throws Exception
-        {
-            return resolve( null, false );
-        }
-        
-       /**
-        * Resolve an instance from the value using a supplied context map. If any 
-        * target expressions in immediate or nested values contain a symbolic
-        * expression the value will be resolved using the supplied map.
-        *
-        * @param map the context map
-        * @return the resolved instance
-        * @exception Exception if error occurs during instance resolution
-        */
-        public Object resolve( Map map ) throws Exception
-        {
-            return resolve( map, false );
-        }
-    
-       /**
-        * Resolve an instance from the value using a supplied isolvation policy. 
-        *
-        * @param isolate the isolation policy
-        * @return the resolved instance
-        * @exception Exception if error occurs during instance resolution
-        */
-        public Object resolve( boolean isolate ) throws Exception
-        {
-            return resolve( null, isolate );
-        }
-    
-       /**
-        * Resolve an instance from the value using a supplied context map. If any 
-        * target expressions in immediate or nested values contain a symbolic
-        * expression the value will be resolved using the supplied map.
-        *
-        * @param map the context map
-        * @param isolate the isolation policy
-        * @return the resolved instance
-        * @exception Exception if error occurs during instance resolution
-        */
-        public Object resolve( Map map, boolean isolate ) throws Exception
-        {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            Class c = loader.loadClass( m_classname );
-            Object[] instances = 
-              (Object[]) java.lang.reflect.Array.newInstance( c, m_values.length );
-            for( int i=0; i<m_values.length; i++ )
-            {
-                Value value = m_values[i];
-                instances[i] = value.resolve( map, isolate );
-            }
-            return instances;
-        }
-        
-       /**
-        * Test if the supplied object is equal to this object.
-        * @param other the object to compare with this instance
-        * @return TRUE if the supplied object is equal to this object
-        */
-        public boolean equals( Object other )
-        {
-            if( null == other )
-            {
-                return false;
-            }
-            if( !( other instanceof Array ) )
-            {
-                return false;
-            }
-            else
-            {
-                Array directive = (Array) other;
-                if( !m_classname.equals( directive.m_classname ) )
-                {
-                    return false;
-                }
-                else
-                {
-                    return Arrays.equals( m_values, directive.m_values );
-                }
-            }
-        }
-        
-       /**
-        * Return the hashcode for the instance.
-        * @return the instance hashcode
-        */
-        public int hashCode()
-        {
-            int hash = m_classname.hashCode();
-            for( int i=0; i<m_values.length; i++ )
-            {
-                hash ^= m_values[i].hashCode();
-            }
-            return hash;
-        }
-    }
-
-   /**
-    * Array bean info.
-    */
-    public static final class ArrayBeanInfo extends SimpleBeanInfo
-    {
-        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-        
-       /**
-        * Return the bean descriptor.
-        * @return the descriptor
-        */
-        public BeanDescriptor getBeanDescriptor()
-        {
-            return BEAN_DESCRIPTOR;
-        }
-        
-        private static BeanDescriptor setupBeanDescriptor()
-        {
-            BeanDescriptor descriptor = new BeanDescriptor( Array.class );
-            descriptor.setValue( 
-              "persistenceDelegate", 
-              new ArrayPersistenceDelegate() );
-            return descriptor;
-        }
-        
-       /**
-        * Persistence delegate implementation.
-        */
-        private static class ArrayPersistenceDelegate 
-          extends DefaultPersistenceDelegate
-        {
-           /**
-            * Return the expression value.
-            * @param old the old instance
-            * @param encoder the encoder
-            * @return the expression
-            */
-            public Expression instantiate( Object old, Encoder encoder )
-            {
-                Array construct = (Array) old;
-                Object[] args = new Object[2];
-                args[0] = construct.getClassname();
-                args[1] = construct.getValues();
-                return new Expression( old, old.getClass(), "new", args );
-            }
         }
     }
 }
