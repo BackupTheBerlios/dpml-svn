@@ -115,6 +115,25 @@
 
       </subsection>
 
+      <subsection name="Array Example">
+
+        <p>
+          Example of the creation of an int array.  Array datatypes
+          may be declared using the "[]" postfix on the class attribute
+          value.  Nested elements will be used to resolve array entry 
+          values.
+        </p>
+
+<pre><![CDATA[
+<value class="int[]">
+  <value class="int" value="1"/>
+  <value class="int" value="2"/>
+  <value class="int" value="3"/>
+</value>
+]]></pre>
+
+      </subsection>
+
     </section>
 
   </body>

@@ -40,7 +40,8 @@
               Optional declaration of a classname to be instantiated using
               any enclosed values. Classnames may include any class within 
               the scope of the component classloader or any primitive datatype.
-              May not be used in in conjunction with the <tt>lookup</tt> attribute.
+              The 'class' attribue not be used in in conjunction with the 
+              <tt>lookup</tt> attribute.
             </td>
           </tr>
           <tr>
@@ -136,6 +137,18 @@
 
 <pre><![CDATA[
 <entry key="dir" value="${user.dir}/working">
+]]></pre>
+
+        <p>
+          The following example constructs an String array (assuming that the 
+          underlying context entry declares a String[] return type).
+        </p>
+
+<pre><![CDATA[
+<entry key="names">
+  <value value="Hello"/>
+  <value value="World"/>
+</entry>
 ]]></pre>
 
       </subsection>
