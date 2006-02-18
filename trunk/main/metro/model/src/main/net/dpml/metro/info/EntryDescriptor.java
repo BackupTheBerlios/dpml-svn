@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class EntryDescriptor implements Serializable
+public final class EntryDescriptor implements Serializable, Comparable
 {
    /**
     * Serial version identifier.
@@ -293,5 +293,31 @@ public final class EntryDescriptor implements Serializable
             hash =  hash - 923798133;
         }
         return hash;
+    }
+    
+   /**
+    * Compare this entry with another entry.
+    * @param other the other object
+    * @return the comparative index
+    */
+    public int compareTo( Object other )
+    {
+        if( null == other )
+        {
+            throw new NullPointerException( "other" );
+        }
+        EntryDescriptor entry = (EntryDescriptor) other;
+        if( getOptional() == entry.getOptional() )
+        {
+            return m_key.compareTo( entry.getKey() );
+        }
+        else if( isRequired() )
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
     }
 }

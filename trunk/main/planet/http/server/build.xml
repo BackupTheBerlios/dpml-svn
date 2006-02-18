@@ -87,13 +87,16 @@
           <context>
             <entry key="resourceBase" value="$${dpml.data}"/>
             <entry key="contextPath" value="/data"/>
+            <entry key="servletHolders">
+              <value class="net.dpml.http.ServletHolder">
+                <value value="data"/>
+                <value value="org.mortbay.jetty.servlet.DefaultServlet"/>
+              </value>
+            </entry>
           </context>
           <configuration>
-            <servlets>
-              <servlet name="data" class="org.mortbay.jetty.servlet.DefaultServlet"/>
-            </servlets>
             <mappings>
-              <map servlet="data" path="/"/>
+              <map path="/" servlet="data"/>
             </mappings>
           </configuration>
         </component>

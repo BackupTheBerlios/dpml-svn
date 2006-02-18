@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Hashtable;
+import java.util.Arrays;
 import java.util.Map;
 
 import net.dpml.metro.info.PartReference;
@@ -578,46 +579,48 @@ public class CatalogTask extends Task
             EntryDescriptor[] entries = context.getEntryDescriptors();
             if( entries.length > 0  )
             {
+                Arrays.sort( entries );
                 writer.write( "\n    <p class=\"category\">Context</p>" );
                 writer.write( "\n    <table width=\"100%\">" );
-                for( int j=0; j < entries.length; j++ )
+                for( int j=0; j<entries.length; j++ )
                 {
-                     EntryDescriptor entry = entries[j];
-                     String key = entry.getKey();
-                     String entryClassname = entry.getClassname();
-                     boolean optional = entry.isOptional();
-
-                     if( flag )
-                     {
-                         writer.write( "<tr class=\"c-even\">" );
-                     }
-                     else
-                     {
-                         writer.write( "<tr class=\"c-odd\">" );
-                     }
-                     writer.write( "<td>" + key + "</td>" );
-                     if( optional )
-                     {
-                         writer.write( "<td>optional</td>" );
-                     }
-                     else
-                     {
-                         writer.write( "<td>required</td>" );
-                     }
-                     writer.write( "<td>" + entryClassname + "</td>" );
-                     writer.write( "</tr>" );
-                     flag = !flag;
+                    EntryDescriptor entry = entries[j];
+                    String key = entry.getKey();
+                    String entryClassname = entry.getClassname();
+                    String entryDisplayClassname = getDisplayClassname( entryClassname );
+                    boolean optional = entry.isOptional();
+                    
+                    if( flag )
+                    {
+                        writer.write( "<tr class=\"c-even\">" );
+                    }
+                    else
+                    {
+                        writer.write( "<tr class=\"c-odd\">" );
+                    }
+                    writer.write( "<td>" + key + "</td>" );
+                    if( optional )
+                    {
+                        writer.write( "<td>optional</td>" );
+                    }
+                    else
+                    {
+                        writer.write( "<td>required</td>" );
+                    }
+                    writer.write( "<td>" + entryDisplayClassname + "</td>" );
+                    writer.write( "</tr>" );
+                    flag = !flag;
                 }
                 writer.write( "\n    </table>" );
             }
-
+            
             //
             // write out links to embedded types
             //
-
+            
             PartReference[] parts = type.getPartReferences();
             writePartReferences( writer, type, parts, offset );
-
+            
             writer.write( "\n  </body>" );
             writer.write( "\n</html>" );
             writer.close();
@@ -627,6 +630,26 @@ public class CatalogTask extends Task
             final String error = 
               "Internal error while attempting to create type page.";
             throw new BuildException( error, e, getLocation() );
+        }
+    }
+    
+    private String getDisplayClassname( String classname )
+    {
+        if( classname.startsWith( "[L" ) )
+        {
+            if( classname.endsWith( ";" ) )
+            {
+                int n = classname.length();
+                return classname.substring( 2, n-1 ) + "[]";
+            }
+            else
+            {
+                return classname.substring( 2 ) + "[]";
+            }
+        }
+        else
+        {
+            return classname;
         }
     }
     
