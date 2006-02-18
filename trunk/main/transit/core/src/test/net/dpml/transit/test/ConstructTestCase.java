@@ -198,6 +198,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         }
     }
     
+   /**
+    * Test array return type.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testSimpleArray() throws Exception
     {
         String[] args = new String[]{"aaa", "bbb"};
@@ -209,6 +213,10 @@ public class ConstructTestCase extends AbstractEncodingTestCase
         assertTrue( "simple-array", equal );
     }
     
+   /**
+    * Test array with zero entries.
+    * @exception Exception if an unexpected error occurs.
+    */
     public void testZeroLengthArray() throws Exception
     {
         String[] args = new String[0];
@@ -238,7 +246,7 @@ public class ConstructTestCase extends AbstractEncodingTestCase
     */
     public void testPrimitiveArray() throws Exception
     {
-        int[] args = new int[]{ 1, 2, 3 };
+        int[] args = new int[]{1, 2, 3};
         Value p1 = new Construct( "int", "1" );
         Value p2 = new Construct( "int", "2" );
         Value p3 = new Construct( "int", "3" );

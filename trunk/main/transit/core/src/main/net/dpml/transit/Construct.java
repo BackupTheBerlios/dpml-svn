@@ -18,10 +18,6 @@
 
 package net.dpml.transit;
 
-import java.beans.SimpleBeanInfo;
-import java.beans.BeanDescriptor;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.Encoder;
 import java.beans.Expression;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -429,191 +425,7 @@ public class Construct implements Value, Serializable
                 Class type = c.getComponentType();
                 if( type.isPrimitive() )
                 {
-                    Object result = Array.newInstance( type, instances.length );
-                    if( Integer.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Integer )
-                            {
-                                Integer integer = (Integer) instance;
-                                int v = integer.intValue();
-                                Array.setInt( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied int array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an Integer.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Short.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Short )
-                            {
-                                Short primitive = (Short) instance;
-                                short v = primitive.shortValue();
-                                Array.setShort( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied short array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Short.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Long.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Long )
-                            {
-                                Long primitive = (Long) instance;
-                                long v = primitive.longValue();
-                                Array.setLong( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied long array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Long.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Byte.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Byte )
-                            {
-                                Byte primitive = (Byte) instance;
-                                byte v = primitive.byteValue();
-                                Array.setByte( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied byte array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Byte.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Double.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Double )
-                            {
-                                Double primitive = (Double) instance;
-                                double v = primitive.doubleValue();
-                                Array.setDouble( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied double array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Double.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Float.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Float )
-                            {
-                                Float primitive = (Float) instance;
-                                float v = primitive.floatValue();
-                                Array.setFloat( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied float array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Float.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Character.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Character )
-                            {
-                                Character primitive = (Character) instance;
-                                char v = primitive.charValue();
-                                Array.setChar( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied char array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Character.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else if( Boolean.TYPE == type )
-                    {
-                        for( int i=0; i<instances.length; i++ )
-                        {
-                            Object instance = instances[i];
-                            if( instance instanceof Boolean )
-                            {
-                                Boolean primitive = (Boolean) instance;
-                                boolean v = primitive.booleanValue();
-                                Array.setBoolean( result, i, v );
-                            }
-                            else
-                            {
-                                final String error = 
-                                  "Supplied boolean array argument class ["
-                                  + instance.getClass().getName()
-                                  + "] is not an instance of Boolean.";
-                                throw new ValueException( error );
-                            }
-                        }
-                        return result;
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Primitive array class [" 
-                          + type.getName() 
-                          + "] is not recognized.";
-                        throw new UnsupportedOperationException( error );
-                    }
+                    return buildPrimitiveArray( type, instances );
                 }
                 else
                 {
@@ -631,7 +443,6 @@ public class Construct implements Value, Serializable
                             final String error =
                               "Array [" 
                               + type.getName() 
-                              
                               + "] contains an invalid element [" 
                               + instance.getClass().getName() 
                               + "].";
@@ -702,6 +513,243 @@ public class Construct implements Value, Serializable
             String error = buffer.toString();
             throw new ValueException( error, e );
         }
+    }
+
+    private Object buildPrimitiveArray( Class type, Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( type, instances.length );
+        if( Integer.TYPE == type )
+        {
+            return buildIntArray( instances );
+        }
+        else if( Short.TYPE == type )
+        {
+            return buildShortArray( instances );
+        }
+        else if( Long.TYPE == type )
+        {
+            return buildLongArray( instances );
+        }
+        else if( Byte.TYPE == type )
+        {
+            return buildByteArray( instances );
+        }
+        else if( Double.TYPE == type )
+        {
+            return buildDoubleArray( instances );
+        }
+        else if( Float.TYPE == type )
+        {
+            return buildFloatArray( instances );
+        }
+        else if( Character.TYPE == type )
+        {
+            return buildCharacterArray( instances );
+        }
+        else if( Boolean.TYPE == type )
+        {
+            return buildBooleanArray( instances );
+        }
+        else
+        {
+            final String error = 
+              "Primitive array class [" 
+              + type.getName() 
+              + "] is not recognized.";
+            throw new UnsupportedOperationException( error );
+        }
+    }
+    
+    private Object buildIntArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Integer.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Integer )
+            {
+                Integer integer = (Integer) instance;
+                int v = integer.intValue();
+                Array.setInt( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied int array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an Integer.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildShortArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Short.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Short )
+            {
+                Short primitive = (Short) instance;
+                short v = primitive.shortValue();
+                Array.setShort( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied short array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an Short.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildLongArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Long.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Long )
+            {
+                Long primitive = (Long) instance;
+                long v = primitive.longValue();
+                Array.setLong( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied long array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an instance of Long.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildByteArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Byte.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Byte )
+            {
+                Byte primitive = (Byte) instance;
+                byte v = primitive.byteValue();
+                Array.setByte( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied byte array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an instance of Byte.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildDoubleArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Double.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Double )
+            {
+                Double primitive = (Double) instance;
+                double v = primitive.doubleValue();
+                Array.setDouble( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied double array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an instance of Double.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildFloatArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Float.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Float )
+            {
+                Float primitive = (Float) instance;
+                float v = primitive.floatValue();
+                Array.setFloat( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied float array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an instance of Float.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildCharacterArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Character.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Character )
+            {
+                Character primitive = (Character) instance;
+                char v = primitive.charValue();
+                Array.setChar( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied char array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an instance of Character.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
+    }
+    
+    private Object buildBooleanArray( Object[] instances ) throws ValueException
+    {
+        Object result = Array.newInstance( Boolean.TYPE, instances.length );
+        for( int i=0; i<instances.length; i++ )
+        {
+            Object instance = instances[i];
+            if( instance instanceof Boolean )
+            {
+                Boolean primitive = (Boolean) instance;
+                boolean v = primitive.booleanValue();
+                Array.setBoolean( result, i, v );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied boolean array argument class ["
+                  + instance.getClass().getName()
+                  + "] is not an instance of Boolean.";
+                throw new ValueException( error );
+            }
+        }
+        return result;
     }
     
     private Object[] getInstanceValues( 

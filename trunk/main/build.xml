@@ -136,6 +136,7 @@
     <copy todir="${share.docs.reports}">
       <fileset dir="target/reports">
         <exclude name="api/**"/>
+        <exclude name="checkstyle/**"/>
       </fileset>
     </copy>
     <copy todir="${share.docs}">

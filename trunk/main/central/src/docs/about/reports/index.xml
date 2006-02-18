@@ -31,10 +31,6 @@
            modules together with Javadocs for the Planet component suite.</td> 
         </tr>
         <tr>
-          <td><a href="../../reports/@VERSION@/checkstyle/index.html">Checkstyle</a></td>
-          <td>Style compliance report based on the Checkstyle tool with DPML style rules.</td>
-        </tr>
-        <tr>
           <td><a href="../../reports/@VERSION@/catalog/index.html">Catalog</a></td>
           <td>Description of all component types.</td>
         </tr>
