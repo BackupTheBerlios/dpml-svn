@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit XML Specification</title>
+  </properties> 
+
+  <body>
+
+    <section name="Transit XML Local Repository Declaration">
+
+      <subsection name="Description">
+
+        <p>
+        Declaration of the location and layout of the local installation repository.
+        </p>
+
+      </subsection>
+
+      <subsection name="Attributes">
+      
+        <table>
+          <tr>
+            <td>path</td>
+            <td>required</td>
+            <td>An absolutute path referencing a local repository directory.  The attribute value
+              may include any system property including references to Transit properties
+              such as ${dpml.share}.  The default value is ${dpml.share}/local.</td>
+          </tr>
+          <tr>
+            <td>layout</td>
+            <td>required</td>
+            <td>The layout strategy id to be used for the local repository data.  The default 
+               value is <tt>"modern"</tt>.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+
+    </section>
+
+  </body>
+
+</document>
+

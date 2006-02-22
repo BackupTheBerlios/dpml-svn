@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit XML Specification</title>
+  </properties> 
+
+  <body>
+
+    <section name="Transit XML Specification">
+
+      <subsection name="Description">
+
+        <p>
+        </p>
+
+      </subsection>
+
+      <subsection name="Attributes">
+      
+        <table>
+          <tr>
+            <td>cache</td>
+            <td>required</td>
+            <td>An absolutute path referencing a local cache.  The attribute value
+              may include any system property including references to Transit properties
+              such as ${dpml.data}.  The default value is ${dpml.data}/cache.</td>
+          </tr>
+          <tr>
+            <td>layout</td>
+            <td>required</td>
+            <td>The layout strategy id to be used for the cache data.  The default 
+               value is <tt>"classic"</tt>.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="local.html">local</a></tt></td>
+            <td>The local file based repository included as a part of the DPML installation.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="proxy.html">proxy</a></tt></td>
+            <td>The proxy setting configuration.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="hosts.html">hosts</a></tt></td>
+            <td>A colection of remote host definitions.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -25,13 +25,9 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Protocols" href="technical/index.html"/>
-      <item name="Services" href="services/index.html"/>
-      <item name="Properties" href="properties.html"/>
-      <item name="Configuration" href="config/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="Local" href="local.html"/>
+      <item name="Proxy" href="proxy.html"/>
+      <item name="Hosts" href="hosts.html"/>
     </menu>
 
  </body>

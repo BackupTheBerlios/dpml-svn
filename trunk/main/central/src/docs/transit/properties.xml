@@ -55,10 +55,10 @@
           <td>
             If Transit is not initialized within an explicit TransitModel then
             Transit will attempt to establish a TransitModel using a externalized
-            TransitDirective located at the uri <tt>local:xml:dpml/transit/config</tt>.
+            TransitDirective located at the uri <tt>local:xml:dpml/transit/standard</tt>.
             This uri can be overridden using the <tt>dpml.transit.profile</tt> property
             enabling the selection of a remote profile.  The uri value will be resolved 
-            to a url referencing a TransitDescriptor in XML form (JSR-57).  Overriding the uri
+            to a url referencing a <a href="xml/index.html">TransitDescriptor in XML form</a>.  Overriding the uri
             enables the possiblity for centralization of multiple Transit configurations.
           </td>
         </tr>
