@@ -72,6 +72,7 @@ abstract class AbstractTestCase extends TestCase
     * @return the result of decoding the encoded form of the supplied object
     * @exception Exception is an error occurs
     */
+    /*
     public Object doEncodingTest( Object object, String filename ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
@@ -102,4 +103,5 @@ abstract class AbstractTestCase extends TestCase
         assertEquals( "hash", object.hashCode(), result.hashCode() );
         return result;
     }
+    */
 }

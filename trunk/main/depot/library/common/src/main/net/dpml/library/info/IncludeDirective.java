@@ -25,7 +25,7 @@ import java.beans.SimpleBeanInfo;
 import java.beans.Encoder;
 import java.util.Properties;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 import net.dpml.lang.Enum;
 
 /**

@@ -77,14 +77,18 @@ public class JarProcess extends AbstractBuildListener
         else if( "package".equals( name ) )
         {
             Project project = event.getProject();
-            final JarTask task = new JarTask();
-            task.setProject( project );
-            task.setTaskName( "jar" );
-            task.setSrc( new File( project.getProperty( "project.target.classes.main.dir" ) ) );
-            final File jar = getJarFile( project );
-            task.setDest( jar );
-            task.init();
-            task.execute();
+            File jarSrcDir = new File( project.getProperty( "project.target.classes.main.dir" ) );
+            if( jarSrcDir.exists() )
+            {
+                final JarTask task = new JarTask();
+                task.setProject( project );
+                task.setTaskName( "jar" );
+                task.setSrc( jarSrcDir );
+                final File jar = getJarFile( project );
+                task.setDest( jar );
+                task.init();
+                task.execute();
+            }
         }
         else if( "test".equals( name ) )
         {
@@ -95,7 +99,10 @@ public class JarProcess extends AbstractBuildListener
             {
                 final File jar = getJarFile( project );
                 Path testCompilePath = context.getPath( Scope.TEST  );
-                testCompilePath.createPathElement().setLocation( jar );
+                if( jar.exists() )
+                {
+                    testCompilePath.createPathElement().setLocation( jar );
+                }
                 final File dest = new File( project.getProperty( "project.target.classes.test.dir" ) );
                 try
                 {

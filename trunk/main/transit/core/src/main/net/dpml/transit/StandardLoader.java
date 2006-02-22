@@ -27,14 +27,21 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
 import net.dpml.transit.artifact.ArtifactNotFoundException;
-import net.dpml.transit.artifact.Handler;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
+
+import net.dpml.lang.Plugin;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.Category;
+import net.dpml.lang.Strategy;
+import net.dpml.lang.PluginBuilder;
+import net.dpml.lang.Handler;
 
 /**
  * Utility class supporting downloading of resources based on
@@ -163,34 +170,16 @@ class StandardLoader implements Repository
         {
             throw new NullArgumentException( "parent" );
         }
+        
         try
         {
             getLogger().debug( "loading plugin: " + uri );
             Plugin descriptor = getPluginDescriptor( uri );
             ClassLoader classloader = createClassLoader( parent, descriptor );
-            String classname = descriptor.getClassname();
-            if( null == classname )
-            {
-                final String error =
-                  "Supplied plugin descriptor ["
-                  + uri
-                  + "] does not declare a main class.";
-                throw new IOException( error );
-            }
-            
-            try
-            {
-                Class clazz = loadPluginClass( classloader, classname );
-                getLogger().debug( "established plugin class: " + clazz.getName() );
-                return createPlugin( clazz, args );
-            }
-            catch( ClassNotFoundException e )
-            {
-                final String error = 
-                  "Class: " + classname 
-                  + "\nURI: " + uri;
-                throw new PluginClassNotFoundException( error );
-            }
+            Strategy strategy = descriptor.getStrategy();
+            Handler handler = getHandler( classloader, strategy );
+            Properties properties = strategy.getProperties();
+            return handler.getPlugin( classloader, properties, args );
         }
         catch( RepositoryException re )
         {
@@ -205,6 +194,27 @@ class StandardLoader implements Repository
             String error = "Unable to create a plugin using [" + uri + "].";
             getLogger().error( error, ce );
             throw new InvocationTargetException( ce );
+        }
+    }
+    
+    private Handler getHandler( ClassLoader classloader, Strategy strategy ) throws Exception
+    {
+        String classname = strategy.getHandlerClassname();
+        Class clazz = classloader.loadClass( classname );
+        Object handler = clazz.newInstance();
+        if( handler instanceof Handler )
+        {
+            return (Handler) handler;
+        }
+        else
+        {
+            final String error = 
+              "Plugin handler classname [" 
+              + classname
+              + "] does not implement the "
+              + Handler.class.getName()
+              + " interface.";
+            throw new IllegalStateException( error );
         }
     }
     
@@ -237,12 +247,10 @@ class StandardLoader implements Repository
         try
         {
             ClassLoader classloader = createClassLoader( parent, descriptor );
-            String classname = descriptor.getClassname();
-            if( null == classname )
-            {
-                throw new IllegalArgumentException( "No classname in descriptor: " + descriptor.getURI() );
-            }
-            return loadPluginClass( classloader, classname );
+            Strategy strategy = descriptor.getStrategy();
+            Handler handler = getHandler( classloader, strategy );
+            Properties properties = strategy.getProperties();
+            return handler.getPluginClass( classloader, properties );
         }
         catch( ClassNotFoundException e )
         {
@@ -255,8 +263,8 @@ class StandardLoader implements Repository
         catch( Throwable e )
         {
             final String error =
-              "Failed to load plugin class.\nClass:"
-              + descriptor.getClassname();
+              "Failed to load plugin.\nURI:"
+              + descriptor.getURI();
             throw new RepositoryException( error, e );
         }
     }
@@ -277,12 +285,28 @@ class StandardLoader implements Repository
             throw new NullArgumentException( "uri" );
         }
         
+        try
+        {
+            PluginBuilder builder = new PluginBuilder();
+            URL url = getURL( uri );
+            return builder.load( url );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Unable to resolve a plugin descriptor for ["
+              + uri
+              + "].";
+            throw new RepositoryException( error, e );
+        }
+        
+        /*
         Artifact artifact = getArtifact( uri );
 
         if( !"plugin".equals( artifact.getType() ) )
         {
             final String error =
-              "Supplied artifact [" + artifact + "] is not of a 'plugin' type.";
+              "Supplied artifact [" + artifact + "] is not a 'plugin' type.";
             throw new RepositoryException( error );
         }
         try
@@ -297,6 +321,19 @@ class StandardLoader implements Repository
               + artifact
               + "].";
             throw new RepositoryException( error, ce );
+        }
+        */
+    }
+
+    private URL getURL( URI uri ) throws IOException
+    {
+        if( Artifact.isRecognized( uri ) )
+        {
+            return Artifact.createArtifact( uri ).toURL();
+        }
+        else
+        {
+            return uri.toURL();
         }
     }
 
@@ -596,22 +633,23 @@ class StandardLoader implements Repository
         
         URI plugin = descriptor.getURI();
 
-        URI[] systemArtifacts = descriptor.getDependencies( Category.SYSTEM );
+        Classpath classpath = descriptor.getClasspath();
+        URI[] systemArtifacts = classpath.getDependencies( Category.SYSTEM );
         URL[] sysUrls = getURLs( systemArtifacts );
         if( sysUrls.length > 0 )
         {
             updateSystemClassLoader( plugin, sysUrls );
         }
         
-        URI[] apiArtifacts = descriptor.getDependencies( Category.PUBLIC );
+        URI[] apiArtifacts = classpath.getDependencies( Category.PUBLIC );
         URL[] apis = getURLs( apiArtifacts  );
         ClassLoader api = buildClassLoader( plugin, Category.PUBLIC, base, apis );
         
-        URI[] spiArtifacts = descriptor.getDependencies( Category.PROTECTED );
+        URI[] spiArtifacts = classpath.getDependencies( Category.PROTECTED );
         URL[] spis = getURLs( spiArtifacts );
         ClassLoader spi = buildClassLoader( plugin, Category.PROTECTED, api, spis );
         
-        URI[] impArtifacts = descriptor.getDependencies( Category.PRIVATE );
+        URI[] impArtifacts = classpath.getDependencies( Category.PRIVATE );
         URL[] imps = getURLs( impArtifacts );
         ClassLoader classloader = buildClassLoader( plugin, Category.PRIVATE, spi, imps );
 
@@ -653,7 +691,15 @@ class StandardLoader implements Repository
         URL[] urls = new URL[ uris.length ];
         for( int i=0; i < urls.length; i++ )
         {
-            urls[i] = new URL( null, uris[i].toString(), new Handler() );
+            URI uri = uris[i];
+            if( Artifact.isRecognized( uri ) )
+            {
+                urls[i] = Artifact.toURL( uri );
+            }
+            else
+            {
+                urls[i] = uri.toURL();
+            }
         }
         return urls;
     }
@@ -783,12 +829,13 @@ class StandardLoader implements Repository
         {
             throw new NullArgumentException( "artifact" );
         }
-
+        
         try
         {
             URL url = artifact.toURL();
             Properties props = new Properties();
-            InputStream input = url.openConnection().getInputStream();
+            URLConnection connection = url.openConnection();
+            InputStream input = connection.getInputStream();
             props.load( input );
             return props;
         }

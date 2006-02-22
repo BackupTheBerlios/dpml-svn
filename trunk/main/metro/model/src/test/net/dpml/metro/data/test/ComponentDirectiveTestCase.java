@@ -38,7 +38,7 @@ import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.part.ActivationPolicy;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * ComponentDirectiveTestCase

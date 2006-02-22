@@ -80,9 +80,9 @@ public final class TransitDirectiveTestCase extends AbstractTestCase
     * Test directive encoding.
     * @exception Exception if an error occurs
     */
-    public void testEncoding() throws Exception
-    {
-        TransitDirective result = (TransitDirective) doEncodingTest( m_directive, "transit.xml" );
-        assertEquals( "encoded", m_directive, result );
-    }
+    //public void testEncoding() throws Exception
+    //{
+    //    TransitDirective result = (TransitDirective) doEncodingTest( m_directive, "transit.xml" );
+    //    assertEquals( "encoded", m_directive, result );
+    //}
 }

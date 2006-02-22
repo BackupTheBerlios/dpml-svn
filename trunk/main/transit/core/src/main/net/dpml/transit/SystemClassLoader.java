@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Arrays;
 
+import net.dpml.lang.Category;
+
 /**
  * The SystemClassLoader is a URLClassLoader that supports late binding of 
  * URLs.  This class may be configured as the system classloader when loading plugins

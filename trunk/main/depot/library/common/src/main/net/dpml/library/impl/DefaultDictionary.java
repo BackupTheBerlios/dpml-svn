@@ -85,6 +85,15 @@ public class DefaultDictionary implements Dictionary
     }
     
    /**
+    * Return the local property names associated with the dictionary.
+    * @return the array of local property names
+    */
+    public String[] getLocalPropertyNames()
+    {
+        return getLocalPropertyNames( m_directive.getProperties() );
+    }
+    
+   /**
     * Return a property value.
     * @param key the property key
     * @return the property value

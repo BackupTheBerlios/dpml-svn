@@ -24,6 +24,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.net.URI;
 
+import net.dpml.lang.Plugin;
+
 /**
  * A service that provides support for the establishment of classloaders and plugin
  * instances based on plugin descriptor describing a classloader chain.

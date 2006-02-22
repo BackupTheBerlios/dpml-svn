@@ -37,7 +37,7 @@ import net.dpml.library.model.Resource;
 import net.dpml.library.model.ResourceNotFoundException;
 import net.dpml.library.model.ModuleNotFoundException;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 
 /**

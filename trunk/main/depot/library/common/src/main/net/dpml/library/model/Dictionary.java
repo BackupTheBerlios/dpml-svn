@@ -33,6 +33,12 @@ public interface Dictionary
     String[] getPropertyNames();
     
    /**
+    * Return the local property names associated with the dictionary.
+    * @return the array of local property names
+    */
+    String[] getLocalPropertyNames();
+
+   /**
     * Return a property value.
     * @param key the property key
     * @return the property value

@@ -139,16 +139,16 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     * Test classic encoding.
     * @exception Exception if an error occurs
     */
-    public void testClassicEncoding() throws Exception
-    {
-        String host = "http://localhost:1234";
-        String[] excludes = new String[]{"http://www.osm.net"};
-        String username = "me";
-        char[] password = new char[0];
-        ProxyDirective directive = new ProxyDirective( host, excludes, username, password );
-        ProxyDirective result = (ProxyDirective) doEncodingTest( directive, "proxy-directive.xml" );
-        assertEquals( "encoded", directive, result );
-    }
+    //public void testClassicEncoding() throws Exception
+    //{
+    //    String host = "http://localhost:1234";
+    //    String[] excludes = new String[]{"http://www.osm.net"};
+    //    String username = "me";
+    //    char[] password = new char[0];
+    //    ProxyDirective directive = new ProxyDirective( host, excludes, username, password );
+    //    ProxyDirective result = (ProxyDirective) doEncodingTest( directive, "proxy-directive.xml" );
+    //    assertEquals( "encoded", directive, result );
+    //}
 
    /**
     * Test serailization with null fields.
@@ -168,14 +168,14 @@ public final class ProxyDirectiveTestCase extends AbstractTestCase
     * Test encoding with null fields.
     * @exception Exception if an error occurs
     */
-    public void testNullEncoding() throws Exception
-    {
-        String host = "http://localhost:1234";
-        String[] excludes = null;
-        String username = null;
-        char[] password = null;
-        ProxyDirective directive = new ProxyDirective( host, excludes, username, password );
-        ProxyDirective result = (ProxyDirective) doEncodingTest( directive, "proxy-directive.xml" );
-        assertEquals( "encoded", directive, result );
-    }
+    //public void testNullEncoding() throws Exception
+    //{
+    //    String host = "http://localhost:1234";
+    //    String[] excludes = null;
+    //    String username = null;
+    //    char[] password = null;
+    //    ProxyDirective directive = new ProxyDirective( host, excludes, username, password );
+    //    ProxyDirective result = (ProxyDirective) doEncodingTest( directive, "proxy-directive.xml" );
+    //    assertEquals( "encoded", directive, result );
+    //}
 }

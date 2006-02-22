@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
@@ -88,8 +89,22 @@ public final class ElementHelper
           DocumentBuilderFactory.newInstance();
         factory.setValidating( false );
         factory.setNamespaceAware( false );
-        final Document document =
-          factory.newDocumentBuilder().parse( input );
+        factory.setExpandEntityReferences( false );
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return getRootElement( builder, input );
+    }
+
+   /**
+    * Return the root element of the supplied input stream.
+    * @param builder the document builder
+    * @param input the input stream containing a XML definition
+    * @return the root element
+    * @exception Exception if an error occurs
+    */
+    public static Element getRootElement( final DocumentBuilder builder, final InputStream input )
+      throws Exception
+    {
+        final Document document = builder.parse( input );
         return document.getDocumentElement();
     }
 

@@ -42,7 +42,7 @@ import net.dpml.library.info.ValidationException;
 import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * Implementation of a resource.

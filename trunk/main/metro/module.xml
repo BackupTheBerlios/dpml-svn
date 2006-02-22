@@ -94,6 +94,20 @@
       <include ref="dpml/util/dpml-configuration-impl"/>
     </dependencies>
   </project>
+
+  <project name="dpml-metro-builder" basedir="builder">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+           value="net.dpml.metro.builder.ComponentPluginHelper"/>
+      </type>
+    </types>
+    <dependencies>
+      <include key="dpml-metro-model"/>
+      <include ref="dpml/depot/dpml-library-main"/>
+    </dependencies>
+  </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
     <types>

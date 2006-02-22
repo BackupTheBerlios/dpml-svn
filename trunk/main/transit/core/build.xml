@@ -76,6 +76,15 @@
     <checksum fileext=".md5" file="${target.deliverables.jars.dir}/${project.filename}"/>
     <delete file="${target.deliverables.jars.dir}/${project.filename}.asc"/>
     <antcall target="execute.jar.asc"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.prefs}/dpml/transit"/>
+    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
+      <fileset dir="${basedir}/target/prefs"/>
+    </copy>
   </target>
 
   <target name="install" depends="bootstrap.install">
@@ -104,15 +113,6 @@
     <copy preservelastmodified="true" overwrite="true"
       tofile="${user.home}/.ant/lib/${short.filename}" 
       file="${target.deliverables.jars.dir}/${long.filename}"/>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
-#----------------------------------------------------------------------------------
-    </echo>
-    <mkdir dir="${dpml.prefs}/dpml/transit"/>
-    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
-      <fileset dir="${basedir}/target/prefs"/>
-    </copy>
   </target>
 
 </project>

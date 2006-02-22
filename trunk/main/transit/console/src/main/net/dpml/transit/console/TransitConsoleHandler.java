@@ -50,8 +50,10 @@ import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.NumberValidator;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Logger;
 import net.dpml.transit.Transit;
+import net.dpml.transit.TransitBuilder;
 import net.dpml.transit.RepositoryException;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.info.TransitDirective;
@@ -777,16 +779,13 @@ public class TransitConsoleHandler
             URI store = DefaultTransitModel.DEFAULT_PROFILE_URI;
             URI uri = (URI) m_line.getValue( PROFILE_URI_OPTION, store );
             System.out.println( "Saving to: " + uri );
-            ClassLoader current = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader( TransitDirective.class.getClassLoader() );
-            XMLEncoder encoder = null;
+            OutputStream output = null;
             try
             {
-                URL url = uri.toURL();
-                OutputStream output = url.openConnection().getOutputStream();
-                BufferedOutputStream buffer = new BufferedOutputStream( output );
-                encoder = new XMLEncoder( buffer );
-                encoder.writeObject( directive );
+                URL url = buildURL( uri );
+                output = url.openConnection().getOutputStream();
+                TransitBuilder builder = new TransitBuilder();
+                builder.write( directive, output );
             }
             catch( Exception e )
             {
@@ -797,11 +796,17 @@ public class TransitConsoleHandler
             }
             finally
             {
-                if( null != encoder )
+                if( null != output )
                 {
-                    encoder.close();
+                    try
+                    {
+                        output.close();
+                    }
+                    catch( Exception e )
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                Thread.currentThread().setContextClassLoader( current );
             }
         }
     }
@@ -834,10 +839,9 @@ public class TransitConsoleHandler
             URI uri = (URI) line.getValue( PROFILE_URI_OPTION, null );
             try
             {
-                URL url = uri.toURL();
-                InputStream input = url.openStream();
-                XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-                return (TransitDirective) decoder.readObject();
+                URL url = buildURL( uri );
+                TransitBuilder builder = new TransitBuilder();
+                return builder.load( url );
             }
             catch( FileNotFoundException e )
             {
@@ -859,14 +863,14 @@ public class TransitConsoleHandler
         else
         {
             File prefs = Transit.DPML_PREFS;
-            File config = new File( prefs, "dpml/transit/xmls/config.xml" );
+            File config = new File( prefs, "dpml/transit/xmls/standard.xml" );
             if( config.exists() )
             {
                 try
                 {
-                    FileInputStream input = new FileInputStream( config );
-                    XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-                    return (TransitDirective) decoder.readObject();
+                    URL url = config.toURL();
+                    TransitBuilder builder = new TransitBuilder();
+                    return builder.load( url );
                 }
                 catch( Exception e )
                 {
@@ -886,6 +890,19 @@ public class TransitConsoleHandler
                 return TransitDirective.CLASSIC_PROFILE;
             }
         }
+    }
+    
+    private URL buildURL( URI uri ) throws IOException
+    {
+        if( Artifact.isRecognized( uri ) )
+        {
+            return Artifact.createArtifact( uri ).toURL();
+        }
+        else
+        {
+            return uri.toURL();
+        }
+      
     }
     
     private boolean getEnabledFlag( CommandLine line, HostDirective host )

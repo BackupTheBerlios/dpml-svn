@@ -18,7 +18,7 @@
 
 package net.dpml.library.info;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * The IncludeDirective class describes a the inclusion of a typed value.

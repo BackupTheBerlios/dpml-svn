@@ -25,7 +25,7 @@ import net.dpml.library.model.Type;
 import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * Testing the DefaultResource implementation.

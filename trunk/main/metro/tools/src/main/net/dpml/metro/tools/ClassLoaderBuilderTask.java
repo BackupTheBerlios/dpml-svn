@@ -32,7 +32,7 @@ import net.dpml.library.model.Resource;
 
 import net.dpml.part.Controller;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;

@@ -21,7 +21,7 @@ package net.dpml.metro.data;
 import java.io.Serializable;
 import java.net.URI;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * Description of classpath.

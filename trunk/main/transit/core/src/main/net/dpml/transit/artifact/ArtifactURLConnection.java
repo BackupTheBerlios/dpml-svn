@@ -34,7 +34,7 @@ import java.net.URISyntaxException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.Plugin;
+import net.dpml.lang.Plugin;
 import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;

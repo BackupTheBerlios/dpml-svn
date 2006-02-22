@@ -24,7 +24,7 @@ import net.dpml.library.info.Scope;
 import net.dpml.library.info.ResourceDirective.Classifier;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * The Resource interface describes infomation about a published resource.

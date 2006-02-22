@@ -4,5 +4,4 @@
   <taskdef name="plugin"    classname="net.dpml.transit.tools.PluginTask"/> 
   <taskdef name="import"    classname="net.dpml.transit.tools.ImportArtifactTask"/> 
   <taskdef name="get"       classname="net.dpml.transit.tools.GetTask"/> 
-  <taskdef name="prefs"     classname="net.dpml.transit.tools.PreferencesTask"/> 
 </antlib>

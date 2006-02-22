@@ -107,14 +107,14 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     * Test encoding.
     * @exception Exception if an error occurs during setup.
     */
-    public void testEncoding() throws Exception
-    {
-        String codebase = getCodebaseValue();
-        ValueDirective[] values = getValueDirectives();
-        ContentDirective directive = 
-          new ContentDirective( m_id, m_title, codebase, values );
-        ContentDirective result = 
-          (ContentDirective) doEncodingTest( directive, "content-handler-directive.xml" );
-        assertEquals( "encoded", directive, result );
-    }
+    //public void testEncoding() throws Exception
+    //{
+    //    String codebase = getCodebaseValue();
+    //    ValueDirective[] values = getValueDirectives();
+    //    ContentDirective directive = 
+    //      new ContentDirective( m_id, m_title, codebase, values );
+    //    ContentDirective result = 
+    //      (ContentDirective) doEncodingTest( directive, "content-handler-directive.xml" );
+    //    assertEquals( "encoded", directive, result );
+    //}
 }

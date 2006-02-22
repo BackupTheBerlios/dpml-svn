@@ -57,7 +57,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Default configuration url path.
     */
-    public static final String DEFAULT_PROFILE_PATH = "local:xml:dpml/transit/config";
+    public static final String DEFAULT_PROFILE_PATH = "local:xml:dpml/transit/standard";
     
    /**
     * Default configuration url path.
@@ -118,21 +118,20 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         String path = System.getProperty( PROFILE_KEY );
         if( null != path )
         {
-            URL url = new URL( path );
-            InputStream input = url.openStream();
-            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-            TransitDirective directive = (TransitDirective) decoder.readObject();
+            URL url = Artifact.createArtifact( path ).toURL();
+            TransitBuilder builder = new TransitBuilder();
+            TransitDirective directive =  builder.load( url );
             return new DefaultTransitModel( logger, directive );
         }
         else
         {
             File prefs = Transit.DPML_PREFS;
-            File config = new File( prefs, "dpml/transit/xmls/config.xml" );
+            File config = new File( prefs, "dpml/transit/xmls/standard.xml" );
             if( config.exists() )
             {
-                FileInputStream input = new FileInputStream( config );
-                XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-                TransitDirective directive = (TransitDirective) decoder.readObject();
+                URL url = config.toURL();
+                TransitBuilder builder = new TransitBuilder();
+                TransitDirective directive =  builder.load( url );
                 return new DefaultTransitModel( logger, directive );
             }
             else
@@ -400,7 +399,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     {
         try
         {
-            return new URI( path );
+            return Artifact.createArtifact( path ).toURI();
         }
         catch( Exception e )
         {

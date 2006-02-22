@@ -268,13 +268,13 @@ public final class HostDirectiveTestCase extends AbstractTestCase
     * Test encoding.
     * @exception Exception if an error occurs
     */
-    public void testEncoding() throws Exception
-    {
-        HostDirective directive = 
-          new HostDirective( 
-            m_id, m_priority, m_host, m_index, m_username, m_password, m_enabled, m_trusted, 
-            m_layout, m_scheme, m_prompt );
-        HostDirective result = (HostDirective) doEncodingTest( directive, "host-directive.xml" );
-        assertEquals( "encoded", directive, result );
-    }
+    //public void testEncoding() throws Exception
+    //{
+    //    HostDirective directive = 
+    //      new HostDirective( 
+    //        m_id, m_priority, m_host, m_index, m_username, m_password, m_enabled, m_trusted, 
+    //        m_layout, m_scheme, m_prompt );
+    //    HostDirective result = (HostDirective) doEncodingTest( directive, "host-directive.xml" );
+    //    assertEquals( "encoded", directive, result );
+    //}
 }

@@ -168,6 +168,15 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         }
     
        /**
+        * Return the type local property names.
+        * @return the names
+        */
+        public String[] getLocalPropertyNames()
+        {
+            return new String[0];
+        }
+    
+       /**
         * Return a named property value.
         * @param key the property key (ignored)
         * @return the value (allays returns null in mock)

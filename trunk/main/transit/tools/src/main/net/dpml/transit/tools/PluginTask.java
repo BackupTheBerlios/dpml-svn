@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.Plugin;
+import net.dpml.lang.Plugin;
 import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.BuildException;
@@ -280,11 +280,12 @@ public class PluginTask extends TransitTask
     private void loadAntlib(
       URI uri, ClassLoader classloader, ComponentHelper helper, Antlib antlib ) throws Exception
     {
-        Plugin descriptor = getRepository().getPluginDescriptor( uri );
+        Plugin plugin = getRepository().getPluginDescriptor( uri );
+
         String resource = antlib.getPath();
         if( null == resource )
         {
-            resource = descriptor.getResource();
+            resource = plugin.getStrategy().getProperties().getProperty( "project.plugin.resource" );
         }
         if( null == resource )
         {
@@ -296,7 +297,7 @@ public class PluginTask extends TransitTask
             throw new BuildException( error, getLocation() );
         }
 
-        String urn = getAntLibURN( antlib, descriptor );
+        String urn = getAntLibURN( antlib, plugin );
         if( null == urn )
         {
             final String error =
@@ -328,7 +329,7 @@ public class PluginTask extends TransitTask
         }
     }
     
-    private String getAntLibURN( Antlib antlib, Plugin descriptor )
+    private String getAntLibURN( Antlib antlib, Plugin plugin )
     {
         if( null != m_urn )
         {
@@ -341,7 +342,7 @@ public class PluginTask extends TransitTask
         }
         else
         {
-            return descriptor.getURN();
+            return plugin.getStrategy().getProperties().getProperty( "project.plugin.urn" );
         }
     }
 

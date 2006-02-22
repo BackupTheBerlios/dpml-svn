@@ -16,9 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
-
-import net.dpml.lang.ValuedEnum;
+package net.dpml.lang;
 
 /**
  * Classoader category enumeration.

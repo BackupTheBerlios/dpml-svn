@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
+package net.dpml.lang;
 
 import java.beans.Expression;
 import java.beans.BeanDescriptor;

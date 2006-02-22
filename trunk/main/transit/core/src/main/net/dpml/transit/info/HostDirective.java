@@ -214,6 +214,10 @@ public class HostDirective extends AbstractDirective
             {
                 return false;
             }
+            else if( m_priority != directive.m_priority )
+            {
+                return false;
+            }
             else if( m_trusted != directive.m_trusted )
             {
                 return false;
@@ -277,7 +281,7 @@ public class HostDirective extends AbstractDirective
     */
     public int hashCode()
     {
-        int hash = 0;
+        int hash = m_priority;
         hash ^= hashValue( m_id );
         hash ^= hashValue( new Boolean( m_trusted ) );
         hash ^= hashValue( new Boolean( m_enabled ) );

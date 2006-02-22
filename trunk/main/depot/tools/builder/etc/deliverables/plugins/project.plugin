@@ -1,41 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE plugin PUBLIC "-//DPML/Plugin DTD Version 1.0//EN" "http://www.dpml.net/dtds/plugin_1_0.dtd" >
 
-#
-# Specification classifier.
-#
-dpml.plugin.meta.namespace = net.dpml
-dpml.plugin.meta.version = 1.0
+<plugin version="1.0.0">
+  <strategy class="net.dpml.transit.StandardHandler">
+    <property name="project.plugin.class" value="@PLUGIN-CLASS@"/>
+  </strategy>
+  <classpath>
+    <system>
+      <uri>artifact:jar:ant/ant-launcher#@ANT-VERSION@</uri>
+      <uri>artifact:jar:ant/ant#@ANT-VERSION@</uri>
+      <uri>artifact:jar:junit/junit#@JUNIT-VERSION@</uri>
+      <uri>artifact:jar:ant/ant-junit#@ANT-VERSION@</uri>
+      <uri>artifact:jar:ant/ant-xslp#@ANT-VERSION@</uri>
+      <uri>artifact:jar:ant/ant-trax#@ANT-VERSION@</uri>
+    </system>
+    <private>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#@PROJECT-VERSION@</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-tools#@PROJECT-VERSION@</uri>
+      <uri>artifact:jar:dpml/depot/dpml-library-main#@PROJECT-VERSION@</uri>
+      <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#@PROJECT-VERSION@</uri>
+    </private>
+  </classpath>
+</plugin>
 
-#
-# Artifact descriptor.
-#
-dpml.artifact.group = @PROJECT-GROUP@
-dpml.artifact.name = @PROJECT-NAME@
-dpml.artifact.version = @PROJECT-VERSION@
-dpml.artifact.signature = 00000000.000000
-
-#
-# Type.
-#
-dpml.plugin.class = @PLUGIN-CLASS@
-
-#
-# System dependencies.
-#
-dpml.artifact.dependency.sys.0 = artifact:jar:ant/ant-launcher#@ANT-VERSION@
-dpml.artifact.dependency.sys.1 = artifact:jar:ant/ant#@ANT-VERSION@
-dpml.artifact.dependency.sys.2 = artifact:jar:junit/junit#@JUNIT-VERSION@
-dpml.artifact.dependency.sys.3 = artifact:jar:ant/ant-junit#@ANT-VERSION@
-dpml.artifact.dependency.sys.4 = artifact:jar:ant/ant-xslp#@ANT-VERSION@
-dpml.artifact.dependency.sys.5 = artifact:jar:ant/ant-trax#@ANT-VERSION@
-
-#
-# Private.
-#
-dpml.artifact.dependency.0 = artifact:jar:dpml/transit/dpml-transit-main#@PROJECT-VERSION@
-dpml.artifact.dependency.1 = artifact:jar:dpml/transit/dpml-transit-tools#@PROJECT-VERSION@
-dpml.artifact.dependency.2 = artifact:jar:dpml/depot/dpml-library-main#@PROJECT-VERSION@
-dpml.artifact.dependency.3 = artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#@PROJECT-VERSION@
-
-#
-# EOF.
-#

@@ -53,7 +53,7 @@ import net.dpml.part.Component;
 import net.dpml.part.Model;
 import net.dpml.part.ServiceNotFoundException;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 import net.dpml.transit.Value;
 
 import net.dpml.lang.UnknownKeyException;

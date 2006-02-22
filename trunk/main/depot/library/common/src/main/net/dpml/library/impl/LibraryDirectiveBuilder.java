@@ -41,7 +41,7 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 import org.w3c.dom.Element;
 

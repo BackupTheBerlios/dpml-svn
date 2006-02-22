@@ -42,6 +42,8 @@ public class ImportArtifactTask extends ImportTask
     * A flag indicating that nested directives have been provided.
     */
     private boolean m_flag = false;
+    
+    private boolean m_init = false;
 
    /**
     * Set the project.
@@ -51,7 +53,19 @@ public class ImportArtifactTask extends ImportTask
     {
         super.setProject( project );
         setTaskName( "import" );
-        TransitTask.initialize( this );
+    }
+    
+   /**
+    * Task initialization.
+    */
+    public synchronized void init()
+    {
+        if( !m_init )
+        { 
+            TransitTask.initialize( this );
+            super.init();
+            m_init = true;
+        }
     }
 
     // ------------------------------------------------------------------------

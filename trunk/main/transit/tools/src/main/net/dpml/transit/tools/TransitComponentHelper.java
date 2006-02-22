@@ -23,7 +23,7 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.net.URI;
 
-import net.dpml.transit.Plugin;
+import net.dpml.lang.Plugin;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
@@ -209,7 +209,6 @@ public class TransitComponentHelper extends ComponentHelper
             addTaskDefinition( TRANSIT_PLUGIN_URN, PluginTask.class );
             addTaskDefinition( TRANSIT_IMPORT_URN, ImportArtifactTask.class );
             addTaskDefinition( TRANSIT_GET_URN, GetTask.class );
-            addTaskDefinition( TRANSIT_PREFS_URN, PreferencesTask.class );
         }
     }
 
@@ -344,16 +343,17 @@ public class TransitComponentHelper extends ComponentHelper
             Plugin descriptor = loader.getPluginDescriptor( uri );
             ClassLoader current = Thread.currentThread().getContextClassLoader();
             ClassLoader classloader = loader.getPluginClassLoader( current, uri );
-            if( null != descriptor.getClassname() )
+            String pluginClassname = descriptor.getStrategy().getProperties().getProperty( "project.plugin.class" );
+            if( null != pluginClassname )
             {
-                Class clazz = classloader.loadClass( descriptor.getClassname() );
+                Class clazz = classloader.loadClass( pluginClassname );
                 final String key = uri + ":" + name;
                 getProject().log( "installing single task plugin [" + key + "]", Project.MSG_VERBOSE );
                 super.addTaskDefinition( key, clazz );
             }
             else
             {
-                String resource = descriptor.getResource();
+                String resource = descriptor.getStrategy().getProperties().getProperty( "project.plugin.resource" );
                 getProject().log( "installing antlib plugin [" + resource + "]", Project.MSG_VERBOSE );
                 InputStream input = classloader.getResourceAsStream( resource );
                 if( null == input )

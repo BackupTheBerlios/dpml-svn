@@ -23,7 +23,7 @@ import java.net.URI;
 import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ClasspathDirective;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * ClassLoaderDirectiveTestCase.

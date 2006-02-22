@@ -22,6 +22,8 @@ import java.net.URL;
 import java.net.URI;
 import java.net.URLClassLoader;
 
+import net.dpml.lang.Category;
+
 /**
  * A named classloader.
  *

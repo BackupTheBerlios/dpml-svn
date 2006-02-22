@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.ArrayList;
 
-import net.dpml.transit.Category;
+import net.dpml.lang.Category;
 
 /**
  * The ModuleDirective class describes a module data-structure.
