@@ -14,6 +14,12 @@
       <subsection name="Description">
 
         <p>
+        The Transit configuration is maintained in a XML file under the 
+        the path <tt>local:xml:dpml/transit/standard</tt> (which translates to 
+        the absolute path <tt>${dpml.prefs}/dpml/transit/xmls/standard.xml</tt>.
+        This file is used to maintain the current Transit configuration and includes
+        information about the loaction and layout strategy of the cache and local 
+        repository, available remote hosts, and optional proxy settings. 
         </p>
 
       </subsection>
@@ -24,7 +30,7 @@
           <tr>
             <td>cache</td>
             <td>required</td>
-            <td>An absolutute path referencing a local cache.  The attribute value
+            <td>An absolutute path referencing a local directory.  The attribute value
               may include any system property including references to Transit properties
               such as ${dpml.data}.  The default value is ${dpml.data}/cache.</td>
           </tr>
