@@ -1,0 +1,48 @@
+<!--
+Copyright 2006 Stephen McConnell, DPML
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!--
+The plugin element is the document root, it defines an instantiation strategy and 
+classloader chain.
+
+  title          Plugin title.
+  description    Description of the plugin.
+  strategy       The plugin instantiation strategy - the strategy element may 
+                 contain an arbitary number of property elements.
+  classpath      the classpath presented in terms of system, public, protected 
+                 and private categories. Each category may contain an arbirary
+                 number of uri elements.
+-->
+
+<!ELEMENT plugin ( title?, description?, strategy, classpath ) >
+<!ATTLIST plugin version CDATA #REQUIRED xmlns CDATA #IMPLIED >
+
+<!ELEMENT strategy ( property* ) >
+<!ATTLIST strategy class CDATA #REQUIRED >
+
+<!ELEMENT property EMPTY >
+<!ATTLIST property name CDATA #REQUIRED value CDATA #REQUIRED >
+
+<!ELEMENT title (#PCDATA) >
+<!ELEMENT description (#PCDATA) >
+<!ELEMENT classpath ( system?, public?, protected?, private? ) >
+<!ELEMENT system ( uri* ) >
+<!ELEMENT public ( uri* ) >
+<!ELEMENT protected ( uri* ) >
+<!ELEMENT private ( uri* ) >
+<!ELEMENT uri (#PCDATA) >
+
