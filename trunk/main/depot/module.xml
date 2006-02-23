@@ -7,18 +7,6 @@
     <type id="module" alias="true"/>
   </types>
    
-  <resource name="dpml-library-main" basedir="library/common">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </resource>
-
   <project name="dpml-library-console" basedir="library/console">
     <types>
       <type id="jar"/>
@@ -37,24 +25,6 @@
     </dependencies>
   </project>
       
-  <resource name="dpml-tools-builder" basedir="tools/builder">
-    <types>
-      <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-          value="net.dpml.tools.impl.StandardBuilder"/>
-      </type>
-    </types>
-    <dependencies>
-      <include key="dpml-library-main"/>
-      <include ref="dpml/transit/dpml-transit-tools"/>
-      <include ref="ant/ant-junit" tag="system"/>
-      <include ref="ant/ant" tag="system"/>
-      <include ref="ant/ant-xslp" tag="system"/>
-      <include ref="ant/ant-trax" tag="system"/>
-    </dependencies>
-  </resource>
-
   <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
     <types>
       <type id="jar"/>
@@ -96,12 +66,12 @@
   </project>
 
   <project name="dpml-depot-console" basedir="core/console">
-    <types>
-      <type id="jar"/>
-    </types>
     <properties>
       <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
     </properties>
+    <types>
+      <type id="jar"/>
+    </types>
     <dependencies>
       <include ref="dpml/transit/dpml-transit-main"/>
     </dependencies>
@@ -127,5 +97,35 @@
     </dependencies>
   </project>
   -->
+
+  <resource name="dpml-library-main" basedir="library/common">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </resource>
+
+  <resource name="dpml-tools-builder" basedir="tools/builder">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.class" 
+          value="net.dpml.tools.impl.StandardBuilder"/>
+      </type>
+    </types>
+    <dependencies>
+      <include key="dpml-library-main"/>
+      <include ref="dpml/transit/dpml-transit-tools"/>
+      <include ref="ant/ant-junit" tag="system"/>
+      <include ref="ant/ant" tag="system"/>
+      <include ref="ant/ant-xslp" tag="system"/>
+      <include ref="ant/ant-trax" tag="system"/>
+    </dependencies>
+  </resource>
 
 </module>

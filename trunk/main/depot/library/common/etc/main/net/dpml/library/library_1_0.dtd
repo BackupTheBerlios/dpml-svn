@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<!ELEMENT library ( imports?, modules? ) >
+<!ELEMENT library ( imports?, properties?, modules? ) >
 
 <!ELEMENT imports ( import* ) >
 
@@ -24,10 +24,11 @@ limitations under the License.
 <!ELEMENT import EMPTY >
 <!ATTLIST import uri CDATA #REQUIRED >
 
-<!ELEMENT module ( types?, properties?, resource*, project*, module* ) >
+<!ELEMENT module ( properties?, types?, dependencies*, module*, project*, resource* ) >
 <!ATTLIST module name CDATA #IMPLIED >
 <!ATTLIST module basedir CDATA #IMPLIED >
-<!ATTLIST module base CDATA #IMPLIED >
+<!ATTLIST module file CDATA #IMPLIED >
+<!ATTLIST module version CDATA #IMPLIED >
 
 <!ELEMENT types ( type* ) >
 
@@ -41,18 +42,21 @@ limitations under the License.
 <!ATTLIST property name CDATA #REQUIRED >
 <!ATTLIST property value CDATA #REQUIRED >
 
-<!ELEMENT resource ( types?, dependencies* ) >
+<!ELEMENT resource ( properties?, types?, dependencies* ) >
 <!ATTLIST resource name CDATA #REQUIRED >
 <!ATTLIST resource basedir CDATA #IMPLIED >
+<!ATTLIST resource version CDATA #IMPLIED >
 
-<!ELEMENT project ( types?, dependencies* ) >
+<!ELEMENT project ( properties?, types?, dependencies* ) >
 <!ATTLIST project name CDATA #REQUIRED >
 <!ATTLIST project basedir CDATA #IMPLIED >
+<!ATTLIST module version CDATA #IMPLIED >
 
 <!ELEMENT dependencies ( include* ) >
-<!ATTLIST dependencies scope ( build | runtime | test ) "runtime" >
+<!ATTLIST dependencies scope ( build | runtime | test | BUILD | RUNTIME | TEST ) "runtime" >
 
-<!ELEMENT include EMPTY >
+<!ELEMENT include ( property* ) >
 <!ATTLIST include key CDATA #IMPLIED >
 <!ATTLIST include ref CDATA #IMPLIED >
-<!ATTLIST include uri CDATA #IMPLIED >
+<!ATTLIST include urn CDATA #IMPLIED >
+<!ATTLIST include tag CDATA #IMPLIED >

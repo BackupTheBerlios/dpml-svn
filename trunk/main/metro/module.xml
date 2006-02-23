@@ -60,12 +60,12 @@
   </project>
   
   <project name="dpml-part-test" basedir="part/test">
-    <types>
-      <type id="jar"/>
-    </types>
     <properties>
       <property name="project.test.fork" value="true"/>
     </properties>
+    <types>
+      <type id="jar"/>
+    </types>
     <dependencies scope="build">
       <include key="dpml-metro-tools"/>
     </dependencies>

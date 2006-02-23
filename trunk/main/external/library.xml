@@ -7,10 +7,6 @@
 
     <module name="junit" version="3.8.1" basedir="junit">
 
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
       <properties>
         <property name="project.publisher.name" value="JUnit"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -20,6 +16,10 @@
         <property name="project.resource.host" value="http://repository.dpml.net/"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
       </properties>
+
+      <types>
+        <type id="module" alias="true"/>
+      </types>
 
       <resource name="junit">
         <properties>
@@ -34,10 +34,6 @@
 
     <module name="ant" version="1.6.5" basedir="ant">
 
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
       <properties>
         <property name="project.publisher.name" value="Apache Software Foundation"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -47,6 +43,10 @@
         <property name="project.resource.host" value="http://repository.dpml.net/"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
       </properties>
+
+      <types>
+        <type id="module" alias="true"/>
+      </types>
 
       <resource name="ant">
         <properties>
@@ -100,10 +100,6 @@
 
     <module name="jgoodies" version="M1" basedir="jgoodies">
 
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
       <properties>
         <property name="project.publisher.name" value="JGoodies"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -113,6 +109,10 @@
         <property name="project.resource.host" value="http://repository.dpml.net/"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
       </properties>
+
+      <types>
+        <type id="module" alias="true"/>
+      </types>
 
       <resource name="looks" version="1.3.1">
         <types>

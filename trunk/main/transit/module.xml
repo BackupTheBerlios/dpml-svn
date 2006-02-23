@@ -3,30 +3,14 @@
 
 <module name="transit">
    
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-   
   <properties>
     <property name="project.test.fork" value="true"/>
   </properties>
   
-  <resource name="dpml-transit-main" basedir="core">
-    <types>
-      <type id="jar"/>
-    </types>
-  </resource>
+  <types>
+    <type id="module" alias="true"/>
+  </types>
    
-  <resource name="dpml-transit-tools" basedir="tools">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies scope="RUNTIME">
-      <include key="dpml-transit-main"/>
-      <include ref="ant/ant"/>
-    </dependencies>
-  </resource>
-
   <project name="dpml-transit-console" basedir="console">
     <types>
       <type id="jar"/>
@@ -43,5 +27,21 @@
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
+
+  <resource name="dpml-transit-main" basedir="core">
+    <types>
+      <type id="jar"/>
+    </types>
+  </resource>
+   
+  <resource name="dpml-transit-tools" basedir="tools">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies scope="RUNTIME">
+      <include key="dpml-transit-main"/>
+      <include ref="ant/ant"/>
+    </dependencies>
+  </resource>
 
 </module>

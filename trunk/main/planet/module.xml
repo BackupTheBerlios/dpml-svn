@@ -7,6 +7,6 @@
     <type id="module" alias="true"/>
   </types>
 
-  <module base="http"/>
+  <module file="http/module.xml"/>
 
 </module>

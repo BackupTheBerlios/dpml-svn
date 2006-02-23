@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.beans.XMLDecoder;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.IncludeDirective;
@@ -40,10 +43,20 @@ import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.Scope;
 
+import net.dpml.lang.DTD;
+import net.dpml.lang.DTDResolver;
+
 import net.dpml.transit.util.ElementHelper;
+import net.dpml.transit.util.ExceptionHelper;
 import net.dpml.lang.Category;
 
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import org.w3c.dom.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 
 /**
  * Utility class used for construction of a module model from an XML source.
@@ -53,6 +66,17 @@ import org.w3c.dom.Element;
  */
 public final class LibraryDirectiveBuilder
 {
+    private static final DTD[] DTDS = new DTD[]
+    {
+        new DTD( 
+          ModuleBuilder.PUBLIC_ID, 
+          ModuleBuilder.SYSTEM_ID, 
+          ModuleBuilder.RESOURCE, null )
+    };
+    
+    private static final DTDResolver DTD_RESOLVER =
+        new DTDResolver( DTDS, LibraryDirectiveBuilder.class.getClassLoader() );
+
     private static final String LIBRARY_ELEMENT_NAME = "library";
     private static final String IMPORTS_ELEMENT_NAME = "imports";
     private static final String IMPORT_ELEMENT_NAME = "import";
@@ -94,19 +118,57 @@ public final class LibraryDirectiveBuilder
               + "] references a directory.";
             throw new IllegalArgumentException( error );
         }
-        FileInputStream input = new FileInputStream( source );
-        BufferedInputStream buffer = new BufferedInputStream( input );
         try
         {
-            final Element root = ElementHelper.getRootElement( input );
+            final Element root = getRootElement( source );
             File base = source.getParentFile();
             return buildLibraryDirective( base, root );
         }
         catch( Throwable e )
         {
+            System.out.println( "# ERROR: " + e.toString() );
+            String message = ExceptionHelper.packException( e, true );
+            System.out.println( message );
+            
             final String error = 
               "An error occured while attempting to build a library directive from the source: "
               + source;
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
+            
+        }
+    }
+    
+    private static Element getRootElement( File source ) throws IOException
+    {
+        FileInputStream input = new FileInputStream( source );
+        try
+        {
+            final DocumentBuilderFactory factory =
+              DocumentBuilderFactory.newInstance();
+            factory.setValidating( true );
+            factory.setNamespaceAware( true );
+            factory.setExpandEntityReferences( true );
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setEntityResolver( DTD_RESOLVER );
+            builder.setErrorHandler( new InternalErrorHandler( source ) );
+            
+            final Document document = builder.parse( input );
+            return document.getDocumentElement();
+        }
+        catch( IOException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            System.out.println( "# ERROR: " + e.toString() );
+            String message = ExceptionHelper.packException( e, true );
+            System.out.println( message );
+            
+            final String error = 
+              "An unexpected error occured while attempting to load library or module source.";
             IOException ioe = new IOException( error );
             ioe.initCause( e );
             throw ioe;
@@ -187,7 +249,7 @@ public final class LibraryDirectiveBuilder
     * @exception IOException if an IO exception occurs
     */
     public static ModuleDirective buildModuleDirective( File source, String path ) throws IOException
-    {
+    {        
         if( null == source )
         {
             throw new NullPointerException( "source" );
@@ -204,18 +266,12 @@ public final class LibraryDirectiveBuilder
               + "] references a directory.";
             throw new IllegalArgumentException( error );
         }
-        FileInputStream input = new FileInputStream( source );
-        BufferedInputStream buffer = new BufferedInputStream( input );
         try
         {
-            final Element root = ElementHelper.getRootElement( input );
+            final Element root = getRootElement( source );
             final File parent = source.getParentFile();
-            //String baseSpec = base.getCanonicalPath();
-            //String parentSpec = parent.getCanonicalPath();
-            ///String fragment = parentSpec.substring( baseSpec.length() + 1 );
-            final String basedir = path;            
+            final String basedir = path;
             return buildModuleDirectiveFromElement( parent, root, basedir );
-            //return buildModuleDirectiveFromElement( parent, root, null );
         }
         catch( Throwable e )
         {
@@ -225,10 +281,6 @@ public final class LibraryDirectiveBuilder
             IOException ioe = new IOException( error );
             ioe.initCause( e );
             throw ioe;
-        }
-        finally
-        {
-            input.close();
         }
     }
         
@@ -281,10 +333,13 @@ public final class LibraryDirectiveBuilder
             throw new IllegalArgumentException( error );
         }
         
-        String spec = ElementHelper.getAttribute( element, "base", null );
-        if( null != spec )
+        String path = ElementHelper.getAttribute( element, "file" );
+        if( null != path )
         {
-            File dir = new File( base, spec );
+            File file = new File( base, path );
+            File dir = file.getParentFile();
+            String spec = getRelativePath( base, dir );
+            
             if( !dir.exists() )
             {
                 final String error = 
@@ -293,7 +348,7 @@ public final class LibraryDirectiveBuilder
                   + "] because the directory does not exist.";
                 throw new FileNotFoundException( error ); 
             }
-            File source = new File( dir, "module.xml" ).getCanonicalFile();
+            File source = file.getCanonicalFile();
             if( !source.exists() )
             {
                 final String error = 
@@ -354,6 +409,22 @@ public final class LibraryDirectiveBuilder
         }
         ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
         return new ModuleDirective( resource, resources );
+    }
+    
+    private static String getRelativePath( File base, File dir ) throws IOException
+    {
+        String baseSpec = base.getCanonicalPath();
+        String dirSpec = dir.getCanonicalPath();
+        if( dirSpec.startsWith( baseSpec ) )
+        {
+            return dirSpec.substring( baseSpec.length() + 1 );
+        }
+        else
+        {
+            final String error =
+             "Supplied dir [" + dirSpec + "] is not with base [" + baseSpec + "].";
+            throw new IllegalArgumentException( error );
+        }
     }
     
    /**
@@ -506,7 +577,18 @@ public final class LibraryDirectiveBuilder
         {
             final String name = ElementHelper.getAttribute( element, "name", null );
             final String version = ElementHelper.getAttribute( element, "version", null );
-            final String basedir = ElementHelper.getAttribute( element, "basedir", path );
+            String basedir = ElementHelper.getAttribute( element, "basedir", null );
+            if( path != null )
+            {
+                if( basedir == null )
+                {
+                    basedir = path;
+                }
+                else
+                {
+                    basedir = path + "/" + basedir;
+                }
+            }
             
             if( PROJECT_ELEMENT_NAME.equals( tag ) )
             {
@@ -650,6 +732,38 @@ public final class LibraryDirectiveBuilder
                   + "] could not be converted to a URI value.";
                 throw new IllegalArgumentException( error );
             }
+        }
+    }
+    
+    private static final class InternalErrorHandler implements ErrorHandler
+    {
+        private final File m_file;
+        
+        InternalErrorHandler( File file )
+        {
+            m_file = file;
+        }
+        
+        public void error( SAXParseException e ) throws SAXException
+        {
+            System.out.println( "ERROR: " 
+              + e.getMessage()
+              + "\nFile: " + m_file
+              + "\nLine " + e.getLineNumber() + " Column: " + e.getColumnNumber() );
+        }
+        public void fatalError( SAXParseException e ) throws SAXException
+        {
+            System.out.println( "FATAL: " 
+              + e.getMessage()
+              + "\nFile: " + m_file
+              + "\nLine " + e.getLineNumber() + " Column: " + e.getColumnNumber() );
+        }
+        public void warning( SAXParseException e ) throws SAXException
+        {
+            System.out.println( "WARNING: " 
+              + e.getMessage()
+              + "\nFile: " + m_file
+              + "\nLine " + e.getLineNumber() + " Column: " + e.getColumnNumber() );
         }
     }
 }

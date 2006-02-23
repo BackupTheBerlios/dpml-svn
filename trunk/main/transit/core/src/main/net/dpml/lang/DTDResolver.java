@@ -71,6 +71,11 @@ public class DTDResolver implements EntityResolver
                 final ClassLoader classLoader = getClassLoader();
                 final InputStream inputStream =
                     classLoader.getResourceAsStream( info.getResource() );
+                if( null == inputStream )
+                {
+                    String path = "resource:" + info.getResource();
+                    throw new NullPointerException( path );
+                }
                 return new InputSource( inputStream );
             }
         }

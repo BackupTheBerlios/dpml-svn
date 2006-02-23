@@ -377,7 +377,7 @@
     <mkdir dir="${target.deliverables.jars.dir}"/>
     <jar destfile="${target.deliverables.jars.dir}/${project.filename}"
        basedir="${target.classes.dir}"
-       includes="**/*.class,**/*.xml,**/*.properties"
+       includes="**/*.class,**/*.xml,**/*.properties,**/*.dtd"
        excludes="**/*.html,**/*.gif,**/*.png">
        <manifest>
          <attribute name="Created-By" value="The Digital Product Meta Library."/>

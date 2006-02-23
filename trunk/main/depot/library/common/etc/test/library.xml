@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE library PUBLIC "-//DPML//DTD Library 1.0//EN" "http://www.dpml.net/dtds/library_1_0.dtd" >
 
 <library>
 
@@ -17,12 +18,12 @@
   -->
 
   <modules>
-    <module base="junit"/>
-    <module base="commons-cli"/>
-    <module base="xstream"/>
-    <module base="jgoodies"/>
-    <module base="dpml"/>
-    <module base="ant"/>
+    <module file="junit/module.xml"/>
+    <module file="commons-cli/module.xml"/>
+    <module file="xstream/module.xml"/>
+    <module file="jgoodies/module.xml"/>
+    <module file="dpml/module.xml"/>
+    <module file="ant/module.xml"/>
   </modules>
 
 </library>

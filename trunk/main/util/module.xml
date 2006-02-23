@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://www.dpml.net/dtds/library_1_0.dtd" >
 
-<module name="util">
+<module name="util" basedir=".">
 
   <types>
     <type id="module" alias="true"/>
@@ -21,16 +21,12 @@
   </project>
    
   <project name="dpml-util-cli" basedir="cli">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
     <types>
       <type id="jar"/>
     </types>
-    <properties>
-      <property name="project.test.fork" value="true"/>
-      <!--
-      <property name="project.test.halt-on-error" value="false"/>
-      <property name="project.test.halt-on-failure" value="false"/>
-      -->
-    </properties>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
     </dependencies>

@@ -48,7 +48,7 @@ public final class ModuleDirective extends ResourceDirective
     
    /**
     * Creation of a new module directive.
-    * @param resource the abstract resource defintion
+    * @param resource the abstract resource definition
     * @param resources resource contained within the module
     */
     public ModuleDirective(

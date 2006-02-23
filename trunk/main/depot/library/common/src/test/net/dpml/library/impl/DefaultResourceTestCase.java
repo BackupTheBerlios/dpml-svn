@@ -102,10 +102,12 @@ public class DefaultResourceTestCase extends AbstractTestCase
         String path = "dpml";
         Resource resource = getLibrary().getResource( path );
         File basedir = resource.getBaseDir();
+        System.out.println( "# BASEDIR: " + basedir );
         assertNotNull( "basedir", basedir );
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
-        File base = new File( test, ".." ).getCanonicalFile();
+        File dpml = new File( test, "dpml" );
+        File base = new File( dpml, ".." ).getCanonicalFile();
         assertEquals( "basedir", base, basedir );
     }
 
