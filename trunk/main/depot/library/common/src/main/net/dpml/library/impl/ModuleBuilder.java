@@ -157,6 +157,7 @@ public final class ModuleBuilder
         {
             writer.write( XML_HEADER );
             writer.write( DOCTYPE );
+            writer.write( "\n" );
             writeModule( writer, module, "" );
             writer.write( "\n" );
         }
@@ -175,6 +176,7 @@ public final class ModuleBuilder
     {
         String name = module.getName();
         String version = module.getVersion();
+        
         Properties properties = module.getProperties();
         String basedir = module.getBasedir();
         TypeDirective[] types = module.getTypeDirectives();
@@ -191,11 +193,66 @@ public final class ModuleBuilder
             writer.write( " version=\"" + version + "\"" );
         }
         writer.write( ">" );
-        writeProperties( writer, properties, lead + "  ", true );
-        writeTypes( writer, types, lead + "  " );
-        writeDependencies( writer, dependencies, lead + "  " );
-        writeResources( writer, resources, lead + "  " );
-        writer.write( "\n" + lead + "</" + NAME + ">" );
+        
+        if( properties.size() > 0 )
+        {
+            writer.write( "\n" );
+            writeProperties( writer, properties, lead + "  ", true );
+        }
+
+        if( types.length > 0 )
+        {
+            writer.write( "\n" );
+            writeTypes( writer, types, lead + "  " );
+        }
+        
+        if( dependencies.length > 0 )
+        {
+            writer.write( "\n" );
+            writeDependencies( writer, dependencies, lead + "  " );
+        }
+        
+        if( resources.length > 0 )
+        {
+            writeResources( writer, resources, lead + "  " );
+        }
+        writer.write( "\n\n" + lead + "</" + NAME + ">" );
+    }
+    
+    private void writeResource( Writer writer, ResourceDirective resource, String lead ) throws IOException
+    {
+        String name = resource.getName();
+        String version = resource.getVersion();
+        
+        Properties properties = resource.getProperties();
+        String basedir = resource.getBasedir();
+        TypeDirective[] types = resource.getTypeDirectives();
+        DependencyDirective[] dependencies = resource.getDependencyDirectives();
+        
+        writer.write( "\n" + lead + "<resource"  );
+        if( null != name )
+        {
+            writer.write( " name=\"" + name + "\"" );
+        }
+        if( null != version )
+        {
+            writer.write( " version=\"" + version + "\"" );
+        }
+        writer.write( ">" );
+        
+        if( properties.size() > 0 )
+        {
+            writeProperties( writer, properties, lead + "  ", true );
+        }
+        if( types.length > 0 )
+        {
+            writeTypes( writer, types, lead + "  " );
+        }
+        if( dependencies.length > 0 )
+        {
+            writeDependencies( writer, dependencies, lead + "  " );
+        }
+        writer.write( "\n" + lead + "</resource>" );
     }
     
     private void writeProperties( Writer writer, Properties properties, String lead, boolean flag ) throws IOException
@@ -229,13 +286,13 @@ public final class ModuleBuilder
     {
         if( types.length > 0 )
         {
-            writer.write( lead + "<types>" );
+            writer.write( "\n" + lead + "<types>" );
             for( int i=0; i<types.length; i++ )
             {
                 TypeDirective type = types[i];
                 String id = type.getName();
                 boolean alias = type.getAlias();
-                writer.write( lead + "  <type id=\"" + id + "\"" );
+                writer.write( "\n" + lead + "  <type id=\"" + id + "\"" );
                 if( alias )
                 {
                     writer.write( " alias=\"true\"" );
@@ -247,7 +304,7 @@ public final class ModuleBuilder
                     writeProperties( writer, properties, lead + "  ", false );
                 }
             }
-            writer.write( lead + "</types>" );
+            writer.write( "\n" + lead + "</types>" );
         }
     }
     
@@ -264,11 +321,11 @@ public final class ModuleBuilder
                     Scope scope = dependency.getScope();
                     if( Scope.RUNTIME.equals( scope ) )
                     {
-                        writer.write( lead + "<dependencies>" );
+                        writer.write( "\n" + lead + "<dependencies>" );
                     }
                     else
                     {
-                        writer.write( lead + "<dependencies scope=\"" + scope + "\">" );
+                        writer.write( "\n" + lead + "<dependencies scope=\"" + scope + "\">" );
                     }
                     
                     for( int j=0; j<includes.length; j++ )
@@ -276,7 +333,7 @@ public final class ModuleBuilder
                         IncludeDirective include = includes[j];
                         Mode mode = include.getMode();
                         String value = include.getValue();
-                        writer.write( lead + "  <include" );
+                        writer.write( "\n" + lead + "  <include" );
                         if( Mode.KEY.equals( mode ) )
                         {
                             writer.write( " key=\"" + value + "\"" );
@@ -317,9 +374,23 @@ public final class ModuleBuilder
         }
     }
     
-    private void writeResources( Writer writer, ResourceDirective[] dependencies, String lead ) throws IOException
+    private void writeResources( Writer writer, ResourceDirective[] resources, String lead ) throws IOException
     {
-        
+        for( int i=0; i<resources.length; i++ )
+        {
+            ResourceDirective resource = resources[i];
+            if( resource instanceof ModuleDirective )
+            {
+                writer.write( "\n" );
+                ModuleDirective module = (ModuleDirective) resource;
+                writeModule( writer, module, lead );
+            }
+            else
+            {
+                writer.write( "\n" );
+                writeResource( writer, resource, lead );
+            }
+        }
     }
     
     //-----------------------------------------------------------------------
