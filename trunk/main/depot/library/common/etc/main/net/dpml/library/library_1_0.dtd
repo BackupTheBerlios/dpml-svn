@@ -1,0 +1,58 @@
+<!--
+Copyright 2006 Stephen McConnell, DPML
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!ELEMENT library ( imports?, modules? ) >
+
+<!ELEMENT imports ( import* ) >
+
+<!ELEMENT modules ( module* ) >
+
+<!ELEMENT import EMPTY >
+<!ATTLIST import uri CDATA #REQUIRED >
+
+<!ELEMENT module ( types?, properties?, resource*, project*, module* ) >
+<!ATTLIST module name CDATA #IMPLIED >
+<!ATTLIST module basedir CDATA #IMPLIED >
+<!ATTLIST module base CDATA #IMPLIED >
+
+<!ELEMENT types ( type* ) >
+
+<!ELEMENT type ( property* ) >
+<!ATTLIST type id CDATA #REQUIRED >
+<!ATTLIST type alias CDATA #IMPLIED >
+
+<!ELEMENT properties ( property* ) >
+
+<!ELEMENT property EMPTY >
+<!ATTLIST property name CDATA #REQUIRED >
+<!ATTLIST property value CDATA #REQUIRED >
+
+<!ELEMENT resource ( types?, dependencies* ) >
+<!ATTLIST resource name CDATA #REQUIRED >
+<!ATTLIST resource basedir CDATA #IMPLIED >
+
+<!ELEMENT project ( types?, dependencies* ) >
+<!ATTLIST project name CDATA #REQUIRED >
+<!ATTLIST project basedir CDATA #IMPLIED >
+
+<!ELEMENT dependencies ( include* ) >
+<!ATTLIST dependencies scope ( build | runtime | test ) "runtime" >
+
+<!ELEMENT include EMPTY >
+<!ATTLIST include key CDATA #IMPLIED >
+<!ATTLIST include ref CDATA #IMPLIED >
+<!ATTLIST include uri CDATA #IMPLIED >

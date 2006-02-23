@@ -218,7 +218,14 @@ public class DefaultPlugin implements Plugin
         String handler = strategy.getHandlerClassname();
         Properties properties = strategy.getProperties();
         String[] keys = (String[]) properties.keySet().toArray( new String[0] );
-        writer.write( "\n  <strategy class=\"" + handler + "\">" );
+        if( DefaultPluginHelper.STANDARD_HANDLER.equals( handler ) )
+        {
+            writer.write( "\n  <strategy>" );
+        }
+        else
+        {
+            writer.write( "\n  <strategy class=\"" + handler + "\">" );
+        }
         for( int i=0; i<keys.length; i++ )
         {
             String key = keys[i];

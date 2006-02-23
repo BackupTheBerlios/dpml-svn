@@ -19,20 +19,33 @@ limitations under the License.
 The plugin element is the document root, it defines an instantiation strategy and 
 classloader chain.
 
-  title          Plugin title.
-  description    Description of the plugin.
-  strategy       The plugin instantiation strategy - the strategy element may 
-                 contain an arbitary number of property elements.
-  classpath      the classpath presented in terms of system, public, protected 
-                 and private categories. Each category may contain an arbirary
-                 number of uri elements.
+  title         optional    Plugin title.
+  description   optional    Description of the plugin.
+  strategy      required    The plugin instantiation strategy - the strategy element may 
+                            contain an arbitary number of property elements.
+  classpath     required    The classpath presented in terms of system, public, protected 
+                            and private categories. Each category may contain an arbirary
+                            number of uri elements.
 -->
 
 <!ELEMENT plugin ( title?, description?, strategy, classpath ) >
 <!ATTLIST plugin version CDATA #REQUIRED xmlns CDATA #IMPLIED >
 
+<!--
+The strategy element is used to associate a set of properties which are supplied 
+to a plugin handler at runtime. The default runtime handler uses the property name
+"project.plugin.class" to identify an instantiation target.  Other handlers may 
+specify alternative properties (for additional info on custom handler properties 
+the reader is referred to the corresponsing handler class documentation). 
+
+  property      0..n        Declaration of 0..n named value pairs.
+
+The plugin runtime handler class may be overriden using the 'class' attribute. The
+default runtime handler is net.dpml.transit.StandardHandler.
+-->
+
 <!ELEMENT strategy ( property* ) >
-<!ATTLIST strategy class CDATA #REQUIRED >
+<!ATTLIST strategy class CDATA #IMPLIED >
 
 <!ELEMENT property EMPTY >
 <!ATTLIST property name CDATA #REQUIRED value CDATA #REQUIRED >

@@ -49,6 +49,11 @@ import org.w3c.dom.DocumentType;
  */
 public class DefaultPluginHelper implements PluginHelper
 {
+   /**
+    * The default runtime handler class name.
+    */
+    public static final String STANDARD_HANDLER = "net.dpml.transit.StandardHandler";
+    
     private static final Version VERSION = new Version( 1, 0, 0 );
     
     public Plugin resolve( URI uri, Element element ) throws Exception
@@ -128,26 +133,17 @@ public class DefaultPluginHelper implements PluginHelper
             throw new IllegalStateException( error );
         }
         
-        String classname = ElementHelper.getAttribute( strategy, "class" );
-        if( null == classname )
+        String classname = ElementHelper.getAttribute( strategy, "class", STANDARD_HANDLER );
+        Properties properties = new Properties();
+        Element[] elements = ElementHelper.getChildren( strategy, "property" );
+        for( int i=0; i<elements.length; i++ )
         {
-            final String error = 
-              "Required plugin runtime handler 'class' attribute is not present in the plugin strategy descriptor.";
-            throw new IllegalStateException( error );
+            Element element = elements[i];
+            String name = ElementHelper.getAttribute( element, "name" );
+            String value = ElementHelper.getAttribute( element, "value" );
+            properties.setProperty( name, value );
         }
-        else
-        {
-            Properties properties = new Properties();
-            Element[] elements = ElementHelper.getChildren( strategy, "property" );
-            for( int i=0; i<elements.length; i++ )
-            {
-                Element element = elements[i];
-                String name = ElementHelper.getAttribute( element, "name" );
-                String value = ElementHelper.getAttribute( element, "value" );
-                properties.setProperty( name, value );
-            }
-            return new DefaultStrategy( classname, properties );
-        }
+        return new DefaultStrategy( classname, properties );
     }
     
     private URI[] buildURIs( Element classpath, String key ) throws Exception
