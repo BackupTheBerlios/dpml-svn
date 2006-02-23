@@ -117,49 +117,31 @@ public class HelloImpl
   m_hello.announce();
 </source>
         <p>
-          For this to work, you will also need to create the plugin meta
-          descriptor. The easiest way is to use the DPML Magic build system,
+          For this to work, you will need to create the plugin meta
+          descriptor. The easiest way is to use the DPML Depot build system,
           but it can also be done manually or with other tools. The above
           would need a simple descriptor like this;
         </p>
-<source>
 
-#
-# Specification classifier.
-#
-dpml.plugin.meta.namespace = net.dpml
-dpml.plugin.meta.version = 1.0
+<pre><![CDATA[
 
-#
-# Artifact descriptor.
-#
-dpml.artifact.group = mycompany/thisproject
-dpml.artifact.name = hello-impl
-dpml.artifact.version = 1.4.1
-dpml.artifact.signature = 20050116.140842
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE plugin PUBLIC "-//DPML//DTD Standard Plugin Version 1.0//EN" "http://www.dpml.net/dtds/plugin_1_0.dtd" >
 
-#
-# Type.
-#
-dpml.plugin.class = com.mycompany.thisproject.HelloImpl
-
-#
-# API dependency.
-#
-dpml.artifact.dependency.api.0 = artifact:jar:mycompany/thisproject/hello-api#1.4.1
-
-#
-# SPI dependencies.
-#
-# No SPI dependencies
-# dpml.artifact.dependency.spi.0 =
-
-#
-# Implementation dependencies.
-#
-# No impl dependencies
-# dpml.artifact.dependency.0 =
-</source>
+<plugin version="1.0.0">
+  <strategy class="net.dpml.transit.StandardHandler">
+    <property name="project.plugin.class" value="net.dpml.transit.console.TransitConsoleHandler"/>
+  </strategy>
+  <classpath>
+    <public>
+      <uri>artifact:jar:mycompany/thisproject/hello-api#1.4.1</uri>
+    </public>
+    <private>
+      <uri>artifact:jar:mycompany/thisproject/hello-impl#1.4.1</uri>
+    </private>
+  </classpath>
+</plugin>
+]]></pre>
         <p>
           Now, the beauty of Transit is that IF the hello-api artifact is present
           in the parent classloader (or higher), the API classloader will NOT
