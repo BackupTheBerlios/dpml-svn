@@ -36,6 +36,8 @@ import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ProxyDirective;
+import net.dpml.transit.info.LayoutDirective;
+import net.dpml.transit.info.ValueDirective;
 
 import net.dpml.lang.DTD;
 import net.dpml.lang.DTDResolver;
@@ -120,6 +122,221 @@ public class TransitBuilder
         // TODO check doctype name and version
         final Element root = document.getDocumentElement();
         return build( root );
+    }
+
+
+    //-------------------------------------------------------------
+    // internals supporting XML to directive transformation
+    //-------------------------------------------------------------
+    
+    private TransitDirective build( Element root ) throws Exception
+    {
+        String name = root.getTagName();
+        if( !NAME.equals( name ) )
+        {
+            final String error = 
+              "Invalid root element name ["
+              + name
+              + "].";
+            throw new IOException( error );
+        }
+        
+        String cachePath = ElementHelper.getAttribute( root, "cache" );
+        String cacheLayout = ElementHelper.getAttribute( root, "layout" );
+        
+        Element localElement = ElementHelper.getChild( root, "local" );
+        String localPath = ElementHelper.getAttribute( localElement, "path" );
+        String localLayout = ElementHelper.getAttribute( localElement, "layout" );
+        
+        Element proxyElement = ElementHelper.getChild( root, "proxy" );
+        ProxyDirective proxy = buildProxyDirective( proxyElement );
+        
+        Element hostsElement = ElementHelper.getChild( root, "hosts" );
+        HostDirective[] hosts = buildHosts( hostsElement );
+        
+        Element layoutsElement = ElementHelper.getChild( root, "layouts" );
+        LayoutDirective[] layouts = buildLayouts( layoutsElement );
+        
+        // handlers TBD
+        
+        CacheDirective cache = 
+          new CacheDirective( 
+            cachePath, cacheLayout, localPath, localLayout,
+            CacheDirective.EMPTY_LAYOUTS, hosts, CacheDirective.EMPTY_CONTENT );
+        return new TransitDirective( proxy, cache );
+    }
+    
+    private LayoutDirective[] buildLayouts( Element element ) throws Exception
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            Element[] layoutElements = ElementHelper.getChildren( element, "layout" );
+            LayoutDirective[] layouts = new LayoutDirective[ layoutElements.length ];
+            for( int i=0; i<layoutElements.length; i++ )
+            {
+                Element elem = layoutElements[i];
+                layouts[i] = buildLayout( elem );
+            }
+            return layouts;
+        }
+    }
+            
+    private LayoutDirective buildLayout( Element element ) throws Exception
+    {
+        String id = ElementHelper.getAttribute( element, "id" );
+        String title = ElementHelper.getAttribute( element, "title" );
+        Element codebase = ElementHelper.getChild( element, "codebase" );
+        String uri = ElementHelper.getAttribute( codebase, "uri" );
+        ValueDirective[] values = getValueDirectives( codebase );
+        return new LayoutDirective( id, title, uri, values );
+    }
+    
+    private ValueDirective[] getValueDirectives( Element element )
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            Element[] valueElements = ElementHelper.getChildren( element, "value" );
+            ValueDirective[] values = new ValueDirective[ valueElements.length ];
+            for( int i=0; i<valueElements.length; i++ )
+            {
+                Element elem = valueElements[i];
+                values[i] = buildValue( elem );
+            }
+            return values;
+        }
+    }
+    
+    private ValueDirective buildValue( Element element )
+    {
+        String target = ElementHelper.getAttribute( element, "target" );
+        String method = ElementHelper.getAttribute( element, "method" );
+        String value = ElementHelper.getAttribute( element, "value" );
+        if( value != null )
+        {
+            return new ValueDirective( target, method, value );
+        }
+        else
+        {
+            ValueDirective[] values = getValueDirectives( element );
+            return new ValueDirective( target, method, values );
+        }
+    }
+    
+    private ProxyDirective buildProxyDirective( Element element )
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            String host = ElementHelper.getAttribute( element, "host" );
+            Element credentialsElement = ElementHelper.getChild( element, "credentials" );
+            String username = getUsername( credentialsElement );
+            char[] password = getPassword( credentialsElement );
+            String[] excludes = buildProxyExcludes( element );
+            return new ProxyDirective( host, excludes, username, password );
+        }
+    }
+    
+    private String[] buildProxyExcludes( Element element )
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            Element[] elements = ElementHelper.getChildren( element, "exclude" );
+            String[] excludes = new String[ elements.length ];
+            for( int i=0; i<excludes.length; i++ )
+            {
+                Element elem = elements[i];
+                excludes[i] = ElementHelper.getValue( elem );
+            }
+            return excludes;
+        }
+    }
+    
+    private HostDirective[] buildHosts( Element element )
+    {
+        Element[] elements = ElementHelper.getChildren( element, "host" );
+        HostDirective[] hosts = new HostDirective[ elements.length ];
+        for( int i=0; i<hosts.length; i++ )
+        {
+            Element elem = elements[i];
+            String id = ElementHelper.getAttribute( elem, "id" );
+            int priority = Integer.parseInt( ElementHelper.getAttribute( elem, "priority" ) );
+            String url = ElementHelper.getAttribute( elem, "url" );
+            String layout = ElementHelper.getAttribute( elem, "layout" );
+            boolean enabled = ElementHelper.getBooleanAttribute( elem, "enabled" );
+            boolean trusted = ElementHelper.getBooleanAttribute( elem, "trusted" );
+            String index = ElementHelper.getAttribute( elem, "index" );
+            String scheme = ElementHelper.getAttribute( elem, "scheme" );
+            String prompt = ElementHelper.getAttribute( elem, "prompt" );
+            Element credentialsElement = ElementHelper.getChild( elem, "credentials" );
+            String username = getUsername( credentialsElement );
+            char[] password = getPassword( credentialsElement );
+            hosts[i] = 
+              new HostDirective( 
+                id, priority, url, index, username, password, enabled, trusted,
+                layout, scheme, prompt );
+        }
+        return hosts;
+    }
+    
+    private String getUsername( Element element )
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            return ElementHelper.getAttribute( element, "username" );
+        }
+    }
+    
+    private char[] getPassword( Element element )
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            String password = ElementHelper.getAttribute( element, "password" );
+            if( null == password )
+            {
+                return null;
+            }
+            else
+            {
+                return password.toCharArray();
+            }
+        }
+    }
+    
+    //-------------------------------------------------------------
+    // internals supporting directive to XML transformation
+    //-------------------------------------------------------------
+    
+    private void writeHeader( Writer writer, String cache, String layout ) throws IOException
+    {
+        writer.write( "\n\n<" + NAME + " cache=\"" + cache + "\" layout=\"" + layout + "\">" );
+    }
+    
+    private void writeFooter( Writer writer ) throws IOException
+    {
+        writer.write( "\n</" + NAME + ">" );
     }
 
     public void write( TransitDirective directive, OutputStream output ) throws IOException 
@@ -289,154 +506,6 @@ public class TransitBuilder
         {
             return new String( password );
         }
-    }
-    
-    //-------------------------------------------------------------
-    // internals supporting XML to directive
-    //-------------------------------------------------------------
-    
-    private TransitDirective build( Element root ) throws IOException
-    {
-        String name = root.getTagName();
-        if( !NAME.equals( name ) )
-        {
-            final String error = 
-              "Invalid root element name ["
-              + name
-              + "].";
-            throw new IOException( error );
-        }
-        
-        String cachePath = ElementHelper.getAttribute( root, "cache" );
-        String cacheLayout = ElementHelper.getAttribute( root, "layout" );
-        
-        Element localElement = ElementHelper.getChild( root, "local" );
-        String localPath = ElementHelper.getAttribute( localElement, "path" );
-        String localLayout = ElementHelper.getAttribute( localElement, "layout" );
-        
-        Element proxyElement = ElementHelper.getChild( root, "proxy" );
-        ProxyDirective proxy = buildProxyDirective( proxyElement );
-        
-        Element hostsElement = ElementHelper.getChild( root, "hosts" );
-        HostDirective[] hosts = buildHosts( hostsElement );
-        
-        // layouts TBD
-        // handlers TBD
-        
-        CacheDirective cache = 
-          new CacheDirective( 
-            cachePath, cacheLayout, localPath, localLayout,
-            CacheDirective.EMPTY_LAYOUTS, hosts, CacheDirective.EMPTY_CONTENT );
-        return new TransitDirective( proxy, cache );
-    }
-    
-    private ProxyDirective buildProxyDirective( Element element )
-    {
-        if( null == element )
-        {
-            return null;
-        }
-        else
-        {
-            String host = ElementHelper.getAttribute( element, "host" );
-            Element credentialsElement = ElementHelper.getChild( element, "credentials" );
-            String username = getUsername( credentialsElement );
-            char[] password = getPassword( credentialsElement );
-            String[] excludes = buildProxyExcludes( element );
-            return new ProxyDirective( host, excludes, username, password );
-        }
-    }
-    
-    private String[] buildProxyExcludes( Element element )
-    {
-        if( null == element )
-        {
-            return null;
-        }
-        else
-        {
-            Element[] elements = ElementHelper.getChildren( element, "exclude" );
-            String[] excludes = new String[ elements.length ];
-            for( int i=0; i<excludes.length; i++ )
-            {
-                Element elem = elements[i];
-                excludes[i] = ElementHelper.getValue( elem );
-            }
-            return excludes;
-        }
-    }
-    
-    private HostDirective[] buildHosts( Element element )
-    {
-        Element[] elements = ElementHelper.getChildren( element, "host" );
-        HostDirective[] hosts = new HostDirective[ elements.length ];
-        for( int i=0; i<hosts.length; i++ )
-        {
-            Element elem = elements[i];
-            String id = ElementHelper.getAttribute( elem, "id" );
-            int priority = Integer.parseInt( ElementHelper.getAttribute( elem, "priority" ) );
-            String url = ElementHelper.getAttribute( elem, "url" );
-            String layout = ElementHelper.getAttribute( elem, "layout" );
-            boolean enabled = ElementHelper.getBooleanAttribute( elem, "enabled" );
-            boolean trusted = ElementHelper.getBooleanAttribute( elem, "trusted" );
-            String index = ElementHelper.getAttribute( elem, "index" );
-            String scheme = ElementHelper.getAttribute( elem, "scheme" );
-            String prompt = ElementHelper.getAttribute( elem, "prompt" );
-            Element credentialsElement = ElementHelper.getChild( elem, "credentials" );
-            String username = getUsername( credentialsElement );
-            char[] password = getPassword( credentialsElement );
-            hosts[i] = 
-              new HostDirective( 
-                id, priority, url, index, username, password, enabled, trusted,
-                layout, scheme, prompt );
-        }
-        return hosts;
-    }
-    
-    private String getUsername( Element element )
-    {
-        if( null == element )
-        {
-            return null;
-        }
-        else
-        {
-            return ElementHelper.getAttribute( element, "username" );
-        }
-    }
-    
-    private char[] getPassword( Element element )
-    {
-        if( null == element )
-        {
-            return null;
-        }
-        else
-        {
-            String password = ElementHelper.getAttribute( element, "password" );
-            if( null == password )
-            {
-                return null;
-            }
-            else
-            {
-                return password.toCharArray();
-            }
-        }
-    }
-    
-    //-------------------------------------------------------------
-    // internals supporting directive to XML
-    //-------------------------------------------------------------
-    
-    private void writeHeader( Writer writer, String cache, String layout ) throws IOException
-    {
-        writer.write( "\n\n<" + NAME + " cache=\"" + cache + "\" layout=\"" + layout + "\">" );
-    }
-    
-    private void writeFooter( Writer writer ) throws IOException
-    {
-        writer.write( "\n</" + NAME + ">" );
     }
     
     //-------------------------------------------------------------

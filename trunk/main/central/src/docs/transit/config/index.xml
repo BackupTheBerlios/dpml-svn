@@ -63,6 +63,32 @@
 
       </subsection>
 
+      <subsection name="Example">
+
+        <p>
+        The following example shows the default transit configuration.
+        </p>
+
+<pre><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE transit PUBLIC "-//DPML//DTD Transit Configuration Version 1.0//EN" "http://www.dpml.net/dtds/transit_1_0.dtd" >
+
+<transit cache="${dpml.data}/cache" layout="classic">
+
+  <local path="file:${dpml.share}/local" layout="modern"/>
+
+  <hosts>
+    <host id="dpml" priority="40" url="http://repository.dpml.net/classic" layout="classic"/>
+    <host id="ibiblio" priority="70" url="http://www.ibiblio.org/maven" layout="classic"/>
+    <host id="m2" priority="100" url="http://www.ibiblio.org/maven2" layout="modern"/>
+    <host id="apache" priority="140" url="http://www.apache.org/dist/java-repository" layout="classic"/>
+  </hosts>
+
+</transit>
+]]></pre>
+
+      </subsection>
+
     </section>
 
   </body>

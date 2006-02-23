@@ -25,9 +25,9 @@
  <body>
 
     <menu>
-      <item name="Monitors" href="monitors.html"/>
       <item name="Plugins" href="plugins.html"/>
       <item name="Layouts" href="layouts.html"/>
+      <item name="Monitors" href="monitors.html"/>
     </menu>
 
  </body>
