@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -38,6 +41,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.IncludeDirective;
+import net.dpml.library.info.IncludeDirective.Mode;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
@@ -139,6 +143,188 @@ public final class ModuleBuilder
         final Element root = document.getDocumentElement();
         return build( root );
     }
+    
+   /**
+    * Write a module directive to an output stream as a portable XML definition.
+    * @param module the moudle directive to externalize
+    * @param output the output stream
+    * @exception Exception if an error occurs during module externalization
+    */
+    public void write( final ModuleDirective module, final OutputStream output ) throws Exception
+    {
+        final Writer writer = new OutputStreamWriter( output );
+        try
+        {
+            writer.write( XML_HEADER );
+            writer.write( DOCTYPE );
+            writeModule( writer, module, "" );
+            writer.write( "\n" );
+        }
+        finally
+        {
+            writer.flush();
+            writer.close();
+        }
+    }
+    
+    //-----------------------------------------------------------------------
+    // internal utilities supporting ModuleDirective to XML creation
+    //-----------------------------------------------------------------------
+    
+    private void writeModule( Writer writer, ModuleDirective module, String lead ) throws IOException
+    {
+        String name = module.getName();
+        String version = module.getVersion();
+        Properties properties = module.getProperties();
+        String basedir = module.getBasedir();
+        TypeDirective[] types = module.getTypeDirectives();
+        DependencyDirective[] dependencies = new DependencyDirective[0];
+        ResourceDirective[] resources = module.getResourceDirectives();
+        
+        writer.write( "\n" + lead + "<" + NAME );
+        if( null != name )
+        {
+            writer.write( " name=\"" + name + "\"" );
+        }
+        if( null != version )
+        {
+            writer.write( " version=\"" + version + "\"" );
+        }
+        writer.write( ">" );
+        writeProperties( writer, properties, lead + "  ", true );
+        writeTypes( writer, types, lead + "  " );
+        writeDependencies( writer, dependencies, lead + "  " );
+        writeResources( writer, resources, lead + "  " );
+        writer.write( "\n" + lead + "</" + NAME + ">" );
+    }
+    
+    private void writeProperties( Writer writer, Properties properties, String lead, boolean flag ) throws IOException
+    {
+        if( properties.size() > 0 )
+        {
+            if( flag )
+            {
+                writer.write( "\n" + lead + "<properties>" );
+            }
+            String[] names = (String[]) properties.keySet().toArray( new String[0] );
+            for( int i=0; i<names.length; i++ )
+            {
+                String name = names[i];
+                String value = properties.getProperty( name );
+                writer.write( "\n" + lead );
+                if( flag )
+                {
+                    writer.write( "  " );
+                }
+                writer.write( "<property name=\"" + name + "\" value=\"" + value + "\"/>" );
+            }
+            if( flag )
+            {
+                writer.write( "\n" + lead + "</properties>" );
+            }
+        }
+    }
+    
+    private void writeTypes( Writer writer, TypeDirective[] types, String lead ) throws IOException
+    {
+        if( types.length > 0 )
+        {
+            writer.write( lead + "<types>" );
+            for( int i=0; i<types.length; i++ )
+            {
+                TypeDirective type = types[i];
+                String id = type.getName();
+                boolean alias = type.getAlias();
+                writer.write( lead + "  <type id=\"" + id + "\"" );
+                if( alias )
+                {
+                    writer.write( " alias=\"true\"" );
+                }
+                Properties properties = type.getProperties();
+                if( properties.size() > 0 )
+                {
+                    writer.write( ">" );
+                    writeProperties( writer, properties, lead + "  ", false );
+                }
+            }
+            writer.write( lead + "</types>" );
+        }
+    }
+    
+    private void writeDependencies( Writer writer, DependencyDirective[] dependencies, String lead ) throws IOException
+    {
+        if( dependencies.length > 0 )
+        {
+            for( int i=0; i<dependencies.length; i++ )
+            {
+                DependencyDirective dependency = dependencies[i];
+                IncludeDirective[] includes = dependency.getIncludeDirectives();
+                if( includes.length > 0 )
+                {
+                    Scope scope = dependency.getScope();
+                    if( Scope.RUNTIME.equals( scope ) )
+                    {
+                        writer.write( lead + "<dependencies>" );
+                    }
+                    else
+                    {
+                        writer.write( lead + "<dependencies scope=\"" + scope + "\">" );
+                    }
+                    
+                    for( int j=0; j<includes.length; j++ )
+                    {
+                        IncludeDirective include = includes[j];
+                        Mode mode = include.getMode();
+                        String value = include.getValue();
+                        writer.write( lead + "  <include" );
+                        if( Mode.KEY.equals( mode ) )
+                        {
+                            writer.write( " key=\"" + value + "\"" );
+                        }
+                        else if( Mode.REF.equals( mode ) )
+                        {
+                            writer.write( " ref=\"" + value + "\"" );
+                        }
+                        else if( Mode.URN.equals( mode ) )
+                        {
+                            writer.write( " urn=\"" + value + "\"" );
+                        }
+                        
+                        if( Scope.RUNTIME.equals( scope ) )
+                        {
+                            Category category = include.getCategory();
+                            if( !Category.PRIVATE.equals( category ) )
+                            {
+                                writer.write( " tag=\"" + category + "\"" );
+                            }
+                        }
+                        
+                        Properties props = include.getProperties();
+                        if( props.size() > 0 )
+                        {
+                            writer.write( ">" );
+                            writeProperties( writer, props, lead + "    ", false );
+                            writer.write( "\n" + lead + "  </include>");
+                        }
+                        else
+                        {
+                            writer.write( "/>" );
+                        }
+                    }
+                    writer.write( "\n" + lead + "</dependencies>" );
+                }
+            }
+        }
+    }
+    
+    private void writeResources( Writer writer, ResourceDirective[] dependencies, String lead ) throws IOException
+    {
+        
+    }
+    
+    //-----------------------------------------------------------------------
+    // internal utilities supporting XML to ModuleDirective creation
+    //-----------------------------------------------------------------------
     
     private ModuleDirective build( Element element )
     {

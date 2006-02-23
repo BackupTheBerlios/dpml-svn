@@ -179,7 +179,7 @@ public class ResourceDirective extends AbstractDirective
     {
         return m_types;
     }
-        
+    
    /**
     * Return an named type.
     * @param name the type name

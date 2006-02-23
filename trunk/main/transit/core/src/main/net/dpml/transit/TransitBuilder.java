@@ -124,7 +124,45 @@ public class TransitBuilder
         return build( root );
     }
 
-
+   /**
+    * Write a transit directive to an output stream as XML.
+    * @param directive the directive to externalize
+    * @param output the output stream to write to
+    * @exception IOException if an I/O error occurs
+    */
+    public void write( TransitDirective directive, OutputStream output ) throws IOException 
+    {
+        final Writer writer = new OutputStreamWriter( output );
+        try
+        {
+            writer.write( XML_HEADER );
+            writer.write( DOCTYPE );
+            
+            CacheDirective cache = directive.getCacheDirective();
+            String cachePath = cache.getCache();
+            String cacheLayout = cache.getCacheLayout();
+            writeHeader( writer, cachePath, cacheLayout );
+            
+            ProxyDirective proxy = directive.getProxyDirective();
+            writeProxy( writer, proxy );
+            
+            String localPath = cache.getLocal();
+            String localLayout = cache.getLocalLayout();
+            writeLocal( writer, localPath, localLayout );
+            
+            HostDirective[] hosts = cache.getHostDirectives();
+            writeHosts( writer, hosts );
+            
+            writeFooter( writer );
+            writer.write( "\n" );
+        }
+        finally
+        {
+            writer.flush();
+            writer.close();
+        }
+    }
+    
     //-------------------------------------------------------------
     // internals supporting XML to directive transformation
     //-------------------------------------------------------------
@@ -339,39 +377,6 @@ public class TransitBuilder
         writer.write( "\n</" + NAME + ">" );
     }
 
-    public void write( TransitDirective directive, OutputStream output ) throws IOException 
-    {
-        final Writer writer = new OutputStreamWriter( output );
-        try
-        {
-            writer.write( XML_HEADER );
-            writer.write( DOCTYPE );
-            
-            CacheDirective cache = directive.getCacheDirective();
-            String cachePath = cache.getCache();
-            String cacheLayout = cache.getCacheLayout();
-            writeHeader( writer, cachePath, cacheLayout );
-            
-            ProxyDirective proxy = directive.getProxyDirective();
-            writeProxy( writer, proxy );
-            
-            String localPath = cache.getLocal();
-            String localLayout = cache.getLocalLayout();
-            writeLocal( writer, localPath, localLayout );
-            
-            HostDirective[] hosts = cache.getHostDirectives();
-            writeHosts( writer, hosts );
-            
-            writeFooter( writer );
-            writer.write( "\n" );
-        }
-        finally
-        {
-            writer.flush();
-            writer.close();
-        }
-    }
-    
     private void writeProxy( Writer writer, ProxyDirective proxy ) throws IOException 
     {
         if( null != proxy )
