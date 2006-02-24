@@ -48,7 +48,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
     {
         Module metro = getLibrary().getModule( "dpml/metro" );
         Resource[] resources = metro.getResources();
-        assertEquals( "nested-expanded-resource-count", 15, resources.length );
+        assertEquals( "nested-expanded-resource-count", 9, resources.length );
     }
 
    /**

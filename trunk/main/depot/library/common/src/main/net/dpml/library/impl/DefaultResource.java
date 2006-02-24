@@ -462,6 +462,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
     
    /**
+    * Return the underlying resource defintion.
+    * @return the resource directive
+    */
+    public ResourceDirective getResourceDirective()
+    {
+        return m_directive;
+    }
+
+   /**
     * Return a directive suitable for publication as an external description.
     * @param module the enclosing module
     * @return the resource directive
@@ -478,20 +487,32 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         String version = getVersion();
         String basedir = null;
         TypeDirective[] types = m_directive.getTypeDirectives();
+        DependencyDirective[] dependencies = createDeps( module );
+        Properties properties = getExportProperties();
+        return new ResourceDirective( 
+          name, version, Classifier.EXTERNAL, basedir,
+          types, dependencies, properties );
+    }
+    
+    private DependencyDirective[] createDeps( DefaultModule module )
+    {
         ArrayList list = new ArrayList();
         createIncludeDirectives( module, list, Category.SYSTEM );
         createIncludeDirectives( module, list, Category.PUBLIC );
         createIncludeDirectives( module, list, Category.PROTECTED );
         createIncludeDirectives( module, list, Category.PRIVATE );
-        IncludeDirective[] includes = 
-         (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
-        DependencyDirective runtime = 
-          new DependencyDirective( Scope.RUNTIME, includes );
-        DependencyDirective[] dependencies = new DependencyDirective[]{runtime};
-        Properties properties = getExportProperties();
-        return new ResourceDirective( 
-          name, version, Classifier.EXTERNAL, basedir,
-          types, dependencies, properties );
+        if( list.size() == 0 )
+        {
+            return new DependencyDirective[0];
+        }
+        else
+        {
+            IncludeDirective[] includes = 
+             (IncludeDirective[]) list.toArray( new IncludeDirective[0] );
+            DependencyDirective runtime = 
+              new DependencyDirective( Scope.RUNTIME, includes );
+            return new DependencyDirective[]{runtime};
+        }
     }
     
     boolean isaDescendant( DefaultModule module )

@@ -180,7 +180,7 @@ public final class ModuleBuilder
         Properties properties = module.getProperties();
         String basedir = module.getBasedir();
         TypeDirective[] types = module.getTypeDirectives();
-        DependencyDirective[] dependencies = new DependencyDirective[0];
+        DependencyDirective[] dependencies = module.getDependencyDirectives();
         ResourceDirective[] resources = module.getResourceDirectives();
         
         writer.write( "\n" + lead + "<" + NAME );
@@ -301,7 +301,12 @@ public final class ModuleBuilder
                 if( properties.size() > 0 )
                 {
                     writer.write( ">" );
-                    writeProperties( writer, properties, lead + "  ", false );
+                    writeProperties( writer, properties, lead + "    ", false );
+                    writer.write( "\n" + lead + "  </type>" );
+                }
+                else
+                {
+                    writer.write( "/>" );
                 }
             }
             writer.write( "\n" + lead + "</types>" );

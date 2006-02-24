@@ -9,14 +9,6 @@
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
-  <!--
-  <builder uri="link:plugin:dpml/tools/dpml-tools-builder">
-    <parameters>
-      <param value="abc"/>
-    </parameters>
-  </builder>
-  -->
-
   <modules>
     <module file="junit/module.xml"/>
     <module file="commons-cli/module.xml"/>

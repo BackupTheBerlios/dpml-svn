@@ -51,6 +51,8 @@ import net.dpml.transit.Logger;
  */
 public final class DefaultLibrary extends DefaultDictionary implements Library
 {
+    private static final ModuleBuilder BUILDER = new ModuleBuilder();
+    
     private final LibraryDirective m_directive;
     private final DefaultModule m_module;
     private final DefaultModule m_imports;
@@ -112,8 +114,10 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
                 URI uri = new URI( path );
                 getLogger().debug( "loading external import: " + uri );
                 URL url = Artifact.createArtifact( uri ).toURL();
-                InputStream input = url.openStream();
-                importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( input );
+                importModuleDirectives[i] = BUILDER.load( url ); 
+                
+                //InputStream input = url.openStream();
+                //importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( input );
             }
         }
         DefaultModule[] importModules = new DefaultModule[ importModuleDirectives.length ];

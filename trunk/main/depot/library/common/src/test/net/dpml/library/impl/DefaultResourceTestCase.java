@@ -349,7 +349,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
     */
     public void testClassloaderChainConstruction() throws Exception
     {
-        doClasspathChainTest( "dpml/metro/dpml-composition-runtime", 0, 3, 6, 3 );
+        doClasspathChainTest( "dpml/metro/dpml-composition-runtime", 0, 2, 7, 3 );
         doClasspathChainTest( "dpml/tools/dpml-tools-ant", 4, 0, 0, 5 );
         doClasspathChainTest( "dpml/transit/dpml-transit-tools", 0, 0, 0, 3 );
     }
@@ -363,7 +363,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         String path = "dpml/transit/dpml-transit-main";
         Resource resource = getLibrary().getResource( path );
         Resource[] consumers = resource.getConsumers( false, false );
-        assertEquals( "consumer-count", 6, consumers.length );
+        assertEquals( "consumer-count", 5, consumers.length );
     }
     
    /**
@@ -375,7 +375,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         String path = "dpml/transit/dpml-transit-main";
         Resource resource = getLibrary().getResource( path );
         Resource[] consumers = resource.getConsumers( true, true );
-        assertEquals( "consumer-count", 20, consumers.length );
+        assertEquals( "consumer-count", 18, consumers.length );
     }
     
     //-------------------------------------------------------------------------------
@@ -414,7 +414,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         int j = chain.length;
         if( n > -1 )
         {
-            assertEquals( "chain-length", n, j );
+            assertEquals( "chain-length in " + path, n, j );
         }
         else
         {

@@ -18,12 +18,10 @@ limitations under the License.
 <!ELEMENT library ( imports?, properties?, modules? ) >
 
 <!ELEMENT imports ( import* ) >
-
-<!ELEMENT modules ( module* ) >
-
 <!ELEMENT import EMPTY >
 <!ATTLIST import uri CDATA #REQUIRED >
 
+<!ELEMENT modules ( module* ) >
 <!ELEMENT module ( properties?, types?, dependencies*, module*, project*, resource* ) >
 <!ATTLIST module name CDATA #IMPLIED >
 <!ATTLIST module basedir CDATA #IMPLIED >
@@ -31,13 +29,11 @@ limitations under the License.
 <!ATTLIST module version CDATA #IMPLIED >
 
 <!ELEMENT types ( type* ) >
-
 <!ELEMENT type ( property* ) >
 <!ATTLIST type id CDATA #REQUIRED >
 <!ATTLIST type alias CDATA #IMPLIED >
 
 <!ELEMENT properties ( property* ) >
-
 <!ELEMENT property EMPTY >
 <!ATTLIST property name CDATA #REQUIRED >
 <!ATTLIST property value CDATA #REQUIRED >

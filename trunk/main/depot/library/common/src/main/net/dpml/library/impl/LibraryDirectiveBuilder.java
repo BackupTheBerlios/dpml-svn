@@ -290,6 +290,7 @@ public final class LibraryDirectiveBuilder
     * @return the module directive
     * @exception Exception if an exception occurs
     */
+    /*
     public static ModuleDirective buildModuleDirective( InputStream input ) throws Exception
     {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -314,6 +315,7 @@ public final class LibraryDirectiveBuilder
             input.close();
         }
     }
+    */
     
    /**
     * Build a module using an XML element.

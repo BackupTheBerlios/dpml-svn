@@ -30,12 +30,13 @@ import net.dpml.library.model.Resource;
 import net.dpml.library.model.Module;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
+import net.dpml.library.impl.ModuleBuilder;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Write a module to XML in a form suitable for publication.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -88,27 +89,30 @@ public class ModuleTask extends GenericTask
     
     private void writeModuleDirective( ModuleDirective directive, File file )
     {
-        ClassLoader current = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader( ModuleDirective.class.getClassLoader() );
+        //ClassLoader current = Thread.currentThread().getContextClassLoader();
+        //Thread.currentThread().setContextClassLoader( ModuleDirective.class.getClassLoader() );
         FileOutputStream output = null;
         try
         {
             log( "Exporting module to: " + file );
+            ModuleBuilder builder = new ModuleBuilder();
             file.getParentFile().mkdirs();
             output = new FileOutputStream( file );
-            final BufferedOutputStream buffer = new BufferedOutputStream( output );
-            XMLEncoder encoder = new XMLEncoder( buffer );
-            encoder.setExceptionListener( new ModuleEncoderListener() );
-            try
-            {
-                encoder.writeObject( directive );
+            builder.write( directive, output );
+            
+            //final BufferedOutputStream buffer = new BufferedOutputStream( output );
+            //XMLEncoder encoder = new XMLEncoder( buffer );
+            //encoder.setExceptionListener( new ModuleEncoderListener() );
+            //try
+            //{
+            //    encoder.writeObject( directive );
                 checksum( file );
                 asc( file );
-            }
-            finally
-            {
-                encoder.close();
-            }
+            //}
+            //finally
+            //{
+            //    encoder.close();
+            //}
         }
         catch( Exception e )
         {
@@ -118,7 +122,7 @@ public class ModuleTask extends GenericTask
         }
         finally
         {
-            Thread.currentThread().setContextClassLoader( current );
+            //Thread.currentThread().setContextClassLoader( current );
             if( null != output )
             {
                 try
@@ -129,61 +133,6 @@ public class ModuleTask extends GenericTask
                 {
                 }
             }
-        }
-    }
-   
-   /**
-    * Encoding listener.
-    */
-    private class ModuleEncoderListener implements ExceptionListener
-    {
-       /**
-        * Monitor a thrown exception.
-        * @param e the exception
-        */
-        public void exceptionThrown( Exception e )
-        {
-            Throwable cause = e.getCause();
-            if( null != cause )
-            {
-                if( cause instanceof EncodingRuntimeException )
-                {
-                    EncodingRuntimeException ere = (EncodingRuntimeException) cause;
-                    throw ere;
-                }
-                else
-                {
-                    final String error = 
-                      "An error occured while attempting to encode module ["
-                      + getResource().getResourcePath()
-                      + "]\nCause: " + cause.toString();
-                    throw new EncodingRuntimeException( error, cause );
-                }
-            }
-            else
-            {
-                final String error = 
-                  "An unexpected error occured while attempting to encode the type ["
-                  + getResource().getResourcePath()
-                  + "] due to: " + e.toString();
-                throw new EncodingRuntimeException( error, e );
-            }
-        }
-    }
-    
-   /**
-    * Encoding runtime exception.
-    */
-    private static class EncodingRuntimeException extends RuntimeException
-    {
-       /**
-        * Create a new encoding runtime exception.
-        * @param message the message
-        * @param cause the causal exception
-        */
-        public EncodingRuntimeException( String message, Throwable cause )
-        {
-            super( message, cause );
         }
     }
 }
