@@ -65,7 +65,7 @@ public class ComponentPlugin extends DefaultPlugin
     private static final String NAME = "plugin";
 
     private static final String PUBLIC_ID = 
-      "-//DPML//DTD Component Plugin Version 1.0//EN";
+      "-//DPML//DTD Component 1.0//EN";
       
     private static final String SYSTEM_ID = 
       "http://download.dpml.net/dtds/component_1_0.dtd";

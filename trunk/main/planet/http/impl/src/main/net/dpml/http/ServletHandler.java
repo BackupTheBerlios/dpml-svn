@@ -27,13 +27,30 @@ public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
    /**
     * Creation of a new servlet handler.
     * @param servlets the servlet holder array
-    * @param maps the servlet mappings
+    * @param entries the servlet name to path mappings
     */
-    public ServletHandler( ServletHolder[] servlets, ServletMapping[] maps )
+    public ServletHandler( ServletHolder[] servlets, ServletEntry[] entries )
     {
         super();
         
         setServlets( servlets );
-        setServletMappings( maps );
+        ServletMapping[] mapping = getServletMappings( entries );
+        setServletMappings( mapping );
+    }
+    
+    private ServletMapping[] getServletMappings( ServletEntry[] entries )
+    {
+        ServletMapping[] maps = new ServletMapping[ entries.length ];
+        for( int i=0; i<entries.length; i++ )
+        {
+            ServletEntry entry = entries[i];
+            String name = entry.getName();
+            String path = entry.getPath();
+            ServletMapping map = new ServletMapping();
+            map.setServletName( name );
+            map.setPathSpec( path );
+            maps[i] = map;
+        }
+        return maps;
     }
 }

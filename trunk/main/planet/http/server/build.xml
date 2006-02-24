@@ -93,12 +93,13 @@
                 <value value="org.mortbay.jetty.servlet.DefaultServlet"/>
               </value>
             </entry>
+            <entry key="servletEntries">
+              <value class="net.dpml.http.ServletEntry">
+                <value value="data"/>
+                <value value="/"/>
+              </value>
+            </entry>
           </context>
-          <configuration>
-            <mappings>
-              <map path="/" servlet="data"/>
-            </mappings>
-          </configuration>
         </component>
       </parts>
     </component>

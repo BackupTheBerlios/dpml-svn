@@ -53,7 +53,7 @@ import net.dpml.library.util.DefaultPluginFactory;
 public class ComponentPluginFactory extends DefaultPluginFactory
 {
    /**
-    * Build the plugin definition.
+    * Build the plugin definition for the supplied resource.
     * @exception exception if a build related error occurs
     */
     public Plugin build( File dir, Resource resource ) throws Exception
@@ -70,7 +70,7 @@ public class ComponentPluginFactory extends DefaultPluginFactory
     protected Strategy getStrategy( File dir, Resource resource )
     {
         Type type = resource.getType( "plugin" );
-        String source = type.getProperty( "project.plugin.srcfile", "plugin/definition.xml" );
+        String source = type.getProperty( "project.plugin.srcfile", "plugin.xml" );
         File src = new File( dir, source );
         if( src.exists() )
         {

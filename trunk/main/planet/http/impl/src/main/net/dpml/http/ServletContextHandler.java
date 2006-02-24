@@ -48,6 +48,13 @@ public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHand
         * @return the resolved value
         */
         ServletHolder[] getServletHolders( ServletHolder[] holders );
+        
+       /**
+        * Get the array of servlet name to path mappings.
+        * @param entries the default value
+        * @return the resolved array of name to path mappings
+        */
+        ServletEntry[] getServletEntries( ServletEntry[] entries );
     }
     
     private int m_priority = 0;
@@ -56,11 +63,9 @@ public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHand
     * Creation of a new servlet context handler.
     * @param logger the assigned logging channel
     * @param context the deployment context
-    * @param config the deployment configuration
     * @exception Exception if an instantiation error occurs
     */
-    public ServletContextHandler( 
-      Logger logger, Context context, Configuration config ) throws Exception
+    public ServletContextHandler( Logger logger, Context context ) throws Exception
     {
         super();
         
@@ -71,42 +76,8 @@ public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHand
         super.setResourceBase( base );
         
         ServletHolder[] holders = context.getServletHolders( new ServletHolder[0] );
-        Handler handler = buildHandler( logger, holders, config );
+        ServletEntry[] entries = context.getServletEntries( new ServletEntry[0] );
+        ServletHandler handler = new ServletHandler( holders, entries );
         super.setHandler( handler );
-    }
-    
-    private Handler buildHandler( 
-      Logger logger, ServletHolder[] servletArray, Configuration config ) throws ConfigurationException
-    {
-        logger.debug( "configuration " + config );
-        //Configuration servlets = config.getChild( "servlets" );
-        //ArrayList servletList = new ArrayList();
-        //Configuration[] servletConfigs = servlets.getChildren( "servlet" );
-        //logger.debug( "servlet count: " + servletConfigs.length );
-        //for( int i=0; i<servletConfigs.length; i++ )
-        //{
-        //    Configuration servletConfig = servletConfigs[i];
-        //    String name = servletConfig.getAttribute( "name" );
-        //    String classname = servletConfig.getAttribute( "class" );
-        //    ServletHolder holder = new ServletHolder( name, classname );
-        //    servletList.add( holder );
-        //}
-        ArrayList mappingList = new ArrayList();
-        Configuration mappings = config.getChild( "mappings" );
-        Configuration[] servletMappings = mappings.getChildren( "map" );
-        logger.debug( "mapping count: " + servletMappings.length );
-        for( int i=0; i<servletMappings.length; i++ )
-        {
-            Configuration servletMap = servletMappings[i];
-            String name = servletMap.getAttribute( "servlet" );
-            String path = servletMap.getAttribute( "path" );
-            ServletMapping mapping = new ServletMapping( name, path );
-            mappingList.add( mapping );
-        }
-        //ServletHolder[] servletArray = 
-        //  (ServletHolder[]) servletList.toArray( new ServletHolder[0] );
-        ServletMapping[] mappingArray = 
-          (ServletMapping[]) mappingList.toArray( new ServletMapping[0] );
-        return new ServletHandler( servletArray, mappingArray );
     }
 }
