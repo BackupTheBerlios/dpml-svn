@@ -3,10 +3,6 @@
 
 <module name="depot">
    
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-   
   <project name="dpml-library-console" basedir="library/console">
     <types>
       <type id="jar"/>

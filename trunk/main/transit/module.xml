@@ -7,10 +7,6 @@
     <property name="project.test.fork" value="true"/>
   </properties>
   
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-   
   <project name="dpml-transit-console" basedir="console">
     <types>
       <type id="jar"/>

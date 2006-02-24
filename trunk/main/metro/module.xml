@@ -3,10 +3,6 @@
 
 <module name="metro">
 
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-
   <project name="dpml-state-api" basedir="state/api">
     <types>
       <type id="jar"/>

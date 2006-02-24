@@ -41,14 +41,14 @@
       
          <table>
            <tr>
-             <td>properties</td>
-             <td>0..1</td>
-             <td>An set of global <a href="properties.html">property</a> declarations.</td>
-           </tr>
-           <tr>
              <td>imports</td>
              <td>0..1</td>
              <td>An set of <a href="imports.html">imported</a> module defintions.</td>
+           </tr>
+           <tr>
+             <td>properties</td>
+             <td>0..1</td>
+             <td>An set of global <a href="properties.html">property</a> declarations.</td>
            </tr>
            <tr>
              <td>modules</td>
@@ -65,12 +65,9 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE library PUBLIC "-//DPML//DTD Library 1.0//EN" "http://www.dpml.net/dtds/library_1_0.dtd" >
 
 <library>
-
-  <properties>
-    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-ant"/>
-  </properties>
 
   <imports>
     <import uri="link:module:junit"/>
@@ -82,10 +79,6 @@
 
     <module name="dpml" basedir=".">
 
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
       <properties>
         <property name="project.publisher.name" value="Digital Product Meta Library"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -95,16 +88,21 @@
         <property name="project.resource.host" value="http://repository.dpml.net"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+        <property name="project.javadoc.linksource" value="true"/>
       </properties>
 
-      <module base="transit"/>
-      <module base="tools"/>
-      <module base="metro"/>
-      <module base="depot"/>
-      <module base="util"/>
+      <types>
+        <type id="module" alias="true"/>
+      </types>
+
+      <module file="transit/module.xml"/>
+      <module file="metro/module.xml"/>
+      <module file="depot/module.xml"/>
+      <module file="util/module.xml"/>
+      <module file="planet/module.xml"/>
 
       <project name="central" basedir="central"/>
-   
+
     </module>
 
   </modules>

@@ -243,6 +243,14 @@ public final class DefaultModule extends DefaultResource implements Module
               "Cannot export from the virtual root.";
             throw new UnsupportedOperationException( error );
         }
+        if( null != getDefaultParent() )
+        {
+            String path = getResourcePath();
+            final String error = 
+              "Illegal attempt to export a nested module."
+              + "\nModule: " + path;
+            throw new IllegalArgumentException( error );
+        }
         return (ModuleDirective) exportResource( this );
     }
     
@@ -250,8 +258,9 @@ public final class DefaultModule extends DefaultResource implements Module
     * Return a directive suitable for publication as an external description.
     * @param module the enclosing module
     * @return the resource directive
+    * @exception IllegalArgumentException if the module is not a top-level module
     */
-    ResourceDirective exportResource( DefaultModule module )
+    ResourceDirective exportResource( DefaultModule module ) throws IllegalArgumentException
     {
         DefaultResource[] resources = getDefaultResources();
         ResourceDirective[] directives = new ResourceDirective[ resources.length ];

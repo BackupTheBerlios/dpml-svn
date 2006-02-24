@@ -58,22 +58,19 @@
       <subsection name="XML Attributes on Module Includes">
 
          <p>
-         An alternative form of module defintion is supported whereby 
-         a <tt>base</tt> attribute reference a relative directory containing
-         a file named <tt>module.xml</tt>.  In this scenario the module 
-         <tt>basedir</tt> is implied by the base value and the module <tt>name</tt>
-         is resolved from the imported module.xml root <tt>&lt;module&gt;</tt> 
+         An alternative form of module definition is supported whereby 
+         a <tt>file</tt> attribute reference a module fragment relative filename.  
+         The module basedir is resolved relative to the filename parent directory
+         and the module <tt>name</tt> is resolved from the imported file <tt>&lt;module&gt;</tt> 
          element.  This second form of module addition is convinient when you are 
-         dealing with a large number of projects and separation of modules into 
-         individual module files in more convinient.
+         dealing with a large number of projects.
          </p>
       
          <table>
            <tr>
-             <td>base</td>
-             <td>A path relative to the enclosing module or library basedir 
-              containing a file name <tt>module.xml</tt> which itself contains
-              a root <tt>&lt;module&gt;</tt> element.</td>
+             <td>file</td>
+             <td>A path relative to the imnporting module referencing an XML file 
+              containing a <tt>&lt;module&gt;</tt> root document element.</td>
            </tr>
          </table>
 
@@ -88,12 +85,11 @@
              <td>
              The declaration of a &lt;types&gt; element within a module associates
              one or more an artifact types within the module's fully qualified name.
-             For example, it is possible to create an portable defintion of a module
+             For example, it is possible to create an portable defintion of top-level modules
              using a specialized ant tasks.  The ant task produced an artifact of the 
              type 'module'.  By declaring the type 'module' as a type produced by the 
              module a build system can automate the production of the module artifact.  
-             Alternatively, users of a published module can determin that a resource 
-             named <tt>[module-path].module</tt> is available under a repository.</td>
+             </td>
            </tr>
            <tr>
              <td><a href="resources.html">resource</a></td>
@@ -168,6 +164,7 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE library PUBLIC "-//DPML//DTD Library 1.0//EN" "http://www.dpml.net/dtds/library_1_0.dtd" >
 
 <library>
 
@@ -181,10 +178,6 @@
 
     <module name="dpml" basedir=".">
 
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
       <properties>
         <property name="project.publisher.name" value="Digital Product Meta Library"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -194,15 +187,21 @@
         <property name="project.resource.host" value="http://repository.dpml.net"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+        <property name="project.javadoc.linksource" value="true"/>
       </properties>
 
-      <module base="transit"/>
-      <module base="metro"/>
-      <module base="depot"/>
-      <module base="util"/>
+      <types>
+        <type id="module" alias="true"/>
+      </types>
+
+      <module file="transit/module.xml"/>
+      <module file="metro/module.xml"/>
+      <module file="depot/module.xml"/>
+      <module file="util/module.xml"/>
+      <module file="planet/module.xml"/>
 
       <project name="central" basedir="central"/>
-   
+
     </module>
 
   </modules>
@@ -213,29 +212,15 @@
 
         <p>
         The following XML is an example of an imported <tt>module.xml</tt> file.  The example 
-        used below is the DPML Depot Module. The module itself declares that it produced the 'module'
-        resource type (an portable module artifact) and a series of project defintions.
+        used below is the DPML Depot Module.
         </p>
 
 <source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://www.dpml.net/dtds/library_1_0.dtd" >
+
 <module name="depot">
    
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-   
-  <resource name="dpml-library-main" basedir="library/common">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </resource>
-
   <project name="dpml-library-console" basedir="library/console">
     <types>
       <type id="jar"/>
@@ -254,6 +239,91 @@
     </dependencies>
   </project>
       
+  <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.resource" 
+          value="net/dpml/tools/checkstyle/antlib.xml"/>
+        <property name="project.plugin.urn" 
+          value="dpml:checkstyle"/>
+      </type>
+    </types>
+    <dependencies>
+      <include ref="dpml/depot/dpml-tools-builder"/>
+      <include urn="artifact:jar:checkstyle/checkstyle#4.1">
+        <property name="project.api.host" value="http://api.dpml.net"/>
+        <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+      </include>
+      <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" />
+      <include urn="artifact:jar:commons-collections/commons-collections#3.1" />
+      <include urn="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
+      <include urn="artifact:jar:bcel/bcel#5.1" />
+      <include urn="artifact:jar:antlr/antlr#2.7.2" />
+    </dependencies>
+  </project>
+
+  <project name="dpml-depot-convert" basedir="tools/convert">
+    <types>
+      <type id="jar"/>
+      <type id="plugin" alias="true">
+        <property name="project.plugin.resource" 
+          value="net/dpml/tools/convert/antlib.xml"/>
+        <property name="project.plugin.urn" 
+          value="dpml:convert"/>
+      </type>
+    </types>
+    <dependencies>
+      <include urn="artifact:jar:java2html/java2html#4.2"/>
+      <include ref="ant/ant-launcher"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-depot-console" basedir="core/console">
+    <properties>
+      <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+
+  <!--
+  <project name="dpml-depot-install" basedir="core/install">
+    <types>
+      <type id="jar"/>
+      <type id="plugin">
+        <property name="project.plugin.class" 
+           value="net.dpml.depot.install.PackageInstaller"/>
+      </type>
+    </types>
+    <dependencies>
+      <include key="dpml-depot-console"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include key="dpml-station-api"/>
+      <include key="dpml-station-server"/>
+    </dependencies>
+  </project>
+  -->
+
+  <resource name="dpml-library-main" basedir="library/common">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </resource>
+
   <resource name="dpml-tools-builder" basedir="tools/builder">
     <types>
       <type id="jar"/>
@@ -271,46 +341,6 @@
       <include ref="ant/ant-trax" tag="system"/>
     </dependencies>
   </resource>
-
-  <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
-    <types>
-      <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.resource" 
-          value="net/dpml/builder/checkstyle/antlib.xml"/>
-        <property name="project.plugin.urn" 
-          value="dpml:checkstyle"/>
-      </type>
-    </types>
-    <dependencies>
-      <include ref="dpml/depot/dpml-tools-builder"/>
-      <include urn="artifact:jar:checkstyle/checkstyle#3.5">
-        <property name="project.api.host" value="http://api.dpml.net"/>
-        <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
-      </include>
-      <include urn="artifact:jar:regexp/regexp#1.3" />
-      <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" />
-      <include urn="artifact:jar:commons-collections/commons-collections#3.1" />
-      <include urn="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
-      <include urn="artifact:jar:bcel/bcel#5.1" />
-      <include urn="artifact:jar:antlr/antlr#2.7.2" />
-    </dependencies>
-  </project>
-
-  <project name="dpml-depot-console" basedir="core/console">
-    <types>
-      <type id="jar"/>
-    </types>
-    <properties>
-      <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
-    </properties>
-    <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
 
 </module>
 ]]></source>

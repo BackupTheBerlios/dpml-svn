@@ -3,10 +3,6 @@
 
 <module name="util" basedir=".">
 
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-
   <dependencies scope="build">
     <include key="transit"/>
   </dependencies>

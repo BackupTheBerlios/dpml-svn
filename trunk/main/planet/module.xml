@@ -3,10 +3,6 @@
 
 <module name="planet">
 
-  <types>
-    <type id="module" alias="true"/>
-  </types>
-
   <module file="http/module.xml"/>
 
 </module>

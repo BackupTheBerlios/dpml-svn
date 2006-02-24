@@ -14,7 +14,59 @@
       <subsection name="Description">
 
         <p>
+        Optional proxy settings.
         </p>
+
+      </subsection>
+
+      <subsection name="Attributes">
+      
+        <table>
+          <tr>
+            <td>host</td>
+            <td>required</td>
+            <td>The proxy host.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt>credentials</tt></td>
+            <td>Optional declaration of a proxy username and password.</td>
+          </tr>
+          <tr>
+            <td><tt>excludes</tt></td>
+            <td>Declaration of a set of proxy exclude paths.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<source><![CDATA[
+<transit cache="${dpml.data}/cache" layout="classic">
+
+  <local path="file:${dpml.share}/local" layout="modern"/>
+
+  <proxy host="http://proxy.acme.org:8082">
+    <credentials>
+      <username>batman</username>
+      <password>password</password>
+    </credentials>
+    <excludes>
+      <exclude>*.acme.org</exclude>
+    </excludes>
+  </proxy>
+
+  ...
+
+</transit>
+]]></source>
 
       </subsection>
 
