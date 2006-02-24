@@ -50,7 +50,7 @@ public class DefaultPlugin implements Plugin
       "-//DPML//DTD Standard Plugin Version 1.0//EN";
       
     public static final String STANDARD_SYSTEM_ID = 
-      "http://www.dpml.net/dtds/plugin_1_0.dtd";
+      "http://download.dpml.net/dtds/plugin_1_0.dtd";
 
     public static final String STANDARD_RESOURCE = 
       "net/dpml/lang/plugin_1_0.dtd";

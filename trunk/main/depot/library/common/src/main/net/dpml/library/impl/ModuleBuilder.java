@@ -80,7 +80,7 @@ public final class ModuleBuilder
       "-//DPML//DTD Library 1.0//EN";
       
     public static final String SYSTEM_ID = 
-      "http://www.dpml.net/dtds/library_1_0.dtd";
+      "http://download.dpml.net/dtds/library_1_0.dtd";
 
     public static final String RESOURCE = 
       "net/dpml/library/library_1_0.dtd";

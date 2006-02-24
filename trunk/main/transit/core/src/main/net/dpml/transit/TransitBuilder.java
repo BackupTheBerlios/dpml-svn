@@ -67,7 +67,7 @@ public class TransitBuilder
       "-//DPML//DTD Transit Configuration Version 1.0//EN";
       
     public static final String SYSTEM_ID = 
-      "http://www.dpml.net/dtds/transit_1_0.dtd";
+      "http://download.dpml.net/dtds/transit_1_0.dtd";
 
     public static final String RESOURCE = 
       "net/dpml/transit/transit_1_0.dtd";

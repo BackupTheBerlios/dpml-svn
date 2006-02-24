@@ -68,7 +68,7 @@ public class ComponentPlugin extends DefaultPlugin
       "-//DPML//DTD Component Plugin Version 1.0//EN";
       
     private static final String SYSTEM_ID = 
-      "http://www.dpml.net/dtds/component_1_0.dtd";
+      "http://download.dpml.net/dtds/component_1_0.dtd";
 
     private static final String RESOURCE = 
       "net/dpml/lang/component_1_0.dtd";

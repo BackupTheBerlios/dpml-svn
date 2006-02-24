@@ -126,7 +126,7 @@ public class HelloImpl
 <pre><![CDATA[
 
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE plugin PUBLIC "-//DPML//DTD Standard Plugin Version 1.0//EN" "http://www.dpml.net/dtds/plugin_1_0.dtd" >
+<!DOCTYPE plugin PUBLIC "-//DPML//DTD Standard Plugin Version 1.0//EN" "http://download.dpml.net/dtds/plugin_1_0.dtd" >
 
 <plugin version="1.0.0">
   <strategy class="net.dpml.transit.StandardHandler">
