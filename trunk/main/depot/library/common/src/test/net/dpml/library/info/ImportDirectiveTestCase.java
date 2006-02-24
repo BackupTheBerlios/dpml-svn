@@ -97,14 +97,4 @@ public final class ImportDirectiveTestCase extends AbstractTestCase
         doSerializationTest( include );
     }
 
-   /**
-    * Test directive encoding/decoding.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        ImportDirective include = 
-          new ImportDirective( ImportDirective.URI, "value", PROPERTIES );
-        doEncodingTest( include, "include-encoded.xml" );
-    }
 }

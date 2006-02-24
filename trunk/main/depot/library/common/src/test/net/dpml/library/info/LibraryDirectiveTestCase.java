@@ -74,13 +74,4 @@ public final class LibraryDirectiveTestCase extends AbstractTestCase
     {
         doSerializationTest( m_library );
     }
-    
-   /**
-    * Test encoding/decoding of the library directive.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        doEncodingTest( m_library, "library-encoded.xml" );
-    }
 }

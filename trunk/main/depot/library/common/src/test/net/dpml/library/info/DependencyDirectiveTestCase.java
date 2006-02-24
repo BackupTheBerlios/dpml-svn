@@ -107,14 +107,4 @@ public final class DependencyDirectiveTestCase extends AbstractTestCase
         DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
         doSerializationTest( dep );
     }
-    
-   /**
-    * Test directive encoding and decoding.
-    * @exception Exception if the test raises an error
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        DependencyDirective dep = new DependencyDirective( Scope.RUNTIME, INCLUDES, PROPERTIES );
-        doEncodingTest( dep, "dependency-descriptor-encoded.xml" );
-    }
 }

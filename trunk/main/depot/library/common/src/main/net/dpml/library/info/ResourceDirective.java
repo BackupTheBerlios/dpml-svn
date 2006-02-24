@@ -340,48 +340,4 @@ public class ResourceDirective extends AbstractDirective
             }
         }
     }
-
-   /**
-    * Classifier bean info.
-    */
-    public static final class ClassifierBeanInfo extends SimpleBeanInfo
-    {
-        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-
-       /**
-        * Bean descriptor.
-        * @return the descriptor
-        */
-        public BeanDescriptor getBeanDescriptor()
-        {
-            return BEAN_DESCRIPTOR;
-        }
-    
-        private static BeanDescriptor setupBeanDescriptor()
-        {
-            BeanDescriptor descriptor = new BeanDescriptor( Classifier.class );
-            descriptor.setValue( 
-              "persistenceDelegate", 
-            new ClassifierPersistenceDelegate() );
-            return descriptor;
-        }
-    
-       /**
-        * Persistence delegate.
-        */
-        private static class ClassifierPersistenceDelegate extends DefaultPersistenceDelegate
-        {
-           /**
-            * Create an expression.
-            * @param old the old instance
-            * @param encoder the encoder
-            * @return the expression
-            */
-            public Expression instantiate( Object old, Encoder encoder )
-            {
-                Classifier classifier = (Classifier) old;
-                return new Expression( classifier, Classifier.class, "parse", new Object[]{classifier.getName()} );
-            }
-        }
-    }
 }

@@ -224,48 +224,4 @@ public class IncludeDirective extends AbstractDirective
             }
         }
     }
-
-   /**
-    * Mode bean info.
-    */
-    public static final class ModeBeanInfo extends SimpleBeanInfo
-    {
-        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-        
-       /**
-        * Return the bean descriptor.
-        * @return the descriptor
-        */
-        public BeanDescriptor getBeanDescriptor()
-        {
-            return BEAN_DESCRIPTOR;
-        }
-        
-        private static BeanDescriptor setupBeanDescriptor()
-        {
-            BeanDescriptor descriptor = new BeanDescriptor( Mode.class );
-            descriptor.setValue( 
-              "persistenceDelegate", 
-            new ModePersistenceDelegate() );
-            return descriptor;
-        }
-        
-       /**
-        * Persistence delegate.
-        */
-        private static class ModePersistenceDelegate extends DefaultPersistenceDelegate
-        {
-           /**
-            * Return an expression.
-            * @param old the old value
-            * @param encoder the encoder
-            * @return an expression
-            */
-            public Expression instantiate( Object old, Encoder encoder )
-            {
-                Mode mode = (Mode) old;
-                return new Expression( mode, Mode.class, "parse", new Object[]{mode.getName()} );
-            }
-        }
-    }
 }

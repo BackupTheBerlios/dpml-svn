@@ -178,19 +178,4 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
             "resource", "2.7", CLASSIFIER, "test", TYPES, DEPENDENCIES, PROPERTIES );
         doSerializationTest( resource );
     }
-    
-   /**
-    * Test the directive encoding/decoding.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        ResourceDirective resource = 
-          new ResourceDirective( 
-            "name", "1.1.1", CLASSIFIER, "test", 
-            TYPES, 
-            DEPENDENCIES,
-            PROPERTIES );
-        doEncodingTest( resource, "resource-descriptor-encoded.xml" );
-    }
 }

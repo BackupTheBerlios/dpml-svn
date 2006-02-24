@@ -80,14 +80,4 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
         TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
         doSerializationTest( type );
     }
-
-   /**
-    * Test the type directive encoding/decoding.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
-        doEncodingTest( type, "type-descriptor-encoded.xml" );
-    }
 }

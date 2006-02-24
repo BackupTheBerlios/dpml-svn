@@ -108,15 +108,4 @@ public final class IncludeDirectiveTestCase extends AbstractTestCase
           new IncludeDirective( IncludeDirective.REF, Category.PROTECTED, "value", PROPERTIES );
         doSerializationTest( include );
     }
-
-   /**
-    * Test encoding/decoding.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        IncludeDirective include = 
-          new IncludeDirective( IncludeDirective.REF, Category.PROTECTED, "value", PROPERTIES );
-        doEncodingTest( include, "include-encoded.xml" );
-    }
 }

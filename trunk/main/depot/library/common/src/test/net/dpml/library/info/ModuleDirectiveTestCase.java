@@ -186,13 +186,4 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     {
         doSerializationTest( m_module );
     }
-    
-   /**
-    * Test directive encoding/decoding.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        doEncodingTest( m_module, "module-descriptor-encoded.xml" );
-    }
 }
