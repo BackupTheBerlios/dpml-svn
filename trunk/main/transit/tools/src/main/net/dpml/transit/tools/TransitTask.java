@@ -78,6 +78,7 @@ abstract class TransitTask extends Task
             Project project = task.getProject();
             if( !m_INIT )
             {
+                m_INIT = true;
                 try
                 {
                     Adapter logger = new AntAdapter( task );
