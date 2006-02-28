@@ -86,10 +86,6 @@
     <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
       <fileset dir="${basedir}/target/prefs"/>
     </copy>
-    <move file="${target.deliverables.dir}/xsds/part.xsd"
-      toFile="${target.deliverables.dir}/xsds/${project.name}-${project.version}.xsd"/>
-    <move file="${target.deliverables.dir}/xsds/part.xsd.link"
-      toFile="${target.deliverables.dir}/xsds/${project.name}.xsd.link"/>
   </target>
 
   <target name="install" depends="bootstrap.install">
