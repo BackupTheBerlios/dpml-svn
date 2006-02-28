@@ -784,7 +784,7 @@ public class TransitConsoleHandler
             {
                 URL url = buildURL( uri );
                 output = url.openConnection().getOutputStream();
-                TransitBuilder builder = new TransitBuilder();
+                TransitBuilder builder = new TransitBuilder( m_logger );
                 builder.write( directive, output );
             }
             catch( Exception e )
@@ -840,7 +840,7 @@ public class TransitConsoleHandler
             try
             {
                 URL url = buildURL( uri );
-                TransitBuilder builder = new TransitBuilder();
+                TransitBuilder builder = new TransitBuilder( m_logger );
                 return builder.load( url );
             }
             catch( FileNotFoundException e )
@@ -869,7 +869,7 @@ public class TransitConsoleHandler
                 try
                 {
                     URL url = config.toURL();
-                    TransitBuilder builder = new TransitBuilder();
+                    TransitBuilder builder = new TransitBuilder( m_logger );
                     return builder.load( url );
                 }
                 catch( Exception e )
