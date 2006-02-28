@@ -3,10 +3,13 @@ package dpmlx.schema.test;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URL;
 
 import dpmlx.schema.StandardBuilder;
+import dpmlx.schema.UnresolvableHandlerException;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
 
@@ -42,18 +45,25 @@ public class SchemaTestCase extends TestCase
     */
     public void testPlugin() throws Exception
     {
-        Document doc = m_builder.parse( "target/test/plugin.xml" );
-        evaluateDocument( doc );
+        evaluateDocument( "target/test/plugin.xml" );
     }
     
     public void testComponent() throws Exception
     {
-        Document doc = m_builder.parse( "target/test/component.xml" );
-        evaluateDocument( doc );
+        try
+        {
+            evaluateDocument( "target/test/component.xml" );
+        }
+        catch( UnresolvableHandlerException e )
+        {
+            // expected
+        }
     }
     
-    private void evaluateDocument( Document doc ) throws Exception
+    private void evaluateDocument( String path ) throws Exception
     {
+        System.out.println( "source: " + path );
+        Document doc = m_builder.parse( path );
         final Element root = doc.getDocumentElement();
         final String namespace = root.getNamespaceURI();
         
@@ -65,7 +75,7 @@ public class SchemaTestCase extends TestCase
             // a concern private to the transit implementation to 
             // resolve the plugin strategy
             
-            System.out.println( "PLUGIN STRATEGY: " + namespace );
+            System.out.println( "plugin (namespace): " + namespace );
         }
         else
         {
@@ -75,9 +85,9 @@ public class SchemaTestCase extends TestCase
             Element strategy = ElementHelper.getChild( root, "strategy" );
             Element implementation = getSingleNestedElement( strategy );
             String urn = implementation.getNamespaceURI();
-            System.out.println( "CUSTOM STRATEGY: " + urn );
+            System.out.println( "strategy (namespace): " + urn );
             URI uri = getImplementationHandler( urn );
-            System.out.println( "HANDLER: " + uri );
+            System.out.println( "handler: " + uri );
         }
     }
     
@@ -117,7 +127,35 @@ public class SchemaTestCase extends TestCase
             String version = artifact.getVersion();
             
             Artifact result = Artifact.createArtifact( group, name, version, "plugin" );
-            return result.toURI();
+            try
+            {
+                System.out.println( "  checking: " + result );
+                URL url = result.toURL();
+                url.getContent( new Class[]{File.class} );
+                return result.toURI();
+            }
+            catch( ArtifactNotFoundException e )
+            {
+                String path = "link:plugin:" + group + "/" + name;
+                Artifact link = Artifact.createArtifact( path );
+                System.out.println( "  checking: " + link );
+                URI linkUri = link.toURI();
+                try
+                {
+                    URL linkUrl = link.toURL();
+                    linkUrl.getContent( new Class[]{File.class} );
+                    return link.toURI();
+                }
+                catch( ArtifactNotFoundException anfe )
+                {
+                    System.out.println( "  unresolved" );
+                    final String error = 
+                      "Unable to resolve a strategy handler for the urn ["
+                      + urn
+                      + "].";
+                    throw new UnresolvableHandlerException( error, linkUri );
+                }
+            }
         }
         else
         {
