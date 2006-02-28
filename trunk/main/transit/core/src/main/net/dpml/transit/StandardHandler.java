@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import net.dpml.lang.Handler;
+import net.dpml.lang.Strategy;
 
 /**
  * Default plugin instantiation handler.
@@ -42,15 +43,15 @@ public class StandardHandler implements Handler
     * Instantiate the plugin.
     *
     * @param classloader the classloader
-    * @param properties plugin strategy properties
+    * @param strategy the plugin strategy
     * @param args commandline arguments
     * @return the instance
     * @exception Exception if an error occurs
     */
-    public Object getPlugin( ClassLoader classloader, Properties properties, Object[] args  )
+    public Object getPlugin( ClassLoader classloader, Strategy strategy, Object[] args  )
       throws Exception
     {
-        Class clazz = getPluginClass( classloader, properties );
+        Class clazz = getPluginClass( classloader, strategy );
         return instantiate( clazz, args );
     }
     
@@ -58,22 +59,23 @@ public class StandardHandler implements Handler
     * Get a plugin class.
     *
     * @param classloader the plugin classloader
-    * @param properties the supplimentary properties
+    * @param strategy the plugin strategy
     * @return the plugin class
     * @exception Exception if an error occurs
     */
-    public Class getPluginClass( ClassLoader classloader, Properties properties )
+    public Class getPluginClass( ClassLoader classloader, Strategy strategy )
        throws Exception
     {
         if( null == classloader )
         {
             throw new NullArgumentException( "classloader" );
         }
-        if( null == properties )
+        if( null == strategy )
         {
-            throw new NullArgumentException( "properties" );
+            throw new NullArgumentException( "strategy" );
         }
 
+        Properties properties = strategy.getProperties();
         String target = properties.getProperty( "project.plugin.class" );
         if( null == target )
         {

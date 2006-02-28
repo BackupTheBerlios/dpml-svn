@@ -18,35 +18,25 @@
 
 package net.dpml.lang;
 
-import java.util.Properties;
+import java.net.URI;
 
 /**
- * Interface implemented by plugin handlers.
+ * Interface implemented by plugins helpers that provide support for the 
+ * delegation of plugin definition creation from a DOM node.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Handler
+public interface PluginFactory
 {
    /**
-    * Instantiate the plugin.
+    * Construct a new plugin description instance using a supplied arguments
     *
-    * @param classloader the classloader
-    * @param strategy the plugin strategy
-    * @param args commandline arguments
-    * @return the instance
+    * @param uri the uri identifying the plugin
+    * @param element the root element definining the plugin
     * @exception Exception if an error occurs
     */
-    Object getPlugin( 
-      ClassLoader classloader, Strategy strategy, Object[] args  ) throws Exception;
-    
-   /**
-    * Get a plugin class.
-    *
-    * @param classloader the plugin classloader
-    * @param strategy the plugin strategy
-    * @return the plugin class
-    * @exception Exception if an error occurs
-    */
-    Class getPluginClass( ClassLoader classloader, Strategy strategy ) throws Exception;
+    Plugin newPlugin( 
+      String title, String description, URI uri, Strategy strategy, Classpath classpath ) 
+      throws Exception;
 }

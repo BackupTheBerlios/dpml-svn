@@ -37,12 +37,13 @@
   </target>
 
   <target name="init" depends="bootstrap.init">
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-GROUP" value="${project.group}"/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>
     <filter token="PROJECT-URI"
         value="artifact:plugin:dpml/transit/dpml-transit-main#${project.version}"/>
     <filter token="TRANSIT-CONTROLLER-PLUGIN" 
         value="artifact:plugin:dpml/transit/dpml-transit-plugin#${project.version}"/>
-    <filter token="PROJECT-NAME" value="${project.name}"/>
   </target>
 
   <target name="build" depends="bootstrap.build">
@@ -85,6 +86,10 @@
     <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
       <fileset dir="${basedir}/target/prefs"/>
     </copy>
+    <move file="${target.deliverables.dir}/xsds/part.xsd"
+      toFile="${target.deliverables.dir}/xsds/${project.name}-${project.version}.xsd"/>
+    <move file="${target.deliverables.dir}/xsds/part.xsd.link"
+      toFile="${target.deliverables.dir}/xsds/${project.name}.xsd.link"/>
   </target>
 
   <target name="install" depends="bootstrap.install">

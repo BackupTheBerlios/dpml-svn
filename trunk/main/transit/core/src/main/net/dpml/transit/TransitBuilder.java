@@ -41,6 +41,7 @@ import net.dpml.transit.info.ValueDirective;
 
 import net.dpml.lang.DTD;
 import net.dpml.lang.DTDResolver;
+import net.dpml.lang.SaxMonitor;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -94,8 +95,12 @@ public class TransitBuilder
     private static final DTDResolver DTD_RESOLVER =
         new DTDResolver( DTDS, TransitBuilder.class.getClassLoader() );
 
-    private static final ErrorHandler ERROR_HANDLER =
-        new InternalErrorHandler();
+    private Logger m_logger;
+    
+    public TransitBuilder( Logger logger )
+    {
+        m_logger = logger;
+    }
 
    /**
     * Construct a transit configuration from a supplied uri.
@@ -115,7 +120,8 @@ public class TransitBuilder
         factory.setExpandEntityReferences( true );
         DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setEntityResolver( DTD_RESOLVER );
-        builder.setErrorHandler( ERROR_HANDLER );
+        ErrorHandler errors = new SaxMonitor( m_logger );
+        builder.setErrorHandler( errors );
         
         final Document document = builder.parse( input );
         //final DocumentType docType = document.getDoctype(); 
@@ -510,26 +516,6 @@ public class TransitBuilder
         else
         {
             return new String( password );
-        }
-    }
-    
-    //-------------------------------------------------------------
-    // utilities
-    //-------------------------------------------------------------
-    
-    private static final class InternalErrorHandler implements ErrorHandler
-    {
-        public void error( SAXParseException e ) throws SAXException
-        {
-            System.out.println( "ERROR: " + e.getMessage() );
-        }
-        public void fatalError( SAXParseException e ) throws SAXException
-        {
-            System.out.println( "FATAL: " + e.getMessage() );
-        }
-        public void warning( SAXParseException e ) throws SAXException
-        {
-            System.out.println( "WARN: " + e.getMessage() );
         }
     }
 }

@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.transit;
 
 import java.io.Serializable;
 import java.util.Properties;
+
+import net.dpml.lang.Strategy;
 
 /**
  * Plugin strategy.
@@ -27,7 +29,7 @@ import java.util.Properties;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultStrategy implements Strategy
+public final class DefaultStrategy implements Strategy
 {
     private final String m_handler;
     private final Properties m_properties;

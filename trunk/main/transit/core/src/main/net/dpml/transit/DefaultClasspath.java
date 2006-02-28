@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.transit;
 
 import java.net.URI;
 import java.io.OutputStream;
 import java.util.Arrays;
+
+import net.dpml.lang.Classpath;
+import net.dpml.lang.Category;
 
 /**
  * A Plugin class contains immutable data about a plugin based on a descriptor resolved
@@ -29,7 +32,7 @@ import java.util.Arrays;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultClasspath implements Classpath
+public final class DefaultClasspath implements Classpath
 {
     private final URI[] m_system;
     private final URI[] m_public;

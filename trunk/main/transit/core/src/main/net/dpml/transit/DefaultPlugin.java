@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.transit;
 
 import java.net.URI;
 import java.io.OutputStream;
@@ -26,6 +26,12 @@ import java.io.Writer;
 import java.io.IOException;
 import java.util.Properties;
 
+import net.dpml.lang.Plugin;
+import net.dpml.lang.Version;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.Strategy;
+import net.dpml.lang.Category;
+
 /**
  * A Plugin class contains immutable data about a plugin based on a descriptor resolved
  * from a 'plugin' artifact.
@@ -33,7 +39,7 @@ import java.util.Properties;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultPlugin implements Plugin
+class DefaultPlugin implements Plugin
 {
    /**
     * The plugin builder version value that will be used when reading and writing 
@@ -218,7 +224,7 @@ public class DefaultPlugin implements Plugin
         String handler = strategy.getHandlerClassname();
         Properties properties = strategy.getProperties();
         String[] keys = (String[]) properties.keySet().toArray( new String[0] );
-        if( DefaultPluginHelper.STANDARD_HANDLER.equals( handler ) )
+        if( StandardHandler.class.getName().equals( handler ) )
         {
             writer.write( "\n  <strategy>" );
         }

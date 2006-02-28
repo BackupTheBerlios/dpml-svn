@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.lang.test;
+package net.dpml.transit;
 
 import java.net.URI;
 import java.io.File;
@@ -25,14 +25,12 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import net.dpml.lang.DefaultPlugin;
 import net.dpml.lang.Plugin;
 import net.dpml.lang.Strategy;
-import net.dpml.lang.DefaultStrategy;
 import net.dpml.lang.Category;
-import net.dpml.lang.PluginBuilder;
 import net.dpml.lang.Classpath;
-import net.dpml.lang.DefaultClasspath;
+
+import net.dpml.transit.monitor.LoggingAdapter;
 
 /**
  * Plugin test case.
@@ -128,8 +126,8 @@ public class PluginTestCase extends TestCase
             m_title, m_description, uri, strategy, m_classpath );
         FileOutputStream output = new FileOutputStream( file );
         plugin.write( output );
-        PluginBuilder builder = new PluginBuilder();
-        Plugin p = builder.load( file.toURI().toURL() );
+        PluginBuilder loader = new PluginBuilder( new LoggingAdapter() );
+        Plugin p = loader.load( file.toURI().toURL() );
         assertEquals( "plugin", plugin, p );
     }
 

@@ -119,7 +119,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         if( null != path )
         {
             URL url = Artifact.createArtifact( path ).toURL();
-            TransitBuilder builder = new TransitBuilder();
+            TransitBuilder builder = new TransitBuilder( logger );
             TransitDirective directive =  builder.load( url );
             return new DefaultTransitModel( logger, directive );
         }
@@ -130,7 +130,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             if( config.exists() )
             {
                 URL url = config.toURL();
-                TransitBuilder builder = new TransitBuilder();
+                TransitBuilder builder = new TransitBuilder( logger );
                 TransitDirective directive =  builder.load( url );
                 return new DefaultTransitModel( logger, directive );
             }

@@ -16,26 +16,35 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.transit;
 
 import java.net.URI;
-import org.w3c.dom.Element;
+
+import net.dpml.lang.Plugin;
+import net.dpml.lang.Strategy;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.PluginFactory;
 
 /**
- * Interface implemented by plugins that resolve plugins from XML files.
+ * Default plugin factory.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface PluginHelper
+public class DefaultPluginFactory implements PluginFactory
 {
    /**
-    * Construct a plugin using a supplied element and uri.
+    * Construct a new plugin description instance using a supplied arguments
     *
     * @param uri the uri identifying the plugin
     * @param element the root element definining the plugin
     * @exception Exception if an error occurs
     */
-    Plugin resolve( URI uri, Element element ) throws Exception;
-    
+    public Plugin newPlugin( 
+      String title, String description, URI uri, Strategy strategy, Classpath classpath ) 
+      throws Exception
+    {
+        return new DefaultPlugin( title, description, uri, strategy, classpath );
+    }
 }
+

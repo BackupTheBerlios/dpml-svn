@@ -20,8 +20,7 @@ package net.dpml.transit;
 
 /**
  * Transit Logger is a interface through which different logging solutions
- * can be provided.  Typical examples of logging implementations include 
- * java.util.logging.Logger or Ant's Project.log() function.  
+ * can be provided.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

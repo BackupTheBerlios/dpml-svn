@@ -40,7 +40,6 @@ import net.dpml.lang.Plugin;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
 import net.dpml.lang.Strategy;
-import net.dpml.lang.PluginBuilder;
 import net.dpml.lang.Handler;
 
 /**
@@ -178,8 +177,7 @@ class StandardLoader implements Repository
             ClassLoader classloader = createClassLoader( parent, descriptor );
             Strategy strategy = descriptor.getStrategy();
             Handler handler = getHandler( classloader, strategy );
-            Properties properties = strategy.getProperties();
-            return handler.getPlugin( classloader, properties, args );
+            return handler.getPlugin( classloader, strategy, args );
         }
         catch( RepositoryException re )
         {
@@ -249,8 +247,7 @@ class StandardLoader implements Repository
             ClassLoader classloader = createClassLoader( parent, descriptor );
             Strategy strategy = descriptor.getStrategy();
             Handler handler = getHandler( classloader, strategy );
-            Properties properties = strategy.getProperties();
-            return handler.getPluginClass( classloader, properties );
+            return handler.getPluginClass( classloader, strategy );
         }
         catch( ClassNotFoundException e )
         {
@@ -287,7 +284,7 @@ class StandardLoader implements Repository
         
         try
         {
-            PluginBuilder builder = new PluginBuilder();
+            PluginBuilder builder = new PluginBuilder( m_logger );
             URL url = getURL( uri );
             return builder.load( url );
         }
@@ -299,30 +296,6 @@ class StandardLoader implements Repository
               + "].";
             throw new RepositoryException( error, e );
         }
-        
-        /*
-        Artifact artifact = getArtifact( uri );
-
-        if( !"plugin".equals( artifact.getType() ) )
-        {
-            final String error =
-              "Supplied artifact [" + artifact + "] is not a 'plugin' type.";
-            throw new RepositoryException( error );
-        }
-        try
-        {
-            Properties attributes = getAttributes( artifact );
-            return new PropertiesPlugin( attributes );
-        }
-        catch( RepositoryException ce )
-        {
-            final String error =
-              "Unable to resolve a plugin descriptor for ["
-              + artifact
-              + "].";
-            throw new RepositoryException( error, ce );
-        }
-        */
     }
 
     private URL getURL( URI uri ) throws IOException
