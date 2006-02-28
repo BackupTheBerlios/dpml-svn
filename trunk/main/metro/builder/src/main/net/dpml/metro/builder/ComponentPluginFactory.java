@@ -19,33 +19,16 @@
 package net.dpml.metro.builder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Properties;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.io.File;
-
-import net.dpml.library.model.Type;
-import net.dpml.library.model.Resource;
 
 import net.dpml.lang.Plugin;
-import net.dpml.lang.DefaultPlugin;
 import net.dpml.lang.Strategy;
-import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
-import net.dpml.lang.DefaultClasspath;
+import net.dpml.lang.PluginFactory;
 
-import net.dpml.transit.Artifact;
-
-import net.dpml.library.util.DefaultPluginFactory;
+import net.dpml.transit.DefaultPluginFactory;
 
 /**
- * Interface implemented by plugins that provide plugin building functionality.
- * Implementations that load plugin factoryies must supply the target Resource
- * as a plugin constructor argument.  Factory implementation shall construct 
- * plugin defintions using the supplied resource as the reference for the 
- * classpath dependencies.  Suppliementary properties may be aquired using 
- * the Type returned from the Resource.getType( "plugin" ) operation.
+ * Default plugin factory.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -53,34 +36,18 @@ import net.dpml.library.util.DefaultPluginFactory;
 public class ComponentPluginFactory extends DefaultPluginFactory
 {
    /**
-    * Build the plugin definition for the supplied resource.
-    * @exception exception if a build related error occurs
+    * Construct a new plugin description instance using a supplied arguments
+    *
+    * @param uri the uri identifying the plugin
+    * @param element the root element definining the plugin
+    * @exception Exception if an error occurs
     */
-    public Plugin build( File dir, Resource resource ) throws Exception
+    public Plugin newPlugin( 
+      String title, String description, URI uri, Strategy strategy, Classpath classpath ) 
+      throws Exception
     {
-        URI uri = getPluginURI( resource );
-        String title = getTitle( resource );
-        String description = getDescription( resource );
-        Strategy strategy = getStrategy( dir, resource );
-        Classpath classpath = getClasspath( resource );
-        return new ComponentPlugin( 
-            title, description, uri, strategy, classpath );
-    }
-    
-    protected Strategy getStrategy( File dir, Resource resource )
-    {
-        Type type = resource.getType( "plugin" );
-        String source = type.getProperty( "project.plugin.srcfile", "plugin.xml" );
-        File src = new File( dir, source );
-        if( src.exists() )
-        {
-            System.out.println( "## WE HAVE A DEFINITION: " + src );
-            return super.getStrategy( dir, resource );
-        }
-        else
-        {
-            System.out.println( "## NO DEFINITION: " + src );
-            return super.getStrategy( dir, resource );
-        }
+        System.out.println( "# NEW: " + getClass().getName() ); 
+        return super.newPlugin( title, description, uri, strategy, classpath );
     }
 }
+

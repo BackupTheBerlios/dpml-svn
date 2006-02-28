@@ -97,7 +97,7 @@
       <type id="jar"/>
       <type id="plugin" alias="true">
         <property name="project.plugin.class" 
-           value="net.dpml.metro.builder.ComponentPluginHelper"/>
+           value="net.dpml.metro.builder.ComponentPluginFactory"/>
       </type>
     </types>
     <dependencies>
