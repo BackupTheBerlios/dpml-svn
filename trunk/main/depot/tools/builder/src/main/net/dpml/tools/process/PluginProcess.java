@@ -23,15 +23,27 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.dpml.lang.Plugin;
+import net.dpml.lang.PluginFactory;
+import net.dpml.lang.Strategy;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.Category;
+
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
+import net.dpml.transit.Logger;
+import net.dpml.transit.StandardHandler;
+import net.dpml.transit.DefaultPluginFactory;
+import net.dpml.transit.DefaultStrategy;
+import net.dpml.transit.DefaultClasspath;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.Type;
-import net.dpml.library.util.PluginFactory;
-import net.dpml.library.util.DefaultPluginFactory;
 
 import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.model.Context;
@@ -48,7 +60,34 @@ import org.apache.tools.ant.BuildException;
  * @version @PROJECT-VERSION@
  */
 public class PluginProcess extends AbstractBuildListener
-{
+{    
+   /**
+    * Constant artifact type for a plugin.
+    */
+    public static final String TYPE = "plugin";
+
+   /**
+    * Property key used to identify the plugin title.
+    */
+    public static final String PLUGIN_TITLE_KEY = "project.plugin.title";
+    
+   /**
+    * Property key used to identify the plugin description.
+    */
+    public static final String PLUGIN_DESCRIPTION_KEY = "project.plugin.description";
+    
+   /**
+    * Property key used to identify a custom plugin handler classname.
+    */
+    public static final String PLUGIN_HANDLER_KEY = "project.plugin.handler";
+    
+   /**
+    * Default runtime plugin handler classname.
+    */
+    public static final String STANDARD_PLUGIN_HANDLER = StandardHandler.class.getName();
+    
+    private static final PluginFactory FACTORY = new DefaultPluginFactory();
+
     /**
      * Signals that a target is finished.
      *
@@ -68,14 +107,11 @@ public class PluginProcess extends AbstractBuildListener
                 Project project = event.getProject();
                 final Context context = getContext( project );
                 Resource resource = context.getResource();
-                final String path = context.getLayoutPath( TYPE );
-                final File targetDir = context.getTargetDirectory();
-                
-                PluginFactory factory = getPluginFactory( resource );
-                Plugin plugin = factory.build( targetDir, resource );
+                Plugin plugin = build( resource );
                 
                 // extenalize the plugin to XML
                 
+                final String path = context.getLayoutPath( TYPE );
                 final File deliverables = context.getTargetDeliverablesDirectory();
                 final File plugins = new File( deliverables, "plugins" );
                 final File file = new File( plugins, path );
@@ -103,7 +139,6 @@ public class PluginProcess extends AbstractBuildListener
                 
                 GenericTask task = new GenericTask();
                 task.setProject( project );
-                task.setTaskName( "plugin" );
                 task.init();
                 task.checksum( file );
                 task.asc( file );
@@ -118,18 +153,130 @@ public class PluginProcess extends AbstractBuildListener
         }
     }
     
-    private PluginFactory getPluginFactory( Resource resource ) throws Exception
+   /**
+    * Build the plugin definition.
+    * @exception exception if a build related error occurs
+    */
+    private Plugin build( Resource resource ) throws Exception
     {
+        URI uri = getPluginURI( resource );
+        String title = getTitle( resource );
+        String description = getDescription( resource );
+        Strategy strategy = getStrategy( resource );
+        Classpath classpath = getClasspath( resource );
         Type type = resource.getType( TYPE );
         String spec = type.getProperty( "project.plugin.factory" );
+        PluginFactory factory = getPluginFactory( spec );
+        return factory.newPlugin( title, description, uri, strategy, classpath );
+    }
+    
+    
+    private URI getPluginURI( Resource resource ) throws Exception
+    {
+        Artifact artifact = resource.getArtifact( TYPE );
+        return artifact.toURI();
+    }
+
+    private String getTitle( Resource resource )
+    {
+        Type type = resource.getType( TYPE );
+        return type.getProperty( PLUGIN_TITLE_KEY );
+    }
+
+    private String getDescription( Resource resource )
+    {
+        Type type = resource.getType( TYPE );
+        return type.getProperty( PLUGIN_DESCRIPTION_KEY );
+    }
+    
+    protected Strategy getStrategy( Resource resource )
+    {
+        Type type = resource.getType( TYPE );
+        Properties properties = getProperties( type );
+        String handler = type.getProperty( 
+            PLUGIN_HANDLER_KEY, 
+            STANDARD_PLUGIN_HANDLER );
+        return new DefaultStrategy( handler, properties );
+    }
+    
+    private Properties getProperties( Type type )
+    {
+        Properties properties = new Properties();
+        String[] keys = type.getLocalPropertyNames();
+        for( int i=0; i<keys.length; i++ )
+        {
+            String key = keys[i];
+            if( !PLUGIN_HANDLER_KEY.equals( key ) )
+            {
+                String value = type.getProperty( key );
+                properties.setProperty( key, value );
+            }
+        }
+        return properties;
+    }
+    
+    protected Classpath getClasspath( Resource resource ) throws IOException
+    {
+        URI[] sysUris = getURIs( resource, Category.SYSTEM );
+        URI[] publicUris = getURIs( resource, Category.PUBLIC );
+        URI[] protectedUris = getURIs( resource, Category.PROTECTED );
+        URI[] privateUris = getURIs( resource, Category.PRIVATE, true );
+        return new DefaultClasspath( sysUris, publicUris, protectedUris, privateUris );
+    }
+
+    private URI[] getURIs( Resource resource, Category category ) throws IOException
+    {
+        return getURIs( resource, category, false );
+    }
+    
+    private URI[] getURIs( Resource resource, Category category, boolean self ) throws IOException
+    {
+        Resource[] resources = resource.getClasspathProviders( category );
+        ArrayList list = new ArrayList();
+        for( int i=0; i<resources.length; i++ )
+        {
+            Resource r = resources[i];
+            addURI( list, r );
+        }
+        if( self )
+        {
+            addURI( list, resource );
+        }
+        URI[] uris = (URI[]) list.toArray( new URI[0] );
+        return uris;
+    }
+    
+    private void addURI( List list, Resource resource )  throws IOException
+    {
+        if( resource.isa( "jar" ) )
+        {
+            try
+            {
+                Artifact artifact = resource.getArtifact( "jar" );
+                URI uri = artifact.toURI();
+                list.add( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unexpected error while attempting to resolve resource.";
+                IOException ioe = new IOException( error );
+                ioe.initCause( e );
+                throw ioe;
+            }
+        }
+    }
+    
+    private PluginFactory getPluginFactory( String spec ) throws Exception
+    {
         if( null == spec )
         {
-            return new DefaultPluginFactory();
+            return FACTORY;
         }
         else
         {
             URI uri = new URI( spec );
-            ClassLoader classloader = Resource.class.getClassLoader();
+            ClassLoader classloader = Plugin.class.getClassLoader();
             Object[] args = new Object[0];
             Object instance = 
               Transit.getInstance().getRepository().getPlugin( classloader, uri, args );
@@ -140,16 +287,16 @@ public class PluginProcess extends AbstractBuildListener
             else
             {
                 final String error = 
-                  "Artifact [" 
+                  "Plugin factory artifact argument [" 
                   + spec
-                  + "] assigned as the plugin factory established an instance of ["
+                  + "] established an instance of ["
                   + instance.getClass().getName()
-                  + "] which is assignable to the " 
+                  + "] which is not assignable to " 
                   + PluginFactory.class.getName()
-                  + " interface.";
+                  + ".";
                 throw new IllegalArgumentException( error );
             }
-        }    
+        }
     }
     
    /**
@@ -170,6 +317,4 @@ public class PluginProcess extends AbstractBuildListener
         return context;
     }
     
-    private static final String TYPE = "plugin";
-
 }
