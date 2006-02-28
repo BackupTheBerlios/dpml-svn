@@ -70,17 +70,24 @@ public class SchemaTestCase extends TestCase
         Element plugin = ElementHelper.getChild( root, "plugin" );
         if( null != plugin )
         {
-            // this is a standard transit plugin containing either
+            // This is a standard transit plugin containing either
             // a <class> element or a <resource> element as such is
             // a concern private to the transit implementation to 
-            // resolve the plugin strategy
+            // resolve the plugin strategy.
             
             System.out.println( "plugin (namespace): " + namespace );
         }
         else
         {
-            // this is a custom deployment strategy defined under 
-            // a <strategy> element
+            // This is a custom deployment strategy defined under 
+            // a <strategy> element and all we know is its namespace
+            // and that the nested element is the argument to a 
+            // custom instantiation handler. On the grounds that the
+            // namespace is declared in the form of an artifact with
+            // the type 'xsd', we construct a new plugin artifact using  
+            // the same group, name and version.  If such a plugin 
+            // exists using the link protocol we use otherwise we 
+            // attempt to locate a plugin using the artifact protocol.
             
             Element strategy = ElementHelper.getChild( root, "strategy" );
             Element implementation = getSingleNestedElement( strategy );
@@ -126,25 +133,24 @@ public class SchemaTestCase extends TestCase
             String type = artifact.getType();
             String version = artifact.getVersion();
             
-            Artifact result = Artifact.createArtifact( group, name, version, "plugin" );
             try
-            {
-                System.out.println( "  checking: " + result );
-                URL url = result.toURL();
-                url.getContent( new Class[]{File.class} );
-                return result.toURI();
-            }
-            catch( ArtifactNotFoundException e )
             {
                 String path = "link:plugin:" + group + "/" + name;
                 Artifact link = Artifact.createArtifact( path );
                 System.out.println( "  checking: " + link );
-                URI linkUri = link.toURI();
+                URL linkUrl = link.toURL();
+                linkUrl.getContent( new Class[]{File.class} ); // test for existance
+                return link.toURI();
+            }
+            catch( ArtifactNotFoundException e )
+            {
+                Artifact result = Artifact.createArtifact( group, name, version, "plugin" );
                 try
                 {
-                    URL linkUrl = link.toURL();
-                    linkUrl.getContent( new Class[]{File.class} );
-                    return link.toURI();
+                    System.out.println( "  checking: " + result );
+                    URL url = result.toURL();
+                    url.getContent( new Class[]{File.class} );
+                    return result.toURI();
                 }
                 catch( ArtifactNotFoundException anfe )
                 {
@@ -153,7 +159,7 @@ public class SchemaTestCase extends TestCase
                       "Unable to resolve a strategy handler for the urn ["
                       + urn
                       + "].";
-                    throw new UnresolvableHandlerException( error, linkUri );
+                    throw new UnresolvableHandlerException( error, result.toURI() );
                 }
             }
         }
