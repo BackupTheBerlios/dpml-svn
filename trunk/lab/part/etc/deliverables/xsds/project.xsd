@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="link:xsd:dpml/transit/dpml-transit-part"
-            xmlns="link:xsd:dpml/transit/dpml-transit-part"
+            targetNamespace="@PROJECT-XSD-URI@"
+            xmlns="@PROJECT-XSD-URI@"
             elementFormDefault="qualified">
     
     <xsd:element name="part" type="PartType"/>
@@ -9,7 +9,10 @@
     <xsd:complexType name="PartType">
       <xsd:sequence>
         <xsd:element name="info" type="InfoType"/>
-        <xsd:element name="strategy" type="StrategyType"/>
+        <xsd:choice>
+          <xsd:element name="strategy" type="StrategyType"/>
+          <xsd:element name="plugin" type="PluginType"/>
+        </xsd:choice>
         <xsd:element name="classpath" type="ClassPathType"/>
       </xsd:sequence>
     </xsd:complexType>
@@ -49,4 +52,32 @@
       </xsd:simpleContent>
     </xsd:complexType>
 
+    <xsd:complexType name="PluginType">
+      <xsd:choice>
+        <xsd:element name="class" type="ClassType"/>
+        <xsd:element name="resource" type="ResourceType"/>
+      </xsd:choice>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ClassType">
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:string"/>
+      </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ResourceType">
+      <xsd:sequence>
+        <xsd:element name="urn" type="URNType"/>
+        <xsd:element name="path" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="URNType">
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:anyURI"/>
+      </xsd:simpleContent>
+    </xsd:complexType>
+
+
 </xsd:schema>
+

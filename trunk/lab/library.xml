@@ -8,10 +8,26 @@
     <import uri="link:module:dpml"/>
   </imports>
 
+  <properties>
+    <property name="project.test.fork" value="true"/>
+  </properties>
+
   <modules>
 
     <module name="dpmlx">
       
+        <project name="dpmlx-part" basedir="part">
+          <types>
+            <type id="xsd"/>
+          </types>
+        </project>
+          
+        <project name="dpmlx-component" basedir="component">
+          <types>
+            <type id="xsd"/>
+          </types>
+        </project>
+          
         <project name="dpmlx-schema-test" basedir="schema">
           <types>
             <type id="jar"/>
@@ -20,6 +36,10 @@
                 value="dpmlx.schema.StandardBuilder"/>
             </type>
           </types>
+          <dependencies scope="build">
+            <include key="dpmlx-part"/>
+            <include key="dpmlx-component"/>
+          </dependencies>
           <dependencies scope="test">
             <include ref="dpml/transit/dpml-transit-main"/>
             <include ref="ant/ant-junit"/>

@@ -108,16 +108,21 @@ public class StandardBuilder extends DefaultHandler
         }
         else
         {
-            //dbf.setFeature( FEATURE_SECURE_PROCESSING, false );
+            System.out.println( "VALIDATING" );
             
             Class schemaFactoryClass = getClass().getClassLoader().loadClass( "javax.xml.validation.SchemaFactory" );
+            Class schemaClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Schema" );
+            
             Method newInstanceMethod = schemaFactoryClass.getMethod( "newInstance", new Class[]{ String.class } );
             Object schemaFactory = newInstanceMethod.invoke( null, new Object[]{ W3C_XML_SCHEMA_NS_URI } );
-            Method newSchemaMethod = schemaFactory.getClass().getMethod( "newSchema", new Class[0] );
+            Method newSchemaMethod = schemaFactoryClass.getMethod( "newSchema", new Class[0] );
             Object schemaObject = newSchemaMethod.invoke( schemaFactory, new Object[0] );
-            Class schemaClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Schema" );
             Method setSchemaMethod = DocumentBuilderFactory.class.getMethod( "setSchema", new Class[]{ schemaClass } ); 
             setSchemaMethod.invoke( dbf, new Object[]{ schemaObject } );
+            
+            
+            //Class validatorClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Validator" );
+            //Method newValidatorMethod = schemaClass.getMethod( "newValidator", new Class[0] );
             
             //SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
             //Schema schema = factory.newSchema();

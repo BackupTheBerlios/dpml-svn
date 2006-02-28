@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<part xmlns="@PART-XSD-URI@"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+     @PART-XSD-URI@ @PART-XSD-URI@
+   ">
+  
+  <info title="Demo Plugin">
+    <description>
+    Plugin descriptor using XMLSchema.
+    </description>
+  </info>
+  
+  <plugin>
+    <class>Widget</class>
+    <!--
+    <resource>
+      <urn>dpml:metro</urn>
+      <path>net/dpml/metro/tools/antlib.xml</path>
+    </resource>
+    -->
+  </plugin>
+  
+  <classpath>
+    <public>
+      <uri>link:jar:fred/blogs"</uri>
+      <uri>link:jar:peter/rabbit"</uri>
+    </public>
+  </classpath>
+  
+</part>

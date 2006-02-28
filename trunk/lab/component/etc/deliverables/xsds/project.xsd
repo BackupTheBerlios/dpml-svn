@@ -1,12 +1,8 @@
 <?xml version="1.0"?>
 
-<!--
-http://download.dpml.net/component
--->
-
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="link:xsd:dpml/metro/dpml-metro-component"
-            xmlns="link:xsd:dpml/metro/dpml-metro-component"
+            targetNamespace="@PROJECT-XSD-URI@"
+            xmlns="@PROJECT-XSD-URI@"
             elementFormDefault="qualified">
     
     <xsd:element name="component" type="ComponentType"/>

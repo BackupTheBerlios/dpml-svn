@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter feature="uri" type="xsd" token="PROJECT-XSD-URI"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <move file="target/deliverables/xsds/project.xsd"
+      toFile="target/deliverables/xsds/${project.name}-${project.version}.xsd"/>
+  </target>
+
+</project>
