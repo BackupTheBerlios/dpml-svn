@@ -20,14 +20,11 @@ package dpmlx.schema;
 
 import java.lang.reflect.Method;
 
-//import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamSource;
-//import javax.xml.validation.Schema;
-//import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -55,6 +52,8 @@ public class StandardBuilder extends DefaultHandler
     
     private static final String W3C_XML_SCHEMA_NS_URI = 
       "http://www.w3.org/2001/XMLSchema";
+      
+    private static boolean VALIDATING = isSchemaCapable();
     
     //
     // Constructors
@@ -80,54 +79,41 @@ public class StandardBuilder extends DefaultHandler
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware( true );
-        setupBuilderForSchemaValidation( dbf );
+        if( VALIDATING )
+        {
+            setupBuilderForSchemaValidation( dbf );
+        }
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setErrorHandler( new ParserAPIUsage() );
         return db.parse( source );
     }
     
-    private boolean isSchemaCapable()
+    private void setupBuilderForSchemaValidation( DocumentBuilderFactory dbf ) throws Exception
+    {
+        Class schemaFactoryClass = getClass().getClassLoader().loadClass( "javax.xml.validation.SchemaFactory" );
+        Class schemaClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Schema" );
+        
+        Method newInstanceMethod = schemaFactoryClass.getMethod( "newInstance", new Class[]{ String.class } );
+        Object schemaFactory = newInstanceMethod.invoke( null, new Object[]{ W3C_XML_SCHEMA_NS_URI } );
+        Method newSchemaMethod = schemaFactoryClass.getMethod( "newSchema", new Class[0] );
+        Object schemaObject = newSchemaMethod.invoke( schemaFactory, new Object[0] );
+        Method setSchemaMethod = DocumentBuilderFactory.class.getMethod( "setSchema", new Class[]{ schemaClass } ); 
+        setSchemaMethod.invoke( dbf, new Object[]{ schemaObject } );
+    }
+    
+    private static boolean isSchemaCapable()
     {
         try
         {
             ClassLoader classloader = StandardBuilder.class.getClassLoader();
             classloader.loadClass( "javax.xml.XMLConstants" );
+            System.out.println( "validating" );
             return true;
         }
         catch( ClassNotFoundException e )
         {
+            System.out.println( "validation disabled" );
             return false;
-        }
-    }
-    
-    private void setupBuilderForSchemaValidation( DocumentBuilderFactory dbf ) throws Exception
-    {
-        if( !isSchemaCapable() )
-        {
-            return;
-        }
-        else
-        {
-            System.out.println( "VALIDATING" );
-            
-            Class schemaFactoryClass = getClass().getClassLoader().loadClass( "javax.xml.validation.SchemaFactory" );
-            Class schemaClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Schema" );
-            
-            Method newInstanceMethod = schemaFactoryClass.getMethod( "newInstance", new Class[]{ String.class } );
-            Object schemaFactory = newInstanceMethod.invoke( null, new Object[]{ W3C_XML_SCHEMA_NS_URI } );
-            Method newSchemaMethod = schemaFactoryClass.getMethod( "newSchema", new Class[0] );
-            Object schemaObject = newSchemaMethod.invoke( schemaFactory, new Object[0] );
-            Method setSchemaMethod = DocumentBuilderFactory.class.getMethod( "setSchema", new Class[]{ schemaClass } ); 
-            setSchemaMethod.invoke( dbf, new Object[]{ schemaObject } );
-            
-            
-            //Class validatorClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Validator" );
-            //Method newValidatorMethod = schemaClass.getMethod( "newValidator", new Class[0] );
-            
-            //SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-            //Schema schema = factory.newSchema();
-            //dbf.setXIncludeAware( false );
-            //dbf.setSchema( schema );
         }
     }
     

@@ -6,6 +6,7 @@ import java.net.URI;
 
 import dpmlx.schema.StandardBuilder;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
 
@@ -55,7 +56,6 @@ public class SchemaTestCase extends TestCase
     {
         final Element root = doc.getDocumentElement();
         final String namespace = root.getNamespaceURI();
-        //assertEquals( "namespace", "dpml:transit/part", namespace );
         
         Element plugin = ElementHelper.getChild( root, "plugin" );
         if( null != plugin )
@@ -65,7 +65,7 @@ public class SchemaTestCase extends TestCase
             // a concern private to the transit implementation to 
             // resolve the plugin strategy
             
-            System.out.println( "PLUGIN STRATEGY " + namespace );
+            System.out.println( "PLUGIN STRATEGY: " + namespace );
         }
         else
         {
@@ -73,17 +73,59 @@ public class SchemaTestCase extends TestCase
             // a <strategy> element
             
             Element strategy = ElementHelper.getChild( root, "strategy" );
-            Element[] children = ElementHelper.getChildren( strategy );
-            if( children.length == 1 )
-            {
-                Element thing = children[0];
-                System.out.println( "CUSTOM STRATEGY " + thing.getNamespaceURI() );
-            }
-            else
-            {
-                fail( "Strategy must contain a single element." );
-            }
+            Element implementation = getSingleNestedElement( strategy );
+            String urn = implementation.getNamespaceURI();
+            System.out.println( "CUSTOM STRATEGY: " + urn );
+            URI uri = getImplementationHandler( urn );
+            System.out.println( "HANDLER: " + uri );
         }
     }
     
+    private Element getSingleNestedElement( Element parent ) throws Exception
+    {
+        if( null == parent )
+        {
+            throw new NullPointerException( "parent" );
+        }
+        else
+        {
+            Element[] children = ElementHelper.getChildren( parent );
+            if( children.length == 1 )
+            {
+                return children[0];
+            }
+            else
+            {
+                final String error = 
+                  "Parent element does not contain a single child.";
+                throw new IllegalArgumentException( error );
+            }
+        }
+        
+    }
+    
+    private URI getImplementationHandler( String urn ) throws Exception
+    {
+        URI raw = new URI( urn );
+        if( Artifact.isRecognized( raw ) )
+        {
+            Artifact artifact = Artifact.createArtifact( raw );
+            String scheme = artifact.getScheme();
+            String group = artifact.getGroup();
+            String name = artifact.getName();
+            String type = artifact.getType();
+            String version = artifact.getVersion();
+            
+            Artifact result = Artifact.createArtifact( group, name, version, "plugin" );
+            return result.toURI();
+        }
+        else
+        {
+            final String error = 
+              "Namespace urn ["
+              + urn
+              + "] is not a recognized artifact protocol.";
+            throw new IllegalArgumentException( error );
+        }
+    }
 }
