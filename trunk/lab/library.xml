@@ -49,7 +49,7 @@
           </dependencies>
         </project>
 
-        <project name="dpmlx-schema-test" basedir="schema">
+        <project name="dpmlx-schema-test" basedir="test">
           <types>
             <type id="jar"/>
           </types>
