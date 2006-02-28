@@ -15,20 +15,14 @@
   <modules>
 
     <module name="dpmlx">
-      
+
         <project name="dpmlx-part" basedir="part">
           <types>
             <type id="xsd"/>
           </types>
         </project>
           
-        <project name="dpmlx-component" basedir="component">
-          <types>
-            <type id="xsd"/>
-          </types>
-        </project>
-          
-        <project name="dpmlx-schema-test" basedir="schema">
+        <project name="dpmlx-lang" basedir="lang">
           <types>
             <type id="jar"/>
             <type id="plugin" alias="true">
@@ -36,14 +30,35 @@
                 value="dpmlx.schema.StandardBuilder"/>
             </type>
           </types>
+          <dependencies scope="runtime">
+            <include ref="dpml/transit/dpml-transit-main"/>
+          </dependencies>
+        </project>
+        
+        <project name="dpmlx-component" basedir="component">
+          <types>
+            <type id="xsd"/>
+            <type id="jar"/>
+            <type id="plugin" alias="true">
+              <property name="project.plugin.class" 
+                value="dpmlx.component.ComponentPartHandler"/>
+            </type>
+          </types>
+          <dependencies scope="runtime">
+            <include key="dpmlx-lang"/>
+          </dependencies>
+        </project>
+
+        <project name="dpmlx-schema-test" basedir="schema">
+          <types>
+            <type id="jar"/>
+          </types>
           <dependencies scope="build">
             <include key="dpmlx-part"/>
             <include key="dpmlx-component"/>
           </dependencies>
-          <dependencies scope="runtime">
-            <include ref="dpml/transit/dpml-transit-main"/>
-          </dependencies>
           <dependencies scope="test">
+            <include key="dpmlx-lang"/>
             <include ref="ant/ant-junit"/>
           </dependencies>
         </project>

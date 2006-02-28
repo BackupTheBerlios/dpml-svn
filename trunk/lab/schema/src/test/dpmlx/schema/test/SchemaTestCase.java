@@ -32,8 +32,7 @@ public class SchemaTestCase extends TestCase
     public void setUp() throws Exception
     {
         ClassLoader classloader = Transit.class.getClassLoader();
-        File file = new File( "target/deliverables/plugins/dpmlx-schema-test-@VERSION@.plugin" );
-        URI uri = file.toURI();
+        URI uri = new URI( "@LANG-PLUGIN-URI@" );
         Object[] args = new Object[0];
         m_builder = 
           (StandardBuilder) Transit.getInstance().getRepository().getPlugin( 
