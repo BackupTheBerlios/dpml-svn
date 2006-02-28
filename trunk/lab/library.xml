@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE library PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
+
+<library>
+
+  <imports>
+    <import uri="link:module:ant"/>
+    <import uri="link:module:dpml"/>
+  </imports>
+
+  <modules>
+
+    <module name="dpmlx">
+      
+        <project name="dpmlx-schema-test" basedir="schema">
+          <types>
+            <type id="jar"/>
+            <type id="plugin" alias="true">
+              <property name="project.plugin.class" 
+                value="dpmlx.schema.StandardBuilder"/>
+            </type>
+          </types>
+          <dependencies scope="test">
+            <include ref="dpml/transit/dpml-transit-main"/>
+            <include ref="ant/ant-junit"/>
+          </dependencies>
+        </project>
+    
+    </module>
+    
+  </modules>
+
+</library>
