@@ -5,12 +5,14 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
+import dpmlx.lang.PartHandler;
 import dpmlx.schema.StandardBuilder;
 import dpmlx.schema.UnresolvableHandlerException;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.Transit;
+import net.dpml.transit.Repository;
+import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.util.ElementHelper;
 
 import junit.framework.TestCase;
@@ -66,6 +68,11 @@ public class SchemaTestCase extends TestCase
         final Element root = doc.getDocumentElement();
         final String namespace = root.getNamespaceURI();
         
+        // construct the classloader using the <classpath> element
+        
+        // check if we are a classic plugin or if a custom strategy
+        // has been declared
+        
         Element plugin = ElementHelper.getChild( root, "plugin" );
         if( null != plugin )
         {
@@ -93,7 +100,11 @@ public class SchemaTestCase extends TestCase
             String urn = implementation.getNamespaceURI();
             System.out.println( "strategy (namespace): " + urn );
             URI uri = getImplementationHandler( urn );
-            System.out.println( "handler: " + uri );
+            System.out.println( "resolved: " + uri );
+            
+            PartHandler handler = loadPartHandler( uri, implementation );
+            //Object instance = handler.getInstance( classloader, new Object[0] );
+            System.out.println( "handler: " + handler.getClass().getName() );
         }
     }
     
@@ -168,6 +179,28 @@ public class SchemaTestCase extends TestCase
               "Namespace urn ["
               + urn
               + "] is not a recognized artifact protocol.";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private PartHandler loadPartHandler( URI uri, Element implementation ) throws Exception
+    {
+        ClassLoader classloader = PartHandler.class.getClassLoader();
+        Repository repository = Transit.getInstance().getRepository();
+        Object[] args = new Object[]{ implementation };
+        Object handler = repository.getPlugin( classloader, uri, args );
+        if( handler instanceof PartHandler )
+        {
+            return (PartHandler) handler;
+        }
+        else
+        {
+            final String error = 
+              "Part handler plugin ["
+              + uri
+              + "] does not implement the "
+              + PartHandler.class.getName()
+              + " interface.";
             throw new IllegalArgumentException( error );
         }
     }
