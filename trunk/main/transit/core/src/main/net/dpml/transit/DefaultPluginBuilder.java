@@ -223,7 +223,7 @@ class PluginBuilder
         URI[] pub = buildURIs( classpath, "public" );
         URI[] prot = buildURIs( classpath, "protected" );
         URI[] priv = buildURIs( classpath, "private" );
-        return new DefaultClasspath( sys, pub, prot, priv );
+        return new Classpath( sys, pub, prot, priv );
     }
     
     public Plugin resolve( 

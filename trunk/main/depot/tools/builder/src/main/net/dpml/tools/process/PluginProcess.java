@@ -39,7 +39,6 @@ import net.dpml.transit.Logger;
 import net.dpml.transit.StandardHandler;
 import net.dpml.transit.DefaultPluginFactory;
 import net.dpml.transit.DefaultStrategy;
-import net.dpml.transit.DefaultClasspath;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Resource;
@@ -221,7 +220,7 @@ public class PluginProcess extends AbstractBuildListener
         URI[] publicUris = getURIs( resource, Category.PUBLIC );
         URI[] protectedUris = getURIs( resource, Category.PROTECTED );
         URI[] privateUris = getURIs( resource, Category.PRIVATE, true );
-        return new DefaultClasspath( sysUris, publicUris, protectedUris, privateUris );
+        return new Classpath( sysUris, publicUris, protectedUris, privateUris );
     }
 
     private URI[] getURIs( Resource resource, Category category ) throws IOException

@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
 import net.dpml.lang.Plugin;
+import net.dpml.lang.Classpath;
 
 /**
  * A service that provides support for the establishment of classloaders and plugin
@@ -107,5 +108,16 @@ public interface Repository
     * @exception Exception if an instantiation error occurs
     */
     Object instantiate( Constructor constructor, Object[] params ) throws Exception;
+
+    /**
+     * Create a classloader.
+     * @param base the parent classloader
+     * @param plugin the plugin uri
+     * @param classpath the classpath descriptor
+     * @return the classloader
+     * @exception IOException if a classloader construction error occurs
+     */
+    public ClassLoader createClassLoader( ClassLoader base, URI plugin, Classpath classpath )
+        throws IOException;
 
 }

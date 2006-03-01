@@ -80,7 +80,7 @@ public class PluginTestCase extends TestCase
             new URI( "thing:i" ),
             new URI( "thing:j" )
           };
-        m_classpath = new DefaultClasspath( m_system, m_public, m_protected, m_private );
+        m_classpath = new Classpath( m_system, m_public, m_protected, m_private );
     }
 
    /**

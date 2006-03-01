@@ -605,8 +605,32 @@ class StandardLoader implements Repository
         }
         
         URI plugin = descriptor.getURI();
-
         Classpath classpath = descriptor.getClasspath();
+        return createClassLoader( base, plugin, classpath ); 
+    }
+    
+    /**
+     * Returns a classloader.
+     * @param base the parent classloader
+     * @param plugin the plugin uri
+     * @param classpath the classpath descriptor
+     * @return the classloader
+     * @exception IOException if a classloader construction error occurs
+     * @exception NullArgumentException if either the base or the descriptor
+     *            argument is null.
+     */
+    public ClassLoader createClassLoader( ClassLoader base, URI plugin, Classpath classpath )
+        throws IOException, NullArgumentException
+    {
+        if( null == classpath )
+        {
+            throw new NullArgumentException( "classpath" );
+        }
+        if( null == base )
+        {
+            throw new NullArgumentException( "base" );
+        }
+        
         URI[] systemArtifacts = classpath.getDependencies( Category.SYSTEM );
         URL[] sysUrls = getURLs( systemArtifacts );
         if( sysUrls.length > 0 )
@@ -628,7 +652,7 @@ class StandardLoader implements Repository
 
         return classloader;
     }
-
+    
     private void updateSystemClassLoader( URI plugin, URL[] urls ) throws TransitException
     {
         ClassLoader parent = ClassLoader.getSystemClassLoader();
