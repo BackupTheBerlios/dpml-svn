@@ -7,9 +7,12 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:filter feature="uri" type="xsd" token="COMPONENT-XSD-URI" ref="dpmlx/dpmlx-component"/>
-    <x:filter feature="uri" type="xsd" token="PART-XSD-URI" ref="dpmlx/dpmlx-part"/>
-    <x:filter feature="uri" type="xsd" token="LIBRARY-XSD-URI" ref="dpmlx/dpmlx-library"/>
+    <x:filter feature="uri" type="xsd" token="PROJECT-XSD-URI"/>
+  </target>
+
+  <target name="package" depends="standard.package">
+    <move file="target/deliverables/xsds/library.xsd"
+      toFile="target/deliverables/xsds/${project.name}-${project.version}.xsd"/>
   </target>
 
 </project>

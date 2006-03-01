@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="@PROJECT-XSD-URI@"
+            xmlns="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <xsd:element name="library" type="LibraryType"/>
+    
+    <xsd:complexType name="LibraryType">
+      <xsd:sequence>
+        <xsd:element name="imports" type="ImportsType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="properties" type="PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="modules" type="ModulesType" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ImportsType">
+      <xsd:sequence>
+        <xsd:element name="import" type="ImportType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="PropertiesType">
+      <xsd:sequence>
+        <xsd:element name="property" type="PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ModulesType">
+      <xsd:sequence>
+        <xsd:element name="module" type="ModuleType" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="project" type="ProjectType" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="resource" type="ResourceType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ImportType">
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:anyURI"/>
+      </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="PropertyType">
+      <xsd:attribute name="name" type="xsd:string"/>
+      <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ResourceType">
+      <xsd:sequence>
+        <xsd:element name="properties" type="PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="types" type="TypesType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="dependencies" type="DependenciesType" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+      <xsd:attribute name="name" type="xsd:string"/>
+      <xsd:attribute name="version" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ProjectType">
+      <xsd:complexContent>
+        <xsd:extension base="ResourceType">
+          <xsd:attribute name="basedir" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="ModuleType">
+      <xsd:complexContent>
+        <xsd:extension base="ProjectType">
+          <xsd:sequence>
+            <xsd:element name="module" type="ModuleType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="project" type="ProjectType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="resource" type="ResourceType" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="TypesType">
+      <xsd:sequence>
+        <xsd:element name="type" type="TypeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TypeType" abstract="true">
+      <xsd:sequence>
+        <xsd:any minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="id" type="xsd:string"/>
+      <xsd:attribute name="alias" type="xsd:boolean"/>
+    </xsd:complexType>
+  
+    <xsd:complexType name="DependenciesType">
+      <xsd:sequence>
+        <xsd:element name="build" type="DependencyType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="runtime" type="RuntimeDependencyType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="test" type="DependencyType" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DependencyType">
+      <xsd:sequence>
+        <xsd:element name="include" type="IncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="RuntimeDependencyType">
+      <xsd:sequence>
+        <xsd:element name="include" type="RuntimeIncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="IncludeType">
+      <xsd:sequence>
+        <xsd:element name="properties" type="PropertiesType" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+      <xsd:attribute name="key" type="xsd:string"/>
+      <xsd:attribute name="ref" type="xsd:string"/>
+      <xsd:attribute name="urn" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="RuntimeIncludeType">
+      <xsd:complexContent>
+        <xsd:extension base="IncludeType">
+          <xsd:attribute name="tag" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:complexContent>
+    </xsd:complexType>
+
+    <!--
+    <types>
+      <type id="part" alias="true">
+        <component name="fred" type="Widget"/>
+      </type>
+    </types>
+    -->
+
+</xsd:schema>
+

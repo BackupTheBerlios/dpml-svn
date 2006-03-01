@@ -10,22 +10,11 @@
       <xsd:sequence>
         <xsd:element name="info" type="InfoType"/>
         <xsd:element name="strategy" type="StrategyType"/>
-        <!--
-        <xsd:choice>
-          <xsd:element name="strategy" type="StrategyType"/>
-          <xsd:element name="plugin" type="PluginType"/>
-        </xsd:choice>
-        -->
         <xsd:element name="classpath" type="ClassPathType"/>
       </xsd:sequence>
     </xsd:complexType>
 
     <xsd:complexType name="StrategyType" abstract="true">
-      <!--
-      <xsd:sequence>
-        <xsd:any minOccurs="0"/>
-      </xsd:sequence>
-      -->
       <xsd:attribute name="uri" type="xsd:anyURI"/>
     </xsd:complexType>
 

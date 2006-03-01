@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URL;
 
 import dpmlx.lang.Part;
+import dpmlx.lang.Strategy;
 import dpmlx.schema.PartBuilder;
 import dpmlx.schema.UnresolvableHandlerException;
 
@@ -56,6 +57,9 @@ public class SchemaTestCase extends TestCase
         System.out.println( "source: " + file );
         Part part = m_builder.loadPart( file.toURI() );
         System.out.println( "# PART: " + part );
-        System.out.println( "# STRATEGY: " + part.getStrategy() );
+        Strategy strategy = part.getStrategy();
+        System.out.println( "# STRATEGY: " + strategy );
+        System.out.println( "# Controller: " + strategy.getControllerURI() );
+        System.out.println( "# Data: " + strategy.getDeploymentData().getClass().getName() );
     }
 }

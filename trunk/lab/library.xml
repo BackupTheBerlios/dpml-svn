@@ -16,12 +16,18 @@
 
     <module name="dpmlx">
 
+        <project name="dpmlx-library" basedir="library">
+          <types>
+            <type id="xsd"/>
+          </types>
+        </project>
+        
         <project name="dpmlx-part" basedir="part">
           <types>
             <type id="xsd"/>
           </types>
         </project>
-          
+        
         <project name="dpmlx-lang" basedir="lang">
           <types>
             <type id="jar"/>

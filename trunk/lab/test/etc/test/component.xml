@@ -13,14 +13,16 @@
     </description>
   </info>
   
-  <strategy xsi:type="m:ComponentType"
-     uri="link:plugin:dpml/metro/dpml-metro-builder" type="org.acme.Widget">
-    <m:context>
-      <m:entry key="foo" value="abc"/>
-      <m:entry key="bar">
-        <m:value class="int" value="2"/>
-      </m:entry>
-    </m:context>
+  <strategy xsi:type="m:ComponentStrategyType">
+    <m:controller uri="link:plugin:dpml/metro/dpml-metro-runtime"/>
+    <m:component type="org.acme.Widget">
+      <m:context>
+        <m:entry key="foo" value="abc"/>
+        <m:entry key="bar">
+          <m:value class="int" value="2"/>
+        </m:entry>
+      </m:context>
+    </m:component>
   </strategy>
   
   <classpath>

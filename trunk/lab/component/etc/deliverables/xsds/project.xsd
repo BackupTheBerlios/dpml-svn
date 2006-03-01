@@ -13,8 +13,11 @@
                 schemaLocation="@PART-XSD-URI@"/>
     
     <xsd:element name="component" type="ComponentType"/>
-    
-    <xsd:complexType name="ComponentType">
+
+    <!--
+    Definition of a plugin component deployment strategy.
+    -->
+    <xsd:complexType name="ComponentStrategyType">
       <xsd:annotation>
         <xsd:documentation xml:lang="en">
           Definition of a component deployment model for the DPML Metro Platform.
@@ -23,13 +26,28 @@
       <xsd:complexContent>
         <xsd:extension base="part:StrategyType">
           <xsd:sequence>
-            <xsd:element name="context" type="ContextType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="controller" type="ControllerType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="component" type="ComponentType" minOccurs="0" maxOccurs="1"/>
           </xsd:sequence>
-          <xsd:attribute name="type" type="xsd:string"/>
-          <xsd:attribute name="lifestyle" type="xsd:string"/>
-          <xsd:attribute name="collection" type="xsd:string"/>
         </xsd:extension>
       </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ControllerType">
+      <xsd:sequence>
+        <xsd:element name="param" type="ValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="uri" type="xsd:string"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="ComponentType">
+      <xsd:sequence>
+        <xsd:element name="context" type="ContextType" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="parts" type="PartsType" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+      <xsd:attribute name="type" type="xsd:string"/>
+      <xsd:attribute name="lifestyle" type="xsd:string"/>
+      <xsd:attribute name="collection" type="xsd:string"/>
     </xsd:complexType>
     
     <xsd:complexType name="ContextType">
@@ -52,6 +70,20 @@
       </xsd:sequence>
       <xsd:attribute name="class" type="xsd:string"/>
       <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="PartsType">
+      <xsd:sequence>
+        <xsd:element name="component" type="TaggedComponentType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="TaggedComponentType">
+      <xsd:complexContent>
+        <xsd:extension base="ComponentType">
+          <xsd:attribute name="key" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:complexContent>
     </xsd:complexType>
     
 </xsd:schema>

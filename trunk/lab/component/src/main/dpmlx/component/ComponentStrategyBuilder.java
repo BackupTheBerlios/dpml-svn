@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 public class ComponentStrategyBuilder implements StrategyBuilder
 {
    /**
-    * Return a deployment strategy.
+    * Constructs a component deployment strategy.
     *
     * @return the deployment strategy
     * @exception Exception if an error occurs
