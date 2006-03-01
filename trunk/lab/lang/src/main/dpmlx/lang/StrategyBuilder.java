@@ -18,29 +18,12 @@
 
 package dpmlx.lang;
 
-import java.net.URI;
+import org.w3c.dom.Element;
 
 /**
- * Interface implemented by part handlers.
- *
- * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
- * @version @PROJECT-VERSION@
+ * Construct an Strategy instance from a DOM Element.
  */
-public interface PartHandler
+public interface StrategyBuilder
 {
-   /**
-    * Return a deployment defintion.
-    *
-    * @param classloader the classloader
-    * @exception Exception if an error occurs
-    */
-    Strategy getStrategy() throws Exception;
-    
-   /**
-    * Handle the deployment of a part.
-    *
-    * @param args supplimentary deployment arguments
-    * @exception Exception if an error occurs
-    */
-    Object getInstance( Object[] args ) throws Exception;
+    Strategy buildStrategy( Element element ) throws Exception;
 }

@@ -26,8 +26,8 @@
   
   <classpath>
     <public>
-      <uri>link:jar:fred/blogs"</uri>
-      <uri>link:jar:peter/rabbit"</uri>
+      <uri>link:jar:fred/blogs</uri>
+      <uri>link:jar:peter/rabbit</uri>
     </public>
   </classpath>
   

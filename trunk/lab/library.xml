@@ -25,10 +25,6 @@
         <project name="dpmlx-lang" basedir="lang">
           <types>
             <type id="jar"/>
-            <type id="plugin" alias="true">
-              <property name="project.plugin.class" 
-                value="dpmlx.schema.StandardBuilder"/>
-            </type>
           </types>
           <dependencies scope="runtime">
             <include ref="dpml/transit/dpml-transit-main"/>
@@ -41,7 +37,7 @@
             <type id="jar"/>
             <type id="plugin" alias="true">
               <property name="project.plugin.class" 
-                value="dpmlx.component.ComponentPartHandler"/>
+                value="dpmlx.component.ComponentStrategyBuilder"/>
             </type>
           </types>
           <dependencies scope="runtime">

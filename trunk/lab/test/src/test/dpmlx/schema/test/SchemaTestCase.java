@@ -5,15 +5,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
-import dpmlx.lang.PartHandler;
-import dpmlx.schema.StandardBuilder;
+import dpmlx.lang.Part;
+import dpmlx.schema.PartBuilder;
 import dpmlx.schema.UnresolvableHandlerException;
-
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
-import net.dpml.transit.util.ElementHelper;
 
 import junit.framework.TestCase;
 
@@ -26,19 +20,19 @@ import org.w3c.dom.DocumentType;
  */
 public class SchemaTestCase extends TestCase
 {
-    StandardBuilder m_builder;
+    static
+    {
+        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
+    }
+    
+    PartBuilder m_builder;
     
    /**
     * Test the demo class.
     */
     public void setUp() throws Exception
     {
-        ClassLoader classloader = Transit.class.getClassLoader();
-        URI uri = new URI( "@LANG-PLUGIN-URI@" );
-        Object[] args = new Object[0];
-        m_builder = 
-          (StandardBuilder) Transit.getInstance().getRepository().getPlugin( 
-            classloader, uri, args );
+        m_builder = new PartBuilder();
     }
     
    /**
@@ -46,24 +40,24 @@ public class SchemaTestCase extends TestCase
     */
     public void testPlugin() throws Exception
     {
-        evaluateDocument( "target/test/plugin.xml" );
+        evaluateDocument( "plugin.xml" );
     }
     
     public void testComponent() throws Exception
     {
-        try
-        {
-            evaluateDocument( "target/test/component.xml" );
-        }
-        catch( UnresolvableHandlerException e )
-        {
-            // expected
-        }
+        evaluateDocument( "component.xml" );
     }
     
     private void evaluateDocument( String path ) throws Exception
     {
-        System.out.println( "source: " + path );
+        String base = System.getProperty( "project.test.dir" );
+        File test = new File( base );
+        File file = new File( test, path );
+        System.out.println( "source: " + file );
+        Part part = m_builder.loadPart( file.toURI() );
+        System.out.println( "# PART: " + part );
+        
+        /*
         Document doc = m_builder.parse( path );
         final Element root = doc.getDocumentElement();
         final String namespace = root.getNamespaceURI();
@@ -106,8 +100,10 @@ public class SchemaTestCase extends TestCase
             //Object instance = handler.getInstance( classloader, new Object[0] );
             System.out.println( "handler: " + handler.getClass().getName() );
         }
+        */
     }
     
+    /*
     private Element getSingleNestedElement( Element parent ) throws Exception
     {
         if( null == parent )
@@ -204,4 +200,5 @@ public class SchemaTestCase extends TestCase
             throw new IllegalArgumentException( error );
         }
     }
+    */
 }

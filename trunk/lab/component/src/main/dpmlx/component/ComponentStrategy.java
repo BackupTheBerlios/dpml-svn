@@ -18,36 +18,21 @@
 
 package dpmlx.component;
 
+import java.io.Serializable;
 import java.net.URI;
 
-import dpmlx.lang.PartHandler;
-
-import org.w3c.dom.Element;
+import dpmlx.lang.Strategy;
 
 /**
- * Component part handler.
+ * Part deployment strategy description.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentPartHandler implements PartHandler
+public class ComponentStrategy extends Strategy
 {
-    private Element m_element;
-    
-    public ComponentPartHandler( Element element )
+    public ComponentStrategy( Serializable data ) throws Exception
     {
-        m_element = element;
-    }
-    
-   /**
-    * Handle the deployment of a part.
-    *
-    * @param classloader the classloader
-    * @param args supplimentary deployment arguments
-    * @exception Exception if an error occurs
-    */
-    public Object getInstance( ClassLoader classloader, Object[] args ) throws Exception
-    {
-        return null;
+        super( new URI( "link:plugin:dpml/metro/dpml-metro-runtime" ), data );
     }
 }

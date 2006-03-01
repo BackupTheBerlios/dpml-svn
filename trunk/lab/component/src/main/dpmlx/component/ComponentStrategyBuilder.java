@@ -16,31 +16,31 @@
  * limitations under the License.
  */
 
-package dpmlx.lang;
+package dpmlx.component;
 
 import java.net.URI;
 
+import dpmlx.lang.Strategy;
+import dpmlx.lang.StrategyBuilder;
+
+import org.w3c.dom.Element;
+
 /**
- * Interface implemented by part handlers.
+ * Component part handler.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface PartHandler
+public class ComponentStrategyBuilder implements StrategyBuilder
 {
    /**
-    * Return a deployment defintion.
+    * Return a deployment strategy.
     *
-    * @param classloader the classloader
+    * @return the deployment strategy
     * @exception Exception if an error occurs
     */
-    Strategy getStrategy() throws Exception;
-    
-   /**
-    * Handle the deployment of a part.
-    *
-    * @param args supplimentary deployment arguments
-    * @exception Exception if an error occurs
-    */
-    Object getInstance( Object[] args ) throws Exception;
+    public Strategy buildStrategy( Element element ) throws Exception
+    {
+        return new ComponentStrategy( "Hello World" );
+    }
 }

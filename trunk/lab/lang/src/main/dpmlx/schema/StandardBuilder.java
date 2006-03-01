@@ -19,12 +19,16 @@
 package dpmlx.schema;
 
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamSource;
+
+import net.dpml.transit.Artifact;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -39,14 +43,15 @@ import org.w3c.dom.Document;
 
 public class StandardBuilder extends DefaultHandler
 {
-    static final String PARSER_NAME = "org.apache.xerces.parsers.SAXParser";
+    private static final String XML_CONSTANTS_CLASSNAME = 
+      "javax.xml.XMLConstants";
+      
+    private static final String SCHEMA_FACTORY_CLASSNAME = 
+      "javax.xml.validation.SchemaFactory";
+      
+    private static final String SCHEMA_CLASSNAME = 
+      "javax.xml.validation.Schema";
 
-    protected static final String DEFAULT_API_TO_USE = "sax";
-    
-    protected static final boolean DEFAULT_XINCLUDE = false;
-    
-    protected static final boolean DEFAULT_SECURE_PROCESSING = false;
-    
     private static final String FEATURE_SECURE_PROCESSING = 
       "http://javax.xml.XMLConstants/feature/secure-processing";
     
@@ -56,57 +61,81 @@ public class StandardBuilder extends DefaultHandler
     private static boolean VALIDATING = isSchemaCapable();
     
     //
-    // Constructors
+    // implementation
     //
-    
-    public StandardBuilder( String[] args ) throws Exception
-    {
-        if (args.length == 1) 
-        {
-            try 
-            {
-                String source = args[0];
-                parse( source );
-            }
-            catch (Exception e) 
-            { 
-                e.printStackTrace();
-            }
-        }
-    }
     
     public Document parse( String source ) throws Exception
     {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware( true );
-        if( VALIDATING )
-        {
-            setupBuilderForSchemaValidation( dbf );
-        }
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setErrorHandler( new ParserAPIUsage() );
+        DocumentBuilder db = getDocumentBuilder();
         return db.parse( source );
     }
     
-    private void setupBuilderForSchemaValidation( DocumentBuilderFactory dbf ) throws Exception
+    public Document parse( URI uri ) throws Exception
     {
-        Class schemaFactoryClass = getClass().getClassLoader().loadClass( "javax.xml.validation.SchemaFactory" );
-        Class schemaClass = getClass().getClassLoader().loadClass( "javax.xml.validation.Schema" );
-        
-        Method newInstanceMethod = schemaFactoryClass.getMethod( "newInstance", new Class[]{ String.class } );
-        Object schemaFactory = newInstanceMethod.invoke( null, new Object[]{ W3C_XML_SCHEMA_NS_URI } );
-        Method newSchemaMethod = schemaFactoryClass.getMethod( "newSchema", new Class[0] );
-        Object schemaObject = newSchemaMethod.invoke( schemaFactory, new Object[0] );
-        Method setSchemaMethod = DocumentBuilderFactory.class.getMethod( "setSchema", new Class[]{ schemaClass } ); 
-        setSchemaMethod.invoke( dbf, new Object[]{ schemaObject } );
+        DocumentBuilder db = getDocumentBuilder();
+        return db.parse( uri.toASCIIString() );
     }
+    
+    private DocumentBuilder getDocumentBuilder() throws Exception
+    {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware( true );
+        if( VALIDATING )
+        {
+            setupBuilderForSchemaValidation( factory );
+        }
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        builder.setErrorHandler( new ParserAPIUsage() );
+        return builder;
+    }
+    
+    private void setupBuilderForSchemaValidation( DocumentBuilderFactory dbf )
+    {
+        try
+        {
+            ClassLoader classloader = getClass().getClassLoader();
+            Class schemaFactoryClass = classloader.loadClass( SCHEMA_FACTORY_CLASSNAME );
+            Class schemaClass = classloader.loadClass( SCHEMA_CLASSNAME );
+            
+            Method newInstanceMethod = 
+              schemaFactoryClass.getMethod( "newInstance", new Class[]{ String.class } );
+            Object schemaFactory = 
+              newInstanceMethod.invoke( null, new Object[]{ W3C_XML_SCHEMA_NS_URI } );
+            Method newSchemaMethod = 
+              schemaFactoryClass.getMethod( "newSchema", new Class[0] );
+            Object schemaObject = 
+              newSchemaMethod.invoke( schemaFactory, new Object[0] );
+            Method setSchemaMethod = 
+              DocumentBuilderFactory.class.getMethod( "setSchema", new Class[]{ schemaClass } ); 
+            setSchemaMethod.invoke( dbf, new Object[]{ schemaObject } );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error while configuring XML parser for schema validation.";
+            throw new RuntimeException( error, e );
+        }
+    }
+
+    private URL getURL( URI uri ) throws Exception
+    {
+        if( Artifact.isRecognized( uri ) )
+        {
+            return Artifact.createArtifact( uri ).toURL();
+        }
+        else
+        {
+            return uri.toURL();
+        }
+    }
+
     
     private static boolean isSchemaCapable()
     {
         try
         {
             ClassLoader classloader = StandardBuilder.class.getClassLoader();
-            classloader.loadClass( "javax.xml.XMLConstants" );
+            classloader.loadClass( XML_CONSTANTS_CLASSNAME );
             System.out.println( "validating" );
             return true;
         }
