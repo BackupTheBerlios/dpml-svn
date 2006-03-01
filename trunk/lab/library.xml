@@ -40,6 +40,9 @@
                 value="dpmlx.component.ComponentStrategyBuilder"/>
             </type>
           </types>
+          <dependencies scope="build">
+            <include key="dpmlx-part"/>
+          </dependencies>
           <dependencies scope="runtime">
             <include key="dpmlx-lang"/>
           </dependencies>

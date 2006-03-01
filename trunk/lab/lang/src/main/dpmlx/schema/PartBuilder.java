@@ -38,12 +38,19 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.Attr;
+import org.w3c.dom.TypeInfo;
 
 /**
  * Construct a part.
  */
 public class PartBuilder
 {
+    private static final String SCHEMA_INSTANCE_NS = 
+      "http://www.w3.org/2001/XMLSchema-instance";
+    
     private static StandardBuilder BUILDER = new StandardBuilder();
     
     public Part loadPart( URI uri ) throws Exception
@@ -75,38 +82,29 @@ public class PartBuilder
         return new Part( info, strategy, classpath );
     }
     
+    private URI getStrategyBuilderURI( Element element ) throws Exception
+    {
+        TypeInfo info = element.getSchemaTypeInfo();
+        String namespace = info.getTypeNamespace();
+        return getBuilderURI( namespace );
+    }
+    
     private Strategy getStrategy( ClassLoader loader, Element root ) throws Exception
     {
-        Element plugin = ElementHelper.getChild( root, "plugin" );
-        if( null != plugin )
+        Element strategy = ElementHelper.getChild( root, "strategy" );
+        TypeInfo info = strategy.getSchemaTypeInfo();
+        String namespace = info.getTypeNamespace();
+        Artifact artifact = Artifact.createArtifact( namespace );
+        if( "dpmlx".equals( artifact.getGroup() ) && "dpmlx-part".equals( artifact.getName() ) )
         {
-            // This is a standard transit plugin containing either
-            // a <class> element or a <resource> element as such is
-            // a concern private to the transit implementation to 
-            // resolve the plugin strategy.
-            
-            Element element = getSingleNestedElement( plugin );
             PluginStrategyBuilder builder = new PluginStrategyBuilder();
-            return builder.buildStrategy( element );
+            return builder.buildStrategy( strategy );
         }
         else
         {
-            // This is a custom deployment strategy defined under 
-            // a <strategy> element and all we know is its namespace
-            // and that the nested element is the argument to a 
-            // custom instantiation handler. On the grounds that the
-            // namespace is declared in the form of an artifact with
-            // the type 'xsd', we construct a new plugin artifact using  
-            // the same group, name and version.  If such a plugin 
-            // exists using the link protocol we use otherwise we 
-            // attempt to locate a plugin using the artifact protocol.
-            
-            Element strategy = ElementHelper.getChild( root, "strategy" );
-            Element element = getSingleNestedElement( strategy );
-            String namespace = element.getNamespaceURI();
             URI uri = getBuilderURI( namespace );
             StrategyBuilder builder = loadStrategyBuilder( uri );
-            return builder.buildStrategy( element );
+            return builder.buildStrategy( strategy );
         }
     }
     

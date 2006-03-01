@@ -38,26 +38,34 @@ public class PluginStrategyBuilder implements StrategyBuilder
 {
     public Strategy buildStrategy( Element element ) throws Exception
     {
-        String name = element.getTagName();
-        if( "class".equals( name ) )
+        if( !"strategy".equals( element.getTagName() ) )
         {
-            String classname = ElementHelper.getValue( element );
+            final String error = 
+              "Invalid element name.";
+            throw new IllegalArgumentException( error );
+        }
+        Element classElement = ElementHelper.getChild( element, "class" );
+        if( null != classElement )
+        {
+            String classname = ElementHelper.getValue( classElement );
             return new ClassStrategy( classname );
         }
-        else if( "resource".equals( name ) )
+        else
         {
-            Element urnElement = ElementHelper.getChild( element, "urn" );
-            Element pathElement = ElementHelper.getChild( element, "path" );
+            Element resourceElement = ElementHelper.getChild( element, "resource" );
+            if( null == resourceElement )
+            {
+                final String error = 
+                  "Invalid strategy element.";
+                throw new IllegalArgumentException( error );
+            }
+            
+            Element urnElement = ElementHelper.getChild( resourceElement, "urn" );
+            Element pathElement = ElementHelper.getChild( resourceElement, "path" );
             String urn = ElementHelper.getValue( urnElement );
             String path = ElementHelper.getValue( pathElement );
             Resource resource = new Resource( urn, path );
             return new ResourceStrategy( resource );
-        }
-        else
-        {
-            final String error = 
-              "Element [" + name + "] is not recognized.";
-            throw new IllegalArgumentException( error );
         }
     }
     

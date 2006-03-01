@@ -8,6 +8,7 @@
 
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="xsd" token="PROJECT-XSD-URI"/>
+    <x:filter feature="uri" type="xsd" token="PART-XSD-URI" key="dpmlx-part"/>
   </target>
 
   <target name="package" depends="standard.package">

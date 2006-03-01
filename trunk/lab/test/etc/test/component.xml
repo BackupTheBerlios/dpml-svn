@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <part xmlns="@PART-XSD-URI@"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:metro="@COMPONENT-XSD-URI@"
+   xmlns:m="@COMPONENT-XSD-URI@"
    xsi:schemaLocation="
      @PART-XSD-URI@ @PART-XSD-URI@
      @COMPONENT-XSD-URI@ @COMPONENT-XSD-URI@
@@ -13,15 +13,14 @@
     </description>
   </info>
   
-  <strategy uri="link:plugin:dpml/metro/dpml-metro-builder">
-    <metro:component type="org.acme.Widget">
-      <metro:context>
-        <metro:entry key="foo" value="abc"/>
-        <metro:entry key="bar">
-          <metro:value class="int" value="2"/>
-        </metro:entry>
-      </metro:context>
-    </metro:component>
+  <strategy xsi:type="m:ComponentType"
+     uri="link:plugin:dpml/metro/dpml-metro-builder" type="org.acme.Widget">
+    <m:context>
+      <m:entry key="foo" value="abc"/>
+      <m:entry key="bar">
+        <m:value class="int" value="2"/>
+      </m:entry>
+    </m:context>
   </strategy>
   
   <classpath>

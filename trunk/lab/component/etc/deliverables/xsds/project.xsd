@@ -1,19 +1,35 @@
 <?xml version="1.0"?>
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:part="@PART-XSD-URI@"
             targetNamespace="@PROJECT-XSD-URI@"
             xmlns="@PROJECT-XSD-URI@"
             elementFormDefault="qualified">
     
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+                schemaLocation="artifact:xsd:org/w3/xml#2001"/>
+    
+    <xsd:import namespace="@PART-XSD-URI@"
+                schemaLocation="@PART-XSD-URI@"/>
+    
     <xsd:element name="component" type="ComponentType"/>
     
     <xsd:complexType name="ComponentType">
-      <xsd:sequence>
-        <xsd:element name="context" type="ContextType" minOccurs="0" maxOccurs="1"/>
-      </xsd:sequence>
-      <xsd:attribute name="type" type="xsd:string"/>
-      <xsd:attribute name="lifestyle" type="xsd:string"/>
-      <xsd:attribute name="collection" type="xsd:string"/>
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          Definition of a component deployment model for the DPML Metro Platform.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:complexContent>
+        <xsd:extension base="part:StrategyType">
+          <xsd:sequence>
+            <xsd:element name="context" type="ContextType" minOccurs="0" maxOccurs="1"/>
+          </xsd:sequence>
+          <xsd:attribute name="type" type="xsd:string"/>
+          <xsd:attribute name="lifestyle" type="xsd:string"/>
+          <xsd:attribute name="collection" type="xsd:string"/>
+        </xsd:extension>
+      </xsd:complexContent>
     </xsd:complexType>
     
     <xsd:complexType name="ContextType">
