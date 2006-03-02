@@ -102,7 +102,7 @@ public class PartBuilder
         Artifact artifact = Artifact.createArtifact( namespace );
         if( "dpmlx".equals( artifact.getGroup() ) && "dpmlx-part".equals( artifact.getName() ) )
         {
-            PluginStrategyBuilder builder = new PluginStrategyBuilder();
+            PartStrategyBuilder builder = new PartStrategyBuilder();
             return builder.buildStrategy( strategy );
         }
         else

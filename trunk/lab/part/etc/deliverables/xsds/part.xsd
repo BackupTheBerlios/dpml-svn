@@ -21,6 +21,9 @@
     <complexType name="plugin">
       <complexContent>
         <extension base="part:StrategyType">
+          <sequence>
+            <element name="param" type="part:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
           <attribute name="class" type="string"/>
         </extension>
       </complexContent>
@@ -72,6 +75,14 @@
       </simpleContent>
     </complexType>
 
+    <complexType name="ValueType">
+      <sequence>
+        <element name="param" type="part:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="class" type="string"/>
+      <attribute name="value" type="string"/>
+      <attribute name="method" type="string"/>
+    </complexType>
 
 </schema>
 

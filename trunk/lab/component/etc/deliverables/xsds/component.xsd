@@ -62,19 +62,20 @@
     </complexType>
     
     <complexType name="EntryType">
-      <sequence>
-        <element name="value" type="metro:ValueType" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-      <attribute name="key" type="string"/>
-      <attribute name="value" type="string"/>
+      <complexContent>
+        <extension base="metro:ValueType">
+          <attribute name="key" type="string"/>
+        </extension>
+      </complexContent>
     </complexType>
-    
+
     <complexType name="ValueType">
       <sequence>
-        <element name="value" type="metro:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+        <element name="param" type="metro:ValueType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
       <attribute name="class" type="string"/>
       <attribute name="value" type="string"/>
+      <attribute name="method" type="string"/>
     </complexType>
     
     <complexType name="PartsType">

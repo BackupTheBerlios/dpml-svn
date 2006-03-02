@@ -19,10 +19,10 @@
       <context>
         <entry key="foo" value="abc"/>
         <entry key="bar">
-          <value class="Gizmo">
-            <value value="foo"/>
-            <value value="bar"/>
-          </value>
+          <param class="Gizmo">
+            <param value="foo"/>
+            <param value="bar"/>
+          </param>
         </entry>
       </context>
       <parts>

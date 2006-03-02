@@ -24,6 +24,7 @@ import java.net.URI;
 import dpmlx.lang.Strategy;
 import dpmlx.lang.StrategyBuilder;
 
+import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.TypeInfo;
@@ -35,7 +36,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PluginStrategyBuilder implements StrategyBuilder
+public class PartStrategyBuilder implements StrategyBuilder
 {
     public Strategy buildStrategy( Element element ) throws Exception
     {
@@ -51,7 +52,10 @@ public class PluginStrategyBuilder implements StrategyBuilder
         if( "plugin".equals( type ) )
         {
             String classname = ElementHelper.getAttribute( element, "class" );
-            return new ClassStrategy( classname );
+            Element[] elements = ElementHelper.getChildren( element, "params" );
+            ValueDirective[] values = createValueDirectives( elements );
+            Plugin plugin = new Plugin( classname, values );
+            return new PluginStrategy( plugin );
         }
         else if( "resource".equals( type ) )
         {
@@ -72,64 +76,59 @@ public class PluginStrategyBuilder implements StrategyBuilder
         }
     }
     
-   /**
-    * Handle the deployment of a part.
-    *
-    * @param classloader the classloader
-    * @param args supplimentary deployment arguments
-    * @exception Exception if an error occurs
-    */
-    /*
-    public Object getInstance( Object[] args ) throws Exception
+    private ValueDirective[] createValueDirectives( Element[] elements )
     {
-        if( m_strategy instanceof ClassStrategy )
+        ValueDirective[] values = new ValueDirective[ elements.length ];
+        for( int i=0; i<elements.length; i++ )
         {
-            ClassStrategy strategy = (ClassStrategy) m_strategy;
-            Class c = strategy.getPluginClass( m_classloader );
-            Repository repository = Transit.getInstance().getRepository();
-            repository.instantiate( c, args );
+            values[i] = createValueDirective( elements[i] );
+        }
+        return values;
+    }
+    
+    private ValueDirective createValueDirective( Element element )
+    {
+        String classname = ElementHelper.getAttribute( element, "class" );
+        String method = ElementHelper.getAttribute( element, "method" );
+        Element[] elements = ElementHelper.getChildren( element, "params" );
+        if( elements.length > 0 )
+        {
+            ValueDirective[] values = createValueDirectives( elements );
+            return new ValueDirective( classname, method, values );
         }
         else
         {
-            final String error = 
-              "Resource instantiation not supported.";
-            throw new UnsupportedOperationException( error );
+            String value = ElementHelper.getAttribute( element, "value" );
+            return new ValueDirective( classname, method, value );
         }
     }
-    */
     
-    private abstract static class PluginStrategy extends Strategy
+    private abstract static class PartStrategy extends Strategy
     {
-        PluginStrategy( URI uri, Serializable data ) throws Exception
+        PartStrategy( URI uri, Serializable data ) throws Exception
         {
             super( uri, data );
         }
     }
     
-    private static class ClassStrategy extends PluginStrategy
+    private static class PluginStrategy extends PartStrategy
     {
-        ClassStrategy( String classname ) throws Exception
+        PluginStrategy( Plugin plugin ) throws Exception
         {
-            super( new URI( "plugin:class" ), classname );
+            super( new URI( "part:plugin" ), plugin );
         }
         
-        public String getClassname()
+        public Plugin getPlugin()
         {
-            return (String) super.getDeploymentData();
-        }
-        
-        public Class getPluginClass( ClassLoader classloader ) throws ClassNotFoundException
-        {
-            String classname = getClassname();
-            return classloader.loadClass( classname );
+            return (Plugin) super.getDeploymentData();
         }
     }
     
-    private static class ResourceStrategy extends PluginStrategy
+    private static class ResourceStrategy extends PartStrategy
     {
         ResourceStrategy( Resource resource ) throws Exception
         {
-            super( new URI( "plugin:resource" ), resource );
+            super( new URI( "part:resource" ), resource );
         }
         
         public Resource getResource()
@@ -138,46 +137,4 @@ public class PluginStrategyBuilder implements StrategyBuilder
         }
     }
     
-    private static class Resource implements Serializable
-    {
-        private final String m_urn;
-        private final String m_path;
-        
-        public Resource( String urn, String path )
-        {
-            m_urn = urn;
-            m_path = path;
-        }
-        
-        public boolean equals( Object other )
-        {
-            if( null == other )
-            {
-                return false;
-            }
-            else if( other instanceof Resource )
-            {
-                Resource resource = (Resource) other;
-                if( !m_urn.equals( resource.m_urn ) )
-                {
-                    return false;
-                }
-                else
-                {
-                    return m_path.equals( resource.m_path );
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
-        public int hashCode()
-        {
-            int hash = m_urn.hashCode();
-            hash ^= m_path.hashCode();
-            return hash;
-        }
-    }
 }
