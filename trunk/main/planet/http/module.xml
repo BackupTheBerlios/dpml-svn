@@ -36,9 +36,6 @@
   <project name="dpml-http-server" basedir="server">
     <types>
       <type id="part" alias="true"/>
-      <type id="plugin">
-        <property name="project.plugin.factory" value="link:plugin:dpml/metro/dpml-metro-builder"/>
-      </type>
     </types>
     <dependencies scope="BUILD">
       <include key="dpml-http-app"/>
