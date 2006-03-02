@@ -11,15 +11,7 @@
     </description>
   </info>
   
-  <strategy xsi:type="PluginType">
-    <class>Widget</class>
-    <!--
-    <resource>
-      <urn>dpml:metro</urn>
-      <path>net/dpml/metro/tools/antlib.xml</path>
-    </resource>
-    -->
-  </strategy>
+  <strategy xsi:type="plugin" class="Widget"/>
   
   <classpath>
     <public>

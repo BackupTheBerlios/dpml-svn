@@ -26,6 +26,7 @@ import dpmlx.lang.StrategyBuilder;
 
 import net.dpml.transit.util.ElementHelper;
 
+import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -44,28 +45,30 @@ public class PluginStrategyBuilder implements StrategyBuilder
               "Invalid element name.";
             throw new IllegalArgumentException( error );
         }
-        Element classElement = ElementHelper.getChild( element, "class" );
-        if( null != classElement )
+        
+        TypeInfo info = element.getSchemaTypeInfo();
+        String type = info.getTypeName();
+        if( "plugin".equals( type ) )
         {
-            String classname = ElementHelper.getValue( classElement );
+            String classname = ElementHelper.getAttribute( element, "class" );
             return new ClassStrategy( classname );
         }
-        else
+        else if( "resource".equals( type ) )
         {
-            Element resourceElement = ElementHelper.getChild( element, "resource" );
-            if( null == resourceElement )
-            {
-                final String error = 
-                  "Invalid strategy element.";
-                throw new IllegalArgumentException( error );
-            }
-            
-            Element urnElement = ElementHelper.getChild( resourceElement, "urn" );
-            Element pathElement = ElementHelper.getChild( resourceElement, "path" );
+            Element urnElement = ElementHelper.getChild( element, "urn" );
+            Element pathElement = ElementHelper.getChild( element, "path" );
             String urn = ElementHelper.getValue( urnElement );
             String path = ElementHelper.getValue( pathElement );
             Resource resource = new Resource( urn, path );
             return new ResourceStrategy( resource );
+        }
+        else
+        {
+            final String error = 
+              "Strategy element [" 
+              + type
+              + "] is not recognized.";
+            throw new IllegalArgumentException( error );
         }
     }
     

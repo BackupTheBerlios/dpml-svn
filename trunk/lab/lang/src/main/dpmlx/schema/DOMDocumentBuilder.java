@@ -22,11 +22,13 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 
+import javax.xml.validation.Validator;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.stream.StreamSource;
 
 import net.dpml.transit.Artifact;
 
@@ -36,30 +38,18 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-import org.xml.sax.helpers.DefaultHandler;
+//import org.xml.sax.helpers.DefaultHandler;
 
 import org.w3c.dom.Document;
 
-public class StandardBuilder extends DefaultHandler
+public class DOMDocumentBuilder
 {
-    private static final String XML_CONSTANTS_CLASSNAME = 
-      "javax.xml.XMLConstants";
-      
-    private static final String SCHEMA_FACTORY_CLASSNAME = 
-      "javax.xml.validation.SchemaFactory";
-      
-    private static final String SCHEMA_CLASSNAME = 
-      "javax.xml.validation.Schema";
-
     private static final String FEATURE_SECURE_PROCESSING = 
       "http://javax.xml.XMLConstants/feature/secure-processing";
     
     private static final String W3C_XML_SCHEMA_NS_URI = 
       "http://www.w3.org/2001/XMLSchema";
       
-    private static boolean VALIDATING = isSchemaCapable();
-    
     //
     // implementation
     //
@@ -80,10 +70,7 @@ public class StandardBuilder extends DefaultHandler
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware( true );
-        if( VALIDATING )
-        {
-            setupBuilderForSchemaValidation( factory );
-        }
+        setupBuilderForSchemaValidation( factory );
         DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setErrorHandler( new ParserAPIUsage() );
         return builder;
@@ -93,21 +80,9 @@ public class StandardBuilder extends DefaultHandler
     {
         try
         {
-            ClassLoader classloader = getClass().getClassLoader();
-            Class schemaFactoryClass = classloader.loadClass( SCHEMA_FACTORY_CLASSNAME );
-            Class schemaClass = classloader.loadClass( SCHEMA_CLASSNAME );
-            
-            Method newInstanceMethod = 
-              schemaFactoryClass.getMethod( "newInstance", new Class[]{ String.class } );
-            Object schemaFactory = 
-              newInstanceMethod.invoke( null, new Object[]{ W3C_XML_SCHEMA_NS_URI } );
-            Method newSchemaMethod = 
-              schemaFactoryClass.getMethod( "newSchema", new Class[0] );
-            Object schemaObject = 
-              newSchemaMethod.invoke( schemaFactory, new Object[0] );
-            Method setSchemaMethod = 
-              DocumentBuilderFactory.class.getMethod( "setSchema", new Class[]{ schemaClass } ); 
-            setSchemaMethod.invoke( dbf, new Object[]{ schemaObject } );
+            SchemaFactory schemaFactory = SchemaFactory.newInstance( W3C_XML_SCHEMA_NS_URI );
+            Schema schema = schemaFactory.newSchema();
+            dbf.setSchema( schema );
         }
         catch( Exception e )
         {
@@ -116,7 +91,7 @@ public class StandardBuilder extends DefaultHandler
             throw new RuntimeException( error, e );
         }
     }
-
+    
     private URL getURL( URI uri ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
@@ -126,23 +101,6 @@ public class StandardBuilder extends DefaultHandler
         else
         {
             return uri.toURL();
-        }
-    }
-
-    
-    private static boolean isSchemaCapable()
-    {
-        try
-        {
-            ClassLoader classloader = StandardBuilder.class.getClassLoader();
-            classloader.loadClass( XML_CONSTANTS_CLASSNAME );
-            System.out.println( "validating" );
-            return true;
-        }
-        catch( ClassNotFoundException e )
-        {
-            System.out.println( "validation disabled" );
-            return false;
         }
     }
 }

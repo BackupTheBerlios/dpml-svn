@@ -56,10 +56,8 @@ public class SchemaTestCase extends TestCase
         File file = new File( test, path );
         System.out.println( "source: " + file );
         Part part = m_builder.loadPart( file.toURI() );
-        System.out.println( "# PART: " + part );
         Strategy strategy = part.getStrategy();
-        System.out.println( "# STRATEGY: " + strategy );
-        System.out.println( "# Controller: " + strategy.getControllerURI() );
-        System.out.println( "# Data: " + strategy.getDeploymentData().getClass().getName() );
+        System.out.println( "  Controller: " + strategy.getControllerURI() );
+        System.out.println( "  Data: " + strategy.getDeploymentData().getClass().getName() );
     }
 }

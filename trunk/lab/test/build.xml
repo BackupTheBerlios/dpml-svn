@@ -9,7 +9,6 @@
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="xsd" token="COMPONENT-XSD-URI" ref="dpmlx/dpmlx-component"/>
     <x:filter feature="uri" type="xsd" token="PART-XSD-URI" ref="dpmlx/dpmlx-part"/>
-    <x:filter feature="uri" type="xsd" token="LIBRARY-XSD-URI" ref="dpmlx/dpmlx-library"/>
   </target>
 
 </project>

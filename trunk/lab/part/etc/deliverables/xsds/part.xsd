@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:part="@PROJECT-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <element name="part" type="part:PartType"/>
+    
+    <complexType name="PartType">
+      <sequence>
+        <element name="info" type="part:InfoType" minOccurs="0" maxOccurs="1"/>
+        <element name="strategy" type="part:StrategyType" minOccurs="1" maxOccurs="1"/>
+        <element name="classpath" type="part:ClassPathType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="StrategyType" abstract="true"/>
+    
+    <element name="plugin" type="part:plugin"/>
+    <complexType name="plugin">
+      <complexContent>
+        <extension base="part:StrategyType">
+          <attribute name="class" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <element name="resource" type="part:resource"/>
+    <complexType name="resource">
+      <complexContent>
+        <extension base="part:StrategyType">
+          <sequence>
+            <element name="urn" type="part:URNType"/>
+            <element name="path" type="string"/>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="ClassPathType">
+      <sequence>
+        <element name="system" type="part:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="public" type="part:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="protected" type="part:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="private" type="part:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ClassLoaderType">
+      <sequence>
+        <element name="uri" type="part:URIType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="InfoType">
+      <sequence>
+        <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+    </complexType>
+
+    <complexType name="URIType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="URNType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+
+</schema>
+

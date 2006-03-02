@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <part xmlns="@PART-XSD-URI@"
+   xmlns:part="@PART-XSD-URI@"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:m="@COMPONENT-XSD-URI@"
+   xmlns:component="@COMPONENT-XSD-URI@"
    xsi:schemaLocation="
      @PART-XSD-URI@ @PART-XSD-URI@
      @COMPONENT-XSD-URI@ @COMPONENT-XSD-URI@
@@ -13,16 +14,22 @@
     </description>
   </info>
   
-  <strategy xsi:type="m:ComponentStrategyType">
-    <m:controller uri="link:plugin:dpml/metro/dpml-metro-runtime"/>
-    <m:component type="org.acme.Widget">
-      <m:context>
-        <m:entry key="foo" value="abc"/>
-        <m:entry key="bar">
-          <m:value class="int" value="2"/>
-        </m:entry>
-      </m:context>
-    </m:component>
+  <strategy xsi:type="component:definition">
+    <component xmlns="@COMPONENT-XSD-URI@" class="org.acme.Widget">
+      <context>
+        <entry key="foo" value="abc"/>
+        <entry key="bar">
+          <value class="Gizmo">
+            <value value="foo"/>
+            <value value="bar"/>
+          </value>
+        </entry>
+      </context>
+      <parts>
+        <component key="gizmo" class="BigGizmo" lifestyle="thread" collection="soft"/>
+        <component key="flintstone" class="AnotherWidget" lifestyle="singleton" collection="hard"/>
+      </parts>
+    </component>
   </strategy>
   
   <classpath>

@@ -51,7 +51,7 @@ public class PartBuilder
     private static final String SCHEMA_INSTANCE_NS = 
       "http://www.w3.org/2001/XMLSchema-instance";
     
-    private static StandardBuilder BUILDER = new StandardBuilder();
+    private static DOMDocumentBuilder BUILDER = new DOMDocumentBuilder();
     
     public Part loadPart( URI uri ) throws Exception
     {
@@ -92,6 +92,11 @@ public class PartBuilder
     private Strategy getStrategy( ClassLoader loader, Element root ) throws Exception
     {
         Element strategy = ElementHelper.getChild( root, "strategy" );
+        if( null == strategy )
+        {
+            final String error = "Missing strategy element in: " + root;
+            throw new IllegalArgumentException( error );
+        }
         TypeInfo info = strategy.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
         Artifact artifact = Artifact.createArtifact( namespace );

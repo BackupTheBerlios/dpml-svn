@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<library xmlns="@LIBRARY-XSD-URI@"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="
-     @LIBRARY-XSD-URI@ @LIBRARY-XSD-URI@
-   " >
-  
-  
-</library>

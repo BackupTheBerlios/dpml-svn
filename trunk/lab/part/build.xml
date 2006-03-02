@@ -11,7 +11,7 @@
   </target>
 
   <target name="package" depends="standard.package">
-    <move file="target/deliverables/xsds/project.xsd"
+    <move file="target/deliverables/xsds/part.xsd"
       toFile="target/deliverables/xsds/${project.name}-${project.version}.xsd"/>
   </target>
 
