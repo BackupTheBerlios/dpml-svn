@@ -13,8 +13,6 @@
     <import namespace="@PART-XSD-URI@"
                 schemaLocation="@PART-XSD-URI@"/>
     
-    <element name="component" type="metro:part"/>
-    
     <!--
     Definition of a plugin component deployment strategy.
     -->
@@ -33,7 +31,7 @@
       <sequence>
         <element name="param" type="metro:ValueType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
-      <attribute name="uri" type="string"/>
+      <attribute name="uri" type="string" use="required"/>
     </complexType>
     
     <complexType name="ComponentType">
@@ -41,18 +39,9 @@
         <element name="context" type="metro:ContextType" minOccurs="0" maxOccurs="1"/>
         <element name="parts" type="metro:PartsType" minOccurs="0" maxOccurs="1"/>
       </sequence>
-      <attribute name="class" type="string"/>
+      <attribute name="class" type="string" use="required"/>
       <attribute name="lifestyle" type="metro:lifestyle"/>
       <attribute name="collection" type="metro:collection"/>
-    </complexType>
-    
-    <complexType name="part">
-      <complexContent>
-        <extension base="metro:ComponentType">
-          <attribute name="alias" type="boolean"/>
-          <attribute name="type" type="string" default="part"/>
-        </extension>
-      </complexContent>
     </complexType>
     
     <complexType name="ContextType">

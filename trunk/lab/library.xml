@@ -45,6 +45,7 @@
           </dependencies>
           <dependencies scope="runtime">
             <include key="dpmlx-lang"/>
+            <include ref="dpml/metro/dpml-metro-model"/>
           </dependencies>
         </project>
 

@@ -17,7 +17,6 @@
 
     <complexType name="StrategyType" abstract="true"/>
     
-    <element name="plugin" type="part:plugin"/>
     <complexType name="plugin">
       <complexContent>
         <extension base="part:StrategyType">
@@ -29,7 +28,6 @@
       </complexContent>
     </complexType>
     
-    <element name="resource" type="part:resource"/>
     <complexType name="resource">
       <complexContent>
         <extension base="part:StrategyType">

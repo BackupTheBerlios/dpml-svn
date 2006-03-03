@@ -23,6 +23,7 @@ import java.net.URI;
 
 import dpmlx.lang.Strategy;
 import dpmlx.lang.StrategyBuilder;
+import dpmlx.lang.PartDirective;
 
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.ElementHelper;
@@ -38,6 +39,8 @@ import org.w3c.dom.Element;
  */
 public class PartStrategyBuilder implements StrategyBuilder
 {
+    private static final PartDirective TRANSIT_DIRECTIVE = createTransitDirective();
+    
     public Strategy buildStrategy( Element element ) throws Exception
     {
         if( !"strategy".equals( element.getTagName() ) )
@@ -52,10 +55,10 @@ public class PartStrategyBuilder implements StrategyBuilder
         if( "plugin".equals( type ) )
         {
             String classname = ElementHelper.getAttribute( element, "class" );
-            Element[] elements = ElementHelper.getChildren( element, "params" );
+            Element[] elements = ElementHelper.getChildren( element, "param" );
             ValueDirective[] values = createValueDirectives( elements );
             Plugin plugin = new Plugin( classname, values );
-            return new PluginStrategy( plugin );
+            return new Strategy( TRANSIT_DIRECTIVE, plugin );
         }
         else if( "resource".equals( type ) )
         {
@@ -64,7 +67,7 @@ public class PartStrategyBuilder implements StrategyBuilder
             String urn = ElementHelper.getValue( urnElement );
             String path = ElementHelper.getValue( pathElement );
             Resource resource = new Resource( urn, path );
-            return new ResourceStrategy( resource );
+            return new Strategy( TRANSIT_DIRECTIVE, resource );
         }
         else
         {
@@ -90,7 +93,7 @@ public class PartStrategyBuilder implements StrategyBuilder
     {
         String classname = ElementHelper.getAttribute( element, "class" );
         String method = ElementHelper.getAttribute( element, "method" );
-        Element[] elements = ElementHelper.getChildren( element, "params" );
+        Element[] elements = ElementHelper.getChildren( element, "param" );
         if( elements.length > 0 )
         {
             ValueDirective[] values = createValueDirectives( elements );
@@ -103,38 +106,17 @@ public class PartStrategyBuilder implements StrategyBuilder
         }
     }
     
-    private abstract static class PartStrategy extends Strategy
+    private static PartDirective createTransitDirective()
     {
-        PartStrategy( URI uri, Serializable data ) throws Exception
+        try
         {
-            super( uri, data );
+            URI uri = new URI( "internal:transit" );
+            return new PartDirective( uri, null );
+        }
+        catch( Throwable e )
+        {
+            e.printStackTrace();
+            return null;
         }
     }
-    
-    private static class PluginStrategy extends PartStrategy
-    {
-        PluginStrategy( Plugin plugin ) throws Exception
-        {
-            super( new URI( "part:plugin" ), plugin );
-        }
-        
-        public Plugin getPlugin()
-        {
-            return (Plugin) super.getDeploymentData();
-        }
-    }
-    
-    private static class ResourceStrategy extends PartStrategy
-    {
-        ResourceStrategy( Resource resource ) throws Exception
-        {
-            super( new URI( "part:resource" ), resource );
-        }
-        
-        public Resource getResource()
-        {
-            return (Resource) super.getDeploymentData();
-        }
-    }
-    
 }

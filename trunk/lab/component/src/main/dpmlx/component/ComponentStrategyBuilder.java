@@ -20,8 +20,15 @@ package dpmlx.component;
 
 import java.net.URI;
 
+import net.dpml.metro.data.ComponentDirective;
+
+import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.util.ElementHelper;
+
 import dpmlx.lang.Strategy;
 import dpmlx.lang.StrategyBuilder;
+import dpmlx.lang.PartDirective;
+import dpmlx.lang.BuilderException;
 
 import org.w3c.dom.Element;
 
@@ -33,6 +40,8 @@ import org.w3c.dom.Element;
  */
 public class ComponentStrategyBuilder implements StrategyBuilder
 {
+    private final String CONTROLLER = "@CONTROLLER_URI@";
+    
    /**
     * Constructs a component deployment strategy.
     *
@@ -41,6 +50,90 @@ public class ComponentStrategyBuilder implements StrategyBuilder
     */
     public Strategy buildStrategy( Element element ) throws Exception
     {
-        return new ComponentStrategy( "Hello World" );
+        Element controller = ElementHelper.getChild( element, "controller" );
+        PartDirective control = createControllerDirective( controller );
+        Element directive = ElementHelper.getChild( element, "component" );
+        ComponentDirective component = createComponentDirective( directive );
+        return new Strategy( control, component );
+    }
+    
+    private ComponentDirective createComponentDirective( Element element ) throws BuilderException
+    {
+        String classname = getComponentClassname( element );
+        String name = getComponentName( element );
+        return new ComponentDirective( name, classname );
+    }
+    
+    private String getComponentClassname( Element element ) throws BuilderException
+    {
+        String classname = ElementHelper.getAttribute( element, "class" );
+        if( null == classname )
+        {
+            final String error =
+              "Missing component 'class' attribute.";
+            throw new BuilderException( element, error );
+        }
+        else
+        {
+            return classname;
+        }
+    }
+    
+    private String getComponentName( Element element )
+    {
+        return ElementHelper.getAttribute( element, "name" );
+    }
+    
+    private PartDirective createControllerDirective( Element element ) throws Exception
+    {
+        if( null == element )
+        {
+            try
+            {
+                URI uri = new URI( CONTROLLER );
+                return new PartDirective( uri, null );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unexpected error during part directive creation.";
+                throw new RuntimeException( error, e );
+            }
+        }
+        else
+        {
+            String spec = ElementHelper.getAttribute( element, "uri" );
+            URI uri = new URI( spec );
+            Element[] elements = ElementHelper.getChildren( element, "param" );
+            ValueDirective[] values = createValueDirectives( elements );
+            return new PartDirective( uri, values );
+        }
+    }
+
+    private ValueDirective[] createValueDirectives( Element[] elements )
+    {
+        ValueDirective[] values = new ValueDirective[ elements.length ];
+        for( int i=0; i<elements.length; i++ )
+        {
+            values[i] = createValueDirective( elements[i] );
+        }
+        return values;
+    }
+    
+    private ValueDirective createValueDirective( Element element )
+    {
+        String classname = ElementHelper.getAttribute( element, "class" );
+        String method = ElementHelper.getAttribute( element, "method" );
+        Element[] elements = ElementHelper.getChildren( element, "param" );
+        if( elements.length > 0 )
+        {
+            ValueDirective[] values = createValueDirectives( elements );
+            return new ValueDirective( classname, method, values );
+        }
+        else
+        {
+            String value = ElementHelper.getAttribute( element, "value" );
+            return new ValueDirective( classname, method, value );
+        }
     }
 }

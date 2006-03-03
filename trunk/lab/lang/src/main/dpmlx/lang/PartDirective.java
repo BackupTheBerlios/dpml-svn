@@ -21,49 +21,52 @@ package dpmlx.lang;
 import java.io.Serializable;
 import java.net.URI;
 
+import net.dpml.transit.info.ValueDirective;
+
 /**
- * Part deployment strategy description.
+ * Immutable part creation directive.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Strategy implements Serializable
+public final class PartDirective implements Serializable
 {
-    private final PartDirective m_controller;
-    private final Serializable m_data;
+    private final URI m_uri;
+    private final ValueDirective[] m_params;
     
-    public Strategy( PartDirective controller, Serializable data )
+    public PartDirective( URI uri, ValueDirective[] params )
     {
-        if( null == controller )
+        if( null == uri )
         {
-            throw new NullPointerException( "controller" );
+            throw new NullPointerException( "uri" );
         }
-        if( null == data )
+        m_uri = uri;
+        if( null == params )
         {
-            throw new NullPointerException( "data" );
+            m_params = new ValueDirective[0];
         }
-        m_controller = controller;
-        m_data = data;
+        else
+        {
+            m_params = params;
+        }
     }
     
    /**
-    * Get the controller deployment directive.
-    *
-    * @return the deployment controller uri
+    * Get the part uri.
+    * @return the uri
     */
-    public PartDirective getPartDirective()
+    public URI getURI()
     {
-        return m_controller;
+        return m_uri;
     }
     
    /**
-    * Get the deployment data.
-    *
-    * @return the deployment datastructure
+    * Get the values to be used during part instantiation.
+    * @return the directives
     */
-    public Object getDeploymentData()
+    public ValueDirective[] getValueDirectives()
     {
-        return m_data;
+        return m_params;
     }
     
     public boolean equals( Object other )
@@ -72,16 +75,16 @@ public class Strategy implements Serializable
         {
             return false;
         }
-        else if( other instanceof Strategy )
+        else if( other instanceof PartDirective )
         {
-            Strategy strategy = (Strategy) other;
-            if( !m_controller.equals( strategy.m_controller ) )
+            PartDirective part = (PartDirective) other;
+            if( !m_uri.equals( part.m_uri ) )
             {
                 return false;
             }
             else
             {
-                return m_data.equals( strategy.m_data );
+                return m_params.equals( part.m_params );
             }
         }
         else
@@ -92,8 +95,11 @@ public class Strategy implements Serializable
     
     public int hashCode()
     {
-        int hash = m_controller.hashCode();
-        hash ^= m_data.hashCode();
+        int hash = m_uri.hashCode();
+        for( int i=0; i<m_params.length; i++ )
+        {
+            hash ^= m_params[i].hashCode();
+        }
         return hash;
     }
 }
