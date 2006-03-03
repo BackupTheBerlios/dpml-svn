@@ -15,6 +15,9 @@
   </info>
   
   <strategy xsi:type="component:definition">
+    <controller xmlns="@COMPONENT-XSD-URI@" uri="@METRO-CONTROLLER-URI@" >
+      <param class="net.dpml.part.InitialContext"/>
+    </controller>
     <component xmlns="@COMPONENT-XSD-URI@" class="org.acme.Widget" >
       <context>
         <entry key="foo" value="abc"/>

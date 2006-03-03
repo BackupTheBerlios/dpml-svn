@@ -21,14 +21,14 @@ package dpmlx.schema;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.Value;
 
 class Plugin implements Serializable
 {
     private final String m_classname;
-    private final ValueDirective[] m_params;
+    private final Value[] m_params;
     
-    public Plugin( String classname, ValueDirective[] params )
+    public Plugin( String classname, Value[] params )
     {
         m_classname = classname;
         m_params = params;
@@ -39,7 +39,7 @@ class Plugin implements Serializable
         return m_classname;
     }
     
-    public ValueDirective[] getValueDirectives()
+    public Value[] getValues()
     {
         return m_params;
     }

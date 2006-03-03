@@ -60,6 +60,7 @@
           <dependencies scope="test">
             <include key="dpmlx-lang"/>
             <include ref="ant/ant-junit"/>
+            <include ref="dpml/metro/dpml-part-api"/>
           </dependencies>
         </project>
     

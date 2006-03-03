@@ -10,6 +10,9 @@ import dpmlx.lang.Strategy;
 import dpmlx.lang.PartDirective;
 import dpmlx.schema.PartBuilder;
 import dpmlx.schema.UnresolvableHandlerException;
+import dpmlx.schema.PartHandlerFactory;
+
+import net.dpml.part.PartHandler;
 
 import junit.framework.TestCase;
 
@@ -64,5 +67,15 @@ public class SchemaTestCase extends TestCase
         
         System.out.println( "  Controller: " + uri );
         System.out.println( "  Data: " + data.getClass().getName() );
+        
+        try
+        {
+            PartHandler handler = PartHandlerFactory.getInstance().getPartHandler( directive );
+            System.out.println( "  Handler: " + handler );
+        }
+        catch( Throwable e )
+        {
+            System.out.println( "  " + e.toString() );
+        }
     }
 }

@@ -38,7 +38,6 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
-//import org.xml.sax.helpers.DefaultHandler;
 
 import org.w3c.dom.Document;
 

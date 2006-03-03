@@ -22,7 +22,8 @@ import java.net.URI;
 
 import net.dpml.metro.data.ComponentDirective;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.Value;
+import net.dpml.transit.Construct;
 import net.dpml.transit.util.ElementHelper;
 
 import dpmlx.lang.Strategy;
@@ -105,35 +106,35 @@ public class ComponentStrategyBuilder implements StrategyBuilder
             String spec = ElementHelper.getAttribute( element, "uri" );
             URI uri = new URI( spec );
             Element[] elements = ElementHelper.getChildren( element, "param" );
-            ValueDirective[] values = createValueDirectives( elements );
+            Value[] values = createValues( elements );
             return new PartDirective( uri, values );
         }
     }
 
-    private ValueDirective[] createValueDirectives( Element[] elements )
+    private Value[] createValues( Element[] elements )
     {
-        ValueDirective[] values = new ValueDirective[ elements.length ];
+        Value[] values = new Value[ elements.length ];
         for( int i=0; i<elements.length; i++ )
         {
-            values[i] = createValueDirective( elements[i] );
+            values[i] = createValue( elements[i] );
         }
         return values;
     }
     
-    private ValueDirective createValueDirective( Element element )
+    private Value createValue( Element element )
     {
         String classname = ElementHelper.getAttribute( element, "class" );
         String method = ElementHelper.getAttribute( element, "method" );
         Element[] elements = ElementHelper.getChildren( element, "param" );
         if( elements.length > 0 )
         {
-            ValueDirective[] values = createValueDirectives( elements );
-            return new ValueDirective( classname, method, values );
+            Value[] values = createValues( elements );
+            return new Construct( classname, method, values );
         }
         else
         {
             String value = ElementHelper.getAttribute( element, "value" );
-            return new ValueDirective( classname, method, value );
+            return new Construct( classname, method, value );
         }
     }
 }

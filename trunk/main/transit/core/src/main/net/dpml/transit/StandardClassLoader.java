@@ -193,7 +193,14 @@ public class StandardClassLoader extends URLClassLoader
                 listClasspath( buffer, parent );
             }
 
-            label = label.concat( "\nGroup: " + m_plugin + " " + cl.getCategory() );
+            if( null != m_plugin )
+            {
+                label = label.concat( "\nGroup: " + m_plugin + " " + cl.getCategory() );
+            }
+            else
+            {
+                label = label.concat( "\nCategory: " + cl.getCategory() );
+            }
             buffer.append( label );
             buffer.append( "\n" );
             appendEntries( buffer, cl );

@@ -16,28 +16,25 @@
  * limitations under the License.
  */
 
-package dpmlx.schema;
+package net.dpml.part;
 
-import java.io.Serializable;
+import java.io.IOException;
 
 import net.dpml.lang.Classpath;
 
-import dpmlx.lang.PartHandler;
-
 /**
- * Construct a part.
+ * Interface implemented by part runtime handlers. Handler are identified
+ * by the uri returned from the <tt>Part.getStrategy().getController()</tt>.
  */
-public class PluginPartHandler implements PartHandler
+public interface PartHandler
 {
    /**
     * Build a classloader stack.
     * @param anchor the anchor classloader to server as the classloader chain root
     * @param classpath the part classpath definition
+    * @exception IOException if an IO error occurs during classpath evaluation
     */
-    public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath )
-    {
-        throw new UnsupportedOperationException( "getClassLoader" );
-    }
+    ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException;
 
    /**
     * Instantiate a value.
@@ -46,8 +43,5 @@ public class PluginPartHandler implements PartHandler
     * @param args supplimentary arguments
     * @exception Exception if a deployment error occurs
     */
-    public Object getInstance( ClassLoader classloader, Object data, Object[] args ) throws Exception
-    {
-        throw new UnsupportedOperationException( "getInstance" );
-    }
+    Object getInstance( ClassLoader classloader, Object data, Object[] args ) throws Exception;
 }

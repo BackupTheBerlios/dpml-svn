@@ -25,8 +25,10 @@ import dpmlx.lang.Strategy;
 import dpmlx.lang.StrategyBuilder;
 import dpmlx.lang.PartDirective;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.Value;
+import net.dpml.transit.Construct;
 import net.dpml.transit.util.ElementHelper;
+import net.dpml.part.StandardPartHandler;
 
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Element;
@@ -39,7 +41,8 @@ import org.w3c.dom.Element;
  */
 public class PartStrategyBuilder implements StrategyBuilder
 {
-    private static final PartDirective TRANSIT_DIRECTIVE = createTransitDirective();
+    private static final PartDirective TRANSIT_DIRECTIVE = 
+      new PartDirective( StandardPartHandler.PART_HANDLER_URI, null );
     
     public Strategy buildStrategy( Element element ) throws Exception
     {
@@ -56,7 +59,7 @@ public class PartStrategyBuilder implements StrategyBuilder
         {
             String classname = ElementHelper.getAttribute( element, "class" );
             Element[] elements = ElementHelper.getChildren( element, "param" );
-            ValueDirective[] values = createValueDirectives( elements );
+            Value[] values = createValues( elements );
             Plugin plugin = new Plugin( classname, values );
             return new Strategy( TRANSIT_DIRECTIVE, plugin );
         }
@@ -79,44 +82,30 @@ public class PartStrategyBuilder implements StrategyBuilder
         }
     }
     
-    private ValueDirective[] createValueDirectives( Element[] elements )
+    private Value[] createValues( Element[] elements )
     {
-        ValueDirective[] values = new ValueDirective[ elements.length ];
+        Value[] values = new Value[ elements.length ];
         for( int i=0; i<elements.length; i++ )
         {
-            values[i] = createValueDirective( elements[i] );
+            values[i] = createValue( elements[i] );
         }
         return values;
     }
     
-    private ValueDirective createValueDirective( Element element )
+    private Value createValue( Element element )
     {
         String classname = ElementHelper.getAttribute( element, "class" );
         String method = ElementHelper.getAttribute( element, "method" );
         Element[] elements = ElementHelper.getChildren( element, "param" );
         if( elements.length > 0 )
         {
-            ValueDirective[] values = createValueDirectives( elements );
-            return new ValueDirective( classname, method, values );
+            Value[] values = createValues( elements );
+            return new Construct( classname, method, values );
         }
         else
         {
             String value = ElementHelper.getAttribute( element, "value" );
-            return new ValueDirective( classname, method, value );
-        }
-    }
-    
-    private static PartDirective createTransitDirective()
-    {
-        try
-        {
-            URI uri = new URI( "internal:transit" );
-            return new PartDirective( uri, null );
-        }
-        catch( Throwable e )
-        {
-            e.printStackTrace();
-            return null;
+            return new Construct( classname, method, value );
         }
     }
 }

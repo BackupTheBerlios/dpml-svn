@@ -45,6 +45,9 @@ import net.dpml.part.ControllerContextEvent;
 import net.dpml.part.Model;
 import net.dpml.part.Component;
 
+import net.dpml.part.PartHandler;
+import net.dpml.part.StandardPartHandler;
+
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 
@@ -55,7 +58,7 @@ import net.dpml.transit.Transit;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class CompositionController implements Controller
+public class CompositionController extends StandardPartHandler implements Controller
 {
     //--------------------------------------------------------------------
     // immutable state
@@ -98,6 +101,10 @@ public class CompositionController implements Controller
         m_controller = new ComponentController( m_logger, this );
         startEventDispatchThread();
     }
+    
+    //--------------------------------------------------------------------
+    // PartHandler
+    //--------------------------------------------------------------------
     
     //--------------------------------------------------------------------
     // Controller

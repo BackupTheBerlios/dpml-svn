@@ -21,7 +21,7 @@ package dpmlx.lang;
 import java.io.Serializable;
 import java.net.URI;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.transit.Value;
 
 /**
  * Immutable part creation directive.
@@ -32,9 +32,9 @@ import net.dpml.transit.info.ValueDirective;
 public final class PartDirective implements Serializable
 {
     private final URI m_uri;
-    private final ValueDirective[] m_params;
+    private final Value[] m_params;
     
-    public PartDirective( URI uri, ValueDirective[] params )
+    public PartDirective( URI uri, Value[] params )
     {
         if( null == uri )
         {
@@ -43,7 +43,7 @@ public final class PartDirective implements Serializable
         m_uri = uri;
         if( null == params )
         {
-            m_params = new ValueDirective[0];
+            m_params = new Value[0];
         }
         else
         {
@@ -64,7 +64,7 @@ public final class PartDirective implements Serializable
     * Get the values to be used during part instantiation.
     * @return the directives
     */
-    public ValueDirective[] getValueDirectives()
+    public Value[] getValues()
     {
         return m_params;
     }

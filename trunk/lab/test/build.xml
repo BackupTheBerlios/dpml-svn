@@ -9,6 +9,7 @@
   <target name="init" depends="standard.init">
     <x:filter feature="uri" type="xsd" token="COMPONENT-XSD-URI" ref="dpmlx/dpmlx-component"/>
     <x:filter feature="uri" type="xsd" token="PART-XSD-URI" ref="dpmlx/dpmlx-part"/>
+    <x:filter feature="uri" type="plugin" token="METRO-CONTROLLER-URI" ref="dpml/metro/dpml-metro-runtime"/>
   </target>
 
 </project>
