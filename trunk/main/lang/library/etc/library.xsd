@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:depot="@PROJECT-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <element name="library" type="depot:LibraryType"/>
+    
+    <complexType name="LibraryType">
+      <sequence>
+        <element name="imports" type="depot:ImportsType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="depot:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element name="modules" type="depot:ModulesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ImportsType">
+      <sequence>
+        <element name="import" type="depot:ImportType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="PropertiesType">
+      <sequence>
+        <element name="property" type="depot:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ModulesType">
+      <sequence>
+        <element name="module" type=depot:"ModuleType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ImportType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="PropertyType">
+      <attribute name="name" type="string"/>
+      <attribute name="value" type="string"/>
+    </complexType>
+
+    <complexType name="ResourceType">
+      <sequence>
+        <element name="properties" type="depot:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element name="types" type="depot:TypesType" minOccurs="0" maxOccurs="1"/>
+        <element name="dependencies" type="depot:DependenciesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="name" type="string"/>
+      <attribute name="version" type="string"/>
+    </complexType>
+
+    <complexType name="ProjectType">
+      <complexContent>
+        <extension base="depot:ResourceType">
+          <attribute name="basedir" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="ModuleType">
+      <complexContent>
+        <extension base="depot:ProjectType">
+          <choice maxOccurs="unbounded">
+            <element name="module" type="depot:ModuleType"/>
+            <element name="project" type="depot:ProjectType"/>
+            <element name="resource" type="depot:ResourceType"/>
+          </choice>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="TypesType">
+      <sequence>
+        <any minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="GenericType">
+      <sequence>
+        <element name="property" type="depot:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="id" type="string"/>
+      <attribute name="alias" type="boolean" default="false"/>
+    </complexType>
+    
+    <complexType name="DependenciesType">
+      <sequence>
+        <element name="build" type="depot:DependencyType" minOccurs="0" maxOccurs="1"/>
+        <element name="runtime" type="depot:RuntimeDependencyType" minOccurs="0" maxOccurs="1"/>
+        <element name="test" type="depot:DependencyType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="DependencyType">
+      <sequence>
+        <element name="include" type="depot:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="RuntimeDependencyType">
+      <sequence>
+        <element name="include" type="depot:RuntimeIncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+
+    <complexType name="IncludeType">
+      <sequence>
+        <element name="properties" type="depot:PropertiesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="key" type="string"/>
+      <attribute name="ref" type="string"/>
+      <attribute name="urn" type="string"/>
+    </complexType>
+
+    <complexType name="RuntimeIncludeType">
+      <complexContent>
+        <extension base="depot:IncludeType">
+          <attribute name="tag" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <!--
+    <types>
+      <type id="part" alias="true">
+        <component name="fred" type="Widget"/>
+      </type>
+    </types>
+    -->
+
+</schema>
+

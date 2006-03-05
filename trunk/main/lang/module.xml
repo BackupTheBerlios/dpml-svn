@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
+
+<module name="lang">
+   
+  <resource name="dpml-part" basedir="part">
+    <types>
+      <type id="xsd"/>
+    </types>
+  </resource>
+   
+</module>
