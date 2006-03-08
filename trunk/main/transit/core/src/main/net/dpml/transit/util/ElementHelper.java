@@ -141,15 +141,14 @@ public final class ElementHelper
         {
             return new Element[0];
         }
-        final NodeList list = root.getElementsByTagName( name );
-        final int n = list.getLength();
+        Element[] children = getChildren( root );
         final ArrayList result = new ArrayList();
-        for( int i=0; i < n; i++ )
+        for( int i=0; i<children.length ; i++ )
         {
-            final Node item = list.item( i );
-            if( item instanceof Element )
+            final Element child = children[i];
+            if( name.equals( child.getTagName() ) )
             {
-                result.add( item );
+                result.add( child );
             }
         }
         return (Element[]) result.toArray( new Element[0] );
