@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+
+<!--
+Defintion of a component type.
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="@PROJECT-XSD-URI@"
+            xmlns:state="@STATE-XSD-URI@"
+            xmlns:component="@COMPONENT-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <import namespace="@STATE-XSD-URI@" schemaLocation="@STATE-XSD-URI@"/>
+    <import namespace="@COMPONENT-XSD-URI@" schemaLocation="@COMPONENT-XSD-URI@"/>
+    
+    <element name="type" type="this:TypeDefinition"/>
+    <!--<element name="component" type="component:component" substitutionGroup="component:component"/>-->
+    <element name="strategy" type="this:strategy" substitutionGroup="component:strategy"/>
+    
+    <complexType name="TypeDefinition">
+      <sequence>
+        <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
+        <element name="services" type="this:ServicesType" minOccurs="0" maxOccurs="1"/>
+        <element name="context" type="this:ContextType" minOccurs="0" maxOccurs="1"/>
+        <element name="categories" type="this:CategoriesType" minOccurs="0" maxOccurs="1"/>
+        <element ref="state:state" minOccurs="0" maxOccurs="1"/>
+        <element name="parts" type="component:parts" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="InfoType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="name" type="string"/>
+      <attribute name="class" type="string" use="required"/>
+      <attribute name="version" type="string"/>
+      <attribute name="lifestyle" type="component:lifestyle"/>
+      <attribute name="collection" type="component:collection"/>
+      <attribute name="threadsafe" type="this:threadsafe"/>
+    </complexType>
+    
+    <complexType name="CategoriesType">
+      <sequence>
+        <element name="category" type="this:CategoryType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="CategoryType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="name" type="string" use="required"/>
+      <attribute name="priority" type="this:priority"/>
+    </complexType>
+    
+    <complexType name="ContextType">
+      <sequence>
+        <element name="entry" type="this:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="EntryType">
+      <attribute name="key" type="string" use="required"/>
+      <attribute name="class" type="string" use="required"/>
+      <attribute name="optional" type="boolean" default="false"/>
+      <attribute name="volatile" type="boolean" default="false"/>
+    </complexType>
+    
+    <complexType name="ServicesType">
+      <sequence>
+        <element name="service" type="this:ServiceType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ServiceType">
+      <attribute name="class" type="string" use="required"/>
+      <attribute name="version" type="string"/>
+    </complexType>
+        
+    <!--
+    <complexType name="PartsType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="this:strategy"/>
+        <element ref="component:part"/>
+      </choice>
+    </complexType>
+    -->
+    
+    <complexType name="PropertyType">
+      <attribute name="name" type="string"/>
+      <attribute name="value" type="string"/>
+    </complexType>
+
+    <complexType name="strategy">
+      <complexContent>
+        <extension base="component:strategy"/>
+      </complexContent>
+    </complexType>
+    
+    <simpleType name="priority">
+      <restriction base="string">
+        <enumeration value="info"/>
+        <enumeration value="warn"/>
+        <enumeration value="error"/>
+        <enumeration value="debug"/>
+      </restriction>
+    </simpleType>
+    
+    <simpleType name="threadsafe">
+      <restriction base="string">
+        <enumeration value="true"/>
+        <enumeration value="false"/>
+        <enumeration value="unknown"/>
+      </restriction>
+    </simpleType>
+    
+</schema>

@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
-
-<module name="lang">
+<module name="lang"
+    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
    
-  <resource name="dpml-part" basedir="part">
+  <resource name="dpml-common" version="1.0">
     <types>
       <type id="xsd"/>
     </types>
   </resource>
    
+  <resource name="dpml-part" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-common"/>
+    </dependencies>
+  </resource>
+
+  <resource name="dpml-state" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+  </resource>
+   
+  <resource name="dpml-component" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-part"/>
+    </dependencies>
+  </resource>
+
+  <resource name="dpml-type" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-state"/>
+      <include key="dpml-component"/>
+    </dependencies>
+  </resource>
+
+  <resource name="dpml-module" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-common"/>
+    </dependencies>
+  </resource>
+
 </module>

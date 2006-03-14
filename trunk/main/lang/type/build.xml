@@ -18,18 +18,20 @@
   limitations under the License.
 -->
 
-<project name="dpml-part" default="install" basedir=".">
+<project name="dpml-type" default="install" basedir=".">
 
   <property name="project.group" value="dpml/lang"/>
-  <property name="project.name" value="dpml-part"/>
+  <property name="project.name" value="dpml-type"/>
 
   <property file="${basedir}/build.properties"/>
   <property name="home" value="../.."/>
   <import file="${home}/bootstrap.xml"/>
 
   <target name="init" depends="bootstrap.init">
-    <filter token="COMMON-XSD-URI" value="artifact:xsd:dpml/lang/dpml-common#${project.version}"/>
     <filter token="PROJECT-XSD-URI" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
+    <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#1.0"/>
+    <filter token="STATE-XSD-URI" value="artifact:xsd:dpml/lang/dpml-state#1.0"/>
+    <filter token="COMPONENT-XSD-URI" value="artifact:xsd:dpml/lang/dpml-component#1.0"/>
   </target>
 
   <target name="package" depends="bootstrap.package">
@@ -37,7 +39,7 @@
     <mkdir dir="${targetDir}"/>
     <property name="filename" value="${project.name}-${project.version}.xsd"/>
     <copy toFile="${targetDir}/${filename}" preservelastmodified="true" overwrite="true" 
-      file="${target.dir}/part.xsd"/>
+      file="${target.dir}/type.xsd"/>
     <checksum fileext=".md5" file="${targetDir}/${filename}"/>
   </target>
 

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<!--
+Definition of a state graph.
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:state="@PROJECT-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <element name="state" type="state:GraphType"/>
+    <element name="action" type="state:ActionType"/>
+    <element name="transition" type="state:TransitionType" substitutionGroup="state:action"/>
+    <element name="operation" type="state:OperationType" substitutionGroup="state:action"/>
+    <element name="apply" type="state:ApplyType" substitutionGroup="state:action"/>
+    <element name="exec" type="state:ExecType" substitutionGroup="state:action"/>
+    
+    <complexType name="GraphType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="transition" type="state:TransitionType"/>
+        <element name="operation" type="state:OperationType"/>
+        <element name="interface" type="state:InterfaceType"/>
+        <element name="state" type="state:StateType"/>
+        <element name="trigger" type="state:TriggerType"/>
+      </choice>
+      <attribute name="terminal" type="boolean" default="false"/>
+    </complexType>
+    
+    <complexType name="StateType">
+      <complexContent>
+        <extension base="state:GraphType">
+          <attribute name="name" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="TriggerType">
+      <sequence>
+        <element ref="state:action" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+      <attribute name="event" type="state:trigger"/>
+    </complexType>
+    
+    <complexType name="ActionType" abstract="true"/>
+    
+    <complexType name="TransitionType">
+      <complexContent>
+        <extension base="state:ActionType">
+          <sequence>
+            <element name="operation" type="state:OperationType" minOccurs="0" maxOccurs="1"/>
+          </sequence>
+          <attribute name="name" type="string" use="required"/>
+          <attribute name="target" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="OperationType">
+      <complexContent>
+        <extension base="state:ActionType">
+          <attribute name="name" type="string" use="required"/>
+          <attribute name="method" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="InterfaceType">
+      <complexContent>
+        <extension base="state:ActionType">
+          <attribute name="class" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="ApplyType">
+      <complexContent>
+        <extension base="state:ActionType">
+          <attribute name="id" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="ExecType">
+      <complexContent>
+        <extension base="state:ActionType">
+          <attribute name="id" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <simpleType name="trigger">
+      <restriction base="string">
+        <enumeration value="initialization"/>
+        <enumeration value="termination"/>
+      </restriction>
+    </simpleType>
+    
+</schema>

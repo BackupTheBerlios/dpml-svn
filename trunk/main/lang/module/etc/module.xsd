@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="@PROJECT-XSD-URI@"
+            xmlns:common="@COMMON-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <import namespace="@COMMON-XSD-URI@" schemaLocation="@COMMON-XSD-URI@"/>
+    <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
+    
+    <element name="library" type="this:LibraryType"/>
+    <element name="module" type="this:ModuleType"/>
+    <element name="project" type="this:ProjectType"/>
+    <element name="resource" type="this:ResourceType"/>
+    <element name="property" type="this:PropertyType"/>
+    
+    <complexType name="LibraryType">
+      <sequence>
+        <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element name="modules" type="this:ModulesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ImportsType">
+      <sequence>
+        <element name="import" type="this:URIImportType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="PropertiesType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ModulesType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="module" type="this:ModuleType"/>
+        <element name="import" type="this:FileImportType"/>
+      </choice>
+    </complexType>
+
+    <complexType name="URIImportType">
+      <attribute name="uri" type="anyURI"/>
+    </complexType>
+
+    <complexType name="FileImportType">
+      <attribute name="file" type="string"/>
+    </complexType>
+
+    <complexType name="PropertyType">
+      <attribute name="name" type="string"/>
+      <attribute name="value" type="string"/>
+    </complexType>
+
+    <complexType name="ResourceType">
+      <sequence>
+        <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element name="types" type="this:TypesType" minOccurs="0" maxOccurs="1"/>
+        <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="3"/>
+      </sequence>
+      <attribute name="name" type="string" use="required"/>
+      <attribute name="version" type="string"/>
+    </complexType>
+
+    <complexType name="ProjectType">
+      <complexContent>
+        <extension base="this:ResourceType">
+          <attribute name="basedir" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="ModuleType">
+      <complexContent>
+        <extension base="this:ProjectType">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="module" type="this:ModuleType"/>
+            <element name="project" type="this:ProjectType"/>
+            <element name="resource" type="this:ResourceType"/>
+            <element name="import" type="this:FileImportType"/>
+          </choice>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="TypesType">
+      <sequence>
+        <element ref="common:type" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="GenericType">
+      <complexContent>
+        <extension base="common:AbstractType">
+          <sequence>
+             <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+          <attribute name="id" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <element name="type" type="this:GenericType" substitutionGroup="common:type"/>
+    
+    <!--
+    <complexType name="part">
+      <complexContent>
+        <extension base="part:StrategyType"/>
+      </complexContent>
+    </complexType>
+    
+    <element name="part" type="this:part" substitutionGroup="part:strategy"/>
+    -->
+    
+    <complexType name="DependenciesType">
+      <sequence>
+        <element name="include" type="this:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="scope" type="this:scope" default="runtime"/>
+    </complexType>
+
+    <complexType name="IncludeType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="key" type="string"/>
+      <attribute name="ref" type="string"/>
+      <attribute name="urn" type="string"/>
+      <attribute name="tag" type="string"/>
+    </complexType>
+
+    <simpleType name="scope">
+      <restriction base="string">
+        <enumeration value="build"/>
+        <enumeration value="runtime"/>
+        <enumeration value="test"/>
+      </restriction>
+    </simpleType>
+
+    <simpleType name="tag">
+      <restriction base="string">
+        <enumeration value="system"/>
+        <enumeration value="public"/>
+        <enumeration value="protected"/>
+        <enumeration value="private"/>
+      </restriction>
+    </simpleType>
+
+</schema>
+

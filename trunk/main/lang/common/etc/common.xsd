@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:common="@PROJECT-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+        
+    <element name="type" type="common:AbstractType" abstract="true"/>
+    
+    <complexType name="AbstractType">
+      <complexContent>
+        <restriction base="xsd:anyType">
+          <attribute name="alias" type="boolean" default="false"/>
+        </restriction>
+      </complexContent>
+    </complexType>
+
+</schema>
