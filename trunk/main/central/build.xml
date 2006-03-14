@@ -10,15 +10,15 @@
     <x:filter token="VERSION" feature="version"/>
     <x:filter token="ANT-JAR-VERSION" ref="ant/ant" feature="version"/>
     <x:filter token="ANT-JAR-URI" ref="ant/ant" feature="uri" type="jar" />
-    <x:filter token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" feature="uri" type="plugin" />
+    <x:filter token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" feature="uri" type="jar" />
     <x:filter token="TRANSIT-MODULE-VERSION" ref="dpml/transit" feature="version"/>
     <x:filter token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar" />
     <x:filter token="DEPOT-MODULE-VERSION" feature="version" ref="dpml/depot" />
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-console" />
-    <x:filter token="DEPOT-TOOLS-ANT-URI" feature="uri" type="plugin" ref="dpml/depot/dpml-tools-builder" />
-    <x:filter token="DEPOT-TOOLS-LIBRARY-URI" feature="uri" type="plugin" ref="dpml/depot/dpml-library-main" />
-    <x:filter token="METRO-RUNTIME-URI" feature="uri" type="plugin" ref="dpml/metro/dpml-metro-runtime" />
-    <x:filter token="METRO-TOOLS-URI" feature="uri" type="plugin" ref="dpml/metro/dpml-metro-tools" />
+    <x:filter token="DEPOT-TOOLS-ANT-URI" feature="uri" type="part" ref="dpml/depot/dpml-tools-builder" />
+    <x:filter token="DEPOT-TOOLS-LIBRARY-URI" feature="uri" type="jar" ref="dpml/depot/dpml-library" />
+    <x:filter token="METRO-RUNTIME-URI" feature="uri" type="part" ref="dpml/metro/dpml-metro-runtime" />
+    <x:filter token="METRO-TOOLS-URI" feature="uri" type="part" ref="dpml/metro/dpml-metro-tools" />
     <x:filter token="UTIL-ACTIVITY-URI" feature="uri" type="jar" ref="dpml/util/dpml-activity-api" />
     <x:filter token="UTIL-CLI-URI" feature="uri" type="jar" ref="dpml/util/dpml-util-cli" />
     <x:filter token="UTIL-CONFIGURATION-API-URI" feature="uri" type="jar" ref="dpml/util/dpml-configuration-api" />
