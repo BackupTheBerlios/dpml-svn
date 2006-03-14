@@ -124,14 +124,4 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
     {
         doSerializationTest( m_directive );
     }
-    
-   /**
-    * Test directive encoding.
-    * @exception Exception if an error occurs during setup.
-    */
-    //public void testEncoding() throws Exception
-    //{
-    //    CacheDirective result = (CacheDirective) doEncodingTest( m_directive, "cache.xml" );
-    //    assertEquals( "encoded", m_directive, result );
-    //}
 }

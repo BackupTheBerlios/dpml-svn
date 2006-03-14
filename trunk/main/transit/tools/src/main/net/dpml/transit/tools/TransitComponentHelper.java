@@ -23,7 +23,11 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.net.URI;
 
-import net.dpml.lang.Plugin;
+import net.dpml.part.Part;
+import net.dpml.part.Plugin;
+import net.dpml.part.Resource;
+
+//import net.dpml.lang.Plugin;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
@@ -84,7 +88,8 @@ public class TransitComponentHelper extends ComponentHelper
    /**
     * The constant artifact plugin header.
     */
-    public static final String PLUGIN_ARTIFACT_HEADER = "artifact:plugin:";
+    //public static final String PLUGIN_ARTIFACT_HEADER = "artifact:plugin:";
+    public static final String PLUGIN_ARTIFACT_HEADER = "artifact:part:";
 
    /**
     * Creation of a component helper for the supplied project.
@@ -340,20 +345,23 @@ public class TransitComponentHelper extends ComponentHelper
             m_project.log( "installing: " + uri + " as " + urn );
 
             Repository loader = Transit.getInstance().getRepository();
-            Plugin descriptor = loader.getPluginDescriptor( uri );
+            Part part = loader.getPart( uri );
+            Object data = part.getStrategy().getDeploymentData();
+            
             ClassLoader current = Thread.currentThread().getContextClassLoader();
-            ClassLoader classloader = loader.getPluginClassLoader( current, uri );
-            String pluginClassname = descriptor.getStrategy().getProperties().getProperty( "project.plugin.class" );
-            if( null != pluginClassname )
+            
+            if( data instanceof Plugin )
             {
-                Class clazz = classloader.loadClass( pluginClassname );
+                Class clazz = loader.getPluginClass( current, part );
                 final String key = uri + ":" + name;
                 getProject().log( "installing single task plugin [" + key + "]", Project.MSG_VERBOSE );
                 super.addTaskDefinition( key, clazz );
             }
-            else
+            else if( data instanceof Resource )
             {
-                String resource = descriptor.getStrategy().getProperties().getProperty( "project.plugin.resource" );
+                ClassLoader classloader = loader.getPluginClassLoader( current, part );
+                Resource res = (Resource) data;
+                String resource = res.getPath();
                 getProject().log( "installing antlib plugin [" + resource + "]", Project.MSG_VERBOSE );
                 InputStream input = classloader.getResourceAsStream( resource );
                 if( null == input )

@@ -201,21 +201,6 @@ public final class ValueDirectiveTestCase extends AbstractTestCase
         ValueDirective directive = new ValueDirective( target, args );
         doSerializationTest( directive );
     }
-    
-   /**
-    * Test encoding.
-    * @exception Exception if an error occurs
-    */
-    //public void testEncoding() throws Exception
-    //{
-    //    String target = "java.io.File";
-    //    ValueDirective base = new ValueDirective( "java.io.File", "." );
-    //    ValueDirective spec = new ValueDirective( "test" );
-    //    ValueDirective[] args = new ValueDirective[]{base, spec};
-    //    ValueDirective directive = new ValueDirective( target, args );
-    //    ValueDirective result = (ValueDirective) doEncodingTest( directive, "value-directive.xml" );
-    //    assertEquals( "encoded", directive, result );
-    //}
 }
 
 

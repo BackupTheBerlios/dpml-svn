@@ -33,10 +33,20 @@ import net.dpml.lang.Category;
  */
 public final class Classpath implements Serializable
 {
+    private static final URI[] EMPTY = new URI[0];
+    
     private final URI[] m_system;
     private final URI[] m_public;
     private final URI[] m_protected;
     private final URI[] m_private;
+    
+   /**
+    * Creation of a empty classpath definition.
+    */
+    public Classpath()
+    {
+        this( EMPTY, EMPTY, EMPTY, EMPTY );
+    }
     
    /**
     * Creation of a new classpath definition.
@@ -162,6 +172,20 @@ public final class Classpath implements Serializable
         hash ^= hashArray( m_protected );
         hash ^= hashArray( m_private );
         return hash;
+    }
+    
+   /**
+    * Return the classpath as a string.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return "classpath: [" 
+          + m_system.length 
+          + ", " + m_public.length 
+          + ", " + m_protected.length 
+          + ", " + m_private.length
+          + "]";
     }
     
    /**

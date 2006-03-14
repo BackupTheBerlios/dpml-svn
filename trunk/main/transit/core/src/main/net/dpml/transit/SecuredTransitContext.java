@@ -38,8 +38,11 @@ import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.transit.model.DisposalListener;
 import net.dpml.transit.model.DisposalEvent;
-import net.dpml.lang.UnknownKeyException;
 import net.dpml.transit.monitor.LoggingAdapter;
+
+import net.dpml.lang.UnknownKeyException;
+
+import net.dpml.part.PartBuilder;
 
 /**
  * The initial context of the transit system.
@@ -296,7 +299,7 @@ public final class SecuredTransitContext
     {
         m_linkManager = new ArtifactLinkManager();
         Logger logger = getLogger().getChildLogger( "cache" );
-        m_repository = new StandardLoader( logger );
+        m_repository = new StandardLoader( logger, new PartBuilder( null ) );  // this needs to be configured
         initializeCache();
     }
 

@@ -102,19 +102,4 @@ public final class LayoutDirectiveTestCase extends CodeBaseDirectiveTestCase
           new LayoutDirective( m_id, m_title, codebase, values );
         doSerializationTest( directive );
     }
-    
-   /**
-    * Test encoding.
-    * @exception Exception if an error occurs
-    */
-    //public void testEncoding() throws Exception
-    //{
-    //    String codebase = getCodebaseValue();
-    //    ValueDirective[] values = getValueDirectives();
-    //    LayoutDirective directive = 
-    //      new LayoutDirective( m_id, m_title, codebase, values );
-    //    LayoutDirective result = 
-    //      (LayoutDirective) doEncodingTest( directive, "content-handler-directive.xml" );
-    //    assertEquals( "encoded", directive, result );
-    //}
 }

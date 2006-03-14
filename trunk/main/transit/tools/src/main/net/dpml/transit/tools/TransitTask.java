@@ -79,6 +79,10 @@ abstract class TransitTask extends Task
             if( !m_INIT )
             {
                 m_INIT = true;
+                if( null == System.getProperty( "java.protocol.handler.pkgs" ) )
+                {
+                    System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
+                }
                 try
                 {
                     Adapter logger = new AntAdapter( task );

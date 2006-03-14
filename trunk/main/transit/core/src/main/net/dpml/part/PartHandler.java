@@ -19,12 +19,13 @@
 package net.dpml.part;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 import net.dpml.lang.Classpath;
 
 /**
  * Interface implemented by part runtime handlers. Handler are identified
- * by the uri returned from the <tt>Part.getStrategy().getController()</tt>.
+ * by the uri returned from <tt>Part.getStrategy().getControllerURI()</tt>.
  */
 public interface PartHandler
 {
@@ -43,5 +44,5 @@ public interface PartHandler
     * @param args supplimentary arguments
     * @exception Exception if a deployment error occurs
     */
-    Object getInstance( ClassLoader classloader, Object data, Object[] args ) throws Exception;
+    Object getInstance( ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception;
 }

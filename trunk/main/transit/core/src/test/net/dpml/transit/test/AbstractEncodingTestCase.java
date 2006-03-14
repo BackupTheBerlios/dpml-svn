@@ -18,18 +18,10 @@
 
 package net.dpml.transit.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.DefaultPersistenceDelegate;
-import java.net.URI;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
@@ -48,52 +40,23 @@ public abstract class AbstractEncodingTestCase extends TestCase
     * @return the result of decoding the encoded structure
     * @exception Exception if an error occurs
     */
-    public Object executeEncodingTest( Object object, String filename ) throws Exception
+    public Object executeEncodingTest( Object object ) throws Exception
     {
-        File test = new File( "target/test" );
-        File destination = new File( test, filename );
-        FileOutputStream output = new FileOutputStream( destination );
-        BufferedOutputStream buffer = new BufferedOutputStream( output );
-        XMLEncoder encoder = new XMLEncoder( buffer );
-        encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
-        encoder.setExceptionListener( 
-          new ExceptionListener()
-          {
-            public void exceptionThrown( Exception e )
-            {
-                e.printStackTrace();
-                fail( "encoding exception: " + e.toString() );
-            }
-          }
-        );
-        encoder.writeObject( object );
-        encoder.close();
-        
-        FileInputStream input = new FileInputStream( destination );
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        Object result = decoder.readObject();
-        assertEquals( "encoding", object, result );
-        return result;
-    }
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream output = new ObjectOutputStream( byteOutputStream );
+        output.writeObject( object );
+        output.close();
 
-   /**
-    * Internal persitance delage for the URI class.
-    */
-    public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
-    {
-       /**
-        * Create an expression using an existing uri.
-        * @param old the old uri
-        * @param encoder the encoder
-        * @return the expression
-        */
-        public Expression instantiate( Object old, Encoder encoder )
-        {
-            URI uri = (URI) old;
-            String spec = uri.toString();
-            Object[] args = new Object[]{spec};
-            return new Expression( old, old.getClass(), "new", args );
-        }
+        ByteArrayInputStream byteInputStream = new ByteArrayInputStream( byteOutputStream.toByteArray() );
+        ObjectInputStream input = new ObjectInputStream( byteInputStream );
+        Object serialized = input.readObject();
+        input.close();
+
+        assertTrue( "!=", object != serialized ); // Ensure this is not the same instance
+        assertEquals( "equals", object, serialized );
+        assertEquals( "hash", object.hashCode(), serialized.hashCode() );
+        
+        return serialized;
     }
 
 }

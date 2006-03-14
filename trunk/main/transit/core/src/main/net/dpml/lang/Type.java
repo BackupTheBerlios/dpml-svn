@@ -18,25 +18,20 @@
 
 package net.dpml.lang;
 
-import java.net.URI;
+import org.w3c.dom.Element;
 
 /**
- * Interface implemented by plugins helpers that provide support for the 
- * delegation of plugin definition creation from a DOM node.
+ * Declaration of a type production.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface PluginFactory
+public interface Type
 {
-   /**
-    * Construct a new plugin description instance using a supplied arguments
-    *
-    * @param uri the uri identifying the plugin
-    * @param element the root element definining the plugin
-    * @exception Exception if an error occurs
-    */
-    Plugin newPlugin( 
-      String title, String description, URI uri, Strategy strategy, Classpath classpath ) 
-      throws Exception;
+    String getID();
+    
+    boolean getAlias();
+    
+    Object getData();
+    
 }

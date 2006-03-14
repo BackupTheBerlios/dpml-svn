@@ -27,8 +27,12 @@ import java.util.ArrayList;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.lang.Plugin;
 import net.dpml.transit.util.ElementHelper;
+
+//import net.dpml.lang.Plugin;
+import net.dpml.part.Part;
+import net.dpml.part.Plugin;
+import net.dpml.part.Resource;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
@@ -280,12 +284,19 @@ public class PluginTask extends TransitTask
     private void loadAntlib(
       URI uri, ClassLoader classloader, ComponentHelper helper, Antlib antlib ) throws Exception
     {
-        Plugin plugin = getRepository().getPluginDescriptor( uri );
-
+        //Plugin plugin = getRepository().getPluginDescriptor( uri );
+        Part part = getRepository().getPart( uri );
+        Object data = part.getStrategy().getDeploymentData();
+        
         String resource = antlib.getPath();
         if( null == resource )
         {
-            resource = plugin.getStrategy().getProperties().getProperty( "project.plugin.resource" );
+            if( data instanceof Resource )
+            {
+                Resource res = (Resource) data;
+                resource = res.getPath();
+            }
+            //resource = plugin.getStrategy().getProperties().getProperty( "project.plugin.resource" );
         }
         if( null == resource )
         {
@@ -296,8 +307,8 @@ public class PluginTask extends TransitTask
               + "]";
             throw new BuildException( error, getLocation() );
         }
-
-        String urn = getAntLibURN( antlib, plugin );
+        
+        String urn = getAntLibURN( antlib, data );
         if( null == urn )
         {
             final String error =
@@ -329,7 +340,8 @@ public class PluginTask extends TransitTask
         }
     }
     
-    private String getAntLibURN( Antlib antlib, Plugin plugin )
+    //private String getAntLibURN( Antlib antlib, Plugin plugin )
+    private String getAntLibURN( Antlib antlib, Object data )
     {
         if( null != m_urn )
         {
@@ -342,7 +354,16 @@ public class PluginTask extends TransitTask
         }
         else
         {
-            return plugin.getStrategy().getProperties().getProperty( "project.plugin.urn" );
+            if( data instanceof Resource )
+            {
+                Resource res = (Resource) data;
+                return res.getURN();
+            }
+            else
+            {
+                return null;
+            }
+            //return plugin.getStrategy().getProperties().getProperty( "project.plugin.urn" );
         }
     }
 

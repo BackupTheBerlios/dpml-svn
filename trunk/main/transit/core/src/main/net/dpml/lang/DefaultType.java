@@ -16,35 +16,49 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
+package net.dpml.lang;
 
+import java.io.Writer;
+import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
+import java.util.Map;
 
-import net.dpml.lang.Plugin;
-import net.dpml.lang.Strategy;
-import net.dpml.lang.Classpath;
-import net.dpml.lang.PluginFactory;
+import org.w3c.dom.TypeInfo;
+import org.w3c.dom.Element;
 
 /**
- * Default plugin factory.
+ * Utility used to build a plugin strategy from a DOM element.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultPluginFactory implements PluginFactory
+    
+public class DefaultType implements Type
 {
-   /**
-    * Construct a new plugin description instance using a supplied arguments
-    *
-    * @param uri the uri identifying the plugin
-    * @param element the root element definining the plugin
-    * @exception Exception if an error occurs
-    */
-    public Plugin newPlugin( 
-      String title, String description, URI uri, Strategy strategy, Classpath classpath ) 
-      throws Exception
+    private final String m_type;
+    private final boolean m_alias;
+    private final Object m_data;
+    
+    public DefaultType( String type, boolean alias, Object data )
     {
-        return new DefaultPlugin( title, description, uri, strategy, classpath );
+        m_type = type;
+        m_alias = alias;
+        m_data = data;
+    }
+    
+    public String getID()
+    {
+        return m_type;
+    }
+
+    public boolean getAlias()
+    {
+        return m_alias;
+    }
+
+    public Object getData()
+    {
+        return m_data;
     }
 }
-

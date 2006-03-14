@@ -47,7 +47,7 @@ public interface Value
     Object resolve( Map map ) throws Exception;
 
    /**
-    * Resolve an instance from the value using a supplied isolvation policy. 
+    * Resolve an instance from the value using a supplied isolation policy. 
     *
     * @param isolate the isolation policy
     * @return the resolved instance
@@ -66,5 +66,18 @@ public interface Value
     * @exception Exception if error occurs during instance resolution
     */
     Object resolve( Map map, boolean isolate ) throws Exception;
+
+   /**
+    * Resolve an instance from the value using a supplied context map. If any 
+    * target expressions in immediate or nested values contain a symbolic
+    * expression the value will be resolved using the supplied map.
+    *
+    * @param classname the default classname
+    * @param map the context map
+    * @param isolate the isolation policy
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
+    */
+    Object resolve( String classname, Map map, boolean isolate ) throws Exception;
 
 }

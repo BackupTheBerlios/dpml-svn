@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import net.dpml.part.Strategy;
+import net.dpml.part.PartDirective;
+import net.dpml.part.AbstractBuilder;
+
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.PropertyResolver;
 
@@ -125,7 +129,7 @@ public class Construct implements Value, Serializable
         m_args = new Value[0];
         m_compound = false;
     }
-
+    
    /**
     * Create a new construct using a supplied target defintion.  The target argument 
     * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
@@ -140,7 +144,7 @@ public class Construct implements Value, Serializable
     {
         this( target, null, args );
     }
-    
+
    /**
     * Create a new construct using a supplied target defintion.  The target argument 
     * may be either a classname or a symbolic reference in the form ${[key]}.  If the 
@@ -277,7 +281,23 @@ public class Construct implements Value, Serializable
     */
     public Object resolve( Map map, boolean isolate ) throws Exception
     {
-        return resolve( map, null, isolate );
+        return resolve( null, map, null, isolate );
+    }
+
+   /**
+    * Resolve an instance from the value using a supplied context map. If any 
+    * target expressions in immediate or nested values contain a symbolic
+    * expression the value will be resolved using the supplied map.
+    *
+    * @param classname the default classname
+    * @param map the context map
+    * @param isolate the isolation policy
+    * @return the resolved instance
+    * @exception Exception if error occurs during instance resolution
+    */
+    public Object resolve( String classname, Map map, boolean isolate ) throws Exception
+    {
+        return resolve( classname, map, null, isolate );
     }
 
    /**
@@ -288,10 +308,10 @@ public class Construct implements Value, Serializable
     * @return the resolved instance
     * @exception Exception if an error occurs during value resolution
     */
-    public Object resolve( Map map, ClassLoader classloader, boolean isolate ) throws Exception
+    private Object resolve( String classname, Map map, ClassLoader classloader, boolean isolate ) throws Exception
     {
         ClassLoader loader = resolveClassLoader( classloader );
-        Object target = getTargetObject( map, loader );
+        Object target = getTargetObject( classname, map, loader );
         if( isCompound() )
         {
             if( null == target )
@@ -762,7 +782,7 @@ public class Construct implements Value, Serializable
             if( value instanceof Construct )
             {
                 Construct construct = (Construct) value;
-                instances[i] = construct.resolve( map, classloader, false );
+                instances[i] = construct.resolve( null, map, classloader, false );
             }
             else
             {
@@ -814,9 +834,16 @@ public class Construct implements Value, Serializable
      * @return the target object or class
      * @exception ValueException if target related error occurs
      */
-    private Object getTargetObject( Map map, ClassLoader loader ) throws ValueException
+    private Object getTargetObject( String classname, Map map, ClassLoader loader ) throws ValueException
     {
-        return getTargetObject( map, loader, m_target );
+        if( null == m_target )
+        {
+            return getTargetObject( map, loader, classname );
+        }
+        else
+        {
+            return getTargetObject( map, loader, m_target );
+        }
     }
     
     /**

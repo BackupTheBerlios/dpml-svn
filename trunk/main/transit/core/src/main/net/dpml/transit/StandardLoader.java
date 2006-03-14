@@ -36,11 +36,16 @@ import java.util.Properties;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
 
-import net.dpml.lang.Plugin;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
-import net.dpml.lang.Strategy;
-import net.dpml.lang.Handler;
+
+import net.dpml.part.Part;
+import net.dpml.part.PartDirective;
+import net.dpml.part.PartHandler;
+import net.dpml.part.PartHandlerFactory;
+import net.dpml.part.PartBuilder;
+import net.dpml.part.Strategy;
+import net.dpml.part.Plugin;
 
 /**
  * Utility class supporting downloading of resources based on
@@ -52,20 +57,46 @@ import net.dpml.lang.Handler;
 class StandardLoader implements Repository
 {
     private final Logger m_logger;
+    private final PartBuilder m_builder;
+    
+    private static final PartHandlerFactory FACTORY = PartHandlerFactory.getInstance();
     
    /**
     * Creation of a new repository handler.
     * @param logger the assigned logging channel
     */
-    StandardLoader( Logger logger )
+    StandardLoader( Logger logger, PartBuilder builder )
     {
         m_logger = logger;
+        m_builder = builder;
     }
 
     // ------------------------------------------------------------------------
     // Repository
     // ------------------------------------------------------------------------
-
+    
+   /**
+    * Creates a plugin descriptor from an artifact.
+    *
+    * @param uri the artifact reference to the plugin descriptor
+    * @return the plugin descriptor
+    * @exception IOException if a factory creation error occurs
+    */
+    public Part getPart( URI uri ) throws IOException
+    {
+        try
+        {
+            return m_builder.loadPart( uri );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error during part resolve."
+              + "\nURI: " + uri;
+            throw new RepositoryException( error, e );
+        }
+    }
+    
    /**
     * Get a plugin classloader relative to a supplied uri.
     *
@@ -79,26 +110,38 @@ class StandardLoader implements Repository
     public ClassLoader getPluginClassLoader( ClassLoader parent, URI uri )
         throws IOException, NullArgumentException
     {
-        if( null == uri )
-        {
-            throw new NullArgumentException( "uri" );
-        }
-        if( null == parent )
-        {
-            throw new NullArgumentException( "parent" );
-        }
+        Part part = getPart( uri );
+        return getPluginClassLoader( parent, part );
+    }
+    
+   /**
+    * Get a plugin classloader relative to a supplied uri.
+    *
+    * @param parent the parent classloader
+    * @param uri the plugin uri
+    * @return the plugin classloader.
+    * @exception IOException if plugin loading exception occurs.
+    * @exception NullArgumentException if the supplied uri or parent classloader
+    *            is null.
+    */
+    public ClassLoader getPluginClassLoader( ClassLoader parent, Part part )
+        throws IOException, NullArgumentException
+    {
         try
         {
-            Plugin descriptor = getPluginDescriptor( uri );
-            return createClassLoader( parent, descriptor );
+            Classpath classpath = part.getClasspath();
+            Strategy strategy = part.getStrategy();
+            PartDirective directive = strategy.getPartDirective();
+            PartHandler handler = 
+              PartHandlerFactory.getInstance().getPartHandler( directive );
+            return handler.getClassLoader( parent, classpath );
         }
-        catch( Exception ce )
+        catch( Exception e )
         {
-            String error =
-              "Unable to create a plugin classloader using ["
-              + uri
-              + "].";
-            throw new RepositoryException( error, ce );
+            final String error = 
+              "Unexpected error during part classloader resolve."
+              + "\nPart: " + part;
+            throw new RepositoryException( error, e );
         }
     }
 
@@ -117,29 +160,70 @@ class StandardLoader implements Repository
     public Class getPluginClass( ClassLoader parent, URI uri )
        throws IOException, NullArgumentException
     {
-        if( null == uri )
-        {
-            throw new NullArgumentException( "uri" );
-        }
-        if( null == parent )
-        {
-            throw new NullArgumentException( "parent" );
-        }
-
-        Plugin descriptor = getPluginDescriptor( uri );
         try
         {
-            return getPluginClass( parent, descriptor );
+            Part part = m_builder.loadPart( parent, uri );
+            return getPluginClass( parent, part );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error during part class resolve."
+              + "\nURI: " + uri;
+            throw new RepositoryException( error, e );
+        }
+    }
+    
+   /**
+    * Get a plugin class relative to a supplied artifact.  The artifact uri
+    * must refer to a plugin descriptor (i.e. the artifact type is "plugin").
+    * The class returned will be the class named in the plugin descriptor.
+    *
+    * @param parent the parent classloader
+    * @param uri the plugin artifact
+    * @return the plugin class
+    * @exception IOException if a class resolution error occurs
+    * @exception NullArgumentException if the supplied parent classloader or uri is null
+    */
+    public Class getPluginClass( ClassLoader parent, Part part )
+       throws IOException, NullArgumentException
+    {
+        try
+        {
+            Classpath classpath = part.getClasspath();
+            Strategy strategy = part.getStrategy();
+            PartDirective directive = strategy.getPartDirective();
+            PartHandler handler = 
+              PartHandlerFactory.getInstance().getPartHandler( directive );
+            ClassLoader classloader = handler.getClassLoader( parent, classpath );
+            Object data = strategy.getDeploymentData();
+            if( data instanceof Plugin )
+            {
+                Plugin plugin = (Plugin) data;
+                String classname = plugin.getClassname();
+                return classloader.loadClass( classname );
+            }
+            else
+            {
+                throw new UnsupportedOperationException( "getPartClass/" + data.getClass().getName() );
+            }
         }
         catch( ClassNotFoundException e )
         {
             final String error = 
               "Class: " + e.getMessage()
-              + "\nURI: " + uri;
+              + "\nPart: " + part;
             throw new PluginClassNotFoundException( error );
         }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unexpected error during part class resolve."
+              + "\nPart: " + part;
+            throw new RepositoryException( error, e );
+        }
     }
-
+    
    /**
     * Instantiate an object using a plugin uri, parent classloader and 
     * a supplied argument array. The plugin uri is used to resolve a plugin
@@ -161,23 +245,15 @@ class StandardLoader implements Repository
     public Object getPlugin( ClassLoader parent, URI uri, Object[] args  )
       throws IOException, InvocationTargetException, NullArgumentException
     {
-        if( null == uri )
-        {
-            throw new NullArgumentException( "uri" );
-        }
-        if( null == parent )
-        {
-            throw new NullArgumentException( "parent" );
-        }
-        
         try
         {
-            getLogger().debug( "loading plugin: " + uri );
-            Plugin descriptor = getPluginDescriptor( uri );
-            ClassLoader classloader = createClassLoader( parent, descriptor );
-            Strategy strategy = descriptor.getStrategy();
-            Handler handler = getHandler( classloader, strategy );
-            return handler.getPlugin( classloader, strategy, args );
+            net.dpml.part.Part part = m_builder.loadPart( parent, uri );
+            Classpath classpath = part.getClasspath();
+            net.dpml.part.Strategy strategy = part.getStrategy();
+            net.dpml.part.PartDirective directive = strategy.getPartDirective();
+            net.dpml.part.PartHandler handler = PartHandlerFactory.getInstance().getPartHandler( directive );
+            Object data = strategy.getDeploymentData();
+            return handler.getInstance( parent, classpath, data, args );
         }
         catch( RepositoryException re )
         {
@@ -191,28 +267,7 @@ class StandardLoader implements Repository
         {
             String error = "Unable to create a plugin using [" + uri + "].";
             getLogger().error( error, ce );
-            throw new InvocationTargetException( ce );
-        }
-    }
-    
-    private Handler getHandler( ClassLoader classloader, Strategy strategy ) throws Exception
-    {
-        String classname = strategy.getHandlerClassname();
-        Class clazz = classloader.loadClass( classname );
-        Object handler = clazz.newInstance();
-        if( handler instanceof Handler )
-        {
-            return (Handler) handler;
-        }
-        else
-        {
-            final String error = 
-              "Plugin handler classname [" 
-              + classname
-              + "] does not implement the "
-              + Handler.class.getName()
-              + " interface.";
-            throw new IllegalStateException( error );
+            throw new RepositoryException( error, ce );
         }
     }
     
@@ -220,94 +275,9 @@ class StandardLoader implements Repository
     // implementation
     //---------------------------------------------------------------------
 
-   /**
-    * Get a plugin class relative to a supplied descriptor.
-    *
-    * @param parent the parent classloader
-    * @param descriptor the plugin descriptor
-    * @return the plugin class
-    * @exception IOException if a cload establishement error occurs
-    * @exception NullArgumentException if the parent classloader or descriptor is null
-    * @exception IllegalArgumentException if the classname could not be resolved
-    */
-    private Class getPluginClass( ClassLoader parent, Plugin descriptor )
-       throws IOException, NullArgumentException, IllegalArgumentException, ClassNotFoundException
-    {
-        if( null == descriptor )
-        {
-            throw new NullArgumentException( "descriptor" );
-        }
-        if( null == parent )
-        {
-            throw new NullArgumentException( "parent" );
-        }
-
-        try
-        {
-            ClassLoader classloader = createClassLoader( parent, descriptor );
-            Strategy strategy = descriptor.getStrategy();
-            Handler handler = getHandler( classloader, strategy );
-            return handler.getPluginClass( classloader, strategy );
-        }
-        catch( ClassNotFoundException e )
-        {
-            throw e;
-        }
-        catch( IllegalArgumentException iae )
-        {
-            throw iae;
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Failed to load plugin.\nURI:"
-              + descriptor.getURI();
-            throw new RepositoryException( error, e );
-        }
-    }
-
-   /**
-    * Creates a plugin descriptor from an artifact.
-    *
-    * @param uri the reference to the application
-    * @return the plugin descriptor
-    * @exception IOException if a plugin creation error occurs
-    * @exception NullArgumentException if the supplied uri is null
-    */
-    public Plugin getPluginDescriptor( URI uri )
-        throws IOException, NullArgumentException
-    {
-        if( null == uri )
-        {
-            throw new NullArgumentException( "uri" );
-        }
-        
-        try
-        {
-            PluginBuilder builder = new PluginBuilder( m_logger );
-            URL url = getURL( uri );
-            return builder.load( url );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Unable to resolve a plugin descriptor for ["
-              + uri
-              + "].";
-            throw new RepositoryException( error, e );
-        }
-    }
-
     private URL getURL( URI uri ) throws IOException
     {
-        if( Artifact.isRecognized( uri ) )
-        {
-            return Artifact.createArtifact( uri ).toURL();
-        }
-        else
-        {
-            return uri.toURL();
-        }
+        return Artifact.toURL( uri );
     }
 
    /**
@@ -388,7 +358,8 @@ class StandardLoader implements Repository
         }
     }
     
-    public Object instantiate( Constructor constructor, Object[] args ) throws RepositoryException, InvocationTargetException
+    public Object instantiate( Constructor constructor, Object[] args ) 
+      throws RepositoryException, InvocationTargetException
     {
         Object[] arguments = populate( constructor, args );
         return newInstance( constructor, arguments );
@@ -583,32 +554,6 @@ class StandardLoader implements Repository
         }
     }
 
-    /**
-     * Returns a classloader based on supplied plugin descriptor.
-     * @param base the parent classloader
-     * @param descriptor the plugin descriptor
-     * @return the classloader
-     * @exception IOException if a classloader construction error occurs
-     * @exception NullArgumentException if either the base or the descriptor
-     *            argument is null.
-     */
-    private ClassLoader createClassLoader( ClassLoader base, Plugin descriptor )
-        throws IOException, NullArgumentException
-    {
-        if( null == descriptor )
-        {
-            throw new NullArgumentException( "descriptor" );
-        }
-        if( null == base )
-        {
-            throw new NullArgumentException( "base" );
-        }
-        
-        URI plugin = descriptor.getURI();
-        Classpath classpath = descriptor.getClasspath();
-        return createClassLoader( base, plugin, classpath ); 
-    }
-    
     /**
      * Returns a classloader.
      * @param base the parent classloader
@@ -805,50 +750,6 @@ class StandardLoader implements Repository
             final String error =
               "Unexpected error while attempting to load factory class: ["
               + classname
-              + "].";
-            throw new RepositoryException( error, e );
-        }
-    }
-
-    /**
-     * Return the plugin attributes associated with an artifact.
-     * @param artifact the relative artifact from which a .plugin resource will
-     *   be resolved to establish the artifact attributes
-     * @return the properties associated with the artifact
-     * @exception RepositoryException if an error occurs while retrieving
-     *   or building the attributes
-     * @exception NullArgumentException if the supplied artifact is null
-     */
-    private Properties getAttributes( Artifact artifact )
-        throws RepositoryException, NullArgumentException
-    {
-        if( null == artifact )
-        {
-            throw new NullArgumentException( "artifact" );
-        }
-        
-        try
-        {
-            URL url = artifact.toURL();
-            Properties props = new Properties();
-            URLConnection connection = url.openConnection();
-            InputStream input = connection.getInputStream();
-            props.load( input );
-            return props;
-        }
-        catch( ArtifactNotFoundException e )
-        {
-            throw new RepositoryException( e.getMessage(), e.getCause() );
-        }
-        catch( RepositoryException e )
-        {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error while attempting to resolve plugin for ["
-              + artifact
               + "].";
             throw new RepositoryException( error, e );
         }

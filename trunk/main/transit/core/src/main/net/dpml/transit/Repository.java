@@ -24,8 +24,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.net.URI;
 
-import net.dpml.lang.Plugin;
+//import net.dpml.lang.Plugin;
 import net.dpml.lang.Classpath;
+
+import net.dpml.part.Part;
 
 /**
  * A service that provides support for the establishment of classloaders and plugin
@@ -42,9 +44,20 @@ public interface Repository
     * @return the plugin descriptor
     * @exception IOException if a factory creation error occurs
     */
-    Plugin getPluginDescriptor( URI uri )
-      throws IOException;
+    //Plugin getPluginDescriptor( URI uri ) throws IOException;
+    Part getPart( URI uri ) throws IOException;
 
+   /**
+    * Get a plugin classloader relative to a supplied uri.
+    *
+    * @param parent the parent classloader
+    * @param uri the plugin uri
+    * @return the plugin classloader
+    * @exception IOException if plugin loading exception occurs
+    */
+    ClassLoader getPluginClassLoader( ClassLoader parent, Part part )
+        throws IOException;
+        
    /**
     * Get a plugin classloader relative to a supplied uri.
     *
@@ -65,6 +78,17 @@ public interface Repository
     * @exception IOException if plugin loading exception occurs
     */
     Class getPluginClass( ClassLoader parent, URI uri )
+        throws IOException;
+
+   /**
+    * Get a plugin class relative to a supplied uri.
+    *
+    * @param parent the parent classloader
+    * @param uri the plugin uri
+    * @return the plugin class
+    * @exception IOException if plugin loading exception occurs
+    */
+    Class getPluginClass( ClassLoader parent, Part part )
         throws IOException;
 
    /**

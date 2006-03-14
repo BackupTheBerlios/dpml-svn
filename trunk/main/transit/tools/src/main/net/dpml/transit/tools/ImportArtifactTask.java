@@ -95,8 +95,7 @@ public class ImportArtifactTask extends ImportTask
     {
         try
         {
-            Artifact artifact = Artifact.createArtifact( uri );
-            URL url = artifact.toURL();
+            URL url = Artifact.toURL( uri );
             File local = (File) url.getContent( new Class[]{File.class} );
             super.setFile( local.getAbsolutePath() );
         }

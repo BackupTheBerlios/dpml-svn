@@ -34,11 +34,13 @@ import java.net.URISyntaxException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.lang.Plugin;
 import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;
 import net.dpml.transit.util.MimeTypeHandler;
+
+//import net.dpml.lang.Plugin;
+import net.dpml.part.Part;
 
 /**
  * The connection handler for URLs based on the "artifact" protocol family.
@@ -199,7 +201,8 @@ public class ArtifactURLConnection extends URLConnection
         // if the type is a plugin then handle this directly
         //
 
-        if( "plugin".equals( type ) )
+        //if( "plugin".equals( type ) )
+        if( "part".equals( type ) )
         { 
             Repository loader = Transit.getInstance().getRepository();
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -233,9 +236,13 @@ public class ArtifactURLConnection extends URLConnection
                     {
                         return loader.getPluginClass( classloader, uri );
                     }
-                    else if( Plugin.class.equals( c ) )
+                    //else if( Plugin.class.equals( c ) )
+                    //{
+                    //    return loader.getPluginDescriptor( uri );
+                    //}
+                    else if( Part.class.equals( c ) )
                     {
-                        return loader.getPluginDescriptor( uri );
+                        return loader.getPart( uri );
                     }
                 }
             }
