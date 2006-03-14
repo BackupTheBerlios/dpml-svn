@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="ant" version="1.6.5" xmlns="@MODULE-XSD-URI@">
+
+    <resource name="ant">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <include key="ant-launcher"/>
+      </dependencies>
+    </resource>
+
+    <resource name="ant-junit">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <include key="ant"/>
+        <include ref="junit/junit"/>
+      </dependencies>
+    </resource>
+
+    <resource name="ant-launcher">
+      <types>
+        <type id="jar"/>
+      </types>
+    </resource>
+
+</module>

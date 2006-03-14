@@ -4,24 +4,26 @@
     xmlns:transit="antlib:net.dpml.transit">
 
   <property file="${basedir}/build.properties"/>
+  <property file="../../../bootstrap.properties"/>
   <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">
-    <filter value="artifact:plugin:${project.group}/${project.name}#${project.version}" token="PROJECT-URI"/>
-    <filter value="${project.name}" token="PROJECT-NAME"/>
-    <filter value="${project.group}" token="PROJECT-GROUP"/>
-    <filter value="${project.version}" token="PROJECT-VERSION"/>
-    <filter value="${tools.ant.version}" token="ANT-VERSION"/>
-    <filter value="${junit.version}" token="JUNIT-VERSION"/>
-    <filter value="net.dpml.tools.impl.StandardBuilder" token="PLUGIN-CLASS"/>
-    <filter value="artifact:plugin:${project.group}/dpml-depot-checkstyle#${project.version}" 
-      token="DEPOT-CHECKSTYLE-PLUGIN-URI"/>
+    <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#${dpml.xsd.version}"/>
+    <filter token="PROJECT-URI" value="artifact:part:${project.group}/${project.name}#${project.version}" />
+    <filter token="PROJECT-NAME" value="${project.name}" />
+    <filter token="PROJECT-GROUP" value="${project.group}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <filter token="ANT-VERSION" value="${tools.ant.version}"/>
+    <filter token="JUNIT-VERSION" value="${junit.version}"/>
+    <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
+    <filter token="DEPOT-CHECKSTYLE-PLUGIN-URI" 
+        value="artifact:plugin:${project.group}/dpml-depot-checkstyle#${project.version}"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
     <transit:get property="library.path" 
-      uri="artifact:jar:dpml/depot/dpml-library-main#${project.version}"/>
+      uri="artifact:jar:dpml/depot/dpml-library#${project.version}"/>
     <transit:get property="transit.path" 
       uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
     <path id="project.main.path">
@@ -39,10 +41,10 @@
   </target>
 
   <target name="package" depends="bootstrap.package">
-    <move file="${target.deliverables.dir}/plugins/project.plugin"
-      toFile="${target.deliverables.dir}/plugins/${project.name}-${project.version}.plugin"/>
-    <move file="${target.deliverables.dir}/plugins/project.plugin.link"
-      toFile="${target.deliverables.dir}/plugins/${project.name}.plugin.link"/>
+    <move file="${target.deliverables.dir}/parts/builder.xml"
+      toFile="${target.deliverables.dir}/parts/${project.name}-${project.version}.part"/>
+    <move file="${target.deliverables.dir}/parts/builder.link"
+      toFile="${target.deliverables.dir}/parts/${project.name}.part.link"/>
   </target>
 
   <target name="install" depends="bootstrap.install">

@@ -23,7 +23,8 @@ import java.util.ArrayList;
 
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
+
+import net.dpml.lang.Type;
 
 import net.dpml.tools.info.BuilderDirective;
 import net.dpml.tools.info.BuilderDirectiveHelper;
@@ -159,7 +160,7 @@ public class DefaultWorkbench implements Workbench
         for( int i=0; i<types.length; i++ )
         {
             Type type = types[i];
-            names[i] = type.getName();
+            names[i] = type.getID();
         }
         return names;
     }

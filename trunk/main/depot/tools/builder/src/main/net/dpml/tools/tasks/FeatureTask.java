@@ -43,6 +43,7 @@ public abstract class FeatureTask extends GenericTask
     private boolean m_windows = true;
     private boolean m_flag = false;  // os not set
     private String m_type; // optional - used to select type when resolving uris
+    private boolean m_alias = false; // used when resolving filenames
 
    /**
     * Set the key of the target project or resource description from which features will be 
@@ -54,6 +55,18 @@ public abstract class FeatureTask extends GenericTask
     {
         m_key = key;
     }
+
+   /**
+    * Set filename resolution switch. If true the filename feature will
+    * return an alias path.
+    *
+    * @param flag the alias switch
+    */
+    public void setAlias( final boolean flag )
+    {
+        m_alias = flag;
+    }
+
 
    /**
     * Set the ref of the target project or resource description from which features will be 
@@ -137,6 +150,18 @@ public abstract class FeatureTask extends GenericTask
         
         String ref = getRef();
         Resource resource = getResource( ref );
+        
+        if( null != m_type && !resource.isa( m_type ) )
+        {
+            final String error = 
+              "The feature request for the type [" 
+              + m_type 
+              + "] from the resource ["
+              + resource 
+              + "] cannot be fullfilled because the resource does not declare "
+              + "production of the requested type.";
+            throw new BuildException( error, getLocation() );
+        }
 
         if( m_feature.equals( "name" ) )
         {

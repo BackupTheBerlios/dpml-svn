@@ -137,7 +137,7 @@ public final class BuilderDirectiveHelper
             null );
         listeners[1] = 
           new ListenerDirective( 
-            "plugin",
+            "part",
             (URI) null,
             PluginProcess.class.getName(),
             true,

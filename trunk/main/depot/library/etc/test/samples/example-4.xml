@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<library xmlns="@MODULE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
+
+  <modules>
+    <module name="acme" basedir=".">
+      <module name="widget"/>
+    </module>
+    <module name="foo"/>
+    <module name="bar"/>
+  </modules>
+
+</library>

@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DEPOT_JVM_OPTS="\"-Djava.security.policy=$DEPOT_SECURITY_POLICY\" $DEPOT_JVM_OPTS"
+DEPOT_JVM_OPTS="\"-Djava.security.policy=$DEPOT_SECURITY_POLICY\" -Djava.endorsed.dirs=$DEPOT_ENDORSED_DIRECTORY $DEPOT_JVM_OPTS"
 
 if [ "$DEPOT_DEBUG" = "true" ]; then
     TITLE="Starting Depot $DEPOT_VERSION."
@@ -28,6 +28,7 @@ if [ "$DEPOT_DEBUG" = "true" ]; then
     echo "          DPML System: $DPML_SYSTEM"
     echo "            DPML Home: $DPML_HOME"
     echo "      Security Policy: $DEPOT_SECURITY_POLICY"
+    echo "   Endorced Directory: $DEPOT_ENDORSED_DIRECTORY"
     echo "          JVM Options: $DEPOT_JVM_OPTS"
     echo "            Classpath: $DEPOT_CLASSPATH"
     echo "      Depot Arguments: $DEPOT_ARGS"

@@ -26,7 +26,9 @@ import java.io.Writer;
 
 import net.dpml.library.model.Module;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
+
+import net.dpml.lang.Type;
+
 import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
@@ -70,7 +72,7 @@ public class InstallTask extends GenericTask
             // type that it declares
             //
 
-            String name = type.getName();
+            String name = type.getID();
             String filename = getContext().getLayoutPath( name );
             File group = new File( deliverables, name + "s" );
             File target = new File( group, filename );
@@ -96,7 +98,7 @@ public class InstallTask extends GenericTask
             {
                 try
                 {
-                    Artifact artifact = resource.getArtifact( type.getName() );
+                    Artifact artifact = resource.getArtifact( type.getID() );
                     String uri = artifact.toURI().toASCIIString();
                     String link = resource.getName() + "." + name + ".link";
                     log( link.toString() );

@@ -25,7 +25,8 @@ import java.net.URL;
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
+
+import net.dpml.lang.Type;
 
 import net.dpml.tools.model.Context;
 
@@ -187,6 +188,7 @@ final class DefaultContext implements Context
     * @param value the default value
     * @return the property value or null if undefined
     */
+    /*
     public String getProperty( Type type, String key, String value )
     {
         if( null == type )
@@ -206,6 +208,7 @@ final class DefaultContext implements Context
             }
         }
     }
+    */
     
    /**
     * Return an Ant path suitable for comile or runtime usage. If the supplied scope is 
@@ -542,7 +545,7 @@ final class DefaultContext implements Context
                     Type[] types = resource.getTypes();
                     for( int j=0; j<types.length; j++ )
                     {
-                        Artifact artifact = resource.getArtifact( types[j].getName() );
+                        Artifact artifact = resource.getArtifact( types[j].getID() );
                         addToPath( cache, path, artifact, resolve );
                     }
                 }

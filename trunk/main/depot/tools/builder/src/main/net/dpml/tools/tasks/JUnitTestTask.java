@@ -25,6 +25,8 @@ import net.dpml.library.info.Scope;
 
 import net.dpml.tools.model.Context;
 
+import net.dpml.transit.Transit;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Exit;
@@ -244,7 +246,7 @@ public class JUnitTestTask extends GenericTask
 
         final JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
         junit.init();
-
+        
         final JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
         summary.setValue( "on" );
         junit.setPrintsummary( summary );
@@ -312,6 +314,11 @@ public class JUnitTestTask extends GenericTask
             security.setValue( policy.toString() );
             junit.addConfiguredSysproperty( security );
         }
+
+        final Environment.Variable endorsed = new Environment.Variable();
+        endorsed.setKey( "java.endorsed.dirs" );
+        endorsed.setValue( new File( Transit.DPML_SYSTEM, "lib/endorsed" ).getAbsolutePath() );
+        junit.addConfiguredSysproperty( endorsed );
 
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );

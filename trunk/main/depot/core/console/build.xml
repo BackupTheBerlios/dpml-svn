@@ -16,12 +16,11 @@
     <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.transit.SystemClassLoader" />
     <x:filter token="TRANSIT-CORE-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
-    <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-library-console" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-STATION-URI" ref="dpml/metro/dpml-station-console" feature="uri" type="plugin"/>
-    <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/metro/dpml-station-server" feature="uri" type="plugin"/>
-    <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="plugin"/>
-    <!--<x:filter token="DEPOT-INSTALL-URI" key="dpml-depot-install" feature="uri" type="plugin"/>-->
+    <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-metro-exec" feature="uri" type="part"/>
+    <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-library-build" feature="uri" type="part"/>
+    <x:filter token="DEPOT-STATION-URI" ref="dpml/metro/dpml-station-console" feature="uri" type="part"/>
+    <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/metro/dpml-station-server" feature="uri" type="part"/>
+    <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="part"/>
   </target>
 
   <!--
@@ -34,7 +33,7 @@
 
   <available property="depot.exe.available" file="${dpml.system}/bin/depot.exe"/>
 
-  <target name="bootstrap" depends="install,bin">
+  <target name="install" depends="standard.install,bin">
     <property name="local" location="${dpml.system}/local"/>
     <echo>
 #----------------------------------------------------------------------------------
@@ -43,10 +42,10 @@
     </echo>
     <x:replicate self="true" verbose="false" layout="modern" todir="${local}"  >
       <include ref="dpml/depot/dpml-tools-builder"/>
-      <include ref="dpml/depot/dpml-library-main"/>
+      <include ref="dpml/depot/dpml-library"/>
+      <include ref="dpml/lang/dpml-common"/>
+      <include ref="dpml/lang/dpml-part"/>
     </x:replicate>
-    <property name="work" location="${dpml.data}/work"/>
-    <mkdir dir="${work}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating ${dpml.system}/lib
@@ -65,6 +64,20 @@
       file="${basedir}/target/deliverables/jars/${depot.long.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
+# Updating ${dpml.system}/lib/endorsed
+#----------------------------------------------------------------------------------
+    </echo>
+    <transit:get uri="artifact:jar:org/apache/xml/xerces#2.8.0" property="xerces.path"/>
+    <transit:get uri="artifact:jar:org/apache/xml/xml-apis#2.8.0" property="xml-apis.path"/>
+    <transit:get uri="artifact:jar:org/apache/xml/xalan#2.7.0" property="xalan.path"/>
+    <transit:get uri="artifact:jar:org/apache/xml/xalan-serializer#2.7.0" property="serializer.path"/>
+    <mkdir dir="${lib}/endorsed"/>
+    <copy toDir="${lib}/endorsed" file="${xml-apis.path}"/>
+    <copy toDir="${lib}/endorsed" file="${xerces.path}"/>
+    <copy toDir="${lib}/endorsed" file="${xalan.path}"/>
+    <copy toDir="${lib}/endorsed" file="${serializer.path}"/>
+    <echo>
+#----------------------------------------------------------------------------------
 # Updating ${dpml.system}/bin
 #----------------------------------------------------------------------------------
     </echo>
@@ -80,6 +93,8 @@
         <include name="**/depot"/>
       </fileset>
     </chmod>
+    <property name="work" location="${dpml.data}/work"/>
+    <mkdir dir="${work}"/>
   </target>
 
   <target name="bin" depends="prepare" unless="depot.exe.available">

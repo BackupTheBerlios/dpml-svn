@@ -25,7 +25,8 @@ import java.util.List;
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Resource;
 import net.dpml.library.model.ResourceNotFoundException;
-import net.dpml.library.model.Type;
+
+import net.dpml.lang.Type;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
@@ -181,7 +182,7 @@ public class ReplicateTask extends GenericTask
         for( int j=0; j<types.length; j++ )
         {
             Type type = types[j];
-            String id = type.getName();
+            String id = type.getID();
             
             Artifact artifact = resource.getArtifact( id );
             copyArtifact( artifact, cache, destination, layout );

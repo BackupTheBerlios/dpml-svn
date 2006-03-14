@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<library xmlns="@MODULE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <properties>
+    <property name="foo" value="bar"/>
+    <property name="ping" value="pong"/>
+  </properties>
+  
+</library>

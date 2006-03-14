@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
+<module name="depot"
+    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
-<module name="depot">
-   
-  <project name="dpml-library-console" basedir="library/console">
+  <resource name="dpml-library">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-           value="net.dpml.library.console.BuilderPlugin"/>
-      </type>
     </types>
     <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </resource>
+
+  <project name="dpml-library-build" basedir="build">
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/depot/dpml-library"/>
       <include ref="dpml/util/dpml-util-cli"/>
       <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/depot/dpml-library-main"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
-      
+   
   <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.resource" 
-          value="net/dpml/tools/checkstyle/antlib.xml"/>
-        <property name="project.plugin.urn" 
-          value="dpml:checkstyle"/>
-      </type>
+      <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
     </types>
     <dependencies>
       <include ref="dpml/depot/dpml-tools-builder"/>
@@ -48,12 +53,7 @@
   <project name="dpml-depot-convert" basedir="tools/convert">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.resource" 
-          value="net/dpml/tools/convert/antlib.xml"/>
-        <property name="project.plugin.urn" 
-          value="dpml:convert"/>
-      </type>
+      <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
     </types>
     <dependencies>
       <include urn="artifact:jar:java2html/java2html#4.2"/>
@@ -76,46 +76,13 @@
     </dependencies>
   </project>
 
-  <!--
-  <project name="dpml-depot-install" basedir="core/install">
+  <resource name="dpml-tools-builder">
     <types>
       <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.depot.install.PackageInstaller"/>
-      </type>
+      <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
     </types>
     <dependencies>
-      <include key="dpml-depot-console"/>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include key="dpml-station-api"/>
-      <include key="dpml-station-server"/>
-    </dependencies>
-  </project>
-  -->
-
-  <resource name="dpml-library-main" basedir="library/common">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </resource>
-
-  <resource name="dpml-tools-builder" basedir="tools/builder">
-    <types>
-      <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-          value="net.dpml.tools.impl.StandardBuilder"/>
-      </type>
-    </types>
-    <dependencies>
-      <include key="dpml-library-main"/>
+      <include ref="dpml/depot/dpml-library"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
       <include ref="ant/ant-junit" tag="system"/>
       <include ref="ant/ant" tag="system"/>

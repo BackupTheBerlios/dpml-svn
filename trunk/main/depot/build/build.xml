@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-library-console" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <available property="builder.exe.available" file="${dpml.system}/bin/build.exe"/>
+
+  <target name="init" depends="standard.init">
+    <x:filter token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" feature="uri" type="part"/>
+  </target>
+
+  <target name="install" depends="bin,standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/build.lap"/>
+        <include name="bin/build"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="build"/>
+      </fileset>
+    </chmod>
+  </target>
+
+  <target name="bin" depends="standard.install" unless="builder.exe.available">
+    <copy todir="${dpml.system}" preservelastmodified="true">
+      <fileset dir="target">
+        <include name="bin/build.exe"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

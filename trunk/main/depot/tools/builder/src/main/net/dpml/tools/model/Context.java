@@ -23,7 +23,8 @@ import java.io.File;
 import net.dpml.library.info.Scope;
 import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
-import net.dpml.library.model.Type;
+
+import net.dpml.lang.Type;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
@@ -70,7 +71,7 @@ public interface Context
     * @param value the default value
     * @return the property value or null if undefined
     */
-    String getProperty( Type type, String key, String value );
+    //String getProperty( Type type, String key, String value );
     
    /**
     * Return an Ant path suitable for compile or runtime usage. If the supplied scope is 

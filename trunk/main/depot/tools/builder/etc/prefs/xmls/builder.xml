@@ -11,7 +11,7 @@ Default configuration for the Ant-based builder.
 
   <listeners>
     <listener name="jar" class="net.dpml.tools.process.JarProcess"/>
-    <listener name="plugin" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
+    <listener name="part" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
     <listener name="module" class="net.dpml.tools.process.ModuleProcess"/>
   </listeners>
 

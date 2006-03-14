@@ -30,7 +30,7 @@ import net.dpml.library.model.Resource;
 import net.dpml.library.model.Module;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
-import net.dpml.library.impl.ModuleBuilder;
+import net.dpml.library.impl.LibraryBuilder;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -89,30 +89,14 @@ public class ModuleTask extends GenericTask
     
     private void writeModuleDirective( ModuleDirective directive, File file )
     {
-        //ClassLoader current = Thread.currentThread().getContextClassLoader();
-        //Thread.currentThread().setContextClassLoader( ModuleDirective.class.getClassLoader() );
         FileOutputStream output = null;
         try
         {
             log( "Exporting module to: " + file );
-            ModuleBuilder builder = new ModuleBuilder();
+            LibraryBuilder builder = new LibraryBuilder();
             file.getParentFile().mkdirs();
             output = new FileOutputStream( file );
-            builder.write( directive, output );
-            
-            //final BufferedOutputStream buffer = new BufferedOutputStream( output );
-            //XMLEncoder encoder = new XMLEncoder( buffer );
-            //encoder.setExceptionListener( new ModuleEncoderListener() );
-            //try
-            //{
-            //    encoder.writeObject( directive );
-                checksum( file );
-                asc( file );
-            //}
-            //finally
-            //{
-            //    encoder.close();
-            //}
+            builder.export( directive, output );
         }
         catch( Exception e )
         {
@@ -122,7 +106,6 @@ public class ModuleTask extends GenericTask
         }
         finally
         {
-            //Thread.currentThread().setContextClassLoader( current );
             if( null != output )
             {
                 try
