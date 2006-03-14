@@ -21,6 +21,8 @@ package net.dpml.part;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.lang.Version;
+
 
 /**
  * The Component interface is implemented by objects that handle the runtime

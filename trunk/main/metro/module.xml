@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
-
-<module name="metro">
+<module name="metro"
+    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
   <project name="dpml-state-api" basedir="state/api">
     <types>
@@ -15,7 +16,7 @@
     </types>
     <dependencies>
       <include key="dpml-state-api" tag="public"/>
-      <include ref="dpml/util/dpml-configuration-impl"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
@@ -38,10 +39,7 @@
   <project name="dpml-part-content" basedir="part/content">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-          value="net.dpml.part.content.PartContentHandler"/>
-      </type>
+      <part:plugin alias="true" class="net.dpml.part.content.PartContentHandler"/>
     </types>
     <dependencies scope="build">
       <include key="dpml-metro-runtime"/>
@@ -95,32 +93,31 @@
   <project name="dpml-metro-builder" basedir="builder">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-           value="net.dpml.metro.builder.ComponentPluginFactory"/>
-      </type>
+      <part:plugin alias="true" class="net.dpml.metro.builder.ComponentStrategyBuilder"/>
     </types>
     <dependencies>
       <include key="dpml-metro-model"/>
-      <include ref="dpml/depot/dpml-library-main"/>
+      <include ref="dpml/depot/dpml-library"/>
+      <include key="dpml-state-impl"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
     <types>
       <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.metro.runtime.CompositionController"/>
-      </type>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
-      <include key="dpml-state-impl"/>
       <include key="dpml-part-api" tag="protected"/>
       <include key="dpml-metro-model" tag="protected"/>
+      <include key="dpml-state-impl"/>
+      <include key="dpml-metro-builder"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
@@ -130,17 +127,14 @@
   <project name="dpml-metro-tools" basedir="tools">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.resource" 
-          value="net/dpml/metro/tools/antlib.xml"/>
-        <property name="project.plugin.urn" 
-          value="dpml:metro"/>
-      </type>
+      <part:resource alias="true" urn="dpml:metro"
+        path="net/dpml/metro/tools/antlib.xml"/>
     </types>
     <dependencies>
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
       <include key="dpml-metro-runtime"/>
+      <include key="dpml-metro-builder"/>
     </dependencies>
   </project>
 
@@ -160,10 +154,7 @@
    <project name="dpml-metro-exec" basedir="exec">
     <types>
       <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.metro.exec.ApplicationHandler"/>
-      </type>
+      <part:plugin class="net.dpml.metro.exec.ApplicationHandler"/>
     </types>
     <dependencies scope="build">
       <include ref="dpml/metro/dpml-metro-runtime"/>
@@ -195,10 +186,7 @@
   <project name="dpml-station-server" basedir="station/server">
     <types>
       <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.station.server.StationServerPlugin"/>
-      </type>
+      <part:plugin class="net.dpml.station.server.StationServerPlugin"/>
     </types>
     <dependencies>
       <include ref="dpml/metro/dpml-part-api" tag="public"/>
@@ -214,10 +202,7 @@
   <project name="dpml-station-console" basedir="station/console">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-           value="net.dpml.station.console.StationPlugin"/>
-      </type>
+      <part:plugin alias="true" class="net.dpml.station.console.StationPlugin"/>
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-util-cli"/>

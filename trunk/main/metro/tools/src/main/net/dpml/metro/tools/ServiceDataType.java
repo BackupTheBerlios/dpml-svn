@@ -20,7 +20,7 @@ package net.dpml.metro.tools;
 
 import net.dpml.metro.info.ServiceDescriptor;
 
-import net.dpml.part.Version;
+import net.dpml.lang.Version;
 
 import org.apache.tools.ant.BuildException;
 

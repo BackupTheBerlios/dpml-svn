@@ -19,11 +19,14 @@
 package net.dpml.metro.tools;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.state.State;
-import net.dpml.state.StateBuilder;
+import net.dpml.state.impl.StateBuilder;
 import net.dpml.state.impl.DefaultState;
 
 import org.apache.tools.ant.BuildException;
@@ -36,6 +39,8 @@ import org.apache.tools.ant.BuildException;
  */
 public class StateTask extends GenericTask
 {
+    private static final StateBuilder BUILDER = new StateBuilder();
+    
     private File m_output;
     private StateDataType m_data;
     
@@ -143,12 +148,11 @@ public class StateTask extends GenericTask
     {
         try
         {
-            final ClassLoader current = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader( DefaultState.class.getClassLoader() );
+            FileOutputStream output = new FileOutputStream( file );
             try
             {
                 State graph = getData().getState();
-                StateBuilder.write( graph, file );
+                BUILDER.export( graph, output );
             }
             catch( Exception e )
             {
@@ -156,7 +160,14 @@ public class StateTask extends GenericTask
             }
             finally
             {
-                Thread.currentThread().setContextClassLoader( current );
+                try
+                {
+                    output.close();
+                }
+                catch( IOException ioe )
+                {
+                    ioe.printStackTrace();
+                }
             }
         }
         catch( BuildException e )

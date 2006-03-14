@@ -31,6 +31,7 @@ import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
 import net.dpml.state.Action;
 import net.dpml.state.impl.DefaultStateMachine;
+import net.dpml.state.impl.StateBuilder;
 
 /**
  * Default state machine test-case.
@@ -51,21 +52,16 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
         File example = new File( test, "example.xgraph" );
-        FileInputStream input = new FileInputStream( example );
-        BufferedInputStream buffer = new BufferedInputStream( input );
         try
         {
-            m_state = DefaultStateMachine.load( buffer );
+            StateBuilder builder = new StateBuilder();
+            m_state = builder.loadState( example.toURI() );
             m_machine = new DefaultStateMachine( m_state );
         }
         catch( Throwable e )
         {
             e.printStackTrace();
             fail( e.toString() );
-        }
-        finally
-        {
-            input.close();
         }
     }
     
@@ -215,7 +211,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
     */
     public void testEncoding() throws Exception
     {
-        Object state = executeEncodingTest( m_state, "state-encoded.xml" );
+        Object state = executeEncodingTest( m_state );
     }
     
     private void audit( State state )

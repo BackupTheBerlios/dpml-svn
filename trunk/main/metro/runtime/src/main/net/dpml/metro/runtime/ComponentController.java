@@ -19,6 +19,7 @@
 package net.dpml.metro.runtime;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -31,13 +32,14 @@ import java.util.Map;
 import java.util.ArrayList;
 
 import net.dpml.metro.info.Type;
+import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
-import net.dpml.metro.data.ReferenceDirective;
-import net.dpml.metro.data.ClasspathDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ContextModel;
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.builder.TypeBuilder;
 
 import net.dpml.configuration.Configuration;
 
@@ -47,16 +49,17 @@ import net.dpml.parameters.Parameters;
 
 import net.dpml.part.Directive;
 import net.dpml.part.ControlException;
-import net.dpml.part.Version;
-import net.dpml.metro.PartsManager;
 import net.dpml.part.Component;
 import net.dpml.part.Model;
 import net.dpml.part.ServiceNotFoundException;
 
+import net.dpml.lang.Version;
 import net.dpml.lang.Category;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.UnknownKeyException;
+
 import net.dpml.transit.Value;
 
-import net.dpml.lang.UnknownKeyException;
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -66,6 +69,12 @@ import net.dpml.lang.UnknownKeyException;
  */
 class ComponentController
 {
+    //--------------------------------------------------------------------------
+    // static
+    //--------------------------------------------------------------------------
+    
+    private static final TypeBuilder BUILDER = new TypeBuilder();
+    
     //--------------------------------------------------------------------------
     // state
     //--------------------------------------------------------------------------
@@ -93,52 +102,27 @@ class ComponentController
     }
 
    /**
+    * Build a classloader stack.
+    * @param anchor the anchor classloader to server as the classloader chain root
+    * @param classpath the part classpath definition
+    * @exception IOException if an IO error occurs during classpath evaluation
+    */
+    public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
+    {
+        return getCompositionController().getClassLoader( anchor, classpath );
+    }
+
+   /**
     * Create a new remotely manageable component model.
     * @param directive the component definition
     * @return the managable component model
     */
-    public ComponentModel createComponentModel( ComponentDirective directive ) throws ControlException
+    public ComponentModel createComponentModel( 
+      Classpath classpath, ComponentDirective directive ) throws ControlException
     {
-        ClassLoader anchor = Thread.currentThread().getContextClassLoader();
+        ClassLoader anchor = Logger.class.getClassLoader();
         String partition = Model.PARTITION_SEPARATOR;
-        return createComponentModel( anchor, partition, directive );
-    }
-    
-   /**
-    * Create a new runtime handler using a supplied context.
-    * @param model the managed context
-    * @param flag if true the component model is responsible for model lifecycle
-    * @return the runtime handler
-    */
-    public DefaultComponentHandler createDefaultComponentHandler( 
-      ComponentModel model, boolean flag ) throws ControlException
-    {
-        ClassLoader anchor = Thread.currentThread().getContextClassLoader();
-        return createDefaultComponentHandler( anchor, model, flag );
-    }
-    
-    public ClassLoader createClassLoader( 
-      ClassLoader anchor, ComponentModel model ) throws ControlException
-    {
-        try
-        {
-            String name = model.getName();
-            ClassLoaderDirective directive = model.getClassLoaderDirective();
-            return createClassLoader( anchor, directive, name );
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Classloader creation failed due to an remote exception.";
-            throw new ControllerException( error, e );
-        }
-    }
-    
-    public ClassLoader createClassLoader( ClassLoader anchor, ComponentDirective profile )
-    {
-        final String name = profile.getName();
-        final ClassLoaderDirective directive = profile.getClassLoaderDirective();
-        return createClassLoader( anchor, directive, name );
+        return createComponentModel( anchor, classpath, partition, directive );
     }
     
     //--------------------------------------------------------------------------
@@ -153,17 +137,23 @@ class ComponentController
     * @return the managable component model
     */
     ComponentModel createComponentModel( 
-      ClassLoader anchor, String partition, ComponentDirective directive ) throws ControlException
+      ClassLoader anchor, Classpath classpath, String partition, ComponentDirective directive ) 
+      throws ControlException
     {
         try
         {
-            ClassLoader classloader = createClassLoader( anchor, directive );
-            return new DefaultComponentModel( classloader, this, directive, partition );
+            return new DefaultComponentModel( anchor, this, classpath, directive, partition );
         }
         catch( RemoteException e )
         {
             final String error = 
               "Creation of a new component model failed due to an remote exception.";
+            throw new ControllerException( error, e );
+        }
+        catch( IOException e )
+        {
+            final String error = 
+              "Creation of a new component model failed due to an IO exception.";
             throw new ControllerException( error, e );
         }
     }
@@ -175,9 +165,9 @@ class ComponentController
     * @return the runtime handler
     */
     DefaultComponentHandler createDefaultComponentHandler( 
-      ClassLoader anchor, ComponentModel context, boolean flag ) throws ControlException
+      ClassLoader classloader, ComponentModel context, boolean flag ) throws ControlException
     {
-        return createDefaultComponentHandler( null, anchor, context, flag );
+        return createDefaultComponentHandler( null, classloader, context, flag );
     }
     
    /**
@@ -196,14 +186,24 @@ class ComponentController
             final String name = context.getName();
             final String path = context.getContextPath();
             Logger logger = new StandardLogger( path.substring( 1 ).replace( '/', '.' ) );
-            final ClassLoaderDirective directive = context.getClassLoaderDirective();
-            ClassLoader classloader = createClassLoader( anchor, directive, name );
+            Classpath classpath = context.getClasspath();
+            ClassLoader classloader = getClassLoader( anchor, classpath );
             return new DefaultComponentHandler( parent, classloader, logger, this, context, flag );
         }
         catch( RemoteException e )
         {
             final String error = 
               "Creation of a new component handler failed due to an remote exception.";
+            throw new ControllerException( error, e );
+        }
+        catch( ControlException e )
+        {
+            throw e;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Creation of a new component handler failed due to an unexpected error.";
             throw new ControllerException( error, e );
         }
     }
@@ -302,21 +302,16 @@ class ComponentController
     */
     Type loadType( Class subject ) throws ControlException
     {
-        ClassLoader context = Thread.currentThread().getContextClassLoader();
         try
         {
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            return Type.decode( getClass().getClassLoader(), subject );
+            return BUILDER.loadType( subject );
         }
         catch( Throwable e )
         {
             final String error =
-              "Cannot load component type defintion: " + subject.getName();
+              "An error occured while attempting to load component type definition for the class: " 
+              + subject.getName();
             throw new ControllerException( error, e );
-        }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader( context );
         }
     }
     
@@ -359,7 +354,8 @@ class ComponentController
         return loadServices( type, classloader );
     }
     
-    private ClassLoader createClassLoader( ClassLoader anchor, ClassLoaderDirective directive, String name )
+    /*
+    private ClassLoader createClassLoader( ClassLoader anchor, Classpath classpath, String name )
     {
         ClassLoader parent = anchor;
         final ClassLoader base = getClass().getClassLoader();
@@ -429,6 +425,7 @@ class ComponentController
         }
         return false;
     }
+    */
     
     private Logger getLogger()
     {
@@ -593,10 +590,11 @@ class ComponentController
             
             // resolve using defaults
             
+            EntryDescriptor descriptor = handler.getType().getContextDescriptor().getEntryDescriptor( key );
             Directive directive = context.getEntryDirective( key );
             if( null == directive )
             {
-                if( handler.getType().getContextDescriptor().getEntryDescriptor( key ).isOptional() )
+                if( descriptor.isOptional() )
                 {
                     return null;
                 }
@@ -621,10 +619,11 @@ class ComponentController
                     ClassLoader classloader = handler.getClassLoader();
                     Value value = (Value) directive;
                     ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                    String defaultTarget = descriptor.getClassname();
                     try
                     {
                         Thread.currentThread().setContextClassLoader( classloader );
-                        return value.resolve( symbols, false );
+                        return value.resolve( defaultTarget, symbols, false );
                     }
                     catch( Exception ve )
                     {
@@ -643,9 +642,30 @@ class ComponentController
                         Thread.currentThread().setContextClassLoader( loader );
                     }
                 }
-                else if( directive instanceof ReferenceDirective )
+                else if( directive instanceof LookupDirective )
                 {
-                    ReferenceDirective ref = (ReferenceDirective) directive;
+                    LookupDirective ref = (LookupDirective) directive;
+                    String spec = ref.getServiceClassname();
+                    ServiceDescriptor request = new ServiceDescriptor( spec );
+                    DefaultService service = loadService( handler, request );
+                    try
+                    {
+                        return executeLookup( handler, service );
+                    }
+                    catch( Exception ee )
+                    {
+                        final String error = 
+                          "Unable to resolve a service provider for the class ["
+                          + request.getClassname()
+                          + "] requested in component ["
+                          + handler.getPath()
+                          + "] under the context key ["
+                          + key
+                          + "].";
+                        throw new ControllerException( error, ee );
+                    }
+                    
+                    /*
                     URI uri = ref.getURI();
                     String scheme = uri.getScheme();
                     if( "service".equals( scheme ) || "lookup".equals( scheme ) )
@@ -693,6 +713,7 @@ class ComponentController
                         "Service lookup scheme [" + scheme + "] not recognized.";
                         throw new ControllerException( error );
                     }
+                    */
                 }
                 else
                 {

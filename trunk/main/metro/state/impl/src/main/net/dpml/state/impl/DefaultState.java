@@ -50,6 +50,15 @@ public class DefaultState implements State, Serializable
     * Creation of a new state.
     * @param name the state name
     */
+    public DefaultState()
+    {
+        this( "root" );
+    }
+    
+   /**
+    * Creation of a new state.
+    * @param name the state name
+    */
     public DefaultState( final String name )
     {
         this( name, new Trigger[0], new Transition[0], new Interface[0], new Operation[0], new State[0], true );

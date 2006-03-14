@@ -59,7 +59,7 @@ public interface Controller
     * @return the management context
     * @exception ControlException if a part related error occurs
     */
-    Model createModel( Directive directive ) throws ControlException;
+    //Model createModel( Directive directive ) throws ControlException;
 
    /**
     * Create and return a new management context using the supplied directive uri.
@@ -96,6 +96,6 @@ public interface Controller
     * @return the classloader
     * @exception ControlException if a part related error occurs
     */
-    ClassLoader createClassLoader( ClassLoader anchor, Model model ) throws ControlException;
+    //ClassLoader createClassLoader( ClassLoader anchor, Model model ) throws ControlException;
 
 }

@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
@@ -39,7 +40,6 @@ import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Type;
-import net.dpml.metro.info.EncodingException;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
@@ -48,6 +48,7 @@ import net.dpml.metro.info.ThreadSafePolicy;
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
+import net.dpml.state.impl.StateBuilder;
 
 import net.dpml.library.info.Scope;
 import net.dpml.tools.tasks.GenericTask;
@@ -66,6 +67,10 @@ import org.apache.tools.ant.types.Path;
  */
 public class TypeBuilderTask extends GenericTask implements TypeBuilder
 {
+    private static final StateBuilder STATE_BUILDER = new StateBuilder();
+    private static final net.dpml.metro.builder.TypeBuilder TYPE_BUILDER = 
+      new net.dpml.metro.builder.TypeBuilder();
+    
     //---------------------------------------------------------------
     // state
     //---------------------------------------------------------------
@@ -79,7 +84,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private PartsDataType m_parts;
     private StateDataType m_state;
     private ServicesDataType m_services;
-    
+    private CategoriesDescriptorDataType m_categories;
+
     //---------------------------------------------------------------
     // setters
     //---------------------------------------------------------------
@@ -175,6 +181,25 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     }
     
    /**
+    * Create a new services datatype.
+    * @return a new services datatype
+    */
+    public CategoriesDescriptorDataType createCategories()
+    {
+        if( m_categories == null )
+        {
+            m_categories = new CategoriesDescriptorDataType();
+            return m_categories;
+        }
+        else
+        {
+             final String error =
+              "Illegal attempt to create a duplicate categories element.";
+             throw new BuildException( error, getLocation() );
+        }
+    }
+    
+   /**
     * Create a state descriptor for the component.
     * @return a state graph descriptor
     */
@@ -250,7 +275,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
 
         InfoDescriptor info = createInfoDescriptor( subject );
         ServiceDescriptor[] services = createServiceDescriptors( subject );
-        CategoryDescriptor[] categories = new CategoryDescriptor[0];
+        CategoryDescriptor[] categories = createCategoryDescriptors();
         ContextDescriptor context = createContextDescriptor( subject );
         PartReference[] parts = getPartReferences( subject.getClassLoader() );
         State graph = getStateGraph( subject );
@@ -284,21 +309,24 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         try
         {
             final Type type = buildType( classloader );
-            final String classname = type.getInfo().getClassname();
-            final String resource = getEmbeddedResourcePath( classname );
-            final File file = getEmbeddedOutputFile( resource );
-            file.getParentFile().mkdirs();
-            final FileOutputStream output = new FileOutputStream( file );
-            final BufferedOutputStream buffer = new BufferedOutputStream( output );
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            Type.encode( type, output );
+            OutputStream output = getOutputStream( type );
+            try
+            {
+                TYPE_BUILDER.export( type, output );
+            }
+            finally
+            {
+                try
+                {
+                    output.close();
+                }
+                catch( IOException ioe )
+                {
+                    ioe.printStackTrace();
+                }
+            }
         }
         catch( IntrospectionException e )
-        {
-            final String error = e.getMessage();
-            throw new BuildException( error, e, getLocation() );
-        }
-        catch( EncodingException e )
         {
             final String error = e.getMessage();
             throw new BuildException( error, e, getLocation() );
@@ -315,10 +343,15 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
               + "\nMessage: " + e.getMessage();
             throw new BuildException( error, e, getLocation() );
         }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader( current );
-        }
+    }
+
+    private OutputStream getOutputStream( Type type ) throws IOException
+    {
+        final String classname = type.getInfo().getClassname();
+        final String resource = getEmbeddedResourcePath( classname );
+        final File file = getEmbeddedOutputFile( resource );
+        file.getParentFile().mkdirs();
+        return new FileOutputStream( file );
     }
 
     private String getEmbeddedResourcePath( String classname )
@@ -418,7 +451,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             }
         }
     }
-
+    
     private ServiceDescriptor[] createServiceDescriptors( Class subject )
     {
         if( null == m_services )
@@ -431,7 +464,19 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             return m_services.getServiceDescriptors();
         }
     }
-
+    
+    private CategoryDescriptor[] createCategoryDescriptors()
+    {
+        if( null == m_categories )
+        {
+           return new CategoryDescriptor[0];
+        }
+        else
+        {
+            return m_categories.getCategoryDescriptors();
+        }
+    }
+    
     private ServiceDescriptor[] createServiceDescriptors( Class subject, List list )
     {
         Class[] interfaces = subject.getInterfaces();
@@ -647,8 +692,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             }
             else
             {
-                InputStream input = url.openConnection().getInputStream();
-                return DefaultStateMachine.load( input );
+                return STATE_BUILDER.loadState( url.toURI() );
             }
         }
         catch( Throwable e )

@@ -24,12 +24,13 @@ import net.dpml.part.Model;
 
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.CategoryDirective;
 
 import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
+
+import net.dpml.lang.Classpath;
 
 /**
  * The ComponentModel interface defines the remotely accessible aspects of a component
@@ -64,12 +65,12 @@ public interface ComponentModel extends Model
     String getImplementationClassName() throws RemoteException;
     
    /**
-    * Return the component classloader directive.
+    * Return the component classpath directive.
     *
-    * @return the classloader directive for the component
+    * @return the classpath directive for the component
     * @exception RemoteException if a remote exception occurs
     */
-    ClassLoaderDirective getClassLoaderDirective() throws RemoteException;
+    Classpath getClasspath() throws RemoteException;
     
    /**
     * Return the component lifestyle policy.

@@ -106,7 +106,7 @@ class ContextInvocationHandler implements InvocationHandler
                 {
                     return value;
                 }
-                else if( args.length > 0 )
+                else if( ( null != args ) && args.length > 0 )
                 {
                     return args[0];
                 }

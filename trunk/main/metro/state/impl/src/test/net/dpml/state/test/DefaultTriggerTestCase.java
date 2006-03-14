@@ -70,7 +70,7 @@ public class DefaultTriggerTestCase extends AbstractEncodingTestCase
     */
     public void testEncoding() throws Exception
     {
-        Trigger trigger = (Trigger) executeEncodingTest( m_trigger, "simple-trigger-encoded.xml" );
+        Trigger trigger = (Trigger) executeEncodingTest( m_trigger );
         assertEquals( "original-equals-encoded", m_trigger, trigger );
     }
     

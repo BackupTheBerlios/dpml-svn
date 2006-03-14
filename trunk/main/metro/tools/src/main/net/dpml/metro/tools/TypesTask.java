@@ -21,6 +21,8 @@ package net.dpml.metro.tools;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
+import java.io.OutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
@@ -44,6 +46,9 @@ import org.apache.tools.ant.types.Path;
  */
 public class TypesTask extends GenericTask implements DynamicElementNS
 {
+    private static final net.dpml.metro.builder.TypeBuilder BUILDER = 
+      new net.dpml.metro.builder.TypeBuilder();
+     
     private List m_builders = new LinkedList();
 
    /**
@@ -100,21 +105,21 @@ public class TypesTask extends GenericTask implements DynamicElementNS
             try
             {
                 final Type type = builder.buildType( classloader );
-                final String classname = type.getInfo().getClassname();
-                final String resource = getEmbeddedResourcePath( classname );
-                final File file = getEmbeddedOutputFile( resource );
-                file.getParentFile().mkdirs();
-                final FileOutputStream output = new FileOutputStream( file );
-                final BufferedOutputStream buffer = new BufferedOutputStream( output );
+                OutputStream output = getOutputStream( type );
                 try
                 {
-                    Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-                    Type.encode( type, output );
+                    BUILDER.export( type, output );
                 }
                 finally
                 {
-                    Thread.currentThread().setContextClassLoader( current );
-                    output.close();
+                    try
+                    {
+                        output.close();
+                    }
+                    catch( IOException ioe )
+                    {
+                        ioe.printStackTrace();
+                    }
                 }
             }
             catch( IntrospectionException e )
@@ -135,6 +140,15 @@ public class TypesTask extends GenericTask implements DynamicElementNS
                 throw new BuildException( error, e, getLocation() );
             }
         }
+    }
+    
+    private OutputStream getOutputStream( Type type ) throws IOException
+    {
+        final String classname = type.getInfo().getClassname();
+        final String resource = getEmbeddedResourcePath( classname );
+        final File file = getEmbeddedOutputFile( resource );
+        file.getParentFile().mkdirs();
+        return new FileOutputStream( file );
     }
 
     private String getEmbeddedResourcePath( String classname )

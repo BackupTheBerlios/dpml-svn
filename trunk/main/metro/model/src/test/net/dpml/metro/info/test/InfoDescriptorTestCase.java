@@ -24,7 +24,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.ThreadSafePolicy;
 
-import net.dpml.part.Version;
+import net.dpml.lang.Version;
 
 /**
  * InfoDescriptorTestCase.

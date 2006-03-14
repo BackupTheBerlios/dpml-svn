@@ -42,9 +42,6 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
     private static final CategoriesDirective EMPTY_CATEGORIES = 
       new CategoriesDirective();
 
-    private static final ClassLoaderDirective EMPTY_CLASSLOADER_DIRECTIVE =
-      new ClassLoaderDirective();
-
     //--------------------------------------------------------------------------
     // state
     //--------------------------------------------------------------------------
@@ -65,11 +62,6 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
     */
     private final CategoriesDirective m_categories;
 
-   /**
-    * The classpath directive.
-    */
-    private final ClassLoaderDirective m_classloader;
-
     //--------------------------------------------------------------------------
     // constructor
     //--------------------------------------------------------------------------
@@ -79,12 +71,10 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
     * @param name the profile name
     * @param activation the activation policy
     * @param categories logging category directives
-    * @param classloader the classloader directive
     * @param parts the internal component parts
     */
     public DeploymentDirective( 
-      final String name, ActivationPolicy activation, CategoriesDirective categories, 
-      ClassLoaderDirective classloader, PartReference[] parts ) 
+      final String name, ActivationPolicy activation, CategoriesDirective categories, PartReference[] parts ) 
     {
         super( parts );
         
@@ -99,37 +89,31 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
             m_categories = categories;
         }
         
-        if( name == null )
+        if( null != name )
         {
-            m_name = "untitled";
-        }
-        else if( name.indexOf( " " ) > 0 || name.indexOf( "." ) > 0 || name.indexOf( "," ) > 0
-          || name.indexOf( "/" ) > 0 )
-        {
-            final String error = 
-              "Directive name ["
-              + name
-              + "] contains an illegal character (' ', ',', or '.')";
-            throw new IllegalArgumentException( error );
-        }
-        else if( name.length() == 0 )
-        {
-            final String error = 
-              "Directive name [] is not sufficiently descriptor.";
-            throw new IllegalArgumentException( error );
-        }
-        else
-        {
-            m_name = name;
-        }
-
-        if( null == classloader )
-        {
-            m_classloader = EMPTY_CLASSLOADER_DIRECTIVE;
+            if( name.indexOf( " " ) > 0 || name.indexOf( "." ) > 0 || name.indexOf( "," ) > 0
+              || name.indexOf( "/" ) > 0 )
+            {
+                final String error = 
+                  "Directive name ["
+                  + name
+                  + "] contains an illegal character (' ', ',', or '.')";
+                throw new IllegalArgumentException( error );
+            }
+            else if( name.length() == 0 )
+            {
+                final String error = 
+                  "Directive name [] is not sufficiently descriptor.";
+                throw new IllegalArgumentException( error );
+            }
+            else
+            {
+                m_name = name;
+            }
         }
         else
         {
-            m_classloader = classloader;
+            m_name = null;
         }
     }
 
@@ -168,17 +152,6 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
     public ActivationPolicy getActivationPolicy()
     {
         return m_activation;
-    }
-
-    /**
-     * Return the classloader directive that describes the creation
-     * arguments for the classloader required by this profile.
-     *
-     * @return the classloader directive
-     */
-    public ClassLoaderDirective getClassLoaderDirective()
-    {
-        return m_classloader;
     }
 
     /**
@@ -226,13 +199,9 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
                 {
                     return false;
                 }
-                else if( !m_categories.equals( profile.getCategoriesDirective() ) )
-                {
-                    return false;
-                }
                 else
                 {
-                    return m_classloader.equals( profile.getClassLoaderDirective() );
+                    return m_categories.equals( profile.getCategoriesDirective() ) ;
                 }
             }
             else
@@ -252,7 +221,6 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
         hash ^= m_name.hashCode();
         hash ^= m_activation.hashCode();
         hash ^= m_categories.hashCode();
-        hash ^= m_classloader.hashCode();
         return hash;
     }
 }

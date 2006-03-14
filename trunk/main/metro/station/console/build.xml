@@ -9,7 +9,7 @@
   <available property="station.exe.available" file="${dpml.system}/bin/station.exe"/>
 
   <target name="init" depends="standard.init">
-    <x:filter token="DEPOT-STATION-PLUGIN-URI" key="dpml-station-server" feature="uri" type="plugin"/>
+    <x:filter token="DEPOT-STATION-PLUGIN-URI" key="dpml-station-server" feature="uri" type="part"/>
   </target>
 
   <target name="install" depends="bin,standard.install">

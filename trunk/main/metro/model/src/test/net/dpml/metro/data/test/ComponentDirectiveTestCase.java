@@ -24,8 +24,6 @@ import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
-import net.dpml.metro.data.ClasspathDirective;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.PartReference;
@@ -57,7 +55,6 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     private ContextDirective m_context;
     private Parameters m_parameters;
     private Configuration m_configuration;
-    private ClassLoaderDirective m_classloader;
     private ComponentDirective m_directive;
     private PartReference[] m_parts;
     
@@ -76,24 +73,11 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         m_context = new ContextDirective( new PartReference[0] );
         m_parameters = DefaultParameters.EMPTY_PARAMETERS;
         m_configuration = new DefaultConfiguration( "" );
-        m_classloader = createClassLoaderDirective();
         m_parts = new PartReference[0];
         m_directive = 
           new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
-            m_categories, m_context, m_parameters, m_configuration, m_classloader, m_parts );
-    }
-    
-   /**
-    * Test the classloader directive constructor.
-    */
-    private ClassLoaderDirective createClassLoaderDirective()
-    {
-        ClasspathDirective[] paths = new ClasspathDirective[3];
-        paths[0] = new ClasspathDirective( Category.PUBLIC, new URI[0] );
-        paths[1] = new ClasspathDirective( Category.PROTECTED, new URI[0] );
-        paths[2] = new ClasspathDirective( Category.PRIVATE, new URI[0] );
-        return new ClassLoaderDirective( paths );
+            m_categories, m_context, m_parameters, m_configuration, m_parts );
     }
     
    /**
@@ -103,7 +87,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     public void testEncoding() throws Exception
     {
         ComponentDirective result = 
-          (ComponentDirective) executeEncodingTest( m_directive, "component-directive.xml" );
+          (ComponentDirective) executeEncodingTest( m_directive );
         assertEquals( "encoded-equality", m_directive, result );
     }
     
@@ -118,13 +102,13 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
    /**
     * Test "" name.
     */
-    public void testUnsufficientName()
+    public void testInsufficientName()
     {
         try
         {
             new ComponentDirective( 
               "", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
+              m_categories, m_context, m_parameters, m_configuration, null );
             fail( "Did not throw an IllegalArgumentException for a '' name." ); 
         }
         catch( IllegalArgumentException e )
@@ -142,7 +126,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred.blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
+              m_categories, m_context, m_parameters, m_configuration, null );
             fail( "Did not throw an IllegalArgumentException for a name with a period." ); 
         }
         catch( IllegalArgumentException e )
@@ -160,7 +144,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred,blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
+              m_categories, m_context, m_parameters, m_configuration, null );
             fail( "Did not throw an IllegalArgumentException for a name with a comma." ); 
         }
         catch( IllegalArgumentException e )
@@ -178,7 +162,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred/blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, m_classloader, null );
+              m_categories, m_context, m_parameters, m_configuration, null );
             fail( "Did not throw an IllegalArgumentException for a name with a '/'." ); 
         }
         catch( IllegalArgumentException e )
@@ -249,13 +233,5 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     public void testConfiguration()
     {
         assertEquals( "configuration", m_configuration, m_directive.getConfiguration() );
-    }
-    
-   /**
-    * Test classloader accessor.
-    */
-    public void testClassLoaderDirective()
-    {
-        assertEquals( "classloader", m_classloader, m_directive.getClassLoaderDirective() );
     }
 }

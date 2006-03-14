@@ -25,7 +25,7 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="prepare" depends="standard.prepare">
-    <x:plugin uri="link:plugin:dpml/depot/dpml-depot-convert">
+    <x:plugin uri="link:part:dpml/depot/dpml-depot-convert">
       <task name="convert" class="de.java2html.anttasks.Java2HtmlTask"/>
     </x:plugin>
     <convert srcdir="target/build/main" destdir="target/reports/src"/>
@@ -38,7 +38,7 @@
       <include name="**/ManagedComponent#DefaultMonitor.class"/>
     </rmic>
 
-    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+    <x:plugin uri="link:part:dpml/metro/dpml-metro-tools"/>
 
     <!-- create the test component types -->
 
@@ -201,7 +201,13 @@
 
     <!-- categories component -->
 
-    <c:type class="net.dpml.test.categories.CategoriesComponent" name="categories" lifestyle="thread"/>
+    <c:type class="net.dpml.test.categories.CategoriesComponent" name="categories" lifestyle="thread">
+      <categories>
+        <category name="alpha"/>
+        <category name="beta"/>
+      </categories>
+    </c:type>
+
     <c:component dest="target/test/categories.part" test="true" activation="STARTUP"
         type="net.dpml.test.categories.CategoriesComponent" collection="hard">
       <categories>
@@ -211,7 +217,7 @@
     </c:component>
 
     <!-- configuration component -->
-
+    <!--
     <c:type class="net.dpml.test.config.ConfigurableComponent" name="config" lifestyle="thread"/>
     <c:component dest="target/test/config.part" test="true" activation="STARTUP"
         type="net.dpml.test.config.ConfigurableComponent" collection="hard">
@@ -222,9 +228,10 @@
         <item name="dinner" value="Margret de Canard"/>
       </configuration>
     </c:component>
-
+    -->
+    
     <!-- parameterizable component -->
-
+    <!--
     <c:type class="net.dpml.test.params.ParameterizableComponent" name="params" lifestyle="thread"/>
     <c:component dest="target/test/params.part" test="true" activation="STARTUP"
         type="net.dpml.test.params.ParameterizableComponent" collection="hard">
@@ -233,6 +240,7 @@
         <param name="size" value="1024"/>
       </parameters>
     </c:component>
+    -->
 
     <!-- composite app-->
 

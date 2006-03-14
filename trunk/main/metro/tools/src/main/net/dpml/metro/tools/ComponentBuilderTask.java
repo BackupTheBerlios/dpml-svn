@@ -25,18 +25,20 @@ import java.beans.DefaultPersistenceDelegate;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
-import net.dpml.metro.data.ClassLoaderDirective;
+import net.dpml.part.Directive;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.part.Directive;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
+
+import net.dpml.library.info.Scope;
 
 import net.dpml.configuration.Configuration;
 
@@ -45,9 +47,16 @@ import net.dpml.parameters.Parameters;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Part;
 import net.dpml.part.PartBuilder;
+import net.dpml.part.Strategy;
+import net.dpml.part.PartDirective;
+
+import net.dpml.tools.tasks.GenericTask;
+import net.dpml.tools.tasks.PartTask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.AntClassLoader;
+import org.apache.tools.ant.types.Path;
 
 /**
  * Task that handles the construction of a serialized container part.
@@ -55,12 +64,17 @@ import org.apache.tools.ant.Project;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentBuilderTask extends ClassLoaderBuilderTask implements PartReferenceBuilder
+public class ComponentBuilderTask extends PartTask implements PartReferenceBuilder
 {
+    private static final String NAMESPACE = "@COMPONENT-XSD-URI@";
+    
+    private static final net.dpml.metro.builder.TypeBuilder TYPE_BUILDER =
+      new net.dpml.metro.builder.TypeBuilder();
+      
     private URI m_uri;
     private String m_key;
     private boolean m_embedded = false;
-    private URI m_extends;
+    //private URI m_extends;
     private String m_name;
     private String m_classname;
     private LifestylePolicy m_lifestyle;
@@ -74,17 +88,8 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private File m_output;
     private Type m_type;
     private ComponentDirective m_profile;
+    private boolean m_alias = false;
     
-   /**
-    * Override the default output destination.
-    *
-    * @param file the overriding destination
-    */
-    public void setDest( File file )
-    {
-        m_output = file;
-    }
-
    /**
     * Set the part key.
     * @param key the key
@@ -94,23 +99,28 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         m_key = key;
     }
 
+    public void setAlias( boolean alias )
+    {
+        m_alias = alias;
+    }
+    
    /**
     * Set the extends uri feature.
     * @param uri the uri from which the component extends
     */
-    public void setExtends( URI uri )
-    {
-        m_extends = uri;
-    }
+    //public void setExtends( URI uri )
+    //{
+    //    m_extends = uri;
+    //}
 
    /**
     * Set the embedded component flag.
     * @param flag true if embedded
     */
-    public void setEmbedded( boolean flag )
-    {
-        m_embedded = flag;
-    }
+    //public void setEmbedded( boolean flag )
+    //{
+    //    m_embedded = flag;
+    //}
 
    /**
     * Set the component name.
@@ -260,29 +270,10 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     public void execute()
     {
         ClassLoader classloader = createClassLoader();
-        ClassLoaderDirective cld = constructClassLoaderDirective();
-        File file = getOutputFile();
-        File parent = file.getParentFile();
-        if( !parent.exists() )
-        {
-            parent.mkdirs();
-        }
-        createComponent( classloader, cld, file );
-    }
-
-   /**
-    * Local exception listener implementation.
-    */
-    private class LocalExceptionListener implements java.beans.ExceptionListener
-    {
-       /**
-        * Catch an encoding exception.
-        * @param e the exception
-        */
-        public void exceptionThrown( Exception e )
-        {
-            e.printStackTrace();
-        }
+        Thread.currentThread().setContextClassLoader( classloader );
+        Strategy strategy = createStrategy( classloader );
+        setStrategy( strategy );
+        super.execute();
     }
 
    /**
@@ -292,48 +283,13 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     * @param file the output file
     * @return the component directive
     */
-    public ComponentDirective createComponent( ClassLoader classloader, ClassLoaderDirective cld, File file )
+    public Strategy createStrategy( ClassLoader classloader )
     {
         try
         {
-            final ClassLoader current = Thread.currentThread().getContextClassLoader();
-            ComponentDirective profile = buildComponentDirective( classloader, cld );
-            Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
-            try
-            {
-                Part part = new Part( PART_HANDLER_URI, new Properties(), profile );
-                PartBuilder.write( part, file );
-            }
-            catch( Exception e )
-            {
-                throw new BuildException( "Part encoding error.", e );
-            }
-            finally
-            {
-                Thread.currentThread().setContextClassLoader( current );
-            }
-            
-            return profile;
-            
-        }
-        catch( ConstructionException e )
-        {
-            throw e;
-        }
-        catch( IntrospectionException e )
-        {
-            final String error = 
-              "Introspection error. "
-              + e.getMessage();
-            throw new BuildException( error, e, getLocation() );
-        }
-        catch( IOException e )
-        {
-            final String error = 
-              "Internal error while attempting to write component part to file ["
-              + file 
-              + "]";
-            throw new BuildException( error, e, getLocation() );
+            PartDirective directive = new PartDirective( PART_HANDLER_URI );
+            ComponentDirective profile = buildComponentDirective( classloader );
+            return new Strategy( STRATEGY_BUILDER_URI, directive, profile, m_alias );
         }
         catch( BuildException e )
         {
@@ -346,7 +302,22 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             throw new BuildException( error, e, getLocation() );
         }
     }
-
+    
+   /**
+    * Return the runtime classloader.
+    * @return the classloader
+    */
+    protected ClassLoader createClassLoader()
+    {
+        Project project = getProject();
+        Path path = getContext().getPath( Scope.RUNTIME );
+        File classes = getContext().getTargetClassesMainDirectory();
+        path.createPathElement().setLocation( classes );
+        ClassLoader parentClassLoader = getClass().getClassLoader();
+        return new AntClassLoader( parentClassLoader, project, path, true );
+    }
+    
+    /*
     private File getOutputFile()
     {
         if( null != m_output )
@@ -372,30 +343,35 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             return getPartOutputFile();
         }
     }
+    */
 
    /**
     * Return the embedded reosurce path.
     * @param classname the component classname
     * @return the resource path
     */
+    /*
     public String getEmbeddedResourcePath( String classname )
     {
         String path = classname.replace( '.', '/' );
         String filename = path + ".xprofile";
         return filename;
     }
+    */
 
    /**
     * Return the embedded output file.
     * @param filename the filename
     * @return the embedded output file
     */
+    /*
     public File getEmbeddedOutputFile( String filename )
     {
         File classes = getContext().getTargetClassesMainDirectory();
         File destination = new File( classes, filename );
         return destination;
     }
+    */
 
     //---------------------------------------------------------------------
     // Builder
@@ -440,7 +416,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         Type type = loadType( classloader, classname );
         return buildComponentDirective( type, classloader );
     }
-
+    
     //---------------------------------------------------------------------
     // PartReferenceBuilder
     //---------------------------------------------------------------------
@@ -488,48 +464,48 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
     private ComponentDirective buildComponentDirective( Type type, ClassLoader classloader ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
-        return buildComponentDirective( classloader, null );
+        return buildComponentDirective( classloader );
     }
 
-    private ComponentDirective buildComponentDirective( ClassLoader classloader, ClassLoaderDirective cld ) 
+    private ComponentDirective buildComponentDirective( ClassLoader classloader ) 
       throws IntrospectionException, IOException, ClassNotFoundException
     {
         String classname = getClassname();
         Type type = loadType( classloader, classname );
         String id = getName( type.getInfo().getName() );
         log( "creating [" + id + "] using [" + classname + "]" );
-
-        if( null == m_extends )
-        {
+        
+        //if( null == m_extends )
+        //{
             m_profile = new ComponentDirective( id, classname );
-        }
-        else
-        {
-            try
-            {
-                Directive part = getController().loadDirective( m_extends );
-                if( part instanceof ComponentDirective )
-                {
-                    m_profile = (ComponentDirective) part;
-                }
-                else
-                {
-                    final String error = 
-                      "Super-part is not an instance of "
-                      + ComponentDirective.class.getName();
-                    throw new BuildException( error );
-                }
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Unable to resolve component super-part ["
-                  + m_extends
-                  + "] due to: "
-                  + e.getMessage();
-                throw new BuildException( error, e, getLocation() );
-            }
-        }
+        //}
+        //else
+        //{
+        //    try
+        //    {
+        //        Directive part = getController().loadDirective( m_extends );
+        //        if( part instanceof ComponentDirective )
+        //        {
+        //            m_profile = (ComponentDirective) part;
+        //        }
+        //        else
+        //        {
+        //            final String error = 
+        //              "Super-part is not an instance of "
+        //              + ComponentDirective.class.getName();
+        //            throw new BuildException( error );
+        //        }
+        //    }
+        //    catch( Throwable e )
+        //    {
+        //        final String error = 
+        //          "Unable to resolve component super-part ["
+        //          + m_extends
+        //          + "] due to: "
+        //          + e.getMessage();
+        //        throw new BuildException( error, e, getLocation() );
+        //    }
+        //}
 
         LifestylePolicy lifestyle = getLifestylePolicy( type ); 
         CollectionPolicy collection = getCollectionPolicy( type );
@@ -546,7 +522,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
 
         return new ComponentDirective( 
           id, activation, collection, lifestyle, classname, categories, context, 
-          parameters, configuration, cld, parts );
+          parameters, configuration, parts );
     }
 
     private Type loadType( ClassLoader classloader, String classname )
@@ -562,17 +538,7 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
         try
         {
             Class c = classloader.loadClass( classname );
-            Type type = Type.decode( getClass().getClassLoader(), c );
-            if( null != type )
-            {
-                return type;
-            }
-            else
-            {
-                final String error = 
-                  "Component type [" + classname + "] is unknown or undefined.";
-                throw new BuildException( error );
-            }
+            return TYPE_BUILDER.loadType( c );
         }
         catch( Throwable e )
         {
@@ -819,6 +785,38 @@ public class ComponentBuilderTask extends ClassLoaderBuilderTask implements Part
             String spec = uri.toString();
             Object[] args = new Object[]{spec};
             return new Expression( old, old.getClass(), "new", args );
+        }
+    }
+
+   /**
+    * Constant controller uri.
+    */
+    public static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
+
+   /**
+    * Constant builder uri.
+    */
+    public static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+
+   /**
+    * Constant strategy builder uri.
+    */
+    public static final URI STRATEGY_BUILDER_URI = setupURI( "@STRATEGY-BUILDER-URI@" );
+
+   /**
+    * Utility function to create a static uri.
+    * @param spec the uri spec
+    * @return the uri
+    */
+    protected static URI setupURI( String spec )
+    {
+        try
+        {
+            return new URI( spec );
+        }
+        catch( URISyntaxException ioe )
+        {
+            return null;
         }
     }
 }

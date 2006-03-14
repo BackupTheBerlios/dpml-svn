@@ -18,6 +18,7 @@
 
 package net.dpml.metro.runtime;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.EventObject;
@@ -25,7 +26,6 @@ import java.util.EventListener;
 import java.util.Map;
 
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ClassLoaderDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
@@ -55,6 +55,7 @@ import net.dpml.logging.Logger;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
+import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
 /**
@@ -75,7 +76,8 @@ class DefaultComponentModel extends UnicastEventSource
     private final Type m_type;
     private final ComponentDirective m_directive;
     private final ClassLoader m_classloader;
-    //private final String[] m_partKeys;
+    private final Classpath m_classpath;
+    
     private final HashMap m_parts = new HashMap();
     private final DefaultContextModel m_context;
     private final String m_path;
@@ -94,17 +96,18 @@ class DefaultComponentModel extends UnicastEventSource
     // ------------------------------------------------------------------------
 
     public DefaultComponentModel( 
-      ClassLoader classloader, ComponentController controller, 
+      ClassLoader anchor, ComponentController controller, Classpath classpath, 
       ComponentDirective directive, String partition ) 
-      throws ControlException, RemoteException
+      throws ControlException, IOException, RemoteException
     {
         super( new StandardLogger( partition.substring( 1 ).replace( '/', '.' ) ) );
         
+        m_classpath = classpath;
         m_controller = controller;
         m_path = partition + directive.getName();
-
         m_directive = directive;
-        m_classloader = classloader;
+
+        m_classloader = m_controller.getClassLoader( anchor, classpath );
         m_classname = directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
@@ -120,8 +123,8 @@ class DefaultComponentModel extends UnicastEventSource
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
         final String base = m_path + PARTITION_SEPARATOR;
-        processParts( controller, classloader, m_type, m_parts, base );
-        processParts( controller, classloader, m_directive, m_parts, base );
+        processParts( controller, m_classloader, m_type, m_parts, base );
+        processParts( controller, m_classloader, m_directive, m_parts, base );
     }
     
     private void processParts(
@@ -136,9 +139,10 @@ class DefaultComponentModel extends UnicastEventSource
             Directive part = composite.getDirective( key );
             if( part instanceof ComponentDirective )
             {
+                Classpath classpath = new Classpath();
                 ComponentDirective component = (ComponentDirective) part;
                 ComponentModel model = 
-                  controller.createComponentModel( classloader, base, component );
+                  controller.createComponentModel( classloader, classpath, base, component );
                 map.put( key, model );
             }
             else
@@ -150,6 +154,11 @@ class DefaultComponentModel extends UnicastEventSource
                 throw new UnsupportedOperationException( error );
             }
         }
+    }
+    
+    public Classpath getClasspath()
+    {
+        return m_classpath;
     }
     
     protected void processEvent( EventObject event )
@@ -234,7 +243,15 @@ class DefaultComponentModel extends UnicastEventSource
     */
     public String getName()
     {
-        return m_directive.getName();
+        String name = m_directive.getName();
+        if( null != name )
+        {
+            return name;
+        }
+        else
+        {
+            return m_type.getInfo().getName();
+        }
     }
     
    /**
@@ -366,11 +383,6 @@ class DefaultComponentModel extends UnicastEventSource
         {
             return model;
         }
-    }
-    
-    public ClassLoaderDirective getClassLoaderDirective()
-    {
-        return m_directive.getClassLoaderDirective();
     }
     
     public Configuration getConfiguration()

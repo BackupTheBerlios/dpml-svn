@@ -57,14 +57,14 @@ public class CategoriesDataType
     */
     public CategoriesDirective getCategoriesDirective()
     {
-         CategoryDataType[] types = (CategoryDataType[]) m_list.toArray( new CategoryDataType[0] );
-         CategoryDirective[] directives = new CategoryDirective[ types.length ];
-         for( int i=0; i<types.length; i++ )
-         {
-             CategoryDataType type = types[i];
-             directives[i] = type.getCategoryDirective();
-         }
-         return new CategoriesDirective( directives );
+        CategoryDataType[] types = (CategoryDataType[]) m_list.toArray( new CategoryDataType[0] );
+        CategoryDirective[] directives = new CategoryDirective[ types.length ];
+        for( int i=0; i<types.length; i++ )
+        {
+            CategoryDataType type = types[i];
+            directives[i] = type.getCategoryDirective();
+        }
+        return new CategoriesDirective( directives );
     }
 
    /**

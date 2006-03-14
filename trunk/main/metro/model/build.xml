@@ -28,7 +28,7 @@
     <x:filter feature="name" token="NAME"/>
     <x:filter feature="version" token="VERSION"/>
     <x:filter feature="group" token="GROUP"/>
-    <x:filter key="dpml-metro-runtime" feature="uri" type="plugin" token="PART-HANDLER-URI" />
+    <x:filter key="dpml-metro-runtime" feature="uri" type="part" token="PART-HANDLER-URI" />
   </target>
 
 </project>

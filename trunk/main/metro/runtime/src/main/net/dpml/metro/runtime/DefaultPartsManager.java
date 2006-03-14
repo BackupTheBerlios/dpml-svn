@@ -35,7 +35,7 @@ import net.dpml.part.ControlException;
 import net.dpml.part.Component;
 import net.dpml.part.Model;
 import net.dpml.part.Service;
-import net.dpml.part.Version;
+import net.dpml.lang.Version;
 
 import net.dpml.lang.UnknownKeyException;
 

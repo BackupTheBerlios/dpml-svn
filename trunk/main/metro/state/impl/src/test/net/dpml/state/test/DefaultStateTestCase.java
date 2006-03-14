@@ -140,7 +140,7 @@ public class DefaultStateTestCase extends AbstractEncodingTestCase
     */
     public void testEncoding() throws Exception
     {
-        State state = (State) executeEncodingTest( m_state, "simple-state-encoded.xml" );
+        State state = (State) executeEncodingTest( m_state );
         assertEquals( "origin-equals-encoded", m_state, state );
     }
 

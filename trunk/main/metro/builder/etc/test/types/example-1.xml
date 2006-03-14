@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
+  xmlns:state="artifact:xsd:dpml/lang/dpml-state#1.0">
+
+  <info name="test"
+      class="net.dpml.test.part.ExampleComponent"
+      version="0.0.0"
+      lifestyle="thread"
+      collection="system"
+      threadsafe="unknown"/>
+
+  <services>
+    <service class="net.dpml.test.part.ColorManager" version="1.0.0"/>
+  </services>
+
+  <context>
+    <entry key="color" class="java.awt.Color" optional="false"/>
+  </context>
+
+  <!-- ISSUE need to add support for declarations such as <state:state ...> -->
+  <state xmlns="artifact:xsd:dpml/lang/dpml-state#1.0"/>
+
+  <parts/>
+
+</type>

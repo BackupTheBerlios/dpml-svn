@@ -35,6 +35,6 @@ public class FeatureDirectiveTestCase extends AbstractEncodingTestCase
     public void testEncoding() throws Exception
     {
         FeatureDirective value = new FeatureDirective( "key", FeatureDirective.NAME );
-        executeEncodingTest( value, "feature-directive.xml" );
+        executeEncodingTest( value );
     }
 }

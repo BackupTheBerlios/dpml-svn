@@ -34,7 +34,7 @@ import net.dpml.state.State;
 import net.dpml.state.Operation;
 import net.dpml.state.Interface;
 import net.dpml.state.Transition;
-import net.dpml.state.StateBuilder;
+import net.dpml.state.impl.StateBuilder;
 import net.dpml.state.impl.DefaultState;
 import net.dpml.state.impl.DefaultStateMachine;
 
@@ -51,6 +51,8 @@ import org.apache.tools.ant.AntClassLoader;
  */
 public class StateDataType
 {
+    private static final StateBuilder BUILDER = new StateBuilder();
+    
     private final boolean m_root;
     private final GenericTask m_task;
     
@@ -270,7 +272,18 @@ public class StateDataType
         if( null != m_uri )
         {
             m_task.log( "importing state graph: " + m_uri );
-            return StateBuilder.readGraph( m_uri );
+            try
+            {
+                return BUILDER.loadState( m_uri );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unable to load an external state graph"
+                  + "\nURI: " 
+                  + m_uri;
+                throw new BuildException( error, e );
+            }
         }
         else if( null != m_classname )
         {
@@ -383,7 +396,7 @@ public class StateDataType
         Path path = m_task.getContext().getPath( Scope.RUNTIME );
         File classes = m_task.getContext().getTargetClassesMainDirectory();
         path.createPathElement().setLocation( classes );
-        ClassLoader parentClassLoader = ClassLoaderBuilderTask.class.getClassLoader();
+        ClassLoader parentClassLoader = getClass().getClassLoader();
         return new AntClassLoader( parentClassLoader, project, path, true );
     }
 
@@ -399,8 +412,7 @@ public class StateDataType
             }
             else
             {
-                InputStream input = url.openConnection().getInputStream();
-                return DefaultStateMachine.load( input );
+                return BUILDER.loadState( url.toURI() );
             }
         }
         catch( Throwable e )

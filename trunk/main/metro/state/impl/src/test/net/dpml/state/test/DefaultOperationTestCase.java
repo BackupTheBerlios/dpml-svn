@@ -73,7 +73,7 @@ public class DefaultOperationTestCase extends AbstractEncodingTestCase
     */
     public void testEncoding() throws Exception
     {
-        Operation operation = (Operation) executeEncodingTest( m_operation, "simple-operation-encoded.xml" );
+        Operation operation = (Operation) executeEncodingTest( m_operation );
         assertEquals( "original-equals-encoded", m_operation, operation );
     }
 }

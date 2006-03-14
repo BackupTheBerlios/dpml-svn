@@ -26,6 +26,8 @@ import java.beans.IntrospectionException;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 
+import net.dpml.tools.tasks.GenericTask;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DynamicElementNS;
 import org.apache.tools.ant.Location;
@@ -38,7 +40,7 @@ import org.apache.tools.ant.Task;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartsDataType extends ClassLoaderBuilderTask implements DynamicElementNS
+public class PartsDataType extends GenericTask implements DynamicElementNS
 {
     private List m_builders = new LinkedList();
     private Task m_owner;

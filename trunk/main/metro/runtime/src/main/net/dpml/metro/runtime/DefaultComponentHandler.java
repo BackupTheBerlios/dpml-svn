@@ -51,7 +51,7 @@ import net.dpml.part.Directive;
 import net.dpml.part.ActivationPolicy;
 import net.dpml.part.Disposable;
 import net.dpml.part.ControlException;
-import net.dpml.part.Version;
+import net.dpml.lang.Version;
 import net.dpml.part.ServiceNotFoundException;
 import net.dpml.part.Component;
 import net.dpml.part.Provider;
@@ -59,6 +59,7 @@ import net.dpml.part.Service;
 import net.dpml.part.ModelEvent;
 import net.dpml.part.ModelListener;
 
+import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.state.State;
@@ -277,8 +278,9 @@ class DefaultComponentHandler extends UnicastEventSource
         {
             ComponentDirective cd = (ComponentDirective) directive;
             String partition = getPath() + "/";
+            Classpath classpath = m_model.getClasspath();
             ComponentModel model = 
-              m_controller.createComponentModel( anchor, partition, cd );
+              m_controller.createComponentModel( anchor, classpath, partition, cd );
             return m_controller.createDefaultComponentHandler( 
               this, anchor, model, true );
         }

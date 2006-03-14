@@ -21,8 +21,10 @@ package net.dpml.state.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.beans.Encoder;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -43,59 +45,27 @@ public abstract class AbstractEncodingTestCase extends TestCase
 {
    /**
     * Utility operation to validate encoding and decoding of a supplied object.
-    * @param object the enject to encode and decode
-    * @param filename a file path relative to the test directory to which 
-    *   interim encoded data will be written to
-    * @return the object resulting from the decode of the interim file
+    * @param object the object to encode and decode
+    * @return the object resulting from deserialization
     * @exception Exception if an error occurs
     */
-    public Object executeEncodingTest( Object object, String filename ) throws Exception
+    public Object executeEncodingTest( Object object ) throws Exception
     {
-        String base = System.getProperty( "project.test.dir" );
-        File test = new File( base );
-        File destination = new File( test, filename );
-        FileOutputStream output = new FileOutputStream( destination );
-        BufferedOutputStream buffer = new BufferedOutputStream( output );
-        XMLEncoder encoder = new XMLEncoder( buffer );
-        encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
-        encoder.setExceptionListener( 
-          new ExceptionListener()
-          {
-            public void exceptionThrown( Exception e )
-            {
-                e.printStackTrace();
-                fail( "encoding exception: " + e.toString() );
-            }
-          }
-        );
-        encoder.writeObject( object );
-        encoder.close();
-        
-        FileInputStream input = new FileInputStream( destination );
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        Object result = decoder.readObject();
-        assertEquals( "encoding", object, result );
-        return result;
-    }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( object );
+        oos.close();
 
-   /**
-    * Utility persistence delegate used to handle uri encoding.
-    */
-    public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
-    {
-       /**
-        * Create an expression instance for a supplied uri.
-        * @param old the old uri
-        * @param encoder the encoder
-        * @return the expression
-        */
-        public Expression instantiate( Object old, Encoder encoder )
-        {
-            URI uri = (URI) old;
-            String spec = uri.toString();
-            Object[] args = new Object[]{spec};
-            return new Expression( old, old.getClass(), "new", args );
-        }
+        ByteArrayInputStream bais = new ByteArrayInputStream( baos.toByteArray() );
+        ObjectInputStream ois = new ObjectInputStream( bais );
+        Object serialized = ois.readObject();
+        ois.close();
+
+        assertTrue( object != serialized ); // Ensure this is not the same instance
+        assertEquals( object, serialized );
+        assertEquals( object.hashCode(), serialized.hashCode() );
+        
+        return serialized;
     }
 
 }

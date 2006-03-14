@@ -166,7 +166,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           CollectionPolicy.SYSTEM, 
           LifestylePolicy.TRANSIENT,
           classname, 
-          null, null, null, null, null, null );
+          null, null, null, null, null );
     }
 
    /**
@@ -186,7 +186,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           template.getContextDirective(),
           template.getParameters(),
           template.getConfiguration(),
-          template.getClassLoaderDirective(),
           template.getPartReferences() );
     }
 
@@ -214,10 +213,9 @@ public class ComponentDirective extends DeploymentDirective implements Directive
            final ContextDirective context,
            final Parameters parameters,
            final Configuration config,
-           final ClassLoaderDirective classloader,
            final PartReference[] parts )
     {
-        super( name, activation, categories, classloader, parts );
+        super( name, activation, categories, parts );
 
         if( null == classname )
         {

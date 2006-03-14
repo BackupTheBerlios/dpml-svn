@@ -4,6 +4,7 @@
 
 -Djava.system.class.loader=net.dpml.transit.SystemClassLoader
 -Djava.security.policy=${env.DPML_HOME}\share\bin\security.policy
+-Djava.endorsed.dirs=${env.DPML_HOME}\share\lib\endorsed
 -Ddpml.depot.application=dpml.metro
 -Djava.protocol.handler.pkgs=net.dpml.transit
 -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi

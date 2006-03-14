@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.part.Directive;
-import net.dpml.metro.data.ReferenceDirective;
+import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.NullDirective;
 import net.dpml.metro.data.FeatureDirective;
 import net.dpml.metro.info.EntryDescriptor;
@@ -44,7 +44,7 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
 {
     private String m_key;
     private ClassLoader m_classloader;
-    private URI m_uri;
+    private String m_spec;
     private int m_feature = -1;
     private boolean m_validate = true;
 
@@ -61,9 +61,9 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     * Set the uri that this directive references.
     * @param uri the uri
     */
-    public void setURI( final URI uri )
+    public void setLookup( final String spec )
     {
-        m_uri = uri;
+        m_spec = spec;
     }
     
    /**
@@ -76,41 +76,15 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     }
     
    /**
-    * Set the interface classname to locate with the enclosing component.
-    * @param service the service classname
-    */
-    public void setLookup( final String service )
-    {
-        if( null != m_uri )
-        {
-            final String error = 
-              "Attributes 'feature', 'lookup' and 'uri' are mutually exlusive.";
-            throw new BuildException( error ); 
-        }
-        try
-        {
-            m_uri = new URI( "lookup:" + service );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Failed to set ["
-              + service
-              + "] lookup reference.";
-            throw new BuildException( error, e );
-        }
-    }
-    
-   /**
     * Set the feature that this directive references.
     * @param feature the component feature
     */
     public void setFeature( String feature )
     {
-        if( null != m_uri )
+        if( null != m_spec )
         {
             final String error = 
-              "Attributes 'feature', 'lookup' and 'uri' are mutually exlusive.";
+              "Attributes 'feature' and 'lookup' are mutually exlusive.";
             throw new BuildException( error ); 
         }
         try
@@ -158,12 +132,12 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     }
 
    /**
-    * Return the uri reference.
-    * @return the uri
+    * Return the lookup service classname.
+    * @return the classname
     */
-    public URI getURI()
+    private String getLookupAttribute()
     {
-        return m_uri;
+        return m_spec;
     }
 
    /**
@@ -182,10 +156,10 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
         }
         else
         {
-            URI uri = getURI();
-            if( null != uri )
+            String spec = getLookupAttribute();
+            if( null != spec )
             {
-                Directive directive = new ReferenceDirective( m_uri );
+                Directive directive = new LookupDirective( spec );
                 return new PartReference( key, directive );
             }
             else if( m_feature > -1 )

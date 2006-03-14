@@ -80,7 +80,7 @@ public class DefaultTransitionTestCase extends AbstractEncodingTestCase
     */
     public void testEncoding() throws Exception
     {
-        Transition transition = (Transition) executeEncodingTest( m_transition, "simple-transition-encoded.xml" );
+        Transition transition = (Transition) executeEncodingTest( m_transition );
         assertEquals( "original-equals-encoded", m_transition, transition );
     }
     

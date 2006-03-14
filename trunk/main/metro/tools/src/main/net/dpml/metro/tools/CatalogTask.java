@@ -24,6 +24,7 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -56,6 +57,9 @@ import org.apache.tools.ant.types.FileSet;
  */
 public class CatalogTask extends Task
 {
+    private static final net.dpml.metro.builder.TypeBuilder TYPE_BUILDER = 
+      new net.dpml.metro.builder.TypeBuilder();
+
     private File m_work;
     private File m_destination;
     private String m_style;
@@ -732,12 +736,11 @@ public class CatalogTask extends Task
 
     private void processType( File reports, File source )
     {
-        //File htmls = new File( reports, "html" );
         File htmls = reports;
         try
         {
-            InputStream input = new FileInputStream( source );
-            Type type = Type.decode( getClass().getClassLoader(), input );
+            URI uri = source.toURI();
+            Type type = TYPE_BUILDER.loadType( uri );
             createTypePage( htmls, type );
         }
         catch( Exception e )

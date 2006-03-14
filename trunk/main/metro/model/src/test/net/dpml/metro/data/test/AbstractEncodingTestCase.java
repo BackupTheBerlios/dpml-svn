@@ -19,6 +19,10 @@
 package net.dpml.metro.data.test;
 
 import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
@@ -46,72 +50,22 @@ public abstract class AbstractEncodingTestCase extends TestCase
    /**
     * Execution of an encoding test.
     * @param object the object encode/decode
-    * @param filename the filename to use when encoding the object
     * @return the decoded object
     * @exception Exception if an error occurs
     */
-    public Object executeEncodingTest( Object object, String filename ) throws Exception
+    public Object executeEncodingTest( Object object ) throws Exception
     {
-        String base = System.getProperty( "project.test.dir" );
-        File test = new File( base );
-        File destination = new File( test, filename );
-        FileOutputStream output = new FileOutputStream( destination );
-        BufferedOutputStream buffer = new BufferedOutputStream( output );
-        ClassLoader current = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader( ComponentDirective.class.getClassLoader() );
-        XMLEncoder encoder = new XMLEncoder( buffer );
-        encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
-        encoder.setExceptionListener( 
-          new ExceptionListener()
-          {
-            public void exceptionThrown( Exception e )
-            {
-                e.printStackTrace();
-                fail( "encoding exception: " + e.toString() );
-            }
-          }
-        );
-        try
-        {
-            encoder.writeObject( object );
-        }
-        finally
-        {
-            encoder.close();
-        }
-        
-        FileInputStream input = new FileInputStream( destination );
-        try
-        {
-            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-            Object result = decoder.readObject();
-            assertEquals( "encoding-equality", object, result );
-            return result;
-        }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader( current );
-        }
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream output = new ObjectOutputStream( byteOutputStream );
+        output.writeObject( object );
+        output.close();
+        ByteArrayInputStream byteInputStream = new ByteArrayInputStream( byteOutputStream.toByteArray() );
+        ObjectInputStream input = new ObjectInputStream( byteInputStream );
+        Object serialized = input.readObject();
+        input.close();
+        assertTrue( "!=", object != serialized ); // Ensure this is not the same instance
+        assertEquals( "equals", object, serialized );
+        assertEquals( "hash", object.hashCode(), serialized.hashCode() );
+        return serialized;
     }
-
-   /**
-    * Utility class that handles uri encoding.
-    */
-    public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
-    {
-       /**
-        * Return an expression supporting creation of a uri.
-        * @param old the old instance
-        * @param encoder the encoder
-        * @return the expression
-        */
-        public Expression instantiate( Object old, Encoder encoder )
-        {
-            URI uri = (URI) old;
-            String spec = uri.toString();
-            Object[] args = new Object[]{spec};
-            return new Expression( old, old.getClass(), "new", args );
-        }
-    }
-
 }

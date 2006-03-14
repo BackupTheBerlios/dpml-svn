@@ -41,6 +41,6 @@ public class PartReferenceTestCase extends AbstractEncodingTestCase
     public void testEncoding() throws Exception
     {
         PartReference ref = new PartReference( KEY, PART );
-        executeEncodingTest( ref, "part-reference.xml" );
+        executeEncodingTest( ref );
     }
 }

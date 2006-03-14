@@ -116,7 +116,7 @@ public class CategoryDirectiveTestCase extends AbstractEncodingTestCase
     public void testEncoding() throws Exception
     {
         CategoryDirective result = 
-          (CategoryDirective) executeEncodingTest( m_directive, "category-directive.xml" );
+          (CategoryDirective) executeEncodingTest( m_directive );
         assertEquals( "encoded-equality", m_directive, result );
     }
 }

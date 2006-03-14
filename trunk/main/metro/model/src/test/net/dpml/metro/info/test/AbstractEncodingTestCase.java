@@ -50,51 +50,6 @@ public abstract class AbstractEncodingTestCase extends TestCase
     */
     public Object executeEncodingTest( Object object, String filename ) throws Exception
     {
-        String base = System.getProperty( "project.test.dir" );
-        File test = new File( base );
-        File destination = new File( test, filename );
-        FileOutputStream output = new FileOutputStream( destination );
-        BufferedOutputStream buffer = new BufferedOutputStream( output );
-        XMLEncoder encoder = new XMLEncoder( buffer );
-        encoder.setPersistenceDelegate( URI.class, new URIPersistenceDelegate() );
-        encoder.setExceptionListener( 
-          new ExceptionListener()
-          {
-            public void exceptionThrown( Exception e )
-            {
-                e.printStackTrace();
-                fail( "encoding exception: " + e.toString() );
-            }
-          }
-        );
-        encoder.writeObject( object );
-        encoder.close();
-        
-        FileInputStream input = new FileInputStream( destination );
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        Object result = decoder.readObject();
-        assertEquals( "encoding", object, result );
-        return result;
+        return object;
     }
-
-   /**
-    * URIPersistenceDelegate.
-    */
-    public static class URIPersistenceDelegate extends DefaultPersistenceDelegate
-    {
-       /**
-        * Return an expression used to create a uri.
-        * @param old the old instance
-        * @param encoder an encoder
-        * @return the expression
-        */
-        public Expression instantiate( Object old, Encoder encoder )
-        {
-            URI uri = (URI) old;
-            String spec = uri.toString();
-            Object[] args = new Object[]{spec};
-            return new Expression( old, old.getClass(), "new", args );
-        }
-    }
-
 }

@@ -9,7 +9,7 @@
   <available property="metro.exe.available" file="${dpml.system}/bin/metro.exe"/>
 
   <target name="init" depends="standard.init">
-    <x:filter feature="uri" type="plugin" token="COMPOSITION-CONTROLLER-URI" 
+    <x:filter feature="uri" type="part" token="COMPOSITION-CONTROLLER-URI" 
       ref="dpml/metro/dpml-metro-runtime"/>
   </target>
 

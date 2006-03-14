@@ -44,7 +44,7 @@ public class CategoryDescriptor
    /**
     * Default priority value.
     */
-    public static final Priority PRIORITY = Priority.INFO;
+    public static final Priority PRIORITY = Priority.DEBUG;
 
 
     private final String m_name;
@@ -68,13 +68,15 @@ public class CategoryDescriptor
         {
             throw new NullPointerException( "name" );
         }
+        m_name = name;
         if( null == priority )
         {
-            throw new NullPointerException( "priority" );
+            m_priority = PRIORITY;
         }
-
-        m_name = name;
-        m_priority = priority;
+        else
+        {
+            m_priority = priority;
+        }
     }
 
     /**

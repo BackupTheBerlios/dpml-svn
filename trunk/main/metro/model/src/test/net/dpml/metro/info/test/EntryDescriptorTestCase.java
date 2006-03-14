@@ -136,35 +136,4 @@ public class EntryDescriptorTestCase extends TestCase
         assertEquals( entry.hashCode(), serialized.hashCode() );
     }
     
-   /**
-    * Test entry encoding.
-    * @exception Exception if an error occurs
-    */
-    public void testEncoding() throws Exception
-    {
-        EntryDescriptor entry = new EntryDescriptor( KEY, TYPE, OPTIONAL, VOLATILE );
-        String base = System.getProperty( "project.test.dir" );
-        File test = new File( base );
-        File destination = new File( test, "info.xml" );
-        FileOutputStream output = new FileOutputStream( destination );
-        BufferedOutputStream buffer = new BufferedOutputStream( output );
-        XMLEncoder encoder = new XMLEncoder( buffer );
-        encoder.setExceptionListener( 
-          new ExceptionListener()
-          {
-            public void exceptionThrown( Exception e )
-            {
-                e.printStackTrace();
-                fail( "encoding exception: " + e.toString() );
-            }
-          }
-        );
-        encoder.writeObject( entry );
-        encoder.close();
-        FileInputStream input = new FileInputStream( destination );
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        EntryDescriptor result = (EntryDescriptor) decoder.readObject();
-        assertEquals( "encoding", entry, result );
-    }
-
 }

@@ -25,7 +25,9 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:filter type="plugin" feature="uri" token="PART-HANDLER-URI" />
+    <x:filter type="part" feature="uri" token="PART-HANDLER-URI" />
+    <x:filter type="xsd" feature="uri" token="COMPONENT-NAMESPACE-URI" ref="dpml/lang/dpml-component"/>
+    <x:filter type="part" feature="uri" token="COMPONENT-BUILDER-URI" ref="dpml/metro/dpml-metro-builder"/>
   </target>
 
   <target name="build" depends="standard.build">

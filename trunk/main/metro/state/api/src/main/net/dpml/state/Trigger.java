@@ -110,48 +110,4 @@ public interface Trigger
             super( label );
         }
     }
-    
-   /**
-    * Internal BeanInfo class that exposes an persistence delegate.
-    */
-    public static final class TriggerEventBeanInfo extends SimpleBeanInfo
-    {
-        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-    
-       /**
-        * Return the bean descriptor.
-        * @return the descriptor
-        */
-        public BeanDescriptor getBeanDescriptor()
-        {
-            return BEAN_DESCRIPTOR;
-        }
-    
-        private static BeanDescriptor setupBeanDescriptor()
-        {
-            BeanDescriptor descriptor = new BeanDescriptor( TriggerEvent.class );
-            descriptor.setValue( 
-              "persistenceDelegate", 
-              new TriggerEventPersistenceDelegate() );
-            return descriptor;
-        }
-        
-       /**
-        * Persistence delegate.
-        */
-        private static class TriggerEventPersistenceDelegate extends DefaultPersistenceDelegate
-        {
-           /**
-            * Create an expression.
-            * @paran old the old instance
-            * @param encoder the encoder
-            * @return the expression
-            */
-            public Expression instantiate( Object old, Encoder encoder )
-            {
-                TriggerEvent event = (TriggerEvent) old;
-                return new Expression( TriggerEvent.class, "parse", new Object[]{event.getName()} );
-            }
-        }
-    }
 }

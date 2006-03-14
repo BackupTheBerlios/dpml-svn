@@ -63,7 +63,7 @@ public class ContextDirectiveTestCase extends AbstractEncodingTestCase
     public void testEncoding() throws Exception
     {
         ContextDirective result = 
-          (ContextDirective) executeEncodingTest( m_context, "context-directive.xml" );
+          (ContextDirective) executeEncodingTest( m_context );
         assertEquals( "encoded-equality", m_context, result );
     }
 }
