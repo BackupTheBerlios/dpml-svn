@@ -206,7 +206,7 @@
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">
       <fileset dir="transit/console/target/bin"/>
-      <fileset dir="depot/core/console/target/bin"/>
+      <fileset dir="depot/core/target/bin"/>
       <fileset dir="depot/build/target/bin"/>
       <fileset dir="metro/station/console/target/bin"/>
       <fileset dir="metro/station/server/target/bin"/>
