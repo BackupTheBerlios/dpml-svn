@@ -37,6 +37,48 @@ antlibCleanup()
     cd .
 }
 
+dpmlCommon()
+{
+    cd lang/common
+    build clean install
+    cd ../..
+}
+
+dpmlModule()
+{
+    cd lang/module
+    build clean install
+    cd ../..
+}
+
+dpmlPart()
+{
+    cd lang/part
+    build clean install
+    cd ../..
+}
+
+dpmlState()
+{
+    cd lang/state
+    build clean install
+    cd ../..
+}
+
+dpmlComonent()
+{
+    cd lang/component
+    build clean install
+    cd ../..
+}
+
+dpmlType()
+{
+    cd lang/type
+    build clean install
+    cd ../..
+}
+
 transitMain()
 {
     cd transit/core
@@ -53,16 +95,16 @@ transitTools()
 
 depotLibrary()
 {
-    cd depot/library/common
+    cd depot/library
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 depotAntBuilder()
 {
     cd depot/tools/builder
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 externalModules()
@@ -79,27 +121,33 @@ utilCli()
     cd ../..
 }
 
-depotLibraryConsole()
+depotBuild()
 {
-    cd depot/library/console
+    cd depot/build
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 depotCoreConsole()
 {
     cd depot/core/console
-    build clean bootstrap
+    build clean install
     cd ../../..
 }
 
 ID=$1
 antlibCleanup
+dpmlCommon
+dpmlPart
+dpmlModule
+dpmlState
+dpmlComponent
+dpmlType
 transitMain
 transitTools
 depotLibrary
 depotAntBuilder
 externalModules
 utilCli
-depotLibraryConsole
+depotBuild
 depotCoreConsole

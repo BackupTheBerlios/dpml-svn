@@ -37,7 +37,7 @@
   </target>
   
   <target name="build" depends="standard.build">
-    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+    <x:plugin uri="link:part:dpml/metro/dpml-metro-tools"/>
     <c:catalog title="DPML Catalog">
       <fileset dir="${basedir}">
         <include name="**/target/classes/main/**/*.type"/>
@@ -60,9 +60,7 @@
 
   <target name="replicate" depends="standard.install">
     <property name="share.local" location="${share}/local"/>
-    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern">
-      <include ref="jgoodies"/>
-    </x:replicate>
+    <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
   </target>
 
   <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
@@ -209,7 +207,7 @@
     <copy todir="${share.bin}" filtering="false">
       <fileset dir="transit/console/target/bin"/>
       <fileset dir="depot/core/console/target/bin"/>
-      <fileset dir="depot/library/console/target/bin"/>
+      <fileset dir="depot/build/target/bin"/>
       <fileset dir="metro/station/console/target/bin"/>
       <fileset dir="metro/station/server/target/bin"/>
       <fileset dir="metro/exec/target/bin"/>
@@ -281,7 +279,7 @@
   <target name="checkstyle" depends="prepare">
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
-    <x:plugin uri="link:plugin:dpml/depot/dpml-depot-checkstyle">
+    <x:plugin uri="link:part:dpml/depot/dpml-depot-checkstyle">
       <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>

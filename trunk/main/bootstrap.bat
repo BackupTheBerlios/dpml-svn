@@ -13,11 +13,23 @@ REM
 set ID=%1
 CALL :antlib-cleanup
 IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-common
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-part
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-module
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-state
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-component
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-type
+IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
 IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-tools
 IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-library
+CALL :dpml-library
 IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-ant-builder
 IF ERRORLEVEL 1 GOTO :exit
@@ -25,7 +37,7 @@ CALL :external-modules
 IF ERRORLEVEL 1 GOTO :exit
 CALL :util-cli
 IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-library-console
+CALL :depot-build
 IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-core-console
 IF ERRORLEVEL 1 GOTO :exit
@@ -41,6 +53,42 @@ del/q .ant\lib\dpml-*.jar
 POPD
 GOTO :EOF
 
+:dpml-common
+PUSHD lang\common
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:dpml-module
+PUSHD lang\module
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:dpml-part
+PUSHD lang\part
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:dpml-state
+PUSHD lang\state
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:dpml-component
+PUSHD lang\component
+CALL :build clean install
+POPD
+GOTO :EOF
+
+:dpml-type
+PUSHD lang\type
+CALL :build clean install
+POPD
+GOTO :EOF
+
 :transit-main
 PUSHD transit\core
 CALL :build clean install
@@ -53,8 +101,8 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
-:depot-library
-PUSHD depot\library\common
+:dpml-library
+PUSHD depot\library
 CALL :build clean install
 POPD
 GOTO :EOF
@@ -77,21 +125,25 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
-:depot-library-console
-PUSHD depot\library\console
+:depot-build
+PUSHD depot\build
 CALL :build clean install
 POPD
 GOTO :EOF
 
 :depot-core-console
 PUSHD depot\core\console
-CALL :build clean bootstrap
+CALL :build clean install
 POPD
 GOTO :EOF
 
 :build
 IF "%ID%" == "" set ID=SNAPSHOT
 set BUILD_ID=-Dbuild.signature=%ID%
+ECHO ### START BUILD ###
+@echo on
+cd
+@echo off
 ECHO building project with release ID [%BUILD_ID%]
 CALL ant %BUILD_ID% %*
 set BUILD_ID=""
