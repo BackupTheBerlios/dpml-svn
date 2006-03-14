@@ -137,7 +137,7 @@ depotBuild()
 
 depotCoreConsole()
 {
-    cd depot/core/console
+    cd depot/core
     build clean install
     cd ../../..
 }

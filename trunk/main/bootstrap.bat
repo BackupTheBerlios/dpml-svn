@@ -41,7 +41,7 @@ CALL :util-cli
 IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-build
 IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-core-console
+CALL :depot-core
 IF ERRORLEVEL 1 GOTO :exit
 ECHO BOOTSTRAP SUCCESSFUL
 
@@ -139,8 +139,8 @@ CALL :build clean install
 POPD
 GOTO :EOF
 
-:depot-core-console
-PUSHD depot\core\console
+:depot-core
+PUSHD depot\core
 CALL :build clean install
 POPD
 GOTO :EOF

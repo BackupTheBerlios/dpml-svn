@@ -375,13 +375,9 @@ public final class LibraryBuilder extends AbstractBuilder
             final String basedir = path;
             final Element root = getRootElement( source );
             final String tag = root.getTagName();
-            if( "module".equals( tag ) )
+            if( "module".equals( tag ) || "project".equals( tag ) || "resource".equals( tag ))
             {
                 return buildResourceDirectiveFromElement( parent, root, basedir );
-            }
-            else if( "project".equals( tag ) )
-            {
-                throw new IllegalArgumentException( "project" );
             }
             else
             {
