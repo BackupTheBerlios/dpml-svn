@@ -38,7 +38,7 @@
     <mkdir dir="${targetDir}"/>
     <property name="filename" value="${project.name}-${project.version}.xsd"/>
     <copy toFile="${targetDir}/${filename}" preservelastmodified="true" overwrite="true" 
-      file="${target.dir}/component.xsd"/>
+      file="${target.dir}/transit.xsd"/>
     <checksum fileext=".md5" file="${targetDir}/${filename}"/>
   </target>
 
