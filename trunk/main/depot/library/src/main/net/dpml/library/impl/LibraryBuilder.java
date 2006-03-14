@@ -163,13 +163,13 @@ public final class LibraryBuilder extends AbstractBuilder
         }
     }
     
-    public ModuleDirective buildModule( URI uri ) throws IOException
+    public ResourceDirective buildResource( URI uri ) throws IOException
     {
         try
         {
             final Document document = m_builder.parse( uri );
             Element root = document.getDocumentElement();
-            return buildModuleDirectiveFromElement( null, root, null );
+            return buildResourceDirectiveFromElement( null, root, null );
         }
         catch( IOException e )
         {
@@ -290,7 +290,7 @@ public final class LibraryBuilder extends AbstractBuilder
         
         Properties properties = null;
         ImportDirective[] imports = new ImportDirective[0];
-        ModuleDirective[] modules = new ModuleDirective[0];
+        ResourceDirective[] resources = new ResourceDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -306,7 +306,7 @@ public final class LibraryBuilder extends AbstractBuilder
             }
             else if( MODULES_ELEMENT_NAME.equals( tag ) )
             {
-                modules = buildModuleDirectivesFromElement( base, child );
+                resources = buildResourceDirectivesFromElement( base, child );
             }
             else
             {
@@ -315,7 +315,7 @@ public final class LibraryBuilder extends AbstractBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        return new LibraryDirective( imports, modules, properties );
+        return new LibraryDirective( imports, resources, properties );
     }
     
    /**
@@ -324,7 +324,7 @@ public final class LibraryBuilder extends AbstractBuilder
     * @param base the basedire of the enclosing library or module
     * @param element the element definting the module
     */
-    private ModuleDirective[] buildModuleDirectivesFromElement( 
+    private ResourceDirective[] buildResourceDirectivesFromElement( 
       File base, Element element ) throws Exception
     {
         String tag = element.getTagName();
@@ -335,13 +335,13 @@ public final class LibraryBuilder extends AbstractBuilder
             throw new IllegalArgumentException( error );
         }
         Element[] children = ElementHelper.getChildren( element );
-        ModuleDirective[] modules = new ModuleDirective[ children.length ];
+        ResourceDirective[] resources = new ModuleDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            modules[i] = buildModuleDirectiveFromElement( base, child, null );
+            resources[i] = buildResourceDirectiveFromElement( base, child, null );
         }
-        return modules;
+        return resources;
     }
     
    /**
@@ -351,7 +351,7 @@ public final class LibraryBuilder extends AbstractBuilder
     * @return the module directive
     * @exception IOException if an IO exception occurs
     */
-    public ModuleDirective buildModuleDirective( File source, String path ) throws IOException
+    public ResourceDirective buildResourceDirective( File source, String path ) throws IOException
     {        
         if( null == source )
         {
@@ -371,10 +371,10 @@ public final class LibraryBuilder extends AbstractBuilder
         }
         try
         {
-            final Element root = getRootElement( source );
             final File parent = source.getParentFile();
             final String basedir = path;
-            return buildModuleDirectiveFromElement( parent, root, basedir );
+            final Element root = getRootElement( source );
+            return buildResourceDirectiveFromElement( parent, root, basedir );
         }
         catch( Throwable e )
         {
@@ -387,14 +387,14 @@ public final class LibraryBuilder extends AbstractBuilder
         }
     }
 
-        
+    
    /**
     * Build a module using an XML element.
     * @param base the base directory
     * @param element the module element
     * @param offset the imported file directory offset
     */
-    private ModuleDirective buildModuleDirectiveFromElement( 
+    private ResourceDirective buildResourceDirectiveFromElement( 
       File base, Element element, String offset ) throws Exception
     {
         final String elementName = element.getTagName();
@@ -415,8 +415,16 @@ public final class LibraryBuilder extends AbstractBuilder
             }
             else
             {
-                return buildModuleDirective( source, spec );
+                return buildResourceDirective( source, spec ); // ##
             }
+        }
+        else if( RESOURCE_ELEMENT_NAME.equals( elementName ) )
+        {
+            return buildResourceDirective( element, offset );
+        }
+        else if( PROJECT_ELEMENT_NAME.equals( elementName ) )
+        {
+            return buildResourceDirective( element, offset );
         }
         else if( MODULE_ELEMENT_NAME.equals( elementName ) )
         {
@@ -441,14 +449,14 @@ public final class LibraryBuilder extends AbstractBuilder
                 }
                 else if( MODULE_ELEMENT_NAME.equals( tag ) )
                 {
-                    ModuleDirective directive = 
-                      buildModuleDirectiveFromElement( base, child, null );
+                    ResourceDirective directive = 
+                      buildResourceDirectiveFromElement( base, child, null );
                     list.add( directive );
                 }
                 else if( IMPORT_ELEMENT_NAME.equals( tag ) ) 
                 {
-                    ModuleDirective directive = 
-                      buildModuleDirectiveFromElement( base, child, null );
+                    ResourceDirective directive = 
+                      buildResourceDirectiveFromElement( base, child, null );
                     list.add( directive );
                 }
                 else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 

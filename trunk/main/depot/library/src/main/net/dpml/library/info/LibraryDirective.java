@@ -31,7 +31,7 @@ import java.util.Properties;
 public final class LibraryDirective extends AbstractDirective
 {
     private final ImportDirective[] m_imports;
-    private final ModuleDirective[] m_modules;
+    private final ResourceDirective[] m_resources;
     
    /**
     * Creation of a new library directive.
@@ -40,7 +40,7 @@ public final class LibraryDirective extends AbstractDirective
     * @param properties library properties
     */
     public LibraryDirective(
-      ImportDirective[] imports, ModuleDirective[] modules, Properties properties )
+      ImportDirective[] imports, ResourceDirective[] resources, Properties properties )
     {
         super( properties );
         
@@ -55,19 +55,19 @@ public final class LibraryDirective extends AbstractDirective
                 throw new NullPointerException( "import" );
             } 
         }
-        if( null == modules )
+        if( null == resources )
         {
-            throw new NullPointerException( "modules" );
+            throw new NullPointerException( "resources" );
         }
-        for( int i=0; i<modules.length; i++ )
+        for( int i=0; i<resources.length; i++ )
         {
-            if( null == modules[i] )
+            if( null == resources[i] )
             {
-                throw new NullPointerException( "module" );
+                throw new NullPointerException( "resource" );
             } 
         }
 
-        m_modules = modules;
+        m_resources = resources;
         m_imports = imports;
     }
     
@@ -84,9 +84,9 @@ public final class LibraryDirective extends AbstractDirective
     * Return the set of module directives.
     * @return the module directive array
     */
-    public ModuleDirective[] getModuleDirectives()
+    public ResourceDirective[] getResourceDirectives()
     {
-        return m_modules;
+        return m_resources;
     }
     
    /**
@@ -99,7 +99,7 @@ public final class LibraryDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof LibraryDirective ) )
         {
             LibraryDirective object = (LibraryDirective) other;
-            if( !Arrays.equals( m_modules, object.m_modules ) )
+            if( !Arrays.equals( m_resources, object.m_resources ) )
             {
                 return false;
             }
@@ -121,7 +121,7 @@ public final class LibraryDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= super.hashArray( m_modules );
+        hash ^= super.hashArray( m_resources );
         hash ^= super.hashArray( m_imports );
         return hash;
     }

@@ -116,10 +116,20 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
                 String path = include.getValue();
                 URI uri = new URI( path );
                 getLogger().debug( "loading external import: " + uri );
-                importModuleDirectives[i] = BUILDER.buildModule( uri ); 
-                
-                //InputStream input = url.openStream();
-                //importModuleDirectives[i] = LibraryDirectiveBuilder.buildModuleDirective( input );
+                ResourceDirective resource = BUILDER.buildResource( uri );
+                if( resource instanceof ModuleDirective )
+                {
+                    ModuleDirective moduleDirective = (ModuleDirective) resource;
+                    importModuleDirectives[i] = moduleDirective;
+                }
+                else
+                {
+                    final String error = 
+                      "Not yet equipped to import resource of the type [" 
+                      + resource.getClass().getName() 
+                      + ".";
+                    throw new IllegalArgumentException( error );
+                } 
             }
         }
         DefaultModule[] importModules = new DefaultModule[ importModuleDirectives.length ];
@@ -132,13 +142,30 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         
         // create the top-level modules
         
-        ModuleDirective[] moduleDirectives = m_directive.getModuleDirectives();
-        DefaultModule[] modules = new DefaultModule[ moduleDirectives.length ];
-        m_module = new DefaultModule( this, m_directive, modules );
-        for( int i=0; i<moduleDirectives.length; i++ )
+        ArrayList moduleDirectives = new ArrayList();
+        ResourceDirective[] directives = m_directive.getResourceDirectives();
+        for( int i=0; i<directives.length; i++ )
         {
-            ModuleDirective moduleDirective = moduleDirectives[i];
-            modules[i] = new DefaultModule( this, m_module, moduleDirective );
+            ResourceDirective directive = directives[i];
+            if( directive instanceof ModuleDirective )
+            {
+                ModuleDirective md = (ModuleDirective) directive;
+                moduleDirectives.add( md );
+            }
+            else
+            {
+                final String error = 
+                  "No support in place for non-module top-level resources.";
+                throw new IllegalArgumentException( error );
+            }
+        }
+        ModuleDirective[] values = (ModuleDirective[]) moduleDirectives.toArray( new ModuleDirective[0] );
+        DefaultModule[] modules = new DefaultModule[ values.length ];
+        m_module = new DefaultModule( this, m_directive, modules );
+        for( int i=0; i<modules.length; i++ )
+        {
+            ModuleDirective md = values[i];
+            modules[i] = new DefaultModule( this, m_module, md );
         }
     }
     

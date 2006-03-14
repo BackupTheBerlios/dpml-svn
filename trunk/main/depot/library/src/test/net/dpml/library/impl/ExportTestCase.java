@@ -52,7 +52,7 @@ public class ExportTestCase extends AbstractTestCase
         File test = new File( testPath );
         File export = new File( test, "export.xml" );
         builder.export( directive, new FileOutputStream( export ) );
-        ModuleDirective result = builder.buildModule( export.toURI() );
+        ResourceDirective result = builder.buildResource( export.toURI() );
         compareResourceDirective( directive, result );
         assertEquals( "export", directive, result );
     }

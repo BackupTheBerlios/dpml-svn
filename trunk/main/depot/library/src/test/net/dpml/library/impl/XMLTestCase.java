@@ -70,7 +70,7 @@ public class XMLTestCase extends TestCase
     {
         LibraryDirective library = getDirective( "samples/example-1.xml" );
         assertEquals( "imports", 0, library.getImportDirectives().length );
-        assertEquals( "modules", 0, library.getModuleDirectives().length );
+        assertEquals( "resources", 0, library.getResourceDirectives().length );
         assertEquals( "properties", 0, library.getProperties().keySet().size() );
     }
     
@@ -81,7 +81,7 @@ public class XMLTestCase extends TestCase
     {
         LibraryDirective library = getDirective( "samples/example-2.xml" );
         assertEquals( "imports", 0, library.getImportDirectives().length );
-        assertEquals( "modules", 0, library.getModuleDirectives().length );
+        assertEquals( "resources", 0, library.getResourceDirectives().length );
         assertEquals( "properties", 2, library.getProperties().keySet().size() );
     }
 
@@ -92,7 +92,7 @@ public class XMLTestCase extends TestCase
     {
         LibraryDirective library = getDirective( "samples/example-3.xml" );
         assertEquals( "imports", 2, library.getImportDirectives().length );
-        assertEquals( "modules", 0, library.getModuleDirectives().length );
+        assertEquals( "resources", 0, library.getResourceDirectives().length );
         assertEquals( "properties", 0, library.getProperties().keySet().size() );
     }
 
@@ -103,7 +103,7 @@ public class XMLTestCase extends TestCase
     {
         LibraryDirective library = getDirective( "samples/example-4.xml" );
         assertEquals( "imports", 2, library.getImportDirectives().length );
-        assertEquals( "modules", 3, library.getModuleDirectives().length );
+        assertEquals( "resources", 3, library.getResourceDirectives().length );
         assertEquals( "properties", 0, library.getProperties().keySet().size() );
     }
 
@@ -113,9 +113,9 @@ public class XMLTestCase extends TestCase
     public void testModuleName() throws Exception
     {
         LibraryDirective library = getDirective( "samples/example-5.xml" );
-        ModuleDirective[] modules = library.getModuleDirectives();
-        ModuleDirective module = modules[0];
-        String name = module.getName();
+        ResourceDirective[] resources = library.getResourceDirectives();
+        ResourceDirective resource = resources[0];
+        String name = resource.getName();
         assertEquals( "name", "acme", name );
     }
     
@@ -125,9 +125,9 @@ public class XMLTestCase extends TestCase
     public void testModuleBasedir() throws Exception
     {
         LibraryDirective library = getDirective( "samples/example-5.xml" );
-        ModuleDirective[] modules = library.getModuleDirectives();
-        ModuleDirective module = modules[0];
-        String basedir = module.getBasedir();
+        ResourceDirective[] resources = library.getResourceDirectives();
+        ResourceDirective resource = resources[0];
+        String basedir = resource.getBasedir();
         assertEquals( "basedir", ".", basedir );
     }
 
@@ -137,9 +137,9 @@ public class XMLTestCase extends TestCase
     public void testModuleProperties() throws Exception
     {
         LibraryDirective library = getDirective( "samples/example-5.xml" );
-        ModuleDirective[] modules = library.getModuleDirectives();
-        ModuleDirective module = modules[0];
-        assertEquals( "properties", 3, module.getProperties().keySet().size() );
+        ResourceDirective[] resources = library.getResourceDirectives();
+        ResourceDirective resource = resources[0];
+        assertEquals( "properties", 3, resource.getProperties().keySet().size() );
     }
 
    /**
@@ -148,8 +148,8 @@ public class XMLTestCase extends TestCase
     public void testModuleImport() throws Exception
     {
         LibraryDirective library = getDirective( "samples/example-6.xml" );
-        ModuleDirective[] modules = library.getModuleDirectives();
-        assertEquals( "modules", 1, modules.length );
+        ResourceDirective[] resources = library.getResourceDirectives();
+        assertEquals( "modules", 1, resources.length );
     }
 
    /**
@@ -158,11 +158,19 @@ public class XMLTestCase extends TestCase
     public void testNestedModuleImport() throws Exception
     {
         LibraryDirective library = getDirective( "samples/example-7.xml" );
-        ModuleDirective[] modules = library.getModuleDirectives();
-        assertEquals( "modules", 1, modules.length );
-        ModuleDirective module = modules[0];
-        ResourceDirective[] resources = module.getResourceDirectives();
+        ResourceDirective[] resources = library.getResourceDirectives();
         assertEquals( "resources", 1, resources.length );
+        ResourceDirective resource = resources[0];
+        if( resource instanceof ModuleDirective )
+        {
+            ModuleDirective module = (ModuleDirective) resource;
+            ResourceDirective[] ress = module.getResourceDirectives();
+            assertEquals( "resources", 1,  ress.length );
+        }
+        else
+        {
+            fail( "Expecting a module - found a resource." );
+        }
     }
 
    /**
@@ -171,14 +179,22 @@ public class XMLTestCase extends TestCase
     public void testResourceStatement() throws Exception
     {
         LibraryDirective library = getDirective( "samples/example-8.xml" );
-        ModuleDirective[] modules = library.getModuleDirectives();
-        assertEquals( "modules", 1, modules.length );
-        ModuleDirective module = modules[0];
-        ResourceDirective[] resources = module.getResourceDirectives();
+        ResourceDirective[] resources = library.getResourceDirectives();
         assertEquals( "resources", 1, resources.length );
         ResourceDirective resource = resources[0];
-        TypeDirective[] types = resource.getTypeDirectives();
-        assertEquals( "types", 2, types.length );
+        if( resource instanceof ModuleDirective )
+        {
+            ModuleDirective module = (ModuleDirective) resource;
+            ResourceDirective[] ress = module.getResourceDirectives();
+            assertEquals( "resources", 1, ress.length );
+            ResourceDirective r = ress[0];
+            TypeDirective[] types = r.getTypeDirectives();
+            assertEquals( "types", 2, types.length );
+        }
+        else
+        {
+            fail( "Expecting a module - found a resource." );
+        }
     }
 
     private LibraryDirective getDirective( String path ) throws Exception
