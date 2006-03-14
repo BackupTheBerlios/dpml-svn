@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="http" basedir="."
-    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:metro="artifact:xsd:dpml/lang/dpml-component#1.0"
-  >
+<module name="http" basedir="." xmlns="artifact:xsd:dpml/lang/dpml-module#1.0">
 
   <properties>
     <property name="project.xsd.builder.artifact:xsd:dpml/lang/dpml-component#1.0"

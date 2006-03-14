@@ -92,7 +92,7 @@ public final class LibraryBuilder extends AbstractBuilder
     
     public static final String XML_HEADER = 
       "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
-      
+    
     private static final String LIBRARY_ELEMENT_NAME = "library";
     private static final String IMPORTS_ELEMENT_NAME = "imports";
     private static final String IMPORT_ELEMENT_NAME = "import";
@@ -374,7 +374,19 @@ public final class LibraryBuilder extends AbstractBuilder
             final File parent = source.getParentFile();
             final String basedir = path;
             final Element root = getRootElement( source );
-            return buildResourceDirectiveFromElement( parent, root, basedir );
+            final String tag = root.getTagName();
+            if( "module".equals( tag ) )
+            {
+                return buildResourceDirectiveFromElement( parent, root, basedir );
+            }
+            else if( "project".equals( tag ) )
+            {
+                throw new IllegalArgumentException( "project" );
+            }
+            else
+            {
+                throw new IllegalArgumentException( tag );
+            }
         }
         catch( Throwable e )
         {
@@ -387,7 +399,7 @@ public final class LibraryBuilder extends AbstractBuilder
         }
     }
 
-    
+        
    /**
     * Build a module using an XML element.
     * @param base the base directory
