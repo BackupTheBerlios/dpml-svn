@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
+<module name="planet"
+    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-<module name="planet">
-
-  <module file="http/module.xml"/>
+  <import file="http/module.xml"/>
 
 </module>
