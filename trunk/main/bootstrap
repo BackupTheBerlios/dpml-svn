@@ -86,6 +86,13 @@ transitMain()
     cd ../..
 }
 
+transitSpec()
+{
+    cd transit/spec
+    build clean install
+    cd ../..
+}
+
 transitTools()
 {
     cd transit/tools
@@ -143,6 +150,7 @@ dpmlModule
 dpmlState
 dpmlComponent
 dpmlType
+transitSpec
 transitMain
 transitTools
 depotLibrary

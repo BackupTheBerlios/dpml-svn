@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="@PROJECT-XSD-URI@"
+            xmlns:part="@PART-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
+    
+    <element name="transit" type="this:TransitType"/>
+    
+    <complexType name="TransitType">
+      <sequence>
+        <element name="proxy" type="this:ProxyType" minOccurs="0" maxOccurs="1"/>
+        <element name="local" type="this:LocalRepositoryType" minOccurs="1" maxOccurs="1"/>
+        <element name="hosts" type="this:HostsType" minOccurs="1" maxOccurs="1"/>
+        <element name="layouts" type="this:LayoutsType" minOccurs="0" maxOccurs="1"/>
+        <element name="layouts" type="this:HandlersType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <!-- proxy type definition -->
+    
+    <complexType name="ProxyType">
+      <sequence>
+        <element name="credentials" type="this:CredentialsType" minOccurs="0" maxOccurs="1"/>
+        <element name="excludes" type="this:ExcludesType" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+      <attribute name="host" type="xsd:anyUri" use="required"/>
+    </complexType>
+    
+    <complexType name="CredentialsType">
+      <sequence>
+        <element name="username" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <element name="password" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ExcludesType">
+      <sequence>
+        <element name="exclude" type="this:ExcludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ExcludeType">
+      <simpleContent>
+        <extension base="string"/>
+      </simpleContent>
+    </complexType>
+    
+    <!-- local repository definition -->
+    
+    <complexType name="LocalRepositoryType">
+      <attribute name="path" type="xsd:string" use="required"/>
+      <attribute name="layout" type="xsd:string" use="required"/>
+    </complexType>
+    
+    <!-- hosts definition -->
+    
+    <complexType name="HostsType">
+      <sequence>
+        <element name="host" type="this:HostType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="HostType">
+      <sequence>
+        <element name="credentials" type="this:CredentialsType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="id" type="xsd:string" use="required"/>
+      <attribute name="priority" type="xsd:integer" use="required"/>
+      <attribute name="url" type="xsd:anyUri" use="required"/>
+      <attribute name="layout" type="xsd:string" use="required"/>
+      <attribute name="enabled" type="xsd:boolean" default="true"/>
+      <attribute name="trusted" type="xsd:boolean" default="false"/>
+      <attribute name="index" type="xsd:string"/>
+      <attribute name="schema" type="xsd:string"/>
+      <attribute name="prompt" type="xsd:string"/>
+    </complexType>
+
+    <!-- layout definition -->
+    
+    <complexType name="LayoutsType">
+      <sequence>
+        <element name="layout" type="this:LayoutType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="LayoutType">
+      <sequence>
+        <element name="codebase" type="this:CodebaseType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="id" type="xsd:string" use="required"/>
+      <attribute name="title" type="xsd:string"/>
+    </complexType>
+
+    <!-- handlers definition -->
+    
+    <complexType name="HandlersType">
+      <sequence>
+        <element name="handler" type="this:HandlerType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="HandlerType">
+      <sequence>
+        <element name="codebase" type="this:CodebaseType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="id" type="xsd:string" use="required"/>
+      <attribute name="title" type="xsd:string"/>
+    </complexType>
+    
+    <!-- codebase definition -->
+    
+    <complexType name="CodebaseType">
+      <sequence>
+        <element name="codebase" type="part:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="uri" type="xsd:anyUri" use="required"/>
+    </complexType>
+
+</schema>
