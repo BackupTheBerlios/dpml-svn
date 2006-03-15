@@ -18,6 +18,7 @@
 
 package net.dpml.station.server;
 
+import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
@@ -37,14 +38,15 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 
+import net.dpml.station.ApplicationRegistry;
+import net.dpml.station.RegistryEvent;
+import net.dpml.station.RegistryListener;
+import net.dpml.station.builder.RegistryBuilder;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
 import net.dpml.station.info.RegistryDescriptor.Entry;
 import net.dpml.station.info.ApplicationRegistryRuntimeException;
-import net.dpml.station.ApplicationRegistry;
-import net.dpml.station.RegistryEvent;
-import net.dpml.station.RegistryListener;
 
 import net.dpml.transit.util.StreamUtils;
 import net.dpml.transit.Logger;
@@ -70,7 +72,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     * @param url storage location
     * @exception IOException if a I/O error occurs
     */
-    public RemoteApplicationRegistry( Logger logger, URL url ) throws IOException
+    public RemoteApplicationRegistry( Logger logger, URL url ) throws Exception
     {
         super( logger );
 
@@ -257,6 +259,10 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             {
                 return;
             }
+            
+            throw new UnsupportedOperationException( "flush" );
+            
+            /*
             ClassLoader current = Thread.currentThread().getContextClassLoader();
             ClassLoader context = StartupPolicy.class.getClassLoader();
             Thread.currentThread().setContextClassLoader( context );
@@ -292,6 +298,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             OutputStream dest = m_url.openConnection().getOutputStream();
             StreamUtils.copyStream( input, dest, true );
             getLogger().debug( "updated registry: " + m_url );
+            */
         }
     }
     
@@ -382,29 +389,30 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
         return "[registry]";
     }
 
-    private RegistryDescriptor loadRegistryDescriptor( URL url ) throws IOException
+    private RegistryDescriptor loadRegistryDescriptor( URL url ) throws Exception
     {
         if( null == url )
         {
             return new RegistryDescriptor( new Entry[0] );
         }
         
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try
+        RegistryBuilder builder = new RegistryBuilder();
+        Object object = builder.build( new URI( url.toString() ) );
+        if( object instanceof RegistryDescriptor )
         {
-            InputStream input = url.openStream();
-            ClassLoader context = RegistryDescriptor.class.getClassLoader();
-            Thread.currentThread().setContextClassLoader( context );
-            XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-            return (RegistryDescriptor) decoder.readObject();
+            return (RegistryDescriptor) object;
         }
-        catch( FileNotFoundException e )
+        else
         {
-            return new RegistryDescriptor( new Entry[0] );
-        }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader( loader );
+            final String error = 
+              "The object returned from the uri ["
+              + url
+              + "] of the class ["
+              + object.getClass().getName()
+              + "] is not an instance of "
+              + RegistryDescriptor.class.getName()
+              + ".";
+            throw new IllegalArgumentException( error );
         }
     }
     
