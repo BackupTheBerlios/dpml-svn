@@ -262,7 +262,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             }
             
             File file = File.createTempFile( "dpml-station", ".xml" );
-            getLogger().info( "writing to temp file: " + file );
+            getLogger().debug( "writing to temp file: " + file );
             file.createNewFile();
             FileOutputStream output = new FileOutputStream( file );
             Entry[] entries = getEntries();
