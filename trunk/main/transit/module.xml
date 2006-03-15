@@ -8,20 +8,11 @@
     <property name="project.test.fork" value="true"/>
   </properties>
 
-  <resource name="dpml-transit-spec">
-    <types>
-      <type id="xsd"/>
-    </types>
-  </resource>
-   
   <project name="dpml-transit-console" basedir="console">
     <types>
       <type id="jar"/>
       <part:plugin class="net.dpml.transit.console.TransitConsoleHandler"/>
     </types>
-    <dependencies scope="build">
-      <include key="dpml-transit-spec"/>
-    </dependencies>
     <dependencies>
       <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/util/dpml-util-cli"/>
