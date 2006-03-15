@@ -30,6 +30,7 @@ import net.dpml.station.RegistryListener;
 import net.dpml.station.RegistryEvent;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
 import net.dpml.transit.Logger;
 import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
@@ -46,6 +47,11 @@ import net.dpml.lang.DuplicateKeyException;
  */
 public class RemoteApplicationRegistryTestCase extends TestCase
 {
+    static
+    {
+        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
+    }
+    
     private URL m_url;
     private Logger m_logger = new LoggingAdapter( "registry" );
     

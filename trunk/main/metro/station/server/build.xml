@@ -6,6 +6,10 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <target name="init" depends="standard.init">
+    <x:filter token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" feature="uri" />
+  </target>
+
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
       <include name="**/RemoteApplicationRegistry.class"/>

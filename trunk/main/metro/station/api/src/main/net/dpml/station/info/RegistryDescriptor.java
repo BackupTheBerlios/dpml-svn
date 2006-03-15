@@ -241,31 +241,4 @@ public class RegistryDescriptor extends AbstractDescriptor
               + " ]";
         }
     }
-    
-   /**
-    * Entry bean info.
-    */
-    public static final class EntryBeanInfo extends SimpleBeanInfo
-    {
-        private static final BeanDescriptor BEAN_DESCRIPTOR = setupBeanDescriptor();
-        
-       /**
-        * Return the bean descriptor.
-        * @return the descriptor
-        */
-        public BeanDescriptor getBeanDescriptor()
-        {
-            return BEAN_DESCRIPTOR;
-        }
-        
-        private static BeanDescriptor setupBeanDescriptor()
-        {
-            BeanDescriptor descriptor = new BeanDescriptor( Entry.class );
-            descriptor.setValue( 
-              "persistenceDelegate", 
-              new DefaultPersistenceDelegate( 
-                new String[]{"key", "applicationDescriptor"} ) );
-            return descriptor;
-        }
-    }
 }

@@ -42,6 +42,7 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.RegistryEvent;
 import net.dpml.station.RegistryListener;
 import net.dpml.station.builder.RegistryBuilder;
+import net.dpml.station.builder.RegistryWriter;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
@@ -260,8 +261,19 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
                 return;
             }
             
-            throw new UnsupportedOperationException( "flush" );
-            
+            File file = File.createTempFile( "dpml-station", ".xml" );
+            getLogger().info( "writing to temp file: " + file );
+            file.createNewFile();
+            FileOutputStream output = new FileOutputStream( file );
+            Entry[] entries = getEntries();
+            RegistryDescriptor descriptor = new RegistryDescriptor( entries );
+            RegistryWriter writer = new RegistryWriter();
+            writer.writeRegistryDescriptor( descriptor, output, "" );
+            FileInputStream input = new FileInputStream( file );
+            OutputStream dest = m_url.openConnection().getOutputStream();
+            StreamUtils.copyStream( input, dest, true );
+            getLogger().debug( "updated registry: " + m_url );
+
             /*
             ClassLoader current = Thread.currentThread().getContextClassLoader();
             ClassLoader context = StartupPolicy.class.getClassLoader();
@@ -395,24 +407,33 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
         {
             return new RegistryDescriptor( new Entry[0] );
         }
-        
-        RegistryBuilder builder = new RegistryBuilder();
-        Object object = builder.build( new URI( url.toString() ) );
-        if( object instanceof RegistryDescriptor )
+        else 
         {
-            return (RegistryDescriptor) object;
-        }
-        else
-        {
-            final String error = 
-              "The object returned from the uri ["
-              + url
-              + "] of the class ["
-              + object.getClass().getName()
-              + "] is not an instance of "
-              + RegistryDescriptor.class.getName()
-              + ".";
-            throw new IllegalArgumentException( error );
+            RegistryBuilder builder = new RegistryBuilder();
+            try
+            {
+                Object object = builder.build( new URI( url.toString() ) );
+                if( object instanceof RegistryDescriptor )
+                {
+                    return (RegistryDescriptor) object;
+                }
+                else
+                {
+                    final String error = 
+                      "The object returned from the uri ["
+                      + url
+                      + "] of the class ["
+                      + object.getClass().getName()
+                      + "] is not an instance of "
+                      + RegistryDescriptor.class.getName()
+                      + ".";
+                    throw new IllegalArgumentException( error );
+                }
+            }
+            catch( FileNotFoundException e )
+            {
+                return new RegistryDescriptor( new Entry[0] );
+            }
         }
     }
     

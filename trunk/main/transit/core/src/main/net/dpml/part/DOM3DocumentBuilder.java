@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.FileNotFoundException;
 
 import javax.xml.XMLConstants;
 import javax.xml.validation.Validator;
@@ -113,6 +114,10 @@ public class DOM3DocumentBuilder
             input.setCharacterStream( reader );
 
             return builder.parse( input );
+        }
+        catch( FileNotFoundException e )
+        {
+            throw e;
         }
         catch( Throwable e )
         {

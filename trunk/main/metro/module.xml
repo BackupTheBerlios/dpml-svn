@@ -196,6 +196,9 @@
   </project>
    
   <project name="dpml-station-server" basedir="station/server">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
     <types>
       <type id="jar"/>
       <part:plugin class="net.dpml.station.server.StationServerPlugin"/>
@@ -208,7 +211,7 @@
       <include ref="dpml/util/dpml-util-cli"/>
     </dependencies>
     <dependencies scope="test">
-      <include ref="junit/junit"/>
+      <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
 
