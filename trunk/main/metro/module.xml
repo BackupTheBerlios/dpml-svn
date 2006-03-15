@@ -182,6 +182,18 @@
       <include ref="junit/junit"/>
     </dependencies>
   </project>
+
+  <project name="dpml-station-builder" basedir="station/builder">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include key="dpml-station-api" tag="public"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="junit/junit"/>
+    </dependencies>
+  </project>
    
   <project name="dpml-station-server" basedir="station/server">
     <types>
@@ -192,6 +204,7 @@
       <include ref="dpml/metro/dpml-part-api" tag="public"/>
       <include key="dpml-station-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="public"/>
+      <include ref="dpml/metro/dpml-station-builder" tag="protected"/>
       <include ref="dpml/util/dpml-util-cli"/>
     </dependencies>
     <dependencies scope="test">

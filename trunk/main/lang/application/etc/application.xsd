@@ -35,8 +35,18 @@ Example:
     <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
 
     <element name="application" type="this:ApplicationType"/>
-    <element name="param" type="this:ValueType"/>
-    <element name="codebase" type="part:codebase"/>
+    <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
+    <element name="codebase" type="part:codebase" substitutionGroup="common:codebase"/>
+    <element name="registry" type="this:RegistryType"/>
+    <element name="app" type="this:TaggedApplicationType"/>
+    
+    <complexType name="RegistryType">
+      <sequence>
+        <element ref="this:app" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+      <attribute name="policy" type="this:StartupPolicy"/>
+    </complexType>
     
     <complexType name="ApplicationType">
       <sequence>
@@ -47,18 +57,25 @@ Example:
       <attribute name="policy" type="this:StartupPolicy"/>
     </complexType>
     
+    <complexType name="TaggedApplicationType">
+      <complexContent>
+        <extension base="this:ApplicationType">
+          <attribute name="key" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
     <complexType name="JVMType">
       <sequence>
         <element name="startup" type="this:TimeoutType" minOccurs="0" maxOccurs="1"/>
         <element name="shutdown" type="this:TimeoutType" minOccurs="0" maxOccurs="1"/>
         <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
       </sequence>
-      <attribute name="title" type="string"/>
-      <attribute name="policy" type="this:StartupPolicy"/>
+      <attribute name="basedir" type="string"/>
     </complexType>
     
     <simpleType name="TimeoutType">
-      <restriction base="xsd:integer"/>
+      <restriction base="integer"/>
     </simpleType>
     
     <simpleType name="StartupPolicy">

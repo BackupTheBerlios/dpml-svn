@@ -6,4 +6,11 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <target name="init" depends="standard.init">
+    <x:filter token="COMMON-XSD-URI" ref="dpml/lang/dpml-common" type="xsd" feature="uri" />
+    <x:filter token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" feature="uri" />
+    <x:filter token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" feature="uri" />
+    <x:filter token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" feature="uri" />
+  </target>
+
 </project>

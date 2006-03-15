@@ -96,7 +96,7 @@
       <complexContent>
         <extension base="common:CodeBaseType">
           <sequence>
-            <element name="param" type="this:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="this:param" minOccurs="0" maxOccurs="unbounded"/>
           </sequence>
         </extension>
       </complexContent>

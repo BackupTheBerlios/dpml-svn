@@ -65,14 +65,4 @@ public final class StartupPolicyTestCase extends AbstractTestCase
         StartupPolicy policy = StartupPolicy.AUTOMATIC;
         doSerializationTest( policy );
     }
-
-   /**
-    * Test policy encoding/decoding cycle.
-    * @exception Exception if an error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        StartupPolicy policy = StartupPolicy.AUTOMATIC;
-        doEncodingTest( policy, "policy.xml", false );
-    }
 }

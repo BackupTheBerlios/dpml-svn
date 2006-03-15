@@ -160,12 +160,4 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         doSerializationTest( m_descriptor );
     }
 
-   /**
-    * Test descriptor encoding and decoding.
-    * @exception Exception if a error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        doEncodingTest( m_descriptor, "application.xml" );
-    }
 }

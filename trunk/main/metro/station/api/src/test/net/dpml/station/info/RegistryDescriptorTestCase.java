@@ -118,13 +118,4 @@ public final class RegistryDescriptorTestCase extends AbstractTestCase
     {
         doSerializationTest( m_descriptor );
     }
-
-   /**
-    * Test registry encoding/decoding cycle.
-    * @exception Exception if a error occurs
-    */
-    public void testXMLEncoding() throws Exception
-    {
-        doEncodingTest( m_descriptor, "registry.xml" );
-    }
 }

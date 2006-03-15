@@ -17,7 +17,7 @@
     </complexType>
     
     <complexType name="CodeBaseType" abstract="true">
-      <attribute name="uri" type="anyUri"/>
+      <attribute name="uri" type="anyURI"/>
     </complexType>
     
 </schema>

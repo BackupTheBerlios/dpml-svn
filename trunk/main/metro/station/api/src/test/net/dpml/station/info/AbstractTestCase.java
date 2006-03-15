@@ -60,44 +60,4 @@ abstract class AbstractTestCase extends TestCase
         assertEquals( object, serialized );
         assertEquals( object.hashCode(), serialized.hashCode() );
     }
-
-    public Object doEncodingTest( Object object, String filename ) throws Exception
-    {
-        return doEncodingTest( object, filename, true );
-    }
-    
-    public Object doEncodingTest( Object object, String filename, boolean testSame ) throws Exception
-    {
-        String base = System.getProperty( "project.test.dir" );
-        File test = new File( base );
-        File encoding = new File( test, "encoding" );
-        File destination = new File( encoding, filename );
-        encoding.mkdirs();
-        FileOutputStream output = new FileOutputStream( destination );
-        BufferedOutputStream buffer = new BufferedOutputStream( output );
-        XMLEncoder encoder = new XMLEncoder( buffer );
-        encoder.setExceptionListener( 
-          new ExceptionListener()
-          {
-            public void exceptionThrown( Exception e )
-            {
-                e.printStackTrace();
-                fail( "encoding exception: " + e.toString() );
-            }
-          }
-        );
-        encoder.writeObject( object );
-        encoder.close();
-        FileInputStream input = new FileInputStream( destination );
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        Object result = decoder.readObject();
-        if( testSame )
-        {
-            assertTrue( "!=", object != result ); // Ensure this is not the same instance
-        }
-        assertEquals( "encoding", object, result );
-        assertEquals( "hashcode", object.hashCode(), result.hashCode() );
-        return result;
-    }
-
 }
