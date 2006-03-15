@@ -12,6 +12,7 @@
     <element name="strategy" type="this:StrategyType" substitutionGroup="common:type"/>
     <element name="plugin" type="this:plugin" substitutionGroup="this:strategy"/>
     <element name="resource" type="this:resource" substitutionGroup="this:strategy"/>
+    <element name="codebase" type="this:codebase" substitutionGroup="common:codebase"/>
     <element name="param" type="this:ValueType"/>
     
     <complexType name="PartType">
@@ -89,6 +90,16 @@
       <attribute name="class" type="string"/>
       <attribute name="value" type="string"/>
       <attribute name="method" type="string"/>
+    </complexType>
+
+    <complexType name="codebase">
+      <complexContent>
+        <extension base="common:CodeBaseType">
+          <sequence>
+            <element name="param" type="this:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+        </extension>
+      </complexContent>
     </complexType>
 
 </schema>

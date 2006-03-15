@@ -6,6 +6,7 @@
             elementFormDefault="qualified">
         
     <element name="type" type="common:AbstractType" abstract="true"/>
+    <element name="codebase" type="common:CodeBaseType" abstract="true"/>
     
     <complexType name="AbstractType">
       <complexContent>
@@ -14,5 +15,9 @@
         </restriction>
       </complexContent>
     </complexType>
-
+    
+    <complexType name="CodeBaseType" abstract="true">
+      <attribute name="uri" type="anyUri"/>
+    </complexType>
+    
 </schema>

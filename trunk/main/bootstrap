@@ -79,6 +79,13 @@ dpmlType()
     cd ../..
 }
 
+dpmlApplication()
+{
+    cd lang/application
+    build clean install
+    cd ../..
+}
+
 transitMain()
 {
     cd transit/core
@@ -143,6 +150,7 @@ dpmlModule
 dpmlState
 dpmlComponent
 dpmlType
+dpmlApplication
 transitMain
 transitTools
 depotLibrary

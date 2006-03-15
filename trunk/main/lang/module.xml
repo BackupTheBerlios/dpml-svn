@@ -53,4 +53,14 @@
     </dependencies>
   </resource>
 
+  <resource name="dpml-application" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+    <dependencies scope="build">
+      <include key="dpml-common"/>
+      <include key="dpml-part"/>
+    </dependencies>
+  </resource>
+
 </module>
