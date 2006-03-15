@@ -718,7 +718,12 @@ public class StationPlugin implements Disposable
         BufferedReader reader = new BufferedReader( isr );
         String line = null;
         PID pid = application.getPID();
-        String prompt = pid.toString() + "> ";
+        String prompt = "> ";
+        if( null != pid )
+        {
+            prompt = pid.toString() + "> ";
+        }
+        
         System.out.println( prompt + "Connected to application [" + key + "]" );
         System.out.print( prompt );
         Parser parser = new Parser();
