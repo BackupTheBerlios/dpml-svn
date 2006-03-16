@@ -20,7 +20,7 @@ package net.dpml.metro.info;
 
 import java.io.Serializable;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 /**
  * A <code>PartReference</code> is a serializable object that contains a key and 

@@ -21,7 +21,7 @@ package net.dpml.metro.info;
 
 import java.io.Serializable;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 /**
  * Abstract base class for composite entities.

@@ -18,7 +18,7 @@
 
 package net.dpml.metro.data;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 /**
  * A <code>NullDirective</code> is used to mark a solution as resolved

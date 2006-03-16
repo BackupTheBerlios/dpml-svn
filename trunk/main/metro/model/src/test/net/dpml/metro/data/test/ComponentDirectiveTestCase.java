@@ -34,7 +34,7 @@ import net.dpml.configuration.impl.DefaultConfiguration;
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.part.ActivationPolicy;
+import net.dpml.component.ActivationPolicy;
 
 import net.dpml.lang.Category;
 

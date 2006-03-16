@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright (c) 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,16 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
 
-import java.io.Serializable;
+import java.net.URI;
 
 /**
- * Interface implemented by top-level directives.
+ * Exception thrown by a handler in response to a request for an unknown service.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Directive extends Serializable
+public class ServiceNotFoundException extends ControlException 
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+   /**
+    * Creation of a new <tt>ServiceNotFoundException</tt>.
+    * @param uri the controller uri
+    * @param classname the service classname
+    */
+    public ServiceNotFoundException( URI uri, String classname )
+    {
+        super( uri, classname );
+    }
 }
+

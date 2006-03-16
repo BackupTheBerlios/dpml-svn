@@ -21,7 +21,7 @@ package net.dpml.metro;
 import java.net.URI;
 import java.rmi.RemoteException;
 
-import net.dpml.part.Controller;
+import net.dpml.component.Controller;
 
 /**
  * The ComponentContext interface may be referenced by a component 

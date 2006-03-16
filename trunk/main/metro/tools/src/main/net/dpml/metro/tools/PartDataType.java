@@ -25,10 +25,10 @@ import java.net.URISyntaxException;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
-import net.dpml.part.Directive;
-import net.dpml.part.DelegationException;
-import net.dpml.part.PartNotFoundException;
-import net.dpml.part.Controller;
+import net.dpml.component.Directive;
+import net.dpml.component.DelegationException;
+import net.dpml.component.PartNotFoundException;
+import net.dpml.component.Controller;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;

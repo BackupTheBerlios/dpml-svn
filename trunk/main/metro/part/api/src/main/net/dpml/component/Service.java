@@ -16,18 +16,36 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+import net.dpml.lang.Version;
+
 
 /**
- * Common interface implemented by disposable objects.
+ * The Component interface is implemented by objects that handle the runtime
+ * state of a component instance.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Disposable
+public interface Service extends Remote
 {
    /**
-    * Dispose of the object.
+    * Return the service class.
+    * @return the service class
+    * @exception RemoteException if a remoting I/O error occurs
     */
-    void dispose();
+    Class getServiceClass() throws RemoteException;
+    
+   /**
+    * Return the service version.
+    * @return the version
+    * @exception RemoteException if a remoting I/O error occurs
+    */
+    Version getVersion() throws RemoteException;
+    
 }
+

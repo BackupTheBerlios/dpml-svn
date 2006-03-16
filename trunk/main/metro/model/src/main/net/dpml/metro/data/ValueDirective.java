@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 /**
  * A <code>ValueDirective</code> represents a single constructed argument value. The directive

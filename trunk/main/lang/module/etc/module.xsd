@@ -63,13 +63,12 @@
       </sequence>
       <attribute name="name" type="string" use="required"/>
       <attribute name="version" type="string"/>
+      <attribute name="basedir" type="string"/>
     </complexType>
 
     <complexType name="ProjectType">
       <complexContent>
-        <extension base="this:ResourceType">
-          <attribute name="basedir" type="string"/>
-        </extension>
+        <extension base="this:ResourceType"/>
       </complexContent>
     </complexType>
 

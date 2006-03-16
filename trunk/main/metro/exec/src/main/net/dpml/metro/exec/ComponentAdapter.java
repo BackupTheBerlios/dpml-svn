@@ -29,28 +29,28 @@ import java.util.Enumeration;
 
 import net.dpml.station.ApplicationException;
 
+import net.dpml.metro.ComponentModelManager;
+import net.dpml.metro.ContextModelManager;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.data.ValueDirective;
 
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.ControlException;
-import net.dpml.part.ServiceNotFoundException;
-import net.dpml.part.Controller;
-import net.dpml.part.ControllerContext;
-import net.dpml.part.InitialContext;
-import net.dpml.part.Component;
-import net.dpml.part.Provider;
-import net.dpml.part.Model;
-import net.dpml.part.Service;
-
-import net.dpml.metro.ComponentModelManager;
-import net.dpml.metro.ContextModelManager;
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.ControlException;
+import net.dpml.component.ServiceNotFoundException;
+import net.dpml.component.Controller;
+import net.dpml.component.ControllerContext;
+import net.dpml.component.InitialContext;
+import net.dpml.component.Component;
+import net.dpml.component.Provider;
+import net.dpml.component.Model;
+import net.dpml.component.Service;
 
 import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
 import net.dpml.lang.Logger;
+
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 

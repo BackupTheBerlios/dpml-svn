@@ -23,8 +23,8 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Controller;
-import net.dpml.part.ActivationPolicy;
+import net.dpml.component.Controller;
+import net.dpml.component.ActivationPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.ComponentModel;

@@ -28,7 +28,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
@@ -44,7 +44,7 @@ import net.dpml.configuration.Configuration;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.ActivationPolicy;
+import net.dpml.component.ActivationPolicy;
 import net.dpml.part.Part;
 import net.dpml.part.PartBuilder;
 import net.dpml.part.Strategy;

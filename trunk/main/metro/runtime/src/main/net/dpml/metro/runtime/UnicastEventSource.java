@@ -26,7 +26,7 @@ import java.util.EventListener;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Disposable;
+import net.dpml.component.Disposable;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 

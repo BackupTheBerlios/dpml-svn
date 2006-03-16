@@ -21,7 +21,7 @@ package net.dpml.metro;
 import java.rmi.RemoteException;
 import java.util.Map;
 
-import net.dpml.part.Component;
+import net.dpml.component.Component;
 
 /**
  * Local interface through which a component implementation may 

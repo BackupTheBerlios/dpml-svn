@@ -20,7 +20,7 @@ package net.dpml.metro;
 
 import java.rmi.RemoteException;
 
-import net.dpml.part.Model;
+import net.dpml.component.Model;
 
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;

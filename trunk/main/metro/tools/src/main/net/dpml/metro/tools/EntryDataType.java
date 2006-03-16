@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.NullDirective;
 import net.dpml.metro.data.FeatureDirective;

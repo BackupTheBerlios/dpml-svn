@@ -22,12 +22,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.part.Component;
-import net.dpml.part.ControlException;
-import net.dpml.part.Provider;
-import net.dpml.part.Service;
-import net.dpml.part.ServiceNotFoundException;
-import net.dpml.part.ActivationPolicy;
+import net.dpml.component.Component;
+import net.dpml.component.ControlException;
+import net.dpml.component.Provider;
+import net.dpml.component.Service;
+import net.dpml.component.ServiceNotFoundException;
+import net.dpml.component.ActivationPolicy;
 
 import net.dpml.lang.Logger;
 

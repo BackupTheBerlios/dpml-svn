@@ -18,7 +18,7 @@
 
 package net.dpml.metro.data;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 /**
  * A <code>FeatureDirective</code> declares a context entry that is itself a feature

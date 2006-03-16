@@ -46,23 +46,25 @@ import net.dpml.metro.ComponentModelManager;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Controller;
-import net.dpml.part.Directive;
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.Disposable;
-import net.dpml.part.ControlException;
-import net.dpml.lang.Version;
-import net.dpml.part.ServiceNotFoundException;
-import net.dpml.part.Component;
-import net.dpml.part.Provider;
-import net.dpml.part.Service;
-import net.dpml.part.ModelEvent;
-import net.dpml.part.ModelListener;
+import net.dpml.component.Controller;
+import net.dpml.component.Directive;
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.Disposable;
+import net.dpml.component.ControlException;
+import net.dpml.component.ServiceNotFoundException;
+import net.dpml.component.Component;
+import net.dpml.component.Provider;
+import net.dpml.component.Service;
+import net.dpml.component.ModelListener;
+import net.dpml.component.ModelEvent;
+import net.dpml.component.Model;
 
+import net.dpml.lang.Version;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.state.State;
+
 
 /**
  * <p>Runtime handler for a component.  The component handler maintains an internal 

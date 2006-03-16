@@ -39,7 +39,7 @@ import net.dpml.state.StateBuilderRuntimeException;
 import net.dpml.part.DOM3DocumentBuilder;
 import net.dpml.lang.BuilderException;
 import net.dpml.part.PartDirective;
-import net.dpml.part.ActivationPolicy;
+import net.dpml.component.ActivationPolicy;
 
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoryDirective;

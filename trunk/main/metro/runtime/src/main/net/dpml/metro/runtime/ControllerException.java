@@ -21,7 +21,7 @@ package net.dpml.metro.runtime;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.part.ControlException;
+import net.dpml.component.ControlException;
 
 /**
  * Exception indicating an controller related error.  A controller exception

@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
 
 import java.net.URI;
 
 /**
- * An exception throws if an internal error occurs during builder execution.
+ * General exception thrown by a context model.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class BuilderRuntimeException extends ControlRuntimeException
+public class ModelException extends ControlException 
 {
    /**
     * Serial version identifier.
@@ -34,23 +34,24 @@ public class BuilderRuntimeException extends ControlRuntimeException
     static final long serialVersionUID = 1L;
 
    /**
-    * Creation of a new <tt>BuilderRuntimeException</tt>.
-    * @param uri the part builder uri
+    * Creation of a new <tt>ModelException</tt>.
+    * @param uri the controller uri
     * @param message the exception message
     */
-    public BuilderRuntimeException( URI uri, String message )
+    public ModelException( URI uri, String message )
     {
-        this( uri, message, null );
+        super( uri, message );
     }
-    
+
    /**
-    * Creation of a new <tt>BuilderRuntimeException</tt>.
-    * @param uri the part builder uri
+    * Creation of a new <tt>ModelException</tt>.
+    * @param uri the controller uri
     * @param message the exception message
     * @param cause the causal exception
     */
-    public BuilderRuntimeException( URI uri, String message, Throwable cause )
+    public ModelException( URI uri, String message, Throwable cause )
     {
         super( uri, message, cause );
     }
 }
+

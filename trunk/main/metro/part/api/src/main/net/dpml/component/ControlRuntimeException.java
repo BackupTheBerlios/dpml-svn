@@ -16,46 +16,54 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
 
 import java.net.URI;
 
 /**
- * Exception thrown by a local handler that wraps an exception thrown 
- * by a foreign handler.
+ * Runtime exception thrown by a control.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DelegationException extends ControlException 
+public class ControlRuntimeException extends RuntimeException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-
-    private URI m_target;
+    
+    private final URI m_uri;
 
    /**
-    * Creation of a new delegation exception.
-    * @param uri the uri of the controller initiating the delegation
-    * @param target the uri of the target handler that raised the causal exception
-    * @param message exception message
-    * @param cause the causal exception
+    * Creation of a new <tt>ControlRuntimeException</tt>.
+    * @param uri the part controller uri
+    * @param message the exception message
     */
-    public DelegationException( URI uri, URI target, String message, Throwable cause )
+    public ControlRuntimeException( URI uri, String message )
     {
-        super( uri, message, cause );
-        m_target = target;
+        this( uri, message, null );
     }
 
    /**
-    * Return the uri identifying the delegation target handler.
-    * @return the URI of the delegate handler
+    * Creation of a new <tt>ControlRuntimeException</tt>.
+    * @param uri the part controller uri
+    * @param message the exception message
+    * @param cause the causal exception
     */
-    public URI getDelegationTarget()
+    public ControlRuntimeException( URI uri, String message, Throwable cause )
     {
-        return m_target;
+        super( message, cause );
+        m_uri = uri;
+    }
+    
+   /**
+    * Return the controller uri.
+    * @return the uri identifying the controller that raised the exception
+    */
+    public URI getControllerURI()
+    {
+        return m_uri;
     }
 
 }

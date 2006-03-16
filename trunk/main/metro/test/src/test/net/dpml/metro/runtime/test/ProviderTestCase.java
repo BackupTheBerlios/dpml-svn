@@ -26,9 +26,9 @@ import java.lang.reflect.Proxy;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Controller;
-import net.dpml.part.Component;
-import net.dpml.part.Provider;
+import net.dpml.component.Controller;
+import net.dpml.component.Component;
+import net.dpml.component.Provider;
 import net.dpml.state.State;
 import net.dpml.state.StateListener;
 import net.dpml.state.impl.DefaultStateListener;

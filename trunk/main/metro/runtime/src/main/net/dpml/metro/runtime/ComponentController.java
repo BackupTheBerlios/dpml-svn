@@ -47,11 +47,11 @@ import net.dpml.logging.Logger;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.Directive;
-import net.dpml.part.ControlException;
-import net.dpml.part.Component;
-import net.dpml.part.Model;
-import net.dpml.part.ServiceNotFoundException;
+import net.dpml.component.Directive;
+import net.dpml.component.ControlException;
+import net.dpml.component.Component;
+import net.dpml.component.Model;
+import net.dpml.component.ServiceNotFoundException;
 
 import net.dpml.lang.Version;
 import net.dpml.lang.Category;

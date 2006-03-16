@@ -24,11 +24,11 @@ import java.net.URLConnection;
 import java.net.URL;
 import java.io.IOException;
 
-import net.dpml.part.Directive;
-import net.dpml.part.Controller;
-import net.dpml.part.Model;
-import net.dpml.part.Component;
-import net.dpml.part.Provider;
+import net.dpml.component.Directive;
+import net.dpml.component.Controller;
+import net.dpml.component.Model;
+import net.dpml.component.Component;
+import net.dpml.component.Provider;
 
 /**
  * URL content handler support the part datatype.

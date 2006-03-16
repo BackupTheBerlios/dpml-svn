@@ -16,40 +16,40 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
 
 import java.util.EventObject;
 
 /**
- * Event triggered as a result of change to the value of a context entry.
+ * Event triggered as a result of a model change.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ContextEvent extends EventObject
+public class ModelEvent extends EventObject
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    private final String m_key;
+    private final String m_feature;
     private final Object m_from;
     private final Object m_to;
 
    /**
-    * Construct a new <code>ContextEvent</code>.
+    * Construct a new <code>ModelEvent</code>.
     *
-    * @param source the source provider
-    * @param key the context entry key
+    * @param source the source component model
+    * @param feature the name of the model feature
     * @param from the original value
     * @param to the new value
     */
-    public ContextEvent( final Provider source, String key, Object from, Object to )
+    public ModelEvent( final Model source, String feature, Object from, Object to )
     {
         super( source );
         
-        m_key = key;
+        m_feature = feature;
         m_from = from;
         m_to = to;
     }
@@ -58,9 +58,9 @@ public class ContextEvent extends EventObject
     * Return the feature name.
     * @return the name of the modified feature
     */
-    public String getKey()
+    public String getFeature()
     {
-        return m_key;
+        return m_feature;
     }
 
    /**
@@ -85,9 +85,9 @@ public class ContextEvent extends EventObject
     * Return the component model that initiating the event.
     * @return the source model
     */
-    public Provider getProvider()
+    public Model getSourceModel()
     {
-        return (Provider) super.getSource();
+        return (Model) super.getSource();
     }
 }
 

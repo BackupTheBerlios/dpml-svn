@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 
 import net.dpml.metro.info.PartReference;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 import net.dpml.lang.UnknownKeyException;
 

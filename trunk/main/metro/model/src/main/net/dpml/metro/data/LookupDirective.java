@@ -20,7 +20,7 @@ package net.dpml.metro.data;
 
 import java.net.URI;
 
-import net.dpml.part.Directive;
+import net.dpml.component.Directive;
 
 /**
  * A reference directive is a reference to a part within the enclosing part's

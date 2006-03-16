@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
-  <resource name="dpml-library">
+  <resource name="dpml-library" basedir="library">
     <types>
       <type id="jar"/>
     </types>
@@ -76,7 +76,7 @@
     </dependencies>
   </project>
 
-  <resource name="dpml-tools-builder">
+  <resource name="dpml-tools-builder" basedir="tools/builder">
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>

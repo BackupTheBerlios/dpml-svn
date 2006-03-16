@@ -45,7 +45,7 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
 
-import net.dpml.part.Provider;
+import net.dpml.component.Provider;
 
 import net.dpml.state.State;
 import net.dpml.state.Operation;

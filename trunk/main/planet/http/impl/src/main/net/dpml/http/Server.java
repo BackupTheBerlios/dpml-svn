@@ -23,7 +23,7 @@ import net.dpml.logging.Logger;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
-import net.dpml.part.Provider;
+import net.dpml.component.Provider;
 
 import org.mortbay.thread.ThreadPool;
 import org.mortbay.jetty.RequestLog;

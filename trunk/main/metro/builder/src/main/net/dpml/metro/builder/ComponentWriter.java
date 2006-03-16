@@ -51,8 +51,8 @@ import net.dpml.lang.BuilderException;
 import net.dpml.part.PartBuilder;
 import net.dpml.lang.Type;
 
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.Directive;
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.Directive;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;

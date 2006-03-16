@@ -228,7 +228,7 @@
       <group title="Metro">
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>
-        <package name="net.dpml.part"/>
+        <package name="net.dpml.component"/>
         <package name="net.dpml.part.*"/>
         <package name="net.dpml.state"/>
         <package name="net.dpml.state.*"/>
@@ -245,6 +245,7 @@
       </group>
       <group title="Transit">
         <package name="net.dpml.lang"/>
+        <package name="net.dpml.part"/>
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
       </group>

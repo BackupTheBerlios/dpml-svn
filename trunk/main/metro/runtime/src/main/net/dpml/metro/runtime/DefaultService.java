@@ -18,7 +18,7 @@
 
 package net.dpml.metro.runtime;
 
-import net.dpml.part.Service;
+import net.dpml.component.Service;
 import net.dpml.lang.Version;
 
 /**

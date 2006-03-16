@@ -16,31 +16,47 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
 
 import java.net.URI;
 
 /**
- * Exception thrown by a handler in response to a request for an unknown service.
+ * Exception thrown by a local handler that wraps an exception thrown 
+ * by a foreign handler.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ServiceNotFoundException extends ControlException 
+public class DelegationException extends ControlException 
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
+    private URI m_target;
+
    /**
-    * Creation of a new <tt>ServiceNotFoundException</tt>.
-    * @param uri the controller uri
-    * @param classname the service classname
+    * Creation of a new delegation exception.
+    * @param uri the uri of the controller initiating the delegation
+    * @param target the uri of the target handler that raised the causal exception
+    * @param message exception message
+    * @param cause the causal exception
     */
-    public ServiceNotFoundException( URI uri, String classname )
+    public DelegationException( URI uri, URI target, String message, Throwable cause )
     {
-        super( uri, classname );
+        super( uri, message, cause );
+        m_target = target;
     }
+
+   /**
+    * Return the uri identifying the delegation target handler.
+    * @return the URI of the delegate handler
+    */
+    public URI getDelegationTarget()
+    {
+        return m_target;
+    }
+
 }
 

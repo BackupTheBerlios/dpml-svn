@@ -16,55 +16,41 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.component;
 
 import java.net.URI;
 
 /**
- * Runtime exception thrown by a control.
+ * An exception throws if an internal error occurs during builder execution.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ControlRuntimeException extends RuntimeException 
+public class BuilderRuntimeException extends ControlRuntimeException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
-    
-    private final URI m_uri;
 
    /**
-    * Creation of a new <tt>ControlRuntimeException</tt>.
-    * @param uri the part controller uri
+    * Creation of a new <tt>BuilderRuntimeException</tt>.
+    * @param uri the part builder uri
     * @param message the exception message
     */
-    public ControlRuntimeException( URI uri, String message )
+    public BuilderRuntimeException( URI uri, String message )
     {
         this( uri, message, null );
     }
-
+    
    /**
-    * Creation of a new <tt>ControlRuntimeException</tt>.
-    * @param uri the part controller uri
+    * Creation of a new <tt>BuilderRuntimeException</tt>.
+    * @param uri the part builder uri
     * @param message the exception message
     * @param cause the causal exception
     */
-    public ControlRuntimeException( URI uri, String message, Throwable cause )
+    public BuilderRuntimeException( URI uri, String message, Throwable cause )
     {
-        super( message, cause );
-        m_uri = uri;
+        super( uri, message, cause );
     }
-    
-   /**
-    * Return the controller uri.
-    * @return the uri identifying the controller that raised the exception
-    */
-    public URI getControllerURI()
-    {
-        return m_uri;
-    }
-
 }
-

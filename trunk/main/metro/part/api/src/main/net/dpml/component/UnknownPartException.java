@@ -16,36 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
-
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
-import net.dpml.lang.Version;
-
+package net.dpml.component;
 
 /**
- * The Component interface is implemented by objects that handle the runtime
- * state of a component instance.
+ * Exception thrown when a component request an unknown part.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Service extends Remote
+public class UnknownPartException extends IllegalArgumentException 
 {
    /**
-    * Return the service class.
-    * @return the service class
-    * @exception RemoteException if a remoting I/O error occurs
+    * Serial version identifier.
     */
-    Class getServiceClass() throws RemoteException;
-    
+    static final long serialVersionUID = 1L;
+
+    private String m_type;
+
    /**
-    * Return the service version.
-    * @return the version
-    * @exception RemoteException if a remoting I/O error occurs
+    * Creation of a new <tt>UnknownPartException</tt>.
+    * @param key the part key
     */
-    Version getVersion() throws RemoteException;
-    
+    public UnknownPartException( String key )
+    {
+        super( key );
+    }
 }
+
 

@@ -21,7 +21,7 @@ package net.dpml.metro;
 import java.io.Serializable;
 import java.net.URI;
 
-import net.dpml.part.ModelException;
+import net.dpml.component.ModelException;
 
 /**
  * Exception that describes a series of validation issues.

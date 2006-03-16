@@ -30,13 +30,13 @@ import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ComponentModel;
 
-import net.dpml.part.ActivationPolicy;
-import net.dpml.part.ControlException;
-import net.dpml.part.Component;
-import net.dpml.part.Model;
-import net.dpml.part.Service;
-import net.dpml.lang.Version;
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.ControlException;
+import net.dpml.component.Component;
+import net.dpml.component.Model;
+import net.dpml.component.Service;
 
+import net.dpml.lang.Version;
 import net.dpml.lang.UnknownKeyException;
 
 /**

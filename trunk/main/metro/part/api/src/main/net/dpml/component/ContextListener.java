@@ -1,46 +1,41 @@
-/*
+/* 
  * Copyright 2005 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
- * You may obtain a copy of the License at
- *
+ * You may obtain a copy of the License at 
+ * 
  *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed  under the  License is distributed on an "AS IS" BASIS,
  * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
  * implied.
- *
+ * 
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
-package net.dpml.metro.data.test;
+package net.dpml.component;
 
-import net.dpml.metro.info.PartReference;
-
-import net.dpml.component.Directive;
-import net.dpml.metro.data.ValueDirective;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.EventListener;
 
 /**
- * PartReferenceTestCase.
+ * Interface implementated by local listeners to context entry changes.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartReferenceTestCase extends AbstractEncodingTestCase
+public interface ContextListener extends EventListener, Remote
 {
-    private static final String KEY = "key";
-    private static final Directive PART = new ValueDirective( "abc" );
-    
    /**
-    * Test the directive encoding/decoding.
-    * @exception Exception if an error occurs
+    * Notify the listener of a change to a context entry.
+    *
+    * @param event the context change event
+    * @exception RemoteException if a remote transport error occurs
     */
-    public void testEncoding() throws Exception
-    {
-        PartReference ref = new PartReference( KEY, PART );
-        executeEncodingTest( ref );
-    }
+    void entryChanged( final ContextEvent event ) throws RemoteException;
 }
+

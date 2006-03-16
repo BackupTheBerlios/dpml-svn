@@ -37,10 +37,11 @@ import net.dpml.metro.ValidationException.Issue;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Directive;
-import net.dpml.part.ModelException;
-import net.dpml.part.ModelListener;
-import net.dpml.part.ModelEvent;
+import net.dpml.component.Directive;
+import net.dpml.component.ModelException;
+import net.dpml.component.ModelListener;
+import net.dpml.component.ModelEvent;
+import net.dpml.component.Model;
 
 import net.dpml.lang.UnknownKeyException;
 

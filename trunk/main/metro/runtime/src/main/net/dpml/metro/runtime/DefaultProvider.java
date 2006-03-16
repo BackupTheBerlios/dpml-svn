@@ -29,8 +29,8 @@ import java.util.EventListener;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.part.Provider;
-import net.dpml.part.ControlException;
+import net.dpml.component.Provider;
+import net.dpml.component.ControlException;
 
 import net.dpml.state.State;
 import net.dpml.state.StateEvent;
