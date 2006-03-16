@@ -14,7 +14,7 @@
     <x:filter token="TRANSIT-MODULE-VERSION" ref="dpml/transit" feature="version"/>
     <x:filter token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar" />
     <x:filter token="DEPOT-MODULE-VERSION" feature="version" ref="dpml/depot" />
-    <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-core" />
+    <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar" ref="dpml/depot/dpml-depot-console" />
     <x:filter token="DEPOT-TOOLS-ANT-URI" feature="uri" type="part" ref="dpml/depot/dpml-tools-builder" />
     <x:filter token="DEPOT-TOOLS-LIBRARY-URI" feature="uri" type="jar" ref="dpml/depot/dpml-library" />
     <x:filter token="METRO-RUNTIME-URI" feature="uri" type="part" ref="dpml/metro/dpml-metro-runtime" />

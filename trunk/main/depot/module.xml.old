@@ -85,11 +85,11 @@
     <property name="lib" value="${data}/lib"/>
     <mkdir dir="${lib}"/>
     <x:property name="transit.main.version" key="dpml-transit-main" feature="version"/>
-    <x:property name="depot.console.version" key="dpml-depot-core" feature="version"/>
+    <x:property name="depot.console.version" key="dpml-depot-console" feature="version"/>
     <copy file="${dpml.cache}/dpml/transit/jars/dpml-transit-main-${transit.main.version}.jar"
       toFile="${lib}/dpml-transit-main.jar"/>
-    <copy file="${dpml.cache}/dpml/depot/jars/dpml-depot-core-${depot.console.version}.jar"
-      toFile="${lib}/dpml-depot-core.jar"/>
+    <copy file="${dpml.cache}/dpml/depot/jars/dpml-depot-console-${depot.console.version}.jar"
+      toFile="${lib}/dpml-depot-console.jar"/>
 
     <!-- build the local repository -->
 

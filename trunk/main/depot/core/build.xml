@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-depot-core" default="install" basedir="." 
+<project name="dpml-depot-console" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:depot" >
 

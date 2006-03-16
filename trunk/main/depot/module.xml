@@ -61,7 +61,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-depot-core" basedir="core">
+  <project name="dpml-depot-console" basedir="core">
     <properties>
       <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
     </properties>
