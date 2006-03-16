@@ -36,7 +36,7 @@ import net.dpml.cli.validation.NumberValidator;
 import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 
 /**
  * The RemoteStation is responsible for the establishment of 

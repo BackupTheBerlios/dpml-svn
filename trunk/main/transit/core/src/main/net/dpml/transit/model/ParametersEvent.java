@@ -18,7 +18,7 @@
 
 package net.dpml.transit.model;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 /**
  * An event pertaining to a change in a plugin uri assigned to 

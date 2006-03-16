@@ -18,7 +18,7 @@
 
 package net.dpml.transit.util;
 
-import net.dpml.transit.PID;
+import net.dpml.lang.PID;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;

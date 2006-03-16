@@ -26,7 +26,7 @@ import java.util.List;
 import java.net.URI;
 
 import net.dpml.part.Directive;
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ContextDirective;
@@ -82,10 +82,10 @@ public class PartsTestCase extends TestCase
                 String method = value.getMethodName();
                 String target = value.getTargetExpression();
                 Value[] values = value.getValues();
-                System.out.println( "# TARGET: " + target );
-                System.out.println( "# METHOD: " + method );
-                System.out.println( "# BASE: " + base );
-                System.out.println( "# VALUES: " + values.length );
+                //System.out.println( "# TARGET: " + target );
+                //System.out.println( "# METHOD: " + method );
+                //System.out.println( "# BASE: " + base );
+                //System.out.println( "# VALUES: " + values.length );
             }
             else
             {

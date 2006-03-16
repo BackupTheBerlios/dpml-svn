@@ -50,7 +50,7 @@ import net.dpml.station.info.RegistryDescriptor.Entry;
 import net.dpml.station.info.ApplicationRegistryRuntimeException;
 
 import net.dpml.transit.util.StreamUtils;
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;

@@ -39,7 +39,7 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.store.TransitStorageHome;
 import net.dpml.transit.util.CLIHelper;
 

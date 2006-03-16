@@ -23,7 +23,7 @@ import java.util.List;
 
 import net.dpml.metro.data.ValueDirective;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 import org.apache.tools.ant.BuildException;
 

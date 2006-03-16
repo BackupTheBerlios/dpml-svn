@@ -20,7 +20,7 @@ package net.dpml.part;
 
 import java.io.File;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 
 /**
  * The ControllerContext declares the runtime context that a controller

@@ -22,7 +22,7 @@ import java.net.URI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 /**
  * A CodeBaseModel maintains information about the configuration of 

@@ -50,7 +50,7 @@ import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 

@@ -38,6 +38,7 @@ import net.dpml.transit.monitor.RepositoryMonitorRouter;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
+import net.dpml.lang.Logger;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartDirective;
@@ -57,7 +58,7 @@ import net.dpml.part.Plugin;
 class StandardLoader implements Repository
 {
     private final Logger m_logger;
-    private final PartBuilder m_builder;
+    private final PartBuilder m_builder = new PartBuilder( null );
     
     private static final PartHandlerFactory FACTORY = PartHandlerFactory.getInstance();
     
@@ -65,10 +66,9 @@ class StandardLoader implements Repository
     * Creation of a new repository handler.
     * @param logger the assigned logging channel
     */
-    StandardLoader( Logger logger, PartBuilder builder )
+    StandardLoader( Logger logger )
     {
         m_logger = logger;
-        m_builder = builder;
     }
 
     // ------------------------------------------------------------------------
@@ -290,19 +290,19 @@ class StandardLoader implements Repository
     * @exception InvocationTargetException if a plugin constructor invocation error occurs
     * @exception NullArgumentException if the class or args argument is null
     */
-    private Object createPlugin( Class clazz, Object[] args )
-        throws IOException, NullArgumentException, InvocationTargetException
-    {
-        if( null == clazz )
-        {
-            throw new NullArgumentException( "clazz" );
-        }
-        if( null == args )
-        {
-            throw new NullArgumentException( "args" );
-        }
-        return instantiate( clazz, args );
-    }
+    //private Object createPlugin( Class clazz, Object[] args )
+    //    throws IOException, NullArgumentException, InvocationTargetException
+    //{
+    //    if( null == clazz )
+    //    {
+    //        throw new NullArgumentException( "clazz" );
+    //    }
+    //    if( null == args )
+    //    {
+    //        throw new NullArgumentException( "args" );
+    //    }
+    //    return instantiate( clazz, args );
+    //}
 
     public Object instantiate( Class clazz, Object[] args ) throws RepositoryException, InvocationTargetException
     {
@@ -503,7 +503,7 @@ class StandardLoader implements Repository
             throw new RepositoryException( error, e );
         }
     }
-
+    
     private Constructor getSingleConstructor( Class clazz ) throws RepositoryException
     {
         if( null == clazz )
@@ -594,7 +594,7 @@ class StandardLoader implements Repository
         URI[] impArtifacts = classpath.getDependencies( Category.PRIVATE );
         URL[] imps = getURLs( impArtifacts );
         ClassLoader classloader = buildClassLoader( plugin, Category.PRIVATE, spi, imps );
-
+        
         return classloader;
     }
     
@@ -725,6 +725,7 @@ class StandardLoader implements Repository
     * @exception NullArgumentException if the supplied classloader or classname is null
     * @exception ClassNotFoundException if the plugin class is not found in the supplied classloader
     */
+    /*
     protected Class loadPluginClass( ClassLoader classloader, String classname )
         throws RepositoryException, NullArgumentException, ClassNotFoundException
     {
@@ -754,6 +755,7 @@ class StandardLoader implements Repository
             throw new RepositoryException( error, e );
         }
     }
+    */
 
    /**
     * Convert a uri to an artifact.
@@ -777,12 +779,6 @@ class StandardLoader implements Repository
         }
     }
 
-    private String appendFragment( URI base, String fragment )
-    {
-        String path = base.toString();
-        return "[" + path + "] (" + fragment + ")";
-    }
-
     private RepositoryMonitorRouter getMonitor()
     {
         return Transit.getInstance().getRepositoryMonitorRouter();
@@ -792,6 +788,4 @@ class StandardLoader implements Repository
     {
         return m_logger;
     }
-
-    private static final int THREE = 3;
 }

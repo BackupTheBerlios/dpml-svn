@@ -31,7 +31,7 @@ import net.dpml.part.DOM3DocumentBuilder;
 import net.dpml.lang.BuilderException;
 import net.dpml.lang.Builder;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Document;

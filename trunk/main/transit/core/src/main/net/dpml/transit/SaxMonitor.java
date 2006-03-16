@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.transit;
 
 import java.net.URL;
-
-import net.dpml.transit.Logger;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import net.dpml.lang.Logger;
 
 /**
  * Utility class supporting the reading and writing of standard plugins definitions.
@@ -32,7 +32,7 @@ import org.xml.sax.SAXParseException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class SaxMonitor implements ErrorHandler
+final class SaxMonitor implements ErrorHandler
 {
     private Logger m_logger;
     

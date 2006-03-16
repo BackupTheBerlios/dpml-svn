@@ -27,7 +27,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**

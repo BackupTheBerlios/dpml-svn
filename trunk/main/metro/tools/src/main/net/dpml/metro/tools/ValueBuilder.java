@@ -19,7 +19,7 @@
 
 package net.dpml.metro.tools;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 /**
  * The contract for builders that create value datatypes.

@@ -18,6 +18,10 @@
 
 package net.dpml.transit.info;
 
+import net.dpml.lang.Value;
+import net.dpml.lang.Construct;
+import net.dpml.lang.ValueDirective;
+
 /**
  * Testing the CodeBaseDirective class.
  *

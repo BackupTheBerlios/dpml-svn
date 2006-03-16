@@ -41,9 +41,9 @@ import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.LoggingService;
-import net.dpml.transit.PID;
+import net.dpml.lang.Logger;
+import net.dpml.lang.LoggingService;
+import net.dpml.lang.PID;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 import net.dpml.lang.UnknownKeyException;

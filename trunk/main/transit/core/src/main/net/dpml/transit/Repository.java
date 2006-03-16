@@ -44,7 +44,6 @@ public interface Repository
     * @return the plugin descriptor
     * @exception IOException if a factory creation error occurs
     */
-    //Plugin getPluginDescriptor( URI uri ) throws IOException;
     Part getPart( URI uri ) throws IOException;
 
    /**

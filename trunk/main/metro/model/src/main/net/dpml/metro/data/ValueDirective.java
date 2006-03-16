@@ -21,8 +21,8 @@ package net.dpml.metro.data;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.dpml.transit.Value;
-import net.dpml.transit.Construct;
+import net.dpml.lang.Value;
+import net.dpml.lang.Construct;
 
 import net.dpml.part.Directive;
 

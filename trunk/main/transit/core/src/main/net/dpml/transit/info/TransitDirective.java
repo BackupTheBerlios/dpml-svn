@@ -18,6 +18,8 @@
 
 package net.dpml.transit.info;
 
+import net.dpml.lang.AbstractDirective;
+
 /**
  * The CodeBaseDirective is immutable datastructure used to 
  * describe a codebase.

@@ -20,6 +20,8 @@ package net.dpml.transit.info;
 
 import java.util.Arrays;
 
+import net.dpml.lang.AbstractDirective;
+
 /**
  * Description of the proxy configuration of a Transit system.
  * 

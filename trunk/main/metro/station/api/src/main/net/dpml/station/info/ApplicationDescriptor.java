@@ -23,7 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.transit.info.CodeBaseDirective;
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 
 /**
  * The ApplicationDescriptor is immutable datastructure used to 

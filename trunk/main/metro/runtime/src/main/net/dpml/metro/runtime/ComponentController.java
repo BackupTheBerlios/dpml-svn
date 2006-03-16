@@ -58,7 +58,7 @@ import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 
 /**

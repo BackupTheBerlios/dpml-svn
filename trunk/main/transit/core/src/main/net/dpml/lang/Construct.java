@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
+package net.dpml.lang;
 
 import java.beans.Expression;
 import java.io.Serializable;
@@ -30,7 +30,6 @@ import net.dpml.part.Strategy;
 import net.dpml.part.PartDirective;
 import net.dpml.part.AbstractBuilder;
 
-import net.dpml.transit.info.ValueDirective;
 import net.dpml.transit.util.PropertyResolver;
 
 /**

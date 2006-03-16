@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.transit;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DTDResolver implements EntityResolver
+class DTDResolver implements EntityResolver
 {
     /**
      * The list of DTDs that can be resolved by this class.

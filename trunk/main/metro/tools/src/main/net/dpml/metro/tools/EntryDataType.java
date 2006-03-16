@@ -30,7 +30,7 @@ import net.dpml.metro.data.FeatureDirective;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 import org.apache.tools.ant.BuildException;
 

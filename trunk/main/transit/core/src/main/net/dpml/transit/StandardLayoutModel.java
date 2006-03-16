@@ -23,6 +23,9 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
+import net.dpml.lang.Value;
+import net.dpml.lang.Logger;
+
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutListener;
 import net.dpml.transit.model.LayoutEvent;

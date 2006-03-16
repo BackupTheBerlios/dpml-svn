@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
+package net.dpml.lang;
 
 /**
  * Exception to indicate an error arrising from a value type.
@@ -24,7 +24,7 @@ package net.dpml.transit;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ValueRuntimeException extends RuntimeException
+public class ValueException extends Exception
 {
    /**
     * Serial version identifier.
@@ -32,22 +32,22 @@ public class ValueRuntimeException extends RuntimeException
     static final long serialVersionUID = 1L;
 
     /**
-     * Construct a new <code>ValueRuntimeException</code> instance.
+     * Construct a new <code>ValueException</code> instance.
      *
      * @param message the exception message
      */
-    public ValueRuntimeException( final String message )
+    public ValueException( final String message )
     {
         super( message );
     }
 
     /**
-     * Construct a new <code>ValueRuntimeException</code> instance.
+     * Construct a new <code>ValueException</code> instance.
      *
      * @param message the exception message
      * @param cause the causal exception
      */
-    public ValueRuntimeException( final String message, Throwable cause )
+    public ValueException( final String message, Throwable cause )
     {
         super( message, cause );
     }

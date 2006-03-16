@@ -32,7 +32,7 @@ import net.dpml.lang.Category;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.util.ExceptionHelper;
 
 import net.dpml.part.Part;

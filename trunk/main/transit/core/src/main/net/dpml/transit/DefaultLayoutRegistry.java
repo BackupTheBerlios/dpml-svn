@@ -31,6 +31,7 @@ import net.dpml.transit.model.LayoutRegistryEvent;
 import net.dpml.transit.model.LayoutModel;
 
 import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.Logger;
 
 /**
  * A registry of descriptions of plugable layout models.

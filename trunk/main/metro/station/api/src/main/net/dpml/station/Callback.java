@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 
 import net.dpml.part.Component;
 
-import net.dpml.transit.PID;
+import net.dpml.lang.PID;
 
 /**
  * The Callback interface defines a service provider to a process through

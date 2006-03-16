@@ -54,7 +54,7 @@ import net.dpml.metro.info.Priority;
 import net.dpml.metro.info.Type;
 
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

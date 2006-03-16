@@ -36,6 +36,7 @@ import net.dpml.transit.model.ContentRegistryEvent;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;
+import net.dpml.lang.Logger;
 
 /**
  * Default implementation of a content model registry manager that maitains 

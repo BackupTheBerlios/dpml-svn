@@ -61,7 +61,7 @@ public class AbstractBuilder
     
     static final URI LOCAL_URI = createURI( "local:dpml" );
     
-    private final Map m_map; // maps namespace uris to a builders
+    private final Map m_map; // maps namespace uris to builders
     
     public AbstractBuilder( Map map )
     {
@@ -133,7 +133,7 @@ public class AbstractBuilder
         {
             if( StrategyBuilder.class.isAssignableFrom( clazz ) )
             {
-                return new PartStrategyBuilder(m_map );
+                return new PartStrategyBuilder( m_map );
             }
             else
             {
@@ -143,12 +143,12 @@ public class AbstractBuilder
                 throw new IllegalArgumentException( error );
             }
         }
-        ClassLoader classloader = getClassLoader();
+        ClassLoader classloader = getClassLoader();        
         Repository repository = Transit.getInstance().getRepository();
-        Object handler = repository.getPlugin( classloader, uri, new Object[0] );
-        if( clazz.isAssignableFrom( handler.getClass() ) )
+        Object object = repository.getPlugin( classloader, uri, new Object[0] );
+        if( clazz.isAssignableFrom( object.getClass() ) )
         {
-            return handler;
+            return object;
         }
         else
         {
@@ -188,43 +188,6 @@ public class AbstractBuilder
                   "Unable to resolve part builder."
                   + "\nNamespace: " + namespace;
                 throw new BuilderException( element, error );
-                /*
-                try
-                {
-                    URI uri = new URI( namespace );
-                    if( Artifact.isRecognized( uri ) )
-                    {
-                        Artifact artifact = Artifact.createArtifact( uri );
-                        String group = artifact.getGroup();
-                        String artifactName = artifact.getName();
-                        String spec = group + "/" + artifactName;
-                        if( m_map.containsKey( spec ) )
-                        {
-                            return (URI) m_map.get( spec );
-                        }
-                        else
-                        {
-                            return getBuilderFromNamespaceURI( namespace );
-                        }
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Namespace format is not a recognized artifact [" 
-                          + namespace 
-                          + "].";
-                        throw new IllegalArgumentException( error );
-                    }
-                }
-                catch( URISyntaxException e )
-                {
-                    final String error = 
-                      "Namespace format is not recognized [" 
-                      + namespace 
-                      + "].";
-                    throw new BuilderException( element, error );
-                }
-                */
             }
         }
     }
@@ -255,42 +218,6 @@ public class AbstractBuilder
                 throw new UnsupportedOperationException( error );
             }
         }
-
-        /*
-        public String getID()
-        {
-            Object delegate = getDelegate();
-            if( delegate instanceof TypeBuilder )
-            {
-                TypeBuilder builder = (TypeBuilder) delegate;
-                return builder.getID();
-            }
-            else
-            {
-                final String error = 
-                  "Builder delegate does not implement type builder operations."
-                  + "\nURI: " + m_uri;
-                throw new UnsupportedOperationException( error );
-            }
-        }
-
-        public Type buildType( ClassLoader classloader, Element element ) throws Exception
-        {
-            Object delegate = getDelegate();
-            if( delegate instanceof TypeBuilder )
-            {
-                TypeBuilder builder = (TypeBuilder) delegate;
-                return builder.buildType( classloader, element );
-            }
-            else
-            {
-                final String error = 
-                  "Builder delegate does not implement type builder operations."
-                  + "\nURI: " + m_uri;
-                throw new UnsupportedOperationException( error );
-            }
-        }
-        */
         
         private Object getDelegate()
         {
@@ -356,35 +283,6 @@ public class AbstractBuilder
         String path = "link:part:" + group + "/" + name;
         Artifact link = Artifact.createArtifact( path );
         return link.toURI();
-        
-       /*
-        try
-        {
-            String path = "link:part:" + group + "/" + name;
-            Artifact link = Artifact.createArtifact( path );
-            URL linkUrl = link.toURL();
-            linkUrl.getContent( new Class[]{File.class} ); // test for existance
-            return link.toURI();
-        }
-        catch( ArtifactNotFoundException e )
-        {
-            Artifact result = Artifact.createArtifact( group, name, version, "part" );
-            try
-            {
-                URL url = result.toURL();
-                url.getContent( new Class[]{File.class} );
-                return result.toURI();
-            }
-            catch( ArtifactNotFoundException anfe )
-            {
-                final String error = 
-                  "Unable to locate a builder for the urn ["
-                  + urn
-                  + "].";
-                throw new UnresolvableHandlerException( error, result.toURI() );
-            }
-        }
-        */
     }
 
     private static URI createURI( String spec )

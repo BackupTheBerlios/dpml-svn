@@ -43,8 +43,8 @@ import net.dpml.station.ApplicationException;
 import net.dpml.station.ApplicationListener;
 import net.dpml.station.ApplicationEvent;
 
-import net.dpml.transit.Logger;
-import net.dpml.transit.PID;
+import net.dpml.lang.Logger;
+import net.dpml.lang.PID;
 
 /**
  * The RemoteApplication is the default implementation of a remotely 

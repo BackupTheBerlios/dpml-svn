@@ -53,10 +53,10 @@ import net.dpml.state.Transition;
 import net.dpml.state.Interface;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Logger;
-import net.dpml.transit.PID;
+import net.dpml.lang.Logger;
+import net.dpml.lang.PID;
 import net.dpml.transit.Disposable;
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 import net.dpml.transit.util.ExceptionHelper;
 import net.dpml.transit.util.PropertyResolver;
 

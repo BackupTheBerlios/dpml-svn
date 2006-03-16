@@ -41,6 +41,8 @@ import net.dpml.transit.model.DisposalEvent;
 import net.dpml.transit.model.DisposalListener;
 import net.dpml.transit.monitor.LoggingAdapter;
 
+import net.dpml.lang.Logger;
+
 /**
  * The DefaultTransitModel class maintains an active configuration of the 
  * Transit system.

@@ -16,7 +16,7 @@
 
 package net.dpml.depot.install;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 
 import net.dpml.station.Station;
 

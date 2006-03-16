@@ -21,7 +21,7 @@ package net.dpml.station.info;
 import java.util.Properties;
 import java.net.URI;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 
 /**
  * Test ApplicationDescriptor class.

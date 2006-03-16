@@ -30,8 +30,8 @@ import net.dpml.part.PartDirective;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.Value;
-import net.dpml.transit.Construct;
+import net.dpml.lang.Value;
+import net.dpml.lang.Construct;
 
 
 /**

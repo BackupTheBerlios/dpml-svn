@@ -26,12 +26,12 @@ import java.io.IOException;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
+import net.dpml.lang.Construct;
+import net.dpml.lang.Value;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Construct;
 import net.dpml.transit.StandardClassLoader;
 import net.dpml.transit.Transit;
-import net.dpml.transit.Value;
 
 /**
  * Construct a part.

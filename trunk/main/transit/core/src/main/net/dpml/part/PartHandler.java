@@ -45,4 +45,5 @@ public interface PartHandler
     * @exception Exception if a deployment error occurs
     */
     Object getInstance( ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception;
+    
 }

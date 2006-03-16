@@ -20,7 +20,7 @@ package net.dpml.metro.central;
 
 import java.net.URI;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.TransitModel;

@@ -21,7 +21,7 @@ package net.dpml.part;
 import java.io.Serializable;
 import java.net.URI;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 /**
  * Immutable part creation directive.

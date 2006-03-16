@@ -26,7 +26,7 @@ import java.util.List;
 import java.net.URI;
 
 import net.dpml.part.Directive;
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ContextDirective;

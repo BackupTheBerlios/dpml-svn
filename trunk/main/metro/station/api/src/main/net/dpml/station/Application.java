@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 
 import net.dpml.part.Provider;
 
-import net.dpml.transit.PID;
+import net.dpml.lang.PID;
 
 import net.dpml.station.info.ApplicationDescriptor;
 

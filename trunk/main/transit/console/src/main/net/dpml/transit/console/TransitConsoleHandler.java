@@ -51,7 +51,7 @@ import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.NumberValidator;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitBuilder;
 import net.dpml.transit.RepositoryException;
@@ -62,7 +62,7 @@ import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.ContentDirective;
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 import net.dpml.transit.util.ExceptionHelper;
 
 import net.dpml.lang.UnknownKeyException;

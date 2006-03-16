@@ -21,7 +21,7 @@ package net.dpml.station.info;
 import java.util.Arrays;
 import java.util.Properties;
 
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 import net.dpml.station.info.RegistryDescriptor.Entry;
 
 /**

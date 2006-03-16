@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.Transit;
 
 import net.dpml.library.info.Scope;

@@ -22,7 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.transit.info.ContentDirective;
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.ValueDirective;
 
 /**
  * Utility class supporting mutation of a content directive.

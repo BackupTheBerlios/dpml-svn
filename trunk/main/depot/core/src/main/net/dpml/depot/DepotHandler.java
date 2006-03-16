@@ -23,8 +23,8 @@ import java.rmi.RemoteException;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-import net.dpml.transit.PID;
-import net.dpml.transit.LoggingService;
+import net.dpml.lang.PID;
+import net.dpml.lang.LoggingService;
 
 /**
  * Logging message handler that redirects log messages from a subprocess to 

@@ -20,6 +20,9 @@ package net.dpml.transit.info;
 
 import java.net.URISyntaxException;
 
+import net.dpml.lang.AbstractDirective;
+import net.dpml.lang.ValueDirective;
+
 /**
  * The CodeBaseDirective is immutable datastructure used to 
  * describe a codebase.

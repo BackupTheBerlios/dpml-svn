@@ -18,6 +18,8 @@
 
 package net.dpml.transit.info;
 
+import net.dpml.lang.AbstractDirective;
+
 /**
  * Description of a host configuration within Transit.
  * 

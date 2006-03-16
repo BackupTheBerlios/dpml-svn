@@ -20,7 +20,7 @@ package net.dpml.transit.monitor;
 
 import java.net.URL;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 
 /**
  * Utility interface defining a monitor adapter.  The contract defines a set of operations

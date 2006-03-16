@@ -30,7 +30,6 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
 import net.dpml.transit.Repository;
 import net.dpml.transit.RepositoryException;
-import net.dpml.transit.Logger;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.monitor.Adapter;
@@ -38,8 +37,10 @@ import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.monitor.RepositoryMonitorAdapter;
 import net.dpml.transit.monitor.CacheMonitorAdapter;
 import net.dpml.transit.monitor.NetworkMonitorAdapter;
+
 import net.dpml.lang.Enum;
-import net.dpml.transit.PID;
+import net.dpml.lang.PID;
+import net.dpml.lang.Logger;
 
 /**
  * CLI hander for the depot package.

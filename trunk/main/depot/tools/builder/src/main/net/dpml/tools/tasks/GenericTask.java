@@ -28,7 +28,7 @@ import net.dpml.library.model.Library;
 import net.dpml.library.model.Resource;
 import net.dpml.library.impl.DefaultLibrary;
 
-import net.dpml.transit.Logger;
+import net.dpml.lang.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 import org.apache.tools.ant.BuildException;

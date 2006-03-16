@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import net.dpml.transit.PID;
+import net.dpml.lang.PID;
 
 /**
  * Generic adapter that redirects monitor events to a logging channel.
@@ -206,7 +206,7 @@ public class LoggingAdapter implements Adapter
     * @param category the sub-category name.
     * @return the child logging channel
     */
-    public net.dpml.transit.Logger getChildLogger( String category )
+    public net.dpml.lang.Logger getChildLogger( String category )
     {
         if( ( null == category ) || "".equals( category ) )
         {

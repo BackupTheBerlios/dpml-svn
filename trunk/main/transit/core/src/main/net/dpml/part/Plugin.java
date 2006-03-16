@@ -21,7 +21,7 @@ package net.dpml.part;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import net.dpml.transit.Value;
+import net.dpml.lang.Value;
 
 public class Plugin implements Serializable
 {

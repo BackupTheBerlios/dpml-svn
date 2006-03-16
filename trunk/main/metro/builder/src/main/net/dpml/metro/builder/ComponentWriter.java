@@ -40,8 +40,8 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.transit.Value;
-import net.dpml.transit.Construct;
+import net.dpml.lang.Value;
+import net.dpml.lang.Construct;
 import net.dpml.transit.util.ElementHelper;
 
 import net.dpml.part.Strategy;

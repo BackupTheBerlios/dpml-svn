@@ -31,8 +31,8 @@ import net.dpml.station.RegistryEvent;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
-import net.dpml.transit.Logger;
-import net.dpml.transit.info.ValueDirective;
+import net.dpml.lang.Logger;
+import net.dpml.lang.ValueDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 import net.dpml.lang.UnknownKeyException;

@@ -22,6 +22,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import net.dpml.lang.AbstractDirective;
+import net.dpml.lang.ValueDirective;
+
 /**
  * The CodeBaseDirective is immutable datastructure used to 
  * describe a codebase.

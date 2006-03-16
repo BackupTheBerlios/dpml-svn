@@ -23,8 +23,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import net.dpml.transit.PID;
-import net.dpml.transit.LoggingService;
+import net.dpml.lang.PID;
+import net.dpml.lang.LoggingService;
 
 /**
  * The LoggingServer is a remote service that handles the aggregation of 

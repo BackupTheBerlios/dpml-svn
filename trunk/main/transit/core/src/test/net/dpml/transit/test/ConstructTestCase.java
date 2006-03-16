@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.Arrays;
 
-import net.dpml.transit.Value;
-import net.dpml.transit.Construct;
+import net.dpml.lang.Value;
+import net.dpml.lang.Construct;
 
 /**
  * Construct testcase.
