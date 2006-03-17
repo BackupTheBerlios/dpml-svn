@@ -188,7 +188,7 @@
     <property name="prefs.station" location="${prefs}/dpml/station"/>
     <mkdir dir="${prefs.station}"/>
     <copy todir="${prefs.station}" filtering="false">
-      <fileset dir="metro/station/server/target/prefs">
+      <fileset dir="station/server/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
