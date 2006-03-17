@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml-part-api"
+<project name="dpml-metro-component"
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:depot" 
     default="install">

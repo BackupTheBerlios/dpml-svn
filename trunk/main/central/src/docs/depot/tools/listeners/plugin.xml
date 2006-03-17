@@ -66,7 +66,7 @@ dpml.artifact.dependency.api.4 = artifact:jar:dpml/transit/dpml-transit-main#SNA
 # SPI dependencies.
 #
 dpml.artifact.dependency.spi.0 = artifact:jar:dpml/metro/dpml-composition-model#SNAPSHOT
-dpml.artifact.dependency.spi.1 = artifact:jar:dpml/metro/dpml-part-api#SNAPSHOT
+dpml.artifact.dependency.spi.1 = artifact:jar:dpml/metro/dpml-metro-component#SNAPSHOT
 
 #
 # Implementation dependencies.

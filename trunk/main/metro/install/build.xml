@@ -6,10 +6,10 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
-    <x:property name="part.name" feature="name" key="dpml-part-api"/>
-    <x:property name="part.version" feature="version" key="dpml-part-api"/>
-    <x:property name="part.group" feature="group" key="dpml-part-api"/>
-    <x:property name="part.uri" feature="uri" type="plugin" key="dpml-part-api"/>
+    <x:property name="part.name" feature="name" key="dpml-metro-component"/>
+    <x:property name="part.version" feature="version" key="dpml-metro-component"/>
+    <x:property name="part.group" feature="group" key="dpml-metro-component"/>
+    <x:property name="part.uri" feature="uri" type="plugin" key="dpml-metro-component"/>
     <filter token="PRODUCTION_URI" value="${part.uri}"/>
   </target>
 

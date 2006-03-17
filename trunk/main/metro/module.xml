@@ -23,7 +23,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-part-api" basedir="part/api">
+  <project name="dpml-metro-component" basedir="component">
     <types>
       <type id="jar"/>
     </types>
@@ -36,7 +36,7 @@
     </dependencies>
   </project>
   
-  <project name="dpml-part-content" basedir="content">
+  <project name="dpml-metro-content" basedir="content">
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.metro.content.PartContentHandler"/>
@@ -45,7 +45,7 @@
       <include key="dpml-metro-runtime"/>
     </dependencies>
     <dependencies>
-      <include key="dpml-part-api"/>
+      <include key="dpml-metro-component"/>
       <include ref="dpml/util/dpml-logging-api"/>
     </dependencies>
     <dependencies scope="test">
@@ -61,7 +61,7 @@
       <include key="dpml-state-api"/>
       <include ref="dpml/util/dpml-parameters-api"/>
       <include ref="dpml/util/dpml-configuration-api"/>
-      <include key="dpml-part-api"/>
+      <include key="dpml-metro-component"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
@@ -95,7 +95,7 @@
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
       <include ref="dpml/util/dpml-parameters-impl"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
-      <include key="dpml-part-api" tag="protected"/>
+      <include key="dpml-metro-component" tag="protected"/>
       <include key="dpml-metro-model" tag="protected"/>
       <include key="dpml-state-impl"/>
       <include key="dpml-metro-builder"/>
@@ -120,6 +120,9 @@
   </project>
 
   <project name="dpml-metro-test" basedir="test">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
     <types>
       <type id="jar"/>
     </types>
@@ -131,8 +134,8 @@
       <include key="dpml-metro-tools"/>
     </dependencies>
   </project>
-   
-   <project name="dpml-metro-exec" basedir="exec">
+  
+  <project name="dpml-metro-exec" basedir="exec">
     <types>
       <type id="jar"/>
       <part:plugin class="net.dpml.metro.exec.ApplicationHandler"/>
@@ -145,7 +148,7 @@
       <include ref="dpml/util/dpml-configuration-api"/>
       <include ref="dpml/util/dpml-configuration-impl"/>
       <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/metro/dpml-part-api"/>
+      <include ref="dpml/metro/dpml-metro-component"/>
       <include ref="dpml/metro/dpml-station-api"/>
       <include ref="dpml/metro/dpml-metro-model"/>
     </dependencies>
@@ -157,7 +160,7 @@
     </types>
     <dependencies>
       <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/metro/dpml-part-api"/>
+      <include ref="dpml/metro/dpml-metro-component"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="junit/junit"/>
@@ -185,7 +188,7 @@
       <part:plugin class="net.dpml.station.server.StationServerPlugin"/>
     </types>
     <dependencies>
-      <include ref="dpml/metro/dpml-part-api" tag="public"/>
+      <include ref="dpml/metro/dpml-metro-component" tag="public"/>
       <include key="dpml-station-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="public"/>
       <include ref="dpml/metro/dpml-station-builder" tag="protected"/>

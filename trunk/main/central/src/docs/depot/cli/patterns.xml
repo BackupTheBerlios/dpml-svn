@@ -32,7 +32,7 @@ Selection: [9]
 
   [1]   project:dpml/metro/dpml-state-api
   [2]   project:dpml/metro/dpml-state-impl
-  [3]   project:dpml/metro/dpml-part-api
+  [3]   project:dpml/metro/dpml-metro-component
   [4]   project:dpml/metro/dpml-metro-model
   [5]   project:dpml/metro/dpml-metro-runtime
   [6]   project:dpml/metro/dpml-metro-tools
@@ -190,7 +190,7 @@ project:dpml/metro/dpml-metro-model
     project:dpml/util/dpml-parameters-api
     project:dpml/util/dpml-configuration-api
     resource:dpml/transit/dpml-transit-main
-    project:dpml/metro/dpml-part-api
+    project:dpml/metro/dpml-metro-component
   test providers: (12)
     resource:ant/ant-launcher
     resource:ant/ant-trax

@@ -31,7 +31,7 @@
 <source>Selection: [14]
 
   [1]   project:dpml/metro/dpml-state-impl
-  [2]   project:dpml/metro/dpml-part-api
+  [2]   project:dpml/metro/dpml-metro-component
   [3]   project:dpml/metro/dpml-metro-model
   [4]   project:dpml/metro/dpml-metro-runtime
   [5]   project:dpml/metro/dpml-metro-tools

@@ -138,7 +138,7 @@
        </dependencies>
      </project>
 
-     <project name="dpml-part-api" basedir="part">
+     <project name="dpml-metro-component" basedir="part">
        <properties>
          <property name="project.template" value="${basedir}/builder.xml"/>
        </properties>
@@ -166,7 +166,7 @@
          <include ref="dpml/util/dpml-parameters-api" tag="public"/>
          <include ref="dpml/util/dpml-configuration-api" tag="public"/>
          <include key="dpml-state-api" tag="public"/>
-         <include key="dpml-part-api" tag="public"/>
+         <include key="dpml-metro-component" tag="public"/>
        </dependencies>
        <dependencies scope="test">
          <include ref="ant/ant-junit"/>

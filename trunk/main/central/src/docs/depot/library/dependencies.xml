@@ -149,7 +149,7 @@
       <include key="dpml-state-api"/>
       <include ref="dpml/util/dpml-parameters-api"/>
       <include ref="dpml/util/dpml-configuration-api"/>
-      <include key="dpml-part-api"/>
+      <include key="dpml-metro-component"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
