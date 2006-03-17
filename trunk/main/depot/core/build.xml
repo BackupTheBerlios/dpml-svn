@@ -18,8 +18,8 @@
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="DEPOT-EXEC-URI" ref="dpml/metro/dpml-station-exec" feature="uri" type="part"/>
     <x:filter token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-library-build" feature="uri" type="part"/>
-    <x:filter token="DEPOT-STATION-URI" ref="dpml/metro/dpml-station-console" feature="uri" type="part"/>
-    <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/metro/dpml-station-server" feature="uri" type="part"/>
+    <x:filter token="DEPOT-STATION-URI" ref="dpml/station/dpml-station-console" feature="uri" type="part"/>
+    <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/station/dpml-station-server" feature="uri" type="part"/>
     <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="part"/>
   </target>
 
