@@ -3,7 +3,7 @@
     xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
-  <project name="dpml-station-api" basedir="station/api">
+  <project name="dpml-station-api" basedir="api">
     <types>
       <type id="jar"/>
     </types>
@@ -35,7 +35,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-station-builder" basedir="station/builder">
+  <project name="dpml-station-builder" basedir="builder">
     <types>
       <type id="jar"/>
     </types>
@@ -47,7 +47,7 @@
     </dependencies>
   </project>
    
-  <project name="dpml-station-server" basedir="station/server">
+  <project name="dpml-station-server" basedir="server">
     <properties>
       <property name="project.test.fork" value="true"/>
     </properties>
@@ -67,7 +67,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-station-console" basedir="station/console">
+  <project name="dpml-station-console" basedir="console">
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.station.console.StationPlugin"/>
