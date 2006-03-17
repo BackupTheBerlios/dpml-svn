@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import net.dpml.library.model.Dictionary;
+import net.dpml.library.Dictionary;
 import net.dpml.library.info.AbstractDirective;
 
 import net.dpml.transit.util.PropertyResolver;

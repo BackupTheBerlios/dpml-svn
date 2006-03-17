@@ -18,7 +18,7 @@
 
 package net.dpml.library.impl;
 
-import net.dpml.library.model.Resource;
+import net.dpml.library.Resource;
 
 /**
  * Testing the DefaultDictionary implementation.

@@ -20,7 +20,7 @@ package net.dpml.tools.model;
 
 import java.net.URI;
 
-import net.dpml.library.model.Dictionary;
+import net.dpml.library.Dictionary;
 
 /**
  * The Processor interface defines a process model.

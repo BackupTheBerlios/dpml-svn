@@ -18,8 +18,8 @@
 
 package net.dpml.library.impl;
 
-import net.dpml.library.model.Module;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Module;
+import net.dpml.library.Resource;
 
 import net.dpml.lang.Type;
 

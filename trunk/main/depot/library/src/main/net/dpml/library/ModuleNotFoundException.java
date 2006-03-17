@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.library;
 
 /**
  * A ModuleNotFoundException is thrown when a requested for a named module cannot

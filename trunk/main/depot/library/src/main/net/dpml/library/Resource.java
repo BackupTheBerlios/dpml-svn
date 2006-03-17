@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.library;
 
 import java.io.File;
 

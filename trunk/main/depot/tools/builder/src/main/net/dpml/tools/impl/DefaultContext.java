@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import net.dpml.library.info.Scope;
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Library;
+import net.dpml.library.Resource;
 
 import net.dpml.lang.Type;
 

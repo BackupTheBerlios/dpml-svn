@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.library;
 
 /**
  * A DuplicateNameException is thrown when an attempt is made to duplicate 

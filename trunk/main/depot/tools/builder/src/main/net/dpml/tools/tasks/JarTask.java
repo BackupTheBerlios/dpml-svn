@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
 
-import net.dpml.library.model.Resource;
+import net.dpml.library.Resource;
 
 import net.dpml.lang.Type;
 

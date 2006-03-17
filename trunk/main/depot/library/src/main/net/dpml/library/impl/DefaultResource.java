@@ -29,8 +29,8 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.Properties;
 
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.Module;
+import net.dpml.library.Resource;
+import net.dpml.library.Module;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;

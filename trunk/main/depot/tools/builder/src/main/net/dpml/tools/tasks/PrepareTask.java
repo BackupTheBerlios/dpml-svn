@@ -22,7 +22,7 @@ import java.io.File;
 
 import net.dpml.tools.model.Context;
 
-import net.dpml.library.model.Resource;
+import net.dpml.library.Resource;
 
 import org.apache.tools.ant.Project;
 

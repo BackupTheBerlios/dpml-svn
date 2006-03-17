@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.library;
 
 /**
  * A Builder is implementated by a plugin that handles the building of

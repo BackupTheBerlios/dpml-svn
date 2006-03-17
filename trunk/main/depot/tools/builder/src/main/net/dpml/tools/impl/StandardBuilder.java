@@ -23,9 +23,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Vector;
 
-import net.dpml.library.model.Builder;
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Builder;
+import net.dpml.library.Library;
+import net.dpml.library.Resource;
 
 import net.dpml.tools.model.Workbench;
 import net.dpml.tools.model.Context;

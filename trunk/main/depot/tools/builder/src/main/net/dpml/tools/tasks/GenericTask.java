@@ -24,8 +24,8 @@ import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Workbench;
 import net.dpml.tools.impl.DefaultWorkbench;
 
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Library;
+import net.dpml.library.Resource;
 import net.dpml.library.impl.DefaultLibrary;
 
 import net.dpml.lang.Logger;

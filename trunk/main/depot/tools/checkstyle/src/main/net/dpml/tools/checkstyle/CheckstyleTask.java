@@ -24,8 +24,8 @@ import java.net.URL;
 
 import com.puppycrawl.tools.checkstyle.CheckStyleTask;
 
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.Module;
+import net.dpml.library.Resource;
+import net.dpml.library.Module;
 import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.BuildException;

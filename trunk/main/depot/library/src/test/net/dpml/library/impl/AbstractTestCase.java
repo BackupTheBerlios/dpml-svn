@@ -33,7 +33,7 @@ import java.beans.ExceptionListener;
 
 import junit.framework.TestCase;
 
-import net.dpml.library.model.Resource;
+import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
 
 import net.dpml.lang.Logger;

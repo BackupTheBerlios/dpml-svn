@@ -20,8 +20,8 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.library.model.ResourceNotFoundException;
-import net.dpml.library.model.Resource;
+import net.dpml.library.ResourceNotFoundException;
+import net.dpml.library.Resource;
 
 import net.dpml.transit.Artifact;
 

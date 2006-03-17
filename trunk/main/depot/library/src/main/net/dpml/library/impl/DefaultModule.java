@@ -32,10 +32,10 @@ import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.info.TypeDirective;
-import net.dpml.library.model.Module;
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.ResourceNotFoundException;
-import net.dpml.library.model.ModuleNotFoundException;
+import net.dpml.library.Module;
+import net.dpml.library.Resource;
+import net.dpml.library.ResourceNotFoundException;
+import net.dpml.library.ModuleNotFoundException;
 
 import net.dpml.lang.Category;
 

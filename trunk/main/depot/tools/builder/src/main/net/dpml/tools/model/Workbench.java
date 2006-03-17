@@ -18,8 +18,8 @@
 
 package net.dpml.tools.model;
 
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Library;
+import net.dpml.library.Resource;
 
 import org.apache.tools.ant.Project;
 

@@ -21,8 +21,8 @@ package net.dpml.tools.impl;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Library;
+import net.dpml.library.Resource;
 
 import net.dpml.lang.Type;
 

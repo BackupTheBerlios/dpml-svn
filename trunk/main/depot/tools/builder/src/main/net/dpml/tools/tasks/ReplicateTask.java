@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.dpml.library.info.Scope;
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.ResourceNotFoundException;
+import net.dpml.library.Resource;
+import net.dpml.library.ResourceNotFoundException;
 
 import net.dpml.lang.Type;
 

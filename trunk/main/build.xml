@@ -239,10 +239,12 @@
       <group title="Depot">
         <package name="net.dpml.depot"/>
         <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.library"/>
-        <package name="net.dpml.library.*"/>
         <package name="net.dpml.tools"/>
         <package name="net.dpml.tools.*"/>
+      </group>
+      <group title="Library">
+        <package name="net.dpml.library"/>
+        <package name="net.dpml.library.*"/>
       </group>
       <group title="Transit">
         <package name="net.dpml.lang"/>

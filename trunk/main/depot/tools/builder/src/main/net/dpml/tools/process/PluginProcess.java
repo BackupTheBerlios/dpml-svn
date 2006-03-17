@@ -42,7 +42,7 @@ import net.dpml.part.PartBuilder;
 
 import net.dpml.lang.Type;
 import net.dpml.library.info.Scope;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Resource;
 
 import net.dpml.tools.tasks.PartTask;
 import net.dpml.tools.model.Context;

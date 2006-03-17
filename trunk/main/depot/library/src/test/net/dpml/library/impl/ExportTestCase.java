@@ -22,8 +22,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 
-import net.dpml.library.model.Module;
-import net.dpml.library.model.Resource;
+import net.dpml.library.Module;
+import net.dpml.library.Resource;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.DependencyDirective;

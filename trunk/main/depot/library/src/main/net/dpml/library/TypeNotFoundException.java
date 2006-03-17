@@ -16,40 +16,33 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.library;
 
 /**
- * The Process interface defines a process model.
+ * A TypeNotFoundException is thrown when a requested for a named type cannot
+ * be resolved relative to the enclosing object.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Type extends Dictionary
+public final class TypeNotFoundException extends Exception
 {
    /**
-    * JAR type name constant.
+    * Creation of a new TypeNotFoundException.
+    * @param message the exception message
     */
-    static final String JAR = "jar";
+    public TypeNotFoundException( String message )
+    {
+        this( message, null );
+    }
     
    /**
-    * Plugin type name constant.
+    * Creation of a new TypeNotFoundException.
+    * @param message the exception message
+    * @param cause the causal excetion
     */
-    static final String PLUGIN = "plugin";
-    
-   /**
-    * Module type name constant.
-    */
-    static final String MODULE = "module";
-    
-   /**
-    * Return the name of the type.
-    * @return the type name
-    */
-    String getName();
-    
-   /**
-    * Return the alias association policy.
-    * @return true if alias production assumed
-    */
-    boolean getAlias();
+    public TypeNotFoundException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }

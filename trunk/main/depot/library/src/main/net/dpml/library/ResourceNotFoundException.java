@@ -16,33 +16,32 @@
  * limitations under the License.
  */
 
-package net.dpml.library.model;
+package net.dpml.library;
 
 /**
- * A ReferentialException is thrown when a requested change would result
- * in the creation of a referential integrity issue within a model (such 
- * as the removal of a resource referenced by another resource).
+ * A ResourceNotFoundException is thrown when a requested for a named resource cannot
+ * be resolved.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ReferentialException extends Exception
+public class ResourceNotFoundException extends Exception
 {
    /**
-    * Creation of a new ReferentialException.
+    * Creation of a new ResourceNotFoundException.
     * @param message the exception message
     */
-    public ReferentialException( String message )
+    public ResourceNotFoundException( String message )
     {
         this( message, null );
     }
     
    /**
-    * Creation of a new ReferentialException.
+    * Creation of a new ResourceNotFoundException.
     * @param message the exception message
     * @param cause the causal excetion
     */
-    public ReferentialException( String message, Throwable cause )
+    public ResourceNotFoundException( String message, Throwable cause )
     {
         super( message, cause );
     }

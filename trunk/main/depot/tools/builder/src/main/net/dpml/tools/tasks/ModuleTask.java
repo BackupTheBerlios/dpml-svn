@@ -26,8 +26,8 @@ import java.io.BufferedOutputStream;
 
 import net.dpml.tools.model.Context;
 
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.Module;
+import net.dpml.library.Resource;
+import net.dpml.library.Module;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.impl.LibraryBuilder;

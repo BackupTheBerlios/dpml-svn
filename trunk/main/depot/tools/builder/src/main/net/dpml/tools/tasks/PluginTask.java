@@ -20,9 +20,9 @@ package net.dpml.tools.tasks;
 
 import net.dpml.tools.model.Context;
 
-import net.dpml.library.model.Library;
-import net.dpml.library.model.Resource;
-import net.dpml.library.model.ResourceNotFoundException;
+import net.dpml.library.Library;
+import net.dpml.library.Resource;
+import net.dpml.library.ResourceNotFoundException;
 
 import org.apache.tools.ant.BuildException;
 
