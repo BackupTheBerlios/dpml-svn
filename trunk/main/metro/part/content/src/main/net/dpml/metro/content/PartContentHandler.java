@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part.content;
+package net.dpml.metro.content;
 
 import java.net.URI;
 import java.net.ContentHandler;

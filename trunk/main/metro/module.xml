@@ -39,7 +39,7 @@
   <project name="dpml-part-content" basedir="part/content">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.part.content.PartContentHandler"/>
+      <part:plugin alias="true" class="net.dpml.metro.content.PartContentHandler"/>
     </types>
     <dependencies scope="build">
       <include key="dpml-metro-runtime"/>
