@@ -178,7 +178,7 @@
     <property name="prefs.metro" location="${prefs}/dpml/metro"/>
     <mkdir dir="${prefs.metro}"/>
     <copy todir="${prefs.metro}" filtering="false">
-      <fileset dir="metro/exec/target/prefs">
+      <fileset dir="station/exec/target/prefs">
         <include name="**/*"/>
       </fileset>
       <fileset dir="metro/tools/target/prefs">
@@ -208,9 +208,9 @@
       <fileset dir="transit/console/target/bin"/>
       <fileset dir="depot/core/target/bin"/>
       <fileset dir="depot/build/target/bin"/>
-      <fileset dir="metro/station/console/target/bin"/>
-      <fileset dir="metro/station/server/target/bin"/>
-      <fileset dir="metro/exec/target/bin"/>
+      <fileset dir="station/console/target/bin"/>
+      <fileset dir="station/server/target/bin"/>
+      <fileset dir="station/exec/target/bin"/>
     </copy>
   </target>
 
@@ -226,12 +226,13 @@
         <package name="net.dpml.http.*"/>
       </group>
       <group title="Metro">
+        <package name="net.dpml.component"/>
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>
-        <package name="net.dpml.component"/>
-        <package name="net.dpml.part.*"/>
         <package name="net.dpml.state"/>
         <package name="net.dpml.state.*"/>
+      </group>
+      <group title="Station">
         <package name="net.dpml.station"/>
         <package name="net.dpml.station.*"/>
       </group>
