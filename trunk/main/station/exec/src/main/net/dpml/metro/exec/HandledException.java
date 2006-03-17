@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.exec;
+package net.dpml.station.exec;
 
 /**
  * A exception thrown following the complete handing of the error condition
