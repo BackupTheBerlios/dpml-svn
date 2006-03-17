@@ -37,7 +37,7 @@ Selection: [9]
   [5]   project:dpml/metro/dpml-metro-runtime
   [6]   project:dpml/metro/dpml-metro-tools
   [7]   project:dpml/metro/dpml-metro-test
-  [8]   project:dpml/metro/dpml-metro-exec
+  [8]   project:dpml/metro/dpml-station-exec
   [9]   module:dpml/metro
 </source>
 
@@ -172,7 +172,7 @@ Selection: [5]
   [2]   project:dpml/metro/dpml-metro-runtime
   [3]   project:dpml/metro/dpml-metro-tools
   [4]   project:dpml/metro/dpml-metro-test
-  [5]   project:dpml/metro/dpml-metro-exec</source>
+  [5]   project:dpml/metro/dpml-station-exec</source>
 
         <p><i>Example of a single project listing:</i></p>
 

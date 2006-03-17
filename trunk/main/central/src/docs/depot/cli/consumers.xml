@@ -41,7 +41,7 @@
   [9]   project:dpml/depot/dpml-station-console
   [10]  project:dpml/depot/dpml-depot-install
   [11]  module:dpml/depot
-  [12]  project:dpml/metro/dpml-metro-exec
+  [12]  project:dpml/metro/dpml-station-exec
   [13]  module:dpml/metro
   [14]  module:dpml</source>
 
