@@ -16,31 +16,27 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
-import java.awt.Color;
 import java.io.File;
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.Component;
 import net.dpml.component.Controller;
+import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.ComponentModel;
-import net.dpml.metro.ComponentModelManager;
-import net.dpml.metro.ContextModelManager;
-
 /**
- * Test aspects of the component model implementation.
+ * Test singleton semantics.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ObserverTestCase extends TestCase
+public class SingletonProviderTestCase extends TestCase
 {    
-    private ComponentModelManager m_model;
+    private static final Controller CONTROLLER = Controller.STANDARD;
+    
+    private URI m_uri;
     
    /**
     * Test case setup.
@@ -48,25 +44,32 @@ public class ObserverTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        final String path = "observer.part";
+        final String path = "example-3.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        final URI uri = new File( test, path ).toURI();
-        m_model = (ComponentModelManager) Controller.STANDARD.createModel( uri );
+        m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Test mutation of the context model.
+    * Test multiple provider equivalence.
     * @exception Exception if an error occurs
     */
-    public void testContextModel() throws Exception
+    public void testSharedProviderSemantics() throws Exception
     {
-        ContextModelManager context = (ContextModelManager) m_model.getContextManager();
-        Component component = Controller.STANDARD.createComponent( (ComponentModel) m_model );
-        Provider provider = component.getProvider();
-        Object instance = provider.getValue( false );
-        String key = "color";
-        ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
-        context.setEntryDirective( key, newDirective );
+        Component component = CONTROLLER.createComponent( m_uri );
+        component.activate();
+        assertTrue( "is-active", component.isActive() );
+        Provider firstProvider = component.getProvider();
+        Provider secondProvider = component.getProvider();
+        assertEquals( "singletons-are-equal", firstProvider, secondProvider );
         component.deactivate();
+    }
+    
+    static
+    {
+        System.setProperty( 
+          "java.util.logging.config.class", 
+          System.getProperty( 
+            "java.util.logging.config.class", 
+            "net.dpml.transit.util.ConfigurationHandler" ) );
     }
 }

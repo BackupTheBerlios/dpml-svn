@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -27,16 +28,15 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
-import net.dpml.test.state.Service;
-import net.dpml.test.state.ManagedComponent.Monitor;
+import net.dpml.test.array.ArrayTestComponent;
 
 /**
- * Contains a series of tests dealing with a composite application.
+ * Test dealing with arrays in context entries.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class StateTestCase extends TestCase
+public class ArrayTestCase extends TestCase
 {   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
@@ -48,7 +48,7 @@ public class StateTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        final String path = "state.part";
+        final String path = "array.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
@@ -62,13 +62,10 @@ public class StateTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         Provider provider = component.getProvider();
-        Service service = (Service) provider.getValue( true );
-        for( int i=0; i<100; i++ )
-        {
-            service.ping();
-        }
-        Monitor monitor = (Monitor) provider.exec( "monitor", new Object[0] );
-        assertEquals( "count", 100, monitor.getAccessCount() );
+        ArrayTestComponent object = (ArrayTestComponent) provider.getValue( false );
+        String[] values = object.getValues();
+        boolean flag = Arrays.equals( new String[]{"Hello", "World"}, values );
+        assertTrue( "array-return-value", flag );
     }
     
     static

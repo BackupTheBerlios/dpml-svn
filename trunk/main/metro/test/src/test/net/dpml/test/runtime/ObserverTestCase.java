@@ -16,30 +16,31 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
+import java.awt.Color;
 import java.io.File;
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.Controller;
 import net.dpml.component.Component;
+import net.dpml.component.Controller;
 import net.dpml.component.Provider;
 
-import net.dpml.test.lifecycle.StartableComponent;
+import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ComponentModelManager;
+import net.dpml.metro.ContextModelManager;
 
 /**
- * Contains a series of tests dealing with dynamic component lifecycles.
- *
+ * Test aspects of the component model implementation.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class LifecycleTestCase extends TestCase
-{   
-    private static final Controller CONTROLLER = Controller.STANDARD;
-    
-    private URI m_uri;
+public class ObserverTestCase extends TestCase
+{    
+    private ComponentModelManager m_model;
     
    /**
     * Test case setup.
@@ -47,32 +48,25 @@ public class LifecycleTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        final String path = "lifecycle.part";
+        final String path = "observer.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
-        m_uri = new File( test, path ).toURI();
+        final URI uri = new File( test, path ).toURI();
+        m_model = (ComponentModelManager) Controller.STANDARD.createModel( uri );
     }
     
    /**
-    * Test that the component initial state is inactive.
+    * Test mutation of the context model.
     * @exception Exception if an error occurs
     */
-    public void testLifecycle() throws Exception
+    public void testContextModel() throws Exception
     {
-        Component component = CONTROLLER.createComponent( m_uri );
-        assertNotNull( "component", component );
-        Provider instance = component.getProvider();
-        StartableComponent startable = (StartableComponent) instance.getValue( false );
-        assertTrue( "component is started", startable.wasStarted() );
+        ContextModelManager context = (ContextModelManager) m_model.getContextManager();
+        Component component = Controller.STANDARD.createComponent( (ComponentModel) m_model );
+        Provider provider = component.getProvider();
+        Object instance = provider.getValue( false );
+        String key = "color";
+        ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
+        context.setEntryDirective( key, newDirective );
         component.deactivate();
-        assertTrue( "component is stopped", startable.wasStopped() );
-    }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.transit.util.ConfigurationHandler" ) );
     }
 }

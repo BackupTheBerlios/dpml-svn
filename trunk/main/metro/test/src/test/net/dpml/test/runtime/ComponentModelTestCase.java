@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;

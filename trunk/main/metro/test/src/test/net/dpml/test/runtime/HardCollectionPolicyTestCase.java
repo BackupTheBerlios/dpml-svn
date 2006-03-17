@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
@@ -27,41 +27,65 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
-import net.dpml.test.categories.CategoriesComponent;
-
 /**
- * Contains a series of tests dealing with dynamic component lifecycles.
- *
+ * Test HARD collection policy semantics.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class CategoriesTestCase extends TestCase
-{   
+public class HardCollectionPolicyTestCase extends TestCase
+{    
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
     
    /**
-    * Testcase setup during which the part defintion 'categories.part'
-    * is established as a file uri.
+    * Testcase setup.
     * @exception Exception if an unexpected error occurs
     */
     public void setUp() throws Exception
     {
-        final String path = "categories.part";
+        final String path = "example-4.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Load the categories component.
+    * Test the HARD collection policy through the creation of two components
+    * followed by a gc run and validating of the number of references remaining in 
+    * memory (which according to the HARD collection policy will remain as 2).
+    *
     * @exception Exception if an unexpected error occurs
     */
-    public void testCategories() throws Exception
+    public void testCollection() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Provider provider = component.getProvider();
-        CategoriesComponent instance = (CategoriesComponent) provider.getValue( false );
+        component.activate();
+        assertTrue( "is-active", component.isActive() );
+        Provider one = component.getProvider();
+        Provider two = component.getProvider();
+        int count = component.size();
+        
+        //
+        // this is a singleton component and we have a reference to the instance 
+        // so the count should be 1
+        //
+        
+        assertEquals( "count", 1, count );
+        
+        //
+        // after nulling out the references and invoking a GC the count should be zero
+        //
+        
+        one = null;
+        two = null;
+        System.gc();
+        count = component.size();
+        
+        //
+        // tthe count should still be 1 becuase the HARD collection policy is in place
+        //
+        
+        assertEquals( "count", 1, count );
         component.deactivate();
     }
     

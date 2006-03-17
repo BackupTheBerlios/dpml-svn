@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -28,16 +27,13 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
-import net.dpml.test.array.ArrayTestComponent;
-
 /**
- * Test dealing with arrays in context entries.
- *
+ * Test transient semantics.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ArrayTestCase extends TestCase
-{   
+public class TransientProviderTestCase extends TestCase
+{    
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
@@ -48,24 +44,27 @@ public class ArrayTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        final String path = "array.part";
+        final String path = "example-2.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Validate composite instantiation and in particular that the color
-    * assigned to the child component has been overriden by the parent. 
+    * Test transient provider semantics.
     * @exception Exception if an error occurs
     */
-    public void testComponent() throws Exception
+    public void testTransientProviderSemantics() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Provider provider = component.getProvider();
-        ArrayTestComponent object = (ArrayTestComponent) provider.getValue( false );
-        String[] values = object.getValues();
-        boolean flag = Arrays.equals( new String[]{"Hello", "World"}, values );
-        assertTrue( "array-return-value", flag );
+        component.activate();
+        assertTrue( "is-active", component.isActive() );
+        Provider firstProvider = component.getProvider();
+        Provider secondProvider = component.getProvider();
+        if( firstProvider.equals( secondProvider ) )
+        {
+            fail( "Transient identity must be unique" );
+        }
+        component.deactivate();
     }
     
     static

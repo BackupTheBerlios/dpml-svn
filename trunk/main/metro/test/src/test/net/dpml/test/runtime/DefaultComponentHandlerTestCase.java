@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
@@ -27,43 +27,67 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
+
 /**
- * Test singleton semantics.
+ * Contains a series of tests applied to the component component.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class SingletonProviderTestCase extends TestCase
-{    
+public class DefaultComponentHandlerTestCase extends TestCase
+{   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
     
    /**
-    * Test case setup.
-    * @exception Exception if an error occurs
+    * Testcase setup during which the part defintion 'example.part'
+    * is established as a file uri.
+    * @exception Exception if an unexpected error occurs
     */
     public void setUp() throws Exception
     {
-        final String path = "example-3.part";
+        final String path = "example.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Test multiple provider equivalence.
-    * @exception Exception if an error occurs
+    * Test that the component initial state is inactive.
+    * @exception Exception if an unexpected error occurs
     */
-    public void testSharedProviderSemantics() throws Exception
+    public void testHandlerInitialState() throws Exception
+    {
+        Component component = CONTROLLER.createComponent( m_uri );
+        assertNotNull( "component", component );
+        assertFalse( "initial-active-state", component.isActive() );
+    }
+    
+   /**
+    * Test that the component exposes itself as active following activation 
+    * and inactive following deactivation.
+    * @exception Exception if an unexpected error occurs
+    */
+    public void testActivationDeactivationCycle() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
         assertTrue( "is-active", component.isActive() );
-        Provider firstProvider = component.getProvider();
-        Provider secondProvider = component.getProvider();
-        assertEquals( "singletons-are-equal", firstProvider, secondProvider );
         component.deactivate();
+        assertFalse( "is-active-following-deactivation", component.isActive() );
     }
-    
+
+   /**
+    * Test self activation on access.
+    * @exception Exception if an unexpected error occurs
+    */
+    public void testProviderAquisitionInInactiveState() throws Exception
+    {
+        Component component = CONTROLLER.createComponent( m_uri );
+        Provider instance = (Provider) component.getProvider();
+        assertTrue( "is-active-post-instantiation", component.isActive() );
+    }
+
     static
     {
         System.setProperty( 

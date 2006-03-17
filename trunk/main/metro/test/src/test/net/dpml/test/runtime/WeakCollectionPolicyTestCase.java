@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
@@ -28,12 +28,12 @@ import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
 /**
- * Test transient semantics.
+ * Test WEAK collection semantics.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class TransientProviderTestCase extends TestCase
-{    
+public class WeakCollectionPolicyTestCase extends TestCase
+{   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
@@ -44,26 +44,45 @@ public class TransientProviderTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        final String path = "example-2.part";
+        final String path = "example-3.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Test transient provider semantics.
+    * Test weak collection semantics.
     * @exception Exception if an error occurs
     */
-    public void testTransientProviderSemantics() throws Exception
+    public void testCollection() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
         assertTrue( "is-active", component.isActive() );
-        Provider firstProvider = component.getProvider();
-        Provider secondProvider = component.getProvider();
-        if( firstProvider.equals( secondProvider ) )
-        {
-            fail( "Transient identity must be unique" );
-        }
+        Provider one = component.getProvider();
+        Provider two = component.getProvider();
+        int count = component.size();
+        
+        //
+        // this is a singleton component and we have a reference to the instance 
+        // so the count should be 1
+        //
+        
+        assertEquals( "count", 1, count );
+        
+        //
+        // after nulling out the references and invoking a GC the count should be zero
+        //
+        
+        one = null;
+        two = null;
+        System.gc();
+        count = component.size();
+        
+        //
+        // the following assertion may fail as GC behaviour is not gauranteed
+        //
+        
+        assertEquals( "count", 0, count );
         component.deactivate();
     }
     

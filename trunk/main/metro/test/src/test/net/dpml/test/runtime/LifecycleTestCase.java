@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
@@ -27,66 +27,44 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
+import net.dpml.test.lifecycle.StartableComponent;
+
 /**
- * Test HARD collection policy semantics.
+ * Contains a series of tests dealing with dynamic component lifecycles.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class HardCollectionPolicyTestCase extends TestCase
-{    
+public class LifecycleTestCase extends TestCase
+{   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
     
    /**
-    * Testcase setup.
-    * @exception Exception if an unexpected error occurs
+    * Test case setup.
+    * @exception Exception if an error occurs
     */
     public void setUp() throws Exception
     {
-        final String path = "example-4.part";
+        final String path = "lifecycle.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Test the HARD collection policy through the creation of two components
-    * followed by a gc run and validating of the number of references remaining in 
-    * memory (which according to the HARD collection policy will remain as 2).
-    *
-    * @exception Exception if an unexpected error occurs
+    * Test that the component initial state is inactive.
+    * @exception Exception if an error occurs
     */
-    public void testCollection() throws Exception
+    public void testLifecycle() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
-        assertTrue( "is-active", component.isActive() );
-        Provider one = component.getProvider();
-        Provider two = component.getProvider();
-        int count = component.size();
-        
-        //
-        // this is a singleton component and we have a reference to the instance 
-        // so the count should be 1
-        //
-        
-        assertEquals( "count", 1, count );
-        
-        //
-        // after nulling out the references and invoking a GC the count should be zero
-        //
-        
-        one = null;
-        two = null;
-        System.gc();
-        count = component.size();
-        
-        //
-        // tthe count should still be 1 becuase the HARD collection policy is in place
-        //
-        
-        assertEquals( "count", 1, count );
+        assertNotNull( "component", component );
+        Provider instance = component.getProvider();
+        StartableComponent startable = (StartableComponent) instance.getValue( false );
+        assertTrue( "component is started", startable.wasStarted() );
         component.deactivate();
+        assertTrue( "component is stopped", startable.wasStopped() );
     }
     
     static

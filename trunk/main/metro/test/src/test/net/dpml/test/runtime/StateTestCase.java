@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
@@ -27,7 +27,8 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
-import net.dpml.test.app.Demo;
+import net.dpml.test.state.Service;
+import net.dpml.test.state.ManagedComponent.Monitor;
 
 /**
  * Contains a series of tests dealing with a composite application.
@@ -35,20 +36,19 @@ import net.dpml.test.app.Demo;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class AppTestCase extends TestCase
+public class StateTestCase extends TestCase
 {   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
     
    /**
-    * Testcase setup during which the part defintion 'application.part'
-    * is established as a file uri.
-    * @exception Exception if an unexpected error occurs
+    * Test case setup.
+    * @exception Exception if an error occurs
     */
     public void setUp() throws Exception
     {
-        final String path = "application.part";
+        final String path = "state.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
@@ -56,16 +56,19 @@ public class AppTestCase extends TestCase
    /**
     * Validate composite instantiation and in particular that the color
     * assigned to the child component has been overriden by the parent. 
-    * @exception Exception if an unexpected error occurs
+    * @exception Exception if an error occurs
     */
-    public void testApplication() throws Exception
+    public void testComponent() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        Provider instance = component.getProvider();
-        Demo demo = (Demo) instance.getValue( false );
-        int count = demo.test( "hello" );
-        count = demo.test( "hello again" );
-        assertEquals( "count", 2, count );
+        Provider provider = component.getProvider();
+        Service service = (Service) provider.getValue( true );
+        for( int i=0; i<100; i++ )
+        {
+            service.ping();
+        }
+        Monitor monitor = (Monitor) provider.exec( "monitor", new Object[0] );
+        assertEquals( "count", 100, monitor.getAccessCount() );
     }
     
     static

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
 import java.io.File;
 import java.net.URI;
@@ -25,19 +25,17 @@ import junit.framework.TestCase;
 
 import net.dpml.component.Controller;
 import net.dpml.component.Component;
-import net.dpml.component.Provider;
-
+import net.dpml.component.Disposable;
 
 /**
- * Contains a series of tests applied to the component component.
- *
+ * Test clean disposal.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultComponentHandlerTestCase extends TestCase
-{   
+public class DisposalTestCase extends TestCase
+{    
     private static final Controller CONTROLLER = Controller.STANDARD;
-    
+
     private URI m_uri;
     
    /**
@@ -53,41 +51,22 @@ public class DefaultComponentHandlerTestCase extends TestCase
     }
     
    /**
-    * Test that the component initial state is inactive.
+    * Test component handler disposal.
     * @exception Exception if an unexpected error occurs
     */
-    public void testHandlerInitialState() throws Exception
-    {
-        Component component = CONTROLLER.createComponent( m_uri );
-        assertNotNull( "component", component );
-        assertFalse( "initial-active-state", component.isActive() );
-    }
-    
-   /**
-    * Test that the component exposes itself as active following activation 
-    * and inactive following deactivation.
-    * @exception Exception if an unexpected error occurs
-    */
-    public void testActivationDeactivationCycle() throws Exception
+    public void testHandlerDisposal() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
         component.activate();
-        assertTrue( "is-active", component.isActive() );
-        component.deactivate();
-        assertFalse( "is-active-following-deactivation", component.isActive() );
+        for( int i=0; i<1000; i++ )
+        {
+            component.getProvider();
+        }
+        Disposable disposable = (Disposable) component;
+        disposable.dispose();
+        assertEquals( "count", 0, component.size() );
     }
-
-   /**
-    * Test self activation on access.
-    * @exception Exception if an unexpected error occurs
-    */
-    public void testProviderAquisitionInInactiveState() throws Exception
-    {
-        Component component = CONTROLLER.createComponent( m_uri );
-        Provider instance = (Provider) component.getProvider();
-        assertTrue( "is-active-post-instantiation", component.isActive() );
-    }
-
+    
     static
     {
         System.setProperty( 

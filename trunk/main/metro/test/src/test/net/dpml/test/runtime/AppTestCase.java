@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
-import java.awt.Color;
 import java.io.File;
 import java.net.URI;
 
@@ -28,31 +27,28 @@ import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 
-import net.dpml.metro.ComponentHandler;
-
-import net.dpml.test.composite.ChildComponent;
-import net.dpml.test.composite.CompositeComponent;
+import net.dpml.test.app.Demo;
 
 /**
- * Contains a series of tests applied to the composite component.
+ * Contains a series of tests dealing with a composite application.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class CompositeTestCase extends TestCase
+public class AppTestCase extends TestCase
 {   
     private static final Controller CONTROLLER = Controller.STANDARD;
     
     private URI m_uri;
     
    /**
-    * Testcase setup during which the part definition 'composite.part'
+    * Testcase setup during which the part defintion 'application.part'
     * is established as a file uri.
     * @exception Exception if an unexpected error occurs
     */
     public void setUp() throws Exception
     {
-        final String path = "composite.part";
+        final String path = "application.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
@@ -62,34 +58,14 @@ public class CompositeTestCase extends TestCase
     * assigned to the child component has been overriden by the parent. 
     * @exception Exception if an unexpected error occurs
     */
-    public void testComposite() throws Exception
+    public void testApplication() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        assertNotNull( "component", component );
         Provider instance = component.getProvider();
-        CompositeComponent parent = (CompositeComponent) instance.getValue( false );
-        Color color = parent.getColor();
-        ChildComponent child = parent.getChild();
-        Color c = child.getColor();
-        assertEquals( "color", color, c );
-    }
-    
-   /**
-    * Validate composite instantiation with an overloader parent context.
-    * @exception Exception if an unexpected error occurs
-    */
-    public void testOverloadedComposite() throws Exception
-    {
-        Component component = CONTROLLER.createComponent( m_uri );
-        ComponentHandler handler = (ComponentHandler) component;
-        handler.getContextMap().put( "color", Color.YELLOW );
-        Provider instance = component.getProvider();
-        CompositeComponent parent = (CompositeComponent) instance.getValue( false );
-        Color color = parent.getColor();
-        assertEquals( "parent-color", Color.YELLOW, color );
-        ChildComponent child = parent.getChild();
-        Color c = child.getColor();
-        assertEquals( "color", color, c );
+        Demo demo = (Demo) instance.getValue( false );
+        int count = demo.test( "hello" );
+        count = demo.test( "hello again" );
+        assertEquals( "count", 2, count );
     }
     
     static

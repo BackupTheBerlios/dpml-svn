@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime.test;
+package net.dpml.test.runtime;
 
+import java.awt.Color;
 import java.io.File;
 import java.net.URI;
 
@@ -25,46 +26,49 @@ import junit.framework.TestCase;
 
 import net.dpml.component.Controller;
 import net.dpml.component.Component;
-import net.dpml.component.Disposable;
+import net.dpml.component.Provider;
+
+import net.dpml.test.composite.ChildComponent;
+import net.dpml.test.composite.PartsComponent;
 
 /**
- * Test clean disposal.
+ * Contains a series of tests applied to the composite component.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DisposalTestCase extends TestCase
-{    
+public class PartsTestCase extends TestCase
+{   
     private static final Controller CONTROLLER = Controller.STANDARD;
-
+    
     private URI m_uri;
     
    /**
-    * Testcase setup during which the part defintion 'example.part'
-    * is established as a file uri.
-    * @exception Exception if an unexpected error occurs
+    * Test case setup.
+    * @exception Exception if an error occurs
     */
     public void setUp() throws Exception
     {
-        final String path = "example.part";
+        final String path = "parts.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
     }
     
    /**
-    * Test component handler disposal.
-    * @exception Exception if an unexpected error occurs
+    * Validate composite instantiation and in particular that the color
+    * assigned to the child component has been overriden by the parent. 
+    * @exception Exception if an error occurs
     */
-    public void testHandlerDisposal() throws Exception
+    public void testComposite() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
-        for( int i=0; i<1000; i++ )
-        {
-            component.getProvider();
-        }
-        Disposable disposable = (Disposable) component;
-        disposable.dispose();
-        assertEquals( "count", 0, component.size() );
+        assertNotNull( "component", component );
+        Provider instance = component.getProvider();
+        PartsComponent parent = (PartsComponent) instance.getValue( false );
+        Color color = parent.getColor();
+        ChildComponent child = parent.getChild();
+        Color c = child.getColor();
+        assertEquals( "color", color, c );
     }
     
     static
