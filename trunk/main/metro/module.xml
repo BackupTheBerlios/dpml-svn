@@ -36,7 +36,7 @@
     </dependencies>
   </project>
   
-  <project name="dpml-part-content" basedir="part/content">
+  <project name="dpml-part-content" basedir="content">
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.metro.content.PartContentHandler"/>
@@ -53,25 +53,6 @@
     </dependencies>
   </project>
   
-  <project name="dpml-part-test" basedir="part/test">
-    <properties>
-      <property name="project.test.fork" value="true"/>
-    </properties>
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies scope="build">
-      <include key="dpml-metro-tools"/>
-    </dependencies>
-    <dependencies>
-      <include key="dpml-part-api"/>
-      <include ref="dpml/util/dpml-logging-api"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-   
   <project name="dpml-metro-model" basedir="model">
     <types>
       <type id="jar"/>

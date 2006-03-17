@@ -216,6 +216,16 @@
       </categories>
     </c:component>
 
+    <!-- part test component -->
+
+    <c:type class="net.dpml.test.part.ExampleComponent" name="test"/>
+    <c:component dest="target/test/test.part" test="true"
+        type="net.dpml.test.part.ExampleComponent">
+      <context>
+        <entry key="color" method="RED"/>
+      </context>
+    </c:component>
+
     <!-- configuration component -->
     <!--
     <c:type class="net.dpml.test.config.ConfigurableComponent" name="config" lifestyle="thread"/>
