@@ -221,9 +221,21 @@
       <link href="http://api.dpml.net/ant/1.6.5"/>
       <link href="http://api.dpml.net/junit/3.8.1"/>
       <link href="http://api.dpml.net/jetty/20060213"/>
-      <group title="Planet">
-        <package name="net.dpml.http"/>
-        <package name="net.dpml.http.*"/>
+      <group title="Library">
+        <package name="net.dpml.library"/>
+        <package name="net.dpml.library.*"/>
+      </group>
+      <group title="Depot">
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
+        <package name="net.dpml.tools"/>
+        <package name="net.dpml.tools.*"/>
+      </group>
+      <group title="Transit">
+        <package name="net.dpml.lang"/>
+        <package name="net.dpml.part"/>
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
       </group>
       <group title="Metro">
         <package name="net.dpml.component"/>
@@ -236,21 +248,9 @@
         <package name="net.dpml.station"/>
         <package name="net.dpml.station.*"/>
       </group>
-      <group title="Depot">
-        <package name="net.dpml.depot"/>
-        <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.tools"/>
-        <package name="net.dpml.tools.*"/>
-      </group>
-      <group title="Library">
-        <package name="net.dpml.library"/>
-        <package name="net.dpml.library.*"/>
-      </group>
-      <group title="Transit">
-        <package name="net.dpml.lang"/>
-        <package name="net.dpml.part"/>
-        <package name="net.dpml.transit"/>
-        <package name="net.dpml.transit.*"/>
+      <group title="Planet">
+        <package name="net.dpml.http"/>
+        <package name="net.dpml.http.*"/>
       </group>
       <group title="Util">
         <package name="net.dpml.cli"/>
