@@ -692,7 +692,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             }
             else
             {
-                return STATE_BUILDER.loadState( url.toURI() );
+                URI uri = new URI( url.toString() );
+                return STATE_BUILDER.loadState( uri );
             }
         }
         catch( Throwable e )

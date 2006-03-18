@@ -412,7 +412,8 @@ public class StateDataType
             }
             else
             {
-                return BUILDER.loadState( url.toURI() );
+                URI uri = new URI( url.toString() );
+                return BUILDER.loadState( uri );
             }
         }
         catch( Throwable e )
