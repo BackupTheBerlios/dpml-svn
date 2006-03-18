@@ -1,8 +1,7 @@
 
 <body>
 <p>
-        Ant tasks that provide the entry point to transit
-        based repository access for build system.  
+        Ant tasks supporting Transit-based repository access.
         The init task is used to established a number of transit related ant
         properties and the plugin task is used to load antlibs, taskdefs, typedefs
         and build listeners using classloaders established relative to resources
@@ -14,7 +13,7 @@
 <pre>
 &lt;project name="example" xmlns:transit="antlib:net.dpml.transit"&gt;
 
-  &lt;transit:import uri="local:template:magic/reactor"/&gt;
+  &lt;transit:import uri="local:template:dpml/tools/standard"/&gt;
 
 &lt;/project&gt;
 </pre>
