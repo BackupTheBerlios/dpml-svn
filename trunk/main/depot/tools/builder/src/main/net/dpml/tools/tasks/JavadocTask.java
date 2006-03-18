@@ -292,18 +292,22 @@ public class JavadocTask extends GenericTask
             Resource provider = providers[i];
             if( provider.getResourcePath().startsWith( path ) )
             {
-                File basedir = provider.getBaseDir();
-                if( null != basedir )
+                String flag = provider.getProperty( "project.javadoc.exclude", "false" );
+                if( "false".equals( flag ) )
                 {
-                    File src = new File( basedir, "target/build/main" );
-                    if( src.exists() )
+                    File basedir = provider.getBaseDir();
+                    if( null != basedir )
                     {
-                        log( "Adding src path: " + src );
-                        source.createPathElement().setLocation( src );
-                        final DirSet packages = new DirSet();
-                        packages.setDir( src );
-                        packages.setIncludes( "**/**" );
-                        javadoc.addPackageset( packages );
+                        File src = new File( basedir, "target/build/main" );
+                        if( src.exists() )
+                        {
+                            log( "Adding src path: " + src );
+                            source.createPathElement().setLocation( src );
+                            final DirSet packages = new DirSet();
+                            packages.setDir( src );
+                            packages.setIncludes( "**/**" );
+                            javadoc.addPackageset( packages );
+                        }
                     }
                 }
             }

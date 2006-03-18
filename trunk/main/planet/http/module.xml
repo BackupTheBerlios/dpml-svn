@@ -41,6 +41,7 @@
   <project name="dpml-http-test" basedir="test">
     <properties>
       <property name="project.test.fork" value="true"/>
+      <property name="project.javadoc.exclude" value="true"/>
     </properties>
     <types>
       <type id="jar"/>
