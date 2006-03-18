@@ -52,9 +52,14 @@ public class JavadocTask extends GenericTask
     public static final String JAVADOC_ACCESS_KEY = "project.javadoc.access";
 
    /**
-    * Property key for declaration of the lionksource option.
+    * Property key for declaration of the linksource option.
     */
     public static final String JAVADOC_LINK_SOURCE_KEY = "project.javadoc.linksource";
+
+   /**
+    * Property key for declaration of excluded package names.
+    */
+    public static final String JAVADOC_EXCLUDE_PACKAGENAMES_KEY = "project.javadoc.package.excludes";
 
     //-----------------------------------------------------------------------
     // state
@@ -178,6 +183,9 @@ public class JavadocTask extends GenericTask
         javadoc.setDestdir( root );
         javadoc.setUse( true );
         javadoc.createClasspath().add( classpath );
+        
+        String excludes = resource.getProperty( JAVADOC_EXCLUDE_PACKAGENAMES_KEY, "" );
+        javadoc.setExcludePackageNames( excludes );
         
         final Path source = javadoc.createSourcepath();
         addSourcePath( resource, javadoc, source );

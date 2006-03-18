@@ -22,6 +22,7 @@
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
         <property name="project.javadoc.linksource" value="true"/>
+        <property name="project.javadoc.package.excludes" value="net.dpml.test,net.dpml.test.*"/>
       </properties>
 
       <types>
