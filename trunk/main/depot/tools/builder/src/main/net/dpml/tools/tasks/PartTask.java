@@ -243,36 +243,29 @@ public class PartTask extends GenericTask
         if( null == m_strategy )
         {
             Type type = resource.getType( TYPE );
-            if( type instanceof Strategy )
+            Object data = type.getData();
+            if( null != data )
             {
-                return (Strategy) type;
-            }
-            else
-            {
-                Object data = type.getData();
-                if( null != data )
+                if( data instanceof Strategy )
                 {
-                    if( data instanceof Strategy )
-                    {
-                        return (Strategy) data;
-                    }
-                    else
-                    {
-                        final String error =
-                          "Datatype associated as the 'part' datastructure is not an instance of "
-                          + Strategy.class.getName() + "."
-                          + "\nClass " + type.getClass().getName();
-                        throw new BuildException( error, getLocation() );
-                    }
+                    return (Strategy) data;
                 }
                 else
                 {
-                    final String error = 
-                      "No data associated with part declaration."
-                      + "\nResource: " + resource
-                      + "\nType: " + TYPE;
+                    final String error =
+                      "Datatype associated as the 'part' datastructure is not an instance of "
+                      + Strategy.class.getName() + "."
+                      + "\nClass " + type.getClass().getName();
                     throw new BuildException( error, getLocation() );
                 }
+            }
+            else
+            {
+                final String error = 
+                  "No data associated with part declaration."
+                  + "\nResource: " + resource
+                  + "\nType: " + TYPE;
+                throw new BuildException( error, getLocation() );
             }
         }
         else
