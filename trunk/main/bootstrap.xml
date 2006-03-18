@@ -30,8 +30,9 @@
 
   <property file="${user.home}/ant.properties"/>
   <property file="${basedir}/user.properties"/>
-  <property file="${home}/user.properties"/>
   <property file="${basedir}/build.properties"/>
+  <property name="home" location=""/>
+  <property file="${home}/user.properties"/>
   <property file="${home}/bootstrap.properties"/>
 
   <property name="junit.url" value="http://repository.dpml.net/classic/junit/jars/junit-3.8.1.jar"/>
@@ -477,6 +478,31 @@
   <target name="clean">
     <delete dir="${target.dir}"/>
   </target>
+
+  <target name="xml-check" depends="dpml-setup">
+    <property name="endorsed.location" location="${java.home}\lib\endorsed"/>
+    <property name="xml.cache" location="${dpml.local.cache}/${xml.cache.path}"/>
+  </target>
+
+  <target name="xmlapi-check" depends="xml-check">
+    <available property="javax.xml.available" file="${endorsed.location}/${xmlapi.filename}"/>
+  </target>
+
+  <target name="xmlapi-install" depends="xmlapi-check" unless="javax.xml.available">
+    <get usetimestamp="true" src="${xmlapi.url}" dest="${xml.cache}/${xmlapi.filename}"/>
+    <copy file="${xml.cache}/${xmlapi.filename}" toFile="${endorsed.location}/${xmlapi.filename}"/>
+  </target>
+
+  <target name="xerces-check" depends="xml-check">
+    <available property="xerces.available" file="${endorsed.location}/${xerces.filename}"/>
+  </target>
+
+  <target name="xerces-install" depends="xerces-check" unless="xerces.available">
+    <get usetimestamp="true" src="${xerces.url}" dest="${xml.cache}/${xerces.filename}"/>
+    <copy file="${xml.cache}/${xerces.filename}" toFile="${endorsed.location}/${xerces.filename}"/>
+  </target>
+
+  <target name="xml" depends="xmlapi-install,xerces-install"/>
 
 </project>
 

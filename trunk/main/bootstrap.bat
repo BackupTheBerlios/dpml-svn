@@ -13,6 +13,8 @@ REM
 set ID=%1
 CALL :antlib-cleanup
 IF ERRORLEVEL 1 GOTO :exit
+CALL :xml-setup
+IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-common
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-part
@@ -53,6 +55,10 @@ GOTO :EOF
 PUSHD %HOMEDRIVE%%HOMEPATH%
 del/q .ant\lib\dpml-*.jar
 POPD
+GOTO :EOF
+
+:xml-setup
+CALL ant -f bootstrap.xml xml
 GOTO :EOF
 
 :dpml-common

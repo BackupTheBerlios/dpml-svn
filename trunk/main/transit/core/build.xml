@@ -24,7 +24,7 @@
   <property name="project.name" value="dpml-transit-main"/>
 
   <property file="${basedir}/build.properties"/>
-
+  <property file="${home}/bootstrap.properties"/>
   <import file="${home}/bootstrap.xml"/>
 
   <target name="setup-path" depends="init">

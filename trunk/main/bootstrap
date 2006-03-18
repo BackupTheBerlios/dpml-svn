@@ -37,6 +37,11 @@ antlibCleanup()
     cd .
 }
 
+xmlSetup()
+{
+    ant -f bootstrap.xml xml
+}
+
 dpmlCommon()
 {
     cd lang/common
@@ -144,6 +149,7 @@ depotCoreConsole()
 
 ID=$1
 antlibCleanup
+xmlSetup
 dpmlCommon
 dpmlPart
 dpmlModule
