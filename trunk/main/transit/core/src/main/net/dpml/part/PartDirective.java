@@ -34,11 +34,20 @@ public final class PartDirective implements Serializable
     private final URI m_uri;
     private final Value[] m_params;
     
+   /**
+    * Creation of a new part creation directive.
+    * @param uri the part uri
+    */
     public PartDirective( URI uri )
     {
         this( uri, null );
     }
     
+   /**
+    * Creation of a new part creation directive.
+    * @param uri the part uri
+    * @param params an array of value arguments
+    */
     public PartDirective( URI uri, Value[] params )
     {
         if( null == uri )
@@ -74,6 +83,11 @@ public final class PartDirective implements Serializable
         return m_params;
     }
     
+   /**
+    * Test if this instance is equal to the supplied instance.
+    * @param other the other instance
+    * @return the equality status
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -98,6 +112,10 @@ public final class PartDirective implements Serializable
         }
     }
     
+   /**
+    * Get the hashcode for this instance.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hash = m_uri.hashCode();

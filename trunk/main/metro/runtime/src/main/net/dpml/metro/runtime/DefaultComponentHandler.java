@@ -57,7 +57,6 @@ import net.dpml.component.Provider;
 import net.dpml.component.Service;
 import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
-import net.dpml.component.Model;
 
 import net.dpml.lang.Version;
 import net.dpml.lang.Classpath;

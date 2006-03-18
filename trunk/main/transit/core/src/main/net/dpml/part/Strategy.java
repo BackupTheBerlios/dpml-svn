@@ -27,7 +27,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Strategy
+public final class Strategy
 {
     private final PartDirective m_controller;
     private final Serializable m_data;
@@ -74,6 +74,7 @@ public class Strategy
     
    /**
     * Return the datatype id.
+    * @return the constant 'part' type identifier
     */
     public String getID()
     {
@@ -82,6 +83,7 @@ public class Strategy
     
    /**
     * Return the datatype id.
+    * @return the alias flag value
     */
     public boolean getAlias()
     {
@@ -90,7 +92,6 @@ public class Strategy
     
    /**
     * Get the strategy builder uri.
-    *
     * @return the builder uri
     */
     public URI getBuilderURI()
@@ -100,7 +101,6 @@ public class Strategy
     
    /**
     * Get the controller deployment directive.
-    *
     * @return the deployment controller uri
     */
     public PartDirective getPartDirective()
@@ -110,7 +110,6 @@ public class Strategy
     
    /**
     * Get the deployment data.
-    *
     * @return the deployment datastructure
     */
     public Object getDeploymentData()
@@ -118,6 +117,11 @@ public class Strategy
         return m_data;
     }
     
+   /**
+    * Test if this instance is equal to the supplied instance.
+    * @param other the other instance
+    * @return the equality status
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -146,6 +150,10 @@ public class Strategy
         }
     }
     
+   /**
+    * Get the hashcode for this instance.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hash = m_builder.hashCode();

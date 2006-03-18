@@ -19,14 +19,9 @@
 package net.dpml.metro.builder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.net.URI;
 
 import net.dpml.component.Directive;
-import net.dpml.lang.Value;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ContextDirective;

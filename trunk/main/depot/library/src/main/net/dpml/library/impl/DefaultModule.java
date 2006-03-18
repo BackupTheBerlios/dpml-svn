@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2005-2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -38,8 +38,6 @@ import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.ModuleNotFoundException;
 
 import net.dpml.lang.Category;
-
-import net.dpml.lang.Type;
 
 /**
  * A Module is a collection of resources.  It serves to establish a 

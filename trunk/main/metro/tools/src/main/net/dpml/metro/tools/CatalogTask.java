@@ -21,8 +21,6 @@ package net.dpml.metro.tools;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;

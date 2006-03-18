@@ -18,11 +18,8 @@
 
 package net.dpml.tools.tasks;
 
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
 
 import net.dpml.tools.model.Context;
 

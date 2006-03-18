@@ -25,10 +25,27 @@ import org.w3c.dom.Element;
 
 /**
  * Construct an Strategy instance from a DOM Element.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface StrategyBuilder
 {
+   /**
+    * Build a strategy from a supplied DOM element.
+    * @param classloader the classloader
+    * @param element the strategy element
+    * @return the resolved strategy
+    * @exception Exception if an error occurs
+    */
     Strategy buildStrategy( ClassLoader classloader, Element element ) throws Exception;
     
+   /**
+    * Externalize a strategy.
+    * @param writer the output stream writer
+    * @param strategy the strategy
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
+    */
     void writeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException;
 }

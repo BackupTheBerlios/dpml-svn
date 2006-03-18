@@ -18,8 +18,6 @@
 
 package net.dpml.metro.data.test;
 
-import java.net.URI;
-
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
@@ -35,8 +33,6 @@ import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
 import net.dpml.component.ActivationPolicy;
-
-import net.dpml.lang.Category;
 
 /**
  * ComponentDirectiveTestCase

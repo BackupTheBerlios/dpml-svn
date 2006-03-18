@@ -18,16 +18,11 @@
 
 package net.dpml.part;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -35,21 +30,8 @@ import javax.xml.XMLConstants;
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
 
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
-import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
-import org.w3c.dom.TypeInfo;
-
 /**
- * Construct a part.
+ * Part externalization to XML.
  */
 public class PartWriter extends ValueBuilder
 {
@@ -68,6 +50,10 @@ public class PartWriter extends ValueBuilder
 
     private static final String PART_FOOTER = "</part>";
 
+   /**
+    * Creation of a new part writer.
+    * @param map the map of namespace to builder uris
+    */
     public PartWriter( Map map )
     {
         super( map );
@@ -77,6 +63,7 @@ public class PartWriter extends ValueBuilder
     * Externalize the part to XML.
     * @param part the part to externalize
     * @param output the output stream 
+    * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
     public void writePart( Part part, OutputStream output, String pad ) throws IOException
@@ -114,6 +101,13 @@ public class PartWriter extends ValueBuilder
         }
     }
     
+   /**
+    * Write the strategy by delegating to a strategy writer.
+    * @param writer the output stream writer
+    * @param strategy the strategy
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
     {
         URI uri = strategy.getBuilderURI();

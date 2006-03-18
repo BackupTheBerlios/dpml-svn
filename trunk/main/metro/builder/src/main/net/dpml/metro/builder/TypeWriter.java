@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.xml.XMLConstants;
 
@@ -40,13 +37,7 @@ import net.dpml.metro.info.Descriptor;
 import net.dpml.state.State;
 import net.dpml.state.impl.StateBuilder;
 
-import net.dpml.part.DOM3DocumentBuilder;
 import net.dpml.part.ValueWriter;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
-import org.w3c.dom.Document;
-
 
 /**
  * Type builder.
@@ -84,6 +75,12 @@ public class TypeWriter extends ValueWriter
 
     private static final String FOOTER = "</type>";
     
+   /**
+    * Write the supplied type to an output stream.
+    * @param type the type descriptor
+    * @param output the output stream
+    * @exception IOException if an IO error occurs
+    */
     public void export( Type type, OutputStream output ) throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );

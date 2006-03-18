@@ -20,16 +20,10 @@ package net.dpml.part;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
 import java.util.Map;
 
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
-import net.dpml.transit.util.ElementHelper;
-
-import org.w3c.dom.TypeInfo;
-import org.w3c.dom.Element;
 
 /**
  * Utility used to build a plugin strategy from a DOM element.
@@ -39,16 +33,30 @@ import org.w3c.dom.Element;
  */
 public class ValueWriter extends AbstractBuilder
 {
+   /**
+    * Creation of a new value writer.
+    */
     public ValueWriter()
     {
         this( null );
     }
     
+   /**
+    * Creation of a new value writer.
+    * @param map the namespace to part builder uri mapping
+    */
     public ValueWriter( Map map )
     {
         super( map );
     }
     
+   /**
+    * Write an array of values to XML.
+    * @param writer the output stream writer
+    * @param values the value array
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeValues( Writer writer, Value[] values, String pad ) throws IOException
     {
         for( int i=0; i<values.length; i++ )
@@ -58,6 +66,14 @@ public class ValueWriter extends AbstractBuilder
         }
     }
     
+    
+   /**
+    * Write a value to XML.
+    * @param writer the output stream writer
+    * @param value the value
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeValue( Writer writer, Value value, String pad ) throws IOException
     {
         if( value instanceof Construct )
@@ -96,8 +112,8 @@ public class ValueWriter extends AbstractBuilder
         {
             final String error = 
               "Value class [" 
-              + value.getClass().getName() +
-               "] not supported.";
+              + value.getClass().getName()
+              + "] not supported.";
             throw new IOException( error );
         }
     }

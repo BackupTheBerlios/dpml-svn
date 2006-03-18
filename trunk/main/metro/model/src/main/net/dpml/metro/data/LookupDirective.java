@@ -18,8 +18,6 @@
 
 package net.dpml.metro.data;
 
-import java.net.URI;
-
 import net.dpml.component.Directive;
 
 /**

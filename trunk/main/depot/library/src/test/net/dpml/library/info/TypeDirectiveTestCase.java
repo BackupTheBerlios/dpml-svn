@@ -18,8 +18,6 @@
 
 package net.dpml.library.info;
 
-import net.dpml.library.info.TypeDirective;
-
 /**
  * The ModuleDirective class describes a module data-structure.
  *

@@ -20,7 +20,6 @@ package net.dpml.metro.tools;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.util.LinkedList;

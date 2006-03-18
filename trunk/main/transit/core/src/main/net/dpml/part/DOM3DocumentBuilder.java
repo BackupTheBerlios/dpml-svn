@@ -18,14 +18,11 @@
 
 package net.dpml.part;
 
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
-import java.io.Reader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -33,26 +30,9 @@ import java.io.OutputStream;
 import java.io.FileNotFoundException;
 
 import javax.xml.XMLConstants;
-import javax.xml.validation.Validator;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
-import net.dpml.lang.Logger;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.util.ExceptionHelper;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
 
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMLocator;
@@ -60,29 +40,43 @@ import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSParser;
-import org.w3c.dom.ls.LSParserFilter;
 import org.w3c.dom.ls.LSSerializer;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.w3c.dom.ls.LSInput;
 
+/**
+ * Utility class that creates a schema validating DOM3 parser.
+ */
 public class DOM3DocumentBuilder
 {
     private final Map m_map;
     
+   /**
+    * Creation of a new DOM3 document builder.
+    */
     public DOM3DocumentBuilder()
     {
         this( new Hashtable() );
     }
     
+   /**
+    * Creation of a new DOM3 document builder.
+    * @param map namespace to builder uri map
+    */
     public DOM3DocumentBuilder( Map map )
     {
         m_map = map;
     }
     
+   /**
+    * Parse an xml schema document.
+    * @param uri the document uri 
+    * @return the validated document
+    * @exception IOException if an IO error occurs
+    */
     public Document parse( URI uri ) throws IOException
     {
         if( null == uri )
@@ -129,6 +123,12 @@ public class DOM3DocumentBuilder
         }
     }
     
+   /**
+    * Write a document to an output stream.
+    * @param doc the document to write
+    * @param output the output stream
+    * @exception Exception if an error occurs
+    */
     public void write( Document doc, OutputStream output ) throws Exception
     {
         DOMImplementationRegistry registry =
@@ -147,16 +147,33 @@ public class DOM3DocumentBuilder
         domWriter.write( doc, lsOut );
     }
     
+   /**
+    * Utility class to handle namespace uri resolves.
+    */
     private static class InternalResourceResolver implements LSResourceResolver
     {
         private final Map m_map;
         
+       /**
+        * Creation of a new InternalResourceResolver.
+        * @param map the namespace to builder map
+        */
         InternalResourceResolver( Map map )
         {
             m_map = map;
         }
         
-        public LSInput resolveResource( String type, String namespace, String publicId, String systemId, String base )
+       /**
+        * Resolve an LS input. 
+        * @param type the node type
+        * @param namespace the node naespace
+        * @param publicId the public id
+        * @param systemId the system id
+        * @param base the base value
+        * @return the LS input instance
+        */
+        public LSInput resolveResource( 
+          String type, String namespace, String publicId, String systemId, String base )
         {
             if( XMLConstants.W3C_XML_SCHEMA_NS_URI.equals( type ) )
             {
@@ -201,10 +218,16 @@ public class DOM3DocumentBuilder
         }
     }
     
-    
-
+   /**
+    * Internal error handler with lots of room for improvement.
+    */
     private static final class InternalErrorHandler implements DOMErrorHandler
     {
+       /**
+        * Handle the supplied error.
+        * @param error the error
+        * @return a boolean value
+        */
         public boolean handleError( DOMError error )
         {
             DOMLocator locator = error.getLocation();
@@ -216,26 +239,21 @@ public class DOM3DocumentBuilder
                 uri = "";
             }
             String position = "[" + line + ":" + column + "] " + uri + ", ";
-            Node node = locator.getRelatedNode();
-            if( null != node )
-            {
-                System.out.println( "# NODE: " + node );
-            }
             String message = error.getMessage();
             short severity = error.getSeverity();
             if( severity == DOMError.SEVERITY_ERROR )
             {
-                System.out.println("[ERROR]: " + position + message );
+                System.out.println( "[ERROR]: " + position + message );
                 final String notice = "DOM3 Validation Error: " + position + message;
                 throw new RuntimeException( notice );
             }
             else if( severity == DOMError.SEVERITY_WARNING )
             {
-                System.out.println("[WARNING]: " + position + message );
+                System.out.println( "[WARNING]: " + position + message );
             }
             else
             {
-                System.out.println("[FATAL]: " + position + message );
+                System.out.println( "[FATAL]: " + position + message );
             }
             return true;
         }

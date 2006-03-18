@@ -46,7 +46,8 @@ public class DefaultType extends DefaultDictionary implements Type
     
    /**
     * Creation of a new DefaultType.
-    * @param message the exception message
+    * @param resource the enclosing resource
+    * @param directive the type production directive
     */
     DefaultType( DefaultResource resource, TypeDirective directive )
     {
@@ -56,16 +57,28 @@ public class DefaultType extends DefaultDictionary implements Type
         m_directive = directive;
     }
 
+   /**
+    * Get the type identifier.
+    * @return the type id
+    */
     public String getID()
     {
         return m_directive.getID();
     }
     
+   /**
+    * Get the type alias flag.
+    * @return the type alias flag
+    */
     public boolean getAlias()
     {
         return m_directive.getAlias();
     }
     
+   /**
+    * Get the type specific datastructure.
+    * @return the datastructure
+    */
     public Object getData()
     {
         Element element = m_directive.getElement();

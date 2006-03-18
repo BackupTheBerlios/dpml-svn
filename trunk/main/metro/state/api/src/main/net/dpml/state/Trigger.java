@@ -18,12 +18,6 @@
 
 package net.dpml.state;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
-
 /**
  * Interface describing a condition within which an action may be invoked.
  *

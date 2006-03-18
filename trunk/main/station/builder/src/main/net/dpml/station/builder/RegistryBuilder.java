@@ -48,6 +48,12 @@ public final class RegistryBuilder implements Builder
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
       new DOM3DocumentBuilder();
 
+   /**
+    * Build a registry descriptior from a uri.
+    * @param uri the uri to the descriptor XML document
+    * @return the registry descriptor
+    * @exception Exception if an error occurs
+    */
     public Object build( URI uri ) throws Exception
     {
         Document document = DOCUMENT_BUILDER.parse( uri );
@@ -55,6 +61,13 @@ public final class RegistryBuilder implements Builder
         return build( null, root );
     }
     
+   /**
+    * Build a registry descriptior from a DOM element.
+    * @param classloader the base classloader
+    * @param element the element representing the root registry
+    * @return the registry descriptor
+    * @exception Exception if an error occurs
+    */
     public Object build( ClassLoader classloader, Element element ) throws Exception
     {
         String tag = element.getTagName();
@@ -193,6 +206,11 @@ public final class RegistryBuilder implements Builder
         }
     }
 
+   /**
+    * Construct a value directive array.
+    * @param elements the array of DOM elements representing value directive assertions
+    * @return the array of value directives
+    */
     protected ValueDirective[] buildValueDirectives( Element[] elements )
     {
         ValueDirective[] values = new ValueDirective[ elements.length ];
@@ -203,6 +221,11 @@ public final class RegistryBuilder implements Builder
         return values;
     }
     
+   /**
+    * Construct a single value directive.
+    * @param element the DOM element representing the value directive assertions
+    * @return the value directive
+    */
     protected ValueDirective buildValueDirective( Element element )
     {
         String classname = ElementHelper.getAttribute( element, "class" );

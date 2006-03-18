@@ -18,37 +18,20 @@
 
 package net.dpml.part;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
-
-import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Builder;
 import net.dpml.lang.BuilderException;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Construct a part.
@@ -58,22 +41,42 @@ public class PartBuilder extends PartWriter implements Builder
     private static final DOM3DocumentBuilder BUILDER = 
       new DOM3DocumentBuilder();
     
+   /**
+    * Creation of a new part builder.
+    */
     public PartBuilder()
     {
         this( null );
     }
     
+   /**
+    * Creation of a new part builder.
+    * @param map the namespace to part build uri map
+    */
     public PartBuilder( Map map )
     {
         super( map );
     }
     
+   /**
+    * Load a part from a uri.
+    * @param uri the part uri
+    * @return the part definition
+    * @exception IOException if an IO error occurs
+    */
     public Part loadPart( URI uri ) throws IOException
     {
         ClassLoader base = Part.class.getClassLoader();
         return loadPart( base, uri );
     }
     
+   /**
+    * Load a part from a uri.
+    * @param base the base classloader
+    * @param uri the part uri
+    * @return the part definition
+    * @exception IOException if an IO error occurs
+    */
     public Part loadPart( ClassLoader base, URI uri ) throws IOException
     {
         if( null == uri )
@@ -104,11 +107,25 @@ public class PartBuilder extends PartWriter implements Builder
         }
     }
     
+   /**
+    * Resolve a part from a DOM element.
+    * @param classloader the classloader
+    * @param element the dom element
+    * @return the part definition
+    * @exception Exception if an error occurs
+    */
     public Object build( ClassLoader classloader, Element element ) throws Exception
     {
         return buildPart( classloader, element );
     }
     
+   /**
+    * Resolve a part from a DOM element.
+    * @param base the classloader
+    * @param root the dom element
+    * @return the part definition
+    * @exception Exception if an error occurs
+    */
     public Part buildPart( ClassLoader base, Element root ) throws Exception
     {
         if( null == root )
@@ -146,8 +163,6 @@ public class PartBuilder extends PartWriter implements Builder
               "Object returned from builder is not a strategy instance.";
             throw new BuilderException( strategy, error );
         }
-        //StrategyBuilder builder = getStrategyBuilder( strategy );
-        //return builder.buildStrategy( loader, strategy );
     }
     
     private ClassLoader createClassLoader( 
@@ -166,6 +181,12 @@ public class PartBuilder extends PartWriter implements Builder
         return new Info( title, description );
     }
     
+   /**
+    * Construct the classpath defintion.
+    * @param root the element containing a 'classpath' element.
+    * @return the classpath defintion
+    * @exception Exception if an error occurs
+    */
     protected Classpath getClasspath( Element root ) throws Exception
     {
         Element classpath = ElementHelper.getChild( root, "classpath" );

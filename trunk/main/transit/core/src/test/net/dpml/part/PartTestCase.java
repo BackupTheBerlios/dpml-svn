@@ -20,23 +20,8 @@ package net.dpml.part;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URI;
-import java.net.URL;
-
-import net.dpml.part.Part;
-import net.dpml.part.Strategy;
-import net.dpml.part.PartDirective;
-import net.dpml.part.PartBuilder;
-import net.dpml.part.UnresolvableHandlerException;
-import net.dpml.part.PartHandlerFactory;
-import net.dpml.part.PartHandler;
 
 import junit.framework.TestCase;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.DocumentType;
-
 
 /**
  * Plugin test case.
@@ -55,6 +40,7 @@ public class PartTestCase extends TestCase
     
    /**
     * Test the demo class.
+    * @exception Exception if a error occurs during test execution
     */
     public void setUp() throws Exception
     {
@@ -63,6 +49,7 @@ public class PartTestCase extends TestCase
     
    /**
     * Test the demo class.
+    * @exception Exception if a error occurs during test execution
     */
     public void testPlugin() throws Exception
     {
@@ -71,6 +58,7 @@ public class PartTestCase extends TestCase
     
    /**
     * Test the demo class.
+    * @exception Exception if a error occurs during test execution
     */
     public void testResource() throws Exception
     {

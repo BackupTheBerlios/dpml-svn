@@ -23,13 +23,9 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 
 import net.dpml.library.Module;
-import net.dpml.library.Resource;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;
-import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
-
-import net.dpml.lang.Type;
 
 /**
  * Test DefaultLibrary implementation.
@@ -41,6 +37,7 @@ public class ExportTestCase extends AbstractTestCase
 {   
    /**
     * Test library properties.
+    * @exception Exception if an error occurs during test execution
     */
     public void testExport() throws Exception
     {

@@ -18,7 +18,6 @@
 
 package net.dpml.station.builder;
 
-import java.net.URI;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -30,16 +29,7 @@ import net.dpml.station.info.RegistryDescriptor.Entry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.StartupPolicy;
 
-import net.dpml.part.DOM3DocumentBuilder;
-
-import net.dpml.lang.BuilderException;
-import net.dpml.lang.Builder;
-
 import net.dpml.lang.ValueDirective;
-import net.dpml.transit.util.ElementHelper;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Test example application sources.
@@ -151,6 +141,13 @@ public final class RegistryWriter
         }
     }
 
+   /**
+    * Write a value directive array.
+    * @param writer the stream writer
+    * @param values the array of value directives
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeValueDirectives( Writer writer, ValueDirective[] values, String pad ) throws IOException
     {
         for( int i=0; i<values.length; i++ )
@@ -160,6 +157,13 @@ public final class RegistryWriter
         }
     }
     
+   /**
+    * Write a single value directive.
+    * @param writer the stream writer
+    * @param value the value directive
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeValueDirective( Writer writer, ValueDirective value, String pad ) throws IOException
     {
         String method = value.getMethodName();

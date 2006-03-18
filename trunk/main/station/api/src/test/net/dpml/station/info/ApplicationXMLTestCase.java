@@ -36,6 +36,10 @@ import org.w3c.dom.Element;
  */
 public final class ApplicationXMLTestCase extends TestCase
 {
+   /**
+    * Validate the application.xml example.
+    * @exception Exception if an unexpected test error occurs
+    */
     public void testExample1() throws Exception
     {
         Element element = getRootElement( "application.xml" );

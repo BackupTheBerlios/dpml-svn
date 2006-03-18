@@ -22,8 +22,19 @@ import java.net.URI;
 
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 
+/**
+ * Exception throw when a request for a part handler is not resolvable.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
+ */
 public class UnresolvableHandlerException extends ArtifactNotFoundException
 {
+   /**
+    * Creation of a new exception instance.
+    * @param message the message
+    * @param uri the target uri
+    */
     public UnresolvableHandlerException( String message, URI uri )
     {
         super( message, uri );

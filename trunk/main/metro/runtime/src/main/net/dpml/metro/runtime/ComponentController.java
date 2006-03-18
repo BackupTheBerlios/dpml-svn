@@ -20,16 +20,27 @@ package net.dpml.metro.runtime;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.util.Map;
-import java.util.ArrayList;
+
+import net.dpml.configuration.Configuration;
+
+import net.dpml.component.Directive;
+import net.dpml.component.ControlException;
+import net.dpml.component.Component;
+import net.dpml.component.Model;
+import net.dpml.component.ServiceNotFoundException;
+
+import net.dpml.lang.Version;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.Value;
+
+import net.dpml.logging.Logger;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
@@ -41,25 +52,7 @@ import net.dpml.metro.ContextModel;
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.builder.TypeBuilder;
 
-import net.dpml.configuration.Configuration;
-
-import net.dpml.logging.Logger;
-
 import net.dpml.parameters.Parameters;
-
-import net.dpml.component.Directive;
-import net.dpml.component.ControlException;
-import net.dpml.component.Component;
-import net.dpml.component.Model;
-import net.dpml.component.ServiceNotFoundException;
-
-import net.dpml.lang.Version;
-import net.dpml.lang.Category;
-import net.dpml.lang.Classpath;
-import net.dpml.lang.UnknownKeyException;
-
-import net.dpml.lang.Value;
-
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -664,56 +657,6 @@ class ComponentController
                           + "].";
                         throw new ControllerException( error, ee );
                     }
-                    
-                    /*
-                    URI uri = ref.getURI();
-                    String scheme = uri.getScheme();
-                    if( "service".equals( scheme ) || "lookup".equals( scheme ) )
-                    {
-                        String spec = uri.getSchemeSpecificPart();
-                        ServiceDescriptor request = new ServiceDescriptor( spec );
-                        DefaultService service = loadService( handler, request );
-                        
-                        try
-                        {
-                            return executeLookup( handler, service );
-                        }
-                        catch( Exception ee )
-                        {
-                            final String error = 
-                              "Unable to resolve a service provider for the class ["
-                              + request.getClassname()
-                              + "] requested in component ["
-                              + handler.getPath()
-                              + "] under the context key ["
-                              + key
-                              + "].";
-                            throw new ControllerException( error, ee );
-                        }
-                    }
-                    else if( "registry".equals( scheme ) )
-                    {
-                        try
-                        {  
-                            return uri.toURL().getContent();
-                        }
-                        catch( Exception ee )
-                        {
-                            final String error = 
-                              "Unable to dereference rmi registry reference."
-                              + "\nHandler: " + handler
-                              + "\nKey: " + key
-                              + "\nURI: " + uri;
-                            throw new ControllerException( error, ee );
-                        }
-                    }
-                    else
-                    {
-                        final String error = 
-                        "Service lookup scheme [" + scheme + "] not recognized.";
-                        throw new ControllerException( error );
-                    }
-                    */
                 }
                 else
                 {

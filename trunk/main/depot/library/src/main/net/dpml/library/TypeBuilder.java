@@ -18,24 +18,28 @@
 
 package net.dpml.library;
 
-import java.io.IOException;
-import java.io.Writer;
-
-import org.w3c.dom.Element;
-
 import net.dpml.lang.Type;
-import net.dpml.lang.Builder;
 
 import net.dpml.library.info.TypeDirective;
 
 /**
- * Construct an Strategy instance from a DOM Element.
+ * Interface implemented by type datastructure builders.
  */
-public interface TypeBuilder //extends Builder
+public interface TypeBuilder
 {
+   /**
+    * Return the id of the type produced by the builder.
+    * @return the type id
+    */
     String getID();
     
-    Type buildType( ClassLoader classoader, TypeDirective type ) throws Exception;
-    
-    //void write( Writer writer, TypeDirective type ) throws IOException;
+   /**
+    * Construct a type instance using a supplied classloader and type
+    * production directive.
+    * @param classloader the base classloader
+    * @param type the type production directive
+    * @return the type instance
+    * @exception Exception if an error occurs
+    */
+    Type buildType( ClassLoader classloader, TypeDirective type ) throws Exception;
 }

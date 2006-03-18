@@ -23,7 +23,6 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import net.dpml.part.DOM3DocumentBuilder;
-import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,6 +35,10 @@ import org.w3c.dom.Element;
  */
 public final class RegistryXMLTestCase extends TestCase
 {
+   /**
+    * Validate the registry.xml example.
+    * @exception Exception if an unexpected test error occurs
+    */
     public void testRegistryXML() throws Exception
     {
         Element element = getRootElement( "registry.xml" );

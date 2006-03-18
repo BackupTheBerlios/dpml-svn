@@ -20,7 +20,6 @@ package net.dpml.transit.info;
 
 import java.io.File;
 
-import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
 import net.dpml.lang.ValueDirective;
 

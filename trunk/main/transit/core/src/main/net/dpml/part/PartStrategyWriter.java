@@ -20,16 +20,9 @@ package net.dpml.part;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
 import java.util.Map;
 
 import net.dpml.lang.Value;
-import net.dpml.lang.Construct;
-import net.dpml.transit.util.ElementHelper;
-
-import org.w3c.dom.TypeInfo;
-import org.w3c.dom.Element;
 
 /**
  * Utility used to build a plugin strategy from a DOM element.
@@ -39,12 +32,34 @@ import org.w3c.dom.Element;
  */
 public class PartStrategyWriter extends ValueBuilder
 {
+   /**
+    * Creation of a new part strategy writer.
+    * @param map the map of namespace to builder uris
+    */
     public PartStrategyWriter( Map map )
     {
         super( map );
     }
     
+   /**
+    * Externalize a strategy.
+    * @param writer the output stream writer
+    * @param strategy the strategy
+    * @exception IOException if an IO error occurs
+    */
     public void write( Writer writer, Strategy strategy ) throws IOException
+    {
+        writeStrategy( writer, strategy, "" );
+    }
+    
+   /**
+    * Externalize a strategy.
+    * @param writer the output stream writer
+    * @param strategy the strategy
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
+    */
+    public void writeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
     {
         Object data = strategy.getDeploymentData();
         if( data instanceof Plugin )

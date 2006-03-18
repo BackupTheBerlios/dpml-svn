@@ -18,34 +18,9 @@
 
 package net.dpml.tools.process;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.util.Properties;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.dpml.lang.Classpath;
-import net.dpml.lang.Category;
-
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
-import net.dpml.lang.Logger;
 import net.dpml.transit.util.ExceptionHelper;
 
-import net.dpml.part.Part;
-import net.dpml.part.Strategy;
-import net.dpml.part.Info;
-import net.dpml.part.PartBuilder;
-
-import net.dpml.lang.Type;
-import net.dpml.library.info.Scope;
-import net.dpml.library.Resource;
-
 import net.dpml.tools.tasks.PartTask;
-import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;

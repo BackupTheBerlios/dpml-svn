@@ -19,22 +19,27 @@
 package net.dpml.part;
 
 import java.io.Serializable;
-import java.net.URI;
 
 import net.dpml.lang.Classpath;
 
 /**
- * Interface implemented by part handlers.
+ * Part datastructure.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Part implements Serializable
+public final class Part implements Serializable
 {
     private final Info m_info;
     private final Strategy m_strategy;
     private final Classpath m_classpath;
     
+   /**
+    * Creation of a new part datastructure.
+    * @param info the info descriptor
+    * @param strategy the part deployment strategy
+    * @param classpath the part classpath definition
+    */
     public Part( Info info, Strategy strategy, Classpath classpath )
     {
         if( null == info )
@@ -84,6 +89,11 @@ public class Part implements Serializable
         return m_classpath;
     }
     
+   /**
+    * Test if this instance is equal to the supplied instance.
+    * @param other the other instance
+    * @return the equality status
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -112,6 +122,10 @@ public class Part implements Serializable
         }
     }
     
+   /**
+    * Get the hashcode for this instance.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hash = m_info.hashCode();

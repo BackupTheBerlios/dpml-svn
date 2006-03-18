@@ -19,14 +19,11 @@
 package net.dpml.metro.builder;
 
 import java.net.URI;
-import java.io.Writer;
-import java.io.IOException;
 import java.util.Map;
 
 import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.lang.Value;
-import net.dpml.lang.Construct;
 import net.dpml.transit.util.ElementHelper;
 
 import net.dpml.part.Strategy;
@@ -49,11 +46,18 @@ import org.w3c.dom.TypeInfo;
  */
 public class ComponentStrategyBuilder extends ComponentStrategyWriter implements StrategyBuilder, Builder
 {
+   /**
+    * Creation of a new component strategy builder.
+    */
     public ComponentStrategyBuilder()
     {
         super( null );
     }
     
+   /**
+    * Creation of a new component strategy builder.
+    * @param map namespace to builder uri map
+    */
     public ComponentStrategyBuilder( Map map )
     {
         super( map );
@@ -61,7 +65,8 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
     
    /**
     * Constructs a component deployment strategy.
-    *
+    * @param classloader the base classloader
+    * @param element the DOM element
     * @return the deployment strategy
     * @exception Exception if an error occurs
     */
@@ -71,9 +76,10 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
     }
     
    /**
-    * Constructs a component deployment strategy.
-    *
-    * @return the deployment strategy
+    * Constructs a type definition.
+    * @param classloader the base classloader
+    * @param element the DOM element
+    * @return the component part strategy
     * @exception Exception if an error occurs
     */
     public Type buildType( ClassLoader classloader, Element element ) throws Exception
@@ -85,7 +91,8 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
     
    /**
     * Constructs a component deployment strategy.
-    *
+    * @param classloader the base classloader
+    * @param element the DOM element
     * @return the deployment strategy
     * @exception Exception if an error occurs
     */

@@ -201,7 +201,7 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
                 }
                 else
                 {
-                    return m_categories.equals( profile.getCategoriesDirective() ) ;
+                    return m_categories.equals( profile.getCategoriesDirective() );
                 }
             }
             else

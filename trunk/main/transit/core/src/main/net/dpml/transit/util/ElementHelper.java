@@ -143,7 +143,7 @@ public final class ElementHelper
         }
         Element[] children = getChildren( root );
         final ArrayList result = new ArrayList();
-        for( int i=0; i<children.length ; i++ )
+        for( int i=0; i<children.length; i++ )
         {
             final Element child = children[i];
             if( name.equals( child.getTagName() ) )

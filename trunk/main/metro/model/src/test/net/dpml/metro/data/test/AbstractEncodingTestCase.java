@@ -18,26 +18,12 @@
 
 package net.dpml.metro.data.test;
 
-import java.io.File;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.beans.Encoder;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.DefaultPersistenceDelegate;
-import java.net.URI;
 
 import junit.framework.TestCase;
-
-import net.dpml.metro.data.ComponentDirective;
 
 /**
  * AbstractEncodingTestCase.

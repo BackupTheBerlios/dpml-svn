@@ -18,23 +18,16 @@
 
 package net.dpml.part;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.io.IOException;
 
-import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Construct;
 import net.dpml.lang.Value;
 
-import net.dpml.transit.Artifact;
-import net.dpml.transit.StandardClassLoader;
 import net.dpml.transit.Transit;
 
 /**
- * Construct a part.
+ * Handle part related functions.
  */
 public class StandardPartHandler implements PartHandler
 {
@@ -42,6 +35,8 @@ public class StandardPartHandler implements PartHandler
     * Build a classloader stack.
     * @param anchor the anchor classloader to server as the classloader chain root
     * @param classpath the part classpath definition
+    * @return the resolved classloader
+    * @exception IOException if an IO error occurs
     */
     public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
     {
@@ -54,6 +49,7 @@ public class StandardPartHandler implements PartHandler
     * @param classpath the part classpath
     * @param data the part deployment data
     * @param args supplimentary arguments
+    * @return the resolved instance
     * @exception Exception if a deployment error occurs
     */
     public Object getInstance( ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception

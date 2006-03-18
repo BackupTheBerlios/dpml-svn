@@ -19,9 +19,6 @@
 package net.dpml.library.info;
 
 import net.dpml.library.info.ResourceDirective.Classifier;
-import net.dpml.library.info.TypeDirective;
-
-import net.dpml.lang.Type;
 
 /**
  * The ModuleDirective class describes a module data-structure.

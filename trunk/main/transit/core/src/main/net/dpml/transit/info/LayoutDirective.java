@@ -20,7 +20,6 @@ package net.dpml.transit.info;
 
 import java.net.URISyntaxException;
 
-import net.dpml.lang.AbstractDirective;
 import net.dpml.lang.ValueDirective;
 
 /**

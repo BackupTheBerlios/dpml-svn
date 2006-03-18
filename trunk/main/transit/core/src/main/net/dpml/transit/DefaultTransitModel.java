@@ -18,17 +18,13 @@
 
 package net.dpml.transit;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URI;
 import java.rmi.RemoteException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
-import java.beans.XMLDecoder;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.File;
-import java.net.URL;
-import java.net.URI;
 import java.util.EventListener;
 
 import net.dpml.transit.info.CacheDirective;

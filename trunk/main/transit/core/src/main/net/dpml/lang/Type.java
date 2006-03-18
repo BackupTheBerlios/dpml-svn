@@ -18,8 +18,6 @@
 
 package net.dpml.lang;
 
-import org.w3c.dom.Element;
-
 /**
  * Declaration of a type production.
  *
@@ -28,10 +26,22 @@ import org.w3c.dom.Element;
  */
 public interface Type
 {
+   /**
+    * Return the type production id.
+    * @return the type id
+    */
     String getID();
     
+   /**
+    * Return the type production alias flag value.
+    * @return the alias flag
+    */
     boolean getAlias();
     
+   /**
+    * Return the type production datatype.
+    * @return the datatytpe
+    */
     Object getData();
     
 }

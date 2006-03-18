@@ -18,38 +18,18 @@
 
 package net.dpml.part;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
 
-import javax.xml.XMLConstants;
-
-import net.dpml.lang.Category;
-import net.dpml.lang.Classpath;
 import net.dpml.lang.Builder;
 import net.dpml.lang.BuilderException;
-import net.dpml.lang.Type;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
-import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.artifact.ArtifactNotFoundException;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
 import org.w3c.dom.TypeInfo;
 
 /**
@@ -63,6 +43,10 @@ public class AbstractBuilder
     
     private final Map m_map; // maps namespace uris to builders
     
+   /**
+    * Creation of a new abstract builder.
+    * @param map the naespace to builder uri map
+    */
     public AbstractBuilder( Map map )
     {
         if( null == map )
@@ -79,16 +63,32 @@ public class AbstractBuilder
         }
     }
     
+   /**
+    * Return the namespace to builder uri map.
+    * @return the map
+    */
     protected Map getMap()
     {
         return m_map;
     }
     
+   /**
+    * Get the builder based on the namespace declared by the supplied element.
+    * @param element the DOM element
+    * @return the builder
+    * @exception Exception if an eror occurs
+    */
     public Builder getBuilder( Element element ) throws Exception
     {
         return loadBuilder( element );
     }
 
+   /**
+    * Get a strategy builder based on the namespace declared by the supplied element.
+    * @param element the DOM element
+    * @return the strategy builder
+    * @exception Exception if an eror occurs
+    */
     protected StrategyBuilder getStrategyBuilder( Element element ) throws Exception
     {
         Builder builder = loadBuilder( element );
@@ -108,6 +108,12 @@ public class AbstractBuilder
         }
     }
     
+   /**
+    * Get a strategy builder based on the namespace declared by the supplied element.
+    * @param element the DOM element
+    * @return the strategy builder
+    * @exception Exception if an eror occurs
+    */
     protected Builder loadBuilder( Element element ) throws Exception
     {
         URI uri = getBuilderURI( element );
@@ -127,6 +133,15 @@ public class AbstractBuilder
         return new DelegatingBuilder( uri );
     }
     
+   /**
+    * Internal utility to load a builder using the supplied uri and validation
+    * that the object established from the uri is type assignable to the supplied class.
+    *
+    * @param uri the builder part uri
+    * @param clazz the class to test the resolved instance for assignability
+    * @return the object assignable to the supplied class
+    * @exception Exception if an eror occurs
+    */
     protected Object loadObjectFromURI( URI uri, Class clazz ) throws Exception
     {
         if( LOCAL_URI.equals( uri ) )
@@ -162,6 +177,13 @@ public class AbstractBuilder
         }
     }
     
+   /**
+    * Resolve the builder uri from a supplied element.
+    *
+    * @param element the DOM element
+    * @return the builder uri
+    * @exception Exception if an eror occurs
+    */
     protected URI getBuilderURI( Element element ) throws Exception
     {
         TypeInfo info = element.getSchemaTypeInfo();
@@ -191,17 +213,30 @@ public class AbstractBuilder
             }
         }
     }
-    
+   
+   /**
+    * Delegating builder that defers resolution until required.
+    */
     private class DelegatingBuilder implements Builder
     {
         private final URI m_uri;
         private Object m_delegate = null;
         
+       /**
+        * Creation of a new delegating builder instance.
+        * @param uri the uri of the builder that operations will be delegated to
+        */
         DelegatingBuilder( URI uri )
         {
             m_uri = uri;
         }
         
+       /**
+        * Delegating implementation of the generic element build operation.
+        * @param classloader the base classloader
+        * @param element the subject element
+        * @return the resulting object
+        */
         public Object build( ClassLoader classloader, Element element ) throws Exception
         {
             Object delegate = getDelegate();

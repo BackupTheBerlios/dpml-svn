@@ -20,11 +20,6 @@ package net.dpml.library.info;
 
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
 import java.util.Properties;
 
 import net.dpml.lang.Enum;
@@ -71,7 +66,10 @@ public class ResourceDirective extends AbstractDirective
     {
         this( 
           name, version, Classifier.ANONYMOUS, null, 
-          new TypeDirective[]{ new TypeDirective( type ) }, 
+          new TypeDirective[]
+          {
+            new TypeDirective( type )
+          }, 
           new DependencyDirective[0],
           properties );
     }

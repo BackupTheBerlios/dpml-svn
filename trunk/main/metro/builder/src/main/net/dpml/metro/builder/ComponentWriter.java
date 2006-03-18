@@ -22,17 +22,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.xml.XMLConstants;
+
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.Directive;
+
+import net.dpml.lang.Value;
 
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.info.LifestylePolicy;
@@ -40,22 +41,7 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.lang.Value;
-import net.dpml.lang.Construct;
-import net.dpml.transit.util.ElementHelper;
-
-import net.dpml.part.Strategy;
-import net.dpml.part.StrategyBuilder;
-import net.dpml.part.PartDirective;
-import net.dpml.lang.BuilderException;
 import net.dpml.part.PartBuilder;
-import net.dpml.lang.Type;
-
-import net.dpml.component.ActivationPolicy;
-import net.dpml.component.Directive;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Component part handler.
@@ -65,17 +51,13 @@ import org.w3c.dom.TypeInfo;
  */
 public class ComponentWriter extends PartBuilder
 {
-    private final String CONTROLLER_URI = "@CONTROLLER-URI@";
-    private final String BUILDER_URI = "@BUILDER-URI@";
-    
-    private static final String XML_HEADER = 
-      "<?xml version=\"1.0\"?>";
-    
+    private static final String CONTROLLER_URI = "@CONTROLLER-URI@";
+    private static final String BUILDER_URI = "@BUILDER-URI@";
+    private static final String XML_HEADER = "<?xml version=\"1.0\"?>";
     private static final String TYPE_SCHEMA_URN = "@TYPE-XSD-URI@";
     private static final String STATE_SCHEMA_URN = "@STATE-XSD-URI@";
     private static final String PART_SCHEMA_URN = "@PART-XSD-URI@";
     private static final String COMPONENT_SCHEMA_URN = "@COMPONENT-XSD-URI@";
-    
     private static final String PARTIAL_COMPONENT_HEADER = 
       "<component xmlns=\"" 
       + COMPONENT_SCHEMA_URN 
@@ -90,6 +72,12 @@ public class ComponentWriter extends PartBuilder
       + COMPONENT_SCHEMA_URN
       + "\"";
     
+   /** 
+    * Export a component directive to an output stream as XML.
+    * @param directive the component directive
+    * @param output the output stream
+    * @exception IOException if an IO error occurs
+    */
     public void export( ComponentDirective directive, OutputStream output ) throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );
@@ -106,12 +94,27 @@ public class ComponentWriter extends PartBuilder
         output.close();
     }
     
+   /** 
+    * Export a component directive to an output stream as XML.
+    * @param writer the print writer
+    * @param directive the component directive
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
     public void writeComponent( 
       Writer writer, ComponentDirective directive, String pad ) throws IOException
     {
         writeTaggedComponent( writer, directive, null, pad );
     }
     
+   /** 
+    * Export a tagged component directive to an output stream as XML.
+    * @param writer the print writer
+    * @param directive the component directive
+    * @param key the key identifying the component
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
     public void writeTaggedComponent( 
       Writer writer, ComponentDirective directive, String key, String pad ) throws IOException
     {
@@ -234,13 +237,9 @@ public class ComponentWriter extends PartBuilder
         {
             return true;
         }
-        else if( "".equals( value ) )
-        {
-            return true;
-        }
         else
         {
-            return false;
+            return "".equals( value );
         }
     }
     
@@ -295,6 +294,13 @@ public class ComponentWriter extends PartBuilder
         }
     }
     
+   /**
+    * Write a collection of part references.
+    * @param writer the writer
+    * @param parts the part refernece array
+    * @param pad the offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeParts( 
       Writer writer, PartReference[] parts, String pad ) throws IOException
     {
@@ -404,6 +410,14 @@ public class ComponentWriter extends PartBuilder
         }
     }
 
+   /**
+    * Write a context entry.
+    * @param writer the writer
+    * @param key the entry key
+    * @param value the value directive
+    * @param pad the offset
+    * @exception IOException if an IO error occurs
+    */
     protected void writeEntry( Writer writer, String key, ValueDirective value, String pad ) throws IOException
     {
         String target = value.getTargetExpression();

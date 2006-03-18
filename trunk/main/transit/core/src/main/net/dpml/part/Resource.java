@@ -20,11 +20,21 @@ package net.dpml.part;
 
 import java.io.Serializable;
 
+/**
+ * Resource part strategy implementation datatype.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
+ */
 public class Resource implements Serializable
 {
     private final String m_urn;
     private final String m_path;
     
+   /**
+    * Creation of resource datatype.
+    * @param urn the resource urn
+    * @param path the resource path
+    */
     public Resource( String urn, String path )
     {
         if( null == urn )
@@ -39,16 +49,29 @@ public class Resource implements Serializable
         m_path = path;
     }
     
+   /**
+    * Get the resource urn.
+    * @return the urn
+    */ 
     public String getURN()
     {
         return m_urn;
     }
     
+   /**
+    * Get the resource path.
+    * @return the path
+    */ 
     public String getPath()
     {
         return m_path;
     }
     
+   /**
+    * Test if this instance is equal to the supplied instance.
+    * @param other the other instance
+    * @return the equality status
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -73,6 +96,10 @@ public class Resource implements Serializable
         }
     }
     
+   /**
+    * Get the hashcode for this instance.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hash = m_urn.hashCode();

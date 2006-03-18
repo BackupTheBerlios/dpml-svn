@@ -19,25 +19,13 @@
 package net.dpml.library.impl;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.net.URI;
-import java.net.URL;
-import java.util.Map;
-import java.util.Hashtable;
 
-import net.dpml.library.impl.LibraryBuilder;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.TypeDirective;
 
-import net.dpml.lang.Type;
-
 import junit.framework.TestCase;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.DocumentType;
 
 
 /**
@@ -57,6 +45,7 @@ public class XMLTestCase extends TestCase
     
    /**
     * Setup the library directive builder.
+    * @exception Exception if an error occurs during test execution
     */
     public void setUp() throws Exception
     {
@@ -65,6 +54,7 @@ public class XMLTestCase extends TestCase
     
    /**
     * Test an empty library definition.
+    * @exception Exception if an error occurs during test execution
     */
     public void testEmptyLibrary() throws Exception
     {
@@ -76,6 +66,7 @@ public class XMLTestCase extends TestCase
     
    /**
     * Test a library definition containing just properties.
+    * @exception Exception if an error occurs during test execution
     */
     public void testLibraryWithProperties() throws Exception
     {
@@ -87,6 +78,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test a library definition containing just a few imports.
+    * @exception Exception if an error occurs during test execution
     */
     public void testLibraryWithImports() throws Exception
     {
@@ -98,6 +90,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test a library definition containing just a modules imports.
+    * @exception Exception if an error occurs during test execution
     */
     public void testLibraryWithModules() throws Exception
     {
@@ -109,6 +102,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test a direct module name.
+    * @exception Exception if an error occurs during test execution
     */
     public void testModuleName() throws Exception
     {
@@ -121,6 +115,7 @@ public class XMLTestCase extends TestCase
     
    /**
     * Test a direct module basedir.
+    * @exception Exception if an error occurs during test execution
     */
     public void testModuleBasedir() throws Exception
     {
@@ -133,6 +128,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test the properties within a module.
+    * @exception Exception if an error occurs during test execution
     */
     public void testModuleProperties() throws Exception
     {
@@ -144,6 +140,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test the import of a module into the <modules> element.
+    * @exception Exception if an error occurs during test execution
     */
     public void testModuleImport() throws Exception
     {
@@ -154,6 +151,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test the import of a module into the <modules> element.
+    * @exception Exception if an error occurs during test execution
     */
     public void testNestedModuleImport() throws Exception
     {
@@ -175,6 +173,7 @@ public class XMLTestCase extends TestCase
 
    /**
     * Test the import of a module into the <modules> element.
+    * @exception Exception if an error occurs during test execution
     */
     public void testResourceStatement() throws Exception
     {

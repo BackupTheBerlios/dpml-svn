@@ -18,8 +18,6 @@
 
 package net.dpml.transit;
 
-import java.net.URL;
-
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

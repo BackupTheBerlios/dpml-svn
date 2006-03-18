@@ -19,13 +19,7 @@
 package net.dpml.metro.builder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.net.URI;
-
-import net.dpml.part.Strategy;
 
 import net.dpml.metro.data.ComponentDirective;
 
@@ -47,10 +41,6 @@ public class MinimalTestCase extends TestCase
     public void setUp() throws Exception
     {
         m_builder = new ComponentBuilder();
-    }
-    
-    public void testNothing()
-    {
     }
     
    /**

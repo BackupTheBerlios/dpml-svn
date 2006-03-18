@@ -41,7 +41,6 @@ import net.dpml.component.Directive;
 import net.dpml.component.ModelException;
 import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
-import net.dpml.component.Model;
 
 import net.dpml.lang.UnknownKeyException;
 

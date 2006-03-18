@@ -20,20 +20,16 @@
 package net.dpml.transit;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.beans.Expression;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Properties;
 
-import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.monitor.RepositoryMonitorRouter;
 
 import net.dpml.lang.Classpath;

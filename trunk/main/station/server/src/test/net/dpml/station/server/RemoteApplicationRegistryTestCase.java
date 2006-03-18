@@ -29,14 +29,14 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.RegistryListener;
 import net.dpml.station.RegistryEvent;
 
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
 import net.dpml.lang.Logger;
 import net.dpml.lang.ValueDirective;
-import net.dpml.transit.monitor.LoggingAdapter;
-
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;
+
+import net.dpml.transit.Artifact;
+import net.dpml.transit.monitor.LoggingAdapter;
+
 
 
 /**

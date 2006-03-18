@@ -18,27 +18,11 @@
 
 package net.dpml.metro.builder;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import javax.xml.XMLConstants;
-
-import net.dpml.state.State;
-import net.dpml.state.Action;
-import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.StateBuilderRuntimeException;
 
 import net.dpml.part.DOM3DocumentBuilder;
 import net.dpml.lang.BuilderException;
-import net.dpml.part.PartDirective;
 import net.dpml.component.ActivationPolicy;
 
 import net.dpml.metro.data.ContextDirective;
@@ -51,17 +35,12 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
-import net.dpml.metro.info.Type;
 
 import net.dpml.transit.util.ElementHelper;
 import net.dpml.lang.Value;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Construct a state graph.
@@ -72,10 +51,16 @@ public class ComponentBuilder extends ComponentWriter
     
     private static final String SCHEMA_URN = "@COMPONENT-XSD-URI@";
     
-    private static DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
+    private static final DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
     
-    private static TypeBuilder TYPE_BUILDER = new TypeBuilder();
+    private static final TypeBuilder TYPE_BUILDER = new TypeBuilder();
     
+   /**
+    * Construct a component directive using the supplied uri.
+    * @param uri the part uri
+    * @return the component directive
+    * @exception IOException if an error occurs during directive creation
+    */
     public ComponentDirective loadComponentDirective( URI uri ) throws IOException
     {
         if( null == uri )
@@ -99,6 +84,12 @@ public class ComponentBuilder extends ComponentWriter
         }
     }
     
+   /**
+    * Construct a component directive using the supplied DOM element.
+    * @param root the element representing the component directive definition
+    * @return the component directive
+    * @exception Exception if an error occurs during directive creation
+    */
     public ComponentDirective buildComponent( Element root ) throws Exception
     {
         if( null == root )
@@ -277,6 +268,11 @@ public class ComponentBuilder extends ComponentWriter
         }
     }
     
+   /**
+    * Build a value directive using a supplied DOM element.
+    * @param element the DOM element
+    * @return the value directive
+    */
     protected ValueDirective buildValueDirective( Element element )
     {
         String classname = ElementHelper.getAttribute( element, "class" );

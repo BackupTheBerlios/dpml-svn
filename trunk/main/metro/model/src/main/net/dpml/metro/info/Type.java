@@ -19,19 +19,7 @@
 
 package net.dpml.metro.info;
 
-import java.beans.Encoder;
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
-import java.beans.ExceptionListener;
-import java.beans.Expression;
-import java.beans.DefaultPersistenceDelegate;
 import java.io.Serializable;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 
 import net.dpml.state.State;
 
@@ -303,6 +291,11 @@ public class Type extends Composite implements Serializable
         return hash;
     }
     
+   /**
+    * Utility operation to construct a default type given a supplied class.
+    * @param clazz the component implementation class
+    * @return the defalt type descriptor for the class
+    */
     public static Type createType( Class clazz )
     {
         final InfoDescriptor info = new InfoDescriptor( "object", clazz.getName() );

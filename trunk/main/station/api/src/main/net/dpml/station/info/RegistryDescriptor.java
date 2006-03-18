@@ -20,9 +20,6 @@ package net.dpml.station.info;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.beans.SimpleBeanInfo;
-import java.beans.BeanDescriptor;
-import java.beans.DefaultPersistenceDelegate;
 import java.util.Arrays;
 
 /**

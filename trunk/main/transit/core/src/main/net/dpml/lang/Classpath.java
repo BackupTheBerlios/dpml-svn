@@ -22,8 +22,6 @@ import java.net.URI;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import net.dpml.lang.Category;
-
 /**
  * A Plugin class contains immutable data about a plugin based on a descriptor resolved
  * from a 'plugin' artifact.

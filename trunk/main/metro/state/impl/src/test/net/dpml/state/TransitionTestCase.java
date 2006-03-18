@@ -19,22 +19,11 @@
 package net.dpml.state;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.net.URI;
 
-import net.dpml.state.State;
-import net.dpml.state.Transition;
-import net.dpml.state.Operation;
-import net.dpml.state.Interface;
-import net.dpml.state.Trigger;
-import net.dpml.state.Action;
+import net.dpml.state.impl.StateBuilder;
 
 import junit.framework.TestCase;
-
-import net.dpml.state.impl.StateBuilder;
 
 /**
  * Default state machine test-case.

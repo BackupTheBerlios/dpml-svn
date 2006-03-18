@@ -18,11 +18,6 @@
 
 package net.dpml.library.info;
 
-import java.beans.Expression;
-import java.beans.BeanDescriptor;
-import java.beans.DefaultPersistenceDelegate;
-import java.beans.SimpleBeanInfo;
-import java.beans.Encoder;
 import java.util.Properties;
 
 import net.dpml.lang.Category;

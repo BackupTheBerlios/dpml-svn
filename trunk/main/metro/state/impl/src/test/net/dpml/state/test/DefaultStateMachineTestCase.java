@@ -19,8 +19,6 @@
 package net.dpml.state.test;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.List;
 

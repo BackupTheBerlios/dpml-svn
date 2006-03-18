@@ -23,16 +23,11 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Properties;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
-
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
-import net.dpml.lang.Logger;
 
 import net.dpml.part.Part;
 import net.dpml.part.Strategy;
@@ -47,8 +42,6 @@ import net.dpml.library.Resource;
 import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -85,6 +78,10 @@ public class PartTask extends GenericTask
     
     private Strategy m_strategy;
     
+   /**
+    * Set the build strategy.
+    * @param strategy the build strategy
+    */
     public void setStrategy( Strategy strategy )
     {
         m_strategy = strategy;
@@ -113,6 +110,9 @@ public class PartTask extends GenericTask
         m_output = file;
     }
 
+   /**
+    * Task execution.
+    */
     public void execute()
     {
         Resource resource = getResource();
@@ -121,6 +121,12 @@ public class PartTask extends GenericTask
         writePart( part );
     }
     
+   /**
+    * Construct a part using the supplied resource and strategy.
+    * @param resource the resource
+    * @param strategy the strategy
+    * @return the part
+    */
     public Part buildPart( Resource resource, Strategy strategy )
     {
         try
@@ -137,6 +143,10 @@ public class PartTask extends GenericTask
         }
     }
     
+   /**
+    * Externalize the part as a deliverable.
+    * @param part the part to be externalized as XML
+    */
     public void writePart( Part part )
     {
         File file = getOutputFile();
@@ -223,6 +233,11 @@ public class PartTask extends GenericTask
         return resource.getProperty( PLUGIN_DESCRIPTION_KEY );
     }
     
+   /**
+    * Construct the strategy given the supplied resource.
+    * @param resource the resource
+    * @return the strategy
+    */
     protected Strategy getStrategy( Resource resource )
     {
         if( null == m_strategy )
@@ -266,6 +281,12 @@ public class PartTask extends GenericTask
         }
     }
     
+   /**
+    * Construct the classpath for the supplied resource.
+    * @param resource the resource
+    * @return the classpath 
+    * @exception IOException is an IO error occurs
+    */
     protected Classpath getClasspath( Resource resource ) throws IOException
     {
         URI[] sysUris = getURIs( resource, Category.SYSTEM );
@@ -330,40 +351,6 @@ public class PartTask extends GenericTask
         }
     }
     
-    /*
-    private PluginFactory getPluginFactory( String spec ) throws Exception
-    {
-        if( null == spec )
-        {
-            return FACTORY;
-        }
-        else
-        {
-            URI uri = new URI( spec );
-            ClassLoader classloader = Plugin.class.getClassLoader();
-            Object[] args = new Object[0];
-            Object instance = 
-              Transit.getInstance().getRepository().getPlugin( classloader, uri, args );
-            if( instance instanceof PluginFactory )
-            {
-                return (PluginFactory) instance;
-            }
-            else
-            {
-                final String error = 
-                  "Plugin factory artifact argument [" 
-                  + spec
-                  + "] established an instance of ["
-                  + instance.getClass().getName()
-                  + "] which is not assignable to " 
-                  + PluginFactory.class.getName()
-                  + ".";
-                throw new IllegalArgumentException( error );
-            }
-        }
-    }
-    */
-    
    /**
     * Get the project definition.
     * @param project the project
@@ -381,5 +368,4 @@ public class PartTask extends GenericTask
         context.getPath( Scope.TEST ); // triggers path initialization
         return context;
     }
-    
 }

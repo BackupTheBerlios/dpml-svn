@@ -19,13 +19,10 @@
 package net.dpml.metro.builder;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
-
-import javax.xml.XMLConstants;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.InfoDescriptor;
@@ -34,7 +31,6 @@ import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.PartReference;
-import net.dpml.metro.info.Descriptor;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.ThreadSafePolicy;
@@ -44,8 +40,8 @@ import net.dpml.metro.data.ComponentDirective;
 import net.dpml.lang.Version;
 
 import net.dpml.lang.BuilderException;
+
 import net.dpml.part.DOM3DocumentBuilder;
-import net.dpml.part.ValueBuilder;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.StateBuilder;
@@ -54,7 +50,6 @@ import net.dpml.state.impl.DefaultState;
 import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Document;
 
 
@@ -68,8 +63,14 @@ public final class TypeBuilder extends TypeWriter
 {
     private static final StateBuilder STATE_BUILDER = new StateBuilder();
     
-    private static DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
+    private static final DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
     
+   /**
+    * Load a type.
+    * @param subject the component implementation class
+    * @return the component type descriptor
+    * @exception IOException if an error occurs reading the type definition
+    */
     public Type loadType( Class subject ) throws IOException
     {
         String classname = subject.getName();
@@ -100,6 +101,12 @@ public final class TypeBuilder extends TypeWriter
         }
     }
 
+   /**
+    * Load a type.
+    * @param uri the component type source uri
+    * @return the component type descriptor
+    * @exception IOException if an error occurs reading the type definition
+    */
     public Type loadType( URI uri ) throws IOException
     {
         try

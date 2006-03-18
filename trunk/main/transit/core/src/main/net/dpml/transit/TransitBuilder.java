@@ -18,7 +18,6 @@
 
 package net.dpml.transit;
 
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.io.InputStream;
@@ -26,7 +25,6 @@ import java.io.OutputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
-import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,17 +36,13 @@ import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.LayoutDirective;
 
-import net.dpml.lang.Value;
 import net.dpml.lang.ValueDirective;
 import net.dpml.lang.Logger;
 
 import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
 
 /**
  * Utility class supporting the reading of Transit XML configurations.
@@ -58,20 +52,19 @@ import org.w3c.dom.DocumentType;
  */
 public class TransitBuilder
 {
-    public static final String XML_HEADER = 
+    private static final String XML_HEADER = 
       "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 
-    public static final String NAME = "transit";
+    private static final String NAME = "transit";
 
-    public static final String PUBLIC_ID = 
+    private static final String PUBLIC_ID = 
       "-//DPML//DTD Transit Configuration Version 1.0//EN";
       
-    public static final String SYSTEM_ID = 
+    private static final String SYSTEM_ID = 
       "http://download.dpml.net/dtds/transit_1_0.dtd";
 
-    public static final String RESOURCE = 
+    private static final String RESOURCE = 
       "net/dpml/transit/transit_1_0.dtd";
-
 
     private static final String DOCTYPE = 
       "\n<!DOCTYPE "
@@ -82,7 +75,6 @@ public class TransitBuilder
       + SYSTEM_ID 
       + "\" >";
     
-
     private static final DTD[] DTDS = new DTD[]
     {
         new DTD( 
@@ -96,6 +88,10 @@ public class TransitBuilder
 
     private Logger m_logger;
     
+   /**
+    * Creation of a new transit configuration builder.
+    * @param logger the assigned logging channel
+    */
     public TransitBuilder( Logger logger )
     {
         m_logger = logger;
@@ -104,7 +100,7 @@ public class TransitBuilder
    /**
     * Construct a transit configuration from a supplied uri.
     * @param url the configuration url
-    * @return the configuration
+    * @return the transit configuration
     * @exception Exception if an error occurs during configuration loading
     */
     public TransitDirective load( final URL url ) throws Exception

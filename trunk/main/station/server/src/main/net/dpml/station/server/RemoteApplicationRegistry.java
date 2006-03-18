@@ -28,32 +28,25 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.beans.ExceptionListener;
+
+import net.dpml.lang.Logger;
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.DuplicateKeyException;
 
 import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.RegistryEvent;
 import net.dpml.station.RegistryListener;
 import net.dpml.station.builder.RegistryBuilder;
 import net.dpml.station.builder.RegistryWriter;
-import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.RegistryDescriptor;
 import net.dpml.station.info.RegistryDescriptor.Entry;
 import net.dpml.station.info.ApplicationRegistryRuntimeException;
 
 import net.dpml.transit.util.StreamUtils;
-import net.dpml.lang.Logger;
-
-import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.DuplicateKeyException;
 
 /**
  * Implements of the application registry within which a set of application profiles 
@@ -71,7 +64,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
     * Creation of a new application registry model.
     * @param logger the assigned logging channel
     * @param url storage location
-    * @exception IOException if a I/O error occurs
+    * @exception Exception if an error occurs
     */
     public RemoteApplicationRegistry( Logger logger, URL url ) throws Exception
     {
@@ -273,85 +266,6 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
             OutputStream dest = m_url.openConnection().getOutputStream();
             StreamUtils.copyStream( input, dest, true );
             getLogger().debug( "updated registry: " + m_url );
-
-            /*
-            ClassLoader current = Thread.currentThread().getContextClassLoader();
-            ClassLoader context = StartupPolicy.class.getClassLoader();
-            Thread.currentThread().setContextClassLoader( context );
-            File file = File.createTempFile( "dpml-station", ".xml" );
-            FileOutputStream output = new FileOutputStream( file );
-            Entry[] entries = getEntries();
-            
-            RegistryDescriptor descriptor = new RegistryDescriptor( entries );
-            BufferedOutputStream buffer = new BufferedOutputStream( output );
-            XMLEncoder encoder = new XMLEncoder( buffer );
-            encoder.setExceptionListener( new RegistryEncoderListener() );
-            try
-            {
-                encoder.writeObject( descriptor );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Encoding error.\n"
-                  + context.toString();
-                getLogger().error( error, e );
-                IOException exception = new IOException( error );
-                exception.initCause( e );
-                throw exception;
-            }
-            finally
-            {
-                encoder.close();
-                Thread.currentThread().setContextClassLoader( current );
-            }
-            
-            FileInputStream input = new FileInputStream( file );
-            OutputStream dest = m_url.openConnection().getOutputStream();
-            StreamUtils.copyStream( input, dest, true );
-            getLogger().debug( "updated registry: " + m_url );
-            */
-        }
-    }
-    
-   /**
-    * Encoding exception listener.
-    */
-    private final class RegistryEncoderListener implements ExceptionListener
-    {
-       /**
-        * Catch an encoding exception.
-        * @param e the encoding exception
-        */
-        public void exceptionThrown( Exception e )
-        {
-            Throwable cause = e.getCause();
-            if( e instanceof EncodingRuntimeException )
-            {
-                throw (EncodingRuntimeException) e;
-            }
-            final String error = 
-              "An unexpected error occured while attempting to encode the registry."
-              + "\nTarget URL: " + m_url
-              + "\nCause: " + e.getClass().getName()
-              + "\nMessage: " + e.getMessage();
-            throw new EncodingRuntimeException( error, e );
-        }
-    }
-    
-   /**
-    * EncodingRuntimeException.
-    */
-    private static class EncodingRuntimeException extends RuntimeException
-    {
-       /**
-        * Creation of a new <tt>EncodingRuntimeException</tt>.
-        * @param message the exception message
-        * @param cause the causal exception 
-        */
-        public EncodingRuntimeException( String message, Throwable cause )
-        {
-            super( message, cause );
         }
     }
     

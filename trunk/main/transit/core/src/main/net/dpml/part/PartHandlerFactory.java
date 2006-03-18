@@ -18,15 +18,8 @@
 
 package net.dpml.part;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Hashtable;
-
-import net.dpml.lang.Classpath;
-
-import net.dpml.part.PartHandler;
-import net.dpml.part.StandardPartHandler;
-import net.dpml.part.PartDirective;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
@@ -36,8 +29,10 @@ import net.dpml.lang.Construct;
 
 /**
  * Factory used to locate part handlers.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class PartHandlerFactory
+public final class PartHandlerFactory
 {
     private static final StandardPartHandler HANDLER = new StandardPartHandler();
     
@@ -45,6 +40,10 @@ public class PartHandlerFactory
     
     private static final PartHandlerFactory FACTORY = new PartHandlerFactory();
     
+   /**
+    * Return the singleton part handler factory.
+    * @return the factory instance
+    */
     public static PartHandlerFactory getInstance()
     {
         return FACTORY;
@@ -57,6 +56,7 @@ public class PartHandlerFactory
    /**
     * Locate or resolve a part handler.
     * @param uri the part uri
+    * @return the part handler
     * @exception Exception if an error occurs during handler resolution
     */
     public PartHandler getPartHandler( URI uri ) throws Exception
@@ -68,6 +68,7 @@ public class PartHandlerFactory
    /**
     * Locate or resolve a part handler.
     * @param directive the part instantiation directive
+    * @return the part handler
     * @exception Exception if an error occurs during handler resolution
     */
     public PartHandler getPartHandler( PartDirective directive ) throws Exception
@@ -82,6 +83,7 @@ public class PartHandlerFactory
     * Locate or resolve a part handler.
     * @param uri the part uri
     * @param args part instantiation arguments
+    * @return the part handler
     * @exception Exception if an error occurs during handler resolution
     */
     public PartHandler getPartHandler( URI uri, Object[] args ) throws Exception

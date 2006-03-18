@@ -25,5 +25,12 @@ import org.w3c.dom.Element;
  */
 public interface Builder
 {
-    Object build( ClassLoader classoader, Element element ) throws Exception;
+   /**
+    * Create an object using a supplied classloader and DOM element.
+    * @param classloader the base classloader
+    * @param element the DOM element
+    * @return an object
+    * @exception Exception if an error occurs
+    */
+    Object build( ClassLoader classloader, Element element ) throws Exception;
 }

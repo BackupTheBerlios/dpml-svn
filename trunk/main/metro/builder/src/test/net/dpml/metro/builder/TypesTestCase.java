@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,18 +19,11 @@
 package net.dpml.metro.builder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.net.URI;
-
-import net.dpml.part.Strategy;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.info.PartReference;
 
 import junit.framework.TestCase;
 

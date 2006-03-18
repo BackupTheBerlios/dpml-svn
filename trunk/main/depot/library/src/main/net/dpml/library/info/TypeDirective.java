@@ -22,12 +22,6 @@ import java.util.Properties;
 
 import org.w3c.dom.Element;
 
-import net.dpml.lang.Type;
-
-import net.dpml.lang.Builder;
-import net.dpml.part.AbstractBuilder;
-import net.dpml.lang.BuilderException;
-
 /**
  * The ModuleDirective class describes a module data-structure.
  *

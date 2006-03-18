@@ -19,7 +19,6 @@
 package net.dpml.metro.tools;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ import net.dpml.state.Interface;
 import net.dpml.state.Transition;
 import net.dpml.state.impl.StateBuilder;
 import net.dpml.state.impl.DefaultState;
-import net.dpml.state.impl.DefaultStateMachine;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

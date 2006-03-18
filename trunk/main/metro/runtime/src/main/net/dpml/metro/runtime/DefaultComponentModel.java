@@ -44,7 +44,6 @@ import net.dpml.component.ActivationPolicy;
 import net.dpml.component.ControlException;
 import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
-import net.dpml.component.Model;
 
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.Configurable;

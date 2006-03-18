@@ -18,17 +18,12 @@
 
 package net.dpml.part;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
 import java.util.Map;
 
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
 import net.dpml.transit.util.ElementHelper;
 
-import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -39,16 +34,20 @@ import org.w3c.dom.Element;
  */
 public class ValueBuilder extends ValueWriter
 {
-    //public ValueBuilder()
-    //{
-    //    this( null );
-    //}
-    
+   /**
+    * Creation of a new value builder.
+    * @param map the namespace to part builder uri mapping
+    */
     public ValueBuilder( Map map )
     {
         super( map );
     }
     
+   /**
+    * Build an array of values for the supplied element array.
+    * @param elements the elements
+    * @return the resolved values
+    */
     protected Value[] buildValues( Element[] elements )
     {
         Value[] values = new Value[ elements.length ];
@@ -59,6 +58,11 @@ public class ValueBuilder extends ValueWriter
         return values;
     }
     
+   /**
+    * Build a single value instance from a supplied element.
+    * @param element the element
+    * @return the resolved value
+    */
     protected Value buildValue( Element element )
     {
         String classname = ElementHelper.getAttribute( element, "class" );

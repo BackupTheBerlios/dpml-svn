@@ -19,7 +19,6 @@
 package net.dpml.part;
 
 import java.io.Serializable;
-import java.net.URI;
 
 /**
  * Part info description.
@@ -32,6 +31,11 @@ public final class Info implements Serializable
     private final String m_title;
     private final String m_description;
     
+   /**
+    * Creation of a new part info descriptor.
+    * @param title the title of the part
+    * @param description the part description
+    */
     public Info( String title, String description )
     {
         if( null == title )
@@ -72,6 +76,11 @@ public final class Info implements Serializable
         return m_description;
     }
     
+   /**
+    * Test if this instance is equal to the supplied instance.
+    * @param other the other instance
+    * @return the equality status
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -96,6 +105,10 @@ public final class Info implements Serializable
         }
     }
     
+   /**
+    * Get the hashcode for this instance.
+    * @return the hash value
+    */
     public int hashCode()
     {
         int hash = m_title.hashCode();

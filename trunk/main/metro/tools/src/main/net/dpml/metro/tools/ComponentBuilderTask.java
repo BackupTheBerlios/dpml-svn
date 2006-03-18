@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Properties;
 
 import net.dpml.component.Directive;
 import net.dpml.metro.data.ComponentDirective;
@@ -45,12 +44,9 @@ import net.dpml.configuration.Configuration;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.component.ActivationPolicy;
-import net.dpml.part.Part;
-import net.dpml.part.PartBuilder;
 import net.dpml.part.Strategy;
 import net.dpml.part.PartDirective;
 
-import net.dpml.tools.tasks.GenericTask;
 import net.dpml.tools.tasks.PartTask;
 
 import org.apache.tools.ant.BuildException;
@@ -99,6 +95,10 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         m_key = key;
     }
 
+   /**
+    * Set the alias production flag value.
+    * @param alias true if alias production is requested
+    */
     public void setAlias( boolean alias )
     {
         m_alias = alias;

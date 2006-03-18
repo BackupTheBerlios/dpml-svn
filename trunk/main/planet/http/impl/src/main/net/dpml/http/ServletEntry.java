@@ -15,9 +15,6 @@
  */
 package net.dpml.http;
 
-import org.mortbay.jetty.servlet.ServletHolder;
-import org.mortbay.jetty.servlet.ServletMapping;
-
 /**
  * A ServletEntry maintains a mapping between a servlet name and a relative path.
  */

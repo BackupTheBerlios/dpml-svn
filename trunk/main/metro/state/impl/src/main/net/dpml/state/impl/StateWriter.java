@@ -18,40 +18,20 @@
 
 package net.dpml.state.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import javax.xml.XMLConstants;
 
 import net.dpml.state.State;
 import net.dpml.state.Action;
 import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.StateBuilderRuntimeException;
-
-import net.dpml.part.DOM3DocumentBuilder;
-
-import net.dpml.transit.util.ElementHelper;
-
 import net.dpml.state.Trigger;
-import net.dpml.state.State;
 import net.dpml.state.Transition;
 import net.dpml.state.Operation;
 import net.dpml.state.Interface;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Construct a state graph.
@@ -98,6 +78,13 @@ public class StateWriter
         output.close();
     }
     
+   /**
+    * Write the state.
+    * @param writer the stream writer
+    * @param state the state to externalize
+    * @param pad the pad offset
+    * @exception IOException if an IO error occurs
+    */
     public void writeState( Writer writer, State state, String pad ) throws IOException
     {
         if( isEmpty( state ) )

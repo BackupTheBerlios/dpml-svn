@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -47,7 +46,6 @@ import net.dpml.metro.info.ThreadSafePolicy;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
-import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.impl.StateBuilder;
 
 import net.dpml.library.info.Scope;

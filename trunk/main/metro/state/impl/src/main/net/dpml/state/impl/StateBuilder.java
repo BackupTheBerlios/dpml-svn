@@ -18,16 +18,8 @@
 
 package net.dpml.state.impl;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import javax.xml.XMLConstants;
 
@@ -42,10 +34,6 @@ import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Attr;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Construct a state graph.
@@ -67,8 +55,15 @@ public class StateBuilder extends StateWriter
 
     private static final String STATE_FOOTER = "</state>";
     
-    private static DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
+    private static final DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
     
+   /**
+    * Load a state graph.
+    * @param uri the graph uri
+    * @return the constructed state graph
+    * @exception IOException if an IO error occurs while reading the 
+    *   graph data
+    */
     public State loadState( URI uri ) throws IOException
     {
         if( null == uri )
@@ -92,6 +87,11 @@ public class StateBuilder extends StateWriter
         }
     }
     
+   /**
+    * Build a state graph.
+    * @param element a DOM element representing the root of the state graph
+    * @return the constructed state
+    */
     public State buildStateGraph( Element element )
     {
         if( null == element )

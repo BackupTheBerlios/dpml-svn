@@ -15,14 +15,7 @@
  */
 package net.dpml.http;
 
-import java.util.ArrayList;
-
 import net.dpml.logging.Logger;
-
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.ConfigurationException;
-
-import org.mortbay.jetty.Handler;
 
 /**
  * Servlet context handler. 

@@ -27,7 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Hashtable;
-import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.logging.Logger;
 
@@ -36,7 +35,6 @@ import net.dpml.metro.ComponentModel;
 
 import net.dpml.component.Controller;
 import net.dpml.component.ControlException;
-import net.dpml.component.DelegationException;
 import net.dpml.component.Directive;
 import net.dpml.component.ControllerContext;
 import net.dpml.component.ControllerContextListener;
@@ -46,7 +44,6 @@ import net.dpml.component.Component;
 
 import net.dpml.part.Part;
 import net.dpml.part.PartBuilder;
-import net.dpml.part.PartHandler;
 import net.dpml.part.StandardPartHandler;
 import net.dpml.part.Strategy;
 
@@ -139,6 +136,7 @@ public class CompositionController extends StandardPartHandler implements Contro
     * Build a classloader stack.
     * @param anchor the anchor classloader to server as the classloader chain root
     * @param classpath the part classpath definition
+    * @return the new classloader
     * @exception IOException if an IO error occurs during classpath evaluation
     */
     public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
@@ -152,6 +150,7 @@ public class CompositionController extends StandardPartHandler implements Contro
     * @param classpath the part classpath definition
     * @param data the part deployment data
     * @param args supplimentary arguments
+    * @return the instantiated service
     * @exception Exception if a deployment error occurs
     */
     public Object getInstance( 

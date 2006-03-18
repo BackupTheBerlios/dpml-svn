@@ -18,10 +18,6 @@
 
 package net.dpml.library.impl;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
 import java.util.Properties;
 import java.util.Map;
 
@@ -31,13 +27,9 @@ import net.dpml.library.info.TypeDirective;
 
 import net.dpml.transit.util.ElementHelper;
 
-import net.dpml.part.AbstractBuilder;
-import net.dpml.lang.Builder;
-import net.dpml.part.Strategy;
 import net.dpml.lang.BuilderException;
-import net.dpml.part.PartStrategyBuilder;
+import net.dpml.part.AbstractBuilder;
 
-import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -57,84 +49,41 @@ public class DefaultTypeBuilder extends AbstractBuilder implements TypeBuilder
         super( map );
     }
     
+   /**
+    * Return the id of the type produced by the builder.  The method
+    * always throws an UnsupportedOperationException as the default
+    * builder handles generic type production where the type id is 
+    * declared within supplied type derectives.
+    *
+    * @return the type id
+    */
     public String getID()
     {
         throw new UnsupportedOperationException( "getID" );
     }
     
-    //public Object build( ClassLoader classloader, Element element ) throws Exception
-    //{
-    //    return buildType( classloader, element );
-    //}
-    
+   /**
+    * Construct a type instance using a supplied classloader and type
+    * production directive.
+    * @param classloader the base classloader
+    * @param type the type production directive
+    * @return the type instance
+    * @exception Exception if a type instance creation error occurs
+    */
     public Type buildType( ClassLoader classloader, TypeDirective type ) throws Exception
     {
         throw new UnsupportedOperationException( "buildType" );
     }
     
-   /*
-    public TypeDirective buildType( ClassLoader classloader, TypeDirective type ) throws Exception
-    {
-        Element element = type.getElement();
-        TypeInfo info = element.getSchemaTypeInfo();
-        String namespace = info.getTypeNamespace();
-        if( null == namespace )
-        {
-            throw new NullPointerException( "namespace" );
-        }
-        String typeName = info.getTypeName();
-        if( info.isDerivedFrom( COMMON_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
-        {
-            final boolean alias = getAliasFlag( element );
-            if( MODULE_XSD_URI.equals( namespace ) )
-            {
-                if( "GenericType".equals( typeName ) ) 
-                {
-                    final String id = getID( element );
-                    final Properties properties = getProperties( element );
-                    return new TypeDirective( id, alias, properties );
-                }
-                else
-                {
-                    System.out.println( "# UNRECOGNIZED MODULE TYPE" );
-                    final String error = 
-                      "Element namespace is recognized as within the module definition "
-                      + " however the type identifier is not recognized."
-                      + "\nNamespace: " 
-                      + namespace
-                      + "\nType Name: " 
-                      + info.getTypeName();
-                    throw new BuilderException( element, error );
-                }
-            }
-            else if( info.isDerivedFrom( PART_XSD_URI, "StrategyType", TypeInfo.DERIVATION_EXTENSION ) )
-            {
-                return new TypeDirective( "part", alias, element );
-            }
-            else
-            {
-                System.out.println( "# UNRECOGNIZED TYPE" );
-                final String error = 
-                  "Element is recognized as an AbstractType however the type id is not resolvable."
-                  + "\nNamespace: " 
-                  + namespace
-                  + "\nElement Name (from Schema Info): " 
-                  + info.getTypeName();
-                throw new BuilderException( element, error );
-            }
-        }
-        else
-        {
-            System.out.println( "# INVALID ELEMENT" );
-            final String error = 
-              "Element is not derivived from AbstractType defined under the common namespace."
-              + "\nNamespace: " + namespace
-              + "\nElement Name (from Schema Info): " + info.getTypeName();
-            throw new BuilderException( element, error );
-        }
-    }
+   /**
+    * Return the id of the type to be produced given a DOM element.  The 
+    * implementation assumes that the supplied element will expose an id
+    * attribute contining the type identifier.  If no such attribute exists
+    * a runtime exception will be thrown.
+    *
+    * @param element the DOM element
+    * @return the type id
     */
-    
     protected String getID( Element element )
     {
         final String id = ElementHelper.getAttribute( element, "id" );
@@ -142,7 +91,7 @@ public class DefaultTypeBuilder extends AbstractBuilder implements TypeBuilder
         {
             final String error = 
               "Missing type 'id'.";
-            throw new IllegalArgumentException( error );
+            throw new BuilderException( element, error );
         }
         else
         {
@@ -150,11 +99,27 @@ public class DefaultTypeBuilder extends AbstractBuilder implements TypeBuilder
         }
     }
 
+   /**
+    * Return the alias production flag.   
+    * The implementation assumes that the supplied element may expose an alias
+    * attribute contining the flag boolean status.  If no such attribute exists
+    * 'false' is returned otherwise the attribute value as a boolean will be 
+    * returned.
+    *
+    * @param element the DOM element
+    * @return the type id
+    */
     protected boolean getAliasFlag( Element element )
     {
         return ElementHelper.getBooleanAttribute( element, "alias", false );
     }
     
+   /**
+    * Return a properties instance populated with any property assertions contained
+    * as nested <property> elements within the supplied element.
+    * @param element the DOM element representing the type production assertion
+    * @return the properties
+    */
     protected Properties getProperties( Element element )
     {
         Properties properties = new Properties();

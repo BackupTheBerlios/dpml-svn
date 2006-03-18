@@ -19,27 +19,18 @@
 package net.dpml.library.impl;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Hashtable;
 import java.util.Map;
-import java.beans.XMLDecoder;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import net.dpml.lang.Type;
 
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
@@ -54,28 +45,19 @@ import net.dpml.library.info.Scope;
 
 import net.dpml.library.TypeBuilder;
 
-import net.dpml.part.PartStrategyBuilder;
-import net.dpml.part.PartBuilder;
 import net.dpml.part.AbstractBuilder;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.transit.util.ExceptionHelper;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.BuilderException;
 
 import net.dpml.part.DOM3DocumentBuilder;
 
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
 import org.w3c.dom.TypeInfo;
 
 /**
@@ -90,9 +72,8 @@ public final class LibraryBuilder extends AbstractBuilder
     private static final String MODULE_XSD_URI = "@MODULE-XSD-URI@";
     private static final String COMMON_XSD_URI = "@COMMON-XSD-URI@";
     
-    public static final String XML_HEADER = 
+    private static final String XML_HEADER = 
       "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
-    
     private static final String LIBRARY_ELEMENT_NAME = "library";
     private static final String IMPORTS_ELEMENT_NAME = "imports";
     private static final String IMPORT_ELEMENT_NAME = "import";
@@ -108,11 +89,18 @@ public final class LibraryBuilder extends AbstractBuilder
     
     private DOM3DocumentBuilder m_builder = new DOM3DocumentBuilder();
     
+   /**
+    * Creation of a new library builder.
+    */
     public LibraryBuilder()
     {
         this( null );
     }
     
+   /**
+    * Creation of a new library builder.
+    * @param map a map of namespace uri to associated builder plugin uri
+    */
     public LibraryBuilder( Map map )
     {
         super( map );
@@ -163,6 +151,12 @@ public final class LibraryBuilder extends AbstractBuilder
         }
     }
     
+   /**
+    * Construct a resource directive from source.
+    * @param uri the source uri
+    * @return the resource directive
+    * @exception IOException if an IO exception occurs
+    */
     public ResourceDirective buildResource( URI uri ) throws IOException
     {
         try
@@ -195,7 +189,7 @@ public final class LibraryBuilder extends AbstractBuilder
     *
     * @param module the moudle directive to externalize
     * @param output the output stream
-    * @exception Exception if an error occurs during module externalization
+    * @exception IOException if an error occurs during module externalization
     */
     public void export( final ModuleDirective module, final OutputStream output ) throws IOException
     {
@@ -274,7 +268,7 @@ public final class LibraryBuilder extends AbstractBuilder
     * @param base the base directory
     * @param element the module element
     * @return the library directive
-    * @exception IOException if an IO exception occurs
+    * @exception Exception if an exception occurs
     */
     private LibraryDirective buildLibraryDirective( File base, Element element ) throws Exception
     {
@@ -345,10 +339,10 @@ public final class LibraryBuilder extends AbstractBuilder
     }
     
    /**
-    * Build a module directive an XML file.
+    * Build a resource directive from an XML file.
     * @param source the XML source
     * @param path the relative path
-    * @return the module directive
+    * @return the resource directive
     * @exception IOException if an IO exception occurs
     */
     public ResourceDirective buildResourceDirective( File source, String path ) throws IOException
@@ -375,7 +369,7 @@ public final class LibraryBuilder extends AbstractBuilder
             final String basedir = path;
             final Element root = getRootElement( source );
             final String tag = root.getTagName();
-            if( "module".equals( tag ) || "project".equals( tag ) || "resource".equals( tag ))
+            if( "module".equals( tag ) || "project".equals( tag ) || "resource".equals( tag ) )
             {
                 return buildResourceDirectiveFromElement( parent, root, basedir );
             }
@@ -397,10 +391,11 @@ public final class LibraryBuilder extends AbstractBuilder
 
         
    /**
-    * Build a module using an XML element.
+    * Build a resource using an XML element.
     * @param base the base directory
     * @param element the module element
     * @param offset the imported file directory offset
+    * @param Exception if an error occurs
     */
     private ResourceDirective buildResourceDirectiveFromElement( 
       File base, Element element, String offset ) throws Exception
@@ -1085,7 +1080,7 @@ public final class LibraryBuilder extends AbstractBuilder
                         {
                             writer.write( ">" );
                             writeProperties( writer, props, lead + "    ", false );
-                            writer.write( "\n" + lead + "  </include>");
+                            writer.write( "\n" + lead + "  </include>" );
                         }
                         else
                         {
@@ -1117,6 +1112,11 @@ public final class LibraryBuilder extends AbstractBuilder
         }
     }
 
+   /**
+    * Return the id attribute of the supplied element.
+    * @param element the DOM element
+    * @return the id value
+    */
     protected String getID( Element element )
     {
         final String id = ElementHelper.getAttribute( element, "id" );
@@ -1124,7 +1124,7 @@ public final class LibraryBuilder extends AbstractBuilder
         {
             final String error = 
               "Missing type 'id'.";
-            throw new IllegalArgumentException( error );
+            throw new BuilderException( element, error );
         }
         else
         {
@@ -1132,11 +1132,22 @@ public final class LibraryBuilder extends AbstractBuilder
         }
     }
 
+   /**
+    * Return the alias attribute of the supplied element.
+    * @param element the DOM element
+    * @return the alias production flag value
+    */
     protected boolean getAliasFlag( Element element )
     {
         return ElementHelper.getBooleanAttribute( element, "alias", false );
     }
     
+   /**
+    * Return properties declared within the supplied element as immediate
+    * child <property> elements.
+    * @param element the enclosing DOM element
+    * @return the resolved properties instance
+    */
     protected Properties getProperties( Element element )
     {
         Properties properties = new Properties();

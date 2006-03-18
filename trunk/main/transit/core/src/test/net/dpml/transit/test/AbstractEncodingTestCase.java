@@ -36,7 +36,6 @@ public abstract class AbstractEncodingTestCase extends TestCase
    /**
     * Utility operation to encode and decode an supplied object using an intermidiate file.
     * @param object the object to enciode
-    * @param filename the intermidiate filename resolved relative to the target/test directory
     * @return the result of decoding the encoded structure
     * @exception Exception if an error occurs
     */

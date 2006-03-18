@@ -19,7 +19,6 @@
 package net.dpml.metro.tools;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -27,7 +26,6 @@ import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.StateBuilder;
-import net.dpml.state.impl.DefaultState;
 
 import org.apache.tools.ant.BuildException;
 

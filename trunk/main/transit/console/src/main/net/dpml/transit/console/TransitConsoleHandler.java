@@ -18,14 +18,8 @@
 
 package net.dpml.transit.console;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
 import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
@@ -50,8 +44,11 @@ import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.NumberValidator;
 
-import net.dpml.transit.Artifact;
 import net.dpml.lang.Logger;
+import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.ValueDirective;
+
+import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitBuilder;
 import net.dpml.transit.RepositoryException;
@@ -62,10 +59,8 @@ import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.ContentDirective;
-import net.dpml.lang.ValueDirective;
 import net.dpml.transit.util.ExceptionHelper;
 
-import net.dpml.lang.UnknownKeyException;
 
 /**
  * Transit Plugin that provides support for the configuration of the Transit subsystem.

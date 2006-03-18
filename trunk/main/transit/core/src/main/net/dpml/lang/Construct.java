@@ -26,10 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-import net.dpml.part.Strategy;
-import net.dpml.part.PartDirective;
-import net.dpml.part.AbstractBuilder;
-
 import net.dpml.transit.util.PropertyResolver;
 
 /**

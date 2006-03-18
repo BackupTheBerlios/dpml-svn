@@ -18,15 +18,6 @@
 
 package net.dpml.lang;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
-import java.util.Map;
-
-import org.w3c.dom.TypeInfo;
-import org.w3c.dom.Element;
-
 /**
  * Utility used to build a plugin strategy from a DOM element.
  *
@@ -40,6 +31,12 @@ public class DefaultType implements Type
     private final boolean m_alias;
     private final Object m_data;
     
+   /**
+    * Creation of a new generic type production handler.
+    * @param type the type id
+    * @param alias the alias flag
+    * @param data associated type datastructure
+    */
     public DefaultType( String type, boolean alias, Object data )
     {
         m_type = type;
@@ -47,16 +44,28 @@ public class DefaultType implements Type
         m_data = data;
     }
     
+   /**
+    * Return the type production id.
+    * @return the type id
+    */
     public String getID()
     {
         return m_type;
     }
 
+   /**
+    * Return the type production alias flag value.
+    * @return the alias flag
+    */
     public boolean getAlias()
     {
         return m_alias;
     }
 
+   /**
+    * Return the type production datatype.
+    * @return the datatytpe
+    */
     public Object getData()
     {
         return m_data;

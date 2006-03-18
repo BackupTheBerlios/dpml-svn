@@ -18,20 +18,12 @@
 
 package net.dpml.part;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.URI;
 import java.util.Map;
 
 import net.dpml.lang.Value;
-import net.dpml.lang.Construct;
-import net.dpml.transit.util.ElementHelper;
-
-import net.dpml.lang.Type;
-//import net.dpml.lang.TypeBuilder;
 import net.dpml.lang.Builder;
-import net.dpml.lang.DefaultType;
+
+import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.Element;
@@ -42,69 +34,56 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartStrategyBuilder extends PartStrategyWriter implements Builder, StrategyBuilder //, TypeBuilder
+public class PartStrategyBuilder extends PartStrategyWriter implements Builder, StrategyBuilder
 {
     private static final PartDirective TRANSIT_DIRECTIVE = 
       new PartDirective( AbstractBuilder.LOCAL_URI );
     
+   /**
+    * Creation of a new part strategy builder.
+    */
     public PartStrategyBuilder()
     {
         this( null );
     }
     
+   /**
+    * Creation of a new part strategy builder.
+    * @param map the namespace to part builder uri mapping
+    */
     public PartStrategyBuilder( Map map )
     {
         super( map );
     }
     
+   /**
+    * Return the production type identifier.
+    * @return the constant "part" id
+    */
     public String getID()
     {
         return "part";
     }
     
-    public void writeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
-    {
-        Object data = strategy.getDeploymentData();
-        if( data instanceof Plugin )
-        {
-            Plugin plugin = (Plugin) data;
-            String classname = plugin.getClassname();
-            writer.write( "\n  <strategy xsi:type=\"plugin\" class=\"" );
-            writer.write( classname );
-            writer.write( "\"/>" );
-        }
-        else if( data instanceof Resource )
-        {
-            Resource resource = (Resource) data;
-            String urn = resource.getURN();
-            String path = resource.getPath();
-            writer.write( "\n  <strategy xsi:type=\"resource\"" );
-            writer.write( " urn=\"" + urn );
-            writer.write( "\" path=\"" + path );
-            writer.write( "\"/>" );
-        }
-        else
-        {
-            final String error = 
-              "Unsupported strategy datatype: " + data.getClass().getName();
-            throw new IllegalArgumentException( error );
-        }
-    }
-    
-   /*
-    public Type buildType( ClassLoader classloader, Element element ) throws Exception
-    {
-        boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
-        Strategy strategy = buildStrategy( classloader, element );
-        return new DefaultType( "part", alias, strategy ); 
-    }
+   /**
+    * Build a strategy from a supplied DOM element.
+    * @param classloader the classloader
+    * @param element the strategy element
+    * @return the resolve instance
+    * @exception Exception if an error occurs
     */
-    
     public Object build( ClassLoader classloader, Element element ) throws Exception
     {
         return buildStrategy( classloader, element );
     }
     
+   /**
+    * Build a strategy from a supplied DOM element.
+    * @param classloader the classloader
+    * @param element the strategy element
+    * @return the resolve strategy
+    * @exception Exception if an error occurs
+    */
     public Strategy buildStrategy( ClassLoader classloader, Element element ) throws Exception
     {
         TypeInfo info = element.getSchemaTypeInfo();
