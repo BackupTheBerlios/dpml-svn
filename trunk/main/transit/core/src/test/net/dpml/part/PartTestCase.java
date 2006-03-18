@@ -36,7 +36,7 @@ public class PartTestCase extends TestCase
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
     }
     
-    PartBuilder m_builder;
+    private PartBuilder m_builder;
     
    /**
     * Test the demo class.
