@@ -31,8 +31,8 @@ directory must be included in your PATH environment variable.
 
   $ build
 
-The build procedure will build 35 projects during which a number of downloads 
-may occur.  On completion the %DPML_HOME% should be fully populated and 
+The build procedure will build approximately 40 projects during which a number 
+of downloads may occur.  On completion the %DPML_HOME% should be fully populated and 
 operational.
 
 
