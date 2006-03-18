@@ -277,10 +277,8 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     }
 
    /**
-    * Create a component directive.
+    * Create a component strategy.
     * @param classloader the classloader
-    * @param cld the classloader directive
-    * @param file the output file
     * @return the component directive
     */
     public Strategy createStrategy( ClassLoader classloader )

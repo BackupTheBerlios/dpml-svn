@@ -61,6 +61,9 @@ public class CategoriesDescriptorDataType
         return categories;
     }
 
+   /**
+    * Description of a single logging category.
+    */
     public class CategoryDescriptorDataType
     {
         private String m_name;
@@ -68,7 +71,7 @@ public class CategoriesDescriptorDataType
     
        /**
         * Set the service classname.
-        * @param classname the name of the service interface class
+        * @param name the name of the service interface class
         */
         public void setName( final String name )
         {

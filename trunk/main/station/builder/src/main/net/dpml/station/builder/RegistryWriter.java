@@ -56,8 +56,9 @@ public final class RegistryWriter
     
    /**
     * Externalize the part to XML.
-    * @param part the part to externalize
+    * @param descriptor the registry descriptor
     * @param output the output stream 
+    * @param pad offset padding to be applied when writing data to the stream
     * @exception IOException if an IO error occurs
     */
     public void writeRegistryDescriptor( 

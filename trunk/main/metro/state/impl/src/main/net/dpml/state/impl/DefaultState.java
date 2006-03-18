@@ -48,7 +48,6 @@ public class DefaultState implements State, Serializable
 
    /**
     * Creation of a new state.
-    * @param name the state name
     */
     public DefaultState()
     {

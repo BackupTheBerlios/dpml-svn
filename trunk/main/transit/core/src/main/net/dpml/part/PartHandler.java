@@ -39,7 +39,8 @@ public interface PartHandler
 
    /**
     * Instantiate a value.
-    * @param classloader the implementation classloader established for the part
+    * @param anchor the anchor classloader
+    * @param classpath the part classpath
     * @param data the part deployment data
     * @param args supplimentary arguments
     * @exception Exception if a deployment error occurs

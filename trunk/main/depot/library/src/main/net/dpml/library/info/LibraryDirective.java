@@ -36,7 +36,7 @@ public final class LibraryDirective extends AbstractDirective
    /**
     * Creation of a new library directive.
     * @param imports module imports
-    * @param modules the set of declared modules
+    * @param resources the set of declared resources
     * @param properties library properties
     */
     public LibraryDirective(
@@ -82,7 +82,7 @@ public final class LibraryDirective extends AbstractDirective
     
    /**
     * Return the set of module directives.
-    * @return the module directive array
+    * @return the resource directive array
     */
     public ResourceDirective[] getResourceDirectives()
     {
@@ -115,8 +115,8 @@ public final class LibraryDirective extends AbstractDirective
     }
     
    /**
-    * Compute the hash value.
-    * @return the hascode value
+    * Compute the hashcode value.
+    * @return the hash value
     */
     public int hashCode()
     {

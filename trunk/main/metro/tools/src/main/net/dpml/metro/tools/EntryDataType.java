@@ -58,8 +58,8 @@ public class EntryDataType extends ValueDataType implements PartReferenceBuilder
     }
 
    /**
-    * Set the uri that this directive references.
-    * @param uri the uri
+    * Set the lookup attribute value.
+    * @param spec the service classname
     */
     public void setLookup( final String spec )
     {

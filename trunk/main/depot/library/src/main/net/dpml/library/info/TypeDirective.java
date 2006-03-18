@@ -81,7 +81,7 @@ public final class TypeDirective extends AbstractDirective
     * Creation of a new type directive.
     * @param name the name
     * @param alias alias production policy
-    * @param properties supplimentary properties
+    * @param element DOM element defining the type 
     */
     public TypeDirective( String name, boolean alias, Element element )
     {

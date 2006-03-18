@@ -65,7 +65,7 @@ public class StateWriter
     
    /**
     * Externalize the part to XML.
-    * @param part the part to externalize
+    * @param state the state graph to externalize
     * @param output the output stream 
     * @exception IOException if an IO error occurs
     */

@@ -36,7 +36,7 @@ public class Strategy
     
    /**
     * Creation of a new part instantiation strategy.
-    * @param namespace the strategy namespace
+    * @param builder the builder uri
     * @param controller the runtime controller that will handle part deployment
     * @param data the data to tbe supplied to the controller
     */ 
@@ -47,9 +47,10 @@ public class Strategy
     
    /**
     * Creation of a new part instantiation strategy.
-    * @param namespace the strategy namespace
+    * @param builder the builder uri
     * @param controller the runtime controller that will handle part deployment
     * @param data the data to tbe supplied to the controller
+    * @param alias the alias flag
     */ 
     public Strategy( URI builder, PartDirective controller, Serializable data, boolean alias )
     {

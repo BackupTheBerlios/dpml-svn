@@ -148,7 +148,8 @@ public class CompositionController extends StandardPartHandler implements Contro
 
    /**
     * Instantiate a value.
-    * @param classloader the implementation classloader established for the part
+    * @param anchor the anchor classloader
+    * @param classpath the part classpath definition
     * @param data the part deployment data
     * @param args supplimentary arguments
     * @exception Exception if a deployment error occurs

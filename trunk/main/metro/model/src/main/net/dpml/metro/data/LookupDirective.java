@@ -43,8 +43,8 @@ public final class LookupDirective extends AbstractDirective implements Directiv
 
     /**
      * Creation of a new lookup directive.
-     * @param spec the lookup reference
-     * @exception NullPointerException if the uri argument is null.
+     * @param classname the service classname
+     * @exception NullPointerException if the classname argument is null.
      */
     public LookupDirective( final String classname )
         throws NullPointerException
