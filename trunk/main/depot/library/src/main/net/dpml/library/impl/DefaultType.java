@@ -24,7 +24,7 @@ import java.util.Hashtable;
 
 import net.dpml.library.info.TypeDirective;
 
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 
 import net.dpml.lang.Builder;
 import net.dpml.lang.BuilderException;

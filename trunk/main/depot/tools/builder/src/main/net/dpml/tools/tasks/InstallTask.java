@@ -26,8 +26,7 @@ import java.io.Writer;
 
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
-
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 
 import net.dpml.transit.Artifact;
 

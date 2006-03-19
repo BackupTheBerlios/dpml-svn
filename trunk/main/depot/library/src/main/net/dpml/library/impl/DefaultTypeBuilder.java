@@ -21,13 +21,14 @@ package net.dpml.library.impl;
 import java.util.Properties;
 import java.util.Map;
 
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 import net.dpml.library.TypeBuilder;
 import net.dpml.library.info.TypeDirective;
 
 import net.dpml.transit.util.ElementHelper;
 
 import net.dpml.lang.BuilderException;
+
 import net.dpml.part.AbstractBuilder;
 
 import org.w3c.dom.Element;

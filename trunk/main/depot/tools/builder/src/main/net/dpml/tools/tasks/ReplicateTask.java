@@ -22,20 +22,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.library.info.Scope;
+import net.dpml.lang.UnknownKeyException;
+
 import net.dpml.library.Resource;
 import net.dpml.library.ResourceNotFoundException;
-
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
+import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Layout;
-import net.dpml.lang.UnknownKeyException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Copy;
-
 
 /**
  * Consolidates a set of resources based on project dependencies.

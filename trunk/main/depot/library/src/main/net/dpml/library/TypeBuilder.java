@@ -18,8 +18,6 @@
 
 package net.dpml.library;
 
-import net.dpml.lang.Type;
-
 import net.dpml.library.info.TypeDirective;
 
 /**

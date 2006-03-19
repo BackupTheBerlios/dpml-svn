@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,37 +19,29 @@
 package net.dpml.library;
 
 /**
- * The Process interface defines a process model.
+ * Declaration of a type production.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Type extends Dictionary
+public interface Type
 {
    /**
-    * JAR type name constant.
+    * Return the type production id.
+    * @return the type id
     */
-    static final String JAR = "jar";
+    String getID();
     
    /**
-    * Plugin type name constant.
-    */
-    static final String PLUGIN = "plugin";
-    
-   /**
-    * Module type name constant.
-    */
-    static final String MODULE = "module";
-    
-   /**
-    * Return the name of the type.
-    * @return the type name
-    */
-    String getName();
-    
-   /**
-    * Return the alias association policy.
-    * @return true if alias production assumed
+    * Return the type production alias flag value.
+    * @return the alias flag
     */
     boolean getAlias();
+    
+   /**
+    * Return the type production datatype.
+    * @return the datatytpe
+    */
+    Object getData();
+    
 }

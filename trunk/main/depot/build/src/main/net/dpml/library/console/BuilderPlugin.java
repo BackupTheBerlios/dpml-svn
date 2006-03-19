@@ -28,13 +28,12 @@ import java.util.List;
 import net.dpml.lang.Logger;
 import net.dpml.transit.Transit;
 
-import net.dpml.library.info.Scope;
-import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Builder;
-
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
+import net.dpml.library.info.ResourceDirective.Classifier;
+import net.dpml.library.info.Scope;
 
 import net.dpml.library.impl.DefaultLibrary;
 

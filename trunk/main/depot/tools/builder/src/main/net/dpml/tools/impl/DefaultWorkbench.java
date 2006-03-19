@@ -23,8 +23,7 @@ import java.util.ArrayList;
 
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
-
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 
 import net.dpml.tools.info.BuilderDirective;
 import net.dpml.tools.info.BuilderDirectiveHelper;

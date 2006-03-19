@@ -29,6 +29,9 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.Properties;
 
+import net.dpml.lang.Category;
+
+import net.dpml.library.Type;
 import net.dpml.library.Resource;
 import net.dpml.library.Module;
 import net.dpml.library.info.TypeDirective;
@@ -41,9 +44,7 @@ import net.dpml.library.info.ValidationException;
 import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Artifact;
-import net.dpml.lang.Category;
 
-import net.dpml.lang.Type;
 
 /**
  * Implementation of a resource.

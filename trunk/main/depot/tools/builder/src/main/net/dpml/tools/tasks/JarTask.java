@@ -26,8 +26,7 @@ import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
 
 import net.dpml.library.Resource;
-
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 
 /**
  * Execute all plugins relative to the current build phase.

@@ -20,7 +20,6 @@ package net.dpml.library;
 
 import java.io.File;
 
-import net.dpml.lang.Type;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ResourceDirective.Classifier;
 

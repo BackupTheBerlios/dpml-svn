@@ -20,8 +20,7 @@ package net.dpml.library.impl;
 
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
-
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 
 /**
  * Test DefaultLibrary implementation.

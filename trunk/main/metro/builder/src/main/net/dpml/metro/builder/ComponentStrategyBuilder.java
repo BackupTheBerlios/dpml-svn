@@ -32,7 +32,7 @@ import net.dpml.part.PartDirective;
 
 import net.dpml.lang.Builder;
 import net.dpml.lang.BuilderException;
-import net.dpml.lang.Type;
+import net.dpml.library.Type;
 import net.dpml.lang.DefaultType;
 
 import org.w3c.dom.Element;

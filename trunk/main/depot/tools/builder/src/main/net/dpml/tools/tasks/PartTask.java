@@ -29,15 +29,14 @@ import java.util.List;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
 
-import net.dpml.part.Part;
-import net.dpml.part.Strategy;
 import net.dpml.part.Info;
+import net.dpml.part.Part;
 import net.dpml.part.PartBuilder;
+import net.dpml.part.Strategy;
 
-import net.dpml.lang.Type;
-
-import net.dpml.library.info.Scope;
+import net.dpml.library.Type;
 import net.dpml.library.Resource;
+import net.dpml.library.info.Scope;
 
 import net.dpml.tools.model.Context;
 
