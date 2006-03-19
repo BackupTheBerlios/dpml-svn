@@ -21,8 +21,9 @@ package net.dpml.metro.builder;
 import java.io.IOException;
 import java.net.URI;
 
-import net.dpml.part.DOM3DocumentBuilder;
+import net.dpml.lang.Value;
 import net.dpml.lang.BuilderException;
+
 import net.dpml.component.ActivationPolicy;
 
 import net.dpml.metro.data.ContextDirective;
@@ -36,8 +37,9 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
+import net.dpml.part.DOM3DocumentBuilder;
+
 import net.dpml.transit.util.ElementHelper;
-import net.dpml.lang.Value;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

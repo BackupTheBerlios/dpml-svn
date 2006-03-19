@@ -33,7 +33,6 @@ import net.dpml.part.PartDirective;
 import net.dpml.lang.Builder;
 import net.dpml.lang.BuilderException;
 import net.dpml.library.Type;
-import net.dpml.lang.DefaultType;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;
