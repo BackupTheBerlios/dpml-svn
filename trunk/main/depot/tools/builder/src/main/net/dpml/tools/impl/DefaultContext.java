@@ -179,38 +179,6 @@ final class DefaultContext implements Context
     }
     
    /**
-    * Return the value of a property. If the project contains a declaration 
-    * for the property then that value will be returned, otherwise the property
-    * will be resolved relative to the current resource.
-    *
-    * @param type the type production
-    * @param key the property key
-    * @param value the default value
-    * @return the property value or null if undefined
-    */
-    /*
-    public String getProperty( Type type, String key, String value )
-    {
-        if( null == type )
-        {
-            return getProperty( key, value );
-        }
-        else
-        {
-            String result = type.getProperty( key );
-            if( null != result )
-            {
-                return result;
-            }
-            else
-            {
-                return getProperty( key, value );
-            }
-        }
-    }
-    */
-    
-   /**
     * Return an Ant path suitable for comile or runtime usage. If the supplied scope is 
     * less than Scope.RUNTIME a runtime path is returned otherwise the test path is 
     * returned.
