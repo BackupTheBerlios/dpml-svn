@@ -489,6 +489,7 @@
   </target>
 
   <target name="xmlapi-install" depends="xmlapi-check" unless="javax.xml.available">
+    <mkdir dir="${xml.cache}"/>
     <get usetimestamp="true" src="${xmlapi.url}" dest="${xml.cache}/${xmlapi.filename}"/>
     <copy file="${xml.cache}/${xmlapi.filename}" toFile="${endorsed.location}/${xmlapi.filename}"/>
   </target>
@@ -498,6 +499,7 @@
   </target>
 
   <target name="xerces-install" depends="xerces-check" unless="xerces.available">
+    <mkdir dir="${xml.cache}"/>
     <get usetimestamp="true" src="${xerces.url}" dest="${xml.cache}/${xerces.filename}"/>
     <copy file="${xml.cache}/${xerces.filename}" toFile="${endorsed.location}/${xerces.filename}"/>
   </target>
