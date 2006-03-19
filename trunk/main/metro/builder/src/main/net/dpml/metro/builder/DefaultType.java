@@ -26,7 +26,7 @@ import net.dpml.library.Type;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultType implements Type
+class DefaultType implements Type
 {
     private final String m_type;
     private final boolean m_alias;

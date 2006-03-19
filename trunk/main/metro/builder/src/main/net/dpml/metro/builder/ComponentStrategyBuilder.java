@@ -21,18 +21,19 @@ package net.dpml.metro.builder;
 import java.net.URI;
 import java.util.Map;
 
-import net.dpml.metro.data.ComponentDirective;
-
+import net.dpml.lang.Builder;
+import net.dpml.lang.BuilderException;
 import net.dpml.lang.Value;
-import net.dpml.transit.util.ElementHelper;
+
+import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.part.Strategy;
 import net.dpml.part.StrategyBuilder;
 import net.dpml.part.PartDirective;
 
-import net.dpml.lang.Builder;
-import net.dpml.lang.BuilderException;
 import net.dpml.library.Type;
+
+import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;

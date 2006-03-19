@@ -24,6 +24,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
+import net.dpml.lang.Version;
+import net.dpml.lang.BuilderException;
+
+import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.ContextDescriptor;
@@ -35,11 +39,6 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.ThreadSafePolicy;
 import net.dpml.metro.info.Priority;
-import net.dpml.metro.data.ComponentDirective;
-
-import net.dpml.lang.Version;
-
-import net.dpml.lang.BuilderException;
 
 import net.dpml.part.DOM3DocumentBuilder;
 
