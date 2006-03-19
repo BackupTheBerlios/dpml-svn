@@ -22,6 +22,12 @@
     xmlns:x="dpml:depot"
     xmlns:c="dpml:metro">
 
+  <property environment="ENV"/>
+
+  <condition property="nsis.available" value="true">
+    <isset property="ENV.NSIS_HOME"/>
+  </condition>
+
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="prepare" depends="standard.prepare">
@@ -47,7 +53,7 @@
 
   <target name="package" depends="standard.package,javadoc,checkstyle,junit-report"/>
 
-  <target name="install" depends="standard.install,zip,tar">
+  <target name="install" depends="standard.install,zip,tar,nsis">
     <copy todir="${dpml.data}">
       <fileset dir="${share}">
         <include name="docs/**"/>
@@ -61,6 +67,21 @@
   <target name="replicate" depends="standard.install">
     <property name="share.local" location="${share}/local"/>
     <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
+  </target>
+
+  <target name="nsis" depends="bundle,replicate" if="nsis.available">
+    <echo>Building NSIS Installer</echo>
+    <exec os="Windows XP" dir="${basedir}/target/nsi" executable="makensis.exe">
+      <arg value="/ONSIS.LOG"/>
+      <arg value="dpml.nsi"/>
+    </exec>
+    <copy toDir="${basedir}/target/dist">
+      <fileset dir="${basedir}/target/nsi">
+        <include name="*.exe"/>
+      </fileset>
+    </copy>
+    <checksum file="${basedir}/target/dist/dpml-sdk-win32-${project.version}.exe" fileext=".md5"/>
+    <echo>Created target/dist/dpml-sdk-win32-${project.version}.exe</echo>
   </target>
 
   <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
