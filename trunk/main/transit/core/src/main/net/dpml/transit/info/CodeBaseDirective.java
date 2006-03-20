@@ -19,7 +19,6 @@
 package net.dpml.transit.info;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import net.dpml.lang.AbstractDirective;
@@ -41,7 +40,6 @@ public class CodeBaseDirective extends AbstractDirective
     * Creation of a new codebase descriptor.
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
-    * @exception URISyntaxException if the codebase URI is invalid
     */
     public CodeBaseDirective( URI codebase, ValueDirective[] parameters )
     {

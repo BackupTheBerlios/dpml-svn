@@ -18,8 +18,6 @@
 
 package net.dpml.part;
 
-import java.util.Map;
-
 import net.dpml.lang.Value;
 import net.dpml.lang.Decoder;
 import net.dpml.lang.DecodingException;

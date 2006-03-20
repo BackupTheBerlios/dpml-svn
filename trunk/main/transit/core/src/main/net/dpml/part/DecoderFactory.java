@@ -88,7 +88,8 @@ public final class DecoderFactory
     *
     * @param uri the encoder uri
     * @return the encoder
-    * @exception Exception if an eror occurs
+    * @exception IOException if an IO error occurs
+    * @exception InvocationTargetException if the encoder plugin raises an instantiation error
     */
     public static Encoder loadEncoder( URI uri ) throws IOException, InvocationTargetException
     {

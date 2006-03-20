@@ -20,14 +20,11 @@ package net.dpml.part;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Map;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Decoder;
 import net.dpml.lang.DecodingException;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
 import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Document;
@@ -109,7 +106,7 @@ public final class PartDecoder implements Decoder
     * @param classloader the classloader
     * @param element the dom element
     * @return the part definition
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
     public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
@@ -138,7 +135,7 @@ public final class PartDecoder implements Decoder
     * @param base the classloader
     * @param root the dom element
     * @return the part definition
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
     public Part decodePart( ClassLoader base, Element root ) throws DecodingException
     {
@@ -210,7 +207,7 @@ public final class PartDecoder implements Decoder
     * Construct the classpath defintion.
     * @param root the element containing a 'classpath' element.
     * @return the classpath defintion
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
     protected Classpath getClasspath( Element root ) throws DecodingException
     {

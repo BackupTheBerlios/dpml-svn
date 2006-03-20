@@ -18,8 +18,6 @@
 
 package net.dpml.part;
 
-import java.util.Map;
-
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
 import net.dpml.transit.util.ElementHelper;

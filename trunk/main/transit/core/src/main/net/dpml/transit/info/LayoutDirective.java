@@ -40,7 +40,6 @@ public class LayoutDirective extends CodeBaseDirective
     * @param title the handler title
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
-    * @exception URISyntaxException if the codebase URI is invalid
     * @exception NullPointerException if the id is null
     */
     public LayoutDirective( 

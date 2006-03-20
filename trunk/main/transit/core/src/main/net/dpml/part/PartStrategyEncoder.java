@@ -20,7 +20,6 @@ package net.dpml.part;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.util.Map;
 
 import net.dpml.lang.Value;
 import net.dpml.lang.Encoder;
@@ -33,7 +32,7 @@ import net.dpml.lang.Encoder;
  */
 public class PartStrategyEncoder implements Encoder
 {
-    private ValueEncoder VALUE_ENCODER = new ValueEncoder();
+    private static final ValueEncoder VALUE_ENCODER = new ValueEncoder();
     
    /**
     * Externalize a object to XML.

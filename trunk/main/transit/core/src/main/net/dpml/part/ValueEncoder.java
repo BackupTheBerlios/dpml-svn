@@ -20,7 +20,6 @@ package net.dpml.part;
 
 import java.io.Writer;
 import java.io.IOException;
-import java.util.Map;
 
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;

@@ -31,6 +31,10 @@ abstract class ComponentConstants
     static final URI CONTROLLER_URI = createURI( "@CONTROLLER-URI@" );
     static final URI BUILDER_URI = createURI( "@BUILDER-URI@" );
     
+    ComponentConstants()
+    {
+    }
+    
     private static URI createURI( String spec )
     {
         try

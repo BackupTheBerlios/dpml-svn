@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.util.Map;
 
 import javax.xml.XMLConstants;
 
