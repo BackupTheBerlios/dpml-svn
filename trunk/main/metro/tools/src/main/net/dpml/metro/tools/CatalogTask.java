@@ -30,13 +30,15 @@ import java.util.Hashtable;
 import java.util.Arrays;
 import java.util.Map;
 
+import net.dpml.component.Directive;
+
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
-import net.dpml.component.Directive;
 import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.transit.Transit;
 
@@ -55,8 +57,8 @@ import org.apache.tools.ant.types.FileSet;
  */
 public class CatalogTask extends Task
 {
-    private static final net.dpml.metro.builder.TypeBuilder TYPE_BUILDER = 
-      new net.dpml.metro.builder.TypeBuilder();
+    private static final ComponentTypeDecoder COMPONENT_TYPE_DECODER = 
+      new ComponentTypeDecoder();
 
     private File m_work;
     private File m_destination;
@@ -738,7 +740,7 @@ public class CatalogTask extends Task
         try
         {
             URI uri = source.toURI();
-            Type type = TYPE_BUILDER.loadType( uri );
+            Type type = COMPONENT_TYPE_DECODER.loadType( uri );
             createTypePage( htmls, type );
         }
         catch( Exception e )

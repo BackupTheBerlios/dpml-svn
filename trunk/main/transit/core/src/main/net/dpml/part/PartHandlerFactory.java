@@ -88,7 +88,7 @@ public final class PartHandlerFactory
     */
     public PartHandler getPartHandler( URI uri, Object[] args ) throws Exception
     {
-        if( AbstractBuilder.LOCAL_URI.equals( uri ) )
+        if( DecoderFactory.LOCAL_URI.equals( uri ) )
         {
             return HANDLER;
         }

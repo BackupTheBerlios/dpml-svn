@@ -21,15 +21,16 @@ package net.dpml.metro.builder;
 import java.net.URI;
 import java.util.Map;
 
-import net.dpml.lang.Builder;
-import net.dpml.lang.BuilderException;
+import net.dpml.lang.Decoder;
+import net.dpml.lang.DecodingException;
 import net.dpml.lang.Value;
 
 import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.part.Strategy;
-import net.dpml.part.StrategyBuilder;
 import net.dpml.part.PartDirective;
+import net.dpml.part.DecoderFactory;
+import net.dpml.part.ValueDecoder;
 
 import net.dpml.library.Type;
 
@@ -44,23 +45,21 @@ import org.w3c.dom.TypeInfo;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentStrategyBuilder extends ComponentStrategyWriter implements StrategyBuilder, Builder
+public class ComponentStrategyDecoder extends ComponentConstants implements Decoder
 {
-   /**
-    * Creation of a new component strategy builder.
-    */
-    public ComponentStrategyBuilder()
-    {
-        super( null );
-    }
+    private DecoderFactory m_factory;
+    
+    private static final ComponentDecoder COMPONENT_DECODER = new ComponentDecoder();
+    
+    private static final ValueDecoder VALUE_DECODER = new ValueDecoder();
     
    /**
     * Creation of a new component strategy builder.
-    * @param map namespace to builder uri map
+    * @param factory the decoder factory
     */
-    public ComponentStrategyBuilder( Map map )
+    public ComponentStrategyDecoder( DecoderFactory factory )
     {
-        super( map );
+        m_factory = factory;
     }
     
    /**
@@ -70,7 +69,7 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
     * @return the deployment strategy
     * @exception Exception if an error occurs
     */
-    public Object build( ClassLoader classloader, Element element ) throws Exception
+    public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
         return buildStrategy( classloader, element );
     }
@@ -96,20 +95,19 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
     * @return the deployment strategy
     * @exception Exception if an error occurs
     */
-    public Strategy buildStrategy( ClassLoader classloader, Element element ) throws Exception
+    public Strategy buildStrategy( ClassLoader classloader, Element element ) throws DecodingException
     {
         TypeInfo info = element.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
         String name = info.getTypeName();
         
-        URI uri = new URI( BUILDER_URI );
         boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
         
         if( "component".equals( name ) )
         {
             PartDirective control = createControllerDirective( null );
             ComponentDirective component = createComponentDirective( element );
-            return new Strategy( uri, control, component, alias );
+            return new Strategy( BUILDER_URI, control, component, alias );
         }
         else if( "strategy".equals( name ) )
         {
@@ -117,7 +115,7 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
             PartDirective control = createControllerDirective( controller );
             Element directive = ElementHelper.getChild( element, "component" );
             ComponentDirective component = createComponentDirective( directive );
-            return new Strategy( uri, control, component, alias );
+            return new Strategy( BUILDER_URI, control, component, alias );
         }
         else
         {
@@ -125,23 +123,22 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
               "Strategy element name [" 
               + name
               + "] is not recognized (expecting either 'component' or 'strategy').";
-            throw new BuilderException( element, error );
+            throw new DecodingException( element, error );
         }
     }
     
-    private ComponentDirective createComponentDirective( Element element ) throws Exception
+    private ComponentDirective createComponentDirective( Element element ) throws DecodingException
     {
-        return BUILDER.buildComponent( element );
+        return COMPONENT_DECODER.buildComponent( element );
     }
     
-    private PartDirective createControllerDirective( Element element ) throws Exception
+    private PartDirective createControllerDirective( Element element ) throws DecodingException
     {
         if( null == element )
         {
             try
             {
-                URI uri = new URI( CONTROLLER_URI );
-                return new PartDirective( uri, null );
+                return new PartDirective( CONTROLLER_URI, null );
             }
             catch( Exception e )
             {
@@ -152,11 +149,33 @@ public class ComponentStrategyBuilder extends ComponentStrategyWriter implements
         }
         else
         {
-            String spec = ElementHelper.getAttribute( element, "uri" );
-            URI uri = new URI( spec );
+            URI uri = decodeURI( element );
             Element[] elements = ElementHelper.getChildren( element, "param" );
-            Value[] values = buildValues( elements );
+            Value[] values = VALUE_DECODER.decodeValues( elements );
             return new PartDirective( uri, values );
+        }
+    }
+    
+    private URI decodeURI( Element element ) throws DecodingException
+    {
+        String spec = ElementHelper.getAttribute( element, "uri" );
+        if( null == spec )
+        {
+            final String error = 
+              "Missing uri attribute.";
+            throw new DecodingException( element, error );
+        }
+        try
+        {
+            return new URI( spec );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to construct uri from element uri attribute value ["
+              + spec
+              + "].";
+            throw new DecodingException( element, error, e );
         }
     }
 }

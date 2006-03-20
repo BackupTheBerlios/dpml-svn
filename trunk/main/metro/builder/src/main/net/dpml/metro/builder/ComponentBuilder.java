@@ -19,308 +19,55 @@
 package net.dpml.metro.builder;
 
 import java.io.IOException;
-import java.net.URI;
+import java.io.Writer;
 
-import net.dpml.lang.Value;
-import net.dpml.lang.BuilderException;
+import net.dpml.lang.Decoder;
+import net.dpml.lang.DecodingException;
+import net.dpml.lang.Encoder;
 
-import net.dpml.component.ActivationPolicy;
+import net.dpml.part.DecoderFactory;
 
-import net.dpml.metro.data.ContextDirective;
-import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.data.CategoriesDirective;
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.data.LookupDirective;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.PartReference;
-import net.dpml.metro.info.Priority;
-
-import net.dpml.part.DOM3DocumentBuilder;
-
-import net.dpml.transit.util.ElementHelper;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Construct a state graph.
+ * Component strategy builder.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public class ComponentBuilder extends ComponentWriter
+public class ComponentBuilder extends ComponentConstants implements Decoder, Encoder
 {
-    private static final String STATE_SCHEMA_URN = "@STATE-XSD-URI@";
+    private final ComponentStrategyDecoder m_strategyDecoder;
+    private final ComponentStrategyEncoder m_strategyEncoder;
     
-    private static final String SCHEMA_URN = "@COMPONENT-XSD-URI@";
-    
-    private static final DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
-    
-    private static final TypeBuilder TYPE_BUILDER = new TypeBuilder();
-    
-   /**
-    * Construct a component directive using the supplied uri.
-    * @param uri the part uri
-    * @return the component directive
-    * @exception IOException if an error occurs during directive creation
-    */
-    public ComponentDirective loadComponentDirective( URI uri ) throws IOException
+    public ComponentBuilder( DecoderFactory factory )
     {
-        if( null == uri )
-        {
-            throw new NullPointerException( "uri" );
-        }
-        try
-        {
-            final Document document = BUILDER.parse( uri );
-            final Element root = document.getDocumentElement();
-            return buildComponent( root );
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "An error while attempting to load a component directive."
-              + "\nURI: " + uri;
-            IOException exception = new IOException( error );
-            exception.initCause( e );
-            throw exception;
-        }
+        m_strategyDecoder = new ComponentStrategyDecoder( factory );
+        m_strategyEncoder = new ComponentStrategyEncoder();
     }
     
    /**
-    * Construct a component directive using the supplied DOM element.
-    * @param root the element representing the component directive definition
-    * @return the component directive
-    * @exception Exception if an error occurs during directive creation
-    */
-    public ComponentDirective buildComponent( Element root ) throws Exception
-    {
-        if( null == root )
-        {
-            throw new NullPointerException( "root" );
-        }
-        
-        return createComponentDirective( root );
-    }
-    
-    private ComponentDirective createComponentDirective( Element element ) throws BuilderException
-    {
-        String classname = buildComponentClassname( element );
-        String name = buildComponentName( element );
-        ActivationPolicy activation = buildActivationPolicy( element );
-        CollectionPolicy collection = buildCollectionPolicy( element );
-        LifestylePolicy lifestyle = buildLifestylePolicy( element );
-        CategoriesDirective categories = getNestedCategoriesDirective( element );
-        ContextDirective context = getNestedContextDirective( element );
-        PartReference[] parts = getNestedParts( element );
-        
-        return new ComponentDirective( 
-          name, activation, collection, lifestyle, classname, 
-          categories, context, null, null, parts );
-    }
-    
-    private String buildComponentClassname( Element element ) throws BuilderException
-    {
-        String classname = ElementHelper.getAttribute( element, "class" );
-        if( null == classname )
-        {
-            final String error =
-              "Missing component 'class' attribute.";
-            throw new BuilderException( element, error );
-        }
-        else
-        {
-            return classname;
-        }
-    }
-    
-    private ActivationPolicy buildActivationPolicy( Element element ) throws BuilderException
-    {
-        String defaultValue = ActivationPolicy.SYSTEM.getName();
-        String policy = ElementHelper.getAttribute( element, "activation", defaultValue );
-        return ActivationPolicy.parse( policy );
-    }
-    
-    private LifestylePolicy buildLifestylePolicy( Element element ) throws BuilderException
-    {
-        String defaultValue = LifestylePolicy.TRANSIENT.getName();
-        String policy = ElementHelper.getAttribute( element, "lifestyle", defaultValue );
-        return LifestylePolicy.parse( policy );
-    }
-    
-    private CollectionPolicy buildCollectionPolicy( Element element ) throws BuilderException
-    {
-        String defaultValue = CollectionPolicy.SYSTEM.getName();
-        String policy = ElementHelper.getAttribute( element, "collection", defaultValue );
-        return CollectionPolicy.parse( policy );
-    }
-    
-    private String buildComponentName( Element element )
-    {
-        return ElementHelper.getAttribute( element, "name" );
-    }
-    
-    private CategoriesDirective getNestedCategoriesDirective( Element root )
-    {
-        Element element = ElementHelper.getChild( root, "categories" );
-        if( null == element )
-        {
-            return null;
-        }
-        else
-        {
-            return createCategoriesDirective( element );
-        }
-    }
-    
-    private CategoriesDirective createCategoriesDirective( Element element )
-    {
-        if( null == element )
-        {
-            return null;
-        }
-        else
-        {
-            String name = ElementHelper.getAttribute( element, "name" );
-            Priority priority = createPriority( element );
-            String target = ElementHelper.getAttribute( element, "target" );
-            CategoryDirective[] categories = createCategoryDirectiveArray( element );
-            return new CategoriesDirective( name, priority, target, categories );
-        }
-    }
-    
-    private CategoryDirective createCategoryDirective( Element element )
-    {
-        String name = ElementHelper.getAttribute( element, "name" );
-        Priority priority = createPriority( element );
-        String target = ElementHelper.getAttribute( element, "target" );
-        return new CategoryDirective( name, priority, target );
-    }
-    
-    private CategoryDirective[] createCategoryDirectiveArray( Element element )
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        CategoryDirective[] categories = new CategoryDirective[ children.length ];
-        for( int i=0; i<categories.length; i++ )
-        {
-            Element elem = children[i];
-            if( "category".equals( elem.getTagName() ) )
-            {
-                categories[i] = createCategoryDirective( elem );
-            }
-            else
-            {
-                categories[i] = createCategoriesDirective( elem );
-            }
-        }
-        return categories;
-    }
-    
-    private Priority createPriority( Element element )
-    {
-        String priority = ElementHelper.getAttribute( element, "priority" );
-        if( null == priority )
-        {
-            return null;
-        }
-        else
-        {
-            return Priority.parse( priority );
-        }
-    }
-    
-    private ContextDirective getNestedContextDirective( Element root )
-    {
-        Element context = ElementHelper.getChild( root, "context" );
-        if( null == context )
-        {
-            return null;
-        }
-        else
-        {
-            return createContextDirective( context );
-        }
-    }
-    
-    private ContextDirective createContextDirective( Element element )
-    {
-        String classname = ElementHelper.getAttribute( element, "class" );
-        Element[] children = ElementHelper.getChildren( element );
-        PartReference[] entries = new PartReference[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element elem = children[i];
-            entries[i] = createContextEntryPartReference( elem );
-        }
-        return new ContextDirective( classname, entries );
-    }
-    
-    private PartReference createContextEntryPartReference( Element element )
-    {
-        String key = ElementHelper.getAttribute( element, "key" );
-        String spec = ElementHelper.getAttribute( element, "lookup" );
-        if( null != spec )
-        {
-            LookupDirective directive = new LookupDirective( spec );
-            return new PartReference( key, directive );
-        }
-        else
-        {
-            ValueDirective directive = buildValueDirective( element );
-            return new PartReference( key, directive );
-        }
-    }
-    
-   /**
-    * Build a value directive using a supplied DOM element.
+    * Constructs a component deployment strategy.
+    * @param classloader the base classloader
     * @param element the DOM element
-    * @return the value directive
+    * @return the deployment strategy
+    * @exception Exception if an error occurs
     */
-    protected ValueDirective buildValueDirective( Element element )
+    public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
-        String classname = ElementHelper.getAttribute( element, "class" );
-        String method = ElementHelper.getAttribute( element, "method" );
-        Element[] elements = ElementHelper.getChildren( element, "param" );
-        if( elements.length > 0 )
-        {
-            Value[] values = buildValues( elements );
-            return new ValueDirective( classname, method, values );
-        }
-        else
-        {
-            String value = ElementHelper.getAttribute( element, "value" );
-            return new ValueDirective( classname, method, value );
-        }
+        return m_strategyDecoder.decode( classloader, element );
     }
     
-    private PartReference[] getNestedParts( Element root )
-    {
-        Element parts = ElementHelper.getChild( root, "parts" );
-        if( null == parts )
-        {
-            return null;
-        }
-        else
-        {
-            return createParts( parts );
-        }
-    }
     
-    private PartReference[] createParts( Element element )
+   /** 
+    * Export a component directive to an output stream as XML.
+    * @param writer the print writer
+    * @param object the object to encode
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
+    public void encode( Writer writer, Object object, String pad ) throws IOException
     {
-        Element[] children = ElementHelper.getChildren( element );
-        PartReference[] parts = new PartReference[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element elem = children[i];
-            parts[i] = createPartReference( elem );
-        }
-        return parts;
-    }
-    
-    private PartReference createPartReference( Element element )
-    {
-        String key = ElementHelper.getAttribute( element, "key" );
-        ComponentDirective directive = createComponentDirective( element );
-        return new PartReference( key, directive );
+        m_strategyEncoder.encode( writer, object, pad );
     }
 }

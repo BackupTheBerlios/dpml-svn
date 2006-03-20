@@ -18,7 +18,7 @@
 
 package net.dpml.transit.info;
 
-import java.net.URISyntaxException;
+import java.net.URI;
 
 import net.dpml.lang.ValueDirective;
 
@@ -44,8 +44,8 @@ public class LayoutDirective extends CodeBaseDirective
     * @exception NullPointerException if the id is null
     */
     public LayoutDirective( 
-      String id, String title, String codebase, ValueDirective[] parameters ) 
-      throws URISyntaxException, NullPointerException
+      String id, String title, URI codebase, ValueDirective[] parameters ) 
+      throws NullPointerException
     {
         super( codebase, parameters );
         if( null == id )

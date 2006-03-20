@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import net.dpml.lang.Value;
+import net.dpml.lang.Encoder;
 
 /**
  * Utility used to build a plugin strategy from a DOM element.
@@ -30,15 +31,31 @@ import net.dpml.lang.Value;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartStrategyWriter extends ValueBuilder
+public class PartStrategyEncoder implements Encoder
 {
+    private ValueEncoder VALUE_ENCODER = new ValueEncoder();
+    
    /**
-    * Creation of a new part strategy writer.
-    * @param map the map of namespace to builder uris
+    * Externalize a object to XML.
+    * @param writer the output stream writer
+    * @param object the object to externalize
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
     */
-    public PartStrategyWriter( Map map )
+    public void encode( Writer writer, Object object, String pad ) throws IOException
     {
-        super( map );
+        if( object instanceof Strategy )
+        {
+            encodeStrategy( writer, (Strategy) object, pad );
+        }
+        else
+        {
+            final String error = 
+              "Supplied object argument ["
+              + object.getClass().getName() 
+              + "] is not recognized.";
+            throw new IllegalArgumentException( error );
+        }
     }
     
    /**
@@ -47,10 +64,10 @@ public class PartStrategyWriter extends ValueBuilder
     * @param strategy the strategy
     * @exception IOException if an IO error occurs
     */
-    public void write( Writer writer, Strategy strategy ) throws IOException
-    {
-        writeStrategy( writer, strategy, "" );
-    }
+    //public void write( Writer writer, Strategy strategy ) throws IOException
+    //{
+    //    encodeStrategy( writer, strategy, "" );
+    //}
     
    /**
     * Externalize a strategy.
@@ -59,7 +76,7 @@ public class PartStrategyWriter extends ValueBuilder
     * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
-    public void writeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
+    public void encodeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
     {
         Object data = strategy.getDeploymentData();
         if( data instanceof Plugin )
@@ -72,7 +89,7 @@ public class PartStrategyWriter extends ValueBuilder
             if( plugin.getValues().length > 0 )
             {
                 Value[] values = plugin.getValues();
-                writeValues( writer, values, "    " );
+                VALUE_ENCODER.encodeValues( writer, values, "    " );
             }
             else
             {

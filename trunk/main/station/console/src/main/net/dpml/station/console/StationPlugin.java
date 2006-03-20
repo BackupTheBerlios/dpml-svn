@@ -1055,16 +1055,11 @@ public class StationPlugin implements Disposable
       int startup, int shutdown, Properties properties, String base, StartupPolicy policy, 
       URI config )
     {
-        String configPath = null;
-        if( null != config )
-        {
-            configPath = config.toASCIIString();
-        }
         try
         {
             ApplicationDescriptor descriptor = 
               new ApplicationDescriptor( 
-                uri.toASCIIString(), 
+                uri, 
                 title,
                 new ValueDirective[0], 
                 base, 
@@ -1072,7 +1067,7 @@ public class StationPlugin implements Disposable
                 startup, 
                 shutdown, 
                 properties,
-                configPath );
+                config );
             registry.addApplicationDescriptor( key, descriptor );
             registry.flush();
             System.out.println( "\nAdded new profile [" + key + "]" );
@@ -1151,16 +1146,11 @@ public class StationPlugin implements Disposable
         {
             throw new NullPointerException( "properties" );
         }
-        String configPath = null;
-        if( null != config )
-        {
-            configPath = config.toASCIIString();
-        }
         try
         {
             ApplicationDescriptor descriptor = 
               new ApplicationDescriptor( 
-                uri.toASCIIString(), 
+                uri, 
                 title,
                 new ValueDirective[0], 
                 base, 
@@ -1168,7 +1158,7 @@ public class StationPlugin implements Disposable
                 startup, 
                 shutdown, 
                 properties, 
-                configPath );
+                config );
             registry.updateApplicationDescriptor( key, descriptor );
             registry.flush();
         }

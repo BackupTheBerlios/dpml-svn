@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.xml.XMLConstants;
 
+import net.dpml.library.TypeBuilder;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.IncludeDirective;
@@ -43,18 +44,15 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.Scope;
 
-import net.dpml.library.TypeBuilder;
-
-import net.dpml.part.AbstractBuilder;
-
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
 
 import net.dpml.lang.Category;
-import net.dpml.lang.BuilderException;
+import net.dpml.lang.DecodingException;
 
 import net.dpml.part.DOM3DocumentBuilder;
+import net.dpml.part.DecoderFactory;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
@@ -66,7 +64,7 @@ import org.w3c.dom.TypeInfo;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class LibraryBuilder extends AbstractBuilder
+public final class LibraryBuilder 
 {
     private static final String PART_XSD_URI = "@PART-XSD-URI@";
     private static final String MODULE_XSD_URI = "@MODULE-XSD-URI@";
@@ -86,8 +84,10 @@ public final class LibraryBuilder extends AbstractBuilder
     private static final String TYPE_ELEMENT_NAME = "type";
     private static final String PROJECT_ELEMENT_NAME = "project";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
+        
+    private static final DOM3DocumentBuilder DOCUMENT_BUILDER = new DOM3DocumentBuilder();
     
-    private DOM3DocumentBuilder m_builder = new DOM3DocumentBuilder();
+    private final DecoderFactory m_decoderFactory;
     
    /**
     * Creation of a new library builder.
@@ -103,7 +103,7 @@ public final class LibraryBuilder extends AbstractBuilder
     */
     public LibraryBuilder( Map map )
     {
-        super( map );
+        m_decoderFactory = new DecoderFactory( map );
     }
     
    /**
@@ -161,7 +161,7 @@ public final class LibraryBuilder extends AbstractBuilder
     {
         try
         {
-            final Document document = m_builder.parse( uri );
+            final Document document = DOCUMENT_BUILDER.parse( uri );
             Element root = document.getDocumentElement();
             return buildResourceDirectiveFromElement( null, root, null );
         }
@@ -259,7 +259,7 @@ public final class LibraryBuilder extends AbstractBuilder
     private Element getRootElement( File source ) throws IOException
     {
         File file = source.getCanonicalFile();
-        final Document document = m_builder.parse( file.toURI() );
+        final Document document = DOCUMENT_BUILDER.parse( file.toURI() );
         return document.getDocumentElement();
     }
     
@@ -782,7 +782,7 @@ public final class LibraryBuilder extends AbstractBuilder
                       + namespace
                       + "\nType Name: " 
                       + info.getTypeName();
-                    throw new BuilderException( element, error );
+                    throw new DecodingException( element, error );
                 }
             }
             else if( info.isDerivedFrom( PART_XSD_URI, "StrategyType", TypeInfo.DERIVATION_EXTENSION ) )
@@ -798,7 +798,7 @@ public final class LibraryBuilder extends AbstractBuilder
                   + namespace
                   + "\nElement Name (from Schema Info): " 
                   + info.getTypeName();
-                throw new BuilderException( element, error );
+                throw new DecodingException( element, error );
             }
         }
         else
@@ -808,7 +808,7 @@ public final class LibraryBuilder extends AbstractBuilder
               "Element is not derivived from AbstractType defined under the common namespace."
               + "\nNamespace: " + namespace
               + "\nElement Name (from Schema Info): " + info.getTypeName();
-            throw new BuilderException( element, error );
+            throw new DecodingException( element, error );
         }
     }
     
@@ -1117,14 +1117,14 @@ public final class LibraryBuilder extends AbstractBuilder
     * @param element the DOM element
     * @return the id value
     */
-    protected String getID( Element element )
+    protected String getID( Element element ) throws DecodingException
     {
         final String id = ElementHelper.getAttribute( element, "id" );
         if( null == id )
         {
             final String error = 
               "Missing type 'id'.";
-            throw new BuilderException( element, error );
+            throw new DecodingException( element, error );
         }
         else
         {

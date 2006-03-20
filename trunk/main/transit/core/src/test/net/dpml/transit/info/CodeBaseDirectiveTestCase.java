@@ -30,14 +30,14 @@ import net.dpml.lang.ValueDirective;
  */
 public class CodeBaseDirectiveTestCase extends AbstractTestCase
 {
-    private String m_codebase;
+    private URI m_codebase;
     private ValueDirective[] m_values;
     
    /**
     * Return the test codebase value.
     * @return the codebase spec
     */
-    protected String getCodebaseValue()
+    protected URI getCodebaseValue()
     {
         return m_codebase;
     }
@@ -57,7 +57,7 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
     */
     public void setUp() throws Exception
     {
-        m_codebase = "link:test:whatever";
+        m_codebase = new URI( "link:test:whatever" );
         ValueDirective v1 = new ValueDirective( "abc" );
         ValueDirective v2 = new ValueDirective( "def" );
         m_values = new ValueDirective[]{v1, v2};
@@ -70,7 +70,7 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
     public void testGetCodeBaseURISpec() throws Exception
     {
         CodeBaseDirective directive = new CodeBaseDirective( m_codebase, m_values );
-        assertEquals( "codebase-spec", m_codebase, directive.getCodeBaseURISpec() );
+        assertEquals( "codebase-spec", m_codebase.toASCIIString(), directive.getCodeBaseURISpec() );
     }
     
    /**
@@ -79,9 +79,8 @@ public class CodeBaseDirectiveTestCase extends AbstractTestCase
     */
     public void testGetCodeBaseURI() throws Exception
     {
-        URI uri = new URI( m_codebase );
         CodeBaseDirective directive = new CodeBaseDirective( m_codebase, m_values );
-        assertEquals( "codebase-spec", uri, directive.getCodeBaseURI() );
+        assertEquals( "codebase", m_codebase, directive.getCodeBaseURI() );
     }
     
    /**

@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 /**
  * Construct a state graph.
  */
-public class StateBuilder extends StateWriter
+public class StateDecoder
 {
     private static final String XML_HEADER = 
       "<?xml version=\"1.0\"?>";

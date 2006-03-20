@@ -34,7 +34,7 @@ import junit.framework.TestCase;
  */
 public class TypesTestCase extends TestCase
 {
-    private TypeBuilder m_builder;
+    private ComponentTypeDecoder m_builder;
     
    /**
     * Testcase setup.
@@ -42,7 +42,7 @@ public class TypesTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        m_builder = new TypeBuilder();
+        m_builder = new ComponentTypeDecoder();
     }
     
    /**

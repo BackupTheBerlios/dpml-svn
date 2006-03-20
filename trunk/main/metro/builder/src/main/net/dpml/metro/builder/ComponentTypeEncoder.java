@@ -35,9 +35,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Descriptor;
 
 import net.dpml.state.State;
-import net.dpml.state.impl.StateBuilder;
-
-import net.dpml.part.ValueWriter;
+import net.dpml.state.impl.StateEncoder;
 
 /**
  * Type builder.
@@ -45,8 +43,7 @@ import net.dpml.part.ValueWriter;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-//public class TypeWriter extends ComponentBuilder
-public class TypeWriter extends ValueWriter
+public class ComponentTypeEncoder
 {
     private static final String XML_HEADER = 
       "<?xml version=\"1.0\"?>";
@@ -55,9 +52,9 @@ public class TypeWriter extends ValueWriter
     private static final String COMPONENT_SCHEMA_URN = "@COMPONENT-XSD-URI@";
     private static final String TYPE_SCHEMA_URN = "@TYPE-XSD-URI@";
     
-    private static final StateBuilder STATE_BUILDER = new StateBuilder();
+    private static final StateEncoder STATE_GRAPH_ENCODER = new StateEncoder();
     
-    static final ComponentBuilder COMPONENT_BUILDER = new ComponentBuilder();
+    static final ComponentEncoder COMPONENT_ENCODER = new ComponentEncoder();
     
     private static final String HEADER = 
       "<type xmlns=\"" 
@@ -183,7 +180,8 @@ public class TypeWriter extends ValueWriter
         }
     }
     
-    private void writeTypeCategories( Writer writer, CategoryDescriptor[] categories, String pad ) throws IOException
+    private void writeTypeCategories( 
+      Writer writer, CategoryDescriptor[] categories, String pad ) throws IOException
     {
         if( categories.length > 0 )
         {
@@ -219,13 +217,13 @@ public class TypeWriter extends ValueWriter
     
     private void writeTypeState( Writer writer, State state, String pad ) throws IOException
     {
-        STATE_BUILDER.writeState( writer, state, pad );
+        STATE_GRAPH_ENCODER.writeState( writer, state, pad );
         writer.write( "\n" );
     }
     
     private void writeTypeParts( Writer writer, PartReference[] parts, String pad ) throws IOException
     {
-        COMPONENT_BUILDER.writeParts( writer, parts, pad );
+        COMPONENT_ENCODER.writeParts( writer, parts, pad );
     }
     
     private void writeAttributes( Writer writer, Descriptor descriptor, String pad ) throws IOException

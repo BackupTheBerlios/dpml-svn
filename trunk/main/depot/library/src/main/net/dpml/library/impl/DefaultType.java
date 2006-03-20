@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import net.dpml.library.info.TypeDirective;
-
 import net.dpml.library.Type;
 
-import net.dpml.lang.Builder;
-import net.dpml.lang.BuilderException;
-import net.dpml.part.AbstractBuilder;
+import net.dpml.lang.Decoder;
+import net.dpml.lang.DecodingException;
+
+import net.dpml.part.DecoderFactory;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;
@@ -105,15 +105,15 @@ public class DefaultType extends DefaultDictionary implements Type
                     throw new IllegalStateException( error );
                 }
             }
-            AbstractBuilder factory = new AbstractBuilder( map );
-            Builder builder = factory.getBuilder( element );
-            return builder.build( getClass().getClassLoader(), element );
+            DecoderFactory factory = new DecoderFactory( map );
+            Decoder decoder = factory.loadDecoder( element );
+            return decoder.decode( getClass().getClassLoader(), element );
         }
         catch( Throwable e )
         {
             final String error = 
-              "Unexpected error while attempting to load foreign builder.";
-            throw new BuilderException( element, error, e );
+              "Unexpected error while attempting to data.";
+            throw new RuntimeException( error, e );
         }
     }
     

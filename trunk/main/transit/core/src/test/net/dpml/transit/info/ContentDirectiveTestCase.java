@@ -18,6 +18,8 @@
 
 package net.dpml.transit.info;
 
+import java.net.URI;
+
 import net.dpml.lang.ValueDirective;
 
 /**
@@ -37,7 +39,7 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testID() throws Exception
     {
-        String codebase = getCodebaseValue();
+        URI codebase = getCodebaseValue();
         ValueDirective[] values = getValueDirectives();
         ContentDirective directive = 
           new ContentDirective( m_id, m_title, codebase, values );
@@ -51,7 +53,7 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testTitle() throws Exception
     {
-        String codebase = getCodebaseValue();
+        URI codebase = getCodebaseValue();
         ValueDirective[] values = getValueDirectives();
         ContentDirective directive = 
           new ContentDirective( m_id, m_title, codebase, values );
@@ -65,7 +67,7 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testNullID() throws Exception
     {
-        String codebase = getCodebaseValue();
+        URI codebase = getCodebaseValue();
         ValueDirective[] values = getValueDirectives();
         try
         {
@@ -85,7 +87,7 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testNullTitle() throws Exception
     {
-        String codebase = getCodebaseValue();
+        URI codebase = getCodebaseValue();
         ValueDirective[] values = getValueDirectives();
         ContentDirective directive = 
           new ContentDirective( m_id, null, codebase, values );
@@ -98,7 +100,7 @@ public final class ContentDirectiveTestCase extends CodeBaseDirectiveTestCase
     */
     public void testSerialization() throws Exception
     {
-        String codebase = getCodebaseValue();
+        URI codebase = getCodebaseValue();
         ValueDirective[] values = getValueDirectives();
         ContentDirective directive = 
           new ContentDirective( m_id, m_title, codebase, values );

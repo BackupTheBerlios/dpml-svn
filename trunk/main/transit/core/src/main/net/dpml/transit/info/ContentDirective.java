@@ -18,7 +18,7 @@
 
 package net.dpml.transit.info;
 
-import java.net.URISyntaxException;
+import java.net.URI;
 
 import net.dpml.lang.ValueDirective;
 
@@ -40,12 +40,11 @@ public class ContentDirective extends CodeBaseDirective
     * @param title the handler title
     * @param codebase the codebase uri 
     * @param parameters an array of plugin parameter descriptors
-    * @exception URISyntaxException if the codebase URI is invalid
     * @exception NullPointerException if the id is null
     */
     public ContentDirective( 
-      String id, String title, String codebase, ValueDirective[] parameters ) 
-      throws URISyntaxException, NullPointerException
+      String id, String title, URI codebase, ValueDirective[] parameters ) 
+      throws NullPointerException
     {
         super( codebase, parameters );
         if( null == id )

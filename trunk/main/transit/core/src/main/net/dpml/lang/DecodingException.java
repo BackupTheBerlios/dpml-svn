@@ -22,29 +22,29 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Exception related to data construction from a DOM element.
+ * Exception related to data decoding from a DOM element.
  */
-public class BuilderException extends RuntimeException
+public class DecodingException extends Exception
 {
     private final Element m_element;
     
    /**
-    * Create a new vuilder exception instance.
+    * Create a new decoding exception.
     * @param element the element representing the source of the error
     * @param message the exception message
     */
-    public BuilderException( Element element, String message )
+    public DecodingException( Element element, String message )
     {
         this( element, message, null );
     }
     
    /**
-    * Create a new vuilder exception instance.
+    * Create a new decoding exception.
     * @param element the element representing the source of the error
     * @param message the exception message
     * @param cause the causal exception
     */
-    public BuilderException( Element element, String message, Throwable cause )
+    public DecodingException( Element element, String message, Throwable cause )
     {
         super( message, cause );
         m_element = element;

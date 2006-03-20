@@ -27,7 +27,9 @@ import javax.xml.XMLConstants;
 import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.part.Strategy;
-import net.dpml.part.ValueBuilder;
+import net.dpml.part.ValueEncoder;
+
+import net.dpml.lang.Encoder;
 
 /**
  * Component part handler.
@@ -35,10 +37,10 @@ import net.dpml.part.ValueBuilder;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentStrategyWriter extends ValueBuilder
+public class ComponentStrategyEncoder extends ComponentConstants implements Encoder
 {
     static final String CONTROLLER_URI = "@CONTROLLER-URI@";
-    static final String BUILDER_URI = "@BUILDER-URI@";
+    static final String BUILDER_URI = "@COMPONENT_DECODER-URI@";
     
     private static final String COMPONENT_XSD_URI = "@COMPONENT-XSD-URI@";
     private static final String XML_HEADER = 
@@ -47,6 +49,7 @@ public class ComponentStrategyWriter extends ValueBuilder
     private static final String STATE_SCHEMA_URN = "@STATE-XSD-URI@";
     private static final String PART_SCHEMA_URN = "@PART-XSD-URI@";
     private static final String COMPONENT_SCHEMA_URN = "@COMPONENT-XSD-URI@";
+    
     private static final String PARTIAL_COMPONENT_HEADER = 
       "<component xmlns=\"" 
       + COMPONENT_SCHEMA_URN 
@@ -61,15 +64,28 @@ public class ComponentStrategyWriter extends ValueBuilder
       + COMPONENT_SCHEMA_URN
       + "\"";
     
-    static final ComponentBuilder BUILDER = new ComponentBuilder();
+    static final ComponentEncoder COMPONENT_ENCODER = new ComponentEncoder();
     
    /**
-    * Creation of a new component strategy writer.
-    * @param map the namespace to builder uri map
+    * Write a component strategy to an output stream writer.
+    * @param writer the output stream writer
+    * @param object the object to encode
+    * @param pad the character offset to apply
+    * @exception IOException if an IO error occurs
     */
-    public ComponentStrategyWriter( Map map )
+    public void encode( Writer writer, Object object, String pad ) throws IOException
     {
-        super( map );
+        if( object instanceof Strategy )
+        {
+            writeStrategy( writer, (Strategy) object, pad );
+        }
+        else
+        {
+            final String error = 
+              "Encoding subject is not recognized."
+              + "\nObject: " + object.getClass().getName();
+            throw new IllegalArgumentException( error );
+        }
     }
 
    /**
@@ -88,8 +104,8 @@ public class ComponentStrategyWriter extends ValueBuilder
             ComponentDirective directive = (ComponentDirective) data;
             writer.write( "\n" + pad + "<component xmlns=\"" + COMPONENT_SCHEMA_URN + "\"" );
             writer.write( "\n" + pad + "  " );
-            BUILDER.writeAttributes( writer, directive, pad + "   " );
-            BUILDER.writeBody( writer, directive, pad + "  " );
+            COMPONENT_ENCODER.writeAttributes( writer, directive, pad + "   " );
+            COMPONENT_ENCODER.writeBody( writer, directive, pad + "  " );
             writer.write( "\n" + pad + "</component>" );
         }
         else

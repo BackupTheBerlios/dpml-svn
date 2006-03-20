@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import net.dpml.metro.builder.ComponentTypeEncoder;
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.InfoDescriptor;
@@ -46,9 +47,10 @@ import net.dpml.metro.info.ThreadSafePolicy;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.DefaultState;
-import net.dpml.state.impl.StateBuilder;
+import net.dpml.state.impl.StateDecoder;
 
 import net.dpml.library.info.Scope;
+
 import net.dpml.tools.tasks.GenericTask;
 
 import org.apache.tools.ant.BuildException;
@@ -65,10 +67,10 @@ import org.apache.tools.ant.types.Path;
  */
 public class TypeBuilderTask extends GenericTask implements TypeBuilder
 {
-    private static final StateBuilder STATE_BUILDER = new StateBuilder();
-    private static final net.dpml.metro.builder.TypeBuilder TYPE_BUILDER = 
-      new net.dpml.metro.builder.TypeBuilder();
-    
+    private static final StateDecoder STATE_DECODER = new StateDecoder();
+    private static final ComponentTypeEncoder COMPONENT_TYPE_ENCODER = 
+      new ComponentTypeEncoder();
+      
     //---------------------------------------------------------------
     // state
     //---------------------------------------------------------------
@@ -238,7 +240,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     */
     public URI getBuilderURI()
     {
-        return TYPE_BUILDER_URI;
+        return COMPONENT_TYPE_DECODER_URI;
     }
     
     //---------------------------------------------------------------
@@ -310,7 +312,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             OutputStream output = getOutputStream( type );
             try
             {
-                TYPE_BUILDER.export( type, output );
+                COMPONENT_TYPE_ENCODER.export( type, output );
             }
             finally
             {
@@ -691,7 +693,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
             else
             {
                 URI uri = new URI( url.toString() );
-                return STATE_BUILDER.loadState( uri );
+                return STATE_DECODER.loadState( uri );
             }
         }
         catch( Throwable e )
@@ -991,7 +993,7 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     }
 
     private static final URI TYPE_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
-    private static final URI TYPE_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
+    private static final URI COMPONENT_TYPE_DECODER_URI = setupURI( "@PART-BUILDER-URI@" );
 
    /**
     * Internal utility to create a static uri.

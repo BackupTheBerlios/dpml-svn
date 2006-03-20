@@ -27,9 +27,11 @@ import java.util.List;
 import java.beans.IntrospectionException;
 
 import net.dpml.tools.tasks.GenericTask;
+
 import net.dpml.library.info.Scope;
 
 import net.dpml.metro.info.Type;
+import net.dpml.metro.builder.ComponentTypeEncoder;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
@@ -45,9 +47,10 @@ import org.apache.tools.ant.types.Path;
  */
 public class TypesTask extends GenericTask implements DynamicElementNS
 {
-    private static final net.dpml.metro.builder.TypeBuilder BUILDER = 
-      new net.dpml.metro.builder.TypeBuilder();
-     
+    private static final ComponentTypeEncoder COMPONENT_TYPE_ENCODER = 
+      new ComponentTypeEncoder();
+
+
     private List m_builders = new LinkedList();
 
    /**
@@ -107,7 +110,7 @@ public class TypesTask extends GenericTask implements DynamicElementNS
                 OutputStream output = getOutputStream( type );
                 try
                 {
-                    BUILDER.export( type, output );
+                    COMPONENT_TYPE_ENCODER.export( type, output );
                 }
                 finally
                 {

@@ -25,7 +25,7 @@ import java.io.IOException;
 import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.state.State;
-import net.dpml.state.impl.StateBuilder;
+import net.dpml.state.impl.StateEncoder;
 
 import org.apache.tools.ant.BuildException;
 
@@ -37,7 +37,7 @@ import org.apache.tools.ant.BuildException;
  */
 public class StateTask extends GenericTask
 {
-    private static final StateBuilder BUILDER = new StateBuilder();
+    private static final StateEncoder STATE_ENCODER = new StateEncoder();
     
     private File m_output;
     private StateDataType m_data;
@@ -150,7 +150,7 @@ public class StateTask extends GenericTask
             try
             {
                 State graph = getData().getState();
-                BUILDER.export( graph, output );
+                STATE_ENCODER.export( graph, output );
             }
             catch( Exception e )
             {

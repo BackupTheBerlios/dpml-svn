@@ -29,6 +29,9 @@ import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Directive;
 
 import net.dpml.lang.Value;
+import net.dpml.lang.Encoder;
+
+import net.dpml.part.ValueEncoder;
 
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoryDirective;
@@ -41,15 +44,13 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.part.PartBuilder;
-
 /**
  * Component part handler.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentWriter extends PartBuilder
+public class ComponentEncoder extends ComponentConstants implements Encoder
 {
     private static final String CONTROLLER_URI = "@CONTROLLER-URI@";
     private static final String BUILDER_URI = "@BUILDER-URI@";
@@ -71,6 +72,8 @@ public class ComponentWriter extends PartBuilder
       + "\"\n    xmlns:component=\"" 
       + COMPONENT_SCHEMA_URN
       + "\"";
+    
+    private static final ValueEncoder VALUE_ENCODER = new ValueEncoder();
     
    /** 
     * Export a component directive to an output stream as XML.
@@ -94,6 +97,28 @@ public class ComponentWriter extends PartBuilder
         output.close();
     }
     
+   /** 
+    * Export a component directive to an output stream as XML.
+    * @param writer the print writer
+    * @param object the object to encode
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
+    public void encode( Writer writer, Object object, String pad ) throws IOException
+    {
+        if( object instanceof ComponentDirective )
+        {
+            writeTaggedComponent( writer, (ComponentDirective) object, null, pad );
+        }
+        else
+        {
+            final String error = 
+              "Encoding subject is not recognized."
+              + "\nClass: " + object.getClass().getName();
+            throw new IllegalArgumentException( error );
+        }
+    }
+
    /** 
     * Export a component directive to an output stream as XML.
     * @param writer the print writer
@@ -436,7 +461,7 @@ public class ComponentWriter extends PartBuilder
         if( values.length > 0 )
         {
             writer.write( ">" );
-            writeValues( writer, values, pad + "  " );
+            VALUE_ENCODER.encodeValues( writer, values, pad + "  " );
             writer.write( "\n" + pad + "</entry>" );
         }
         else

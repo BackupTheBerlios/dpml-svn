@@ -28,6 +28,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.dpml.component.Directive;
+import net.dpml.component.ActivationPolicy;
+
+import net.dpml.configuration.Configuration;
+
+import net.dpml.library.info.Scope;
+
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
@@ -36,14 +42,10 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
-
-import net.dpml.library.info.Scope;
-
-import net.dpml.configuration.Configuration;
+import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.component.ActivationPolicy;
 import net.dpml.part.Strategy;
 import net.dpml.part.PartDirective;
 
@@ -64,8 +66,8 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
 {
     private static final String NAMESPACE = "@COMPONENT-XSD-URI@";
     
-    private static final net.dpml.metro.builder.TypeBuilder TYPE_BUILDER =
-      new net.dpml.metro.builder.TypeBuilder();
+    private static final ComponentTypeDecoder COMPONENT_TYPE_DECODER = 
+      new ComponentTypeDecoder();
       
     private URI m_uri;
     private String m_key;
@@ -536,7 +538,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         try
         {
             Class c = classloader.loadClass( classname );
-            return TYPE_BUILDER.loadType( c );
+            return COMPONENT_TYPE_DECODER.loadType( c );
         }
         catch( Throwable e )
         {

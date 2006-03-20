@@ -43,7 +43,8 @@ import net.dpml.component.Model;
 import net.dpml.component.Component;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartBuilder;
+import net.dpml.part.PartDecoder;
+import net.dpml.part.DecoderFactory;
 import net.dpml.part.StandardPartHandler;
 import net.dpml.part.Strategy;
 
@@ -68,21 +69,14 @@ public class CompositionController extends StandardPartHandler implements Contro
     private static final String COMPONENT_NAMESPACE_URI = "@COMPONENT-NAMESPACE-URI@";
     private static final String COMPONENT_BUILDER_URI = "@COMPONENT-BUILDER-URI@";
     
-    static final PartBuilder BUILDER = createPartBuilder();
+    static final PartDecoder BUILDER = createPartDecoder();
     
-    private static PartBuilder createPartBuilder()
+    private static PartDecoder createPartDecoder()
     {
         Map map = new Hashtable();
-        try
-        {
-            map.put( COMPONENT_NAMESPACE_URI, new URI( COMPONENT_BUILDER_URI ) );
-            return new PartBuilder( map );
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-            return new PartBuilder();
-        }
+        map.put( COMPONENT_NAMESPACE_URI, createStaticURI( COMPONENT_BUILDER_URI ) );
+        DecoderFactory factory = new DecoderFactory( map );
+        return new PartDecoder( factory );
     }
     
     //--------------------------------------------------------------------

@@ -36,7 +36,8 @@ public class PartTestCase extends TestCase
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
     }
     
-    private PartBuilder m_builder;
+    private PartDecoder m_decoder;
+    private PartEncoder m_encoder;
     
    /**
     * Test the demo class.
@@ -44,7 +45,8 @@ public class PartTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        m_builder = new PartBuilder( null );
+        m_decoder = new PartDecoder( new DecoderFactory() );
+        m_encoder = new PartEncoder();
     }
     
    /**
@@ -72,11 +74,11 @@ public class PartTestCase extends TestCase
         File file = new File( test, path );
         System.out.println( "source: " + file + " (" + file.exists() + ")" );
         
-        Part part = m_builder.loadPart( file.toURI() );
+        Part part = m_decoder.loadPart( file.toURI() );
         File out = new File( test, "export-" + path );
         FileOutputStream output = new FileOutputStream( out );
-        m_builder.writePart( part, output, "" );
-        Part newPart = m_builder.loadPart( out.toURI() );
+        m_encoder.encodePart( part, output, "" );
+        Part newPart = m_decoder.loadPart( out.toURI() );
         assertEquals( "part", part, newPart );
     }
 }

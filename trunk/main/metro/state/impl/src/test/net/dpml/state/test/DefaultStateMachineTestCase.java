@@ -29,7 +29,7 @@ import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
 import net.dpml.state.Action;
 import net.dpml.state.impl.DefaultStateMachine;
-import net.dpml.state.impl.StateBuilder;
+import net.dpml.state.impl.StateDecoder;
 
 /**
  * Default state machine test-case.
@@ -52,7 +52,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         File example = new File( test, "example.xgraph" );
         try
         {
-            StateBuilder builder = new StateBuilder();
+            StateDecoder builder = new StateDecoder();
             m_state = builder.loadState( example.toURI() );
             m_machine = new DefaultStateMachine( m_state );
         }

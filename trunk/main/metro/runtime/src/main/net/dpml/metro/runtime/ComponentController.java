@@ -50,7 +50,7 @@ import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ContextModel;
 import net.dpml.metro.PartsManager;
-import net.dpml.metro.builder.TypeBuilder;
+import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.parameters.Parameters;
 
@@ -66,7 +66,7 @@ class ComponentController
     // static
     //--------------------------------------------------------------------------
     
-    private static final TypeBuilder BUILDER = new TypeBuilder();
+    private static final ComponentTypeDecoder BUILDER = new ComponentTypeDecoder();
     
     //--------------------------------------------------------------------------
     // state

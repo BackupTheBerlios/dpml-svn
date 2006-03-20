@@ -25,7 +25,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 import net.dpml.lang.Version;
-import net.dpml.lang.BuilderException;
+import net.dpml.lang.DecodingException;
 
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.info.Type;
@@ -43,7 +43,7 @@ import net.dpml.metro.info.Priority;
 import net.dpml.part.DOM3DocumentBuilder;
 
 import net.dpml.state.State;
-import net.dpml.state.impl.StateBuilder;
+import net.dpml.state.impl.StateDecoder;
 import net.dpml.state.impl.DefaultState;
 
 import net.dpml.transit.util.ElementHelper;
@@ -53,16 +53,18 @@ import org.w3c.dom.Document;
 
 
 /**
- * Type builder.
+ * Component type decoder.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class TypeBuilder extends TypeWriter
+public final class ComponentTypeDecoder
 {
-    private static final StateBuilder STATE_BUILDER = new StateBuilder();
+    private static final StateDecoder STATE_DECODER = new StateDecoder();
     
-    private static final DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
+    private static final DOM3DocumentBuilder DOCUMENT_BUILDER = new DOM3DocumentBuilder();
+    
+    private static final ComponentDecoder COMPONENT_DECODER = new ComponentDecoder();
     
    /**
     * Load a type.
@@ -110,7 +112,7 @@ public final class TypeBuilder extends TypeWriter
     {
         try
         {
-            final Document document = BUILDER.parse( uri );
+            final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
             return buildType( root );
         }
@@ -136,14 +138,14 @@ public final class TypeBuilder extends TypeWriter
         return new Type( info, categories, context, services, parts, state );
     }
     
-    private InfoDescriptor buildNestedInfoDescriptor( Element root )
+    private InfoDescriptor buildNestedInfoDescriptor( Element root ) throws DecodingException
     {
         Element info = ElementHelper.getChild( root, "info" );
         if( null == info )
         {
             final String error = 
               "Definition of <type> is missing the required <info> element.";
-            throw new BuilderException( root, error );
+            throw new DecodingException( root, error );
         }
         
         String name = ElementHelper.getAttribute( info, "name" );
@@ -245,7 +247,7 @@ public final class TypeBuilder extends TypeWriter
         }
         else
         {
-            return STATE_BUILDER.buildStateGraph( element );
+            return STATE_DECODER.buildStateGraph( element );
         }
     }
     
@@ -279,7 +281,7 @@ public final class TypeBuilder extends TypeWriter
     private PartReference buildPartReference( Element element ) throws Exception
     {
         String key = ElementHelper.getAttribute( element, "key" );
-        ComponentDirective definition = COMPONENT_BUILDER.buildComponent( element );
+        ComponentDirective definition = COMPONENT_DECODER.buildComponent( element );
         return new PartReference( key, definition );
     }
     

@@ -18,6 +18,7 @@
 
 package net.dpml.transit;
 
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.io.InputStream;
@@ -37,6 +38,7 @@ import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.LayoutDirective;
 
 import net.dpml.lang.ValueDirective;
+import net.dpml.lang.DecodingException;
 import net.dpml.lang.Logger;
 
 import org.xml.sax.ErrorHandler;
@@ -227,9 +229,32 @@ public class TransitBuilder
         String id = ElementHelper.getAttribute( element, "id" );
         String title = ElementHelper.getAttribute( element, "title" );
         Element codebase = ElementHelper.getChild( element, "codebase" );
-        String uri = ElementHelper.getAttribute( codebase, "uri" );
+        URI uri = decodeURI( codebase );
         ValueDirective[] values = getValueDirectives( codebase );
         return new LayoutDirective( id, title, uri, values );
+    }
+    
+    private URI decodeURI( Element element ) throws DecodingException
+    {
+        String uri = ElementHelper.getAttribute( element, "uri" );
+        if( null == uri )
+        {
+            final String error = "Missing uri attribute.";
+            throw new DecodingException( element, error );
+        }
+        else
+        {
+            try
+            {
+                return new URI( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = "Bad uri argument [" + uri + "].";
+                throw new DecodingException( element, error );
+                
+            }
+        }
     }
     
     private ValueDirective[] getValueDirectives( Element element )

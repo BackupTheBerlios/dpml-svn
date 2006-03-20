@@ -33,7 +33,7 @@ import net.dpml.state.State;
 import net.dpml.state.Operation;
 import net.dpml.state.Interface;
 import net.dpml.state.Transition;
-import net.dpml.state.impl.StateBuilder;
+import net.dpml.state.impl.StateDecoder;
 import net.dpml.state.impl.DefaultState;
 
 import org.apache.tools.ant.Project;
@@ -49,7 +49,7 @@ import org.apache.tools.ant.AntClassLoader;
  */
 public class StateDataType
 {
-    private static final StateBuilder BUILDER = new StateBuilder();
+    private static final StateDecoder STATE_DECODER = new StateDecoder();
     
     private final boolean m_root;
     private final GenericTask m_task;
@@ -272,7 +272,7 @@ public class StateDataType
             m_task.log( "importing state graph: " + m_uri );
             try
             {
-                return BUILDER.loadState( m_uri );
+                return STATE_DECODER.loadState( m_uri );
             }
             catch( Exception e )
             {
@@ -411,7 +411,7 @@ public class StateDataType
             else
             {
                 URI uri = new URI( url.toString() );
-                return BUILDER.loadState( uri );
+                return STATE_DECODER.loadState( uri );
             }
         }
         catch( Throwable e )

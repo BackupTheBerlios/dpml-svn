@@ -18,19 +18,20 @@
 
 package net.dpml.lang;
 
-import org.w3c.dom.Element;
+import java.io.Writer;
+import java.io.IOException;
 
 /**
- * Interface implemented by generic builders.
+ * Interface implemented by generic encoders.
  */
-public interface Builder
+public interface Encoder
 {
    /**
-    * Create an object using a supplied classloader and DOM element.
-    * @param classloader the base classloader
-    * @param element the DOM element
-    * @return an object
-    * @exception Exception if an error occurs
+    * Externalize a object to XML.
+    * @param writer the output stream writer
+    * @param object the object to externalize
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
     */
-    Object build( ClassLoader classloader, Element element ) throws Exception;
+    public void encode( Writer writer, Object object, String pad ) throws IOException;
 }

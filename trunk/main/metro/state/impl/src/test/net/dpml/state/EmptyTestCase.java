@@ -21,7 +21,7 @@ package net.dpml.state;
 import java.io.File;
 import java.net.URI;
 
-import net.dpml.state.impl.StateBuilder;
+import net.dpml.state.impl.StateDecoder;
 
 import junit.framework.TestCase;
 
@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  */
 public class EmptyTestCase extends TestCase
 {
-    private StateBuilder m_builder;
+    private StateDecoder m_decoder;
     
    /**
     * Testcase setup.
@@ -40,7 +40,7 @@ public class EmptyTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        m_builder = new StateBuilder();
+        m_decoder = new StateDecoder();
     }
     
    /**
@@ -53,7 +53,7 @@ public class EmptyTestCase extends TestCase
         File test = new File( testPath );
         File example = new File( test, "empty.xml" );
         URI uri = example.toURI();
-        State state = m_builder.loadState( uri );
+        State state = m_decoder.loadState( uri );
         assertEquals( "substates", 0, state.getStates().length );
         assertEquals( "transitions", 0, state.getTransitions().length );
         assertEquals( "triggers", 0, state.getTriggers().length );

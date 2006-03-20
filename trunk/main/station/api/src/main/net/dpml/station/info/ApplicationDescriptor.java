@@ -66,9 +66,9 @@ public class ApplicationDescriptor extends CodeBaseDirective
     * @exception URISyntaxException if the codebase URI is invalid
     */
     public ApplicationDescriptor( 
-      String codebase, String title, ValueDirective[] parameters, String base, 
+      URI codebase, String title, ValueDirective[] parameters, String base, 
       StartupPolicy policy, int startupTimeout, int shutdownTimeout,
-      Properties properties, String config ) throws URISyntaxException
+      Properties properties, URI config )
     {
         super( codebase, parameters );
         
@@ -95,14 +95,7 @@ public class ApplicationDescriptor extends CodeBaseDirective
         m_shutdown = shutdownTimeout;
         m_properties = properties;
         m_title = title;
-        if( null != config )
-        {
-            m_config = new URI( config );
-        }
-        else
-        {
-            m_config = null;
-        }
+        m_config = config;
     }
     
    /**

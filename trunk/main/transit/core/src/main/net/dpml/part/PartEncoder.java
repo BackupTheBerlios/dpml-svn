@@ -29,12 +29,15 @@ import javax.xml.XMLConstants;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
+import net.dpml.lang.Encoder;
 
 /**
- * Part externalization to XML.
+ * Utility class that provides support for the externalization of a part instance to XML.
  */
-public class PartWriter extends ValueBuilder
+public class PartEncoder implements Encoder
 {
+    private static final PartStrategyEncoder STRATEGY_ENCODER = new PartStrategyEncoder();
+    
     private static final String XML_HEADER = 
       "<?xml version=\"1.0\"?>";
     
@@ -49,14 +52,28 @@ public class PartWriter extends ValueBuilder
       + "\">";
 
     private static final String PART_FOOTER = "</part>";
-
+    
    /**
-    * Creation of a new part writer.
-    * @param map the map of namespace to builder uris
+    * Externalize the part to XML.
+    * @param writer the output stream writer
+    * @param object the object to encode
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
     */
-    public PartWriter( Map map )
+    public void encode( Writer writer, Object object, String pad ) throws IOException
     {
-        super( map );
+        if( object instanceof Strategy )
+        {
+            STRATEGY_ENCODER.encode( writer, (Strategy) object, pad );
+        }
+        else
+        {
+            final String error = 
+              "Object class ["
+              + object.getClass().getName() 
+              + "] is not recognized.";
+            throw new IllegalArgumentException( error );
+        }
     }
     
    /**
@@ -66,18 +83,18 @@ public class PartWriter extends ValueBuilder
     * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
-    public void writePart( Part part, OutputStream output, String pad ) throws IOException
+    public void encodePart( Part part, OutputStream output, String pad ) throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );
         writer.write( XML_HEADER );
         writer.write( "\n\n" );
         writer.write( PART_HEADER );
         writer.write( "\n" );
-        writeInfo( writer, part.getInfo() );
+        encodeInfo( writer, part.getInfo() );
         writer.write( "\n" );
-        writeStrategy( writer, part.getStrategy(), "  " );
+        encodeStrategy( writer, part.getStrategy(), "  " );
         writer.write( "\n" );
-        writeClasspath( writer, part.getClasspath() );
+        encodeClasspath( writer, part.getClasspath() );
         writer.write( "\n\n" );
         writer.write( PART_FOOTER );
         writer.write( "\n" );
@@ -85,7 +102,7 @@ public class PartWriter extends ValueBuilder
         output.close();
     }
     
-    private void writeInfo( Writer writer, Info info ) throws IOException
+    private void encodeInfo( Writer writer, Info info ) throws IOException
     {
         String title = info.getTitle();
         String description = info.getDescription();
@@ -108,13 +125,13 @@ public class PartWriter extends ValueBuilder
     * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
-    protected void writeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
+    protected void encodeStrategy( Writer writer, Strategy strategy, String pad ) throws IOException
     {
         URI uri = strategy.getBuilderURI();
         try
         {
-            StrategyBuilder builder = (StrategyBuilder) loadObjectFromURI( uri, StrategyBuilder.class );
-            builder.writeStrategy( writer, strategy, pad );
+            Encoder encoder = DecoderFactory.loadEncoder( uri );
+            encoder.encode( writer, strategy, pad );
         }
         catch( Exception e )
         {
@@ -126,17 +143,17 @@ public class PartWriter extends ValueBuilder
         }
     }
 
-    private void writeClasspath( Writer writer, Classpath classpath ) throws IOException
+    private void encodeClasspath( Writer writer, Classpath classpath ) throws IOException
     {
         writer.write( "\n  <classpath>" );
-        writeClasspathCategory( writer, classpath, Category.SYSTEM );
-        writeClasspathCategory( writer, classpath, Category.PUBLIC );
-        writeClasspathCategory( writer, classpath, Category.PROTECTED );
-        writeClasspathCategory( writer, classpath, Category.PRIVATE );
+        encodeClasspathCategory( writer, classpath, Category.SYSTEM );
+        encodeClasspathCategory( writer, classpath, Category.PUBLIC );
+        encodeClasspathCategory( writer, classpath, Category.PROTECTED );
+        encodeClasspathCategory( writer, classpath, Category.PRIVATE );
         writer.write( "\n  </classpath>" );
     }
 
-    private void writeClasspathCategory( 
+    private void encodeClasspathCategory( 
       Writer writer, Classpath classpath, Category category ) throws IOException
     {
         URI[] uris = classpath.getDependencies( category );

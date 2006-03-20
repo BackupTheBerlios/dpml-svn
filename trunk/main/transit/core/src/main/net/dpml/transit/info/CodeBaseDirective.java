@@ -43,13 +43,13 @@ public class CodeBaseDirective extends AbstractDirective
     * @param parameters an array of plugin parameter descriptors
     * @exception URISyntaxException if the codebase URI is invalid
     */
-    public CodeBaseDirective( String codebase, ValueDirective[] parameters ) throws URISyntaxException
+    public CodeBaseDirective( URI codebase, ValueDirective[] parameters )
     {
         if( null == codebase )
         {
             throw new NullPointerException( "codebase" );
         }
-        m_codebase = new URI( codebase );
+        m_codebase = codebase;
         if( null == parameters )
         {
             throw new NullPointerException( "parameters" );

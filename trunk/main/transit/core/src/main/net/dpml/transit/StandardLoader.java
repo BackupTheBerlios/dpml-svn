@@ -40,7 +40,8 @@ import net.dpml.part.Part;
 import net.dpml.part.PartDirective;
 import net.dpml.part.PartHandler;
 import net.dpml.part.PartHandlerFactory;
-import net.dpml.part.PartBuilder;
+import net.dpml.part.PartDecoder;
+import net.dpml.part.DecoderFactory;
 import net.dpml.part.Strategy;
 import net.dpml.part.Plugin;
 
@@ -54,7 +55,8 @@ import net.dpml.part.Plugin;
 class StandardLoader implements Repository
 {
     private final Logger m_logger;
-    private final PartBuilder m_builder = new PartBuilder( null );
+    private final DecoderFactory m_factory = new DecoderFactory();
+    private final PartDecoder m_decoder = new PartDecoder( m_factory );
     
     private static final PartHandlerFactory FACTORY = PartHandlerFactory.getInstance();
     
@@ -82,7 +84,7 @@ class StandardLoader implements Repository
     {
         try
         {
-            return m_builder.loadPart( uri );
+            return m_decoder.loadPart( uri );
         }
         catch( Exception e )
         {
@@ -158,7 +160,7 @@ class StandardLoader implements Repository
     {
         try
         {
-            Part part = m_builder.loadPart( parent, uri );
+            Part part = m_decoder.loadPart( parent, uri );
             return getPluginClass( parent, part );
         }
         catch( Exception e )
@@ -243,7 +245,7 @@ class StandardLoader implements Repository
     {
         try
         {
-            net.dpml.part.Part part = m_builder.loadPart( parent, uri );
+            net.dpml.part.Part part = m_decoder.loadPart( parent, uri );
             Classpath classpath = part.getClasspath();
             net.dpml.part.Strategy strategy = part.getStrategy();
             net.dpml.part.PartDirective directive = strategy.getPartDirective();

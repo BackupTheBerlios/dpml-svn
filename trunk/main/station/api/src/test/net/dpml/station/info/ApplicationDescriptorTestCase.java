@@ -62,8 +62,8 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         
         m_descriptor = 
           new ApplicationDescriptor(
-            m_codebase.toASCIIString(), m_title, m_values, m_base, m_policy, 
-            m_startup, m_shutdown, m_properties, m_config.toASCIIString() );
+            m_codebase, m_title, m_values, m_base, m_policy, 
+            m_startup, m_shutdown, m_properties, m_config );
     }
 
    /**
@@ -77,7 +77,7 @@ public final class ApplicationDescriptorTestCase extends AbstractTestCase
         {
             new ApplicationDescriptor(
               null, m_title, m_values, m_base, m_policy, 
-              m_startup, m_shutdown, m_properties, m_config.toASCIIString() );
+              m_startup, m_shutdown, m_properties, m_config );
               
             fail( "No NPE" );
         }

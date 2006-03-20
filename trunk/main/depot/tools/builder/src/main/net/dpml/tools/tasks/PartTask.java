@@ -31,7 +31,7 @@ import net.dpml.lang.Category;
 
 import net.dpml.part.Info;
 import net.dpml.part.Part;
-import net.dpml.part.PartBuilder;
+import net.dpml.part.PartEncoder;
 import net.dpml.part.Strategy;
 
 import net.dpml.library.Type;
@@ -159,8 +159,8 @@ public class PartTask extends GenericTask
             try
             {
                 Thread.currentThread().setContextClassLoader( classloader );
-                PartBuilder builder = new PartBuilder();
-                builder.writePart( part, output, "" );
+                PartEncoder encoder = new PartEncoder();
+                encoder.encodePart( part, output, "" );
                 checksum( file );
                 asc( file );
             }

@@ -18,6 +18,7 @@
 
 package net.dpml.station.info;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -45,19 +46,19 @@ public final class RegistryDescriptorTestCase extends AbstractTestCase
           new Entry( 
             "aaa", 
             new ApplicationDescriptor(
-              "link:part:acme/demo", "test", new ValueDirective[0], null, StartupPolicy.AUTOMATIC, 
+              new URI( "link:part:acme/demo" ), "test", new ValueDirective[0], null, StartupPolicy.AUTOMATIC, 
               0, 0, new Properties(), null ) );
         m_entries[1] = 
           new Entry( 
             "bbb", 
             new ApplicationDescriptor(
-              "link:part:acme/demo", "test", new ValueDirective[0], null, StartupPolicy.AUTOMATIC, 
+              new URI( "link:part:acme/demo" ), "test", new ValueDirective[0], null, StartupPolicy.AUTOMATIC, 
               0, 0, new Properties(), null ) );
         m_entries[2] = 
           new Entry( 
             "ccc", 
             new ApplicationDescriptor(
-              "link:part:acme/demo", "test", new ValueDirective[0], null, StartupPolicy.AUTOMATIC, 
+              new URI( "link:part:acme/demo" ), "test", new ValueDirective[0], null, StartupPolicy.AUTOMATIC, 
               0, 0, new Properties(), null ) );
 
         m_descriptor = new RegistryDescriptor( m_entries );

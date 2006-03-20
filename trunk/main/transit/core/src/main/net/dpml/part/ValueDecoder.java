@@ -27,33 +27,24 @@ import net.dpml.transit.util.ElementHelper;
 import org.w3c.dom.Element;
 
 /**
- * Utility used to build a plugin strategy from a DOM element.
+ * Utility used to decode values from DOM elements.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ValueBuilder extends ValueWriter
+public final class ValueDecoder
 {
-   /**
-    * Creation of a new value builder.
-    * @param map the namespace to part builder uri mapping
-    */
-    public ValueBuilder( Map map )
-    {
-        super( map );
-    }
-    
    /**
     * Build an array of values for the supplied element array.
     * @param elements the elements
     * @return the resolved values
     */
-    protected Value[] buildValues( Element[] elements )
+    public Value[] decodeValues( Element[] elements )
     {
         Value[] values = new Value[ elements.length ];
         for( int i=0; i<elements.length; i++ )
         {
-            values[i] = buildValue( elements[i] );
+            values[i] = decodeValue( elements[i] );
         }
         return values;
     }
@@ -63,14 +54,14 @@ public class ValueBuilder extends ValueWriter
     * @param element the element
     * @return the resolved value
     */
-    protected Value buildValue( Element element )
+    public Value decodeValue( Element element )
     {
         String classname = ElementHelper.getAttribute( element, "class" );
         String method = ElementHelper.getAttribute( element, "method" );
         Element[] elements = ElementHelper.getChildren( element, "param" );
         if( elements.length > 0 )
         {
-            Value[] values = buildValues( elements );
+            Value[] values = decodeValues( elements );
             return new Construct( classname, method, values );
         }
         else

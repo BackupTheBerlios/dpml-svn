@@ -23,8 +23,8 @@ import java.net.URI;
 import java.util.Map;
 
 import net.dpml.lang.Classpath;
-import net.dpml.lang.Builder;
-import net.dpml.lang.BuilderException;
+import net.dpml.lang.Decoder;
+import net.dpml.lang.DecodingException;
 
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
@@ -32,30 +32,27 @@ import net.dpml.transit.util.ElementHelper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.TypeInfo;
 
 /**
  * Construct a part.
  */
-public class PartBuilder extends PartWriter implements Builder
+public final class PartDecoder implements Decoder
 {
-    private static final DOM3DocumentBuilder BUILDER = 
+    private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
       new DOM3DocumentBuilder();
     
-   /**
-    * Creation of a new part builder.
-    */
-    public PartBuilder()
-    {
-        this( null );
-    }
+    private static final PartStrategyDecoder STRATEGY_DECODER = new PartStrategyDecoder();
+    
+    private final DecoderFactory m_factory;
     
    /**
     * Creation of a new part builder.
-    * @param map the namespace to part build uri map
+    * @param factory the decoder factory
     */
-    public PartBuilder( Map map )
+    public PartDecoder( DecoderFactory factory )
     {
-        super( map );
+        m_factory = factory;
     }
     
    /**
@@ -92,9 +89,9 @@ public class PartBuilder extends PartWriter implements Builder
 
         try
         {
-            final Document document = BUILDER.parse( uri );
+            final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
-            return buildPart( base, root );
+            return decodePart( base, root );
         }
         catch( Throwable e )
         {
@@ -114,9 +111,26 @@ public class PartBuilder extends PartWriter implements Builder
     * @return the part definition
     * @exception Exception if an error occurs
     */
-    public Object build( ClassLoader classloader, Element element ) throws Exception
+    public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
-        return buildPart( classloader, element );
+        TypeInfo info = element.getSchemaTypeInfo();
+        String name = info.getTypeName();
+        if( "plugin".equals( name ) || "resource".equals( name ) )
+        {
+            return STRATEGY_DECODER.decode( classloader, element );
+        }
+        else if( "part".equals( name ) )
+        {
+            return decodePart( classloader, element );
+        }
+        else
+        {
+            final String error = 
+              "Element type name ["
+              + name
+              + "] is not recognized.";
+            throw new DecodingException( element, error );
+        }
     }
     
    /**
@@ -126,7 +140,7 @@ public class PartBuilder extends PartWriter implements Builder
     * @return the part definition
     * @exception Exception if an error occurs
     */
-    public Part buildPart( ClassLoader base, Element root ) throws Exception
+    public Part decodePart( ClassLoader base, Element root ) throws DecodingException
     {
         if( null == root )
         {
@@ -138,7 +152,7 @@ public class PartBuilder extends PartWriter implements Builder
         return new Part( info, strategy, classpath );
     }
     
-    private Strategy getStrategy( ClassLoader loader, Element root ) throws Exception
+    private Strategy getStrategy( ClassLoader loader, Element root ) throws DecodingException
     {
         Element[] children = ElementHelper.getChildren( root );
         if( children.length != 3 )
@@ -147,12 +161,12 @@ public class PartBuilder extends PartWriter implements Builder
               "Illegal number of child elements in <part>. Expecting 3, found " 
               + children.length
               + ".";
-            throw new BuilderException( root, error );
+            throw new DecodingException( root, error );
         }
         
         Element strategy = children[1];
-        Builder builder = getBuilder( strategy );
-        Object result = builder.build( loader, strategy );
+        Decoder decoder = getDocoder( strategy );
+        Object result = decoder.decode( loader, strategy );
         if( result instanceof Strategy )
         {
             return (Strategy) result;
@@ -160,16 +174,27 @@ public class PartBuilder extends PartWriter implements Builder
         else
         {
             final String error = 
-              "Object returned from builder is not a strategy instance.";
-            throw new BuilderException( strategy, error );
+              "Decoded object is not assignable to "
+              + Strategy.class.getName()
+              + "."
+              + "\nDecoder: " + decoder.getClass().getName()
+              + "\nObject: " + result.getClass().getName();
+            throw new DecodingException( strategy, error );
         }
     }
     
-    private ClassLoader createClassLoader( 
-      ClassLoader base, URI uri, Classpath classpath ) throws IOException
+    private Decoder getDocoder( Element element ) throws DecodingException
     {
-        Repository repository = Transit.getInstance().getRepository();
-        return repository.createClassLoader( base, uri, classpath );
+        try
+        {
+            return m_factory.loadDecoder( element );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error while attempting to load decoder.";
+            throw new DecodingException( element, error );
+        }
     }
     
     private Info getInfo( Element root )
@@ -187,23 +212,32 @@ public class PartBuilder extends PartWriter implements Builder
     * @return the classpath defintion
     * @exception Exception if an error occurs
     */
-    protected Classpath getClasspath( Element root ) throws Exception
+    protected Classpath getClasspath( Element root ) throws DecodingException
     {
         Element classpath = ElementHelper.getChild( root, "classpath" );
         if( null == classpath )
         {
             final String error = 
               "Required classpath element is not present in plugin descriptor.";
-            throw new IllegalStateException( error );
+            throw new DecodingException( root, error );
         }
         
-        Element[] children = ElementHelper.getChildren( classpath );
-        URI[] sys = buildURIs( classpath, "system" );
-        URI[] pub = buildURIs( classpath, "public" );
-        URI[] prot = buildURIs( classpath, "protected" );
-        URI[] priv = buildURIs( classpath, "private" );
-        Classpath cp = new Classpath( sys, pub, prot, priv );
-        return cp;
+        try
+        {
+            Element[] children = ElementHelper.getChildren( classpath );
+            URI[] sys = buildURIs( classpath, "system" );
+            URI[] pub = buildURIs( classpath, "public" );
+            URI[] prot = buildURIs( classpath, "protected" );
+            URI[] priv = buildURIs( classpath, "private" );
+            Classpath cp = new Classpath( sys, pub, prot, priv );
+            return cp;
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to decode classpath due to an unexpected error.";
+            throw new DecodingException( classpath, error, e );
+        }
     }
     
     private URI[] buildURIs( Element classpath, String key ) throws Exception

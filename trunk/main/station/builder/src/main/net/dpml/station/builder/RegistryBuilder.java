@@ -18,6 +18,7 @@
 
 package net.dpml.station.builder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 
@@ -28,8 +29,8 @@ import net.dpml.station.info.StartupPolicy;
 
 import net.dpml.part.DOM3DocumentBuilder;
 
-import net.dpml.lang.BuilderException;
-import net.dpml.lang.Builder;
+import net.dpml.lang.DecodingException;
+import net.dpml.lang.Decoder;
 
 import net.dpml.lang.ValueDirective;
 import net.dpml.transit.util.ElementHelper;
@@ -43,7 +44,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class RegistryBuilder implements Builder 
+public final class RegistryBuilder implements Decoder 
 {
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
       new DOM3DocumentBuilder();
@@ -54,21 +55,21 @@ public final class RegistryBuilder implements Builder
     * @return the registry descriptor
     * @exception Exception if an error occurs
     */
-    public Object build( URI uri ) throws Exception
+    public Object build( URI uri ) throws DecodingException, IOException
     {
         Document document = DOCUMENT_BUILDER.parse( uri );
         Element root = document.getDocumentElement();
-        return build( null, root );
+        return decode( null, root );
     }
     
    /**
-    * Build a registry descriptior from a DOM element.
+    * Decode a registry descriptior from a DOM element.
     * @param classloader the base classloader
     * @param element the element representing the root registry
     * @return the registry descriptor
     * @exception Exception if an error occurs
     */
-    public Object build( ClassLoader classloader, Element element ) throws Exception
+    public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
         String tag = element.getTagName();
         if( "application".equals( tag ) )
@@ -83,11 +84,11 @@ public final class RegistryBuilder implements Builder
         {
             final String error = 
               "Document element name [" + tag + "] not recognized.";
-            throw new BuilderException( element, error );
+            throw new DecodingException( element, error );
         }
     }
     
-    private RegistryDescriptor buildRegistryDescriptor( Element element ) throws Exception
+    private RegistryDescriptor buildRegistryDescriptor( Element element ) throws DecodingException
     {
         Element[] elements = ElementHelper.getChildren( element );
         Entry[] entries = new Entry[ elements.length ];
@@ -99,7 +100,7 @@ public final class RegistryBuilder implements Builder
             {
                 final String error =
                   "Missing 'key' attribute in application element.";
-                throw new BuilderException( elem, error );
+                throw new DecodingException( elem, error );
             }
             ApplicationDescriptor descriptor = buildApplicationDescriptor( elem );
             entries[i] = new Entry( key, descriptor );
@@ -107,7 +108,7 @@ public final class RegistryBuilder implements Builder
         return new RegistryDescriptor( entries );
     }
     
-    private ApplicationDescriptor buildApplicationDescriptor( Element element ) throws Exception
+    private ApplicationDescriptor buildApplicationDescriptor( Element element ) throws DecodingException
     {
         String title = ElementHelper.getAttribute( element, "title" );
         StartupPolicy policy = buildStartupPolicy( element );
@@ -120,19 +121,7 @@ public final class RegistryBuilder implements Builder
         Element propertiesElement = ElementHelper.getChild( jvm, "properties" );
         Properties properties = buildProperties( propertiesElement );
         Element codebase = ElementHelper.getChild( element, "codebase" );
-        if( null == codebase )
-        {
-            final String error = 
-              "Missing codebase element.";
-            throw new BuilderException( element, error );
-        }
-        String spec = ElementHelper.getAttribute( codebase, "uri" );
-        if( null == spec )
-        {
-            final String error = 
-              "Missing codebase uri attribute.";
-            throw new BuilderException( codebase, error );
-        }
+        URI uri = decodeURI( codebase );
         Element[] params = ElementHelper.getChildren( codebase, "param" );
         ValueDirective[] values = buildValueDirectives( params );
         
@@ -140,10 +129,34 @@ public final class RegistryBuilder implements Builder
         // as an abstract type - e.g. net.dpml.part.CodeBaseDirective verus 
         // net.dpml.metro.CodeBaseDirective
         
-        return new ApplicationDescriptor( spec, title, values, base, policy, startup, shutdown, properties, null );
+        return new ApplicationDescriptor( 
+          uri, title, values, base, policy, startup, shutdown, properties, null );
     }
     
-    private StartupPolicy buildStartupPolicy( Element element ) throws Exception
+    private URI decodeURI( Element element ) throws DecodingException
+    {
+        String uri = ElementHelper.getAttribute( element, "uri" );
+        if( null == uri )
+        {
+            final String error = "Missing uri attribute.";
+            throw new DecodingException( element, error );
+        }
+        else
+        {
+            try
+            {
+                return new URI( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = "Bad uri argument [" + uri + "].";
+                throw new DecodingException( element, error );
+                
+            }
+        }
+    }
+
+    private StartupPolicy buildStartupPolicy( Element element ) throws DecodingException
     {
         String policy = ElementHelper.getAttribute( element, "policy" );
         if( null == policy )
@@ -156,7 +169,7 @@ public final class RegistryBuilder implements Builder
         }
     }
     
-    private int buildTimeout( Element element, int fallback ) throws Exception
+    private int buildTimeout( Element element, int fallback ) throws DecodingException
     {
         if( null == element )
         {
@@ -176,7 +189,7 @@ public final class RegistryBuilder implements Builder
         }
     }
     
-    private Properties buildProperties( Element element )
+    private Properties buildProperties( Element element ) throws DecodingException
     {
         Properties properties = new Properties();
         if( null == element )
@@ -194,7 +207,7 @@ public final class RegistryBuilder implements Builder
                 {
                     final String error =
                       "Property declaration does not contain a 'name' attribute.";
-                    throw new BuilderException( child, error );
+                    throw new DecodingException( child, error );
                 }
                 else
                 {

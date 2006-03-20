@@ -36,7 +36,7 @@ import net.dpml.state.Interface;
 /**
  * Construct a state graph.
  */
-public class StateWriter
+public class StateEncoder
 {
     private static final String XML_HEADER = 
       "<?xml version=\"1.0\"?>";

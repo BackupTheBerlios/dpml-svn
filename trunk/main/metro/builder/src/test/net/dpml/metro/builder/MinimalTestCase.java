@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  */
 public class MinimalTestCase extends TestCase
 {
-    private ComponentBuilder m_builder;
+    private ComponentDecoder m_builder;
     
    /**
     * Testcase setup.
@@ -40,7 +40,7 @@ public class MinimalTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        m_builder = new ComponentBuilder();
+        m_builder = new ComponentDecoder();
     }
     
    /**

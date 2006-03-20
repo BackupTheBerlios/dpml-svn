@@ -26,30 +26,13 @@ import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
 
 /**
- * Utility used to build a plugin strategy from a DOM element.
+ * Utility used to write value instances to an output stream as XML.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ValueWriter extends AbstractBuilder
+public final class ValueEncoder
 {
-   /**
-    * Creation of a new value writer.
-    */
-    public ValueWriter()
-    {
-        this( null );
-    }
-    
-   /**
-    * Creation of a new value writer.
-    * @param map the namespace to part builder uri mapping
-    */
-    public ValueWriter( Map map )
-    {
-        super( map );
-    }
-    
    /**
     * Write an array of values to XML.
     * @param writer the output stream writer
@@ -57,12 +40,12 @@ public class ValueWriter extends AbstractBuilder
     * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
-    protected void writeValues( Writer writer, Value[] values, String pad ) throws IOException
+    public void encodeValues( Writer writer, Value[] values, String pad ) throws IOException
     {
         for( int i=0; i<values.length; i++ )
         {
             Value value = values[i];
-            writeValue( writer, value, pad );
+            encodeValue( writer, value, pad );
         }
     }
     
@@ -74,7 +57,7 @@ public class ValueWriter extends AbstractBuilder
     * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
-    protected void writeValue( Writer writer, Value value, String pad ) throws IOException
+    public void encodeValue( Writer writer, Value value, String pad ) throws IOException
     {
         if( value instanceof Construct )
         {
@@ -90,12 +73,12 @@ public class ValueWriter extends AbstractBuilder
             if( null != method )
             {
                 writer.write( " method=\"" + method  + "\"" );
-            }            
+            }
             if( construct.isCompound() )
             {
                 writer.write( ">" );
                 Value[] values = construct.getValues();
-                writeValues( writer, values, pad + "  " );
+                encodeValues( writer, values, pad + "  " );
                 writer.write( "\n" + pad + "</param>" );
             }
             else

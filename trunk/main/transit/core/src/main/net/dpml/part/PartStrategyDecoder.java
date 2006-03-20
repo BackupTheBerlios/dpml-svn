@@ -21,7 +21,8 @@ package net.dpml.part;
 import java.util.Map;
 
 import net.dpml.lang.Value;
-import net.dpml.lang.Builder;
+import net.dpml.lang.Decoder;
+import net.dpml.lang.DecodingException;
 
 import net.dpml.transit.util.ElementHelper;
 
@@ -34,36 +35,20 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartStrategyBuilder extends PartStrategyWriter implements Builder, StrategyBuilder
+class PartStrategyDecoder implements Decoder
 {
+    // ------------------------------------------------------------------------
+    // static
+    // ------------------------------------------------------------------------
+    
     private static final PartDirective TRANSIT_DIRECTIVE = 
-      new PartDirective( AbstractBuilder.LOCAL_URI );
+      new PartDirective( DecoderFactory.LOCAL_URI );
     
-   /**
-    * Creation of a new part strategy builder.
-    */
-    public PartStrategyBuilder()
-    {
-        this( null );
-    }
+    private static final ValueDecoder VALUE_DECODER = new ValueDecoder();
     
-   /**
-    * Creation of a new part strategy builder.
-    * @param map the namespace to part builder uri mapping
-    */
-    public PartStrategyBuilder( Map map )
-    {
-        super( map );
-    }
-    
-   /**
-    * Return the production type identifier.
-    * @return the constant "part" id
-    */
-    public String getID()
-    {
-        return "part";
-    }
+    // ------------------------------------------------------------------------
+    // Decoder
+    // ------------------------------------------------------------------------
     
    /**
     * Build a strategy from a supplied DOM element.
@@ -72,10 +57,14 @@ public class PartStrategyBuilder extends PartStrategyWriter implements Builder, 
     * @return the resolve instance
     * @exception Exception if an error occurs
     */
-    public Object build( ClassLoader classloader, Element element ) throws Exception
+    public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
-        return buildStrategy( classloader, element );
+        return decodeStrategy( classloader, element );
     }
+    
+    // ------------------------------------------------------------------------
+    // PartStrategyDecoder
+    // ------------------------------------------------------------------------
     
    /**
     * Build a strategy from a supplied DOM element.
@@ -84,7 +73,7 @@ public class PartStrategyBuilder extends PartStrategyWriter implements Builder, 
     * @return the resolve strategy
     * @exception Exception if an error occurs
     */
-    public Strategy buildStrategy( ClassLoader classloader, Element element ) throws Exception
+    public Strategy decodeStrategy( ClassLoader classloader, Element element ) throws DecodingException
     {
         TypeInfo info = element.getSchemaTypeInfo();
         String type = info.getTypeName();
@@ -93,24 +82,24 @@ public class PartStrategyBuilder extends PartStrategyWriter implements Builder, 
         {
             String classname = ElementHelper.getAttribute( element, "class" );
             Element[] elements = ElementHelper.getChildren( element, "param" );
-            Value[] values = buildValues( elements );
+            Value[] values = VALUE_DECODER.decodeValues( elements );
             Plugin plugin = new Plugin( classname, values );
-            return new Strategy( AbstractBuilder.LOCAL_URI, TRANSIT_DIRECTIVE, plugin, alias );
+            return new Strategy( DecoderFactory.LOCAL_URI, TRANSIT_DIRECTIVE, plugin, alias );
         }
         else if( "resource".equals( type ) )
         {
             String urn = ElementHelper.getAttribute( element, "urn" );
             String path = ElementHelper.getAttribute( element, "path" );
             Resource resource = new Resource( urn, path );
-            return new Strategy( AbstractBuilder.LOCAL_URI, TRANSIT_DIRECTIVE, resource, alias );
+            return new Strategy( DecoderFactory.LOCAL_URI, TRANSIT_DIRECTIVE, resource, alias );
         }
         else
         {
             final String error = 
-              "Strategy element [" 
+              "Strategy element type [" 
               + type
               + "] is not recognized.";
-            throw new IllegalArgumentException( error );
+            throw new DecodingException( element, error );
         }
     }
 }

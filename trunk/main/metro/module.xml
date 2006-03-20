@@ -74,7 +74,7 @@
   <project name="dpml-metro-builder" basedir="builder">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.metro.builder.ComponentStrategyBuilder"/>
+      <part:plugin alias="true" class="net.dpml.metro.builder.ComponentBuilder"/>
     </types>
     <dependencies>
       <include key="dpml-metro-model"/>
