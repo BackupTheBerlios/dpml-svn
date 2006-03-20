@@ -90,6 +90,62 @@ public class EntryDescriptorTestCase extends TestCase
     }
     
    /**
+    * Validate the entry key.
+    */
+    public void testKey()
+    {
+        EntryDescriptor desc = new EntryDescriptor( KEY, TYPE );
+        assertEquals( KEY, desc.getKey() );
+    }
+    
+   /**
+    * Validate the entry type.
+    */
+    public void testType()
+    {
+        EntryDescriptor desc = new EntryDescriptor( KEY, TYPE );
+        assertEquals( TYPE, desc.getClassname() );
+    }
+    
+   /**
+    * Validate the entry optional flag.
+    */
+    public void testOptional()
+    {
+        EntryDescriptor desc = new EntryDescriptor( KEY, TYPE, true );
+        assertEquals( true, desc.isOptional() );
+        assertEquals( false, desc.isRequired() );
+    }
+    
+   /**
+    * Validate the entry required flag.
+    */
+    public void testRequired()
+    {
+        EntryDescriptor desc = new EntryDescriptor( KEY, TYPE, false );
+        assertEquals( false, desc.isOptional() );
+        assertEquals( true, desc.isRequired() );
+    }
+    
+   /**
+    * Validate the entry volatile flag.
+    */
+    public void testVolotile()
+    {
+        EntryDescriptor desc = new EntryDescriptor( KEY, TYPE, false, true );
+        assertEquals( true, desc.isVolatile() );
+    }
+    
+   /**
+    * Validate the entry volatile flag.
+    */
+    public void testNonVolotile()
+    {
+        EntryDescriptor desc = new EntryDescriptor( KEY, TYPE, false, false );
+        assertEquals( false, desc.isVolatile() );
+    }
+    
+   /**
     * Validate the entry descriptor.
     * @param desc the entry descriptor to validate
     * @param key the entry key

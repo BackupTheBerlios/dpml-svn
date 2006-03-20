@@ -168,7 +168,7 @@ class DefaultPartsManager implements PartsManager
     */
     public ComponentHandler[] getComponentHandlers( Class clazz )
     {
-        Service service = new DefaultService( clazz, Version.getVersion( "-1" ) );
+        Service service = new DefaultService( clazz, Version.parse( "-1" ) );
         ArrayList list = new ArrayList();
         Component[] components = getComponents();
         for( int i=0; i<components.length; i++ )

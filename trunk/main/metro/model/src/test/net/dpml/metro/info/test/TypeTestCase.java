@@ -74,6 +74,66 @@ public class TypeTestCase extends AbstractEncodingTestCase
         m_parts = new PartReference[0];
         m_graph = State.NULL_STATE;
     }
+    
+   /**
+    * Test categories accessor.
+    */
+    public void testCategories()
+    {
+        Type type = 
+          new Type(
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+        checkArray( m_loggers, type.getCategoryDescriptors() );
+        assertTrue( type.isaCategory( m_loggers[0].getName() ) );
+        assertTrue( !type.isaCategory( "fake name" ) );
+    }
+
+   /**
+    * Test context accessor.
+    */
+    public void testContextDescriptor()
+    {
+        Type type = 
+          new Type(
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+        assertEquals( m_context, type.getContextDescriptor() );
+    }
+
+   /**
+    * Test info accessor.
+    */
+    public void testInfo()
+    {
+        Type type = 
+          new Type(
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+        assertEquals( m_info, type.getInfo() );
+    }
+
+   /**
+    * Test state accessor.
+    */
+    public void testState()
+    {
+        Type type = 
+          new Type(
+            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+        assertEquals( m_graph, type.getStateGraph() );
+    }
+
+   /**
+    * Test services accessor.
+    */
+    public void testServices()
+    {
+        ServiceDescriptor[] services = new ServiceDescriptor[2];
+        services[0] = new ServiceDescriptor( "Widget" );
+        services[1] = new ServiceDescriptor( "Gizmo" );
+        Type type = 
+          new Type(
+            m_info, m_loggers, m_context, services, m_parts, m_graph );
+        checkArray( services, type.getServiceDescriptors() );
+    }
 
     private void checkType( Type type )
     {
@@ -136,7 +196,8 @@ public class TypeTestCase extends AbstractEncodingTestCase
 
     private static InfoDescriptor createSimpleInfo( String classname )
     {
-        return new InfoDescriptor( null, classname, null, null, CollectionPolicy.WEAK, ThreadSafePolicy.FALSE, null );
+        return new InfoDescriptor( 
+          null, classname, null, null, CollectionPolicy.WEAK, ThreadSafePolicy.FALSE, null );
     }
     
    /**

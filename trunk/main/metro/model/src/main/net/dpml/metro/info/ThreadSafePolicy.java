@@ -93,9 +93,13 @@ public final class ThreadSafePolicy extends Enum
         {
             return FALSE;
         }
-        else
+        else if( value.equalsIgnoreCase( "unknown" ) )
         {
             return UNKNOWN;
+        }
+        else
+        {
+            throw new IllegalArgumentException( value );
         }
     }
 }

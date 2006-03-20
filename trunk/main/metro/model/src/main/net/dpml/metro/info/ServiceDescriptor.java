@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -36,36 +36,36 @@ public final class ServiceDescriptor implements Serializable
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * The name of service class.
-     */
+   /**
+    * The name of service class.
+    */
     private final String m_classname;
 
-    /**
-     * The version of service class.
-     */
+   /**
+    * The version of service class.
+    */
     private final Version m_version;
 
-    /**
-     * Construct a service with specified type. The type argument will be
-     * parsed for a classname and version in the form [classname]#[version].
-     * If not version is present a default 1.0.0 version will be assigned.
-     *
-     * @param spec the service specification
-     * @exception NullPointerException if the spec is null
-     */
+   /**
+    * Construct a service with specified type. The type argument will be
+    * parsed for a classname and version in the form [classname]#[version].
+    * If not version is present a default 1.0.0 version will be assigned.
+    *
+    * @param spec the service specification
+    * @exception NullPointerException if the spec is null
+    */
     public ServiceDescriptor( final String spec ) throws NullPointerException
     {
         this( parseClassname( spec ), parseVersion( spec ) );
     }
 
-    /**
-     * Construct a service with specified name, version.
-     *
-     * @param classname the name of the service
-     * @param version the version of service
-     * @exception NullPointerException if the classname or version is null
-     */
+   /**
+    * Construct a service with specified name, version.
+    *
+    * @param classname the name of the service
+    * @param version the version of service
+    * @exception NullPointerException if the classname or version is null
+    */
     public ServiceDescriptor( final String classname, final Version version )
       throws NullPointerException
     {
@@ -82,7 +82,7 @@ public final class ServiceDescriptor implements Serializable
 
         if( null == version )
         {
-            m_version = Version.getVersion( "" );
+            m_version = Version.parse( "1" );
         }
         else
         {
@@ -90,11 +90,11 @@ public final class ServiceDescriptor implements Serializable
         }
     }
 
-    /**
-     * Return classname of service specification.
-     *
-     * @return the classname of the service specification
-     */
+   /**
+    * Return classname of service specification.
+    *
+    * @return the classname of the service specification
+    */
     public String getClassname()
     {
         return m_classname;
@@ -110,13 +110,13 @@ public final class ServiceDescriptor implements Serializable
         return m_version;
     }
 
-    /**
-     * Determine if specified service will match this service.
-     * To match a service has to have same name and must comply with version.
-     *
-     * @param other the other ServiceInfo
-     * @return true if matches, false otherwise
-     */
+   /**
+    * Determine if specified service will match this service.
+    * To match a service has to have same name and must comply with version.
+    *
+    * @param other the other ServiceInfo
+    * @return true if matches, false otherwise
+    */
     public boolean matches( final ServiceDescriptor other )
     {
         if( !m_classname.equals( other.m_classname ) )
@@ -139,12 +139,12 @@ public final class ServiceDescriptor implements Serializable
         return getClassname() + ":" + getVersion();
     }
 
-    /**
-     * Compare this object with another for equality.
-     * @param other the object to compare this object with
-     * @return TRUE if the supplied object is a reference, service, or service
-     *   descriptor that matches this objct in terms of classname and version
-     */
+   /**
+    * Compare this object with another for equality.
+    * @param other the object to compare this object with
+    * @return TRUE if the supplied object is a reference, service, or service
+    *   descriptor that matches this objct in terms of classname and version
+    */
     public boolean equals( Object other )
     {
         if( !( other instanceof ServiceDescriptor ) )
@@ -163,45 +163,45 @@ public final class ServiceDescriptor implements Serializable
         }
     }
 
-    /**
-     * Returns the cashcode.
-     * @return the hascode value
-     */
+   /**
+    * Returns the cashcode.
+    * @return the hascode value
+    */
     public int hashCode()
     {
         return getClassname().hashCode() ^ getVersion().hashCode();
     }
 
-    private static final String parseClassname( final String type )
+    private static final String parseClassname( final String spec )
         throws NullPointerException
     {
-        if( type == null )
+        if( spec == null )
         {
-            throw new NullPointerException( "type" );
+            throw new NullPointerException( "spec" );
         }
 
-        int index = type.indexOf( "#" );
+        int index = spec.indexOf( "#" );
         if( index == -1 )
         {
-            return type;
+            return spec;
         }
         else
         {
-            return type.substring( 0, index );
+            return spec.substring( 0, index );
         }
     }
 
-    private static final Version parseVersion( final String type )
+    private static final Version parseVersion( final String spec )
     {
-        int index = type.indexOf( "#" );
+        int index = spec.indexOf( "#" );
         if( index == -1 )
         {
-            return Version.getVersion( "1" );
+            return Version.parse( "1" );
         }
         else
         {
-            String value = type.substring( index + 1 );
-            return Version.getVersion( value );
+            String value = spec.substring( index + 1 );
+            return Version.parse( value );
         }
     }
 }

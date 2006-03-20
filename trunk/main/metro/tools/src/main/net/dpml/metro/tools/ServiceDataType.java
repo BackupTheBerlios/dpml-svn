@@ -58,7 +58,7 @@ public class ServiceDataType
         {
             throw new NullPointerException( "spec" );
         }
-        m_version = Version.getVersion( spec );
+        m_version = Version.parse( spec );
     }
     
     ServiceDescriptor getServiceDescriptor()

@@ -124,9 +124,10 @@ public class CatalogTask extends Task
     */
     public void execute()
     {
+        log( "building catalog index" );
         Project proj = getProject();
         File[] types = getTypes();
-        log( "Catalog size: " + types.length );
+        log( "Catalog type count: " + types.length );
         if( types.length == 0 )
         {
             return;

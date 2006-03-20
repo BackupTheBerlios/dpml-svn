@@ -74,7 +74,7 @@ public final class Version implements Comparable, Serializable
      * @throws NullPointerException if the version argument is <code>null</code>.
      * @since 4.1
      */
-    public static Version getVersion( final String version )
+    public static Version parse( final String version )
         throws NumberFormatException, IllegalArgumentException, NullPointerException
     {
         if( version == null )

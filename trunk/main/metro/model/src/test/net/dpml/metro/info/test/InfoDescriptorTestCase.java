@@ -36,7 +36,7 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
 {
     private final String m_name = "name";
     private final String m_classname = InfoDescriptorTestCase.class.getName();
-    private final Version m_version = Version.getVersion( "1.2.3" );
+    private final Version m_version = Version.parse( "1.2.3" );
     private final LifestylePolicy m_lifestyle = LifestylePolicy.SINGLETON;
     private final CollectionPolicy m_collection = CollectionPolicy.WEAK;
     private final ThreadSafePolicy m_threadsafe = ThreadSafePolicy.FALSE;

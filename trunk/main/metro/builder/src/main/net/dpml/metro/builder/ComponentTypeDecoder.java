@@ -159,7 +159,7 @@ public final class ComponentTypeDecoder
         return new InfoDescriptor( 
           name, 
           classname, 
-          Version.getVersion( version ),
+          Version.parse( version ),
           LifestylePolicy.parse( lifestyle ),
           CollectionPolicy.parse( collection ),
           ThreadSafePolicy.parse( threadsafe ),
@@ -182,7 +182,7 @@ public final class ComponentTypeDecoder
                 Element child = children[i];
                 String classname = ElementHelper.getAttribute( child, "class" );
                 String version = ElementHelper.getAttribute( child, "version", "1.0.0" );
-                services[i] = new ServiceDescriptor( classname, Version.getVersion( version ) );
+                services[i] = new ServiceDescriptor( classname, Version.parse( version ) );
             }
             return services;
         }

@@ -158,7 +158,7 @@ public final class InfoDescriptor extends Descriptor
         
         if( null == version )
         {
-            m_version = Version.getVersion( "0.0.0" );
+            m_version = Version.parse( "0" );
         }
         else
         {

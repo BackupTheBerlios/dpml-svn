@@ -41,6 +41,33 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
     {
         return new CategoryDescriptor( m_name, m_priority, getProperties() );
     }
+    
+   /**
+    * Test the category name accessor.
+    */
+    public void testName()
+    {
+        CategoryDescriptor category = getCategoryDescriptor();
+        assertEquals( m_name, category.getName() );
+    }
+
+   /**
+    * Test the category priority accessor.
+    */
+    public void testPriority()
+    {
+        CategoryDescriptor category = getCategoryDescriptor();
+        assertEquals( m_priority, category.getDefaultPriority() );
+    }
+
+   /**
+    * Test the category properties accessor.
+    */
+    public void testProperties()
+    {
+        CategoryDescriptor category = getCategoryDescriptor();
+        assertEquals( getProperties() , category.getProperties() );
+    }
 
    /**
     * Return the category descriptor to test.
@@ -50,7 +77,7 @@ public class CategoryDescriptorTestCase extends AbstractDescriptorTestCase
     {
         return getCategoryDescriptor();
     }
-
+    
    /**
     * Validate the category descriptor.
     * @param desc the descriptor to validate

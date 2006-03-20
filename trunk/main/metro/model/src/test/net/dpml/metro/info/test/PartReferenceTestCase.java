@@ -45,6 +45,22 @@ public class PartReferenceTestCase extends AbstractEncodingTestCase
     }
     
    /**
+    * Test key intergrity.
+    */
+    public void testKey()
+    {
+        assertEquals( "key", m_key, m_reference.getKey() );
+    }
+    
+   /**
+    * Test directive intergrity.
+    */
+    public void testDirective()
+    {
+        assertEquals( "directive", m_directive, m_reference.getDirective() );
+    }
+    
+   /**
     * Test part reference encoding/decoding.
     * @exception Exception if an error occurs
     */
