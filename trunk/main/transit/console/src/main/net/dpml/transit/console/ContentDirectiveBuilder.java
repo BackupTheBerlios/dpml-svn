@@ -62,15 +62,15 @@ class ContentDirectiveBuilder
         }
     }
 
-    String getCodeBase( URI codebase )
+    URI getCodeBase( URI codebase )
     {
         if( null != codebase )
         {
-            return codebase.toASCIIString();
+            return codebase;
         }
         else
         {
-            return m_directive.getCodeBaseURISpec();
+            return m_directive.getCodeBaseURI();
         }
     }
 

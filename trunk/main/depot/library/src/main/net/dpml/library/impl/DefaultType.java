@@ -26,7 +26,6 @@ import net.dpml.library.info.TypeDirective;
 import net.dpml.library.Type;
 
 import net.dpml.lang.Decoder;
-import net.dpml.lang.DecodingException;
 
 import net.dpml.part.DecoderFactory;
 

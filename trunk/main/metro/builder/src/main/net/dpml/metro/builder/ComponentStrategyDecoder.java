@@ -19,7 +19,6 @@
 package net.dpml.metro.builder;
 
 import java.net.URI;
-import java.util.Map;
 
 import net.dpml.lang.Decoder;
 import net.dpml.lang.DecodingException;
@@ -67,7 +66,7 @@ public class ComponentStrategyDecoder extends ComponentConstants implements Deco
     * @param classloader the base classloader
     * @param element the DOM element
     * @return the deployment strategy
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
     public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
@@ -79,9 +78,9 @@ public class ComponentStrategyDecoder extends ComponentConstants implements Deco
     * @param classloader the base classloader
     * @param element the DOM element
     * @return the component part strategy
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
-    public Type buildType( ClassLoader classloader, Element element ) throws Exception
+    public Type buildType( ClassLoader classloader, Element element ) throws DecodingException
     {
         boolean alias = ElementHelper.getBooleanAttribute( element, "alias", false );
         Strategy strategy = buildStrategy( classloader, element );
@@ -93,7 +92,7 @@ public class ComponentStrategyDecoder extends ComponentConstants implements Deco
     * @param classloader the base classloader
     * @param element the DOM element
     * @return the deployment strategy
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
     public Strategy buildStrategy( ClassLoader classloader, Element element ) throws DecodingException
     {

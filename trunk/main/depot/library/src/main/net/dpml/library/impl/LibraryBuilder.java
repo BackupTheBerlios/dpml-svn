@@ -727,7 +727,8 @@ public final class LibraryBuilder
                     properties = buildProperties( child );
                 }
             }
-            DependencyDirective[] deps = (DependencyDirective[]) dependencies.toArray( new DependencyDirective[0] );
+            DependencyDirective[] deps = 
+              (DependencyDirective[]) dependencies.toArray( new DependencyDirective[0] );
             return new ResourceDirective( name, version, classifier, basedir, types, deps, properties );
         }
         else
@@ -1116,6 +1117,7 @@ public final class LibraryBuilder
     * Return the id attribute of the supplied element.
     * @param element the DOM element
     * @return the id value
+    * @exception DecodingException if an error occurs during element evaluation
     */
     protected String getID( Element element ) throws DecodingException
     {

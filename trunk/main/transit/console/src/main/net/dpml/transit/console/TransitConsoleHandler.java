@@ -401,7 +401,7 @@ public class TransitConsoleHandler
             
             ContentDirective handler = 
               new ContentDirective( 
-                key, title, uri.toASCIIString(), new ValueDirective[0] );
+                key, title, uri, new ValueDirective[0] );
             
             ContentDirective[] newHandlers = new ContentDirective[ handlers.length + 1 ];
             for( int i=0; i<handlers.length; i++ )
@@ -434,7 +434,7 @@ public class TransitConsoleHandler
             
             LayoutDirective handler = 
               new LayoutDirective( 
-                key, title, uri.toASCIIString(), new ValueDirective[0] );
+                key, title, uri, new ValueDirective[0] );
             
             LayoutDirective[] newHandlers = new LayoutDirective[ handlers.length + 1 ];
             for( int i=0; i<handlers.length; i++ )

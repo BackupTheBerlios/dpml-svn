@@ -26,7 +26,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class ComponentConstants
+abstract class ComponentConstants
 {
     static final URI CONTROLLER_URI = createURI( "@CONTROLLER-URI@" );
     static final URI BUILDER_URI = createURI( "@BUILDER-URI@" );

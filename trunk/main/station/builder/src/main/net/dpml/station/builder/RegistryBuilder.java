@@ -53,7 +53,8 @@ public final class RegistryBuilder implements Decoder
     * Build a registry descriptior from a uri.
     * @param uri the uri to the descriptor XML document
     * @return the registry descriptor
-    * @exception Exception if an error occurs
+    * @exception DecodingException if a decoding error occurs
+    * @exception DecodingException if a IO error occurs
     */
     public Object build( URI uri ) throws DecodingException, IOException
     {
@@ -67,7 +68,7 @@ public final class RegistryBuilder implements Decoder
     * @param classloader the base classloader
     * @param element the element representing the root registry
     * @return the registry descriptor
-    * @exception Exception if an error occurs
+    * @exception DecodingException if a decoding error occurs
     */
     public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {

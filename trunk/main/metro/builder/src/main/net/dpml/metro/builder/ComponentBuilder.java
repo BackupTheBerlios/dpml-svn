@@ -40,6 +40,10 @@ public class ComponentBuilder extends ComponentConstants implements Decoder, Enc
     private final ComponentStrategyDecoder m_strategyDecoder;
     private final ComponentStrategyEncoder m_strategyEncoder;
     
+   /**
+    * Creation of a new component builder.
+    * @param factory the decoder factory
+    */
     public ComponentBuilder( DecoderFactory factory )
     {
         m_strategyDecoder = new ComponentStrategyDecoder( factory );
@@ -51,13 +55,12 @@ public class ComponentBuilder extends ComponentConstants implements Decoder, Enc
     * @param classloader the base classloader
     * @param element the DOM element
     * @return the deployment strategy
-    * @exception Exception if an error occurs
+    * @exception DecodingException if an error occurs during element evaluation
     */
     public Object decode( ClassLoader classloader, Element element ) throws DecodingException
     {
         return m_strategyDecoder.decode( classloader, element );
     }
-    
     
    /** 
     * Export a component directive to an output stream as XML.

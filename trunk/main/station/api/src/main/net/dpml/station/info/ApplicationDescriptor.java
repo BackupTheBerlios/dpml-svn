@@ -20,7 +20,6 @@ package net.dpml.station.info;
 
 import java.util.Properties;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import net.dpml.transit.info.CodeBaseDirective;
 import net.dpml.lang.ValueDirective;
@@ -63,7 +62,6 @@ public class ApplicationDescriptor extends CodeBaseDirective
     * @param shutdownTimeout shutdown timeout value
     * @param properties system properties
     * @param config uri to a part configuration
-    * @exception URISyntaxException if the codebase URI is invalid
     */
     public ApplicationDescriptor( 
       URI codebase, String title, ValueDirective[] parameters, String base, 

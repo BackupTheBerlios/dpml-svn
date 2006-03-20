@@ -20,14 +20,12 @@ package net.dpml.metro.builder;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Map;
 
 import javax.xml.XMLConstants;
 
 import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.part.Strategy;
-import net.dpml.part.ValueEncoder;
 
 import net.dpml.lang.Encoder;
 
