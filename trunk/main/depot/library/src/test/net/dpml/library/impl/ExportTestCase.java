@@ -44,12 +44,13 @@ public class ExportTestCase extends AbstractTestCase
         String spec = "dpml";
         Module module = getLibrary().getModule( spec );
         ModuleDirective directive = module.export();
-        LibraryBuilder builder = new LibraryBuilder();
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
         File export = new File( test, "export.xml" );
-        builder.export( directive, new FileOutputStream( export ) );
-        ResourceDirective result = builder.buildResource( export.toURI() );
+        LibraryDecoder decoder = new LibraryDecoder();
+        LibraryEncoder encoder = new LibraryEncoder();
+        encoder.export( directive, new FileOutputStream( export ) );
+        ResourceDirective result = decoder.buildResource( export.toURI() );
         compareResourceDirective( directive, result );
         assertEquals( "export", directive, result );
     }

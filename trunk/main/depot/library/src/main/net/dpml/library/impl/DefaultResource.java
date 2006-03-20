@@ -607,13 +607,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
     }
     
-    private Properties getExportProperties()
-    {
-        // this needs to be implemented following the addition of 
-        // export declarations on properties
-        return new Properties(); 
-    }
-    
     //----------------------------------------------------------------------------
     // Object
     //----------------------------------------------------------------------------

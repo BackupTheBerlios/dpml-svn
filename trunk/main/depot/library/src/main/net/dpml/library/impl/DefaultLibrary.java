@@ -49,7 +49,7 @@ import net.dpml.lang.Logger;
  */
 public final class DefaultLibrary extends DefaultDictionary implements Library
 {
-    private static final LibraryBuilder BUILDER = new LibraryBuilder();
+    private static final LibraryDecoder LIBRARY_DECODER = new LibraryDecoder();
     
     private final LibraryDirective m_directive;
     private final DefaultModule m_module;
@@ -60,8 +60,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     
     private static LibraryDirective buildLibraryDirective( File source ) throws Exception
     {
-        LibraryBuilder builder = new LibraryBuilder();
-        return builder.build( source );
+        return LIBRARY_DECODER.build( source );
     }
     
    /**
@@ -114,7 +113,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
                 String path = include.getValue();
                 URI uri = new URI( path );
                 getLogger().debug( "loading external import: " + uri );
-                ResourceDirective resource = BUILDER.buildResource( uri );
+                ResourceDirective resource = LIBRARY_DECODER.buildResource( uri );
                 if( resource instanceof ModuleDirective )
                 {
                     ModuleDirective moduleDirective = (ModuleDirective) resource;

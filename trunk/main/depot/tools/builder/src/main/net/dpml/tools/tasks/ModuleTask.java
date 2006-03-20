@@ -27,7 +27,7 @@ import net.dpml.library.Resource;
 import net.dpml.library.Module;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
-import net.dpml.library.impl.LibraryBuilder;
+import net.dpml.library.impl.LibraryEncoder;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
@@ -90,10 +90,10 @@ public class ModuleTask extends GenericTask
         try
         {
             log( "Exporting module to: " + file );
-            LibraryBuilder builder = new LibraryBuilder();
+            final LibraryEncoder encoder = new LibraryEncoder();
             file.getParentFile().mkdirs();
             output = new FileOutputStream( file );
-            builder.export( directive, output );
+            encoder.export( directive, output );
         }
         catch( Exception e )
         {

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Properties;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.AbstractDirective;
@@ -273,9 +274,11 @@ public final class DefaultModule extends DefaultResource implements Module
         String basedir = null;
         TypeDirective[] types = m_directive.getTypeDirectives();
         TypeDirective[] exportedTypes = createExportedTypes( types );
+        Properties properties = module.getExportProperties();
+        
         return new ModuleDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          exportedTypes, new DependencyDirective[0], directives, null );
+          exportedTypes, new DependencyDirective[0], directives, properties );
     }
     
     //----------------------------------------------------------------------------

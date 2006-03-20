@@ -156,4 +156,20 @@ public class DefaultDictionary implements Dictionary
         }
         return (String[]) list.toArray( new String[0] );
     }
+
+    Properties getExportProperties()
+    {
+        String[] keys = getLocalPropertyNames();
+        Properties properties = new Properties();
+        for( int i=0; i<keys.length; i++ )
+        {
+            String key = keys[i];
+            //if( !key.startsWith( "project." ) )
+            //{
+                String value = getProperty( key );
+                properties.setProperty( key, value );
+            //}
+        }
+        return properties;
+    }
 }

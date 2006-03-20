@@ -41,7 +41,7 @@ public class XMLTestCase extends TestCase
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
     }
     
-    private LibraryBuilder m_builder;
+    private LibraryDecoder m_decoder;
     
    /**
     * Setup the library directive builder.
@@ -49,7 +49,7 @@ public class XMLTestCase extends TestCase
     */
     public void setUp() throws Exception
     {
-        m_builder = new LibraryBuilder();
+        m_decoder = new LibraryDecoder();
     }
     
    /**
@@ -201,6 +201,6 @@ public class XMLTestCase extends TestCase
         String base = System.getProperty( "project.test.dir" );
         File test = new File( base );
         File file = new File( test, path );
-        return m_builder.build( file );
+        return m_decoder.build( file );
     }
 }

@@ -239,8 +239,6 @@
     <x:javadoc title="DPML Component Management Platform" >
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://api.dpml.net/javax/servlet/2.5"/>
-      <link href="http://api.dpml.net/ant/1.6.5"/>
-      <link href="http://api.dpml.net/junit/3.8.1"/>
       <link href="http://api.dpml.net/jetty/20060213"/>
       <group title="Library">
         <package name="net.dpml.library"/>

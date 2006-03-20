@@ -31,11 +31,8 @@ abstract class ComponentConstants
     static final URI CONTROLLER_URI = createURI( "@CONTROLLER-URI@" );
     static final URI BUILDER_URI = createURI( "@BUILDER-URI@" );
     
-    private boolean m_checkstyleIsPainful;
-    
     ComponentConstants()
     {
-        m_checkstyleIsPainful = true;
     }
     
     private static URI createURI( String spec )
@@ -49,5 +46,14 @@ abstract class ComponentConstants
             e.printStackTrace();
             return null;
         }
+    }
+    
+   /**
+    * Return a string representation of the object.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return super.toString();
     }
 }
