@@ -25,7 +25,7 @@
  <body>
 
     <menu>
-      <item name="Download" href="setup/index.html"/>
+      <item name="Download" href="download/index.html"/>
       <item name="Reports" href="reports/index.html"/>
       <item name="Resources" href="resources/index.html"/>
       <item name="Notepad" href="notepad/index.html"/>

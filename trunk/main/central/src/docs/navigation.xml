@@ -32,7 +32,7 @@
     </links>
 
     <menu>
-      <item name="Download" href="about/setup/index.html"/>
+      <item name="Download" href="about/download/index.html"/>
       <item name="Reports" href="about/reports/index.html"/>
       <item name="Resources" href="about/resources/index.html"/>
       <item name="Notepad" href="about/notepad/index.html"/>

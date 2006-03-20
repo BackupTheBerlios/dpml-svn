@@ -25,8 +25,12 @@
           <tr>
             <td>Windows NSIS Installer</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
                 dpml-sdk-win32-@VERSION@.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
+              MD5</a>
             </td>
           </tr>
           <tr>
@@ -71,7 +75,7 @@
           <tr>
             <td>Windows NSIS Installer</td>
             <td>
-              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-win32-20060217.zip">
+              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-win32-20060217.exe">
                 dpml-sdk-win32-20060217.exe</a>
             </td>
           </tr>
@@ -123,7 +127,7 @@
           <tr>
             <td>Windows NSIS Installer</td>
             <td>
-              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.zip">
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.exe">
                 dpml-sdk-win32-20060215.exe</a>
             </td>
           </tr>
@@ -173,7 +177,7 @@
           <tr>
             <td>Windows NSIS Installer</td>
             <td>
-              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-win32-20060113.zip">
+              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-win32-20060113.exe">
                 dpml-sdk-win32-20060113.exe</a>
             </td>
           </tr>

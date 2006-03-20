@@ -41,7 +41,11 @@
               <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
                 dpml-sdk-win32-@VERSION@.exe</a>
             </td>
-          </tr>  
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
           <tr>
             <td>Windows Zip Archive</td>
             <td>
