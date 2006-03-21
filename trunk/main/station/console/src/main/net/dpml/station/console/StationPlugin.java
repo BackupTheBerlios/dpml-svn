@@ -446,6 +446,7 @@ public class StationPlugin implements Disposable
     */
     private void processStartup( CommandLine line ) throws Exception
     {
+        getLogger().debug( "processing startup request" );
         int port = getPortValue( line, Registry.REGISTRY_PORT );
         if( null != getStation( port ) )
         {
@@ -478,17 +479,13 @@ public class StationPlugin implements Disposable
             list.add( uri.toASCIIString() );
         }
         String[] args = (String[]) list.toArray( new String[0] );
-        try
-        {
-            Runtime.getRuntime().exec( args, null );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Station deployment failure.";
-            getLogger().error( error, e );
-        }
-        getLogger().info( "Station started on port: " + port );
+        
+        String message = "server startup command:";
+        String info = getRawArguments( message, args );
+        getLogger().debug( info );
+        
+        Runtime.getRuntime().exec( args, null );
+        getLogger().info( "startup in process." );
     }
     
     private void processShutdown( Manager manager ) throws Exception
@@ -1264,6 +1261,21 @@ public class StationPlugin implements Disposable
         }
         String message = buffer.toString();
         logger.debug( message );
+    }
+    
+    private String getRawArguments( String message, String[] args )
+    {
+        StringBuffer buffer = new StringBuffer( message );
+        buffer.append( "\n  command elements: " + args.length );
+        for( int i=0; i<args.length; i++ )
+        {
+            buffer.append( 
+              "\n  " 
+              + ( i+1 ) 
+              + " " 
+              + args[i] );
+        }
+        return buffer.toString();
     }
     
     private Station getStation( int port ) throws Exception

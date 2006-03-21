@@ -157,10 +157,10 @@ public final class Main //implements ShutdownHandler
 
     private void handleStation( String[] arguments )
     {
-        String name = "station";
         new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
         if( CLIHelper.isOptionPresent( arguments, "-server" ) )
         {
+            String name = "station (server mode)";
             String[] args = CLIHelper.consolidate( arguments, "-server" );
             args = processSystemProperties( args );
             String spec = "@DEPOT-STATION-SERVER-URI@";
@@ -168,6 +168,7 @@ public final class Main //implements ShutdownHandler
         }
         else
         {
+            String name = "station (console mode)";
             String spec = "@DEPOT-STATION-URI@";
             handlePlugin( name, spec, arguments, false );
         }
@@ -198,7 +199,7 @@ public final class Main //implements ShutdownHandler
       TransitModel model, String command, String path, String[] args, boolean waitFor )
     {
         
-        Logger logger = getLogger().getChildLogger( command );
+        Logger logger = getLogger();
         if( m_debug )
         {
             Enumeration names = System.getProperties().propertyNames();
@@ -242,9 +243,9 @@ public final class Main //implements ShutdownHandler
         catch( Throwable e )
         {
             final String error = 
-              "Unable to deploy the [" 
-              + command 
-              + "] handler due to deployment failure.";
+              "Deloyment failure." 
+              + "\nTarget: " + command 
+              + "\n   URI: " + path;
             getLogger().error( error, e );
             System.exit( 1 );
         }
