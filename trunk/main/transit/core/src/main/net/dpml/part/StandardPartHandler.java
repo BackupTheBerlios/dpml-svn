@@ -52,7 +52,8 @@ public class StandardPartHandler implements PartHandler
     * @return the resolved instance
     * @exception Exception if a deployment error occurs
     */
-    public Object getInstance( ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception
+    public Object getInstance( 
+      ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception
     {
         ClassLoader classloader = getClassLoader( anchor, classpath );
         if( data instanceof Plugin )

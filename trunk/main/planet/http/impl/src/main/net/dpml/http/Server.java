@@ -161,6 +161,7 @@ public class Server extends org.mortbay.jetty.Server
     {
         getLogger().debug( "commencing connector addition" );
         ComponentHandler[] handlers = parts.getComponentHandlers( Connector.class );
+        getLogger().debug( "connector count: " + handlers.length );
         ArrayList list = new ArrayList();
         for( int i=0; i<handlers.length; i++ )
         {
@@ -187,6 +188,7 @@ public class Server extends org.mortbay.jetty.Server
     {
         getLogger().debug( "commencing context handler addition" );
         ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.handler.ContextHandler.class );
+        getLogger().debug( "handler count: " + handlers.length );
         for( int i=0; i<handlers.length; i++ )
         {
             ComponentHandler handler = handlers[i];

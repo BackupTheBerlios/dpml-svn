@@ -118,9 +118,13 @@ public class ComponentAdapter extends AbstractAdapter
             throw new ApplicationException( error, e );
         }
         
+        logger.debug( "loading component model" ); 
         Model model = m_controller.createModel( codebase );
+        
+        logger.debug( "loading component manager" ); 
         m_component = m_controller.createComponent( model );
         
+        logger.debug( "handling configuration" ); 
         if( null != config )
         {
             if( model instanceof Configurable )
@@ -178,6 +182,7 @@ public class ComponentAdapter extends AbstractAdapter
               + model.getClass().getName();
             throw new UnsupportedOperationException( error );
         }
+        logger.debug( "ready" ); 
     }
     
     //------------------------------------------------------------------------------

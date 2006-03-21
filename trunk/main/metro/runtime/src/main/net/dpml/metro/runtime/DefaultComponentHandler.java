@@ -632,9 +632,8 @@ class DefaultComponentHandler extends UnicastEventSource
             //System.out.println( "# CLASS: " + clazz + " / " + c + ", " + clazz.isAssignableFrom( c ) );
             //System.out.println( "# VERSION: " + version + " / " + v + ", " +  v.complies( version ) );
             //System.out.println( "# VERSION/2: " + version.complies( v ) );
-            //if( v.complies( version ) && clazz.isAssignableFrom( c ) )
             
-            if( version.complies( v ) && clazz.isAssignableFrom( c ) )
+            if( v.complies( version ) && clazz.isAssignableFrom( c ) )
             {
                 return true;
             }
