@@ -129,12 +129,13 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
                 } 
             }
         }
-        DefaultModule[] importModules = new DefaultModule[ importModuleDirectives.length ];
-        m_imports = new DefaultModule( this, m_directive, importModules );
+        //DefaultModule[] importModules = new DefaultModule[ importModuleDirectives.length ];
+        m_imports = new DefaultModule( this, m_directive );
         for( int i=0; i<importModuleDirectives.length; i++ )
         {
             ModuleDirective importModuleDirective = importModuleDirectives[i];
-            importModules[i] = new DefaultModule( this, m_imports, importModuleDirective );
+            m_imports.addResource( importModuleDirective );
+            //importModules[i] = new DefaultModule( this, m_imports, importModuleDirective );
         }
         
         // create the top-level modules
@@ -156,13 +157,16 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
                 throw new IllegalArgumentException( error );
             }
         }
+        
         ModuleDirective[] values = (ModuleDirective[]) moduleDirectives.toArray( new ModuleDirective[0] );
-        DefaultModule[] modules = new DefaultModule[ values.length ];
-        m_module = new DefaultModule( this, m_directive, modules );
-        for( int i=0; i<modules.length; i++ )
+        //DefaultModule[] modules = new DefaultModule[ values.length ];
+        //m_module = new DefaultModule( this, m_directive, modules );
+        m_module = new DefaultModule( this, m_directive );
+        for( int i=0; i<values.length; i++ )
         {
             ModuleDirective md = values[i];
-            modules[i] = new DefaultModule( this, m_module, md );
+            m_module.addResource( md );
+            //modules[i] = new DefaultModule( this, m_module, md );
         }
     }
     
@@ -422,8 +426,10 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         try
         {
-            DefaultModule module = new DefaultModule( this, m_module, enclosing );
-            DefaultModule root = new DefaultModule( this, m_directive, new DefaultModule[]{module} );
+            //DefaultModule module = new DefaultModule( this, m_module, enclosing );
+            //DefaultModule root = new DefaultModule( this, m_directive, new DefaultModule[]{module} );
+            DefaultModule root = new DefaultModule( this, m_directive );
+            root.addResource( enclosing );
             DefaultResource resource =  root.getDefaultResource( group + "/" + name );
             m_anonymous.put( urn, resource );
             return resource;

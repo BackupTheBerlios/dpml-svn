@@ -25,6 +25,7 @@ import java.rmi.registry.Registry;
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
 import net.dpml.cli.CommandLine;
+import net.dpml.cli.OptionException;
 import net.dpml.cli.commandline.Parser;
 import net.dpml.cli.builder.ArgumentBuilder;
 import net.dpml.cli.builder.GroupBuilder;
@@ -54,7 +55,7 @@ public class StationServerPlugin implements Runnable
     private RemoteStation m_station;
     
    /**
-    * Creation of a ne station server plugin for station commandline
+    * Creation of a new station server plugin for station commandline
     * handling.
     * @param logger the assigned logging channel
     * @param args the command line arguments array
@@ -68,7 +69,22 @@ public class StationServerPlugin implements Runnable
         
         Parser parser = new Parser();
         parser.setGroup( COMMAND_GROUP );
-        m_line = parser.parse( args );
+        try
+        {
+            m_line = parser.parse( args );
+        }
+        catch( OptionException e )
+        {
+            final String message = "Server commandline processing error.";
+            StringBuffer buffer = new StringBuffer( message );
+            buffer.append( "\nArgument count: " + args.length );
+            for( int i=0; i<args.length; i++ )
+            {
+                buffer.append( "\n  arg (" + i + "): [" + args[i] + "]" );
+            }
+            String error = buffer.toString();
+            throw new Exception( error, e );
+        }
     }
     
    /**

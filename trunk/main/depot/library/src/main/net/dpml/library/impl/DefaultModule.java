@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Properties;
+import java.util.Hashtable;
+import java.util.Map;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.AbstractDirective;
@@ -39,6 +41,7 @@ import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.ModuleNotFoundException;
 
 import net.dpml.lang.Category;
+import net.dpml.lang.DuplicateKeyException;
 
 /**
  * A Module is a collection of resources.  It serves to establish a 
@@ -52,8 +55,9 @@ import net.dpml.lang.Category;
 public final class DefaultModule extends DefaultResource implements Module
 {
     private final boolean m_root;
-    private final DefaultResource[] m_resources;
+    //private final DefaultResource[] m_resources;
     private final ModuleDirective m_directive;
+    private final Map m_map = new Hashtable();
     
    /**
     * Constructor used by the library to create a virtual root module os shared 
@@ -62,18 +66,16 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param directive the library directive from which common properties are established
     * @param resources the array of top-level modules
     */
-    DefaultModule( DefaultLibrary library, AbstractDirective directive, DefaultResource[] resources ) 
-      throws Exception
+    DefaultModule( DefaultLibrary library, AbstractDirective directive ) 
     {
         super( library, directive );
-        m_resources = resources;
+        //m_resources = resources;
         m_root = true;
         m_directive = null;
-        
     }
     
     DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
-      throws Exception
+      throws DuplicateKeyException
     {
         super( library, module, directive );
         
@@ -82,30 +84,40 @@ public final class DefaultModule extends DefaultResource implements Module
         ResourceDirective[] directives = directive.getResourceDirectives();
         for( int i=0; i<directives.length; i++ )
         {
-            if( null == directives[i] )
-            {
-                throw new NullPointerException( "directive" );
-            }
-        }
-        DefaultResource[] resources = new DefaultResource[ directives.length ];
-        for( int i=0; i<directives.length; i++ )
-        {
             ResourceDirective res = directives[i];
-            if( null == res )
+            addResource( res ); 
+        }
+    }
+    
+    DefaultResource addResource( ResourceDirective directive ) throws DuplicateKeyException
+    {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        
+        String key = directive.getName();
+        if( m_map.containsKey( key ) )
+        {
+            throw new DuplicateKeyException( key );
+        }
+        else
+        {
+            DefaultLibrary library = getDefaultLibrary();
+            if( directive instanceof ModuleDirective )
             {
-                throw new NullPointerException( "resource" );
-            }
-            if( res instanceof ModuleDirective )
-            {
-                ModuleDirective d = (ModuleDirective) res;
-                resources[i] = new DefaultModule( library, this, d );
+                ModuleDirective d = (ModuleDirective) directive;
+                DefaultModule module = new DefaultModule( library, this, d );
+                m_map.put( key, module );
+                return module;
             }
             else
             {
-                resources[i] = new DefaultResource( library, this, res );
+                DefaultResource resource = new DefaultResource( library, this, directive );
+                m_map.put( key, resource );
+                return resource;
             }
         }
-        m_resources = resources;
     }
     
     //----------------------------------------------------------------------------
@@ -417,7 +429,8 @@ public final class DefaultModule extends DefaultResource implements Module
     
     DefaultResource[] getDefaultResources()
     {
-        return m_resources;
+        return (DefaultResource[]) m_map.values().toArray( new DefaultResource[0] );
+        //return m_resources;
     }
     
     DefaultResource getDefaultResource( String ref )
