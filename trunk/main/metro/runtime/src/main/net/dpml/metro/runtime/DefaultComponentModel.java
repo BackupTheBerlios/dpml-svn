@@ -104,13 +104,22 @@ class DefaultComponentModel extends UnicastEventSource
         
         m_classpath = classpath;
         m_controller = controller;
-        m_path = partition + directive.getName();
         m_directive = directive;
 
         m_classloader = m_controller.getClassLoader( anchor, classpath );
         m_classname = directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
+        
+        String name = directive.getName();
+        if( null == name )
+        {
+            m_path = partition + m_type.getInfo().getName();
+        }
+        else
+        {
+            m_path = partition + name;
+        }
         
         m_activation = directive.getActivationPolicy();
         m_lifestyle = directive.getLifestylePolicy();
