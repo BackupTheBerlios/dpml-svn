@@ -271,8 +271,11 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
             
         }
         
-        OutputStreamReader output = new OutputStreamReader( m_process.getInputStream() );
-        ErrorStreamReader err = new ErrorStreamReader( m_process.getErrorStream() );
+        Logger logger = getLogger();
+        OutputStreamReader output = new OutputStreamReader( logger, m_process.getInputStream() );
+        ErrorStreamReader err = new ErrorStreamReader( logger, m_process.getErrorStream() );
+        output.setDaemon( true );
+        err.setDaemon( true );
         output.start();
         err.start();
         
@@ -539,104 +542,5 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
     private long getShutdownTimeout()
     {
         return m_descriptor.getShutdownTimeout() * 1000000;
-    }
-
-   /**
-    * Internal abstract class to handle reading of subprocess output 
-    * and error streams.
-    */
-    private abstract class StreamReader extends Thread
-    {
-        private final InputStream m_input;
-        
-       /**
-        * Creation of a new reader.
-        * @param input the subprocess input stream
-        */
-        public StreamReader( InputStream input )
-        {
-            m_input = input;
-        }
-
-       /**
-        * Return the input stream.
-        * @return the subprocess input stream
-        */
-        protected InputStream getInputStream()
-        {
-            return m_input;
-        }
-    }
-
-   /**
-    * Internal class to handle reading of subprocess output streams.
-    */
-    private class OutputStreamReader extends StreamReader
-    {
-       /**
-        * Creation of a process output reader.
-        * @param input the subprocess input stream
-        */
-        public OutputStreamReader( InputStream input )
-        {
-            super( input );
-        }
-  
-       /**
-        * Start the stream reader.
-        */
-        public void run()
-        {
-            try
-            {
-                InputStreamReader isr = new InputStreamReader( getInputStream() );
-                BufferedReader reader = new BufferedReader( isr );
-                String line = null;
-                while( ( line = reader.readLine() ) != null )
-                {
-                    System.out.println( line );
-                }
-            }
-            catch( IOException e )
-            {
-                 getLogger().error( "Process read error.", e );
-            }
-        }
-    }
-
-   /**
-    * Internal class to handle reading of subprocess output and error streams.
-    */
-    private class ErrorStreamReader extends StreamReader
-    {
-       /**
-        * Creation of a process output reader.
-        * @param input the subprocess input stream
-        */
-        public ErrorStreamReader( InputStream input )
-        {
-            super( input );
-        }
-  
-       /**
-        * Start the stream reader.
-        */
-        public void run()
-        {
-            try
-            {
-                InputStreamReader isr = new InputStreamReader( getInputStream() );
-                BufferedReader reader = new BufferedReader( isr );
-                String line = null;
-                while( ( line = reader.readLine() ) != null )
-                {
-                    System.out.println( line );
-                }
-            }
-            catch( IOException e )
-            {
-                 getLogger().error( "Process read error.", e );
-            }
-        }
     }
 }

@@ -44,6 +44,8 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.server.RemoteApplicationRegistry;
+import net.dpml.station.server.OutputStreamReader;
+import net.dpml.station.server.ErrorStreamReader;
 
 import net.dpml.component.Provider;
 
@@ -484,10 +486,30 @@ public class StationPlugin implements Disposable
         String info = getRawArguments( message, args );
         getLogger().debug( info );
         
-        Runtime.getRuntime().exec( args, null );
-        getLogger().info( "startup in process." );
+        Process process = Runtime.getRuntime().exec( args, null );
+        getLogger().info( "startup in process" );
+        
+        OutputStreamReader output = new OutputStreamReader( getLogger(), process.getInputStream() );
+        ErrorStreamReader err = new ErrorStreamReader( getLogger(), process.getErrorStream() );
+        output.setDaemon( true );
+        err.setDaemon( true );
+        output.start();
+        err.start();
+        
+        //while( null == getStation( port ) )
+        //{
+        //    try
+        //    {
+        //        Thread.currentThread().sleep( 600 );
+        //    }
+        //    catch( Exception e )
+        //    {
+        //    }
+        //}
+        
+        getLogger().info( "station started" );
     }
-    
+        
     private void processShutdown( Manager manager ) throws Exception
     {
         getLogger().info( "initiating station shutdown" );
