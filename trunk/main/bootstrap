@@ -70,7 +70,7 @@ dpmlState()
     cd ../..
 }
 
-dpmlComonent()
+dpmlComponent()
 {
     cd lang/component
     build clean install
@@ -105,7 +105,7 @@ transitTools()
     cd ../..
 }
 
-depotLibrary()
+dpmlLibrary()
 {
     cd depot/library
     build clean install
@@ -116,7 +116,7 @@ depotAntBuilder()
 {
     cd depot/tools/builder
     build clean install
-    cd ../..
+    cd ../../..
 }
 
 externalModules()
@@ -140,11 +140,11 @@ depotBuild()
     cd ../..
 }
 
-depotCoreConsole()
+depotCore()
 {
     cd depot/core
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 ID=$1
@@ -159,9 +159,9 @@ dpmlType
 dpmlApplication
 transitMain
 transitTools
-depotLibrary
+dpmlLibrary
 depotAntBuilder
 externalModules
 utilCli
 depotBuild
-depotCoreConsole
+depotCore
