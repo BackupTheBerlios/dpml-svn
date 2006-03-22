@@ -56,15 +56,16 @@ public interface CommissionerController
     * object failed to resopond to an interrup and was subsequently 
     * terminated.
     * @param event the commissioner event
+    * @param cause the causal exception
     * @exception InvocationTargetException optional wrapped client exception
     */
-    void failed( CommissionerEvent event, Throwable e ) throws InvocationTargetException;
+    void failed( CommissionerEvent event, Throwable cause ) throws InvocationTargetException;
 
    /**
     * Notification that a commissioning or decommissioning 
     * process has failed.
     * @param event the commissioner event
-    * @exception TimeoutException optional controller initiated timeout exception
+    * @exception TimeoutError optional controller initiated timeout error
     */
     void terminated( CommissionerEvent event ) throws TimeoutError;
 }

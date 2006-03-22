@@ -24,7 +24,6 @@ import net.dpml.lang.Logger;
 
 import net.dpml.transit.monitor.LoggingAdapter;
 
-import net.dpml.job.Commissioner;
 import net.dpml.job.Commissionable;
 import net.dpml.job.CommissionerController;
 import net.dpml.job.CommissionerEvent;
@@ -196,6 +195,9 @@ public class DefaultCommissionerTestCase extends TestCase
         }
     }
     
+   /**
+    * Test object.
+    */
     private class Widget implements Commissionable
     {
        /**
@@ -237,6 +239,9 @@ public class DefaultCommissionerTestCase extends TestCase
         }
     }
 
+   /**
+    * Test object.
+    */
     private class Gizmo implements Commissionable
     {
        /**
@@ -275,13 +280,15 @@ public class DefaultCommissionerTestCase extends TestCase
         }
     }
     
+   /**
+    * Test controller.
+    */
     public class DefaultCommissionerController implements CommissionerController
     {
        /**
         * Notification that a commissioning or decommissioning 
         * process has commenced.
         * @param event the commissioner event
-        * @exception RemoteException if a remote exception occurs
         */
         public void started( CommissionerEvent event )
         {
@@ -297,7 +304,6 @@ public class DefaultCommissionerTestCase extends TestCase
         * Notification that a commissioning or decommissioning 
         * process has completed.
         * @param event the commissioner event
-        * @exception RemoteException if a remote exception occurs
         */
         public void completed( CommissionerEvent event )
         {
@@ -315,7 +321,7 @@ public class DefaultCommissionerTestCase extends TestCase
         * Notification that a commissioning or decommissioning 
         * process has been interrupted.
         * @param event the commissioner event
-        * @exception Exception client initiated exception
+        * @exception TimeoutException thrown ofter logging event
         */
         public void interrupted( CommissionerEvent event ) throws TimeoutException
         {
@@ -334,7 +340,7 @@ public class DefaultCommissionerTestCase extends TestCase
         * Notification that a commissioning or decommissioning 
         * process has been terminated.
         * @param event the commissioner event
-        * @exception Exception client initiated exception
+        * @exception TimeoutError thrown ofter logging event
         */
         public void terminated( CommissionerEvent event ) throws TimeoutError
         {
@@ -354,7 +360,7 @@ public class DefaultCommissionerTestCase extends TestCase
         * process failed.
         * @param event the commissioner event
         * @param cause the causal exception
-        * @exception Throwable controller initiated exception
+        * @exception InvocationTargetException throw after logging event
         */
         public void failed( CommissionerEvent event, Throwable cause ) throws InvocationTargetException
         {

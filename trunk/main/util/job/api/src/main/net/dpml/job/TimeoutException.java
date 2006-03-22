@@ -31,7 +31,7 @@ public class TimeoutException extends Exception
    /**
     * Construct a new <code>TimeoutException</code> instance.
     *
-    * @param message The detail message for this exception.
+    * @param timeout the timeout value.
     */
     public TimeoutException( long timeout )
     {

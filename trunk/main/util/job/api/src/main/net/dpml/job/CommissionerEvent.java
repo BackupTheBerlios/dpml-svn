@@ -40,7 +40,6 @@ public class CommissionerEvent extends EventObject
     * Construct a new <code>CommissionerEvent</code>.
     *
     * @param target the commissionable target
-    * @param stage the commissioning stage
     * @param flag if true then commissioning else decommissioning
     * @param duration the applicable duration relative to the stage
     */
@@ -62,10 +61,11 @@ public class CommissionerEvent extends EventObject
     }
     
    /**
-    * Get the application duration.  If the event is related to the STARTED, 
-    * INTERUPTED or FAILED the value returned is the timeout constraint. If the
-    * stage is COMPLETED the value is equal to the actual time taken to execute
-    * the commissioning or decommissioning process.
+    * Get the application duration.  If the event is related to the started, 
+    * interrupted, terminated, or failed phase the value returned is the timeout
+    * constraint. If the stage is normal completion the value is equal to the 
+    * actual time taken to execute the commissioning or decommissioning process.
+    * @return the applicable duration
     */
     public long getDuration()
     {

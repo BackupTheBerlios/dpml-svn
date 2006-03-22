@@ -31,7 +31,7 @@ public class TimeoutError extends Error
    /**
     * Construct a new <code>TimeoutError</code> instance.
     *
-    * @param message The detail message for this exception.
+    * @param timeout the timeout value.
     */
     public TimeoutError( long timeout )
     {

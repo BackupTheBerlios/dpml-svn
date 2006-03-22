@@ -28,10 +28,13 @@ package net.dpml.job;
 public interface Commissionable
 {
    /**
+    * Commission the instance.
+    * @exception Exception if an error occurs
     */
     void commission() throws Exception;
 
    /**
+    * Decommission the instance.
     */
     void decommission();
 }

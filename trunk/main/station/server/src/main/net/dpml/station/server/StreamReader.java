@@ -18,33 +18,9 @@
 
 package net.dpml.station.server; 
 
-import java.io.IOException;
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.rmi.ConnectException;
-import java.rmi.RemoteException;
-import java.util.Enumeration;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.EventObject;
-import java.util.EventListener;
-
-import net.dpml.station.info.StartupPolicy;
-import net.dpml.station.info.ApplicationDescriptor;
-
-import net.dpml.component.Component;
-import net.dpml.component.Provider;
-
-import net.dpml.station.Callback;
-import net.dpml.station.ProcessState;
-import net.dpml.station.Application;
-import net.dpml.station.ApplicationException;
-import net.dpml.station.ApplicationListener;
-import net.dpml.station.ApplicationEvent;
 
 import net.dpml.lang.Logger;
-import net.dpml.lang.PID;
 
 /**
  * Stream reader utility class.
@@ -59,6 +35,7 @@ abstract class StreamReader extends Thread
     
    /**
     * Creation of a new reader.
+    * @param logger the assigned logging channel
     * @param input the subprocess input stream
     */
     public StreamReader( Logger logger, InputStream input )

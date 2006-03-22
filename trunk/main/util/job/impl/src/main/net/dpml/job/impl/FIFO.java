@@ -58,9 +58,9 @@ class FIFO
         {
             while( m_queue.size() == 0 )
             {
-                wait(100);
+                wait( 100 );
             }
-            return m_queue.remove(0);
+            return m_queue.remove( 0 );
         }
     }
     

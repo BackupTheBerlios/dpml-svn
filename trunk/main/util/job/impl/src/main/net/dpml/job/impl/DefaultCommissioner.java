@@ -39,12 +39,6 @@ import net.dpml.job.TimeoutError;
 public class DefaultCommissioner implements Commissioner, Runnable
 {
     //------------------------------------------------------------
-    // static
-    //------------------------------------------------------------
-
-    private static int m_counter = 0;
-    
-    //------------------------------------------------------------
     // immutable state
     //------------------------------------------------------------
 
@@ -64,18 +58,24 @@ public class DefaultCommissioner implements Commissioner, Runnable
     // constructor
     //------------------------------------------------------------
 
-    public DefaultCommissioner( String name, boolean flag, CommissionerController listener )
+   /**
+    * Creation of a new commissioner.
+    * @param name the commissioner name
+    * @param flag true if commissioning, flase if decommissioning
+    * @param controller the commissioner controller
+    */
+    public DefaultCommissioner( String name, boolean flag, CommissionerController controller )
     {
         if( null == name )
         {
             throw new NullPointerException( "name" );
         }
-        if( null == listener )
+        if( null == controller )
         {
-            throw new NullPointerException( "listener" );
+            throw new NullPointerException( "controller" );
         }
         m_flag = flag;
-        m_listener = listener;
+        m_listener = controller;
         m_thread = new Thread( this, name );
         m_thread.start();
     }
@@ -91,14 +91,11 @@ public class DefaultCommissioner implements Commissioner, Runnable
      * @param commissionable the commissionable instance
      * @param timeout the maximum number of milliseconds to allow 
      *
-     * @throws TimeoutException if the deployment was not 
-     *   completed within the timeout deadline and interuption
-     *   of the deployment was successful
-     * @throws TimeoutError if the deployment was not 
-     *   completed within the timeout deadline and interuption
-     *   of the deployment was not successful
-     * @throws InvocationTargetException if the deployment target raises an exception
-     **/
+     * @throws TimeoutException raised by attached controller
+     * @throws TimeoutError raised by attached controller
+     * @throws InvocationTargetException raised by attached controller
+     * @see CommissionerController
+     */
     public void add( Commissionable commissionable, long timeout )
         throws TimeoutException, TimeoutError, InvocationTargetException
     {
@@ -166,6 +163,9 @@ public class DefaultCommissioner implements Commissioner, Runnable
         }
     }
     
+   /**
+    * Runnable implementation (handled in constructor).
+    */ 
     public void run()
     {
         try
