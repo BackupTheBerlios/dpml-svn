@@ -52,16 +52,6 @@ public interface Controller
     Directive loadDirective( URI uri ) throws ControlException, IOException;
     
    /**
-    * Create and return a new management context using the supplied part
-    * as the inital management state.
-    *
-    * @param directive the part data structure
-    * @return the management context
-    * @exception ControlException if a part related error occurs
-    */
-    //Model createModel( Directive directive ) throws ControlException;
-
-   /**
     * Create and return a new management context using the supplied directive uri.
     *
     * @param uri a uri identifying a deployment directive
@@ -86,16 +76,4 @@ public interface Controller
     * @exception Exception if a component construction error occurs
     */
     Component createComponent( Model model ) throws Exception;
-
-   /**
-    * Create a classloader using the supplied anchor classloader and 
-    * component directive.
-    * 
-    * @param anchor the anchor classloader
-    * @param model a component model 
-    * @return the classloader
-    * @exception ControlException if a part related error occurs
-    */
-    //ClassLoader createClassLoader( ClassLoader anchor, Model model ) throws ControlException;
-
 }
