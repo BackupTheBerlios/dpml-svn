@@ -114,29 +114,24 @@
       </p>
 
 <source><![CDATA[
-
-  <project name="dpml-metro-runtime" basedir="runtime">
-    <types>
-      <type id="jar"/>
-      <type id="plugin">
-        <property name="project.plugin.class" 
-           value="net.dpml.metro.runtime.CompositionController"/>
-      </type>
-    </types>
-    <dependencies>
-      <include ref="dpml/util/dpml-logging-api" tag="public"/>
-      <include ref="dpml/util/dpml-activity-api" tag="public"/>
-      <include ref="dpml/util/dpml-parameters-impl"/>
-      <include ref="dpml/util/dpml-configuration-impl"/>
-      <include key="dpml-state-impl"/>
-      <include key="dpml-metro-component" tag="protected"/>
-      <include key="dpml-metro-model" tag="protected"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-
+<project name="dpml-metro-runtime" basedir="runtime">
+  <types>
+    <type id="jar"/>
+    <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
+  </types>
+  <dependencies>
+    <include ref="dpml/util/dpml-logging-api" tag="public"/>
+    <include ref="dpml/util/dpml-parameters-impl"/>
+    <include ref="dpml/util/dpml-configuration-impl"/>
+    <include key="dpml-metro-component" tag="protected"/>
+    <include key="dpml-metro-model" tag="protected"/>
+    <include key="dpml-state-impl"/>
+    <include key="dpml-metro-builder"/>
+  </dependencies>
+  <dependencies scope="test">
+    <include ref="ant/ant-junit"/>
+  </dependencies>
+</project>
 ]]></source>
 
     </section>
