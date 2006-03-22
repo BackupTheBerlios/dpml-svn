@@ -57,7 +57,7 @@ public class DisposalTestCase extends TestCase
     public void testHandlerDisposal() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         for( int i=0; i<1000; i++ )
         {
             component.getProvider();

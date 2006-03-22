@@ -67,6 +67,6 @@ public class ObserverTestCase extends TestCase
         String key = "color";
         ValueDirective newDirective = new ValueDirective( Color.class.getName(), "BLUE", (String) null );
         context.setEntryDirective( key, newDirective );
-        component.deactivate();
+        component.decommission();
     }
 }

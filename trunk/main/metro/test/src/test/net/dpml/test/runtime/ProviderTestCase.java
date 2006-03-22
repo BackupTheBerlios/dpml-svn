@@ -65,12 +65,12 @@ public class ProviderTestCase extends TestCase
     public void testStateListenerAdditionAndRemoval() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         Provider instance = component.getProvider();
         StateListener listener = new DefaultStateListener();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
-        component.deactivate();
+        component.decommission();
     }
     
    /**
@@ -80,7 +80,7 @@ public class ProviderTestCase extends TestCase
     public void testNullListenerAddition() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         Provider instance = component.getProvider();
         try
         {
@@ -93,7 +93,7 @@ public class ProviderTestCase extends TestCase
         }
         finally
         {
-            component.deactivate();
+            component.decommission();
         }
     }
     
@@ -104,7 +104,7 @@ public class ProviderTestCase extends TestCase
     public void testNullListenerRemoval() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         Provider instance = component.getProvider();
         try
         {
@@ -117,7 +117,7 @@ public class ProviderTestCase extends TestCase
         }
         finally
         {
-            component.deactivate();
+            component.decommission();
         }
     }
 
@@ -128,7 +128,7 @@ public class ProviderTestCase extends TestCase
     public void testUnknownListenerRemoval() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         Provider instance = component.getProvider();
         try
         {
@@ -142,7 +142,7 @@ public class ProviderTestCase extends TestCase
         }
         finally
         {
-            component.deactivate();
+            component.decommission();
         }
     }
     
@@ -163,12 +163,12 @@ public class ProviderTestCase extends TestCase
                 State state = (State) event.getNewValue();
             }
           } );
-        component.activate();
+        component.commission();
         assertTrue( "is-active", component.isActive() );
         Provider instance = component.getProvider();
         instance.addStateListener( listener );
         instance.removeStateListener( listener );
-        component.deactivate();
+        component.decommission();
         assertFalse( "is-active-following-deactivation", component.isActive() );
     }
 
@@ -179,7 +179,7 @@ public class ProviderTestCase extends TestCase
     public void testValueInstantiationWithProxy() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         try
         {
             Provider instance = component.getProvider();
@@ -190,7 +190,7 @@ public class ProviderTestCase extends TestCase
         }
         finally
         {
-            component.deactivate();
+            component.decommission();
         }
     }
 
@@ -201,7 +201,7 @@ public class ProviderTestCase extends TestCase
     public void testValueInstantiationWithoutProxy() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         try
         {
             Provider instance = component.getProvider();
@@ -212,7 +212,7 @@ public class ProviderTestCase extends TestCase
         }
         finally
         {
-            component.deactivate();
+            component.decommission();
         }
     }
     

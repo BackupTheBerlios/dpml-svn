@@ -225,12 +225,12 @@ public class ComponentAdapter extends AbstractAdapter
     *    and a implementation source exception occured
     * @exception RemoteException if a remote exception occurs
     */
-    public void activate() throws ControlException, InvocationTargetException, RemoteException
+    public void commission() throws ControlException, InvocationTargetException, RemoteException
     {
-        m_component.activate();
+        m_component.decommission();
         m_instance = m_component.getProvider();
         m_object = m_component.getProvider().getValue( false );
-}
+    }
     
    /**
     * Return the number of instances currently under management.
@@ -260,9 +260,9 @@ public class ComponentAdapter extends AbstractAdapter
     * Deactivate the handler.
     * @exception RemoteException if a remote exception occurs
     */
-    public void deactivate() throws RemoteException
+    public void decommission() throws RemoteException
     {
-        m_component.deactivate();
+        m_component.decommission();
     }
     
    /**

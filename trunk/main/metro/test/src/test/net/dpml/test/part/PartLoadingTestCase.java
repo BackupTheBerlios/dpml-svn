@@ -60,7 +60,7 @@ public class PartLoadingTestCase extends TestCase
     */
     public void testPartLoading() throws Exception
     {
-        Logger.global.info( "commencing test." );
+        Logger.global.info( "commencing test" );
         
         // initialize transit
         

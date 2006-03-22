@@ -59,7 +59,7 @@ public class HardCollectionPolicyTestCase extends TestCase
     public void testCollection() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         assertTrue( "is-active", component.isActive() );
         Provider one = component.getProvider();
         Provider two = component.getProvider();
@@ -86,7 +86,7 @@ public class HardCollectionPolicyTestCase extends TestCase
         //
         
         assertEquals( "count", 1, count );
-        component.deactivate();
+        component.decommission();
     }
     
     static

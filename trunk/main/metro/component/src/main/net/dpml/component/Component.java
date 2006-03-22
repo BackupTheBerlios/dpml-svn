@@ -22,13 +22,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.job.Commissionable;
+
 /**
  * The Component represents a remote interface to a runtime component type.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Component extends Remote
+public interface Component extends Remote, Commissionable
 {
    /**
     * Return a handler capable of supporting the requested service.
@@ -62,17 +64,8 @@ public interface Component extends Remote
     ActivationPolicy getActivationPolicy() throws RemoteException;
     
    /**
-    * Initiate activation of a runtime handler.
-    * @exception ControlException if an activation error occurs
-    * @exception InvocationTargetException if the component declares activation on startup
-    *    and a implementation source exception occured
-    * @exception RemoteException if a remote exception occurs
-    */
-    void activate() throws ControlException, InvocationTargetException, RemoteException;
-    
-   /**
-    * Returns the active status of the handler.
-    * @return TRUE if the handler has been activated otherwise FALSE
+    * Returns the commissioned status of the handler.
+    * @return TRUE if the handler has been commissioned otherwise FALSE
     * @exception RemoteException if a remote exception occurs
     */
     boolean isActive() throws RemoteException;
@@ -95,10 +88,5 @@ public interface Component extends Remote
     */
     Provider getProvider() throws ControlException, InvocationTargetException, RemoteException;
     
-   /**
-    * Deactivate the handler.
-    * @exception RemoteException if a remote exception occurs
-    */
-    void deactivate() throws RemoteException;
 }
 

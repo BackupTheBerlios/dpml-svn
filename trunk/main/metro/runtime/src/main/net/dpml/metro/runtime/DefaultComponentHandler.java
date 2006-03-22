@@ -328,7 +328,7 @@ class DefaultComponentHandler extends UnicastEventSource
     public Provider getProvider() throws InvocationTargetException, ControlException
     {
         getLogger().debug( "getProvider" );
-        activate();
+        commission();
         return m_holder.getProvider();
     }
     
@@ -463,7 +463,7 @@ class DefaultComponentHandler extends UnicastEventSource
     * @exception ControlException if an activation error occurs
     * @exception InvocationTargetException if the client component raises an error
     */
-    public synchronized void activate() throws ControlException, InvocationTargetException
+    public synchronized void commission() throws ControlException, InvocationTargetException
     {
         if( isActive() )
         {
@@ -527,7 +527,7 @@ class DefaultComponentHandler extends UnicastEventSource
         catch( RemoteException e )
         {
             getLogger().warn( "activation failed due to a remote exception", e );
-            deactivate();
+            decommission();
             final String error = 
               "Remote exception raised while attempting to access component activation policy.";
             throw new ControllerException( error, e );
@@ -535,26 +535,26 @@ class DefaultComponentHandler extends UnicastEventSource
         catch( ControlException e )
         {
             getLogger().warn( "activation failed due to a control exception", e );
-            deactivate();
+            decommission();
             throw e;
         }
         catch( InvocationTargetException e )
         {
             getLogger().warn( "activation failed due to a client initated invocation exception", e );
-            deactivate();
+            decommission();
             throw e;
         }
         catch( Throwable e )
         {
             getLogger().warn( "activation failed due to a unexpected exception", e );
-            deactivate();
+            decommission();
         }
         finally
         {
             if( !m_active )
             {
                 getLogger().warn( "activation failed" );
-                deactivate();
+                decommission();
             }
         }
     }
@@ -579,14 +579,14 @@ class DefaultComponentHandler extends UnicastEventSource
    /**
     * Deactivate the component.
     */
-    public synchronized void deactivate()
+    public synchronized void decommission()
     {
         if( !isActive() )
         {
             return;
         }
         
-        getLogger().debug( "deactivating" );
+        getLogger().debug( "decommissioning" );
         
         //
         // dispose of all of the instances managed by this component

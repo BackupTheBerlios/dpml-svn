@@ -29,6 +29,7 @@
     </types>
     <dependencies>
       <include key="dpml-state-api" tag="public"/>
+      <include ref="dpml/util/dpml-job-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="private"/>
     </dependencies>
     <dependencies scope="test">
@@ -93,10 +94,11 @@
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
-      <include ref="dpml/util/dpml-parameters-impl"/>
-      <include ref="dpml/util/dpml-configuration-impl"/>
       <include key="dpml-metro-component" tag="protected"/>
       <include key="dpml-metro-model" tag="protected"/>
+      <include ref="dpml/util/dpml-parameters-impl"/>
+      <include ref="dpml/util/dpml-configuration-impl"/>
+      <include ref="dpml/util/dpml-job-impl"/>
       <include key="dpml-state-impl"/>
       <include key="dpml-metro-builder"/>
     </dependencies>

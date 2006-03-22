@@ -118,7 +118,7 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
             {
                 try
                 {
-                    handler.deactivate();
+                    handler.decommission();
                 }
                 catch( Exception ee )
                 {
@@ -265,7 +265,6 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
                 "Process establishment failure.";
                 throw new ApplicationException( error, e );
             }
-            
         }
         
         Logger logger = getLogger();
@@ -405,7 +404,7 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
                 {
                     try
                     {
-                        m_handler.deactivate();
+                        m_handler.decommission();
                     }
                     catch( Throwable e )
                     {

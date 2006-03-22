@@ -18,6 +18,8 @@
 
 package net.dpml.job;
 
+import java.rmi.RemoteException;
+
 /**
  * Interface implemented by objects that implement commission/decommmissioning
  * lifecycles.
@@ -36,5 +38,5 @@ public interface Commissionable
    /**
     * Decommission the instance.
     */
-    void decommission();
+    void decommission() throws RemoteException;
 }

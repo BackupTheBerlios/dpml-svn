@@ -63,7 +63,7 @@ public class LifecycleTestCase extends TestCase
         Provider instance = component.getProvider();
         StartableComponent startable = (StartableComponent) instance.getValue( false );
         assertTrue( "component is started", startable.wasStarted() );
-        component.deactivate();
+        component.decommission();
         assertTrue( "component is stopped", startable.wasStopped() );
     }
     

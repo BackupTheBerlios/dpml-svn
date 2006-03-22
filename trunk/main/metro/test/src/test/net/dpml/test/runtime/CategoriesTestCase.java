@@ -62,7 +62,7 @@ public class CategoriesTestCase extends TestCase
         Component component = CONTROLLER.createComponent( m_uri );
         Provider provider = component.getProvider();
         CategoriesComponent instance = (CategoriesComponent) provider.getValue( false );
-        component.deactivate();
+        component.decommission();
     }
     
     static

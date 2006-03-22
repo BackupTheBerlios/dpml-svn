@@ -421,7 +421,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             m_handler = handler;
             try
             {
-                handler.activate();
+                handler.commission();
             }
             catch( Exception e )
             {
@@ -430,7 +430,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
                 getLogger().error( error, e );
                 try
                 {
-                    handler.deactivate();
+                    handler.decommission();
                 }
                 catch( Exception deactivationError )
                 {
@@ -455,7 +455,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
                 getLogger().error( error, throwable );
                 try
                 {
-                    m_handler.deactivate();
+                    m_handler.decommission();
                 }
                 catch( Throwable e )
                 {

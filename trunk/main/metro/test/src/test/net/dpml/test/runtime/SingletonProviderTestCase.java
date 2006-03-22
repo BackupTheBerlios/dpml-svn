@@ -56,12 +56,12 @@ public class SingletonProviderTestCase extends TestCase
     public void testSharedProviderSemantics() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         assertTrue( "is-active", component.isActive() );
         Provider firstProvider = component.getProvider();
         Provider secondProvider = component.getProvider();
         assertEquals( "singletons-are-equal", firstProvider, secondProvider );
-        component.deactivate();
+        component.decommission();
     }
     
     static

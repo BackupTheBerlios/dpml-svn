@@ -73,13 +73,12 @@ public class ServerTestCase extends TestCase
         }
         finally
         {
-            component.deactivate();
+            component.decommission();
         }
     }
     
     static
     {
-        //System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
         System.setProperty( 
           "java.util.logging.config.class", 
           System.getProperty( 

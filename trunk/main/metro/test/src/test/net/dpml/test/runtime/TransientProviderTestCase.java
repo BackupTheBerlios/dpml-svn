@@ -56,7 +56,7 @@ public class TransientProviderTestCase extends TestCase
     public void testTransientProviderSemantics() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         assertTrue( "is-active", component.isActive() );
         Provider firstProvider = component.getProvider();
         Provider secondProvider = component.getProvider();
@@ -64,7 +64,7 @@ public class TransientProviderTestCase extends TestCase
         {
             fail( "Transient identity must be unique" );
         }
-        component.deactivate();
+        component.decommission();
     }
     
     static

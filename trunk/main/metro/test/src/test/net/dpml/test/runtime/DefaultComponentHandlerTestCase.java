@@ -71,9 +71,9 @@ public class DefaultComponentHandlerTestCase extends TestCase
     public void testActivationDeactivationCycle() throws Exception
     {
         Component component = CONTROLLER.createComponent( m_uri );
-        component.activate();
+        component.commission();
         assertTrue( "is-active", component.isActive() );
-        component.deactivate();
+        component.decommission();
         assertFalse( "is-active-following-deactivation", component.isActive() );
     }
 

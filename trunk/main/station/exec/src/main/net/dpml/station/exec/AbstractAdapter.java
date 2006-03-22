@@ -103,7 +103,7 @@ public class AbstractAdapter extends UnicastRemoteObject implements Component
     *    and a implementation instantiation exception occurs
     * @exception RemoteException if a remote exception occurs
     */
-    public void activate() throws ControlException, InvocationTargetException, RemoteException
+    public void commission() throws ControlException, InvocationTargetException, RemoteException
     {
         m_activated = true;
     }
@@ -146,7 +146,7 @@ public class AbstractAdapter extends UnicastRemoteObject implements Component
     * Deactivate the handler.
     * @exception RemoteException if a remote exception occurs
     */
-    public void deactivate() throws RemoteException
+    public void decommission() throws RemoteException
     {
         m_activated = false;
     }

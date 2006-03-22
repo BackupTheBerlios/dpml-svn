@@ -22,6 +22,7 @@ import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.lang.reflect.InvocationTargetException;
 
 import net.dpml.logging.Logger;
 
@@ -38,6 +39,14 @@ import net.dpml.component.Service;
 
 import net.dpml.lang.Version;
 import net.dpml.lang.UnknownKeyException;
+
+import net.dpml.job.Commissioner;
+import net.dpml.job.CommissionerEvent;
+import net.dpml.job.CommissionerController;
+import net.dpml.job.TimeoutException;
+import net.dpml.job.TimeoutError;
+
+import net.dpml.job.impl.DefaultCommissioner;
 
 /**
  * Default implementation of the local Parts interface.
@@ -265,6 +274,10 @@ class DefaultPartsManager implements PartsManager
             throw new IllegalStateException( error );
         }
         
+        String label = m_handler.toString();
+        DefaultCommissioner queue = 
+          new DefaultCommissioner( label, true, new InternalCommissionerController( true ) );
+
         ControlException exception = null;
         ArrayList list = new ArrayList();
         Component[] components = getComponents();
@@ -278,8 +291,9 @@ class DefaultPartsManager implements PartsManager
                 {
                     if( component.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
                     {
-                        component.activate();
                         list.add( component );
+                        queue.add( component, 0 );
+                        //component.commission();
                     }
                 }
                 catch( Throwable e )
@@ -313,10 +327,7 @@ class DefaultPartsManager implements PartsManager
     {
         if( !m_commissioned )
         {
-            final String error = 
-              "Illegal attempt to decommission a part manager that is already decommissioned."
-              + "Component: " + m_handler;
-            throw new IllegalStateException( error );
+            return;
         }
         
         getLogger().debug( "decommissioning" );
@@ -329,6 +340,10 @@ class DefaultPartsManager implements PartsManager
     */
     private void decommission( Component[] components )
     {
+        String label = m_handler.toString();
+        DefaultCommissioner queue = 
+          new DefaultCommissioner( label, false, new InternalCommissionerController( false ) );
+
         try
         {
             int n = components.length -1;
@@ -337,14 +352,24 @@ class DefaultPartsManager implements PartsManager
                 Component component = components[i];
                 try
                 {
-                    component.deactivate();
+                    queue.add( component, 0 );
                 }
-                catch( RemoteException e )
+                catch( Throwable e )
                 {
                     final String message = 
-                      "Ignoring remote exception raised during deactivation.";
+                      "Ignoring exception raised during deactivation.";
                     getLogger().warn( message, e );
                 }
+                //try
+                //{
+                //    component.decommission();
+                //}
+                //catch( RemoteException e )
+                //{
+                //    final String message = 
+                //      "Ignoring remote exception raised during deactivation.";
+                //    getLogger().warn( message, e );
+                //}
             }
         }
         finally
@@ -361,5 +386,139 @@ class DefaultPartsManager implements PartsManager
     private Logger getLogger()
     {
         return m_logger;
+    }
+
+   /**
+    * Test controller.
+    */
+    public class InternalCommissionerController implements CommissionerController
+    {
+        private boolean m_fail;
+        
+        InternalCommissionerController( boolean fail )
+        {
+            m_fail = fail;
+        }
+        
+       /**
+        * Notification that a commissioning or decommissioning 
+        * process has commenced.
+        * @param event the commissioner event
+        */
+        public void started( CommissionerEvent event )
+        {
+            String message = 
+              getAction( event )
+              + "[" 
+              + event.getSource() 
+              + "]";
+            getLogger().debug( message );
+        }
+        
+       /**
+        * Notification that a commissioning or decommissioning 
+        * process has completed.
+        * @param event the commissioner event
+        */
+        public void completed( CommissionerEvent event )
+        {
+            String message = 
+              getAction( event )
+              + "[" 
+              + event.getSource() 
+              + "] completed in "
+              + event.getDuration() 
+              + " milliseconds";
+            getLogger().debug( message );
+        }
+    
+       /**
+        * Notification that a commissioning or decommissioning 
+        * process has been interrupted.
+        * @param event the commissioner event
+        * @exception TimeoutException thrown ofter logging event
+        */
+        public void interrupted( CommissionerEvent event ) throws TimeoutException
+        {
+            String message = 
+              getAction( event )
+              + "of [" 
+              + event.getSource() 
+              + "] interrupted after "
+              + event.getDuration() 
+              + " milliseconds";
+            getLogger().debug( message );
+            if( m_fail )
+            {
+                throw new TimeoutException( event.getDuration() );
+            }
+        }
+    
+       /**
+        * Notification that a commissioning or decommissioning 
+        * process has been terminated.
+        * @param event the commissioner event
+        * @exception TimeoutError thrown ofter logging event
+        */
+        public void terminated( CommissionerEvent event ) throws TimeoutError
+        {
+            String message = 
+              getAction( event )
+              + "of [" 
+              + event.getSource() 
+              + "] terminated after "
+              + event.getDuration() 
+              + " milliseconds";
+            getLogger().debug( message );
+            if( m_fail )
+            {
+                throw new TimeoutError( event.getDuration() );
+            }
+        }
+        
+       /**
+        * Notification that a commissioning or decommissioning 
+        * process failed.
+        * @param event the commissioner event
+        * @param cause the causal exception
+        * @exception InvocationTargetException throw after logging event
+        */
+        public void failed( CommissionerEvent event, Throwable cause ) throws InvocationTargetException
+        {
+            if( m_fail )
+            {
+                if( cause instanceof InvocationTargetException )
+                {
+                    throw (InvocationTargetException) cause;
+                }
+                else
+                {
+                    throw new InvocationTargetException( cause );
+                }
+            }
+            else
+            {
+                String message = 
+                  getAction( event )
+                  + "of [" 
+                  + event.getSource() 
+                  + "] failed due ["
+                  + cause.getClass().getName()
+                  + "]";
+                getLogger().error( message, cause );
+            }
+        }
+        
+        private String getAction( CommissionerEvent event )
+        {
+            if( event.isCommissioning() )
+            {
+                return "commissioning ";
+            }
+            else
+            {
+                return "decommissioning ";
+            }
+        }
     }
 }
