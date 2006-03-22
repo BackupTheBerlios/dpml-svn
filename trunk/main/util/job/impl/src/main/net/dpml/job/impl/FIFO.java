@@ -30,11 +30,17 @@ class FIFO
 {
     private ArrayList m_queue;
     
+   /**
+    * Creation of a new FIFO queue.
+    */
     FIFO()
     {
         m_queue = new ArrayList();
     }
     
+   /**
+    * Clear the queue.
+    */
     void clear()
     {
         synchronized( this )
@@ -43,6 +49,9 @@ class FIFO
         }
     }
     
+   /**
+    * Add an object to the queue.
+    */
     void put( Object obj )
     {
         synchronized( this )
@@ -52,6 +61,11 @@ class FIFO
         }
     }
     
+   /**
+    * Get the first object entered in the queue.
+    * @return the first object
+    * @exception InterruptedException if interrupted
+    */
     Object get() throws InterruptedException
     {
         synchronized( this )
@@ -64,6 +78,10 @@ class FIFO
         }
     }
     
+   /**
+    * Get the number of objects on the queue.
+    * @return the number of objects
+    */
     int size()
     {
         synchronized( this )
