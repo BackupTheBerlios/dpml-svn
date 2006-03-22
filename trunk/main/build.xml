@@ -284,6 +284,8 @@
         <package name="net.dpml.parameters.*"/>
         <package name="net.dpml.logging"/>
         <package name="net.dpml.logging.*"/>
+        <package name="net.dpml.job"/>
+        <package name="net.dpml.job.*"/>
       </group>
     </x:javadoc>
   </target>
