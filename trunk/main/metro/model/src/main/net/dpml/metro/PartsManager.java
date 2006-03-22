@@ -22,8 +22,6 @@ import net.dpml.component.ControlException;
 
 import net.dpml.lang.UnknownKeyException;
 
-import net.dpml.job.Commissionable;
-
 /**
  * Local interface through which a component implementation may 
  * interact with subsidary parts.

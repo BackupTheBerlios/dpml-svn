@@ -37,6 +37,7 @@ public interface Commissionable
 
    /**
     * Decommission the instance.
+    * @exception RemoteException if remote invocation transport error occurs
     */
     void decommission() throws RemoteException;
 }

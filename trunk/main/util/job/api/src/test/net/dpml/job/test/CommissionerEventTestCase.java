@@ -65,6 +65,9 @@ public class CommissionerEventTestCase extends TestCase
         assertEquals( "source", commissionable, event.getSource() );
     }
     
+   /**
+    * Internal mock commissionable object.
+    */
     private class MockCommissionable implements Commissionable
     {
        /**

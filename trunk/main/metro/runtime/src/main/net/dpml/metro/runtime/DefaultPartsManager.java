@@ -40,7 +40,6 @@ import net.dpml.component.Service;
 import net.dpml.lang.Version;
 import net.dpml.lang.UnknownKeyException;
 
-import net.dpml.job.Commissioner;
 import net.dpml.job.CommissionerEvent;
 import net.dpml.job.CommissionerController;
 import net.dpml.job.TimeoutException;
