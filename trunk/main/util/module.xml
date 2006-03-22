@@ -7,6 +7,28 @@
     <include key="transit"/>
   </dependencies>
 
+  <project name="dpml-job-api" basedir="job/api">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
+
+  <project name="dpml-job-impl" basedir="job/impl">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/util/dpml-job-api"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+
   <project name="dpml-util-i18n" basedir="i18n">
     <types>
       <type id="jar"/>
