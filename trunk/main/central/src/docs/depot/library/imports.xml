@@ -12,15 +12,21 @@
     <section name="Imports">
 
       <p>
+      The <tt>&lt;imports&gt;</tt> element declares 0..n <tt>&lt;import&gt;</tt> 
+      instructions. Top-level import statements are restricted to uri-based import
+      statements.
+      </p>
+      
+      <p>
       An <tt>&lt;import&gt;</tt> directive instructs the library to include an 
       external module definition into the library.  Importing a module enables 
       projects and resources declared within modules to reference resources as
       <tt>&lt;dependencies&gt;</tt> via <tt>&lt;include&gt;</tt> elements.
       </p>
 
-      <subsection name="XML Element">
+      <subsection name="Import XML Element">
 <source><![CDATA[
-<include uri="[module-uri]"/>
+<import uri="[module-uri]"/>
 ]]></source>
       </subsection>
 
@@ -42,17 +48,15 @@
       <p><i>Example imports declaration.</i></p>
 
 <source><![CDATA[
-<imports>
-  <import uri="link:module:junit"/>
-  <import uri="link:module:ant"/>
-  <import uri="link:module:jgoodies"/>
-</imports>
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
 ]]></source>
 
       <p>
-      The above example includes module defintions for the JUnit, Ant and JGoodies 
-      projects into a library.  Link URIs may may include the 'link' or 'artifact' 
-      protocol.
+      The above example includes module defintions for the JUnit and Ant  
+      modules into a library.
       </p>
         
     </section>

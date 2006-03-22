@@ -65,14 +65,11 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE library PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
-
-<library>
+<library xmlns="artifact:xsd:dpml/lang/dpml-module#1.0">
 
   <imports>
     <import uri="link:module:junit"/>
     <import uri="link:module:ant"/>
-    <import uri="link:module:jgoodies"/>
   </imports>
 
   <modules>
@@ -88,18 +85,19 @@
         <property name="project.resource.host" value="http://repository.dpml.net"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
-        <property name="project.javadoc.linksource" value="true"/>
       </properties>
 
       <types>
         <type id="module" alias="true"/>
       </types>
 
-      <module file="transit/module.xml"/>
-      <module file="metro/module.xml"/>
-      <module file="depot/module.xml"/>
-      <module file="util/module.xml"/>
-      <module file="planet/module.xml"/>
+      <import file="lang/module.xml"/>
+      <import file="transit/module.xml"/>
+      <import file="util/module.xml"/>
+      <import file="depot/module.xml"/>
+      <import file="metro/module.xml"/>
+      <import file="station/module.xml"/>
+      <import file="planet/module.xml"/>
 
       <project name="central" basedir="central"/>
 

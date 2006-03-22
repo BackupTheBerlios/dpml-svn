@@ -28,14 +28,8 @@
       documentation).
       </p>
 
-      <subsection name="XML Attributes on Embedded Modules">
+      <subsection name="XML Attributes">
 
-         <p>
-         The following attributes may be declared when declaring a 
-         module within the library <tt>&lt;modules&gt;</tt> element or within
-         another enclosing <tt>&lt;module&gt;</tt>
-         </p>
-      
          <table>
            <tr>
              <td>name</td>
@@ -50,27 +44,6 @@
            <tr>
              <td>basedir</td>
              <td>Optional base directory of the module.</td>
-           </tr>
-         </table>
-
-      </subsection>
-
-      <subsection name="XML Attributes on Module Includes">
-
-         <p>
-         An alternative form of module definition is supported whereby 
-         a <tt>file</tt> attribute reference a module fragment relative filename.  
-         The module basedir is resolved relative to the filename parent directory
-         and the module <tt>name</tt> is resolved from the imported file <tt>&lt;module&gt;</tt> 
-         element.  This second form of module addition is convinient when you are 
-         dealing with a large number of projects.
-         </p>
-      
-         <table>
-           <tr>
-             <td>file</td>
-             <td>A path relative to the imnporting module referencing an XML file 
-              containing a <tt>&lt;module&gt;</tt> root document element.</td>
            </tr>
          </table>
 
@@ -105,6 +78,11 @@
              <td>module</td>
              <td>0..n</td>
              <td>A nested module declaration.</td>
+           </tr>
+           <tr>
+             <td>import</td>
+             <td>0..n</td>
+             <td>Import a local module, project or resource from file.</td>
            </tr>
          </table>
 
@@ -155,59 +133,41 @@
 
       <p>
       The following example demonstrates the inclusion of a series of external 
-      files named <tt>module.xml</tt> as the definition of a set of modules.  The 
-      example declares a root module named 'dpml'.  A set of <tt>module</tt> elements
-      delcarations reference external modules for 'transit', 'metro', 'depot', 
-      and 'util'.  In each case the the directory referenced by the base attribute
-      contains a file named <tt>module.xml</tt>.
+      files as the definition of a set of modules.  The 
+      example declares a root module named 'dpml'.  A set of <tt>import</tt> elements
+      delcarations reference nested module definitions modules for the 'transit', 'metro', 'depot', 
+      and 'util' packages.
       </p>
 
 <source><![CDATA[
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE library PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
+<module name="dpml" basedir=".">
 
-<library>
+  <properties>
+    <property name="project.publisher.name" value="Digital Product Meta Library"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+  </properties>
 
-  <imports>
-    <import uri="link:module:junit"/>
-    <import uri="link:module:ant"/>
-    <import uri="link:module:jgoodies"/>
-  </imports>
+  <types>
+    <type id="module" alias="true"/>
+  </types>
 
-  <modules>
+  <import file="lang/module.xml"/>
+  <import file="transit/module.xml"/>
+  <import file="util/module.xml"/>
+  <import file="depot/module.xml"/>
+  <import file="metro/module.xml"/>
+  <import file="station/module.xml"/>
+  <import file="planet/module.xml"/>
 
-    <module name="dpml" basedir=".">
+  <project name="central" basedir="central"/>
 
-      <properties>
-        <property name="project.publisher.name" value="Digital Product Meta Library"/>
-        <property name="project.specification.vendor" value="${project.publisher.name}"/>
-        <property name="project.implementation.vendor" value="${project.publisher.name}"/>
-        <property name="project.implementation.vendor-id" value="net.dpml"/>
-        <property name="project.publisher.url" value="http://www.dpml.net"/>
-        <property name="project.resource.host" value="http://repository.dpml.net"/>
-        <property name="project.api.host" value="http://api.dpml.net"/>
-        <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
-        <property name="project.javadoc.linksource" value="true"/>
-      </properties>
-
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-
-      <module file="transit/module.xml"/>
-      <module file="metro/module.xml"/>
-      <module file="depot/module.xml"/>
-      <module file="util/module.xml"/>
-      <module file="planet/module.xml"/>
-
-      <project name="central" basedir="central"/>
-
-    </module>
-
-  </modules>
-
-</library>
-
+</module>
 ]]></source>
 
         <p>
@@ -217,37 +177,42 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE module PUBLIC "-//DPML//DTD Library 1.0//EN" "http://download.dpml.net/dtds/library_1_0.dtd" >
+<module name="depot"
+    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
-<module name="depot">
-   
-  <project name="dpml-library-build" basedir="library/console">
+  <resource name="dpml-library" basedir="library">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-           value="net.dpml.library.console.BuilderPlugin"/>
-      </type>
     </types>
     <dependencies>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </resource>
+
+  <project name="dpml-library-build" basedir="build">
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/depot/dpml-library"/>
       <include ref="dpml/util/dpml-util-cli"/>
       <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/depot/dpml-library"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
     </dependencies>
   </project>
-      
+   
   <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.resource" 
-          value="net/dpml/tools/checkstyle/antlib.xml"/>
-        <property name="project.plugin.urn" 
-          value="dpml:checkstyle"/>
-      </type>
+      <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
     </types>
     <dependencies>
       <include ref="dpml/depot/dpml-tools-builder"/>
@@ -266,12 +231,7 @@
   <project name="dpml-depot-convert" basedir="tools/convert">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.resource" 
-          value="net/dpml/tools/convert/antlib.xml"/>
-        <property name="project.plugin.urn" 
-          value="dpml:convert"/>
-      </type>
+      <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
     </types>
     <dependencies>
       <include urn="artifact:jar:java2html/java2html#4.2"/>
@@ -279,7 +239,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-depot-console" basedir="core/console">
+  <project name="dpml-depot-console" basedir="core">
     <properties>
       <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
     </properties>
@@ -297,10 +257,7 @@
   <resource name="dpml-tools-builder" basedir="tools/builder">
     <types>
       <type id="jar"/>
-      <type id="plugin" alias="true">
-        <property name="project.plugin.class" 
-          value="net.dpml.tools.impl.StandardBuilder"/>
-      </type>
+      <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
     </types>
     <dependencies>
       <include ref="dpml/depot/dpml-library"/>

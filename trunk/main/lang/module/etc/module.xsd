@@ -104,16 +104,6 @@
     
     <element name="type" type="this:GenericType" substitutionGroup="common:type"/>
     
-    <!--
-    <complexType name="part">
-      <complexContent>
-        <extension base="part:StrategyType"/>
-      </complexContent>
-    </complexType>
-    
-    <element name="part" type="this:part" substitutionGroup="part:strategy"/>
-    -->
-    
     <complexType name="DependenciesType">
       <sequence>
         <element name="include" type="this:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
