@@ -81,11 +81,7 @@ else
 fi
 export DEPOT_CLASSPATH
 
-if [ "$DEPOT_ARGS" = "" ] ; then
-    DEPOT_ARGS=$@
-else
-    DEPOT_ARGS="$DEPOT_ARGS $@"
-fi
+DEPOT_ARGS="$DEPOT_ARGS $@"
 export DEPOT_ARGS
 
 if [ `echo $PLATFORM | grep "CYGWIN"` ] ; then
