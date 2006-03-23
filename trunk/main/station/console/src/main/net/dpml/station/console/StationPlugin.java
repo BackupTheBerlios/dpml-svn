@@ -465,6 +465,12 @@ public class StationPlugin implements Disposable
         
         list.add( "-Ddpml.logging.config=local:properties:dpml/station/logging" );
         list.add( "-Ddpml.subprocess=true" );
+        
+        if( getLogger().isDebugEnabled() )
+        {
+            list.add( "-D.level=FINE" );
+        }
+        
         Set propertyValue = line.getProperties();
         Iterator iterator = propertyValue.iterator();
         while( iterator.hasNext() )

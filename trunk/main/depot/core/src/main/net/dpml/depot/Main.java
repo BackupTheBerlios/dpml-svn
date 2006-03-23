@@ -23,6 +23,7 @@ import java.net.URI;
 import java.rmi.RMISecurityManager;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 
 import net.dpml.transit.Disposable;
@@ -160,7 +161,7 @@ public final class Main //implements ShutdownHandler
         new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
         if( CLIHelper.isOptionPresent( arguments, "-server" ) )
         {
-            String name = "station (server mode)";
+            String name = "station.server";
             String[] args = CLIHelper.consolidate( arguments, "-server" );
             args = processSystemProperties( args );
             String spec = "@DEPOT-STATION-SERVER-URI@";
@@ -168,7 +169,7 @@ public final class Main //implements ShutdownHandler
         }
         else
         {
-            String name = "station (console mode)";
+            String name = "station.console";
             String spec = "@DEPOT-STATION-URI@";
             handlePlugin( name, spec, arguments, false );
         }
@@ -198,17 +199,13 @@ public final class Main //implements ShutdownHandler
     private boolean deployHandler( 
       TransitModel model, String command, String path, String[] args, boolean waitFor )
     {
-        
         Logger logger = getLogger();
-        if( m_debug )
+        if( logger.isDebugEnabled() )
         {
-            Enumeration names = System.getProperties().propertyNames();
-            StringBuffer buffer = new StringBuffer( "System property listing:" );
-            while( names.hasMoreElements() )
-            {
-                String name = (String) names.nextElement();
-                buffer.append( name + "=" + System.getProperty( name ) );
-            }
+            logger.debug( "date: " + new Date() );
+            logger.debug( "system: " + command );
+            logger.debug( "uri: " + path );
+            logger.debug( "args: [" + toString( args ) + "]" );
         }
         try
         {
@@ -219,7 +216,12 @@ public final class Main //implements ShutdownHandler
             m_plugin = 
               repository.getPlugin( 
                 ClassLoader.getSystemClassLoader(), 
-                uri, new Object[]{model, args, logger} );
+                uri, 
+                new Object[]
+                {
+                    model, args, new LoggingAdapter( command )
+                }
+              );
         }
         catch( RepositoryException e )
         {
@@ -333,10 +335,20 @@ public final class Main //implements ShutdownHandler
         return m_LOGGER;
     }
 
-    //--------------------------------------------------------------------------
-    // static utilities for setup of logging manager and root prefs
-    //--------------------------------------------------------------------------
-
+    private String toString( String[] args )
+    {
+        StringBuffer buffer = new StringBuffer();
+        for( int i=0; i<args.length; i++ )
+        {
+            if( i > 0 )
+            {
+                buffer.append( ", " );
+            }
+            buffer.append( args[i] );
+        }
+        return buffer.toString();
+    }
+    
     private String[] processSystemProperties( String[] args )
     {
         ArrayList result = new ArrayList();
@@ -357,6 +369,10 @@ public final class Main //implements ShutdownHandler
         }
         return (String[]) result.toArray( new String[0] );
     }
+
+    //--------------------------------------------------------------------------
+    // static utilities for setup of logging manager and root prefs
+    //--------------------------------------------------------------------------
 
    /**
     * Setup the monitors.
