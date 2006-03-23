@@ -145,8 +145,7 @@ public class StationPlugin implements Disposable
             }
             else if( line.hasOption( SHUTDOWN_COMMAND ) )
             {
-                Manager manager = getManager( line );
-                processShutdown( manager );
+                processShutdown( line );
             }
             else if( line.hasOption( ADD_COMMAND ) )
             {
@@ -493,8 +492,7 @@ public class StationPlugin implements Disposable
         getLogger().debug( info );
         
         Process process = Runtime.getRuntime().exec( args, null );
-        getLogger().info( "startup in process" );
-        
+        getLogger().info( "waiting for server" );
         OutputStreamReader output = new OutputStreamReader( getLogger(), process.getInputStream() );
         ErrorStreamReader err = new ErrorStreamReader( getLogger(), process.getErrorStream() );
         output.setDaemon( true );
@@ -502,32 +500,49 @@ public class StationPlugin implements Disposable
         output.start();
         err.start();
         
-        //while( null == getStation( port ) )
-        //{
-        //    try
-        //    {
-        //        Thread.currentThread().sleep( 600 );
-        //    }
-        //    catch( Exception e )
-        //    {
-        //    }
-        //}
+        int n = 0;
+        while( ( null == getStation( port ) && n < 20 ) )
+        {
+            try
+            {
+                Thread.currentThread().sleep( 600 );
+            }
+            catch( Exception e )
+            {
+            }
+            n++;
+        }
         
-        getLogger().info( "station started" );
+        if( null == getStation( port ) )
+        {
+            getLogger().info( "server failed to start" );
+        }
+        else
+        {
+            getLogger().info( "station started" );
+        }
     }
         
-    private void processShutdown( Manager manager ) throws Exception
+    private void processShutdown( CommandLine line ) throws Exception
     {
-        getLogger().info( "initiating station shutdown" );
         try
         {
-            manager.shutdown();
+            Manager manager = getManager( line );
+            getLogger().info( "initiating station shutdown" );
+            try
+            {
+                manager.shutdown();
+            }
+            catch( Exception e )
+            {
+                getLogger().warn( e.getClass().getName() );
+            }    
+            getLogger().info( "station shutdown complete" );
         }
         catch( Exception e )
         {
-            getLogger().warn( e.getClass().getName() );
-        }    
-        getLogger().info( "station shutdown complete" );
+            getLogger().info( "station is not running" );
+        }
     }
     
    /**
