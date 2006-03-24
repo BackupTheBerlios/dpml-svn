@@ -333,7 +333,7 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         Properties properties = m_descriptor.getSystemProperties();
         properties.setProperty( "dpml.station.key", m_id );
         properties.setProperty( "dpml.subprocess", "true" );
-        properties.setProperty( "dpml.station.partition", "depot.station.${dpml.station.key}" );
+        properties.setProperty( "dpml.station.partition", "depot.station." + m_id );
         properties.setProperty( "dpml.station.logging.dir", "${dpml.data}/logs/station" );
         
         //

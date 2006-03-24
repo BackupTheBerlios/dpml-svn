@@ -178,7 +178,7 @@ class ComponentController
         {
             final String name = context.getName();
             final String path = context.getContextPath();
-            Logger logger = new StandardLogger( path.substring( 1 ).replace( '/', '.' ) );
+            Logger logger = new StandardLogger( path.replace( '/', '.' ) );
             Classpath classpath = context.getClasspath();
             ClassLoader classloader = getClassLoader( anchor, classpath );
             return new DefaultComponentHandler( parent, classloader, logger, this, context, flag );

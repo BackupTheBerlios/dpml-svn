@@ -100,7 +100,7 @@ class DefaultComponentModel extends UnicastEventSource
       ComponentDirective directive, String partition ) 
       throws ControlException, IOException, RemoteException
     {
-        super( new StandardLogger( partition.substring( 1 ).replace( '/', '.' ) ) );
+        super( new StandardLogger( partition.replace( '/', '.' ) ) );
         
         m_classpath = classpath;
         m_controller = controller;

@@ -32,6 +32,7 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         {
             m_LOGGER = logger;
             System.setProperty( "org.mortbay.log.class", LoggerAdapter.class.getName() );
+            m_LOGGER.debug( "logging adapter established" );
         }
         else
         {

@@ -105,12 +105,14 @@ public class Server extends org.mortbay.jetty.Server
     {
         super();
         
-        LoggerAdapter.setRootLogger( logger );
-        
         m_logger = logger;
         m_context = context;
         
         getLogger().debug( "commencing http server deployment" );
+        Logger internal = logger.getChildLogger( "jetty" );
+        internal.debug( "assigning internal jetty logger" );
+        LoggerAdapter.setRootLogger( internal );
+        
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         URI uri = context.getConfiguration( null );
         if( null != uri )

@@ -29,9 +29,7 @@ import java.util.logging.LogManager;
 import net.dpml.transit.Transit;
 
 /**
- * Utility class used to establish the logging configuration.  The contents of 
- * this class are subject to radical change but that's largely academic because 
- * this class does not expose any operations.
+ * Utility class used to establish the logging configuration.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -48,40 +46,12 @@ public class ConfigurationHandler
     public ConfigurationHandler()
     {
         
-        String group = System.getProperty( "dpml.logging.category", "root" );
-        String level = 
-          System.getProperty( 
-            "dpml.logging.level", 
-            System.getProperty( 
-              ".level", 
-              "INFO" ) 
-          ).toUpperCase();
-
+        //
+        // customize the configuration based on a properties file declared under 
+        // the 'dpml.logging.config' property
+        //
+        
         Properties properties = new Properties();
-
-        setProperty( properties, 
-          "handlers", 
-          "java.util.logging.ConsoleHandler" );
-        setProperty( properties, 
-          "java.util.logging.ConsoleHandler.formatter", 
-          "net.dpml.transit.util.StandardFormatter" );
-
-        //
-        // set the default level by setting the root logger level
-        //
-
-        properties.setProperty( ".level", level );
-
-        //
-        // set the level that the console handler will handle
-        //
-
-        setProperty( properties, "java.util.logging.ConsoleHandler.level", "FINEST" );
-        
-        //
-        // check for any user defined logging properties
-        //
-        
         String config = System.getProperty( "dpml.logging.config" );
         if( null != config )
         {
@@ -107,6 +77,32 @@ public class ConfigurationHandler
             }
         }
         
+        //
+        // ensure that sensible defaults exist
+        //
+        
+        if( null == properties.getProperty( ".level" ) )
+        {
+            String level = getDefaultLevel();
+            properties.setProperty( ".level", level );
+        }
+        
+        if( null == properties.getProperty( "handlers" ) )
+        {
+            setProperty( properties, 
+              "handlers", 
+              "java.util.logging.ConsoleHandler" );
+            setProperty( properties, 
+              "java.util.logging.ConsoleHandler.formatter", 
+              "net.dpml.transit.util.StandardFormatter" );
+            setProperty( properties, "java.util.logging.ConsoleHandler.level", "FINEST" );
+        }
+        
+        //
+        // convert the resolved properties instance to an input stream
+        // and supply this to the log manager
+        //
+        
         try
         {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -126,4 +122,16 @@ public class ConfigurationHandler
     {
         properties.setProperty( key, System.getProperty( key, value ) );
     }
+    
+    private String getDefaultLevel()
+    {
+        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        {
+            return "FINE";
+        }
+        else
+        {
+            return System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
+        }
+    }    
 }

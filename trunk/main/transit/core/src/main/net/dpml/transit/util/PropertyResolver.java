@@ -57,7 +57,7 @@ public final class PropertyResolver
    /**
     * System property symbol substitution from properties.
     * Replace any occurances of ${[key]} with the value of the property
-    * assigned to the [key] in the system properties.
+    * assigned to the [key] in the system properties or supplied properties.
     * @param properties an arbitary properties file containing unresolved properties
     * @return the property file with expended properties
     */
