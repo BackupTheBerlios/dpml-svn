@@ -33,6 +33,8 @@ import net.dpml.station.Callback;
 import net.dpml.station.ApplicationException;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.util.PropertyResolver;
+
 import net.dpml.lang.PID;
 import net.dpml.lang.Logger;
 
@@ -161,7 +163,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         URI params = getParametersURI( line );
         URI categories = getCategoriesURI( line );
         Properties properties = getCommandLineProperties( line );
-        String partition = System.getProperty( "dpml.station.partition", "" );
+        String raw = System.getProperty( "dpml.station.partition", "" );
+        String partition = PropertyResolver.resolve( raw );
         Component component = 
           resolveTargetComponent( 
             logger, partition, uri, config, params, categories, properties );

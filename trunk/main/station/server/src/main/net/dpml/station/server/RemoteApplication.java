@@ -18,6 +18,7 @@
 
 package net.dpml.station.server; 
 
+import java.io.File;
 import java.io.IOException;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
@@ -39,6 +40,8 @@ import net.dpml.station.Application;
 import net.dpml.station.ApplicationException;
 import net.dpml.station.ApplicationListener;
 import net.dpml.station.ApplicationEvent;
+
+import net.dpml.transit.Transit;
 
 import net.dpml.lang.Logger;
 import net.dpml.lang.PID;
@@ -252,6 +255,7 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
     {
         synchronized( m_state )
         {
+            setupLoggingDirectory();
             setProcessState( ProcessState.STARTING );
             try
             {
@@ -327,8 +331,10 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         //
         
         Properties properties = m_descriptor.getSystemProperties();
+        properties.setProperty( "dpml.station.key", m_id );
         properties.setProperty( "dpml.subprocess", "true" );
-        properties.setProperty( "dpml.station.partition", "depot.station." + m_id );
+        properties.setProperty( "dpml.station.partition", "depot.station.${dpml.station.key}" );
+        properties.setProperty( "dpml.station.logging.dir", "${dpml.data}/logs/station" );
         
         //
         // BIG ISSUE: if the following is enabled we hit errors that seem to be 
@@ -342,12 +348,15 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         //}
         //
         
-        if( null == properties.getProperty( "java.util.logging.config.class" ) )
-        {
-            properties.setProperty( 
-              "java.util.logging.config.class", 
-              "net.dpml.depot.DepotLoggingConfiguration" );
-        }
+        //if( null == properties.getProperty( "java.util.logging.config.class" ) )
+        //{
+        //    properties.setProperty( 
+        //      "java.util.logging.config.class", 
+        //      "net.dpml.depot.DepotLoggingConfiguration" );
+        //}
+        
+        properties.setProperty( "dpml.logging.config", "local:properties:dpml/station/application" );
+        
         Enumeration names = properties.propertyNames();
         while( names.hasMoreElements() )
         {
@@ -373,6 +382,14 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         list.add( "" + m_id );
         
         return (String[]) list.toArray( new String[0] );
+    }
+    
+    private void setupLoggingDirectory()
+    {
+        File logs = new File( Transit.DPML_DATA, "logs" );
+        File station = new File( logs, "station" );
+        File target = new File( station, m_id );
+        target.mkdirs();
     }
     
    /**
