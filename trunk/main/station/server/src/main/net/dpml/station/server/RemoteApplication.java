@@ -329,10 +329,19 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         Properties properties = m_descriptor.getSystemProperties();
         properties.setProperty( "dpml.subprocess", "true" );
         properties.setProperty( "dpml.station.partition", "depot.station." + m_id );
+        
+        //
+        // BIG ISSUE: if the following is enabled we hit errors that seem to be 
+        // related to the fact the the logging handler is using logging (via
+        // RMI before the log handler is established.  In effect we need to rethink
+        // the general model for log message aggregation.
+        //
         //if( "true".equals( System.getProperty( "dpml.debug" ) ) )
         //{
         //    properties.setProperty( "dpml.debug", "true" );
         //}
+        //
+        
         if( null == properties.getProperty( "java.util.logging.config.class" ) )
         {
             properties.setProperty( 
