@@ -47,6 +47,12 @@ public interface Logger
     boolean isErrorEnabled();
 
    /**
+    * Return TRUE is error warning logging is enabled.
+    * @return the enabled state of warning logging
+    */
+    boolean isWarnEnabled();
+
+   /**
     * Record a debug level message.
     * @param message the debug message to record
     */

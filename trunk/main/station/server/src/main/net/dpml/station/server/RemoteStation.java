@@ -324,7 +324,8 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             }
             else
             {
-                Logger logger = new LoggingAdapter( key );
+                //Logger logger = new LoggingAdapter( key );
+                Logger logger = getLogger().getChildLogger( key );
                 ApplicationDescriptor descriptor = m_registry.getApplicationDescriptor( key );
                 RemoteApplication application = 
                   new RemoteApplication( logger, descriptor, key, m_port );
@@ -493,7 +494,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     {
         if( m_DISPATCH == null )
         {
-            Logger logger = getLogger().getChildLogger( "event" );
+            Logger logger = getLogger();
             m_DISPATCH = new EventDispatchThread( logger );
             m_DISPATCH.setDaemon( true );
             m_DISPATCH.start();

@@ -89,6 +89,7 @@ public class CompositionController extends StandardPartHandler implements Contro
     private final HashMap m_handlers = new HashMap(); // foreign controllers
     private final Repository m_loader;
     private final InternalControllerContextListener m_listener;
+    private final String m_partition;
     
     //--------------------------------------------------------------------
     // mutable state
@@ -111,7 +112,8 @@ public class CompositionController extends StandardPartHandler implements Contro
         super();
         
         m_context = context;
-        Logger root = new StandardLogger( context.getLogger() );
+        m_partition = context.getPartition();
+        Logger root = new StandardLogger( m_partition );
         m_logger = root.getChildLogger( "control" );
         m_listener = new InternalControllerContextListener( this );
         m_context.addControllerContextListener( m_listener );
@@ -444,6 +446,11 @@ public class CompositionController extends StandardPartHandler implements Contro
         }
     }
     */
+    
+    String getPartition()
+    {
+        return m_partition;
+    }
     
     void dispose()
     {

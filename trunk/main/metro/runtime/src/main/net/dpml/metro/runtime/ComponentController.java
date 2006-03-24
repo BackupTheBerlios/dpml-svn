@@ -84,7 +84,7 @@ class ComponentController
         m_logger = logger;
         m_controller = controller;
     }
-
+    
     //--------------------------------------------------------------------------
     // ComponentController
     //--------------------------------------------------------------------------
@@ -114,7 +114,7 @@ class ComponentController
       Classpath classpath, ComponentDirective directive ) throws ControlException
     {
         ClassLoader anchor = Logger.class.getClassLoader();
-        String partition = Model.PARTITION_SEPARATOR;
+        String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
         return createComponentModel( anchor, classpath, partition, directive );
     }
     
@@ -563,7 +563,7 @@ class ComponentController
     String getPathForLogger( DefaultComponentHandler handler )
     {
         String path = handler.getPath();
-        return path.substring( 1 ).replace( '/', '.' );
+        return path.replace( '/', '.' );
     }
     
     Object getContextValue( DefaultComponentHandler handler, String key ) throws ControlException

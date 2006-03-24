@@ -175,9 +175,9 @@ public final class InitialContext extends LocalEventProducer
     private File m_temp;
 
    /**
-    * The assigned logging channel.
+    * The assigned partition name.
     */
-    private Logger m_logger;
+    private String m_partition;
 
     //----------------------------------------------------------------------------
     // constructor
@@ -188,16 +188,16 @@ public final class InitialContext extends LocalEventProducer
     */
     public InitialContext()
     {
-        this( new LoggingAdapter( "metro" ), null, null );
+        this( "", null, null );
     }
 
    /**
     * Creation of a new <tt>InitialContext</tt>.
-    * @param logger the assigned logging channel
+    * @param partition the assigned partition name
     */
-    public InitialContext( Logger logger )
+    public InitialContext( String partition )
     {
-        this( logger, null, null );
+        this( partition, null, null );
     }
     
    /**
@@ -206,11 +206,11 @@ public final class InitialContext extends LocalEventProducer
     * @param work the working directory
     * @param temp the temporary directory
     */
-    public InitialContext( Logger logger, File work, File temp )
+    public InitialContext( String partition, File work, File temp )
     {
-        super( new LoggingAdapter( "metro.context" ) );
+        super( new LoggingAdapter( partition ) );
 
-        m_logger = logger;
+        m_partition = partition;
 
         if( null == work )
         {
@@ -254,12 +254,12 @@ public final class InitialContext extends LocalEventProducer
     //----------------------------------------------------------------------------
 
    /**
-    * Return the assigned logging channel
-    * @return the logging channel
+    * Return the partition name
+    * @return the partion name
     */
-    public Logger getLogger()
+    public String getPartition()
     {
-        return m_logger;
+        return m_partition;
     }
 
    /**

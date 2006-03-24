@@ -153,6 +153,11 @@ public abstract class DefaultModel extends UnicastRemoteObject implements Dispos
         return m_logger;
     }
     
+    Logger getLoggingChannel()
+    {
+        return getLogger();
+    }
+    
    /**
     * Dispose of the model.
     */

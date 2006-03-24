@@ -33,11 +33,11 @@ import net.dpml.lang.Logger;
 public interface ControllerContext
 {
    /**
-    * Return the assigned logging channel.
+    * Return the assigned root partition.
     *
-    * @return the logging channel
+    * @return the partition name
     */
-    Logger getLogger();
+    String getPartition();
 
    /**
     * Return the root working directory.

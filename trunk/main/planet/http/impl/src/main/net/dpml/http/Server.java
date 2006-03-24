@@ -105,6 +105,8 @@ public class Server extends org.mortbay.jetty.Server
     {
         super();
         
+        LoggerAdapter.setRootLogger( logger );
+        
         m_logger = logger;
         m_context = context;
         

@@ -143,7 +143,7 @@ public final class Main //implements ShutdownHandler
     private void handleMetro( String[] arguments )
     {
         String[] args = processSystemProperties( arguments );
-        String name = "metro";
+        String name = "exec";
         String spec = "@DEPOT-EXEC-URI@";
         handlePlugin( name, spec, args, true );
     }
@@ -161,7 +161,7 @@ public final class Main //implements ShutdownHandler
         new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
         if( CLIHelper.isOptionPresent( arguments, "-server" ) )
         {
-            String name = "station.server";
+            String name = "station";
             String[] args = CLIHelper.consolidate( arguments, "-server" );
             args = processSystemProperties( args );
             String spec = "@DEPOT-STATION-SERVER-URI@";
@@ -169,7 +169,7 @@ public final class Main //implements ShutdownHandler
         }
         else
         {
-            String name = "station.console";
+            String name = "station";
             String spec = "@DEPOT-STATION-URI@";
             handlePlugin( name, spec, arguments, false );
         }
@@ -207,11 +207,12 @@ public final class Main //implements ShutdownHandler
             logger.debug( "uri: " + path );
             logger.debug( "args: [" + toString( args ) + "]" );
         }
+        Logger log = resolveLogger( logger, command );
         try
         {
             URI uri = new URI( path );
             Transit transit = Transit.getInstance( model );
-            setupMonitors( transit, (Adapter) getLogger() );
+            setupMonitors( transit, (Adapter) logger );
             Repository repository = transit.getRepository();
             m_plugin = 
               repository.getPlugin( 
@@ -219,7 +220,9 @@ public final class Main //implements ShutdownHandler
                 uri, 
                 new Object[]
                 {
-                    model, args, new LoggingAdapter( command )
+                    model, 
+                    args, 
+                    log
                 }
               );
         }
@@ -264,6 +267,19 @@ public final class Main //implements ShutdownHandler
         {
             getLogger().debug( "deployed " + m_plugin.getClass().getName() );
             return waitFor;
+        }
+    }
+    
+    private Logger resolveLogger( Logger logger, String command )
+    {
+        String partition = System.getProperty( "dpml.station.partition", null );
+        if( null != partition )
+        {
+            return new LoggingAdapter( partition );
+        }
+        else
+        {
+            return logger.getChildLogger( command );
         }
     }
     
@@ -314,7 +330,7 @@ public final class Main //implements ShutdownHandler
         
         try
         {
-            Logger logger = getLogger();
+            Logger logger = getLogger().getChildLogger( "transit" );
             return DefaultTransitModel.getDefaultModel( logger );
         }
         catch( Exception e )

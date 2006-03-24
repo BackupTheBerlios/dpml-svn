@@ -87,6 +87,7 @@ public class ComponentAdapter extends AbstractAdapter
    /**
     * Creation of a new component adapter.
     * @param logger the assigned logging channel
+    * @param partition the partition name
     * @param codebase the codebase uri
     * @param config a configuration uri
     * @param params a parameters uri
@@ -95,7 +96,8 @@ public class ComponentAdapter extends AbstractAdapter
     * @exception Exception if an error occurs
     */
     public ComponentAdapter( 
-      Logger logger, URI codebase, URI config, URI params, URI categories, Properties properties ) throws Exception
+      Logger logger, String partition, URI codebase, URI config, URI params, 
+      URI categories, Properties properties ) throws Exception
     {
         super( logger );
         
@@ -107,7 +109,7 @@ public class ComponentAdapter extends AbstractAdapter
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
             Class c = repository.getPluginClass( classloader, uri );
-            InitialContext context = new InitialContext( logger );
+            InitialContext context = new InitialContext( partition );
             Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
             m_controller = (Controller) constructor.newInstance( new Object[]{context} );
         }

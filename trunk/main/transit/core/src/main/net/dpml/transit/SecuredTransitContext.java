@@ -74,18 +74,18 @@ public final class SecuredTransitContext
             {
                 return m_CONTEXT;
             }
-
+            
             if( null == model )
             {
                 throw new NullArgumentException( "model" );
             }
-
-            Logger logger = new LoggingAdapter();
+            
+            Logger logger = resolveLogger( model );
             if( logger.isDebugEnabled() )
             {
                 logger.debug( "creating transit context" );
             }
-
+            
             try
             {
                 m_CONTEXT = new SecuredTransitContext( model, logger );
@@ -99,8 +99,21 @@ public final class SecuredTransitContext
                 String error = "Unable to establish the transit context.";
                 throw new TransitException( error, e );
             }
-
+            
             return m_CONTEXT;
+        }
+    }
+    
+    private static Logger resolveLogger( TransitModel model )
+    {
+        if( model instanceof DefaultTransitModel )
+        {
+            DefaultTransitModel m = (DefaultTransitModel) model;
+            return m.getLoggingChannel();
+        }
+        else
+        {
+            return new LoggingAdapter();
         }
     }
 

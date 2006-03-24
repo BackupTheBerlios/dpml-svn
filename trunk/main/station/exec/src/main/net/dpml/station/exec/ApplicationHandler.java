@@ -161,8 +161,10 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         URI params = getParametersURI( line );
         URI categories = getCategoriesURI( line );
         Properties properties = getCommandLineProperties( line );
-        
-        Component component = resolveTargetComponent( logger, uri, config, params, categories, properties );
+        String partition = System.getProperty( "dpml.station.partition", "" );
+        Component component = 
+          resolveTargetComponent( 
+            logger, partition, uri, config, params, categories, properties );
         m_callback.started( PROCESS_ID, component );
     }
     
@@ -206,7 +208,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
     }
     
     private Component resolveTargetComponent( 
-      Logger logger, URI uri, URI config, URI params, URI categories, Properties properties ) throws Exception
+      Logger logger, String partition, URI uri, URI config, URI params, 
+      URI categories, Properties properties ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
         {
@@ -214,7 +217,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             String type = artifact.getType();
             if( type.equals( "part" ) )
             {
-                return new ComponentAdapter( logger, uri, config, params, categories, properties );
+                return new ComponentAdapter( logger, partition, uri, config, params, categories, properties );
             }
         }
         

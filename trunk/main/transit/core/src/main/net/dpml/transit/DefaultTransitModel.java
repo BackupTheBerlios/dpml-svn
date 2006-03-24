@@ -98,7 +98,21 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     */
     public static DefaultTransitModel getDefaultModel() throws Exception
     {
-        LoggingAdapter adapter = new LoggingAdapter( "transit" );
+        return getDefaultModel( "transit" );
+    }
+    
+   /**
+    * Resolve the transit configuration using the default resource path 
+    * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
+    * default scenario will be returned.
+    *
+    * @param category the logging channel category name
+    * @return the transit model
+    * @exception Exception if an error occurs during model construction
+    */
+    public static DefaultTransitModel getDefaultModel( String category ) throws Exception
+    {
+        LoggingAdapter adapter = new LoggingAdapter( category );
         return getDefaultModel( adapter );
     }
     
@@ -107,7 +121,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
     * default scenario will be returned.
     *
-    * @param logger the logging channel
+    * @param category the logging channel category name
     * @return the transit model
     * @exception Exception if an error occurs during model construction
     */

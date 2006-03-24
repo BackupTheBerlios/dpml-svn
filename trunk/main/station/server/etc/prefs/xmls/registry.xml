@@ -9,6 +9,7 @@
       <shutdown>6</shutdown>
       <properties>
         <property name="java.util.logging.config.class" value="net.dpml.depot.DepotLoggingConfiguration"/>
+        <property name="org.mortbay.log.class" value="net.dpml.http.LogAdapter"/>
       </properties>
     </jvm>
   
