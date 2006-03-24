@@ -37,6 +37,7 @@ import net.dpml.cli.validation.NumberValidator;
 import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.model.TransitModel;
 import net.dpml.lang.Logger;
 
 /**
@@ -51,19 +52,22 @@ public class StationServerPlugin implements Runnable
 {
     private final Logger m_logger;
     private final CommandLine m_line;
+    private final TransitModel m_model;
     
     private RemoteStation m_station;
     
    /**
     * Creation of a new station server plugin for station commandline
     * handling.
+    * @param model the transit model
     * @param logger the assigned logging channel
     * @param args the command line arguments array
     * @exception Exception if an error occurs
     */
-    public StationServerPlugin( Logger logger, String[] args ) throws Exception
+    public StationServerPlugin( TransitModel model, Logger logger, String[] args ) throws Exception
     {
         m_logger = logger;
+        m_model = model;
         
         // parse the command group model
         
@@ -100,7 +104,7 @@ public class StationServerPlugin implements Runnable
             {
                 URL url = ApplicationRegistry.DEFAULT_STORAGE_URI.toURL();
                 m_logger.info( "starting station on port: " + port );
-                m_station = new RemoteStation( m_logger, port, url );
+                m_station = new RemoteStation( m_logger, m_model, port, url );
                 Thread.currentThread().setContextClassLoader( ApplicationRegistry.class.getClassLoader() );
                 setShutdownHook( m_station );
             }
@@ -114,7 +118,7 @@ public class StationServerPlugin implements Runnable
                     + port 
                     + " with registry " 
                     + url );
-                    m_station = new RemoteStation( m_logger, port, url );
+                    m_station = new RemoteStation( m_logger, m_model, port, url );
                 }
                 else
                 {
@@ -124,7 +128,7 @@ public class StationServerPlugin implements Runnable
                       + port 
                       + " with registry " 
                       + url );
-                    m_station = new RemoteStation( m_logger, port, url );
+                    m_station = new RemoteStation( m_logger, m_model, port, url );
                 }
             }
         }

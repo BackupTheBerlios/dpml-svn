@@ -44,7 +44,9 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.lang.Logger;
 import net.dpml.lang.LoggingService;
 import net.dpml.lang.PID;
+import net.dpml.transit.Disposable;
 import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.transit.model.TransitModel;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -57,6 +59,7 @@ import net.dpml.lang.UnknownKeyException;
  */
 public class RemoteStation extends UnicastRemoteObject implements Station, Manager, LoggingService
 {
+    private final TransitModel m_model;
     private final RemoteApplicationRegistry m_registry;
     private final Map m_applications = new Hashtable();
     private final Logger m_logger;
@@ -75,13 +78,14 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     * @param registryStorageUrl uri defining the registry backing store
     * @exception Exception if a exception occurs during establishment
     */
-    public RemoteStation( Logger logger, int port, URL registryStorageUrl ) throws Exception
+    public RemoteStation( Logger logger, TransitModel model, int port, URL registryStorageUrl ) throws Exception
     {
         super();
         
         m_logger = logger;
         m_port = port;
         m_store = registryStorageUrl;
+        m_model = model;
         
         m_rmiRegistry = getLocalRegistry( port );
         
@@ -232,6 +236,20 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             {
                 // ignore
             }
+            
+            if( m_model instanceof Disposable )
+            {
+                try
+                {
+                    Disposable disposable = (Disposable) m_model;
+                    disposable.dispose();
+                }
+                catch( Throwable e )
+                {
+                    e.printStackTrace();
+                }
+            }
+            
             try
             {
                 m_rmiRegistry.unbind( LoggingService.LOGGING_KEY );
@@ -324,7 +342,6 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             }
             else
             {
-                //Logger logger = new LoggingAdapter( key );
                 Logger logger = getLogger().getChildLogger( key );
                 ApplicationDescriptor descriptor = m_registry.getApplicationDescriptor( key );
                 RemoteApplication application = 
