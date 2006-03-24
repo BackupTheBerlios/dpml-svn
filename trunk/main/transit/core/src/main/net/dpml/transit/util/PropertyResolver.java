@@ -70,9 +70,10 @@ public final class PropertyResolver
             String name = (String) names.nextElement();
             String old = properties.getProperty( name );
             String value = resolve( old );
-            if( !value.equals( old ) )
+            String v2 = resolve( properties, value );
+            if( !v2.equals( old ) )
             {
-                properties.setProperty( name, value );
+                properties.setProperty( name, v2 );
             }
         }
         return properties;
