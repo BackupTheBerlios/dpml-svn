@@ -55,7 +55,7 @@ public class OutputStreamReader extends StreamReader
             String line = null;
             while( ( line = reader.readLine() ) != null )
             {
-                getLogger().debug( line );
+                getLogger().debug( "$ " + line );
             }
         }
         catch( IOException e )

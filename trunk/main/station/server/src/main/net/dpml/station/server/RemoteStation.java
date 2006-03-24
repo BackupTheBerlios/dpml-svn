@@ -92,6 +92,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         try
         {
             m_rmiRegistry.bind( STATION_KEY, this );
+            getLogger().debug( "station bound to [" + STATION_KEY + "]" );
         }
         catch( AlreadyBoundException e )
         {
@@ -107,6 +108,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         {
             m_loggingServer = new LoggingServer();
             m_rmiRegistry.bind( LoggingService.LOGGING_KEY, m_loggingServer );
+            getLogger().debug( "logging service bound to [" + LoggingService.LOGGING_KEY + "]");
         }
         catch( AlreadyBoundException e )
         {

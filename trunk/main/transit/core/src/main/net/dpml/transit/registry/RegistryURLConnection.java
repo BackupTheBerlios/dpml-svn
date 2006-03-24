@@ -153,6 +153,10 @@ public class RegistryURLConnection extends URLConnection
                 public Object run()
                     throws IOException
                 {
+                    if( null == m_registry )
+                    {
+                        throw new NullPointerException( "registry" );
+                    }
                     try
                     {
                         String path = getURL().getPath();
@@ -167,9 +171,10 @@ public class RegistryURLConnection extends URLConnection
                     }
                     catch( Exception e )
                     {
-                        String message = e.getMessage();
-                        IOException exception = new IOException( message );
-                        exception.initCause( e.getCause() );
+                        final String error = 
+                          "Unable to resolve url: " + getURL();
+                        IOException exception = new IOException( error );
+                        exception.initCause( e );
                         throw exception;
                     }
                 }

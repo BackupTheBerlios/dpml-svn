@@ -32,7 +32,7 @@ public interface LoggingService extends Remote
    /**
     * Logging service key.
     */
-    String LOGGING_KEY = "/dpml/logging";
+    String LOGGING_KEY = "dpml/logging";
 
    /**
     * Register a log record with the log service.

@@ -84,8 +84,8 @@ public class DepotHandler extends Handler
         try
         {
             String key = "registry:" + LoggingService.LOGGING_KEY;
-            String remote = System.getProperty( "net.dpml.logging.service", key );
-            URL url = new URL( remote );
+            String remote = System.getProperty( "dpml.logging.service", key );
+            URL url = new URL( null, remote, new net.dpml.transit.registry.Handler() );
             return (LoggingService) url.getContent();
         }
         finally

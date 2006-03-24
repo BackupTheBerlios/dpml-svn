@@ -121,7 +121,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
     * default scenario will be returned.
     *
-    * @param category the logging channel category name
+    * @param logger the logging channel
     * @return the transit model
     * @exception Exception if an error occurs during model construction
     */

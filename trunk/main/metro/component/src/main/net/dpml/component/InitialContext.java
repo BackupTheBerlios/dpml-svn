@@ -202,7 +202,7 @@ public final class InitialContext extends LocalEventProducer
     
    /**
     * Creation of a new <tt>InitialContext</tt>.
-    * @param logger the assigned logging channel
+    * @param partition the partition name
     * @param work the working directory
     * @param temp the temporary directory
     */

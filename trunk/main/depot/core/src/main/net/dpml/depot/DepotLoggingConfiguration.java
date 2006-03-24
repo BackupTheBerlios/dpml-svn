@@ -40,7 +40,7 @@ public class DepotLoggingConfiguration
     public DepotLoggingConfiguration()
     {
         String group = System.getProperty( "dpml.system.group", "root" );
-        String level = System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
+        String level = getDefaultLevel();
 
         Properties properties = new Properties();
 
@@ -68,6 +68,18 @@ public class DepotLoggingConfiguration
         catch( Throwable e )
         {
             e.printStackTrace();
+        }
+    }
+    
+    private String getDefaultLevel()
+    {
+        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        {
+            return "FINE";
+        }
+        else
+        {
+            return System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
         }
     }
 }
