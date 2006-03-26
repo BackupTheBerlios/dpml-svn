@@ -95,7 +95,7 @@ public class ConfigurationHandler
             setProperty( properties, 
               "java.util.logging.ConsoleHandler.formatter", 
               "net.dpml.transit.util.StandardFormatter" );
-            setProperty( properties, "java.util.logging.ConsoleHandler.level", "FINEST" );
+            setProperty( properties, "java.util.logging.ConsoleHandler.level", "ALL" );
         }
         
         //
