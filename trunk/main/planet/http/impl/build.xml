@@ -99,7 +99,7 @@
       </state>
       <parts>
         <component key="requestLog" 
-            type="net.dpml.http.NCSARequestLog" collection="hard" activation="DEMAND">
+            type="net.dpml.http.NCSARequestLog" collection="hard" lifestyle="singleton" activation="DEMAND">
           <context>
             <entry key="filename" value="$${dpml.data}/logs/http/request.log"/>
             <entry key="append" value="true"/>
@@ -107,7 +107,7 @@
           </context>
         </component>
         <component key="threadPool" 
-            type="net.dpml.http.BoundedThreadPool" collection="hard" activation="DEMAND">
+            type="net.dpml.http.BoundedThreadPool" collection="hard" lifestyle="singleton" activation="DEMAND">
           <context>
             <entry key="min" value="10"/>
             <entry key="max" value="100"/>
