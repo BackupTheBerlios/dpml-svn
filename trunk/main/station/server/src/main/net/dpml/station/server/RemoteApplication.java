@@ -333,19 +333,11 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         properties.setProperty( "dpml.station.key", m_id );
         properties.setProperty( "dpml.subprocess", "true" );
         properties.setProperty( "dpml.station.partition", "depot.station." + m_id );
-        properties.setProperty( "dpml.station.logging.dir", "${dpml.data}/logs/station" );
         
-        //
-        // BIG ISSUE: if the following is enabled we hit errors that seem to be 
-        // related to the fact the the logging handler is using logging (via
-        // RMI before the log handler is established.  In effect we need to rethink
-        // the general model for log message aggregation.
-        //
-        //if( "true".equals( System.getProperty( "dpml.debug" ) ) )
-        //{
-        //    properties.setProperty( "dpml.debug", "true" );
-        //}
-        //
+        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        {
+            properties.setProperty( "dpml.debug", "true" );
+        }
         
         if( null == properties.getProperty( "java.util.logging.config.class" ) )
         {
@@ -354,7 +346,12 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
               "net.dpml.depot.DepotLoggingConfiguration" );
         }
         
-        properties.setProperty( "dpml.logging.config", "local:properties:dpml/station/application" );
+        if( null == properties.getProperty( "dpml.logging.config" ) )
+        {
+            properties.setProperty( 
+              "dpml.logging.config", 
+              "local:properties:dpml/station/application" );
+        }
         
         Enumeration names = properties.propertyNames();
         while( names.hasMoreElements() )

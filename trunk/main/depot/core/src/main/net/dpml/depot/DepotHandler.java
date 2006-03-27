@@ -21,6 +21,7 @@ package net.dpml.depot;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.ObjectOutputStream;
+import java.io.BufferedOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.SocketException;
@@ -42,7 +43,8 @@ public class DepotHandler extends Handler
     private static final PID ID = new PID();
     
     private final Socket m_socket;
-    //private final ObjectOutputStream m_stream;
+    private final OutputStream m_output;
+    private final ObjectOutputStream m_stream;
 
    /**
     * Creation of a new handler instance.
@@ -60,6 +62,8 @@ public class DepotHandler extends Handler
     public DepotHandler( String host, int port ) throws Exception
     {
         m_socket = new Socket( host, port );
+        m_output = m_socket.getOutputStream();
+        m_stream = new ObjectOutputStream( new BufferedOutputStream( m_output ) );
     }
 
    /**
@@ -67,14 +71,6 @@ public class DepotHandler extends Handler
     */
     public void flush()
     {
-        //try
-        //{
-        //    m_stream.flush();
-        //}
-        //catch( Exception e )
-        //{
-        //    e.printStackTrace();
-        //}
     }
 
    /**
@@ -82,6 +78,14 @@ public class DepotHandler extends Handler
     */
     public void close()
     {
+        try
+        {
+            m_output.close();
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
         try
         {
             m_socket.close();
@@ -96,27 +100,29 @@ public class DepotHandler extends Handler
     * Publish a log record.
     * @param record the log record
     */
-    public synchronized void publish( LogRecord record )
+    public void publish( LogRecord record )
     {
-        if( m_socket.isClosed() )
+        synchronized( m_socket )
         {
-            return;
-        }
-        try
-        {
-            OutputStream output = m_socket.getOutputStream();
-            ObjectOutputStream stream = new ObjectOutputStream( output );
-            LogStatement statement = new LogStatement( ID, record );
-            stream.writeObject( statement );
-            stream.flush();
-        }
-        catch( SocketException e )
-        {
-            //System.out.println( e.toString() );
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
+            if( m_socket.isClosed() )
+            {
+                return;
+            }
+
+            try
+            {
+                LogStatement statement = new LogStatement( ID, record );
+                m_stream.writeObject( statement );
+                m_stream.flush();
+            }
+            catch( SocketException e )
+            {
+                e.printStackTrace();
+            }
+            catch( Exception e )
+            {
+                e.printStackTrace();
+            }
         }
     }
 }

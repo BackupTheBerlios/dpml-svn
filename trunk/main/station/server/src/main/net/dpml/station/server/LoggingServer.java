@@ -23,6 +23,7 @@ import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.BufferedInputStream;
 import java.util.logging.Logger;
 import java.util.logging.LogRecord;
 import java.util.logging.Formatter;
@@ -69,26 +70,9 @@ public class LoggingServer implements Runnable
             try
             {
                 Socket socket = m_server.accept();
-                InputStream input = socket.getInputStream();
-                ObjectInputStream stream = new ObjectInputStream( input );
-                Object object = stream.readObject();
-                if( object instanceof LogStatement )
-                {
-                    LogStatement statement = (LogStatement) object;
-                    PID pid = statement.getPID();
-                    if( !PID.equals( pid ) )
-                    {
-                        int id = pid.getValue();
-                        LogRecord record = statement.getLogRecord();
-                        String raw = record.getMessage();
-                        String message = "$[" + id + "] " + raw;
-                        record.setMessage( message );
-                        Logger logger = getNamedLogger( record );
-                        logger.log( record );
-                    }
-                }
-                input.close();
-                socket.close();
+                RequestHandler handler = new RequestHandler( socket );
+                Thread thread = new Thread( handler );
+                thread.start();
             }
             catch( Throwable e )
             {
@@ -114,5 +98,68 @@ public class LoggingServer implements Runnable
             return Logger.getAnonymousLogger();
         }
     }
+    
+    class RequestHandler implements Runnable
+    {
+        private final Socket m_socket;
+        
+        private RequestHandler( Socket socket )
+        {
+            m_socket = socket;
+        }
+        
+        public void run()
+        {
+            try
+            {
+                InputStream input = m_socket.getInputStream();
+                BufferedInputStream buffer = new BufferedInputStream( input );
+                ObjectInputStream ois = new ObjectInputStream( buffer );
+                while( true )
+                {
+                    Object object = ois.readObject();
+                    if( object instanceof LogStatement )
+                    {
+                        LogStatement statement = (LogStatement) object;
+                        PID pid = statement.getPID();
+                        if( !PID.equals( pid ) )
+                        {
+                            int id = pid.getValue();
+                            LogRecord record = statement.getLogRecord();
+                            String raw = record.getMessage();
+                            String message = "$[" + id + "] " + raw;
+                            record.setMessage( message );
+                            Logger logger = getNamedLogger( record );
+                            logger.log( record );
+                        }
+                    }
+                }
+                //input.close();
+                //m_socket.close();
+            }
+            catch( ClassNotFoundException e )
+            {
+                System.out.println( e.toString() );
+            }
+            catch( IOException ioe )
+            {
+                System.out.println( "read failed: " + ioe.toString() );
+            }
+        }
+
+        private Logger getNamedLogger( LogRecord record )
+        {
+            String name = record.getLoggerName();
+            if( null != name )
+            {
+                return Logger.getLogger( name );
+            }
+            else
+            {
+                return Logger.getAnonymousLogger();
+            }
+        }
+    }
+
 }
 

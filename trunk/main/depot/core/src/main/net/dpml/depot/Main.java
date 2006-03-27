@@ -84,21 +84,40 @@ public final class Main //implements ShutdownHandler
     
     private Main( String[] arguments )
     {
-        String[] args = arguments;
-        
+        String[] args = processSystemProperties( arguments );
+
         //
         // check for debug mode
         //
         
         if( CLIHelper.isOptionPresent( args, "-debug" ) )
         {
-            System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
             args = CLIHelper.consolidate( args, "-debug" );
             System.setProperty( "dpml.debug", "true" );
+        }
+        
+        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        {
             m_debug = true;
+        }
+        
+        if( null == System.getProperty( "dpml.logging.config" ) )
+        {
+            if( m_debug )
+            {
+                System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
+            }
+            else
+            {
+                System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/default" );
+            }
+        }
+        
+        if( m_debug )
+        {
             for( int i=0; i<arguments.length; i++ )
             {
-                System.out.println( " arg[" + i + "] " + arguments[i] );
+                getLogger().debug( "arg[" + i + "]: " + arguments[i] );
             }
         }
         
@@ -132,38 +151,34 @@ public final class Main //implements ShutdownHandler
         }
     }
     
-    private void handleBuild( String[] arguments )
+    private void handleBuild( String[] args )
     {
-        String[] args = processSystemProperties( arguments );
         String name = "build";
         String spec = "@DEPOT-BUILDER-URI@";
         handlePlugin( name, spec, args, false );
     }
 
-    private void handleMetro( String[] arguments )
+    private void handleMetro( String[] args )
     {
-        String[] args = processSystemProperties( arguments );
         String name = "exec";
         String spec = "@DEPOT-EXEC-URI@";
         handlePlugin( name, spec, args, true );
     }
 
-    private void handleTransit( String[] arguments )
+    private void handleTransit( String[] args )
     {
-        String[] args = processSystemProperties( arguments );
         String name = "transit";
         String spec = "@TRANSIT-CONSOLE-URI@";
         handlePlugin( name, spec, args, false );
     }
 
-    private void handleStation( String[] arguments )
+    private void handleStation( String[] args )
     {
         new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
-        String[] args = processSystemProperties( arguments );
-        if( CLIHelper.isOptionPresent( arguments, "-server" ) )
+        if( CLIHelper.isOptionPresent( args, "-server" ) )
         {
             String name = "station";
-            args = CLIHelper.consolidate( arguments, "-server" );
+            args = CLIHelper.consolidate( args, "-server" );
             String spec = "@DEPOT-STATION-SERVER-URI@";
             handlePlugin( name, spec, args, true );
         }
@@ -171,7 +186,7 @@ public final class Main //implements ShutdownHandler
         {
             String name = "station";
             String spec = "@DEPOT-STATION-URI@";
-            handlePlugin( name, spec, arguments, false );
+            handlePlugin( name, spec, args, false );
         }
     }
 
