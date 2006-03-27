@@ -329,7 +329,6 @@ class DefaultPartsManager implements PartsManager
             return;
         }
         
-        getLogger().debug( "decommissioning" );
         Component[] components = getComponents();
         decommission( components );
     }
@@ -409,7 +408,7 @@ class DefaultPartsManager implements PartsManager
             String message = 
               getAction( event )
               + "[" 
-              + event.getSource() 
+              + getName( event ) 
               + "]";
             getLogger().debug( message );
         }
@@ -424,7 +423,7 @@ class DefaultPartsManager implements PartsManager
             String message = 
               getAction( event )
               + "[" 
-              + event.getSource() 
+              + getName( event ) 
               + "] completed in "
               + event.getDuration() 
               + " milliseconds";
@@ -442,7 +441,7 @@ class DefaultPartsManager implements PartsManager
             String message = 
               getAction( event )
               + "of [" 
-              + event.getSource() 
+              + getName( event ) 
               + "] interrupted after "
               + event.getDuration() 
               + " milliseconds";
@@ -464,7 +463,7 @@ class DefaultPartsManager implements PartsManager
             String message = 
               getAction( event )
               + "of [" 
-              + event.getSource() 
+              + getName( event ) 
               + "] terminated after "
               + event.getDuration() 
               + " milliseconds";
@@ -517,6 +516,27 @@ class DefaultPartsManager implements PartsManager
             else
             {
                 return "decommissioning ";
+            }
+        }
+        
+        private String getName( CommissionerEvent event )
+        {
+            Object source = event.getSource();
+            if( source instanceof DefaultComponentHandler )
+            {
+                try
+                {
+                    DefaultComponentHandler handler = (DefaultComponentHandler) source;
+                    return handler.getComponentModel().getName();
+                }
+                catch( Exception e )
+                {
+                    return source.toString();
+                }
+            }
+            else
+            {
+                return source.toString();
             }
         }
     }

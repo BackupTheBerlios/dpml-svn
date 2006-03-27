@@ -239,7 +239,11 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             }
             try
             {
-                getLogger().info( "issues: " + m_server.getErrorCount() );
+                int n =  m_server.getErrorCount();
+                if( n > 0 )
+                {
+                    getLogger().warn( "logging issues: " + n );
+                }
                 m_thread.interrupt();
             }
             catch( Exception e )

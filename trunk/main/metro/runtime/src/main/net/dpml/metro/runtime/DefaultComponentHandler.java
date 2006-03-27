@@ -601,6 +601,8 @@ class DefaultComponentHandler extends UnicastEventSource
         m_parts.decommission();
         
         m_active = false;
+
+        getLogger().debug( "decommissioned" );
     }
     
    /**

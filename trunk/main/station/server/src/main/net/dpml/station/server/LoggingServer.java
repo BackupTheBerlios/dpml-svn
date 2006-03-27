@@ -18,12 +18,13 @@
 
 package net.dpml.station.server;
 
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.BufferedInputStream;
+import java.net.Socket;
+import java.net.ServerSocket;
+import java.net.SocketException;
 import java.util.logging.Logger;
 import java.util.logging.LogRecord;
 import java.util.logging.Formatter;
@@ -76,6 +77,7 @@ public class LoggingServer implements Runnable
             }
             catch( Throwable e )
             {
+                e.printStackTrace();
                 m_count++;
             }
         }
@@ -84,19 +86,6 @@ public class LoggingServer implements Runnable
     int getErrorCount()
     {
         return m_count;
-    }
-    
-    private Logger getNamedLogger( LogRecord record )
-    {
-        String name = record.getLoggerName();
-        if( null != name )
-        {
-            return Logger.getLogger( name );
-        }
-        else
-        {
-            return Logger.getAnonymousLogger();
-        }
     }
     
     class RequestHandler implements Runnable
@@ -134,16 +123,21 @@ public class LoggingServer implements Runnable
                         }
                     }
                 }
+                //System.out.println( "## DONE" );
                 //input.close();
                 //m_socket.close();
             }
             catch( ClassNotFoundException e )
             {
-                System.out.println( e.toString() );
+                e.printStackTrace();
+            }
+            catch( SocketException ioe )
+            {
+                //
             }
             catch( IOException ioe )
             {
-                System.out.println( "read failed: " + ioe.toString() );
+                ioe.printStackTrace();
             }
         }
 
