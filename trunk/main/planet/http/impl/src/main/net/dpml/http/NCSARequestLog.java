@@ -24,6 +24,8 @@ import net.dpml.transit.util.PropertyResolver;
 
 /** 
  * Wrapper for the Jetty NCSA request logger.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
 {

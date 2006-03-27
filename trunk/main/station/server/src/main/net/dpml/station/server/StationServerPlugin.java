@@ -61,6 +61,7 @@ public class StationServerPlugin implements Runnable
     * Creation of a new station server plugin for station commandline
     * handling.
     * @param logger the assigned logging channel
+    * @param model the transit model
     * @param args the command line arguments array
     * @exception Exception if an error occurs
     */

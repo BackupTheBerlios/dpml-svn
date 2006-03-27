@@ -33,6 +33,8 @@ import org.mortbay.jetty.Connector;
 
 /**
  * HTTP server implementation.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class Server extends org.mortbay.jetty.Server
 {

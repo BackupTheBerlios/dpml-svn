@@ -19,6 +19,8 @@ import java.net.URI;
 
 /**
  * Hash user realm with enhanced keystore resolution semantics.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class HashUserRealm extends org.mortbay.jetty.security.HashUserRealm
 {

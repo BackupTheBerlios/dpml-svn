@@ -18,19 +18,16 @@
 
 package net.dpml.depot;
 
-import java.io.IOException;
 import java.io.OutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.BufferedOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 import java.net.SocketException;
-import java.rmi.RemoteException;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import net.dpml.lang.PID;
-import net.dpml.lang.LoggingService;
 
 /**
  * Logging message handler that redirects log messages from a subprocess to 
@@ -57,9 +54,11 @@ public class DepotHandler extends Handler
     
    /**
     * Creation of a new handler instance.
-    * @exception Exception if an error occurs
+    * @param host the log server host
+    * @param port the port
+    * @exception IOException if an IO error occurs
     */
-    public DepotHandler( String host, int port ) throws Exception
+    public DepotHandler( String host, int port ) throws IOException
     {
         m_socket = new Socket( host, port );
         m_output = m_socket.getOutputStream();
@@ -97,8 +96,12 @@ public class DepotHandler extends Handler
     }
 
    /**
-    * Publish a log record.
-    * @param record the log record
+    * Publish a log record. The implementation packages the supplied log
+    * record under a LogStatement, binding the record with the associated process
+    * identifier.  The statement is subsequently writen to a socket established 
+    * within the instance constructor.
+    *
+    * @param record the log record to publish
     */
     public void publish( LogRecord record )
     {

@@ -17,6 +17,8 @@ package net.dpml.http;
 
 /**
  * A ServletEntry maintains a mapping between a servlet name and a relative path.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ServletEntry
 {

@@ -27,15 +27,10 @@ import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.logging.Logger;
 import java.util.logging.LogRecord;
-import java.util.logging.Formatter;
-import java.util.logging.Level;
-
-import net.dpml.lang.PID;
 
 import net.dpml.depot.LogStatement;
 
-import net.dpml.transit.util.ExceptionHelper;
-import net.dpml.transit.util.StandardFormatter;
+import net.dpml.lang.PID;
 
 /**
  * The LoggingServer is a remote service that handles the aggregation of 
@@ -54,7 +49,8 @@ public class LoggingServer implements Runnable
     
    /**
     * Creation of a new logging service instance.
-    * @exception RemoteException if a remote exception occurs
+    * @param port the log server port
+    * @exception IOException if an IO exception occurs
     */
     public LoggingServer( int port ) throws IOException
     {
@@ -88,15 +84,25 @@ public class LoggingServer implements Runnable
         return m_count;
     }
     
+   /**
+    * Internal utility class to handle a client connection.
+    */
     class RequestHandler implements Runnable
     {
         private final Socket m_socket;
         
+       /**
+        * Creation of a new request handler.
+        * @param socket the socket
+        */
         private RequestHandler( Socket socket )
         {
             m_socket = socket;
         }
         
+       /**
+        * Run the process.
+        */
         public void run()
         {
             try

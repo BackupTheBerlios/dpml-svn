@@ -21,6 +21,8 @@ import org.mortbay.jetty.servlet.ServletMapping;
 /**
  * A ServletHandler maintains a collection of servlets and a collection
  * servlet name to context mappings.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ServletHandler extends org.mortbay.jetty.servlet.ServletHandler
 {

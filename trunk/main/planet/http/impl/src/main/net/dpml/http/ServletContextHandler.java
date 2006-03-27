@@ -19,6 +19,8 @@ import net.dpml.logging.Logger;
 
 /**
  * Servlet context handler. 
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ServletContextHandler extends org.mortbay.jetty.handler.ContextHandler
 {

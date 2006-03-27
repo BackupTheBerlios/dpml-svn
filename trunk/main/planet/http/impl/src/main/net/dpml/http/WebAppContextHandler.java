@@ -28,6 +28,8 @@ import org.mortbay.jetty.servlet.ServletHandler;
 
 /**
  * Servlet context handler. 
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class WebAppContextHandler extends org.mortbay.jetty.webapp.WebAppContext
 {

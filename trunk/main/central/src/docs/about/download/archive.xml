@@ -20,7 +20,26 @@
       <subsection name="Build @VERSION@">
 
         <p>
+        Enhancements include:
         </p>
+        <ul>
+          <li>Resolves a bug related to application deployment within the Station under the 
+              Unix platform.</li>
+          <li>Rewrite of the multi-JVM log aggregation services eliminating a low-level 
+              issued raised by RMI log events during handler establishement.</li>
+          <li>An improved implementation of the JVM process identification model.</li>
+          <li>Resolution of a number of API inconsistencies.</li>
+          <li>Improved management of lifecycle policies (import, export, type defaults, etc.).</li>
+          <li>Numerouse documentation updates.</li>
+          <li>Additional testcases.</li>
+          <li>Improved error handling in the Station console.</li>
+          <li>cleanup logging channel assignments to ensure that new top-level components are 
+              created under the station namespace when launched by the station.</li>
+          <li>Update station shutdown semantic to formally decommision Transit.</li>
+          <li>Improvements to symbol dereferencing logic.</li>
+          <li>Update feature task to handle resolution of link uris.</li>
+          <li>Update depot to reference links in preference to full qualified artifacts.</li>
+        </ul>
 
         <table>
           <tr>

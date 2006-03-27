@@ -20,26 +20,45 @@ import java.util.logging.Logger;
 
 /**
  * Wrapper to redirect Jetty logging to standard JVM logging.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LogAdapter implements org.mortbay.log.Logger
 {    
     private final Logger m_logger;
     
+   /**
+    * Creation of a new log adapter.
+    */
     public LogAdapter()
     {
         this( Logger.getLogger( "org.mortbay" ) );
     }
     
+   /**
+    * Creation of a new log adapter.
+    * @param logger the underlying logging channel
+    */
     LogAdapter( Logger logger )
     {
         m_logger = logger;
     }
     
+   /**
+    * Get the debug enabled status.
+    * @return true if debug is enabled
+    */
     public boolean isDebugEnabled()
     {
         return m_logger.isLoggable( Level.FINE );
     }
     
+   /**
+    * Publish an info level log message.
+    * @param msg the message
+    * @param arg0 an intial argument
+    * @param arg1 a subsequent argument
+    */
     public void info( String msg, Object arg0, Object arg1 )
     {
         if( m_logger.isLoggable( Level.INFO ) )
@@ -49,6 +68,11 @@ public class LogAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an debug level log message.
+    * @param message the message
+    * @param cause an exception
+    */
     public void debug( String message, Throwable cause )
     {
         if( isDebugEnabled() )
@@ -57,6 +81,12 @@ public class LogAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an debug level log message.
+    * @param msg the message
+    * @param arg0 an intial argument
+    * @param arg1 a subsequent argument
+    */
     public void debug( String msg, Object arg0, Object arg1 )
     {
         if( isDebugEnabled() )
@@ -66,6 +96,12 @@ public class LogAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an warning level log message.
+    * @param msg the message
+    * @param arg0 an intial argument
+    * @param arg1 a subsequent argument
+    */
     public void warn( String msg,Object arg0, Object arg1 )
     {
         if( m_logger.isLoggable( Level.WARNING ) )
@@ -75,6 +111,11 @@ public class LogAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an warning level log message.
+    * @param message the message
+    * @param error an exception
+    */
     public void warn( String message, Throwable error )
     {
         if( m_logger.isLoggable( Level.WARNING ) )
@@ -107,13 +148,18 @@ public class LogAdapter implements org.mortbay.log.Logger
         if( ( arg0 != null ) && ( i0 >= 0 ) )
         {
             msg = 
-              msg.substring( 0,i0 )
+              msg.substring( 0, i0 )
               + arg0
               + msg.substring( i0 + 2 );
         }
         return msg;
     }
     
+   /**
+    * Create a logger matching the supplied category.
+    * @param category the category name
+    * @return the logging channel
+    */
     public org.mortbay.log.Logger getLogger( String category )
     {
         if( ( null == category ) || "org.mortbay".equals( category ) )
@@ -144,6 +190,10 @@ public class LogAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Return a string representation of this logger.
+    * @return the string value
+    */
     public String toString()
     {
         return "java.util.logging.Logger/" + m_logger.getName();

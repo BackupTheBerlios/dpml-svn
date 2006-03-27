@@ -20,6 +20,8 @@ import org.mortbay.jetty.servlet.ServletMapping;
 
 /**
  * Default implementation of a static resource handler.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ResourceHandler extends org.mortbay.jetty.servlet.ServletHandler
 {

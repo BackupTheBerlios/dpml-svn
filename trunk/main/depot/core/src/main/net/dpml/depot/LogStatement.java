@@ -18,21 +18,16 @@
 
 package net.dpml.depot;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.Socket;
-import java.rmi.RemoteException;
-import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-import java.util.logging.Level;
 
 import net.dpml.lang.PID;
-import net.dpml.lang.LoggingService;
 
 /**
- * Datastructure holding a log record and process identifier.
+ * Datastructure holding a log record and process identifier.  The datastructure
+ * is used to bind a PID value that identifies a source JVM  with a log record 
+ * raised by the JVM.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -46,22 +41,43 @@ public final class LogStatement implements Serializable
     private final PID m_pid;
     private final LogRecord m_record;
     
+   /**
+    * Creation of a new log statement.
+    * @param pid the JVM process identifier
+    * @param record the log record
+    */
     public LogStatement( PID pid, LogRecord record )
     {
         m_pid = pid;
         m_record = record;
     }
     
+   /**
+    * Get the process identifier identifying the source JVM.
+    * @return the process identifier
+    */
     public PID getPID()
     {
         return m_pid;
     }
         
+   /**
+    * Get the log record raised by the source JVM.
+    * @return the log record
+    */
     public LogRecord getLogRecord()
     {
         return m_record;
     }
     
+   /**
+    * Compare this object with a supplied object for equality.
+    * This function returns true if the supplied object is a 
+    * LogStatement with an equivalent process identifier and 
+    * log record.
+    * @param other the other object
+    * @return true if the supplied object is equal to this object
+    */
     public boolean equals( Object other )
     {
         if( null == other )
@@ -86,6 +102,10 @@ public final class LogStatement implements Serializable
         }
     }
     
+   /**
+    * Get the hascode for this instance.
+    * @return the instance hash value
+    */
     public int hashCode()
     {
         int hash = m_pid.hashCode();

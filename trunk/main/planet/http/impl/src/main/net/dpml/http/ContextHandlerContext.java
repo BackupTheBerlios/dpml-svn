@@ -21,6 +21,8 @@ import org.mortbay.jetty.handler.ErrorHandler;
 
 /**
  * Common http context handler context contract.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ContextHandlerContext
 {

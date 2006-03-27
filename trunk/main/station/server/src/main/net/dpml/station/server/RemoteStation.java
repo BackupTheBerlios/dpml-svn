@@ -26,7 +26,6 @@ import java.rmi.registry.Registry;
 import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
-import java.util.logging.LogRecord;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.EventObject;
@@ -42,8 +41,6 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.lang.Logger;
-import net.dpml.lang.PID;
-import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.Disposable;
 
@@ -74,11 +71,14 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     * Creation of a station instance.
     *
     * @param logger the assigned logging channel
+    * @param model the transit model
     * @param port the station port 
     * @param registryStorageUrl uri defining the registry backing store
     * @exception Exception if a exception occurs during establishment
     */
-    public RemoteStation( Logger logger, TransitModel model, int port, URL registryStorageUrl ) throws Exception
+    public RemoteStation( 
+      Logger logger, TransitModel model, int port, URL registryStorageUrl ) 
+      throws Exception
     {
         super();
         

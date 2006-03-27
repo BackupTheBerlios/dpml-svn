@@ -17,6 +17,8 @@ package net.dpml.http;
 
 /**
  * Thread pool implementation.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class SelectChannelConnector extends org.mortbay.jetty.nio.SelectChannelConnector
 {

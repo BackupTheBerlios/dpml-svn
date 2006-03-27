@@ -21,6 +21,8 @@ import net.dpml.transit.util.ExceptionHelper;
 
 /**
  * Wrapper to redirect Jetty logging to DPML logging.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class LoggerAdapter implements org.mortbay.log.Logger
 {    
@@ -42,6 +44,9 @@ public class LoggerAdapter implements org.mortbay.log.Logger
     
     private final Logger m_logger;
     
+   /**
+    * Creation of a new logger adapter.
+    */
     public LoggerAdapter()
     {
         if( null == m_LOGGER )
@@ -54,16 +59,30 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Creation of a new logger adapter.
+    * @param logger the underlying log channel
+    */
     LoggerAdapter( Logger logger )
     {
         m_logger = logger;
     }
     
+   /**
+    * Get the debug enabled status.
+    * @return true if debug is enabled
+    */
     public boolean isDebugEnabled()
     {
         return m_logger.isDebugEnabled();
     }
     
+   /**
+    * Publish an info level log message.
+    * @param msg the message
+    * @param arg0 an intial argument
+    * @param arg1 a subsequent argument
+    */
     public void info( String msg, Object arg0, Object arg1 )
     {
         if( m_logger.isInfoEnabled() )
@@ -73,6 +92,11 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an debug level log message.
+    * @param message the message
+    * @param cause an exception
+    */
     public void debug( String message, Throwable cause )
     {
         if( isDebugEnabled() )
@@ -89,6 +113,12 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an debug level log message.
+    * @param msg the message
+    * @param arg0 an intial argument
+    * @param arg1 a subsequent argument
+    */
     public void debug( String msg, Object arg0, Object arg1 )
     {
         if( isDebugEnabled() )
@@ -98,6 +128,12 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an warning level log message.
+    * @param msg the message
+    * @param arg0 an intial argument
+    * @param arg1 a subsequent argument
+    */
     public void warn( String msg,Object arg0, Object arg1 )
     {
         if( m_logger.isWarnEnabled() )
@@ -107,6 +143,11 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Publish an warning level log message.
+    * @param message the message
+    * @param error an exception
+    */
     public void warn( String message, Throwable error )
     {
         if( m_logger.isWarnEnabled() )
@@ -146,6 +187,11 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         return msg;
     }
     
+   /**
+    * Create a logger matching the supplied category.
+    * @param category the category name
+    * @return the logging channel
+    */
     public org.mortbay.log.Logger getLogger( String category )
     {
         Logger logger = m_LOGGER.getChildLogger( category );
@@ -168,6 +214,10 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         }
     }
     
+   /**
+    * Return a string representation of this logger.
+    * @return the string value
+    */
     public String toString()
     {
         return "net.dpml.logging.Logger";

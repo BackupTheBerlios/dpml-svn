@@ -24,7 +24,6 @@ import java.rmi.RMISecurityManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 
 import net.dpml.transit.Disposable;
 import net.dpml.transit.Transit;

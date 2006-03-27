@@ -25,6 +25,8 @@ import org.mortbay.jetty.handler.ErrorHandler;
 
 /**
  * Utility class that provides support for parameterization of a Jetty context instance.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 class ContextHelper
 {

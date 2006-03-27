@@ -17,6 +17,8 @@ package net.dpml.http;
 
 /**
  * Common connector context contract.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public interface ConnectorContext
 {

@@ -19,6 +19,8 @@ import java.net.URI;
 
 /**
  * SSL socket connector.
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConnector
 {
