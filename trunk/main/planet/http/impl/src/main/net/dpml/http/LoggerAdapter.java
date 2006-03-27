@@ -134,7 +134,7 @@ public class LoggerAdapter implements org.mortbay.log.Logger
     * @param arg0 an intial argument
     * @param arg1 a subsequent argument
     */
-    public void warn( String msg,Object arg0, Object arg1 )
+    public void warn( String msg, Object arg0, Object arg1 )
     {
         if( m_logger.isWarnEnabled() )
         {
@@ -180,7 +180,7 @@ public class LoggerAdapter implements org.mortbay.log.Logger
         if( ( arg0 != null ) && ( i0 >= 0 ) )
         {
             msg = 
-              msg.substring( 0,i0 )
+              msg.substring( 0, i0 )
               + arg0
               + msg.substring( i0 + 2 );
         }

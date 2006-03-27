@@ -41,7 +41,7 @@ import net.dpml.lang.PID;
  */
 public class LoggingServer implements Runnable
 {
-    private static final PID PID = new PID();
+    private static final PID PROCESS = new PID();
 
     private final ServerSocket m_server;
     
@@ -87,7 +87,7 @@ public class LoggingServer implements Runnable
    /**
     * Internal utility class to handle a client connection.
     */
-    class RequestHandler implements Runnable
+    final class RequestHandler implements Runnable
     {
         private final Socket m_socket;
         
@@ -117,7 +117,7 @@ public class LoggingServer implements Runnable
                     {
                         LogStatement statement = (LogStatement) object;
                         PID pid = statement.getPID();
-                        if( !PID.equals( pid ) )
+                        if( !PROCESS.equals( pid ) )
                         {
                             int id = pid.getValue();
                             LogRecord record = statement.getLogRecord();
@@ -139,7 +139,7 @@ public class LoggingServer implements Runnable
             }
             catch( SocketException ioe )
             {
-                //
+                // ignore
             }
             catch( IOException ioe )
             {

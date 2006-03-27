@@ -102,7 +102,7 @@ public class LogAdapter implements org.mortbay.log.Logger
     * @param arg0 an intial argument
     * @param arg1 a subsequent argument
     */
-    public void warn( String msg,Object arg0, Object arg1 )
+    public void warn( String msg, Object arg0, Object arg1 )
     {
         if( m_logger.isLoggable( Level.WARNING ) )
         {
