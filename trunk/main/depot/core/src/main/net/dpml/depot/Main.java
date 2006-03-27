@@ -159,11 +159,11 @@ public final class Main //implements ShutdownHandler
     private void handleStation( String[] arguments )
     {
         new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
+        String[] args = processSystemProperties( arguments );
         if( CLIHelper.isOptionPresent( arguments, "-server" ) )
         {
             String name = "station";
-            String[] args = CLIHelper.consolidate( arguments, "-server" );
-            args = processSystemProperties( args );
+            args = CLIHelper.consolidate( arguments, "-server" );
             String spec = "@DEPOT-STATION-SERVER-URI@";
             handlePlugin( name, spec, args, true );
         }
