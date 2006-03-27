@@ -64,6 +64,7 @@
   <project name="dpml-depot-console" basedir="core">
     <properties>
       <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
+      <property name="project.test.fork" value="true"/>
     </properties>
     <types>
       <type id="jar"/>

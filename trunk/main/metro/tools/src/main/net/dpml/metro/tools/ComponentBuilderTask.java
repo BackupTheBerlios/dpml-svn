@@ -507,7 +507,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         //    }
         //}
 
-        LifestylePolicy lifestyle = getLifestylePolicy( type ); 
+        LifestylePolicy lifestyle = getLifestylePolicy(); 
         CollectionPolicy collection = getCollectionPolicy( type );
         ActivationPolicy activation = getActivationPolicy();
         CategoriesDirective categories = getCategoriesDirective();
@@ -594,27 +594,19 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     * Return the lifestyle policy declared relative to usage.
     * If undefined then default to the lifestyle declared by the component type.
     * Lifestyle policies that may be declared under the 'lifestyle' attribute of 
-    * a component are 'request', 'thread' or 'shared'.  If 'request' is supplied
+    * a component are 'transient', 'thread' or 'singleton'.  If 'transient' is supplied
     * the assigned lefestyle policy is InfoDescriptor.TRANSIENT resulting in the 
     * creation of a new instance per request.  If 'thread' is declared the assigned
     * lifestyle policy shall be InfoDescriptor.THREAD in which case a supplied 
     * instance will be reused for all requests within the same thread of execution.
-    * If the supplied policy is 'shared' then the established instance will be 
+    * If the supplied policy is 'singleton' then the established instance will be 
     * shared across consumers referencing the component.
     *
-    * @param type the component type
     * @return the lifestyle policy
     */
-    public LifestylePolicy getLifestylePolicy( Type type )
+    public LifestylePolicy getLifestylePolicy()
     {
-        if( null == m_lifestyle )
-        {
-             return type.getInfo().getLifestyle();
-        }
-        else
-        {
-            return m_lifestyle;
-        }
+        return m_lifestyle;
     }
 
    /**

@@ -122,7 +122,17 @@ class DefaultComponentModel extends UnicastEventSource
         }
         
         m_activation = directive.getActivationPolicy();
-        m_lifestyle = directive.getLifestylePolicy();
+        
+        LifestylePolicy lifestyle = directive.getLifestylePolicy();
+        if( null == lifestyle )
+        {
+            m_lifestyle = m_type.getInfo().getLifestylePolicy();
+        }
+        else
+        {
+            m_lifestyle = lifestyle;
+        }
+
         m_collection = directive.getCollectionPolicy();
         m_parameters = directive.getParameters();
         m_configuration = directive.getConfiguration();

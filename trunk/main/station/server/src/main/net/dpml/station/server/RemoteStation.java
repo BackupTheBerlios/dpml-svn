@@ -42,11 +42,10 @@ import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.lang.Logger;
-import net.dpml.lang.LoggingService;
 import net.dpml.lang.PID;
-import net.dpml.transit.Disposable;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.Disposable;
 
 import net.dpml.lang.UnknownKeyException;
 
@@ -57,16 +56,17 @@ import net.dpml.lang.UnknownKeyException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class RemoteStation extends UnicastRemoteObject implements Station, Manager, LoggingService
+public class RemoteStation extends UnicastRemoteObject implements Station, Manager
 {
-    private final TransitModel m_model;
     private final RemoteApplicationRegistry m_registry;
     private final Map m_applications = new Hashtable();
     private final Logger m_logger;
     private final int m_port;
     private final Registry m_rmiRegistry;
-    private final LoggingServer m_loggingServer;
     private final URL m_store;
+    private final TransitModel m_model;
+    private final LoggingServer m_server;
+    private final Thread m_thread;
     
     private boolean m_terminated = false;
     
@@ -92,7 +92,6 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         try
         {
             m_rmiRegistry.bind( STATION_KEY, this );
-            getLogger().debug( "station bound to [" + STATION_KEY + "]" );
         }
         catch( AlreadyBoundException e )
         {
@@ -100,20 +99,20 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
              "An instance of the Station is already bound to port " + port;
             throw new StationException( error, e );
         }
-        
+
         setShutdownHook( this );
         startEventDispatchThread();
 
         try
         {
-            m_loggingServer = new LoggingServer();
-            m_rmiRegistry.bind( LoggingService.LOGGING_KEY, m_loggingServer );
-            getLogger().debug( "logging service bound to [" + LoggingService.LOGGING_KEY + "]");
+            m_server = new LoggingServer( 2020 );
+            m_thread = new Thread( m_server );
+            m_thread.start();
         }
-        catch( AlreadyBoundException e )
+        catch( Exception e )
         {
             final String error =
-             "An instance of the logging service is already bound to port " + port;
+             "Unexpected error while attempting to start the logging server on port " + 2020;
             throw new StationException( error, e );
         }
         
@@ -238,28 +237,16 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
             {
                 // ignore
             }
-            
-            if( m_model instanceof Disposable )
-            {
-                try
-                {
-                    Disposable disposable = (Disposable) m_model;
-                    disposable.dispose();
-                }
-                catch( Throwable e )
-                {
-                    e.printStackTrace();
-                }
-            }
-            
             try
             {
-                m_rmiRegistry.unbind( LoggingService.LOGGING_KEY );
+                getLogger().info( "issues: " + m_server.getErrorCount() );
+                m_thread.interrupt();
             }
             catch( Exception e )
             {
                 // ignore
             }
+            
             finally
             {
                 if( getLogger().isInfoEnabled() )
@@ -269,6 +256,19 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
                 
                 if( exit )
                 {
+                    if( m_model instanceof Disposable )
+                    {
+                        try
+                        {
+                            Disposable disposable = (Disposable) m_model;
+                            disposable.dispose();
+                        }
+                        catch( Exception e )
+                        {
+                            // ignore
+                        }
+                    }
+                    
                     if( getLogger().isDebugEnabled() )
                     {
                         getLogger().debug( "terminating process" );
@@ -321,10 +321,10 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     * @param record the log record
     * @exception RemoteException is a remote exception occurs
     */
-    public void log( PID process, LogRecord record ) throws RemoteException
-    {
-        m_loggingServer.log( process, record );
-    }
+    //public void log( PID process, LogRecord record ) throws RemoteException
+    //{
+    //    m_loggingServer.log( process, record );
+    //}
     
     
    /**

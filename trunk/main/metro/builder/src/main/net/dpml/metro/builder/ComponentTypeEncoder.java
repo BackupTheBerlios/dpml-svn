@@ -109,7 +109,7 @@ public class ComponentTypeEncoder
         writer.write( " name=\"" + info.getName() );
         writer.write( "\"\n" + pad + "    class=\"" + info.getClassname() );
         writer.write( "\"\n" + pad + "    version=\"" + info.getVersion() );
-        writer.write( "\"\n" + pad + "    lifestyle=\"" + info.getLifestyle().getName().toLowerCase() );
+        writer.write( "\"\n" + pad + "    lifestyle=\"" + info.getLifestylePolicy().getName().toLowerCase() );
         writer.write( "\"\n" + pad + "    collection=\"" + info.getCollectionPolicy().getName().toLowerCase() );
         writer.write( "\"\n" + pad + "    threadsafe=\"" + info.getThreadSafePolicy().getName().toLowerCase() );
         writer.write( "\"" );

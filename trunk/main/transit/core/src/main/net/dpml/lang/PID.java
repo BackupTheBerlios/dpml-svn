@@ -30,23 +30,22 @@ import java.util.Random;
  */
 public class PID implements Serializable
 {
-    private final int m_id;
+    private final int m_value;
 
    /**
     * Creation of a new process identifier.
     */
     public PID()
     {
-        m_id = setupInitialValue();
+        m_value = setupInitialValue();
     }
 
    /**
     * Creation of a new process identifier.
-    * @param pid the process identity
     */
-    public PID( int pid )
+    private PID( int id )
     {
-        m_id = pid;
+        m_value = id;
     }
 
     private static int setupInitialValue()
@@ -75,7 +74,7 @@ public class PID implements Serializable
     */
     public int getValue()
     {
-        return m_id;
+        return m_value;
     }
 
    /**
@@ -84,7 +83,7 @@ public class PID implements Serializable
     */
     public String toString()
     {
-        return "[" + m_id + "]";
+        return "[" + m_value + "]";
     }
 
    /**
@@ -94,15 +93,15 @@ public class PID implements Serializable
     */
     public boolean equals( Object other )
     {
-       if( other instanceof PID )
-       {
-           PID pid = (PID) other;
-           return getValue() == pid.getValue();
-       }
-       else
-       {
+        if( other instanceof PID )
+        {
+            PID pid = (PID) other;
+            return getValue() == pid.getValue();
+        }
+        else
+        {
            return false;
-       }
+        }
     }
 
    /**

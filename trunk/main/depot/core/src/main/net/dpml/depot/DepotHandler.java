@@ -1,5 +1,5 @@
 /* 
- * Copyright 2005 Stephen McConnell.
+ * Copyright 2005-2006 Stephen McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,7 +18,12 @@
 
 package net.dpml.depot;
 
-import java.net.URL;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.RemoteException;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -36,15 +41,25 @@ public class DepotHandler extends Handler
 {
     private static final PID ID = new PID();
     
-    private final LoggingService m_system;
+    private final Socket m_socket;
+    //private final ObjectOutputStream m_stream;
 
    /**
     * Creation of a new handler instance.
-    * @exception Exception if an error occurs during resolution of the logging service
+    * @exception Exception if an error occurs
     */
     public DepotHandler() throws Exception
     {
-        m_system = getLoggingService();
+        this( "localhost", 2020 );
+    }
+    
+   /**
+    * Creation of a new handler instance.
+    * @exception Exception if an error occurs
+    */
+    public DepotHandler( String host, int port ) throws Exception
+    {
+        m_socket = new Socket( host, port );
     }
 
    /**
@@ -52,6 +67,14 @@ public class DepotHandler extends Handler
     */
     public void flush()
     {
+        //try
+        //{
+        //    m_stream.flush();
+        //}
+        //catch( Exception e )
+        //{
+        //    e.printStackTrace();
+        //}
     }
 
    /**
@@ -59,40 +82,42 @@ public class DepotHandler extends Handler
     */
     public void close()
     {
+        try
+        {
+            m_socket.close();
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
     }
 
    /**
     * Publish a log record.
     * @param record the log record
     */
-    public void publish( LogRecord record )
+    public synchronized void publish( LogRecord record )
     {
+        if( m_socket.isClosed() )
+        {
+            return;
+        }
         try
         {
-            m_system.log( ID, record );
+            OutputStream output = m_socket.getOutputStream();
+            ObjectOutputStream stream = new ObjectOutputStream( output );
+            LogStatement statement = new LogStatement( ID, record );
+            stream.writeObject( statement );
+            stream.flush();
         }
-        catch( RemoteException e )
+        catch( SocketException e )
         {
-            System.err.println( e.toString() );
+            //System.out.println( e.toString() );
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
         }
     }
-
-    private LoggingService getLoggingService() throws Exception
-    {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-        try
-        {
-            String key = "registry:" + LoggingService.LOGGING_KEY;
-            String remote = System.getProperty( "dpml.logging.service", key );
-            URL url = new URL( null, remote, new net.dpml.transit.registry.Handler() );
-            return (LoggingService) url.getContent();
-        }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader( classloader );
-        }
-    }
-
 }
 

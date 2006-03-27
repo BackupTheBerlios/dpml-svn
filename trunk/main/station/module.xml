@@ -19,7 +19,7 @@
   <project name="dpml-station-exec" basedir="exec">
     <types>
       <type id="jar"/>
-      <part:plugin class="net.dpml.station.exec.ApplicationHandler"/>
+      <part:plugin class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
     </types>
     <dependencies scope="build">
       <include ref="dpml/metro/dpml-metro-runtime"/>
@@ -53,9 +53,10 @@
     </properties>
     <types>
       <type id="jar"/>
-      <part:plugin class="net.dpml.station.server.StationServerPlugin"/>
+      <part:plugin class="net.dpml.station.server.StationServerPlugin" alias="true"/>
     </types>
     <dependencies>
+      <include ref="dpml/depot/dpml-depot-console" tag="public"/>
       <include ref="dpml/metro/dpml-metro-component" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="public"/>
       <include ref="dpml/station/dpml-station-api" tag="public"/>

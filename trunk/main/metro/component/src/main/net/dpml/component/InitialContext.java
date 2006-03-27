@@ -27,7 +27,6 @@ import java.net.URI;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.lang.Logger;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 import net.dpml.transit.monitor.LoggingAdapter;

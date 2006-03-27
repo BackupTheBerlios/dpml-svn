@@ -38,6 +38,7 @@ import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.model.TransitModel;
+
 import net.dpml.lang.Logger;
 
 /**
@@ -59,12 +60,11 @@ public class StationServerPlugin implements Runnable
    /**
     * Creation of a new station server plugin for station commandline
     * handling.
-    * @param model the transit model
     * @param logger the assigned logging channel
     * @param args the command line arguments array
     * @exception Exception if an error occurs
     */
-    public StationServerPlugin( TransitModel model, Logger logger, String[] args ) throws Exception
+    public StationServerPlugin( Logger logger, TransitModel model, String[] args ) throws Exception
     {
         m_logger = logger;
         m_model = model;

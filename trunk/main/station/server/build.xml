@@ -15,7 +15,6 @@
       <include name="**/RemoteApplicationRegistry.class"/>
       <include name="**/RemoteApplication.class"/>
       <include name="**/RemoteStation.class"/>
-      <include name="**/LoggingServer.class"/>
     </rmic>
   </target>
 

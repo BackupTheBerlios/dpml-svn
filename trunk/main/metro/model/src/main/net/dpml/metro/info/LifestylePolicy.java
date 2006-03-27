@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  * Copyright 1999-2004 The Apache Software Foundation
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -32,17 +32,17 @@ public final class LifestylePolicy extends Enum
     static final long serialVersionUID = 1L;
 
    /**
-    * Weak collection policy.
+    * Transient lifestyle policy.
     */
     public static final LifestylePolicy TRANSIENT = new LifestylePolicy( "transient" );
 
    /**
-    * Soft collection policy.
+    * Per-thread lifestyle policy.
     */
     public static final LifestylePolicy THREAD = new LifestylePolicy( "thread" );
 
    /**
-    * Hard collection policy.
+    * Singleton lifestyle policy.
     */
     public static final LifestylePolicy SINGLETON = new LifestylePolicy( "singleton" );
 

@@ -145,9 +145,15 @@ public class ComponentDecoder
     
     private LifestylePolicy buildLifestylePolicy( Element element ) throws DecodingException
     {
-        String defaultValue = LifestylePolicy.TRANSIENT.getName();
-        String policy = ElementHelper.getAttribute( element, "lifestyle", defaultValue );
-        return LifestylePolicy.parse( policy );
+        String policy = ElementHelper.getAttribute( element, "lifestyle", null );
+        if( null != policy )
+        { 
+            return LifestylePolicy.parse( policy );
+        }
+        else
+        {
+            return null;
+        }
     }
     
     private CollectionPolicy buildCollectionPolicy( Element element ) throws DecodingException

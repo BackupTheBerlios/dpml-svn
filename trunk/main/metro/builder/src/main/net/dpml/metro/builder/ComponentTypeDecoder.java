@@ -152,7 +152,7 @@ public final class ComponentTypeDecoder
         String classname = ElementHelper.getAttribute( info, "class" );
         String version = ElementHelper.getAttribute( info, "version" );
         String collection = ElementHelper.getAttribute( info, "collection", "system" );
-        String lifestyle = ElementHelper.getAttribute( info, "lifestyle", "system" );
+        String lifestyle = ElementHelper.getAttribute( info, "lifestyle", null );
         String threadsafe = ElementHelper.getAttribute( info, "threadsafe", "unknown" );
         Properties properties = buildNestedProperties( info );
         
@@ -160,10 +160,22 @@ public final class ComponentTypeDecoder
           name, 
           classname, 
           Version.parse( version ),
-          LifestylePolicy.parse( lifestyle ),
+          buildLifestylePolicy( lifestyle ),
           CollectionPolicy.parse( collection ),
           ThreadSafePolicy.parse( threadsafe ),
           properties );
+    }
+    
+    private LifestylePolicy buildLifestylePolicy( String lifestyle )
+    {
+        if( null == lifestyle )
+        {
+            return null;
+        }
+        else
+        {
+            return LifestylePolicy.parse( lifestyle );
+        }
     }
     
     private ServiceDescriptor[] buildNestedServices( Element root )

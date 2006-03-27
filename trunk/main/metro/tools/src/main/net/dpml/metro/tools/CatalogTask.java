@@ -487,7 +487,7 @@ public class CatalogTask extends Task
                 writer.write( "\n        </td>" );
                 
                 writer.write( "\n        <td>" );
-                writer.write( type.getInfo().getLifestyle().getName() );
+                writer.write( type.getInfo().getLifestylePolicy().getName() );
                 writer.write( "\n        </td>" );
                 
                 writer.write( "\n      </tr>" );
@@ -561,7 +561,7 @@ public class CatalogTask extends Task
             writer.write( "\n      <tr><td class=\"feature\">Name:</td><td>" 
               + type.getInfo().getName() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Lifestyle:</td><td>" 
-              + type.getInfo().getLifestyle().getName() + "</td></tr>" );
+              + type.getInfo().getLifestylePolicy().getName() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Thread-Safe:</td><td>" 
               + type.getInfo().getThreadSafePolicy() + "</td></tr>" );
             writer.write( "\n      <tr><td class=\"feature\">Collection:</td><td>" 

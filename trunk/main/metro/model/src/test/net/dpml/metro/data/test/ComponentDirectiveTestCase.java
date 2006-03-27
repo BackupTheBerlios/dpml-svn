@@ -192,6 +192,18 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     }
     
    /**
+    * Test null lifestyle policy returns null.
+    */
+    public void testNullLifestylePolicy()
+    {
+        ComponentDirective directive = new ComponentDirective( 
+            m_name, m_activation, m_collection, null, m_classname, 
+            m_categories, m_context, m_parameters, m_configuration, m_parts );
+        LifestylePolicy lifestyle = directive.getLifestylePolicy();
+        assertEquals( "null-lifestyle", null, lifestyle );
+    }
+    
+   /**
     * Test classname accessor.
     */
     public void testClassname()

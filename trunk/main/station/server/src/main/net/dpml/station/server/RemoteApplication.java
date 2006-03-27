@@ -255,7 +255,6 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
     {
         synchronized( m_state )
         {
-            setupLoggingDirectory();
             setProcessState( ProcessState.STARTING );
             try
             {
@@ -348,12 +347,12 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         //}
         //
         
-        //if( null == properties.getProperty( "java.util.logging.config.class" ) )
-        //{
-        //    properties.setProperty( 
-        //      "java.util.logging.config.class", 
-        //      "net.dpml.depot.DepotLoggingConfiguration" );
-        //}
+        if( null == properties.getProperty( "java.util.logging.config.class" ) )
+        {
+            properties.setProperty( 
+              "java.util.logging.config.class", 
+              "net.dpml.depot.DepotLoggingConfiguration" );
+        }
         
         properties.setProperty( "dpml.logging.config", "local:properties:dpml/station/application" );
         
@@ -382,14 +381,6 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         list.add( "" + m_id );
         
         return (String[]) list.toArray( new String[0] );
-    }
-    
-    private void setupLoggingDirectory()
-    {
-        File logs = new File( Transit.DPML_DATA, "logs" );
-        File station = new File( logs, "station" );
-        File target = new File( station, m_id );
-        target.mkdirs();
     }
     
    /**

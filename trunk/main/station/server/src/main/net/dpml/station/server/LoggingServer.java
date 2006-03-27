@@ -1,5 +1,5 @@
 /* 
- * Copyright 2005 Stephen McConnell.
+ * Copyright 2005-2006 Stephen McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,13 +18,22 @@
 
 package net.dpml.station.server;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.LogRecord;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.logging.Logger;
+import java.util.logging.LogRecord;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
 
 import net.dpml.lang.PID;
-import net.dpml.lang.LoggingService;
+
+import net.dpml.depot.LogStatement;
+
+import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.transit.util.StandardFormatter;
 
 /**
  * The LoggingServer is a remote service that handles the aggregation of 
@@ -33,36 +42,77 @@ import net.dpml.lang.LoggingService;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class LoggingServer extends UnicastRemoteObject implements LoggingService
+public class LoggingServer implements Runnable
 {
-    private final Logger m_logger = Logger.getLogger( "station" );
+    private static final PID PID = new PID();
 
+    private final ServerSocket m_server;
+    
+    private int m_count = 0;
+    
    /**
     * Creation of a new logging service instance.
     * @exception RemoteException if a remote exception occurs
     */
-    public LoggingServer() throws RemoteException
+    public LoggingServer( int port ) throws IOException
     {
-        super();
+        m_server = new ServerSocket( port );
     }
-
+    
    /**
-    * Dispach a log record to the server for processing.  The implementation
-    * prepends the log record message with the process id.  Subsequent processing
-    * of log records is subject to the logging configuration applied to the 
-    * JVM process in which the server is established.
-    *
-    * @param process the process id of the jvm initiating the log record
-    * @param record the log record
-    * @exception RemoteException is a remote exception occurs
-    */
-    public void log( PID process, LogRecord record ) throws RemoteException
+    * Runnable implementation.
+    */ 
+    public void run()
     {
-        String raw = record.getMessage();
-        int id = process.getValue();
-        String message = "$[" + id + "] " + raw;
-        record.setMessage( message );
-        m_logger.log( record );
+        while( true )
+        {
+            try
+            {
+                Socket socket = m_server.accept();
+                InputStream input = socket.getInputStream();
+                ObjectInputStream stream = new ObjectInputStream( input );
+                Object object = stream.readObject();
+                if( object instanceof LogStatement )
+                {
+                    LogStatement statement = (LogStatement) object;
+                    PID pid = statement.getPID();
+                    if( !PID.equals( pid ) )
+                    {
+                        int id = pid.getValue();
+                        LogRecord record = statement.getLogRecord();
+                        String raw = record.getMessage();
+                        String message = "$[" + id + "] " + raw;
+                        record.setMessage( message );
+                        Logger logger = getNamedLogger( record );
+                        logger.log( record );
+                    }
+                }
+                input.close();
+                socket.close();
+            }
+            catch( Throwable e )
+            {
+                m_count++;
+            }
+        }
+    }
+    
+    int getErrorCount()
+    {
+        return m_count;
+    }
+    
+    private Logger getNamedLogger( LogRecord record )
+    {
+        String name = record.getLoggerName();
+        if( null != name )
+        {
+            return Logger.getLogger( name );
+        }
+        else
+        {
+            return Logger.getAnonymousLogger();
+        }
     }
 }
 

@@ -20,8 +20,6 @@ package net.dpml.component;
 
 import java.io.File;
 
-import net.dpml.lang.Logger;
-
 /**
  * The ControllerContext declares the runtime context that a controller
  * is established within. Controller implementations will typically receive   

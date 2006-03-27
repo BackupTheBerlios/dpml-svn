@@ -43,7 +43,7 @@ public abstract class FeatureTask extends GenericTask
     private boolean m_windows = true;
     private boolean m_flag = false;  // os not set
     private String m_type; // optional - used to select type when resolving uris
-    private boolean m_alias = false; // used when resolving filenames
+    private boolean m_alias = false; // used when resolving uris
 
    /**
     * Set the key of the target project or resource description from which features will be 
@@ -193,8 +193,27 @@ public abstract class FeatureTask extends GenericTask
             }
             else
             {
-                Artifact artifact = resource.getArtifact( m_type );
-                return artifact.toURI().toString();
+                if( m_alias )
+                {
+                    Artifact artifact = resource.getArtifact( m_type );
+                    String group = artifact.getGroup();
+                    String name = artifact.getName();
+                    try
+                    {
+                        return "link:" + m_type + ":" + group + "/" + name;
+                    }
+                    catch( Exception e )
+                    {
+                        final String error = 
+                          "Unable to resolve link uri for resource: " + resource;
+                        throw new BuildException( error, e, getLocation() );
+                    }
+                }
+                else
+                {
+                    Artifact artifact = resource.getArtifact( m_type );
+                    return artifact.toURI().toString();
+                }
             }
         }
         else if( m_feature.equals( "spec" ) )

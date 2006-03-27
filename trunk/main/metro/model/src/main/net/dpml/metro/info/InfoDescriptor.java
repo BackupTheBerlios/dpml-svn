@@ -290,11 +290,11 @@ public final class InfoDescriptor extends Descriptor
     }
 
     /**
-     * Return the component lifestyle.
+     * Return the component lifestyle policy.
      *
-     * @return the lifestyle
+     * @return the lifestyle policy
      */
-    public LifestylePolicy getLifestyle()
+    public LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
     }
