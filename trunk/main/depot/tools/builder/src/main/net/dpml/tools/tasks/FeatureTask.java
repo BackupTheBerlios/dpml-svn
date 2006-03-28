@@ -22,6 +22,7 @@ import java.io.File;
 
 import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Resource;
+import net.dpml.library.Type;
 
 import net.dpml.transit.Artifact;
 
@@ -195,18 +196,32 @@ public abstract class FeatureTask extends GenericTask
             {
                 if( m_alias )
                 {
-                    Artifact artifact = resource.getArtifact( m_type );
-                    String group = artifact.getGroup();
-                    String name = artifact.getName();
-                    try
+                    Type type = resource.getType( m_type );
+                    if( type.getAlias() )
                     {
-                        return "link:" + m_type + ":" + group + "/" + name;
+                        Artifact artifact = resource.getArtifact( m_type );
+                        String group = artifact.getGroup();
+                        String name = artifact.getName();
+                        try
+                        {
+                            return "link:" + m_type + ":" + group + "/" + name;
+                        }
+                        catch( Exception e )
+                        {
+                            final String error = 
+                              "Unable to resolve link uri for resource: " + resource;
+                            throw new BuildException( error, e, getLocation() );
+                        }
                     }
-                    catch( Exception e )
+                    else
                     {
                         final String error = 
-                          "Unable to resolve link uri for resource: " + resource;
-                        throw new BuildException( error, e, getLocation() );
+                          "Cannot resolve link from resource [" 
+                          + resource 
+                          + "] because the resource does not declare production of an alias for the type ["
+                          + type.getID() 
+                          + "].";
+                        throw new BuildException( error, getLocation() );
                     }
                 }
                 else

@@ -12,12 +12,12 @@
 
     <section name="News &amp; Events">
 
-      <subsection name="28 March 2006 RC3 Distribution">
+      <subsection name="28 March 2006 RC4 Distribution">
 
         <p>
         Following a series of 'under-the-radar' RC distributions, 
-        the <a href="../download/archive.html#Build%20;1.0.0%20;RC3">RC3</a> is 
-        deliverable is now available.  RC3 resolves several runtime issues 
+        the <a href="../download/archive.html#Build%20;1.0.0%20;RC4">RC4</a> 
+        deliverable is now available.  RC4 resolves several runtime issues 
         specific to the nix* platform, incorporates a cleaner cross-JVM 
         logging aggregation subsystem, introduced full XML-Schema based 
         definitions for long term storage of library, component, and 
