@@ -17,8 +17,14 @@
         The <tt>&lt;info&gt;</tt> element associates a human-readable 
         title and description with a part definition.
         </p>
+        
+      </subsection>
 
-        <p>Example:</p>
+    </section>
+    
+    <section name="Example">
+    
+        <p>Example of an ninfo element declaration:</p>
       
 <source>
 <![CDATA[
@@ -29,8 +35,6 @@
     </description>
   </info>]]>
 </source>
-
-      </subsection>
       
     </section>
 

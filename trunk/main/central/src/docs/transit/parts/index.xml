@@ -23,6 +23,52 @@
         definition.
         </p>
 
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td>
+              <tt><a href="info/index.html">info</a></tt>
+            </td>
+            <td>
+              The info defintion used to associate a title and 
+              human readable description.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tt><a href="strategy/index.html">strategy</a></tt>
+            </td>
+            <td>
+              Any XML element derived from StrategyType.  The schema element
+              defines the deployment strategy.  A part handler is resolved 
+              through a element builder which is itself resolved relative to 
+              the XML schema urn of the strategy element.  The Transit system
+              provides two standard strategy elements - <tt>&lt;plugin&gt;</tt>  
+              and <tt>&lt;resource&gt;</tt>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tt><a href="classpath/index.html">classpath</a></tt>
+            </td>
+            <td>
+              Definition of the classpath for the part. The classpath contains
+              the declaration of public, protected and private jar files referenced
+              via uris that collectively enable the cionstruction of a cloassloader
+              chain.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+    
+    <section name="Examples">
+    
         <p>Example part definition:</p>
       
 <source>
@@ -63,48 +109,6 @@
 
 </part>]]>
 </source>
-
-      </subsection>
-      
-      <subsection name="Nested Elements">
-
-        <table>
-          <tr>
-            <td>
-              <tt><a href="info/index.html">info</a></tt>
-            </td>
-            <td>
-              The info defintion used to associate a title and 
-              human readable description.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <tt><a href="strategy/index.html">strategy</a></tt>
-            </td>
-            <td>
-              Any XML element derived from StrategyType.  The schema element
-              defines the deployment strategy.  A part handler is resolved 
-              through a element builder which is itself resolved relative to 
-              the XML schema urn of the strategy element.  The Transit system
-              provides two standard strategy elements - <tt>&lt;plugin&gt;</tt>  
-              and <tt>&lt;resource&gt;</tt>.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <tt><a href="classpath/index.html">classpath</a></tt>
-            </td>
-            <td>
-              Definition of the classpath for the part. The classpath contains
-              the declaration of public, protected and private jar files referenced
-              via uris that collectively enable the cionstruction of a cloassloader
-              chain.
-            </td>
-          </tr>
-        </table>
-
-      </subsection>
 
     </section>
 

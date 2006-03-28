@@ -40,83 +40,89 @@
       profile made up of a collection in internal parts.
       </p>
 
-<pre><![CDATA[
-  <target name="build" depends="standard.build">
+<source><![CDATA[
 
-    <depot:plugin uri="link:plugin:dpml/metro/dpml-metro-tools" urn="metro"/>
+<component xmlns="metro" type="net.dpml.http.Server" lifestyle="singleton">
 
-    <component xmlns="metro" type="net.dpml.http.Server" lifestyle="singleton">
-      <parts>
-        <!-- 
-        Add a select channel connector to 8080.
-        -->
-        <component key="plain" type="net.dpml.http.SelectChannelConnector">
-          <context>
-            <entry key="port" value="8080"/>
-            <entry key="maxIdleTime" value="50000"/>
-            <entry key="acceptors" value="10"/>
-          </context>
-        </component>
-        <!--
-        Add a SSL connector to 8443.
-        -->
-        <component key="ssl" type="net.dpml.http.SslSocketConnector">
-          <context>
-            <entry key="port" value="8443"/>
-            <entry key="maxIdleTime" value="30000"/>
-            <entry key="keystore" value="local:keystore:dpml/planet/http/jetty"/>
-            <entry key="password" value="OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4"/>
-            <entry key="keyPassword" value="OBF:1u2u1wml1z7s1z7a1wnl1u2g"/>
-          </context>
-        </component>
-        <!--
-        Add a user realm.
-        -->
-        <component key="realm" type="net.dpml.http.HashUserRealm">
-          <context>
-            <entry key="name" value="Test Realm"/>
-            <entry key="URI" value="local:properties:dpml/planet/http/realm"/>
-          </context>
-        </component>
-        <!--
-        Add a web application.
-        -->
-        <component key="webapp" type="net.dpml.http.WebAppContextHandler">
-          <context>
-            <entry key="contextPath" value="/"/>
-            <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
-          </context>
-        </component>
-        <!--
-        Creation of a HTTP server configured to present static content in 
-        the ${dpml.share}/docs directory.
-        -->
-        <component key="context" type="net.dpml.http.ResourceContextHandler">
-          <context>
-            <entry key="resourceBase" value="$${dpml.share}/docs"/>
-            <entry key="contextPath" value="/docs"/>
-          </context>
-        </component>
-        <!--
-        Add an experimental servlet context.
-        -->
-        <component key="servlets" type="net.dpml.http.ServletContextHandler">
-          <context>
-            <entry key="resourceBase" value="$${dpml.data}"/>
-            <entry key="contextPath" value="/data"/>
-          </context>
-          <configuration>
-            <servlets>
-              <servlet name="data" class="org.mortbay.jetty.servlet.DefaultServlet"/>
-            </servlets>
-            <mappings>
-              <map servlet="data" path="/"/>
-            </mappings>
-          </configuration>
-        </component>
-      </parts>
+  <parts>
+  
+    <!-- 
+    Add a select channel connector to 8080.
+    -->
+    <component key="plain" type="net.dpml.http.SelectChannelConnector">
+      <context>
+        <entry key="port" value="8080"/>
+        <entry key="maxIdleTime" value="50000"/>
+        <entry key="acceptors" value="10"/>
+      </context>
     </component>
-]]></pre>
+    
+    <!--
+    Add a SSL connector to 8443.
+    -->
+    <component key="ssl" type="net.dpml.http.SslSocketConnector">
+      <context>
+        <entry key="port" value="8443"/>
+        <entry key="maxIdleTime" value="30000"/>
+        <entry key="keystore" value="local:keystore:dpml/planet/http/jetty"/>
+        <entry key="password" value="OBF:1vny1zlo1x8e1vnw1vn61x8g1zlu1vn4"/>
+        <entry key="keyPassword" value="OBF:1u2u1wml1z7s1z7a1wnl1u2g"/>
+      </context>
+    </component>
+    
+    <!--
+    Add a user realm.
+    -->
+    <component key="realm" type="net.dpml.http.HashUserRealm">
+      <context>
+        <entry key="name" value="Test Realm"/>
+        <entry key="URI" value="local:properties:dpml/planet/http/realm"/>
+      </context>
+    </component>
+    
+    <!--
+    Add a web application.
+    -->
+    <component key="webapp" type="net.dpml.http.WebAppContextHandler">
+      <context>
+        <entry key="contextPath" value="/"/>
+        <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
+      </context>
+    </component>
+    
+    <!--
+    Creation of a HTTP server configured to present static content in 
+    the ${dpml.share}/docs directory.
+    -->
+    <component key="context" type="net.dpml.http.ResourceContextHandler">
+      <context>
+        <entry key="resourceBase" value="$${dpml.share}/docs"/>
+        <entry key="contextPath" value="/docs"/>
+      </context>
+    </component>
+    
+    <!--
+    Add an experimental servlet context.
+    -->
+    <component key="servlets" type="net.dpml.http.ServletContextHandler">
+      <context>
+        <entry key="resourceBase" value="$${dpml.data}"/>
+        <entry key="contextPath" value="/data"/>
+      </context>
+      <configuration>
+        <servlets>
+          <servlet name="data" class="org.mortbay.jetty.servlet.DefaultServlet"/>
+        </servlets>
+        <mappings>
+          <map servlet="data" path="/"/>
+        </mappings>
+      </configuration>
+    </component>
+    
+  </parts>
+  
+</component>
+]]></source>
 
     </section>
 

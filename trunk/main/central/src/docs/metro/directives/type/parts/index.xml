@@ -34,10 +34,6 @@
             <td><tt><a href="../../component/index.html">component</a></tt></td>
             <td>Declaration of a nested component using the Metro component directive.</td>
           </tr>
-          <tr>
-            <td><tt>part</tt></td>
-            <td>Inclusion of a part by reference to a part uri</td>
-          </tr>
         </table>
 
       </subsection>
@@ -46,39 +42,38 @@
 
     <section name="Examples">
 
-        <subsection name="Nested component example">
+<source><![CDATA[
+<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:type="artifact:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:component="artifact:xsd:dpml/lang/dpml-component#1.0">
 
-<pre><![CDATA[
-  <type class="net.dpml.test.composite.CompositeComponent" name="parent">
-    <parts>
-      <component type="net.dpml.test.composite.ChildComponent" key="primary">
-        <context>
-          <entry key="color" method="RED"/>
-        </context>
-      </component>
-      <component type="net.dpml.test.composite.ChildComponent" key="secondary">
-        <context>
-          <entry key="color" method="BLUE"/>
-        </context>
-      </component>
-    </parts>
-  </type>
-]]></pre>
-
-        </subsection>
-
-        <subsection name="Part by reference example">
-
-<pre><![CDATA[
-  <type class="org.acme.DefaultGizmo" name="gizmo">
-    <parts>
-      <part key="widget" uri="artifact:part:acme/widget/standard-widget#3.1"/>
-    </parts>
-  </type>
-]]></pre>
-
-        </subsection>
-
+  <info name="parent"
+      class="net.dpml.test.composite.CompositeComponent"
+      version="0.0.0"
+      lifestyle="thread"
+      collection="system"
+      threadsafe="unknown"/>
+  <services>
+    <service class="net.dpml.test.ColorManager" version="1.0.0"/>
+  </services>
+  <context>
+    <entry key="color" class="java.awt.Color" optional="false"/>
+  </context>
+  <parts>
+    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" key="child"
+        class="net.dpml.test.composite.ChildComponent"
+        name="child"
+        collection="system"
+        activation="system">
+      <context>
+        <entry key="color" class="java.awt.Color" method="BLUE"/>
+      </context>
+    </component>
+  </parts>
+</type>
+]]></source>
 
     </section>
 

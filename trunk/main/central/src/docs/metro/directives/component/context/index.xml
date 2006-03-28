@@ -41,7 +41,7 @@
       
     </section>
 
-    <section name="Example">
+    <section name="Examples">
 
       <subsection name="General Example">
 
@@ -52,7 +52,7 @@
           creation, composite value creation, and service wiring.
         </p>
 
-<pre><![CDATA[
+<source><![CDATA[
 <context>
   <entry key="name" value="$${user.name}"/>
   <entry key="printer" lookup="org.acme.Printer"/>
@@ -69,7 +69,7 @@
     </value>
   </entry>
 </context>
-]]></pre>
+]]></source>
 
       </subsection>
 

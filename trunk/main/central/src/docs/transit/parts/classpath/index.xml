@@ -14,37 +14,13 @@
       <subsection name="Description">
 
         <p>
+        A <tt>&lt;classpath&gt;</tt> element defines a classloader chain based on
+        the three classloader categories - PUBLIC, PROTECTED and PRIVATE.  Typically
+        a classloader chain will be constructed relative to a supplied anchor classloader.
+        The anchor will be used as the parent to a PUBLIC classloader which in-turn is used
+        as the parent for the creatio of a protected (or SPI) classloader.  The protected
+        classloader is used as the parent to the PRIVATE implemention classloader.
         </p>
-
-        <p>Example:</p>
-      
-<source>
-<![CDATA[
-  <classpath>
-    <public>
-      <uri>artifact:jar:dpml/util/dpml-logging-api#SNAPSHOT</uri>
-    </public>
-    <protected>
-      <uri>artifact:jar:dpml/metro/dpml-state-api#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/util/dpml-job-api#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-component#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/util/dpml-parameters-api#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/util/dpml-configuration-api#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-model#SNAPSHOT</uri>
-    </protected>
-    <private>
-      <uri>artifact:jar:dpml/util/dpml-parameters-impl#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/util/dpml-configuration-impl#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/util/dpml-job-impl#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/metro/dpml-state-impl#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/depot/dpml-library#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-builder#SNAPSHOT</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
-    </private>
-  </classpath>
-]]>
-</source>
 
       </subsection>
       
@@ -88,7 +64,39 @@
       </subsection>
 
     </section>
-
+    
+    <section name="Examples">
+      
+<source>
+<![CDATA[
+  <classpath>
+    <public>
+      <uri>artifact:jar:dpml/util/dpml-logging-api#SNAPSHOT</uri>
+    </public>
+    <protected>
+      <uri>artifact:jar:dpml/metro/dpml-state-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-job-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-component#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-parameters-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-configuration-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-model#SNAPSHOT</uri>
+    </protected>
+    <private>
+      <uri>artifact:jar:dpml/util/dpml-parameters-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-configuration-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-job-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-state-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/depot/dpml-library#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-builder#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
+    </private>
+  </classpath>
+]]>
+</source>
+    
+    </section>
+    
   </body>
 
 </document>
