@@ -14,10 +14,18 @@
       <subsection name="Description">
 
         <p>
-        The types task automates the creation of component type meta-info.
-        Information captured during type creation includes the component 
-        implementation class name, logging channel assumptions, the services
-        provided by the type, context assumptions, and internal parts.
+        A component type directive is an XML document that describes 
+        supplimentary information about a Java class.  This information
+        includes details about the assumtions that the class makes concerning
+        the supply of context information, it's capabilities with respect
+        to thread safety, internal defaults declared as part of the component, 
+        and other infromation including garbage collection policy, lifestyle, 
+        and lifecycle.
+        </p>
+        
+        <p>
+        A component type descriptor is stored as an XML resource co-located 
+        with the component class under the path <tt>&lt;package&gt;/&lt;classname&gt;.type</tt>.
         </p>
 
       </subsection>
@@ -32,7 +40,7 @@
                 policy preference.</td>
           </tr>
           <tr>
-            <td><a href="service/index.html"><tt>service</tt></a></td>
+            <td><a href="services/index.html"><tt>services</tt></a></td>
             <td>Declaration of the service that the componet type provides.</td>
           </tr>
           <tr>
@@ -42,7 +50,7 @@
                 and option/required status of entries.</td>
           </tr>
           <tr>
-            <td><a href="context/index.html"><tt>context</tt></a></td>
+            <td><a href="categories/index.html"><tt>categories</tt></a></td>
             <td>Declaration of the logging categories used by the component type 
                 implementation.</td>
           </tr>
