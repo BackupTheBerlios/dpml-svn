@@ -22,23 +22,11 @@
         <p>
         Enhancements include:
         </p>
+        
         <ul>
-          <li>Resolves a bug related to application deployment within the Station under the 
-              Unix platform.</li>
-          <li>Rewrite of the multi-JVM log aggregation services eliminating a low-level 
-              issued raised by RMI log events during handler establishement.</li>
-          <li>An improved implementation of the JVM process identification model.</li>
-          <li>Resolution of a number of API inconsistencies.</li>
-          <li>Improved management of lifecycle policies (import, export, type defaults, etc.).</li>
-          <li>Numerouse documentation updates.</li>
-          <li>Additional testcases.</li>
-          <li>Improved error handling in the Station console.</li>
-          <li>cleanup logging channel assignments to ensure that new top-level components are 
-              created under the station namespace when launched by the station.</li>
-          <li>Update station shutdown semantic to formally decommision Transit.</li>
-          <li>Improvements to symbol dereferencing logic.</li>
-          <li>Update feature task to handle resolution of link uris.</li>
-          <li>Update depot to reference links in preference to full qualified artifacts.</li>
+          <li>Improvements to the metro commandline handler cli options.</li>
+          <li>Addition of a documentation detailing the specifications for part and component XML documents.</li>
+          <li>Build-time valiation of artifact link references.</li>
         </ul>
 
         <table>
@@ -83,9 +71,81 @@
         </p>
 
       </subsection>
+      
+      <subsection name="Build 1.0.0 RC4">
+
+        <p>
+        Enhancements include:
+        </p>
+        <ul>
+          <li>Resolves a bug related to application deployment within the Station under the 
+              Unix platform.</li>
+          <li>Rewrite of the multi-JVM log aggregation services eliminating a low-level 
+              issued raised by RMI log events during handler establishement.</li>
+          <li>An improved implementation of the JVM process identification model.</li>
+          <li>Resolution of a number of API inconsistencies.</li>
+          <li>Improved management of lifecycle policies (import, export, type defaults, etc.).</li>
+          <li>Numerouse documentation updates.</li>
+          <li>Additional testcases.</li>
+          <li>Improved error handling in the Station console.</li>
+          <li>cleanup logging channel assignments to ensure that new top-level components are 
+              created under the station namespace when launched by the station.</li>
+          <li>Update station shutdown semantic to formally decommision Transit.</li>
+          <li>Improvements to symbol dereferencing logic.</li>
+          <li>Update feature task to handle resolution of link uris.</li>
+          <li>Update depot to reference links in preference to full qualified artifacts.</li>
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.exe">
+                dpml-sdk-win32-1.0.0-RC4.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.zip">
+                dpml-sdk-win32-1.0.0-RC4.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-linux-1.0.0-RC4.tar.gz">
+                dpml-sdk-linux-1.0.0-RC4.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-linux-1.0.0-RC4.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/1.0.0-RC4">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/1.0.0-RC4/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC4/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+
+      <subsection name="Build 1.0.0 RC3">
+      
+        <p>Replaced by RC4.</p>
+
+      </subsection>
 
       <subsection name="Build 1.0.0 RC2">
-
         <p>
         Resolves station-based deployment under Unix.
         </p>
