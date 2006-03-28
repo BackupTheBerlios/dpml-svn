@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Type Parts Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Info Element">
+
+      <subsection name="Description">
+
+        <p>
+        </p>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <p>
+        The <tt>info</tt> element may contain any number of the property 
+        elements.
+        </p>
+
+        <table>
+          <tr>
+            <td><tt><a href="property.html">property</a></tt></td>
+            <td>Declaration of a named value pair.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Examples">
+
+        <subsection name="Nested component example">
+
+<pre><![CDATA[
+  <type class="net.dpml.test.composite.CompositeComponent" name="parent">
+    <parts>
+      <component type="net.dpml.test.composite.ChildComponent" key="primary">
+        <context>
+          <entry key="color" method="RED"/>
+        </context>
+      </component>
+      <component type="net.dpml.test.composite.ChildComponent" key="secondary">
+        <context>
+          <entry key="color" method="BLUE"/>
+        </context>
+      </component>
+    </parts>
+  </type>
+]]></pre>
+
+        </subsection>
+
+        <subsection name="Part by reference example">
+
+<pre><![CDATA[
+  <type class="org.acme.DefaultGizmo" name="gizmo">
+    <parts>
+      <part key="widget" uri="artifact:part:acme/widget/standard-widget#3.1"/>
+    </parts>
+  </type>
+]]></pre>
+
+        </subsection>
+
+
+    </section>
+
+  </body>
+
+</document>
+

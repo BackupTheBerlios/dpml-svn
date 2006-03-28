@@ -25,11 +25,10 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Library" href="library/index.html"/>
-      <item name="Builder" href="tools/index.html"/>
-      <item name="Antlib" href="tasks/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="Trigger" href="trigger/index.html"/>
+      <item name="Transition" href="transition.html"/>
+      <item name="Operation" href="operation.html"/>
+      <item name="Interface" href="interface.html"/>
     </menu>
 
  </body>

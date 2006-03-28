@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Type Parts Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Context Descriptor">
+
+      <subsection name="Description">
+
+        <p>
+        </p>
+
+<source>
+<![CDATA[
+<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:type="artifact:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:component="artifact:xsd:dpml/lang/dpml-component#1.0">
+
+  <info name="context"
+      class="net.dpml.test.ContextTestComponent"
+      version="0.0.0"
+      lifestyle="singleton"
+      collection="system"
+      threadsafe="true"/>
+  <context>
+    <entry key="boolean" class="boolean" optional="false"/>
+    <entry key="byte" class="byte" optional="false"/>
+    <entry key="short" class="short" optional="false"/>
+    <entry key="char" class="char" optional="false"/>
+    <entry key="long" class="long" optional="false"/>
+    <entry key="float" class="float" optional="false"/>
+    <entry key="double" class="double" optional="false"/>
+    <entry key="name" class="java.lang.String" optional="false"/>
+    <entry key="integer" class="int" optional="false"/>
+    <entry key="path" class="java.lang.String" optional="false"/>
+    <entry key="file" class="java.io.File" optional="false"/>
+    <entry key="file" class="java.io.File" optional="true"/>
+    <entry key="URI" class="java.net.URI" optional="false"/>
+    <entry key="color" class="java.awt.Color" optional="false"/>
+    <entry key="optionalColor" class="java.awt.Color" optional="true"/>
+    <entry key="optionalInteger" class="int" optional="true"/>
+    <entry key="optionalShort" class="short" optional="true"/>
+    <entry key="optionalLong" class="long" optional="true"/>
+    <entry key="optionalByte" class="byte" optional="true"/>
+    <entry key="optionalDouble" class="double" optional="true"/>
+    <entry key="optionalFloat" class="float" optional="true"/>
+    <entry key="optionalChar" class="char" optional="true"/>
+    <entry key="optionalBoolean" class="boolean" optional="true"/>
+    <entry key="optionalFile" class="java.io.File" optional="true"/>
+    <entry key="tempFile" class="java.io.File" optional="false"/>
+    <entry key="optionalURI" class="java.net.URI" optional="true"/>
+  </context>
+
+</type>
+  </info>]]>
+</source>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="entry.html">entry</a></tt></td>
+            <td>
+              Declaration of context entry.  The context element
+              may contain multiple context entry directives.  Each directive
+              declares a key identifying the component context entry name
+              using the Java-beans naming convention.  The entry element
+              may also declare the context entry class expected the component
+              implementation and its optional or required status.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+
+    </section>
+
+  </body>
+
+</document>
+

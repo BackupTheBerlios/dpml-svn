@@ -4,21 +4,18 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Part Directive</title>
+    <title>DPML Metro Component Type Parts Datatype</title>
   </properties> 
 
   <body>
 
-    <section name="Strategy XML Directive">
+    <section name="Entry Descriptor">
 
       <subsection name="Description">
 
         <p>
-        IN PROGRESS
         </p>
 
-        <p>Example:</p>
-      
 <source>
 <![CDATA[
 ]]>
@@ -26,16 +23,9 @@
 
       </subsection>
       
-      <subsection name="Attributes">
-
-      </subsection>
-
-      <subsection name="Nested Elements">
-
-      </subsection>
-
     </section>
 
   </body>
 
 </document>
+

@@ -9,14 +9,27 @@
 
   <body>
 
-    <section name="Parts">
+    <section name="Directives">
 
       <p>
       A component part associates a component profile with a 
-      supporting controller.  The profile provides a description of the 
-      state of usage of a component type.  It is represented by a collections of 
-      serializable (and encodable) classes commonly referred to as directives.  
+      supporting controller.  The profile provides a description of a deployment
+      state of a component type. 
       </p>
+
+      <subsection name="XML Specification">
+
+        <p>
+        A component directive is a specialized part deployment strategy.  As 
+        such the component defintion is contained within an enclosing part.
+        </p>
+
+        <p>
+        FORMAL XML SPEC IS COMMING
+        </p>
+
+      </subsection>
+
 
       <subsection name="Part Datastructure">
 

@@ -25,11 +25,6 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Library" href="library/index.html"/>
-      <item name="Builder" href="tools/index.html"/>
-      <item name="Antlib" href="tasks/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
     </menu>
 
  </body>

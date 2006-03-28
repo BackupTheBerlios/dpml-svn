@@ -20,16 +20,14 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>Component Strategy Directive Specification</title>
 
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Library" href="library/index.html"/>
-      <item name="Builder" href="tools/index.html"/>
-      <item name="Antlib" href="tasks/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="Categories" href="categories.html"/>
+      <item name="Context" href="context/index.html"/>
+      <item name="Parts" href="parts.html"/>
     </menu>
 
  </body>
