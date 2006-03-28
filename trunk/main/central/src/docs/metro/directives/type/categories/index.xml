@@ -13,8 +13,23 @@
 
       <subsection name="Description">
 
-        <p>
-        </p>
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="category.html">category</a></tt></td>
+            <td>
+              Declaration of zero or more logging categories.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+    
+    <section name="Examples">
 
 <source>
 <![CDATA[
@@ -41,21 +56,6 @@
 </type>
 ]]>
 </source>
-
-      </subsection>
-      
-      <subsection name="Nested Elements">
-
-        <table>
-          <tr>
-            <td><tt><a href="category.html">category</a></tt></td>
-            <td>
-              Declaration of zero or more logging categories.</td>
-          </tr>
-        </table>
-
-      </subsection>
-
 
     </section>
 

@@ -15,18 +15,11 @@
 
       </subsection>
 
-      <subsection name="Attributes">
+      <subsection name="Standard Attributes">
         <table>
           <tr>
             <td><tt>class</tt></td>
             <td>Set the component type classname (required).</td>
-          </tr>
-          <tr>
-            <td><tt>key</tt></td>
-            <td>Required only when declaring a nested component within a type.  
-              The key corresponds to the internal key that uniquely identifies the 
-              child component within the scope of the enclosing component type.
-            </td>
           </tr>
           <tr>
             <td><tt>name</tt></td>
@@ -52,6 +45,20 @@
              declaring the <tt>HARD</tt> collection policy will remain in 
              memory for the lifetime of the JVM unless explicitly removed
              via a management system or controlling application.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Special Attributes">
+
+        <table>
+          <tr>
+            <td><tt>key</tt></td>
+            <td>Required only when declaring a nested component within a type.  
+              The key corresponds to the internal key that uniquely identifies the 
+              child component within the scope of the enclosing component type.
+            </td>
           </tr>
         </table>
 

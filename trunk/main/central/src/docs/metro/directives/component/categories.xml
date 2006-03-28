@@ -51,7 +51,7 @@
       with the respective priorities of <tt>WARN</tt> and <tt>ERROR</tt>.
       </p>
 
-<pre><![CDATA[
+<source><![CDATA[
 <component xmlns="dpml:metro" dest="target/test/categories.part" test="true" activation="true"
     type="net.dpml.test.categories.CategoriesComponent" collection="hard">
   <categories>
@@ -59,7 +59,7 @@
     <category name="beta" priority="error"/>
   </categories>
 <component>
-]]></pre>
+]]></source>
 
     </section>
 

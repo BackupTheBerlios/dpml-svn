@@ -37,15 +37,17 @@
         </table>
 
       </subsection>
+      
+    </section>
 
-      <subsection name="Examples">
+    <section name="Examples">
 
-        <p>
-        The following example illustrates a type descriptor that declares that 
-        the component implementation exports the service 
-        <tt>net.dpml.http.BoundedThreadPool</tt> service.</p>
+      <p>
+      The following example illustrates a type descriptor that declares that 
+      the component implementation exports the service 
+      <tt>net.dpml.http.BoundedThreadPool</tt> service.</p>
 
-<pre><![CDATA[
+<source><![CDATA[
 <?xml version="1.0"?>
 
 <type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
@@ -72,9 +74,7 @@
     <entry key="idle" class="int" optional="true"/>
   </context>
 
-</type>]]></pre>
-
-        </subsection>
+</type>]]></source>
 
     </section>
 

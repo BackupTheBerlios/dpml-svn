@@ -55,12 +55,15 @@
       lifestyle="thread"
       collection="system"
       threadsafe="unknown"/>
+      
   <services>
     <service class="net.dpml.test.ColorManager" version="1.0.0"/>
   </services>
+  
   <context>
     <entry key="color" class="java.awt.Color" optional="false"/>
   </context>
+  
   <parts>
     <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" key="child"
         class="net.dpml.test.composite.ChildComponent"
@@ -72,6 +75,7 @@
       </context>
     </component>
   </parts>
+  
 </type>
 ]]></source>
 
