@@ -18,6 +18,51 @@
 
       </subsection>
       
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The component name.</td>
+          </tr>
+          <tr>
+            <td><tt>class</tt></td>
+            <td>The component implementation classname.</td>
+          </tr>
+          <tr>
+            <td><tt>lifestyle</tt></td>
+            <td>The component lifestyle. Allowable values include  
+              <tt>singleton</tt>, <tt>thread</tt>, and <tt>transient</tt>.
+              A component declaring the <tt>singleton</tt> lifestyle may be 
+              shared across all consumers within the JVM (i.e. the potential 
+              for concurrent access will exist).  A component declaring 
+              the <tt>thread</tt> lifestyle policy may have a set of instances
+              corresponding to the number of threads requesting access. A 
+              component declaring the <tt>transient</tt> lifestyle will 
+              instantiated for each access request.  The default lifestyle 
+              policy is <tt>thread</tt>.</td>
+          </tr>
+          <tr>
+            <td><tt>collection</tt></td>
+            <td>The component garbage collection policy.  Allowable
+             values include <tt>weak</tt>, <tt>soft</tt> and <tt>hard</tt>.
+             A component type declaring a <tt>weak</tt> collection policy will 
+             be garbage collected at the discretion of the JVM.  A component
+             declaring a <tt>soft</tt> collection policy will be garbage 
+             collected in the event of memory contention.  A component 
+             declaring the <tt>hard</tt> collection policy will remain in 
+             memory for the lifetime of the JVM unless explicitly removed
+             via a management system or controlling application.</td>
+          </tr>
+          <tr>
+            <td><tt>threadsafe</tt></td>
+            <td>Declares the component implementation as threadsafe. Allo0wable
+              values are <tt>true</tt> or <tt>false</tt>.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
       <subsection name="Nested Elements">
 
         <p>
@@ -33,44 +78,6 @@
         </table>
 
       </subsection>
-
-    </section>
-
-    <section name="Examples">
-
-        <subsection name="Nested component example">
-
-<pre><![CDATA[
-  <type class="net.dpml.test.composite.CompositeComponent" name="parent">
-    <parts>
-      <component type="net.dpml.test.composite.ChildComponent" key="primary">
-        <context>
-          <entry key="color" method="RED"/>
-        </context>
-      </component>
-      <component type="net.dpml.test.composite.ChildComponent" key="secondary">
-        <context>
-          <entry key="color" method="BLUE"/>
-        </context>
-      </component>
-    </parts>
-  </type>
-]]></pre>
-
-        </subsection>
-
-        <subsection name="Part by reference example">
-
-<pre><![CDATA[
-  <type class="org.acme.DefaultGizmo" name="gizmo">
-    <parts>
-      <part key="widget" uri="artifact:part:acme/widget/standard-widget#3.1"/>
-    </parts>
-  </type>
-]]></pre>
-
-        </subsection>
-
 
     </section>
 
