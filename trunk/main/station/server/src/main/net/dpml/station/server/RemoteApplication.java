@@ -359,10 +359,10 @@ public class RemoteApplication extends UnicastEventSource implements Callback, A
         }
         
         //
-        // add the exec command and codebase parameter
+        // add the -uri option and codebase parameter
         //
         
-        list.add( "exec" );
+        list.add( "-uri" );
         list.add( path );
         
         //

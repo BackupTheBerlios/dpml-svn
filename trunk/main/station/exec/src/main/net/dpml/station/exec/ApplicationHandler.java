@@ -366,8 +366,9 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
           .create();
         
     private static final Option HELP_COMMAND =
-      COMMAND_BUILDER
-        .withName( "help" )
+      OPTION_BUILDER
+        .withShortName( "help" )
+        .withShortName( "h" )
         .withDescription( "Print command help." )
         .create();
 
@@ -382,8 +383,8 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         .create();
     
     private static final Option EXECUTE_COMMAND =
-      COMMAND_BUILDER
-        .withName( "exec" )
+      OPTION_BUILDER
+        .withShortName( "uri" )
         .withDescription( "Execute deployment of an application codebase." )
         .withChildren( EXECUTE_GROUP )
         .withArgument(
