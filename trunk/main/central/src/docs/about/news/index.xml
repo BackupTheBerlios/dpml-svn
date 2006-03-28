@@ -12,10 +12,28 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="28 March 2006 RC3 Distribution">
+
+        <p>
+        Following a series of 'under-the-radar' RC distributions, 
+        the <a href="../download/archive.html#Build%20;1.0.0%20;RC3">RC3</a> is 
+        deliverable is now available.  RC3 resolves several runtime issues 
+        specific to the nix* platform, incorporates a cleaner cross-JVM 
+        logging aggregation subsystem, introduced full XML-Schema based 
+        definitions for long term storage of library, component, and 
+        application profiles. Lastly, the distribution includes important 
+        enhancements to the underlying plugin machinery enabling the 
+        declaration custom plugin deployment schemes and and runtime 
+        strategy handlers.
+        </p>
+
+      </subsection>
+
+
       <subsection name="13 January 2005 20060113 Milstone Distribution">
 
         <p>
-        The <a href="../setup/archive.html#Build%20%20060113">20060113</a> 
+        The <a href="../download/archive.html#Build%20;20060113">20060113</a> 
         milestone resolves some installation issues under Unix and closes 
         an obscure bug in Transit resource management layer.  This milestone 
         also includes a Windows installer.
@@ -26,7 +44,7 @@
       <subsection name="10 January 2005 20060110 Milstone Distribution">
 
         <p>
-        The milestone build <a href="../setup/archive.html#Build%20%20051228">
+        The milestone build <a href="../download/archive.html#Build%20;20051228">
         20060110</a> incorporates a series of updates dealing with 
         full support for both Unix and Windows under JDK 1.5.  The 
         milestone is released with the specific objective of binary 
