@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Task</title>
+  </properties> 
+
+  <body>
+
+    <section name="Part XML Directive">
+
+      <subsection name="Description">
+
+        <p>
+        A part defines a deployment unit.  
+        </p>
+        
+        <p>
+        The part specification contains a general <tt>&lt;info&gt;</tt> block, 
+        a deployment <tt>&lt;strategy&gt;</tt> specification and a <tt>&lt;classpath&gt;</tt>
+        definition.
+        </p>
+
+        <p>Example part definition:</p>
+      
+<source>
+<![CDATA[
+<?xml version="1.0"?>
+
+<part xmlns="artifact:xsd:dpml/lang/dpml-part#1.0">
+
+  <info title="Untitled">
+    <description></description>
+  </info>
+
+  <plugin class="net.dpml.metro.runtime.CompositionController"/>
+
+  <classpath>
+    <public>
+      <uri>artifact:jar:dpml/util/dpml-logging-api#SNAPSHOT</uri>
+    </public>
+    <protected>
+      <uri>artifact:jar:dpml/metro/dpml-state-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-job-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-component#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-parameters-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-configuration-api#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-model#SNAPSHOT</uri>
+    </protected>
+    <private>
+      <uri>artifact:jar:dpml/util/dpml-parameters-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-configuration-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/util/dpml-job-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-state-impl#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/depot/dpml-library#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-builder#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
+    </private>
+  </classpath>
+
+</part>]]>
+</source>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td>
+              <tt><a href="info/index.html">info</a></tt>
+            </td>
+            <td>
+              The info defintion used to associate a title and 
+              human readable description.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tt><a href="strategy/index.html">strategy</a></tt>
+            </td>
+            <td>
+              Any XML element derived from StrategyType.  The schema element
+              defines the deployment strategy.  A part handler is resolved 
+              through a element builder which is itself resolved relative to 
+              the XML schema urn of the strategy element.  The Transit system
+              provides two standard strategy elements - <tt>&lt;plugin&gt;</tt>  
+              and <tt>&lt;resource&gt;</tt>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tt><a href="classpath/index.html">classpath</a></tt>
+            </td>
+            <td>
+              Definition of the classpath for the part. The classpath contains
+              the declaration of public, protected and private jar files referenced
+              via uris that collectively enable the cionstruction of a cloassloader
+              chain.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>

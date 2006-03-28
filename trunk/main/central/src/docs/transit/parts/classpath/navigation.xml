@@ -20,19 +20,11 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>Component Strategy Directive Specification</title>
 
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Protocols" href="technical/index.html"/>
-      <item name="Directives" href="parts/index.html"/>
-      <item name="Services" href="services/index.html"/>
-      <item name="Properties" href="properties.html"/>
-      <item name="Configuration" href="config/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
     </menu>
 
  </body>
