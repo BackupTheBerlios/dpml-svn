@@ -158,7 +158,7 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
       Writer writer, ComponentDirective directive, String pad ) throws IOException
     {
         String classname = directive.getClassname();
-        writer.write( " class=\"" + classname + "\"" );
+        writer.write( " type=\"" + classname + "\"" );
         String name = directive.getName();
         if( null != name )
         {

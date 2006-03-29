@@ -48,10 +48,22 @@ public final class Category extends ValuedEnum
     public static final Category PRIVATE = new Category( "private", 3 );
 
    /**
+    * Implied category.
+    */
+    public static final Category IMPLICIT = new Category( "implicit", 3 );
+
+   /**
     * Array of scope enumeration values.
     */
     private static final Category[] ENUM_VALUES = 
-      new Category[]{SYSTEM, PUBLIC, PROTECTED, PRIVATE};
+      new Category[]
+      {
+        SYSTEM, 
+        PUBLIC, 
+        PROTECTED, 
+        PRIVATE, 
+        IMPLICIT
+      };
 
    /**
     * Returns an array of activation enum values.
@@ -105,6 +117,10 @@ public final class Category extends ValuedEnum
         else if( value.equalsIgnoreCase( "private" ) )
         {
             return PRIVATE;
+        }
+        else if( value.equalsIgnoreCase( "implicit" ) )
+        {
+            return IMPLICIT;
         }
         else
         {

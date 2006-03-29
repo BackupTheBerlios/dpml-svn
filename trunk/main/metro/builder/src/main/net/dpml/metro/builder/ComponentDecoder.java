@@ -123,7 +123,7 @@ public class ComponentDecoder
     
     private String buildComponentClassname( Element element ) throws DecodingException
     {
-        String classname = ElementHelper.getAttribute( element, "class" );
+        String classname = ElementHelper.getAttribute( element, "type" );
         if( null == classname )
         {
             final String error =

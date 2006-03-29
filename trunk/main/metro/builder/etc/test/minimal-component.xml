@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<component xmlns="@COMPONENT-XSD-URI@" name="widget" class="acme.Widget"/>
+<component xmlns="@COMPONENT-XSD-URI@" name="widget" type="acme.Widget"/>

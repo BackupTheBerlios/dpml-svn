@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <component xmlns="@COMPONENT-XSD-URI@"
-     class="net.dpml.test.array.ArrayTestComponent"
+      type="net.dpml.test.array.ArrayTestComponent"
       name="array"
       lifestyle="thread"
       collection="system"

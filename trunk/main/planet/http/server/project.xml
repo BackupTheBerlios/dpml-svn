@@ -3,13 +3,13 @@
 
   <types>
     <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" 
-        class="net.dpml.http.Server" 
+        type="net.dpml.http.Server" 
         alias="true">
       <parts>
         <!-- 
         Add a select channel connector to 8080.
         -->
-        <component key="plain" class="net.dpml.http.SelectChannelConnector">
+        <component key="plain" type="net.dpml.http.SelectChannelConnector">
           <context>
             <entry key="port" value="8080"/>
             <entry key="maxIdleTime" value="50000"/>
@@ -19,7 +19,7 @@
         <!--
         Add a SSL connector to 8443.
         -->
-        <component key="ssl" class="net.dpml.http.SslSocketConnector">
+        <component key="ssl" type="net.dpml.http.SslSocketConnector">
           <context>
             <entry key="port" value="8443"/>
             <entry key="maxIdleTime" value="30000"/>
@@ -31,7 +31,7 @@
         <!--
         Add a user realm.
         -->
-        <component key="realm" class="net.dpml.http.HashUserRealm">
+        <component key="realm" type="net.dpml.http.HashUserRealm">
           <context>
             <entry key="name" value="Test Realm"/>
             <entry key="URI" value="local:properties:dpml/planet/http/realm"/>
@@ -40,7 +40,7 @@
         <!--
         Add a web application.
         -->
-        <component key="webapp" class="net.dpml.http.WebAppContextHandler">
+        <component key="webapp" type="net.dpml.http.WebAppContextHandler">
           <context>
             <entry key="contextPath" value="/"/>
             <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
@@ -50,7 +50,7 @@
         Creation of a HTTP server configured to present static content in 
         the ${dpml.share}/docs directory.
         -->
-        <component key="context" class="net.dpml.http.ResourceContextHandler">
+        <component key="context" type="net.dpml.http.ResourceContextHandler">
           <context>
             <entry key="resourceBase" value="${dpml.share}/docs"/>
             <entry key="contextPath" value="/docs"/>
@@ -62,7 +62,7 @@
         per-component threads - currently limited to classes declared within
         the part classloader).
         -->
-        <component key="servlets" class="net.dpml.http.ServletContextHandler">
+        <component key="servlets" type="net.dpml.http.ServletContextHandler">
           <context>
             <entry key="resourceBase" value="${dpml.data}"/>
             <entry key="contextPath" value="/data"/>

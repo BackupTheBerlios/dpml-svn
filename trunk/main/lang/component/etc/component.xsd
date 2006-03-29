@@ -39,7 +39,7 @@
             <element name="parts" type="this:parts" minOccurs="0" maxOccurs="1"/>
           </sequence>
           <attribute name="name" type="string"/>
-          <attribute name="class" type="string" use="required"/>
+          <attribute name="type" type="string" use="required"/>
           <attribute name="lifestyle" type="this:lifestyle"/>
           <attribute name="collection" type="this:collection"/>
           <attribute name="activation" type="this:activation"/>
