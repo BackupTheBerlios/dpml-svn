@@ -11,6 +11,8 @@
 
     <section name="Part XML Directive">
 
+      <pre>artifact:xsd:dpml/lang/dpml-part#1.0</pre>
+
       <subsection name="Description">
 
         <p>
