@@ -100,7 +100,7 @@ public class HelloImpl
 <source>
   Repository repository = Transit.getInstance().getRepository();
   ClassLoader parent = getClass().getClassLoader();
-  URI uri = new URI( "artifact:plugin:mycompany/thisproject/hello-impl#1.4.1" );
+  URI uri = new URI( "artifact:part:mycompany/thisproject/hello-impl#1.4.1" );
   Object[] args = new Object[] { "Hello, World!" };
   Object plugin = repository.getPlugin( parent, uri, args );
   if( plugin instanceof Hello )
@@ -124,14 +124,17 @@ public class HelloImpl
         </p>
 
 <pre><![CDATA[
+<?xml version="1.0"?>
 
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE plugin PUBLIC "-//DPML//DTD Standard Plugin Version 1.0//EN" "http://download.dpml.net/dtds/plugin_1_0.dtd" >
+<part xmlns="artifact:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<plugin version="1.0.0">
-  <strategy class="net.dpml.transit.StandardHandler">
-    <property name="project.plugin.class" value="net.dpml.transit.console.TransitConsoleHandler"/>
-  </strategy>
+  <info title="Example">
+    <description>An example plugin.</description>
+  </info>
+
+  <plugin class="HelloImpl">
+
   <classpath>
     <public>
       <uri>artifact:jar:mycompany/thisproject/hello-api#1.4.1</uri>
@@ -140,7 +143,9 @@ public class HelloImpl
       <uri>artifact:jar:mycompany/thisproject/hello-impl#1.4.1</uri>
     </private>
   </classpath>
-</plugin>
+
+</part>
+
 ]]></pre>
         <p>
           Now, the beauty of Transit is that IF the hello-api artifact is present

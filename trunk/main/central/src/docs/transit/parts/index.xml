@@ -77,8 +77,10 @@
 
 <part xmlns="artifact:xsd:dpml/lang/dpml-part#1.0">
 
-  <info title="Untitled">
-    <description></description>
+  <info title="DPML Metro Runtime">
+    <description>
+    Runtime container for the Metro platform.
+    </description>
   </info>
 
   <plugin class="net.dpml.metro.runtime.CompositionController"/>

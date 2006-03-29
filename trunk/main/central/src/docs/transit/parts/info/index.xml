@@ -27,13 +27,12 @@
         <p>Example of an ninfo element declaration:</p>
       
 <source>
-<![CDATA[
-  <info title="ACME Widget">
-    <description>
-     The ACME Widget is a generalized factory for 
-     the production of Gizmos.
-    </description>
-  </info>]]>
+<![CDATA[<info title="ACME Widget">
+  <description>
+  The ACME Widget is a generalized factory for 
+  the production of Gizmos.
+  </description>
+</info>]]>
 </source>
       
     </section>
