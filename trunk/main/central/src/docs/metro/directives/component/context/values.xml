@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Value">
+    <section name="Param Element">
 
       <subsection name="Description">
 
@@ -23,7 +23,7 @@
 
       </subsection>
       
-      <subsection name="Entry Attributes">
+      <subsection name="Attributes">
 
         <table>
           <tr>
@@ -57,7 +57,7 @@
 
         <table>
           <tr>
-            <td><tt><a href="values.html">value</a></tt></td>
+            <td><tt><a href="values.html">param</a></tt></td>
             <td>The value element may contain 0..n nested &lt;value&gt; directives.
               If the value class is an array class the nested values are 
               interprited as array entries otherwise nested values are interprited 
@@ -79,7 +79,7 @@
         </p>
 
 <pre><![CDATA[
-<value value="Hello"/>
+<param value="Hello"/>
 ]]></pre>
 
       </subsection>
@@ -93,7 +93,7 @@
         </p>
 
 <pre><![CDATA[
-<value class="java.awt.Color" method="RED"/>
+<param class="java.awt.Color" method="RED"/>
 ]]></pre>
 
       </subsection>
@@ -106,11 +106,11 @@
         </p>
 
 <pre><![CDATA[
-<value class="java.awt.Color">
-  <value class="float" value="100"/>
-  <value class="float" value="200"/>
-  <value class="float" value="0"/>
-</value>
+<param class="java.awt.Color">
+  <param class="float" value="100"/>
+  <param class="float" value="200"/>
+  <param class="float" value="0"/>
+</param>
 ]]></pre>
 
       </subsection>
@@ -125,11 +125,11 @@
         </p>
 
 <pre><![CDATA[
-<value class="int[]">
-  <value class="int" value="1"/>
-  <value class="int" value="2"/>
-  <value class="int" value="3"/>
-</value>
+<param class="int[]">
+  <param class="int" value="1"/>
+  <param class="int" value="2"/>
+  <param class="int" value="3"/>
+</param>
 ]]></pre>
 
       </subsection>

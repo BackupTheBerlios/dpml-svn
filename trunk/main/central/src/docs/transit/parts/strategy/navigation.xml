@@ -20,11 +20,13 @@
 
 <project>
 
- <title>Component Strategy Directive Specification</title>
+ <title>Standard Strategies</title>
 
  <body>
 
     <menu>
+      <item name="Plugin" href="plugin.html"/>
+      <item name="Resource" href="resource.html"/>
     </menu>
 
  </body>

@@ -14,13 +14,12 @@
       <subsection name="Description">
 
         <p>
-        A component type directive is an XML document that describes 
+        A component type descriptor is an XML document that describes 
         supplimentary information about a Java class.  This information
         includes details about the assumtions that the class makes concerning
-        the supply of context information, it's capabilities with respect
-        to thread safety, internal defaults declared as part of the component, 
-        and other infromation including garbage collection policy, lifestyle, 
-        and lifecycle.
+        context information, it's capabilities with respect to thread-safety, 
+        internal parts of the component, and other infromation including 
+        garbage collection policy, lifestyle, and lifecycle.
         </p>
         
         <p>
@@ -80,11 +79,7 @@
 <source><![CDATA[
 <?xml version="1.0"?>
 
-<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0"
-    xmlns:type="artifact:xsd:dpml/lang/dpml-type#1.0"
-    xmlns:component="artifact:xsd:dpml/lang/dpml-component#1.0">
+<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0">
 
   <info name="server"
       class="net.dpml.http.Server"
@@ -125,7 +120,8 @@
   </state>
 
   <parts>
-    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" key="requestLog"
+    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" 
+        key="requestLog"
         class="net.dpml.http.NCSARequestLog"
         name="requestLog"
         collection="hard"
@@ -136,7 +132,8 @@
         <entry key="extended" class="boolean" value="true"/>
       </context>
     </component>
-    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" key="threadPool"
+    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" 
+        key="threadPool"
         class="net.dpml.http.BoundedThreadPool"
         name="threadPool"
         collection="hard"

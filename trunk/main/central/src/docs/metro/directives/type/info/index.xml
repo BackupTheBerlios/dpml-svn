@@ -14,6 +14,8 @@
       <subsection name="Description">
 
         <p>
+        The info element holds the component type name, details about a component lifestyle policy,
+        garbage collection policy, and thread-safe capability.
         </p>
 
       </subsection>

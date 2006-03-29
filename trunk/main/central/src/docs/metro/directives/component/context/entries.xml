@@ -121,9 +121,9 @@
 
 <pre><![CDATA[
 <entry key="color">
-  <value class="float" value="100"/>
-  <value class="float" value="200"/>
-  <value class="float" value="0"/>
+  <param class="float" value="100"/>
+  <param class="float" value="200"/>
+  <param class="float" value="0"/>
 </entry>
 ]]></pre>
 
@@ -146,8 +146,8 @@
 
 <pre><![CDATA[
 <entry key="names">
-  <value value="Hello"/>
-  <value value="World"/>
+  <param value="Hello"/>
+  <param value="World"/>
 </entry>
 ]]></pre>
 

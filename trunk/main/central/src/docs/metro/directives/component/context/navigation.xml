@@ -26,7 +26,7 @@
 
     <menu>
       <item name="Entry" href="entries.html"/>
-      <item name="Value" href="values.html"/>
+      <item name="Param" href="values.html"/>
     </menu>
 
  </body>

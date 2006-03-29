@@ -31,7 +31,7 @@
 
   <info/>
 
-  <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" class="org.acme.Widget"/>
+  <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" type="org.acme.Widget"/>
 
   <classpath>
     <private>

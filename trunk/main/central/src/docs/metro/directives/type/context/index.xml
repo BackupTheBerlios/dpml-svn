@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Context Descriptor">
+    <section name="Context Element">
 
       <subsection name="Description">
 
@@ -45,12 +45,7 @@
     <section name="Examples">
 
 <source>
-<![CDATA[
-<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0"
-    xmlns:type="artifact:xsd:dpml/lang/dpml-type#1.0"
-    xmlns:component="artifact:xsd:dpml/lang/dpml-component#1.0">
+<![CDATA[<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0">
 
   <info name="context"
       class="net.dpml.test.ContextTestComponent"
@@ -69,7 +64,6 @@
     <entry key="name" class="java.lang.String" optional="false"/>
     <entry key="integer" class="int" optional="false"/>
     <entry key="path" class="java.lang.String" optional="false"/>
-    <entry key="file" class="java.io.File" optional="false"/>
     <entry key="file" class="java.io.File" optional="true"/>
     <entry key="URI" class="java.net.URI" optional="false"/>
     <entry key="color" class="java.awt.Color" optional="false"/>
@@ -87,8 +81,7 @@
     <entry key="optionalURI" class="java.net.URI" optional="true"/>
   </context>
 
-</type>
-  </info>]]>
+</type>]]>
 </source>
 
     </section>

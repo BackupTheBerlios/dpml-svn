@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Part Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Plugin Strategy">
+
+      <subsection name="Description">
+
+        <p>
+        </p>
+
+     </subsection>
+
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>class</tt></td>
+            <td>The plugin class name.
+            </td>
+          </tr>
+          <tr>
+            <td><tt>alias</tt></td>
+            <td>Used in conjunction with part production declaration to signal that
+            a link uri is produced referencing an absolute artifact uri to 
+            the part definition. Alowable values are 'true' and 'false'.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt>param</tt></td>
+            <td>0..n parameter values.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Examples">
+      
+<source>
+<![CDATA[<plugin class="net.dpml.tools.impl.StandardBuilder" alias="true"/>]]>
+</source>
+
+    </section>
+
+  </body>
+
+</document>

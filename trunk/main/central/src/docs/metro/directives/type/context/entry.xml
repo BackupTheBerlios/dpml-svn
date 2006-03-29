@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Component Type Parts Datatype</title>
+    <title>DPML Component Entry Descriptor Element</title>
   </properties> 
 
   <body>
 
-    <section name="Entry Descriptor">
+    <section name="Entry Descriptor Element">
 
       <subsection name="Description">
 

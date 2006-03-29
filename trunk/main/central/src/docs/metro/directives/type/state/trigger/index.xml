@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Trigger Datatypes</title>
+    <title>DPML Metro Component Type - Trigger Element</title>
   </properties> 
 
   <body>
 
-    <section name="Trigger Datatype">
+    <section name="Trigger Element">
 
       <subsection name="Description">
 

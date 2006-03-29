@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="State Datatype">
+    <section name="State Descriptor Element">
 
       <subsection name="Description">
 
@@ -32,7 +32,7 @@
         <table>
           <tr>
             <td><tt>name</tt></td>
-            <td>Set the state name (required on sub-states).</td>
+            <td>The name of the state (required on sub-states).</td>
           </tr>
           <tr>
             <td><tt>terminal</tt></td>
@@ -70,30 +70,38 @@
     <section name="Example">
 
 <source><![CDATA[
-<c:type class="net.dpml.test.state.ManagedComponent" name="demo" lifestyle="thread">
-  <state>
-    <operation name="ping" method="ping"/>
-    <operation name="monitor"/>
+<?xml version="1.0"?>
+
+<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0">
+
+  <info name="example"
+      class="net.dpml.test.ExampleComponent"
+      version="0.0.0"
+      lifestyle="thread"
+      collection="system"
+      threadsafe="unknown"/>
+      
+  <services>
+    <service class="net.dpml.test.ColorManager" version="1.0.0"/>
+  </services>
+  
+  <context>
+    <entry key="color" class="java.awt.Color" optional="false"/>
+  </context>
+  
+  <state xmlns="artifact:xsd:dpml/lang/dpml-state#1.0">
     <trigger event="initialization">
-      <transition name="startup" target="started">
-        <operation method="start"/>
-      </transition>
+      <transition name="init" target="available"/>
     </trigger>
-    <state name="started">
+    <state name="available">
       <trigger event="termination">
-        <apply id="stop"/>
+        <transition name="terminate" target="../terminated"/>
       </trigger>
-      <transition name="stop" target="../stopped">
-        <operation method="stop"/>
-      </transition>
     </state>
-    <state name="stopped">
-      <transition name="start" target="../started">
-        <operation method="start"/>
-      </transition>
-    </state>
+    <state name="terminated" terminal="true"/>
   </state>
-</c:type>
+
+</type>
 ]]></source>
 
     </section>

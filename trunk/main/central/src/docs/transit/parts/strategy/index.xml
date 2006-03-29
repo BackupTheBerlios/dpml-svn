@@ -14,25 +14,55 @@
       <subsection name="Description">
 
         <p>
-        IN PROGRESS
+        Transit provides two strategy definitions - <a href="plugin.html"><tt>plugin</tt></a> 
+        and <a href="resource.html"><tt>resource</tt></a>.
         </p>
 
-        <p>Example:</p>
-      
+        <p>
+        The plugin definition is the common form and used to establish plugable services
+        within a software system. The resource definition is a special case used to handle
+        the declaration of a antlib resource path and namespace - used in conjunction with 
+        plugable tasks and datatypes.
+        </p>
+
+     </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The <tt>&lt;strategy&gt;</tt> element represents an abstract schema type as 
+      such the <tt>xsi:type</tt> attribute is required in order to reference a 
+      concrete strategy. In the following example the <tt>xsi:type</tt> attribute
+      is selecting the <tt>plugin</tt> schema type.
+      </p>
+
 <source>
-<![CDATA[
-]]>
+<![CDATA[<strategy xsi:type="plugin" class="net.dpml.tools.impl.StandardBuilder"/>]]>
 </source>
 
-      </subsection>
-      
-      <subsection name="Attributes">
+      <p>
+      The above strategy declaration is equivalent to the following:
+      </p>
 
-      </subsection>
+<source>
+<![CDATA[<plugin class="net.dpml.tools.impl.StandardBuilder"/>]]>
+</source>
 
-      <subsection name="Nested Elements">
+      <p>
+      The following example demonstrates the use of a foreign strategy definition
+      (qualified by a namespace uri):
+      </p>
 
-      </subsection>
+<source>
+<![CDATA[<component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0"
+     type="net.dpml.http.Server"
+      collection="system"
+      activation="system">
+    ...
+</component>]]>
+</source>
 
     </section>
 

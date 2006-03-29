@@ -18,12 +18,12 @@
       <subsection name="Standard Attributes">
         <table>
           <tr>
-            <td><tt>class</tt></td>
+            <td><tt>type</tt></td>
             <td>Set the component type classname (required).</td>
           </tr>
           <tr>
             <td><tt>name</tt></td>
-            <td>Optional overriding of the component profile name.  If not supplied
+            <td>Optional overriding of the component name.  If not supplied
              the component profile name will default to the name of the underlying 
              component type.</td>
           </tr>
@@ -63,6 +63,21 @@
         </table>
 
       </subsection>
+
+      <subsection name="Attributes Interited from Part Strategy">
+
+        <table>
+          <tr>
+            <td><tt>alias</tt></td>
+            <td>Used in conjunction with top-level components to declare that
+            a link uri is produced referencing an absolute artifact uri to 
+            the component definition.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
 
       <subsection name="Nested Elements">
 

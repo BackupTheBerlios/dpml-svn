@@ -54,19 +54,19 @@
 
 <source><![CDATA[
 <context>
-  <entry key="name" value="$${user.name}"/>
+  <entry key="name" value="${user.name}"/>
   <entry key="printer" lookup="org.acme.Printer"/>
   <entry key="background" method="RED"/>
   <entry key="foreground">
-    <value class="float" value="100"/>
-    <value class="float" value="200"/>
-    <value class="float" value="0"/>
+    <param class="float" value="100"/>
+    <param class="float" value="200"/>
+    <param class="float" value="0"/>
   </entry>
   <entry key="widget" class="org.acme.DefaultWidget">
-    <value class="org.acme.DefaultGizmo">
-      <value class="float" value="0"/>
-      <value class="int" value="1024"/>
-    </value>
+    <param class="org.acme.DefaultGizmo">
+      <param class="float" value="0"/>
+      <param class="int" value="1024"/>
+    </param>
   </entry>
 </context>
 ]]></source>

@@ -52,13 +52,16 @@
       </p>
 
 <source><![CDATA[
-<component xmlns="dpml:metro" dest="target/test/categories.part" test="true" activation="true"
-    type="net.dpml.test.categories.CategoriesComponent" collection="hard">
-  <categories>
-    <category name="alpha" priority="warn"/>
-    <category name="beta" priority="error"/>
-  </categories>
-<component>
+  <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0"
+     class="net.dpml.test.categories.CategoriesComponent"
+      name="categories"
+      collection="hard"
+      activation="startup">
+    <categories>
+      <category name="alpha" priority="warn"/>
+      <category name="beta" priority="error"/>
+    </categories>
+  </component>
 ]]></source>
 
     </section>
