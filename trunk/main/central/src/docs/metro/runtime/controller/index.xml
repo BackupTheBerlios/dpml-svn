@@ -19,7 +19,7 @@
       </p>
 
       <p>A reference to the default controller is resolved using the 
-      <tt>net.dpml.part.Controller</tt> interface:</p>
+      <tt>net.dpml.component.Controller</tt> interface:</p>
 
       <pre>Controller controller = <font color="darkred">Controller.STANDARD</font>;</pre>
 
@@ -29,7 +29,7 @@
       a brief discussion.</p>
 
       <p>
-      The <tt><a href="/api/dpml/@VERSION@/net/dpml/part/Controller.html">
+      The <tt><a href="/api/dpml/@VERSION@/net/dpml/component/Controller.html">
       Controller</a></tt> interface defines operations enabling:
       </p>
 
@@ -79,8 +79,8 @@ Widget widget = (Widget) provider.getValue( true );
       
         <p>
         All controllers must implement the 
-        <tt><a href="/api/dpml/@VERSION@/net/dpml/part/package-summary.html">
-        net.dpml.part</a></tt> package API.  Through reference this implies support for the 
+        <tt><a href="/api/dpml/@VERSION@/net/dpml/component/package-summary.html">
+        net.dpml.component</a></tt> package API.  Through reference this implies support for the 
         <tt><a href="/api/dpml/@VERSION@/net/dpml/state/package-summary.html">
         net.dpml.state</a></tt> package and a soft dependency on the protocol handlers
         defined within the 

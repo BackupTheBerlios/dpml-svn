@@ -16,8 +16,8 @@
       of service <tt>Provider</tt>(s).  The number of providers
       managed by a component is implementation dependent.  The reference
       implementation maintains providers relative to the associated 
-      <a href="../parts/lifestyle.html">lifestyle</a> and 
-      <a href="../parts/collection.html">collection</a> policies. For 
+      <a href="../../models/lifestyle.html">lifestyle</a> and 
+      <a href="../../models/collection.html">collection</a> policies. For 
       example, a component declaring the <tt>SINGLETON</tt> collection 
       policy will have a 0..1 <tt>Provider</tt> association.  The lifetime
       of the provider will be a function of the associated collection 

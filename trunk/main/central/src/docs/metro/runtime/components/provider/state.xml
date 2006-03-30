@@ -79,9 +79,9 @@ int count = monitor.getAccessCount() );</pre>
         </p>
 
 <pre>Provider provider = component.getProvider();
-<font color="darkred">provider.apply( "stop" ); // invoke transition
-provider.exec( "timeout", new Object[]{"3000"} ); // execute operation
-provider.apply( "start" );</font> // invoke transition
+<font color="darkred">provider.apply( "stop" );</font> // invoke transition
+<font color="darkred">provider.exec( "timeout", new Object[]{"3000"} );</font> // execute operation
+<font color="darkred">provider.apply( "start" );</font> // invoke transition
 </pre>
 
       </subsection>

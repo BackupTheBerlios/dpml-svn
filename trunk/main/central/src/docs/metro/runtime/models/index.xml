@@ -52,12 +52,9 @@ Component component = controller.createComponent( model );
       <subsection name="ComponentModel">
 
       <p>
-      The <a href="/api/dpml/@VERSION@/net/dpml/metro/model/ComponentModel.html">
+      The <a href="/api/dpml/@VERSION@/net/dpml/metro/ComponentModel.html">
       net.dpml.metro.ComponentModel</a> interface exposes information about 
       a component configuration.
-      The <a href="/api/dpml/@VERSION@/net/dpml/metro/model/MutableComponentModel.html">
-      net.dpml.metro.MutableComponentModel</a> interface 
-      includes additional operations dealing with model changes.
       </p>
 
       <p>
@@ -81,13 +78,10 @@ Component component = controller.createComponent( model );
       <subsection name="ContextModel">
 
       <p>
-      The <a href="/api/dpml/@VERSION@/net/dpml/metro/model/ContextModel.html">
+      The <a href="/api/dpml/@VERSION@/net/dpml/metro/ContextModel.html">
       net.dpml.metro.ContextModel</a> interface 
       exposes information about a context settings - specifically the 
-      binding of context keys to context value directives.  The 
-      <a href="/api/dpml/@VERSION@/net/dpml/metro/model/MutableContextModel.html">
-      net.dpml.metroMutableContextModel</a> provides support for context entry 
-      modification.
+      binding of context keys to context value directives.
       </p>
 
       </subsection>

@@ -43,7 +43,7 @@
             and the runtime system.
           </li>
           <li>
-            <a href="../directies/component/index.html">directive:</a> 
+            <a href="../directives/component/index.html">directive:</a> 
             an XML component definition referencable via the <tt>artifact</tt>
             uri using the <tt>part</tt> type identifier.  The part directive contains 
             the default deployment profile including the definition of 

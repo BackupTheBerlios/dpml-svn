@@ -20,12 +20,6 @@ package net.dpml.library.impl;
 
 import java.io.File;
 
-import net.dpml.library.info.LibraryDirective;
-import net.dpml.library.info.ModuleDirective;
-import net.dpml.library.info.ResourceDirective;
-import net.dpml.library.info.TypeDirective;
-import net.dpml.library.impl.DefaultLibrary;
-
 import net.dpml.lang.Logger;
 
 import net.dpml.transit.monitor.LoggingAdapter;
