@@ -26,10 +26,10 @@
       <a href="../library/index.html">common build library</a> that 
       captures information about <a href="../library/projects.html">
       projects</a> and shared <a href="../library/resources.html">resources</a>
-      organized and structured with distrinct
+      organized and structured within distrinct
       <a href="../library/modules.html">modules</a>.
       A <tt><a href="../cli/index.html">build</a></tt> commandline tool provides 
-      support for listing of registered projects and support for the execution 
+      support for listing of registered projects and the execution 
       of project builds.  The build tool executes builds using a plugin builder. 
       A default <a href="../tools/index.html">build system implementation</a> 
       based on the Apache Ant product is included in the Depot distribution.

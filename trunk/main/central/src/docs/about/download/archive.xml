@@ -24,10 +24,7 @@
         </p>
         
         <ul>
-          <li>Improvements to the metro commandline handler cli options.</li>
-          <li>Documentation on part and component XML schemas.</li>
-          <li>Build-time valiation of artifact link references.</li>
-          <li>Module merging and nested module export.</li>
+          <li>Documentation improvements.</li>
         </ul>
 
         <table>
@@ -69,6 +66,62 @@
         <p>
         Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a>, 
         <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+
+      <subsection name="Build 1.0.0-RC5">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Improvements to the metro commandline handler cli options.</li>
+          <li>Documentation on part and component XML schemas.</li>
+          <li>Build-time valiation of artifact link references.</li>
+          <li>Module merging and nested module export.</li>
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.exe">
+                dpml-sdk-win32-1.0.0-RC5.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.zip">
+                dpml-sdk-win32-1.0.0-RC5.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-linux-1.0.0-RC5.tar.gz">
+                dpml-sdk-linux-1.0.0-RC5.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-linux-1.0.0-RC5.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/1.0.0-RC5">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/1.0.0-RC5/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC5/catalog/index.html">Catalog</a> reports are available.
         </p>
 
       </subsection>

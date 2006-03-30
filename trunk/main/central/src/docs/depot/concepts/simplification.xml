@@ -13,13 +13,13 @@
 
       <p>
       One of the aims of the Depot build system is the simplification 
-      of build procedures. Depot focusses on the principal of 80/20 where
+      of build procedures. Depot focuses on the principal of 80/20 where
       80% of projects can be easily automated to extent that no 
       build file is needed at all.  For the remaining 20% Depot provides 
       mechanisms to customize builds for those specialized requirements.
       Overall - the aim is to reduce the amount of information that 
       resides in a build file and focus where possible on mechanisms that
-      will enable consistent and relaiable build automation. 
+      will enable consistent and reliable build automation. 
       </p>
 
     </section>

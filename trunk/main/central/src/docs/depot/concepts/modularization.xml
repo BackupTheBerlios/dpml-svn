@@ -13,7 +13,7 @@
 
       <p>
       A framework for modularization of project structures enables the 
-      establishment and maintenance of district namespaces.  In turn this
+      establishment and maintenance of discrete namespaces.  In turn this
       improves the overall maintainability within large-scale projects.  
       The Depot system maintains information about project and resources 
       within <a href="../library/modules.html">modules</a> and provides
