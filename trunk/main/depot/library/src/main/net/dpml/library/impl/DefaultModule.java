@@ -106,13 +106,59 @@ public final class DefaultModule extends DefaultResource implements Module
                     
                     // update properties?
                     
-                    // update basedir?
+                    // check basedir values
                     
-                    // update version?
+                    if( null != directive.getBasedir() )
+                    {
+                        if( null != module.getBaseDir() )
+                        {
+                            File base = new File( getBaseDir(), directive.getBasedir() );
+                            if( !module.getBaseDir().equals( base ) )
+                            {
+                                final String error = 
+                                  "Cannot merge modules with different base directories."
+                                  + "\nModule: " + module
+                                  + "\nPrimary base: " + module.getBaseDir()
+                                  + "\nSecondary base: " + base;
+                                throw new IllegalStateException( error );
+                            }
+                        }
+                    }
                     
-                    // update types?
+                    // check versions
                     
-                    // update dependencies?
+                    if( null != directive.getVersion() )
+                    {
+                        if( module.getVersion().equals( directive.getVersion() ) )
+                        {
+                            final String error = 
+                              "Cannot merge modules with different versions."
+                              + "\nModule: " + module
+                              + "\nPrimary version: " + module.getVersion()
+                              + "\nSecondary version: " + directive.getVersion();
+                            throw new IllegalStateException( error );
+                        }
+                    }
+                    
+                    // check types
+                    
+                    if( directive.getTypeDirectives().length > 0 ) 
+                    {
+                        final String error = 
+                          "Cannot merge a module with type production directives."
+                          + "\nModule: " + module;
+                        throw new IllegalStateException( error );
+                    }
+                    
+                    // check dependencies
+                    
+                    if( directive.getDependencyDirectives().length > 0 ) 
+                    {
+                        final String error = 
+                          "Cannot merge a module with dependency directives."
+                          + "\nModule: " + module;
+                        throw new IllegalStateException( error );
+                    }
                     
                     // add additional resources
                     

@@ -55,7 +55,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     
     private final LibraryDirective m_directive;
     private final DefaultModule m_module;
-    private final DefaultModule m_imports;
+    //private final DefaultModule m_imports;
     private final File m_root;
     private final Logger m_logger;
     private final Hashtable m_anonymous = new Hashtable();
@@ -133,11 +133,12 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
             }
         }
         
-        m_imports = new DefaultModule( this, m_directive );
+        //m_imports = new DefaultModule( this, m_directive );
         for( int i=0; i<importModuleDirectives.length; i++ )
         {
             ModuleDirective importModuleDirective = importModuleDirectives[i];
-            m_imports.addResource( importModuleDirective );
+            //m_imports.addResource( importModuleDirective );
+            m_module.addResource( importModuleDirective );
         }
         
         // create the top-level modules
@@ -212,14 +213,15 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     */
     public Module getModule( String ref ) throws ModuleNotFoundException
     {
-        try
-        {
-            return m_module.getModule( ref );
-        }
-        catch( ModuleNotFoundException e )
-        {
-            return m_imports.getModule( ref );
-        }
+        return m_module.getModule( ref );
+        //try
+        //{
+        //    return m_module.getModule( ref );
+        //}
+        //catch( ModuleNotFoundException e )
+        //{
+        //    return m_imports.getModule( ref );
+        //}
     }
 
    /**
@@ -230,14 +232,15 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     */
     public Resource getResource( String ref ) throws ResourceNotFoundException
     {
-        try
-        {
-            return m_module.getResource( ref );
-        }
-        catch( ResourceNotFoundException e )
-        {
-            return m_imports.getResource( ref );
-        }
+        return m_module.getResource( ref );
+        //try
+        //{
+        //    return m_module.getResource( ref );
+        //}
+        //catch( ResourceNotFoundException e )
+        //{
+        //    return m_imports.getResource( ref );
+        //}
     }
     
    /**
@@ -460,14 +463,15 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     */
     DefaultResource getDefaultResource( String ref )
     {
-        try
-        {
-            return m_module.getDefaultResource( ref );
-        }
-        catch( InvalidNameException e )
-        {
-            return m_imports.getDefaultResource( ref );
-        }
+        return m_module.getDefaultResource( ref );
+        //try
+        //{
+        //    return m_module.getDefaultResource( ref );
+        //}
+        //catch( InvalidNameException e )
+        //{
+        //    return m_imports.getDefaultResource( ref );
+        //}
     }
     
    /**
@@ -477,14 +481,15 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     */
     DefaultModule getDefaultModule( String ref )
     {
-        try
-        {
-            return m_module.getDefaultModule( ref );
-        }
-        catch( InvalidNameException e )
-        {
-            return m_imports.getDefaultModule( ref );
-        }
+        return m_module.getDefaultModule( ref );
+        //try
+        //{
+        //    return m_module.getDefaultModule( ref );
+        //}
+        //catch( InvalidNameException e )
+        //{
+        //    return m_imports.getDefaultModule( ref );
+        //}
     }
     
     //----------------------------------------------------------------------------
