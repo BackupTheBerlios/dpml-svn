@@ -22,7 +22,7 @@
       </p>
 
       <p>
-      A component model is created using the standard <a href="controller/index.html">
+      A component model is created using the standard <a href="../../controller/index.html">
       controller</a>.
       </p>
 
@@ -46,7 +46,7 @@ Component component = controller.createComponent( model );
       allow control of aspects of the component and context model.  These
       interfaces are described below - however, please note that these 
       interfaces are specific to the Metro platform and will not be recognized
-      by generic systems based strictly on the Part API.
+      by generic systems based strictly on the DPML Part API.
       </p>
 
       <subsection name="ComponentModel">
@@ -70,11 +70,9 @@ Component component = controller.createComponent( model );
         <li>activation policy</li>
         <li>lifestyle policy</li>
         <li>garbage collection policy</li>
-        <li>classloader chain definition</li>
         <li>keys to internal parts</li>
         <li>access to the component models of internal parts</li>
         <li>logging category priority assignments</li>
-        <li>assigned configuration and/or parameterization data</li>
         <li>the context model</li>
       </ul>
 
@@ -93,17 +91,6 @@ Component component = controller.createComponent( model );
       </p>
 
       </subsection>
-
-    </section>
-
-    <section name="Technical Note">
-
-      <p>
-      Interfaces described here are subject to change. In particular 
-      listener addition and removal operations are required, together 
-      with operations dealing with constructor parameter factory 
-      configuration.
-      </p>
 
     </section>
 

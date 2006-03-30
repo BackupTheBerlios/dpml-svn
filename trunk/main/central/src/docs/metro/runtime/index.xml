@@ -32,7 +32,7 @@
 
         <ul>
           <li>
-            <a href="types/index.html">type:</a> 
+            <a href="../directives/type/index.html">type:</a> 
             located under a &lt;classname&gt;.type - a serializable datatype 
             containing information about a component class including characteristics 
             such as the services provided by the component, the context 
@@ -43,7 +43,7 @@
             and the runtime system.
           </li>
           <li>
-            <a href="parts/index.html">directive:</a> 
+            <a href="../directies/component/index.html">directive:</a> 
             an XML component definition referencable via the <tt>artifact</tt>
             uri using the <tt>part</tt> type identifier.  The part directive contains 
             the default deployment profile including the definition of 
@@ -92,9 +92,9 @@
       <subsection name="Part API">
 
         <p>
-        The Part API deals with a generic deployment package.  XML part descriptions
-        include a complete classloader chain definition and the declaration of a 
-        deployment strategy.  
+        The <a href="/transit/parts/index.html">Part API</a> deals with a generic 
+        deployment package.  XML part descriptions include a complete classloader 
+        chain definition and the declaration of a deployment strategy.  
         </p>
 
       </subsection>

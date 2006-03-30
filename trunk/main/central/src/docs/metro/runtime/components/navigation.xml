@@ -25,9 +25,8 @@
  <body>
 
     <menu>
-      <item name="Models" href="models.html"/>
-      <item name="Provider" href="provider.html"/>
-      <item name="State" href="state.html"/>
+      <item name="Model" href="models/index.html"/>
+      <item name="Provider" href="provider/index.html"/>
     </menu>
 
  </body>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Parts</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Datastructures">
+
+      <p>
+      A component part associates a component profile with a 
+      supporting controller.  The profile provides a description of a deployment
+      state of a component type. 
+      </p>
+
+      <subsection name="Component Directives">
+
+        <p>
+        The default component directive is the <tt>net.dpml.metro.data.ComponentDirective</tt> class.
+        The <tt>ComponentDirective</tt> contains information about the component  
+        classname (from which the component <a href="../types.html">type</a> 
+        can be resolved), a name that identifies the component within the scope of 
+        its parent, and a series of directives that deal with component 
+        configuration including the assignment of context entry values
+        and/or instructions to a container concerning value fullfillment.
+        </p>
+
+      </subsection>
+
+      <subsection name="Component Profile Creation">
+
+        <p>
+        A <a href="../../tasks/components/index.html">component</a> Ant Task handles the 
+        construction of externalized part artifacts based on a combination
+        of component type evaluation and information supplied under task attributes
+        and nested element.  Once created as an external artifact the part is network
+        resolvable and may be easily referenced by application handlers or by 
+        components as part of a composite component implementation strategy.
+        </p>
+
+      </subsection>
+
+      <subsection name="Technical Note">
+
+        <p>
+        Under the currrent implementation part properties are not evaluated.  The principal
+        purpose of the properties field is to support a degree of flexibility when dealing 
+        with future implementations of the Metro system.  As such, users should assume that
+        property names commencing with <tt>dpml</tt> are reserved for future use by the 
+        DPML.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+
+

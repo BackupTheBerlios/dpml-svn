@@ -23,7 +23,7 @@
 
       <p>
       From a functionally point-of-view the component type describes the 
-      operational criteria.  The following table summarises the respective 
+      component's operational criteria.  The following table summarises the respective 
       classes used in a component type definition and their role within the 
       runtime container.
       </p>
@@ -125,6 +125,12 @@
         A <a href="../tasks/types/index.html">type</a> Ant Task handles the 
         construction of externalized type descriptors based on a combination
         of supplied information and component class introspection. 
+        </p>
+        
+        <p>
+        The long term peristence of type information is maintained in XML
+        in accordance with the <a href="/metro/directives/type/index.html">
+        Component Type XML Specification</a>.
         </p>
 
       </subsection>

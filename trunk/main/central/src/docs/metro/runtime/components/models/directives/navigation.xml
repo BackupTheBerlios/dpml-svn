@@ -25,10 +25,7 @@
  <body>
 
     <menu>
-      <item name="Activation" href="activation.html"/>
-      <item name="Lifestyles" href="lifestyle.html"/>
-      <item name="Collection" href="collection.html"/>
-      <item name="Categories" href="categories.html"/>
+      <item name="Types" href="types.html"/>
     </menu>
 
  </body>

@@ -25,8 +25,7 @@
  <body>
 
     <menu>
-      <item name="Controller" href="controller/index.html"/>
-      <item name="Component" href="components/index.html"/>
+      <item name="State" href="state.html"/>
     </menu>
 
  </body>
