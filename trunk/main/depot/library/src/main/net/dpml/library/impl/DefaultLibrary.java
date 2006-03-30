@@ -464,14 +464,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     DefaultResource getDefaultResource( String ref )
     {
         return m_module.getDefaultResource( ref );
-        //try
-        //{
-        //    return m_module.getDefaultResource( ref );
-        //}
-        //catch( InvalidNameException e )
-        //{
-        //    return m_imports.getDefaultResource( ref );
-        //}
     }
     
    /**
@@ -482,14 +474,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     DefaultModule getDefaultModule( String ref )
     {
         return m_module.getDefaultModule( ref );
-        //try
-        //{
-        //    return m_module.getDefaultModule( ref );
-        //}
-        //catch( InvalidNameException e )
-        //{
-        //    return m_imports.getDefaultModule( ref );
-        //}
     }
     
     //----------------------------------------------------------------------------

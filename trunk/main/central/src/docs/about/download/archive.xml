@@ -27,6 +27,7 @@
           <li>Improvements to the metro commandline handler cli options.</li>
           <li>Addition of a documentation detailing the specifications for part and component XML documents.</li>
           <li>Build-time valiation of artifact link references.</li>
+          <li>Includes support for module merging and nested module export.</li>
         </ul>
 
         <table>
