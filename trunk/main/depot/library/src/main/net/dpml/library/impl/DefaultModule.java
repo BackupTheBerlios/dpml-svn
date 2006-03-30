@@ -55,7 +55,6 @@ import net.dpml.lang.DuplicateKeyException;
 public final class DefaultModule extends DefaultResource implements Module
 {
     private final boolean m_root;
-    //private final DefaultResource[] m_resources;
     private final ModuleDirective m_directive;
     private final Map m_map = new Hashtable();
     
@@ -69,7 +68,7 @@ public final class DefaultModule extends DefaultResource implements Module
     DefaultModule( DefaultLibrary library, AbstractDirective directive ) 
     {
         super( library, directive );
-        //m_resources = resources;
+        
         m_root = true;
         m_directive = null;
     }
@@ -96,26 +95,57 @@ public final class DefaultModule extends DefaultResource implements Module
             throw new NullPointerException( "directive" );
         }
         
-        String key = directive.getName();
-        if( m_map.containsKey( key ) )
+        synchronized( m_map )
         {
-            throw new DuplicateKeyException( key );
-        }
-        else
-        {
-            DefaultLibrary library = getDefaultLibrary();
-            if( directive instanceof ModuleDirective )
+            String key = directive.getName();
+            if( m_map.containsKey( key ) )
             {
-                ModuleDirective d = (ModuleDirective) directive;
-                DefaultModule module = new DefaultModule( library, this, d );
-                m_map.put( key, module );
-                return module;
+                if( directive instanceof ModuleDirective )
+                {
+                    DefaultModule module = (DefaultModule) m_map.get( key );
+                    
+                    // update properties?
+                    
+                    // update basedir?
+                    
+                    // update version?
+                    
+                    // update types?
+                    
+                    // update dependencies?
+                    
+                    // add additional resources
+                    
+                    ModuleDirective d = (ModuleDirective) directive;
+                    ResourceDirective[] resources = d.getResourceDirectives();
+                    for( int i=0; i<resources.length; i++ )
+                    {
+                        ResourceDirective r = resources[i];
+                        module.addResource( r );
+                    }
+                    return module;
+                }
+                else
+                {
+                    throw new DuplicateKeyException( key );
+                }
             }
             else
             {
-                DefaultResource resource = new DefaultResource( library, this, directive );
-                m_map.put( key, resource );
-                return resource;
+                DefaultLibrary library = getDefaultLibrary();
+                if( directive instanceof ModuleDirective )
+                {
+                    ModuleDirective d = (ModuleDirective) directive;
+                    DefaultModule module = new DefaultModule( library, this, d );
+                    m_map.put( key, module );
+                    return module;
+                }
+                else
+                {
+                    DefaultResource resource = new DefaultResource( library, this, directive );
+                    m_map.put( key, resource );
+                    return resource;
+                }
             }
         }
     }
@@ -430,7 +460,6 @@ public final class DefaultModule extends DefaultResource implements Module
     DefaultResource[] getDefaultResources()
     {
         return (DefaultResource[]) m_map.values().toArray( new DefaultResource[0] );
-        //return m_resources;
     }
     
     DefaultResource getDefaultResource( String ref )
