@@ -26,6 +26,7 @@
 
     <menu>
       <item name="Controller" href="controller/index.html"/>
+      <item name="Component Model" href="models/index.html"/>
       <item name="Component" href="components/index.html"/>
     </menu>
 

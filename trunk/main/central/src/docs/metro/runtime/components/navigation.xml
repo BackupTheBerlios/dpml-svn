@@ -25,7 +25,6 @@
  <body>
 
     <menu>
-      <item name="Model" href="models/index.html"/>
       <item name="Provider" href="provider/index.html"/>
     </menu>
 
