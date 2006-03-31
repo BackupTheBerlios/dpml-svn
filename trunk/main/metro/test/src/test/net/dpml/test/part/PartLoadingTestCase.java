@@ -50,8 +50,6 @@ public class PartLoadingTestCase extends TestCase
         final String path = "test.part";
         final File test = new File( System.getProperty( "project.test.dir" ) );
         m_uri = new File( test, path ).toURI();
-        final File config = new File( test, "logging.properties" );
-        final String spec = config.toURI().toASCIIString();
     }
     
    /**

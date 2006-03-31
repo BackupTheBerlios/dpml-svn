@@ -25,6 +25,9 @@
         
         <ul>
           <li>Documentation improvements.</li>
+          <li>Resolve bug in part strategy encoding of supplimentary parameters.</li>
+          <li>Add link to the component builder as the dpml-component xsi handler.</li>
+          <li>Implementation of part handler functionlity into the Metro controller.</li>
         </ul>
 
         <table>

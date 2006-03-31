@@ -79,7 +79,7 @@ class PartStrategyDecoder implements Decoder
         if( "plugin".equals( type ) )
         {
             String classname = ElementHelper.getAttribute( element, "class" );
-            Element[] elements = ElementHelper.getChildren( element, "param" );
+            Element[] elements = ElementHelper.getChildren( element );
             Value[] values = VALUE_DECODER.decodeValues( elements );
             Plugin plugin = new Plugin( classname, values );
             return new Strategy( DecoderFactory.LOCAL_URI, TRANSIT_DIRECTIVE, plugin, alias );

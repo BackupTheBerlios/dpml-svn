@@ -50,6 +50,7 @@
       <include key="dpml-http-server"/>
     </dependencies>
     <dependencies scope="test">
+      <include ref="dpml/transit/dpml-transit-main"/>
       <include ref="dpml/metro/dpml-metro-model"/>
       <include ref="ant/ant-junit"/>
     </dependencies>

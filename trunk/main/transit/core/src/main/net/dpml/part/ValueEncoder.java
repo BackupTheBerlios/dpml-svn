@@ -83,7 +83,7 @@ public final class ValueEncoder
             else
             {
                 String v = construct.getBaseValue();
-                if( null != value )
+                if( null != v )
                 {
                     writer.write( " value=\"" + v  + "\"" );
                 }

@@ -288,20 +288,6 @@ class StandardLoader implements Repository
     * @exception InvocationTargetException if a plugin constructor invocation error occurs
     * @exception NullArgumentException if the class or args argument is null
     */
-    //private Object createPlugin( Class clazz, Object[] args )
-    //    throws IOException, NullArgumentException, InvocationTargetException
-    //{
-    //    if( null == clazz )
-    //    {
-    //        throw new NullArgumentException( "clazz" );
-    //    }
-    //    if( null == args )
-    //    {
-    //        throw new NullArgumentException( "args" );
-    //    }
-    //    return instantiate( clazz, args );
-    //}
-
     public Object instantiate( Class clazz, Object[] args ) throws RepositoryException, InvocationTargetException
     {
         if( null == clazz )

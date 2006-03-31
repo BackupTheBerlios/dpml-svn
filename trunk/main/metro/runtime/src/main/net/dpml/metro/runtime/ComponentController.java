@@ -259,7 +259,9 @@ class ComponentController
                   + "] at position " + i 
                   + " for the component ["
                   + handler.getPath()
-                  + "].";
+                  + "] ("
+                  + subject.getName() 
+                  + ").";
                 throw new ControllerException( error );
             }
         }

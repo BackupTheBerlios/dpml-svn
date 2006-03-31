@@ -90,7 +90,9 @@
   <project name="dpml-metro-runtime" basedir="runtime">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+        <part:param class="net.dpml.component.InitialContext"/>
+      </part:plugin>
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>

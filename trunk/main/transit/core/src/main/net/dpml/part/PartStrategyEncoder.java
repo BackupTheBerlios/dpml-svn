@@ -61,17 +61,6 @@ public class PartStrategyEncoder implements Encoder
     * Externalize a strategy.
     * @param writer the output stream writer
     * @param strategy the strategy
-    * @exception IOException if an IO error occurs
-    */
-    //public void write( Writer writer, Strategy strategy ) throws IOException
-    //{
-    //    encodeStrategy( writer, strategy, "" );
-    //}
-    
-   /**
-    * Externalize a strategy.
-    * @param writer the output stream writer
-    * @param strategy the strategy
     * @param pad the character offset
     * @exception IOException if an IO error occurs
     */
@@ -82,13 +71,15 @@ public class PartStrategyEncoder implements Encoder
         {
             Plugin plugin = (Plugin) data;
             String classname = plugin.getClassname();
-            writer.write( "\n  <strategy xsi:type=\"plugin\" class=\"" );
+            writer.write( "\n" + pad + "<strategy xsi:type=\"plugin\" class=\"" );
             writer.write( classname );
             writer.write( "\"" );
             if( plugin.getValues().length > 0 )
             {
+                writer.write( ">" );
                 Value[] values = plugin.getValues();
                 VALUE_ENCODER.encodeValues( writer, values, "    " );
+                writer.write( "\n" + pad + "</strategy>" );
             }
             else
             {

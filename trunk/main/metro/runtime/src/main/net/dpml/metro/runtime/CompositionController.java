@@ -157,7 +157,8 @@ public class CompositionController extends StandardPartHandler implements Contro
             ComponentDirective directive = (ComponentDirective) data;
             ComponentModel model = m_controller.createComponentModel( classpath, directive );
             ClassLoader classloader = getClassLoader( anchor, classpath );
-            return m_controller.createDefaultComponentHandler( classloader, model, true );
+            Component component = m_controller.createDefaultComponentHandler( classloader, model, true );
+            return component.getProvider().getValue( true );
         }
         else
         {

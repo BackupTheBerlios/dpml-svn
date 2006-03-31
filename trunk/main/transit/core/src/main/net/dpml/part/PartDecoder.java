@@ -82,8 +82,6 @@ public final class PartDecoder implements Decoder
             throw new NullPointerException( "base" );
         }
         
-        //System.out.println( "# LOAD PART: " + uri );
-
         try
         {
             final Document document = DOCUMENT_BUILDER.parse( uri );
