@@ -18,6 +18,8 @@
 
 package net.dpml.transit;
 
+import java.util.ArrayList;
+import java.util.Stack;
 import java.net.URL;
 import java.net.URI;
 import java.net.URLClassLoader;
@@ -223,7 +225,7 @@ public class StandardClassLoader extends URLClassLoader
         }
     }
 
-    private void appendEntries( StringBuffer buffer, URLClassLoader classloader )
+    private static void appendEntries( StringBuffer buffer, URLClassLoader classloader )
     {
         URL[] urls = classloader.getURLs();
         for( int i=0; i < urls.length; i++ )
@@ -236,4 +238,113 @@ public class StandardClassLoader extends URLClassLoader
         buffer.append( "\n" );
     }
 
+    public static String toString( ClassLoader primary, ClassLoader secondary )
+    {
+        StringBuffer buffer = new StringBuffer();
+        ClassLoader anchor = getCommonParent( primary, secondary );
+        if( null != anchor )
+        {
+            buffer.append( "\n----------------------------------------------------------------" );
+            buffer.append( "\nCommon Classloader" );
+            buffer.append( "\n----------------------------------------------------------------" );
+            list( buffer, anchor );
+        }
+        buffer.append( "\n----------------------------------------------------------------" );
+        buffer.append( "\nPrimary Classloader" );
+        buffer.append( "\n----------------------------------------------------------------" );
+        list( buffer, primary, anchor );
+        buffer.append( "\n----------------------------------------------------------------" );
+        buffer.append( "\nSecondary Classloader" );
+        buffer.append( "\n----------------------------------------------------------------" );
+        list( buffer, secondary, anchor );
+        buffer.append( "\n----------------------------------------------------------------" );
+        return buffer.toString();
+    }
+    
+    private static ClassLoader getCommonParent( ClassLoader primary, ClassLoader secondary )
+    {
+        ClassLoader[] primaryChain = getClassLoaderChain( primary );
+        ClassLoader[] secondaryChain = getClassLoaderChain( secondary );
+        return getCommonClassLoader( primaryChain, secondaryChain );
+    }
+    
+    private static ClassLoader[] getClassLoaderChain( ClassLoader classloader )
+    {
+        ArrayList list = new ArrayList();
+        list.add( classloader );
+        ClassLoader parent = classloader.getParent();
+        while( null != parent )
+        {
+            list.add( parent );
+            parent = parent.getParent();
+        }
+        ArrayList result = new ArrayList();
+        int n = list.size() - 1;
+        for( int i=n; i>-1; i-- )
+        {
+            result.add( list.get( i ) );
+        }
+        
+        return (ClassLoader[]) result.toArray( new ClassLoader[0] );
+    }
+
+    private static ClassLoader getCommonClassLoader( ClassLoader[] primary, ClassLoader[] secondary )
+    {
+        ClassLoader anchor = null;
+        for( int i=0; i<primary.length; i++ )
+        {
+            ClassLoader classloader = primary[i];
+            if( secondary.length > i )
+            {
+                ClassLoader cl = secondary[i];
+                if( classloader == cl )
+                {
+                    anchor = cl;
+                }
+                else
+                {
+                    return anchor;
+                }
+            }
+            else
+            {
+                return anchor;
+            }
+        }
+        return anchor;
+    }
+    
+    private static void list( StringBuffer buffer, ClassLoader classloader )
+    {
+        list( buffer, classloader, null );
+    }
+    
+    private static void list( StringBuffer buffer, ClassLoader classloader, ClassLoader anchor )
+    {
+        if( classloader == anchor )
+        {
+            return;
+        }
+        ClassLoader parent = classloader.getParent();
+        if( null != parent  )
+        {
+            list( buffer, parent, anchor );
+        }
+        String label = 
+          "\nClassLoader: " 
+          + classloader.getClass().getName() 
+          + " (" + System.identityHashCode( classloader ) + ")";
+        buffer.append( label );
+        if( classloader instanceof StandardClassLoader )
+        {
+            StandardClassLoader loader = (StandardClassLoader) classloader;
+            buffer.append( " " + loader.m_category );
+        }
+        if( classloader instanceof URLClassLoader )
+        {
+            URLClassLoader urlcl = (URLClassLoader) classloader;
+            buffer.append( "\n" );
+            appendEntries( buffer, urlcl );
+        }
+    }
 }
