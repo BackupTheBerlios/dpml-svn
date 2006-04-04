@@ -20,7 +20,6 @@ package net.dpml.part;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Stack;
 import java.net.URL;
 import java.net.URI;
 import java.net.URLClassLoader;
@@ -50,6 +49,7 @@ public class StandardClassLoader extends URLClassLoader
     * @param parent the parent classloader
     * @param uris the uris to assign as classloader content
     * @return the classloader
+    * @exception IOException if an I/O error occurs
     */
     public static ClassLoader buildClassLoader( URI uri, Category category, ClassLoader parent, URI[] uris )
       throws IOException
@@ -340,6 +340,13 @@ public class StandardClassLoader extends URLClassLoader
         buffer.append( "\n" );
     }
 
+   /**
+    * Return a string representing a report fo the common classloader chain
+    * following by the primary annd seciondarty classloaders.
+    * @param primary the primary classloader
+    * @param secondary the secondary classloader
+    * @return the report
+    */
     public static String toString( ClassLoader primary, ClassLoader secondary )
     {
         StringBuffer buffer = new StringBuffer();

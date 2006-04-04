@@ -22,12 +22,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 import java.util.Hashtable;
-import java.util.WeakHashMap;
 import java.lang.ref.WeakReference;
 
 import net.dpml.lang.Classpath;
-import net.dpml.part.Decoder;
-import net.dpml.part.DecodingException;
 import net.dpml.lang.Logger;
 import net.dpml.lang.DefaultLogger;
 import net.dpml.lang.Value;
@@ -44,6 +41,9 @@ import org.w3c.dom.TypeInfo;
  */
 public final class PartDecoder implements Decoder
 {
+   /**
+    * Part ZSD uri.
+    */
     public static final String PART_XSD_URI = "@PART-XSD-URI@";
 
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
@@ -53,6 +53,10 @@ public final class PartDecoder implements Decoder
     
     private static final PartDecoder DECODER = new PartDecoder();
     
+   /**
+    * Get the singleton instance of the part decoder.
+    * @return the decoder instance.
+    */
     public static PartDecoder getInstance()
     {
         return DECODER;
@@ -134,7 +138,7 @@ public final class PartDecoder implements Decoder
     * Resolve a object from a DOM element.
     * @param element the dom element
     * @return the resolved object
-    * @exception DecodingException if an error occurs during element evaluation
+    * @exception IOException if an error occurs during element evaluation
     */
     public Object decode( Element element ) throws IOException
     {
@@ -143,9 +147,9 @@ public final class PartDecoder implements Decoder
     
    /**
     * Resolve a part from a DOM element.
-    * @param element the dom element
-    * @return the part definition
-    * @exception DecodingException if an error occurs during element evaluation
+    * @param uri the part uri
+    * @return element part definition
+    * @exception IOException if an error occurs during element evaluation
     */
     public Part decodePart( URI uri, Element element ) throws IOException
     {
@@ -169,6 +173,13 @@ public final class PartDecoder implements Decoder
         }
     }
     
+   /**
+    * Resolve a part plugin or resource strategy.
+    * @param information the part info definition
+    * @param classpath the part classpath definition
+    * @return element part deployment definition
+    * @exception IOException if an error occurs during element evaluation
+    */
     public Part build( Info information, Classpath classpath, Element strategy ) throws IOException
     {
         TypeInfo info = strategy.getSchemaTypeInfo();
@@ -176,6 +187,7 @@ public final class PartDecoder implements Decoder
         if( PART_XSD_URI.equals( namespace ) )
         {
             // this is either a plugin or a resource
+            
             Logger logger = getLogger();
             String name = info.getTypeName();
             if( "plugin".equals( name ) )
@@ -221,6 +233,10 @@ public final class PartDecoder implements Decoder
         }
     }
     
+   /**
+    * Get the assigned logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return m_logger;
@@ -313,7 +329,7 @@ public final class PartDecoder implements Decoder
    /**
     * Construct the classpath defintion.
     * @param root the element containing a 'classpath' element.
-    * @return the classpath defintion
+    * @return the classpath definition
     * @exception DecodingException if an error occurs during element evaluation
     */
     protected Classpath getClasspath( Element root ) throws DecodingException

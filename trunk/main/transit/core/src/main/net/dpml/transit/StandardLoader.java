@@ -20,24 +20,15 @@
 package net.dpml.transit;
 
 import java.io.IOException;
-import java.beans.Expression;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Iterator;
 
-import net.dpml.transit.monitor.RepositoryMonitorRouter;
-
-import net.dpml.lang.Classpath;
-import net.dpml.lang.Category;
 import net.dpml.lang.Logger;
 
 import net.dpml.part.Part;
 import net.dpml.part.Plugin;
+
+import net.dpml.transit.monitor.RepositoryMonitorRouter;
 
 /**
  * Utility class supporting downloading of resources based on

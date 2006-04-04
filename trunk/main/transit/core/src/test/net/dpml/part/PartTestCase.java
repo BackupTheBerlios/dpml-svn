@@ -23,8 +23,6 @@ import java.io.FileOutputStream;
 
 import junit.framework.TestCase;
 
-import net.dpml.transit.monitor.LoggingAdapter;
-
 /**
  * Plugin test case.
  *

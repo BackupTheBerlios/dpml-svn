@@ -19,13 +19,9 @@
 package net.dpml.transit;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import java.net.URI;
-
-//import net.dpml.lang.Plugin;
-import net.dpml.lang.Classpath;
 
 import net.dpml.part.Part;
 

@@ -36,8 +36,12 @@ public class Resource extends Part
     
    /**
     * Creation of resource datatype.
+    * @param logger the assigned logging channel
+    * @param info the part info descriptor
+    * @param classpath the part classpath descriptor
     * @param urn the resource urn
     * @param path the resource path
+    * @exception IOException if an I/O error occurs
     */
     public Resource( Logger logger, Info info, Classpath classpath, String urn, String path )
       throws IOException
@@ -84,6 +88,12 @@ public class Resource extends Part
         throw new UnsupportedOperationException( "instantiate/1" );
     }
     
+   /**
+    * Encode the resource strategy to XML.
+    * @param writer the output stream writer
+    * @param pad the character offset
+    * @exception IOException if an I/O error occurs
+    */
     protected void encodeStrategy( Writer writer, String pad ) throws IOException
     {
         String urn = getURN();
@@ -94,6 +104,11 @@ public class Resource extends Part
         writer.write( "\"/>" );
     }
     
+   /**
+    * Test if this instance is equal to the supplied instance.
+    * @param other the supplied instance
+    * @return the equality status
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) )
@@ -121,5 +136,15 @@ public class Resource extends Part
         }
     }
     
-    
+   /**
+    * Get the hashcode for this instance.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= m_path.hashCode();
+        hash ^= m_urn.hashCode();
+        return hash;
+    }
 }
