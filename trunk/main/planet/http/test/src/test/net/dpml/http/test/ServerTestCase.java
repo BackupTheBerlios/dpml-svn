@@ -22,7 +22,6 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.part.Part;
 import net.dpml.transit.Transit;
 
 /**

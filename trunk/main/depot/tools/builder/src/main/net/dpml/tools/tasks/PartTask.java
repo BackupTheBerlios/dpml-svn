@@ -26,7 +26,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.lang.Logger;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
 
@@ -44,7 +43,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 import org.w3c.dom.Element;
 
@@ -169,8 +167,9 @@ public class PartTask extends GenericTask
     }
     
    /**
-    * Build the plugin definition.
-    * @exception exception if a build related error occurs
+    * Build the part definition.
+    * @param resource the resource
+    * @return the part
     */
     protected Part build( Resource resource )
     {
@@ -192,6 +191,12 @@ public class PartTask extends GenericTask
         }
     }
     
+   /**
+    * Construct the info object based on properties declared by the 
+    * supplied resource.
+    * @param resource the resource
+    * @return the info descriptor
+    */
     protected Info getInfo( Resource resource )
     {
         Artifact artifact = resource.getArtifact( TYPE );

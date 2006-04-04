@@ -25,16 +25,12 @@ import java.io.Writer;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 
 import javax.xml.XMLConstants;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Logger;
-
-import net.dpml.transit.Artifact;
 
 /**
  * Part datastructure.
@@ -44,9 +40,24 @@ import net.dpml.transit.Artifact;
  */
 public abstract class Part
 {
+   /**
+    * A value encoder.
+    */
     protected static final ValueEncoder VALUE_ENCODER = new ValueEncoder();
+    
+   /**
+    * Default XML header.
+    */
     protected static final String XML_HEADER = "<?xml version=\"1.0\"?>";
+
+   /**
+    * Part schema URN.
+    */
     protected static final String PART_SCHEMA_URN = "@PART-XSD-URI@";
+
+   /**
+    * Part header.
+    */
     protected static final String PART_HEADER = 
       "<part xmlns=\"" 
       + PART_SCHEMA_URN 
@@ -54,6 +65,10 @@ public abstract class Part
       + "\n    xmlns:xsi=\"" 
       + XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI
       + "\">";
+      
+   /**
+    * Part footer.
+    */
     protected static final String PART_FOOTER = "</part>";
 
     private final Info m_info;
@@ -61,6 +76,12 @@ public abstract class Part
     private final ClassLoader m_classloader;
     private final Logger m_logger;
     
+   /**
+    * Load a part from an external XML source.
+    * @param uri the external part source
+    * @return the resolved part
+    * @exception IOException of an I/O error occurs
+    */
     public static Part load( URI uri ) throws IOException
     {
         return PartDecoder.getInstance().loadPart( uri );
@@ -117,7 +138,12 @@ public abstract class Part
     * @exception Exception if a deployment error occurs
     */
     public abstract Object instantiate( Object[] args ) throws Exception;
-        
+   
+   /**
+    * Externalize the part to XML.
+    * @param output the output stream
+    * @exception IOException if an I/O error occurs
+    */
     public void encode( OutputStream output ) throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );
@@ -137,6 +163,12 @@ public abstract class Part
         output.close();
     }
     
+   /**
+    * Test is this part is equiovalent to the supplied part.
+    *
+    * @param other the other object
+    * @return true if the parts are equivalent
+    */
     public boolean equals( Object other )
     {
         if( other instanceof Part )
@@ -157,6 +189,25 @@ public abstract class Part
         }
     }
     
+   /**
+    * Get the part hashcode.
+    *
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        int hash = m_info.hashCode();
+        hash ^= m_classpath.hashCode();
+        return hash;
+    }
+    
+    
+   /**
+    * Encode this part strategy to XML.
+    *
+    * @param writer the output stream writer 
+    * @param pad the character offset 
+    */
     protected abstract void encodeStrategy( Writer writer, String pad ) throws IOException;
 
    /**
@@ -168,7 +219,11 @@ public abstract class Part
     {
         return m_classloader;
     }
-    
+
+   /**
+    * Get the assigned logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return m_logger;
@@ -252,7 +307,7 @@ public abstract class Part
     * @param category the classloader category
     * @param classloader the new classloader to report
     */
-    public void classloaderConstructed( Category category, ClassLoader classloader )
+    private void classloaderConstructed( Category category, ClassLoader classloader )
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -285,7 +340,7 @@ public abstract class Part
     * Handle notification of system classloader expansion.
     * @param uris the array of uris added to the system classloader
     */
-    public void systemExpanded( URI[] uris )
+    private void systemExpanded( URI[] uris )
     {
         if( getLogger().isDebugEnabled() )
         {

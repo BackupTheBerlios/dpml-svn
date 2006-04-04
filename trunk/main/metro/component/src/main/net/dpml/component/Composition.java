@@ -19,7 +19,6 @@
 package net.dpml.component;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URI;
 
 import net.dpml.lang.Classpath;
@@ -40,6 +39,14 @@ public abstract class Composition extends Part
     private Controller m_controller;
     private Model m_model;
     
+   /**
+    * Creation of a new abstract composition instance.
+    * @param logger the assigned logging channel
+    * @param info the part info descriptor
+    * @param classpath the part classpath definition
+    * @param controller the part controller
+    * @param directive the part deployment strategy directive3
+    */
     public Composition( Logger logger, Info info, Classpath classpath, Controller controller, Directive directive )
       throws IOException
     {
@@ -49,11 +56,19 @@ public abstract class Composition extends Part
         m_controller = controller;
     }
     
+   /**
+    * Get the deployment directive.
+    * @return the deployment directive
+    */
     public Directive getDirective()
     {
         return m_directive;
     }
     
+   /**
+    * Get the deployment model.
+    * @return the deployment model
+    */
     public Model getModel()
     {
         if( null == m_model )
@@ -74,6 +89,10 @@ public abstract class Composition extends Part
         return m_model;
     }
     
+   /**
+    * Create and return a new component using the deplyment model established by the part.
+    * @return the component
+    */
     public Component newComponent()
     {
         Model model = getModel();

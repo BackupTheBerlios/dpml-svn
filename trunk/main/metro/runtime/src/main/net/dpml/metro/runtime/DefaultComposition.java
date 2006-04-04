@@ -42,6 +42,15 @@ public final class DefaultComposition extends Composition
 {   
     private ComponentDirective m_directive;
      
+   /**
+    * Creation of a new composition diefinition.
+    * @param logger the assigned logging channel
+    * @param info the part info definition
+    * @param classpath the part classpath definition
+    * @param controller the deployment controller
+    * @param directive the deployment directive
+    * @exception IOException if an I/O exception occurs
+    */
     public DefaultComposition( 
       Logger logger, Info info, Classpath classpath, Controller controller, ComponentDirective directive )
       throws IOException
@@ -51,11 +60,21 @@ public final class DefaultComposition extends Composition
         m_directive = directive;
     }
     
+   /**
+    * Get the deployment directive.
+    * @return the deployment directive
+    */
     public ComponentDirective getComponentDirective()
     {
         return m_directive;
     }
     
+   /**
+    * Encode the deployment directive to XML.
+    * @param writer the output stream writer
+    * @param pad the outoput offset
+    * @exception IOException if an I/O exception occurs
+    */
     protected void encodeStrategy( Writer writer, String pad ) throws IOException
     {
         ComponentEncoder encoder = new ComponentEncoder();

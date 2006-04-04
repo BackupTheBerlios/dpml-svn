@@ -18,7 +18,6 @@
 
 package net.dpml.metro;
 
-import java.net.URI;
 import java.rmi.RemoteException;
 
 import net.dpml.component.Controller;

@@ -290,7 +290,8 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     
    /**
     * Build the plugin definition.
-    * @exception exception if a build related error occurs
+    * @param resource the project resource definition
+    * @return the part definition
     */
     protected Part build( Resource resource )
     {

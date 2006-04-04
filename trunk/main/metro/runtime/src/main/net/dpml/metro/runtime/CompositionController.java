@@ -26,18 +26,13 @@ import java.util.HashMap;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Hashtable;
-
 
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.Composite;
 import net.dpml.metro.builder.ComponentDecoder;
 
 import net.dpml.component.Controller;
 import net.dpml.component.ControlException;
-import net.dpml.component.Directive;
 import net.dpml.component.ControllerContext;
 import net.dpml.component.ControllerContextListener;
 import net.dpml.component.ControllerContextEvent;
@@ -50,15 +45,10 @@ import net.dpml.part.Builder;
 import net.dpml.part.StandardClassLoader;
 import net.dpml.part.Info;
 
-import net.dpml.part.DecoderFactory;
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Logger;
 import net.dpml.lang.DefaultLogger;
-
-import net.dpml.transit.Repository;
-import net.dpml.transit.Transit;
-import net.dpml.transit.monitor.LoggingAdapter;
 
 import org.w3c.dom.Element;
 
@@ -131,6 +121,13 @@ public class CompositionController implements Controller, Builder
     // Builder
     //--------------------------------------------------------------------
     
+   /**
+    * Construct the deployment infomation for a part definition.
+    * @param info the part info definition
+    * @param classpath the part classpath definition
+    * @param strategy the DOM element definining the deplyment streategy
+    * @exception IOException if an I/O error occurs
+    */
     public Part build( Info info, Classpath classpath, Element strategy ) throws IOException
     {
         ClassLoader context = Thread.currentThread().getContextClassLoader();

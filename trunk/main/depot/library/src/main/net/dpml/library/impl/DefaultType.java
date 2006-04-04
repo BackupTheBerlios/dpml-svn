@@ -18,19 +18,12 @@
 
 package net.dpml.library.impl;
 
-import java.net.URI;
-import java.util.Map;
-import java.util.Hashtable;
-
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.Type;
 
-import net.dpml.part.Decoder;
-import net.dpml.part.DecoderFactory;
 import net.dpml.lang.Logger;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Internal exception throw to indicate a bad name reference.
@@ -76,55 +69,14 @@ public class DefaultType extends DefaultDictionary implements Type
         return m_directive.getAlias();
     }
     
+   /**
+    * Get the DOM element defining the produced datatype.
+    * @return the DOM element
+    */
     public Element getElement()
     {
         return m_directive.getElement();
     }
-    
-   /**
-    * Get the type specific datastructure.
-    * @return the datastructure
-    */
-    /*
-    public Object getData()
-    {
-        Element element = m_directive.getElement();
-        if( null == element )
-        {
-            return null;
-        }
-        try
-        {
-            TypeInfo info = element.getSchemaTypeInfo();
-            String namespace = info.getTypeNamespace();
-            String builderURI = m_resource.getProperty( "project.xsd.builder." + namespace );
-            Map map = new Hashtable();
-            if( null != builderURI )
-            {
-                try
-                {
-                    map.put( namespace, new URI( builderURI ) );
-                }
-                catch( Throwable e )
-                {
-                    final String error =
-                      "Bad builder uri [" + builderURI + "].";
-                    throw new IllegalStateException( error );
-                }
-            }
-            Logger logger = getLogger();
-            DecoderFactory factory = new DecoderFactory( logger, map );
-            Decoder decoder = factory.loadDecoder( element );
-            return decoder.decode( element );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected error while attempting to data.";
-            throw new RuntimeException( error, e );
-        }
-    }
-    */
     
     Logger getLogger()
     {

@@ -38,7 +38,6 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.Priority;
 import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
@@ -47,7 +46,6 @@ import net.dpml.metro.ComponentModelManager;
 import net.dpml.lang.Logger;
 
 import net.dpml.component.Controller;
-import net.dpml.component.Directive;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Disposable;
 import net.dpml.component.ControlException;
@@ -59,7 +57,6 @@ import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
 
 import net.dpml.lang.Version;
-import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.state.State;

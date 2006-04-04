@@ -22,14 +22,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.dpml.component.Directive;
+
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.builder.ComponentDecoder;
-
-import net.dpml.component.Directive;
-import net.dpml.component.DelegationException;
-import net.dpml.component.PartNotFoundException;
-import net.dpml.component.Controller;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;

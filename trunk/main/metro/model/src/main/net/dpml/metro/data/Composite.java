@@ -19,7 +19,6 @@
 package net.dpml.metro.data;
 
 import java.io.IOException;
-import java.net.URI;
 
 import net.dpml.lang.Logger;
 import net.dpml.lang.Classpath;
@@ -38,6 +37,14 @@ public final class Composite extends Plugin
 {
     private final ComponentDirective m_directive;
     
+   /**
+    * Creation of a new composite instance.
+    * @param logger the assigned logging channel
+    * @param info the info descriptor
+    * @param classpath the classpath descriptor
+    * @param directive the deployment directive
+    * @exception IOException if an I/O error occurs
+    */
     public Composite( 
       Logger logger, Info info, Classpath classpath, ComponentDirective directive )
       throws IOException
@@ -47,6 +54,10 @@ public final class Composite extends Plugin
         m_directive = directive;
     }
     
+   /**
+    * Get the deplyment directive.
+    * @return the deployment directive
+    */
     public ComponentDirective getComponentDirective()
     {
         return m_directive;

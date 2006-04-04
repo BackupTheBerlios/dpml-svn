@@ -30,9 +30,6 @@ import java.util.Hashtable;
 import net.dpml.lang.Logger;
 
 import net.dpml.part.Part;
-import net.dpml.part.Plugin;
-
-import net.dpml.transit.Transit;
 
 import net.dpml.library.Module;
 import net.dpml.library.Resource;

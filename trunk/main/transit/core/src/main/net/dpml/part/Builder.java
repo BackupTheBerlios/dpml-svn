@@ -32,5 +32,12 @@ import org.w3c.dom.Element;
  */
 public interface Builder
 {
-    Part build( Info information, Classpath classpath, Element strategy ) throws IOException;
+   /**
+    * Construct a new part.
+    * @param info the part information descriptor
+    * @param classpath the part classpath descriptor
+    * @param element the DOM element definining the deployment strategy
+    * @exception IOException if an I/O error occurs
+    */
+    Part build( Info info, Classpath classpath, Element strategy ) throws IOException;
 }

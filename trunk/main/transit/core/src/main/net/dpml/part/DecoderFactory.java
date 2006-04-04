@@ -20,7 +20,6 @@ package net.dpml.part;
 
 import java.io.IOException;
 import java.net.URI;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Hashtable;
 

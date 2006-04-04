@@ -24,7 +24,6 @@ import java.net.URLConnection;
 import java.net.URL;
 import java.io.IOException;
 
-import net.dpml.component.Directive;
 import net.dpml.component.Controller;
 import net.dpml.component.Model;
 import net.dpml.component.Component;

@@ -75,6 +75,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final Logger m_logger;
     private final String m_version;
     
+   /**
+    * Creation of a new default resource.
+    * @param logger the assigned logging channel
+    * @param library the reference library
+    * @param directive the directive
+    */
     DefaultResource( Logger logger, DefaultLibrary library, AbstractDirective directive )
     {
         super( null, directive );
@@ -90,6 +96,13 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_version = resolveVersion();
     }
     
+   /**
+    * Creation of a new default resource.
+    * @param logger the assigned logging channel
+    * @param library the reference library
+    * @param module the parent module
+    * @directive the resource directive
+    */
     DefaultResource( Logger logger, DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
     {
         super( module, directive );
@@ -1171,6 +1184,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
     }
     
+   /**
+    * Return the logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return m_logger;
