@@ -236,7 +236,7 @@
   </target>
 
   <target name="javadoc" depends="prepare">
-    <x:javadoc title="DPML Component Management Platform" >
+    <x:javadoc title="DPML Component Management Platform" access="private">
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://api.dpml.net/javax/servlet/2.5"/>
       <link href="http://api.dpml.net/jetty/20060213"/>

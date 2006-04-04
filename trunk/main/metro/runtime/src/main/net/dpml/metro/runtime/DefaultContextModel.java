@@ -75,11 +75,12 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
 
    /**
     * Creation of a new <tt>DefaultContextModel</tt>.
-    * @param model the component model
+    * @param parent the parent model
+    * @param logger the assigned logging channel
     * @param classloader the classloader
     * @param type the component type
     * @param directive the context directive
-    * @exception ContextException if an error occurs in context model construction
+    * @exception ModelException if an error occurs in context model construction
     * @exception RemoteException if a remote I/O error occurs
     */
     DefaultContextModel( 

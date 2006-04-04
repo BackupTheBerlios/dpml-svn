@@ -54,8 +54,8 @@ final class DefaultService implements Service
     // ------------------------------------------------------------------------
 
    /**
-    * Return the service class.
-    * @param the class
+    * Get the service class.
+    * @return the service class
     */
     public Class getServiceClass()
     {

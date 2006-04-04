@@ -60,7 +60,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
    /**
     * Construction of a new codebase model using a supplied codebase storage unit.
     * @param logger the assigned logging channel
-    * @param home the codebase storage unit
+    * @param directive the codebase storage directive
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultCodeBaseModel( Logger logger, CodeBaseDirective directive )

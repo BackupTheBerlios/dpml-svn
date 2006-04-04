@@ -172,12 +172,12 @@ public final class SecuredTransitContext
     //------------------------------------------------------------------
     // constructors
     //------------------------------------------------------------------
-    /**
-     * Creation of a new secured transit context.
-     * @param model the transit configuration model
-     * @param handler the cache handler
-     * @param registry the content handler registry
-     */
+   /**
+    * Creation of a new secured transit context.
+    * @param model the transit configuration model
+    * @param logger the assigned logging channel
+    * @exception IOException if an I/O error occurs
+    */
     private SecuredTransitContext( TransitModel model, Logger logger ) throws IOException
     {
         m_model = model;
@@ -332,7 +332,7 @@ public final class SecuredTransitContext
     {
        /**
         * Listener creation.
-        * @exeption RemoteException if a remote error occurs
+        * @exception RemoteException if a remote error occurs
         */
         public ProxyController() throws RemoteException
         {
@@ -365,7 +365,7 @@ public final class SecuredTransitContext
     {
        /**
         * Listener creation.
-        * @exeption RemoteException if a remote error occurs
+        * @exception RemoteException if a remote error occurs
         */
         public DisposalController() throws RemoteException
         {
@@ -449,7 +449,7 @@ public final class SecuredTransitContext
     * with a preferences node named "excludes".  Each attribute name is appended to 
     * a single string where names are separated by the "|" character.
     *
-    * @param prefs the 'proxy' prefs node containing a child node named 'excludes'
+    * @param names an array of named excludes
     * @return a string containing a sequence of excluded hosts (possibly null)
     */
     private static String toExcludesPath( String[] names )

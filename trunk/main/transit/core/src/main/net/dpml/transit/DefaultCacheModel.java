@@ -87,9 +87,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
     *
     * @param logger the assigned logging channel
     * @param directive the cache configuration directive
-    * @param registry a registry of layout models
-    * @param content a registry of content models
-    * @exception RemoteException if a remote exception occurs
+    * @exception Exception if an error occurs
     */
     public DefaultCacheModel( Logger logger, CacheDirective directive )
       throws Exception
@@ -358,7 +356,8 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
 
    /**
     * Add a new host model to the cache model.
-    * @param model the host model to be added
+    * @param manager the host model to be added
+    * @param notify if TRUE issue a modification event
     * @exception DuplicateKeyException a host model with a matching id already exists
     * @exception RemoteException if a remote exception occurs
     */

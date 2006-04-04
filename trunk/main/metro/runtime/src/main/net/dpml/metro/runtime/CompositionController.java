@@ -77,6 +77,13 @@ public class CompositionController implements Controller, Builder
     
     private static final String COMPONENT_NAMESPACE_URI = "@COMPONENT-NAMESPACE-URI@";
     
+   /**
+    * Static URI of this controller.
+    */
+    public static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
+    
+    static final URI ROOT_URI = createStaticURI( "metro:/" );
+
     //--------------------------------------------------------------------
     // immutable state
     //--------------------------------------------------------------------
@@ -183,7 +190,7 @@ public class CompositionController implements Controller, Builder
 
    /**
     * Handle notification of the creation of a new classloader.
-    * @param type the type of classloader (api, spi or impl)
+    * @param category the classloader category (public, protected or private)
     * @param classloader the new classloader 
     */
     public void classloaderConstructed( Category category, ClassLoader classloader )
@@ -400,125 +407,6 @@ public class CompositionController implements Controller, Builder
         return m_logger;
     }
 
-   /**
-    * Load a directive from serialized form.
-    *
-    * @param uri the directive uri
-    * @return the directive
-    * @exception ControlException if an error is raised related to direction construction
-    * @exception IOException if an I/O error occurs while reading the directive
-    */
-    public Directive loadDirective( URI uri ) throws ControlException, IOException
-    {
-        ClassLoader current = Thread.currentThread().getContextClassLoader();
-        Part part = Part.load( uri );
-        throw new UnsupportedOperationException( "loadDirective" );
-        
-        /*
-        try
-        {
-            Strategy strategy = part.getStrategy();
-            Object data = strategy.getDeploymentData();
-            if( data instanceof Directive )
-            {
-                return (Directive) data;
-            }
-            else
-            {
-                final String error = 
-                  "Part datatype [" 
-                  + data.getClass().getName() 
-                  + "] referenced in the part ["
-                  + uri
-                  + "] is not recognized.";
-                throw new ControllerException( error );
-            }
-        }
-        catch( ControllerException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Unexpected error while loading directive: "
-              + uri;
-            throw new ControllerException( error, e );
-        }
-        finally
-        {
-            Thread.currentThread().setContextClassLoader( current );
-        }
-        */
-    }
-    
-   /**
-    * Load a controller given a uri.
-    * @param uri the forign controller uri
-    * @return the part controller
-    * @exception ControllerNotFoundException if the controller could not be found
-    * @exception DelegationException if an error occured in the foreign controller
-    */
-    /*
-    public Controller getPrimaryController( URI uri ) 
-       throws ControllerNotFoundException, DelegationException
-    {
-        if( !getURI().equals( uri ) )
-        {
-            return resolveController( uri );
-        }
-        else
-        {
-            return this;
-        }
-    }
-
-    private Controller resolveController( URI uri ) throws ControllerNotFoundException
-    {
-        if( getURI().equals( uri ) )
-        {
-            return this;
-        }
-        
-        synchronized( m_handlers )
-        {
-            Controller controller = (Controller) m_handlers.get( uri );
-            if( null != controller )
-            {
-                return controller;
-            }
-            else
-            {
-                controller = loadForeignController( uri );
-                m_handlers.put( uri, controller );
-                return controller;
-            }
-        }
-    }
-
-    private Controller loadForeignController( URI uri ) throws ControllerNotFoundException
-    {
-        ClassLoader classloader = Controller.class.getClassLoader();
-        try
-        {
-            return (Controller) m_loader.getPlugin( 
-              classloader, uri, 
-              new Object[]{m_context} );
-        }
-        catch( IOException e )
-        {
-            throw new ControllerNotFoundException( CONTROLLER_URI, uri, e );
-        }
-        catch( InvocationTargetException e )
-        {
-            final String error =
-              "Controller instantiation failure."
-              + "URI: " + uri;
-            throw new ControllerRuntimeException( error );
-        }
-    }
-    */
-    
     String getPartition()
     {
         return m_partition;
@@ -531,13 +419,6 @@ public class CompositionController implements Controller, Builder
         m_dispatch.dispose();
     }
     
-   /**
-    * Static URI of this controller.
-    */
-    public static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
-    
-    static final URI ROOT_URI = createStaticURI( "metro:/" );
-
     private static URI createStaticURI( String path )
     {
         try

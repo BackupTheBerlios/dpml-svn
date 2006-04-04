@@ -29,7 +29,7 @@ final class InvalidTypeNameException extends InvalidNameException
 {
    /**
     * Creation of a new InvalidTypeNameException.
-    * @param name the exception message
+    * @param message the exception message
     */
     InvalidTypeNameException( String message )
     {
@@ -38,7 +38,7 @@ final class InvalidTypeNameException extends InvalidNameException
     
    /**
     * Creation of a new InvalidTypeNameException.
-    * @param name the exception message
+    * @param message the exception message
     * @param cause the causal exception
     */
     InvalidTypeNameException( String message, Throwable cause )

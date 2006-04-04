@@ -99,9 +99,9 @@ public final class DecoderFactory
    /**
     * Resolve the element helper uri from a supplied element.
     *
-    * @param element the DOM element
+    * @param namespace the DOM element namespace
     * @return the builder uri
-    * @exception Exception if an eror occurs
+    * @exception Exception if an error occurs
     */
     public URI getDecoderURI( String namespace ) throws Exception
     {
@@ -152,9 +152,9 @@ public final class DecoderFactory
         
        /**
         * Delegating implementation of the decode operation.
-        * @param classloader the base classloader
         * @param element the subject element
         * @return the resulting object
+        * @exception IOException if an IO error occurs
         */
         public Object decode( Element element ) throws IOException
         {

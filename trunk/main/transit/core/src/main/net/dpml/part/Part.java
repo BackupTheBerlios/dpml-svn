@@ -70,8 +70,8 @@ public abstract class Part
     * Creation of a new part datastructure.
     * @param logger the logging channel
     * @param info the info descriptor
-    * @param strategy the part deployment strategy
     * @param classpath the part classpath definition
+    * @exception IOException if an I/O error occurs
     */
     public Part( Logger logger, Info info, Classpath classpath ) throws IOException
     {
@@ -249,8 +249,8 @@ public abstract class Part
 
    /**
     * Handle notification of the creation of a new classloader.
-    * @param type the type of classloader (api, spi or impl)
-    * @param classloader the new classloader 
+    * @param category the classloader category
+    * @param classloader the new classloader to report
     */
     public void classloaderConstructed( Category category, ClassLoader classloader )
     {

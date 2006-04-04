@@ -81,7 +81,6 @@ public class StandardBuilder implements Builder
     *
     * @param logger assigned logging channel
     * @param library the library
-    * @param part the part used to establish this class
     * @param verbose verbose execution flag
     */
     public StandardBuilder( Logger logger, Library library, boolean verbose )

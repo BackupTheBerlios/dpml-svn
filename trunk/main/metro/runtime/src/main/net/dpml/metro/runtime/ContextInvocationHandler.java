@@ -56,7 +56,7 @@ class ContextInvocationHandler implements InvocationHandler
    /**
     * Create a context invocation handler.
     *
-    * @param handler the component handler
+    * @param provider the provider
     */
     ContextInvocationHandler( DefaultProvider provider )
     {

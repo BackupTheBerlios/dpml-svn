@@ -54,7 +54,7 @@ class PartsInvocationHandler implements InvocationHandler
    /**
     * Create a parts invocation handler.
     *
-    * @param handler the component handler
+    * @param manager the parts manager
     */
     PartsInvocationHandler( PartsManager manager )
     {

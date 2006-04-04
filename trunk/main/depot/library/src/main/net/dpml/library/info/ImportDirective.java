@@ -121,7 +121,7 @@ public final class ImportDirective extends AbstractDirective
     
    /**
     * Compute the hash value.
-    * @return the hascode value
+    * @return the hashcode value
     */
     public int hashCode()
     {
@@ -151,8 +151,6 @@ public final class ImportDirective extends AbstractDirective
        /**
         * Internal constructor.
         * @param label the enumeration label.
-        * @param index the enumeration index.
-        * @param map the set of constructed enumerations.
         */
         private Mode( String label )
         {

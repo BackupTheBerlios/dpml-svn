@@ -62,9 +62,9 @@ public final class DefaultModule extends DefaultResource implements Module
    /**
     * Constructor used by the library to create a virtual root module os shared 
     * resource references.
+    * @param logger the assigned logging channel
     * @param library the library
     * @param directive the library directive from which common properties are established
-    * @param resources the array of top-level modules
     */
     DefaultModule( Logger logger, DefaultLibrary library, AbstractDirective directive ) 
     {
@@ -74,6 +74,13 @@ public final class DefaultModule extends DefaultResource implements Module
         m_directive = null;
     }
     
+   /**
+    * Creation of a new nested module.
+    * @param logger the assigned logging channel
+    * @param library the library
+    * @param module the parent module
+    * @param directive the library directive from which common properties are established
+    */
     DefaultModule( Logger logger, DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
       throws DuplicateKeyException
     {
@@ -89,6 +96,11 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
     
+   /**
+    * Add a resource to the module.
+    * @param directive the resource directive to add to the module
+    * @throws DuplicateKeyException if a resource name is already bound
+    */
     DefaultResource addResource( ResourceDirective directive ) throws DuplicateKeyException
     {
         if( null == directive )

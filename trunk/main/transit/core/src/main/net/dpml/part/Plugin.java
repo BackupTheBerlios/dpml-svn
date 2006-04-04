@@ -45,8 +45,10 @@ public class Plugin extends Part
     
    /**
     * Creation of an new plugin datatype.
+    * @param logger the assigned logging channel
+    * @param info the part info descriptor
+    * @param classpath the classpath descriptor
     * @param classname the target class
-    * @param params an array of default value arguments
     */ 
     public Plugin( 
       Logger logger, Info info, Classpath classpath, String classname )
@@ -57,6 +59,9 @@ public class Plugin extends Part
     
    /**
     * Creation of an new plugin datatype.
+    * @param logger the assigned logging channel
+    * @param info the part info descriptor
+    * @param classpath the classpath descriptor
     * @param classname the target class
     * @param params an array of default value arguments
     */ 

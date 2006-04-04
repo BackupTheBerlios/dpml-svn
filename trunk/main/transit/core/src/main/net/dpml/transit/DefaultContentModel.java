@@ -52,7 +52,7 @@ class DefaultContentModel extends DefaultCodeBaseModel implements ContentModel, 
    /**
     * Construction of a new content model using a supplied storage unit.
     * @param logger the assigned logging channel
-    * @param home the content model persistent storage home
+    * @param directive the content directive
     * @exception RemoteException if a remote exception occurs
     */
     public DefaultContentModel( Logger logger, ContentDirective directive ) throws RemoteException

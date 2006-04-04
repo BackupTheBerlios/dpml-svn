@@ -108,18 +108,11 @@ class ComponentController
     }
 
    /**
-    * Create a new remotely manageable component model.
-    * @param directive the component definition
-    * @return the managable component model
+    * Creation of a new component model using a supplied composition datatstructure
+    * from which the classloader and deplyment strategy can be resolved.
+    * @param composition a composition datastructure
+    * @exception ControlException if an error occuts during model creation
     */
-    //public ComponentModel createComponentModel( 
-    //  Classpath classpath, ComponentDirective directive ) throws ControlException
-    //{
-    //    ClassLoader anchor = Logger.class.getClassLoader();
-    //    String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
-    //    return createComponentModel( anchor, classpath, partition, directive );
-    //}
-    
     public ComponentModel createComponentModel( DefaultComposition composition ) throws ControlException
     {
         String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
@@ -148,7 +141,8 @@ class ComponentController
 
    /**
     * Create a new remotely manageable component model.
-    * @param classloader the parent classloader
+    * @param anchor the parent classloader
+    * @param classpath the classpath definition
     * @param partition the enclosing partition
     * @param directive the component definition
     * @return the managable component model
@@ -193,6 +187,7 @@ class ComponentController
     * @param parent the parent handler
     * @param anchor the anchor classloader
     * @param context the managed context
+    * @param flag TRUE if the supplied model is managed by the handler
     * @return the runtime handler
     */
     DefaultComponentHandler createDefaultComponentHandler( 
@@ -338,8 +333,8 @@ class ComponentController
     
    /**
     * Load the component type for the supplied class.
-    * @param the component class
-    * @return the type defintion
+    * @param subject the component class
+    * @return the type definition
     * @exception ControlException if an error occurs during type decoding
     */
     Type loadType( Class subject ) throws ControlException

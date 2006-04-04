@@ -63,7 +63,6 @@ public final class Scope extends ValuedEnum implements Comparable
     * Internal constructor.
     * @param label the enumeration label.
     * @param index the enumeration index.
-    * @param map the set of constructed enumerations.
     */
     private Scope( String label, int index )
     {

@@ -398,7 +398,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
        /**
         * Creation of a new ProfileAddedEvent.
         * @param source the source registry
-        * @param profile the profile that was added
+        * @param descriptor the application descriptor that was added
         */
         public ApplicationDescriptorAddedEvent( 
           ApplicationRegistry source, ApplicationDescriptor descriptor )
@@ -415,7 +415,7 @@ public class RemoteApplicationRegistry extends DefaultModel implements Applicati
        /**
         * Creation of a new ProfileRemovedEvent.
         * @param source the source registry
-        * @param profile the profile that was removed
+        * @param descriptor the application descriptor that was removed
         */
         public ApplicationDescriptorRemovedEvent( ApplicationRegistry source, ApplicationDescriptor descriptor )
         {

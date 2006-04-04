@@ -45,7 +45,7 @@ final class ParametersInvocationHandler implements InvocationHandler
    /**
     * Create a proxy invocation handler.
     *
-    * @param instance the instance
+    * @param params the parameters instance
     */
     public ParametersInvocationHandler( Parameters params )
     {

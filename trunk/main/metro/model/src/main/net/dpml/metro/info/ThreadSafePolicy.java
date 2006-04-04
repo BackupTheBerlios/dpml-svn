@@ -70,8 +70,6 @@ public final class ThreadSafePolicy extends Enum
    /**
     * Internal constructor.
     * @param label the enumeration label.
-    * @param index the enumeration index.
-    * @param map the set of constructed enumerations.
     */
     private ThreadSafePolicy( String label )
     {
@@ -81,7 +79,7 @@ public final class ThreadSafePolicy extends Enum
    /**
     * Parse the supplied name.
     * @param value the value to parse
-    * @return the collection policy
+    * @return the policy value
     */
     public static ThreadSafePolicy parse( String value )
     {

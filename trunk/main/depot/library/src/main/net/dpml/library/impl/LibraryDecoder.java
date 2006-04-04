@@ -273,7 +273,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @param base the base directory
     * @param element the module element
     * @param offset the imported file directory offset
-    * @param Exception if an error occurs
+    * @throws Exception if an error occurs
     */
     private ResourceDirective buildResourceDirectiveFromElement( 
       File base, Element element, String offset ) throws Exception

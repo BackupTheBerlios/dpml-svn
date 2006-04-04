@@ -61,7 +61,7 @@ class DefaultContentRegistryModel extends DefaultModel
    /**
     * Creation of a new content registry model.
     * @param logger the supplied logging channel
-    * @param home the content registry storage home
+    * @param handlers the content directives
     * @exception DuplicateKeyException if the supplied home contains 
     *   duplicate content model identities
     * @exception RemoteException if a remote exception occurs

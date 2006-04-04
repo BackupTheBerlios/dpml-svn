@@ -445,14 +445,14 @@ public final class Comparators
         
        /**
         * Compare two values.
-        * @param left the first value
-        * @param right the second value
+        * @param primary the first value
+        * @param secondary the second value
         * @return the result
         */
-        public int compare( final Object oleft, final Object oright )
+        public int compare( final Object primary, final Object secondary )
         {
-            final Option left = (Option) oleft;
-            final Option right = (Option) oright;
+            final Option left = (Option) primary;
+            final Option right = (Option) secondary;
 
             final boolean l = left.getTriggers().contains( m_name );
             final boolean r = right.getTriggers().contains( m_name );
@@ -498,14 +498,14 @@ public final class Comparators
     {
        /**
         * Compare two values.
-        * @param left the first value
-        * @param right the second value
+        * @param primary the first value
+        * @param secondary the second value
         * @return the result
         */
-        public int compare( final Object oleft, final Object oright )
+        public int compare( final Object primary, final Object secondary )
         {
-            final Option left = (Option) oleft;
-            final Option right = (Option) oright;
+            final Option left = (Option) primary;
+            final Option right = (Option) secondary;
             return left.getPreferredName().compareTo( right.getPreferredName() );
         }
     }
@@ -539,14 +539,14 @@ public final class Comparators
     {
        /**
         * Compare two values.
-        * @param left the first value
-        * @param right the second value
+        * @param primary the first value
+        * @param secondary the second value
         * @return the result
         */
-        public int compare( final Object oleft, final Object oright )
+        public int compare( final Object primary, final Object secondary )
         {
-            final Option left = (Option) oleft;
-            final Option right = (Option) oright;
+            final Option left = (Option) primary;
+            final Option right = (Option) secondary;
             
             final boolean l = left.isRequired();
             final boolean r = right.isRequired();

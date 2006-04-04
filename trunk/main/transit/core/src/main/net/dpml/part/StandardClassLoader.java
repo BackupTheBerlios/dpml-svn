@@ -45,9 +45,10 @@ public class StandardClassLoader extends URLClassLoader
     * Internal utility class to build a classloader.  If the supplied url
     * sequence is zero length the parent classloader is returned directly.
     *
-    * @param type the type of classloader (api, spi, impl)
+    * @param uri the uri identifying the classloader source part
+    * @param category the category that this classloader is handling
     * @param parent the parent classloader
-    * @param urls the urls to assign as classloader content
+    * @param uris the uris to assign as classloader content
     * @return the classloader
     */
     public static ClassLoader buildClassLoader( URI uri, Category category, ClassLoader parent, URI[] uris )

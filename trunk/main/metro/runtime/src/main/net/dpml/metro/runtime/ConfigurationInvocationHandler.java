@@ -45,7 +45,7 @@ final class ConfigurationInvocationHandler implements InvocationHandler
    /**
     * Create a proxy invocation handler.
     *
-    * @param instance the instance
+    * @param config the instance
     */
     public ConfigurationInvocationHandler( Configuration config )
     {

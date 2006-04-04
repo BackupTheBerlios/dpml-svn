@@ -75,8 +75,6 @@ public final class CollectionPolicy extends Enum
    /**
     * Internal constructor.
     * @param label the enumeration label.
-    * @param index the enumeration index.
-    * @param map the set of constructed enumerations.
     */
     private CollectionPolicy( String label )
     {

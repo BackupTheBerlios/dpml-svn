@@ -73,7 +73,6 @@ public final class ProcessState extends ValuedEnum implements Comparable
     * Internal constructor.
     * @param label the enumeration label.
     * @param index the enumeration index.
-    * @param map the set of constructed enumerations.
     */
     private ProcessState( String label, int index )
     {

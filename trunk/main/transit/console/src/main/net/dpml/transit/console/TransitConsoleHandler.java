@@ -99,7 +99,7 @@ public class TransitConsoleHandler
     * Creation of a new Transit CLI handler.
     *
     * @param logger the assigned logging channel
-    * @param args command line arguments
+    * @param line the command line
     * @exception Exception if an error occurs during plugin establishment
     */
     private TransitConsoleHandler( final Logger logger, final CommandLine line ) throws Exception

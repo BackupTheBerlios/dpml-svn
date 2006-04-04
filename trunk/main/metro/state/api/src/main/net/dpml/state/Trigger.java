@@ -96,8 +96,6 @@ public interface Trigger
        /**
         * Internal constructor.
         * @param label the enumeration label.
-        * @param index the enumeration index.
-        * @param map the set of constructed enumerations.
         */
         private TriggerEvent( String label )
         {

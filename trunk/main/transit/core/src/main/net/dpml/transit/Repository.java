@@ -49,13 +49,11 @@ public interface Repository
    /**
     * Get a part classloader relative to a supplied uri.
     *
-    * @param parent the parent classloader
     * @param uri the part uri
     * @return the plugin classloader
     * @exception IOException if plugin loading exception occurs
     */
-    ClassLoader getPluginClassLoader( URI uri )
-        throws IOException;
+    ClassLoader getPluginClassLoader( URI uri ) throws IOException;
 
    /**
     * Get a plugin class relative to a supplied uri.
@@ -64,19 +62,16 @@ public interface Repository
     * @return the part class
     * @exception IOException if plugin loading exception occurs
     */
-    Class getPluginClass( URI uri )
-        throws IOException;
+    Class getPluginClass( URI uri ) throws IOException;
 
    /**
     * Creates an object from a uri reference.
     *
-    * @param parent the parent classloader
     * @param uri the reference to the application
     * @param args instantiation arguments
     * @return the plugin instance
     * @exception IOException if plugin loading exception occurs
     * @exception InvocationTargetException if the plugin constructor invocation error occurs
     */
-    Object getPlugin( URI uri, Object[] args  )
-        throws IOException, InvocationTargetException;
+    Object getPlugin( URI uri, Object[] args  ) throws IOException, InvocationTargetException;
 }

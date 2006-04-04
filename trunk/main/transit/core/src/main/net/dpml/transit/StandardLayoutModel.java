@@ -55,7 +55,9 @@ class StandardLayoutModel extends DefaultModel implements LayoutModel
    /**
     * Creation of a new layout model using a supplied layout configuration.
     * @param logger the assigned logging channel
-    * @param directive the layout configuration
+    * @param id the layout identifier
+    * @param title the layout title
+    * @param classname the layout classname
     * @exception RemoteException if a remote exception occurs
     */
     public StandardLayoutModel( 
