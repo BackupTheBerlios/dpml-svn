@@ -21,7 +21,7 @@ package net.dpml.library.info;
 import net.dpml.lang.ValuedEnum;
 
 /**
- * Lifestyle policy enumeration.
+ * Enumeration identifying BUILD, RUNTIME and TEST phases.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
