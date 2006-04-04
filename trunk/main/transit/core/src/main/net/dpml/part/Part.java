@@ -283,7 +283,7 @@ public abstract class Part
 
    /**
     * Handle notification of system classloader expansion.
-    * @param urls the array of urls added to the system classloader
+    * @param uris the array of uris added to the system classloader
     */
     public void systemExpanded( URI[] uris )
     {

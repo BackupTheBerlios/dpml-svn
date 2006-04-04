@@ -327,8 +327,8 @@ public class BuilderPlugin
     * Build the supplied set of projects. If a build filure occurs then 
     * abort the build sequence and exit.
     *
-    * @param line the commandline
     * @param resources the sorted sequence of prouject to build
+    * @exception Exception if an error occurs
     */
     private void list( Resource[] resources ) throws Exception
     {

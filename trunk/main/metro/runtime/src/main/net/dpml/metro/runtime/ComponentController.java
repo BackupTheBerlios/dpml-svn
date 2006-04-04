@@ -172,8 +172,9 @@ class ComponentController
 
    /**
     * Create a new top-level runtime handler using a supplied anchor classloader and context.
-    * @param anchor the anchor classloader
+    * @param classloader the anchor classloader
     * @param context the managed context
+    * @param flag TRUE if this is a managed model
     * @return the runtime handler
     */
     DefaultComponentHandler createDefaultComponentHandler( 

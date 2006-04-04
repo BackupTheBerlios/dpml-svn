@@ -106,7 +106,6 @@ class StandardLoader implements Repository
     * must refer to a plugin descriptor (i.e. the artifact type is "plugin").
     * The class returned will be the class named in the plugin descriptor.
     *
-    * @param parent the parent classloader
     * @param uri the plugin artifact
     * @return the plugin class
     * @exception IOException if a class resolution error occurs
