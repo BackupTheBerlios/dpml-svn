@@ -30,6 +30,7 @@ import java.util.TimeZone;
 import java.util.Properties;
 
 import net.dpml.lang.Category;
+import net.dpml.lang.Logger;
 
 import net.dpml.library.Type;
 import net.dpml.library.Resource;
@@ -71,8 +72,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final String[] m_typeNames;
     private final String m_path;
     private final File m_basedir;
+    private final Logger m_logger;
+    private final String m_version;
     
-    DefaultResource( DefaultLibrary library, AbstractDirective directive )
+    DefaultResource( Logger logger, DefaultLibrary library, AbstractDirective directive )
     {
         super( null, directive );
         
@@ -83,9 +86,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_typeNames = new String[0];
         m_path = "";
         m_basedir = null;
+        m_logger = logger;
+        m_version = resolveVersion();
     }
     
-    DefaultResource( DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
+    DefaultResource( Logger logger, DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
     {
         super( module, directive );
         if( null == directive )
@@ -96,6 +101,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_library = library;
         m_directive = directive;
         m_parent = module;
+        m_logger = logger;
+        m_version = resolveVersion();
         
         if( module.isRoot() )
         {
@@ -164,7 +171,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         for( int i=0; i<directives.length; i++ )
         {
             TypeDirective directive = directives[i];
-            types[i] = new DefaultType( this, directive );
+            types[i] = new DefaultType( m_logger, this, directive );
         }
         return types;
     }
@@ -194,6 +201,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * @return the version
     */
     public String getVersion()
+    {
+        return m_version;
+    }
+    
+   /**
+    * Return the resource version.
+    * @return the version
+    */
+    private String resolveVersion()
     {
         if( null == m_directive )
         {
@@ -1153,5 +1169,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             return m_parent.getResourcePath();
         }
+    }
+    
+    protected Logger getLogger()
+    {
+        return m_logger;
     }
 }

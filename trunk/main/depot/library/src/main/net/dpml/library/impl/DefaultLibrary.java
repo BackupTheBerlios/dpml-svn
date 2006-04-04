@@ -54,7 +54,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     
     private final LibraryDirective m_directive;
     private final DefaultModule m_module;
-    //private final DefaultModule m_imports;
     private final File m_root;
     private final Logger m_logger;
     private final Hashtable m_anonymous = new Hashtable();
@@ -93,7 +92,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         m_logger = logger;
         m_directive = (LibraryDirective) super.getAbstractDirective();
         m_root = source.getParentFile().getCanonicalFile();
-        m_module = new DefaultModule( this, m_directive );
+        m_module = new DefaultModule( m_logger, this, m_directive );
         
         getLogger().debug( "loaded root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
@@ -132,11 +131,9 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
             }
         }
         
-        //m_imports = new DefaultModule( this, m_directive );
         for( int i=0; i<importModuleDirectives.length; i++ )
         {
             ModuleDirective importModuleDirective = importModuleDirectives[i];
-            //m_imports.addResource( importModuleDirective );
             m_module.addResource( importModuleDirective );
         }
         
@@ -425,7 +422,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         try
         {
-            DefaultModule root = new DefaultModule( this, m_directive );
+            DefaultModule root = new DefaultModule( m_logger, this, m_directive );
             root.addResource( enclosing );
             DefaultResource resource =  root.getDefaultResource( group + "/" + name );
             m_anonymous.put( urn, resource );

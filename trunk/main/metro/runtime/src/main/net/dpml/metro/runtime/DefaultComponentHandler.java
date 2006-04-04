@@ -44,7 +44,7 @@ import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentModelManager;
 
-import net.dpml.logging.Logger;
+import net.dpml.lang.Logger;
 
 import net.dpml.component.Controller;
 import net.dpml.component.Directive;
@@ -272,8 +272,9 @@ class DefaultComponentHandler extends UnicastEventSource
     * @return the component handler
     * @exception Exception if an error occurs during component loading or establishment
     */
-    public ComponentHandler createComponentHandler( ClassLoader anchor, URI uri ) throws Exception
-    {
+    //public ComponentHandler createComponentHandler( ClassLoader anchor, URI uri ) throws Exception
+    //{
+        /*
         Directive directive = getController().loadDirective( uri );
         if( directive instanceof ComponentDirective )
         {
@@ -293,7 +294,8 @@ class DefaultComponentHandler extends UnicastEventSource
               + "] is not supported.";
             throw new IllegalArgumentException( error );
         }
-    }
+        */
+    //}
 
     //--------------------------------------------------------------------------
     // ModelListener

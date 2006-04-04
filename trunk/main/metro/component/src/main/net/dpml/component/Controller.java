@@ -49,7 +49,7 @@ public interface Controller
     * @exception ControlException if a direction construction error ocurrs
     * @exception IOException if an I/O error occurs
     */
-    Directive loadDirective( URI uri ) throws ControlException, IOException;
+    //Directive loadDirective( URI uri ) throws ControlException, IOException;
     
    /**
     * Create and return a new management context using the supplied directive uri.
@@ -60,6 +60,16 @@ public interface Controller
     * @exception IOException if an I/O error occurs
     */
     Model createModel( URI uri ) throws ControlException, IOException;
+
+   /**
+    * Create and return a new management context using the supplied directive uri.
+    *
+    * @param composition a composition directive
+    * @return the management model
+    * @exception ControlException if an error occurs
+    * @exception IOException if an I/O error occurs
+    */
+    Model createModel( Composition composition ) throws ControlException, IOException;
 
    /**
     * Create and return a remote reference to a component handler.
@@ -76,4 +86,6 @@ public interface Controller
     * @exception Exception if a component construction error occurs
     */
     Component createComponent( Model model ) throws Exception;
+    
+    
 }

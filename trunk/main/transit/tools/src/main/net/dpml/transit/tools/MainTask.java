@@ -76,17 +76,6 @@ public class MainTask extends TransitTask
         super();
     }
 
-   /**
-    * Creation of a new Main task.
-    * @param model the assigned transit model
-    * @param logger the assigned logging channel
-    * @exception Exception if an error occurs
-    */
-    //public MainTask( TransitModel model, Logger logger ) throws Exception
-    //{
-    //    super( model, logger );
-    //}
-
     // ------------------------------------------------------------------------
     // Task
     // ------------------------------------------------------------------------

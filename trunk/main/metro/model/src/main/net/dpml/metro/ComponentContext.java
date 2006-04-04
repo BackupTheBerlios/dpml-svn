@@ -47,7 +47,7 @@ public interface ComponentContext
     * @return the component handler
     * @exception Exception if an error occurs during component loading or establishment
     */
-    ComponentHandler createComponentHandler( 
-      ClassLoader anchor, URI uri ) throws Exception;
+    //ComponentHandler createComponentHandler( 
+    //  ClassLoader anchor, URI uri ) throws Exception;
 }
 

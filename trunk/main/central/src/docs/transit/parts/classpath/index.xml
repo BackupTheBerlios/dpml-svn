@@ -87,7 +87,7 @@
     <uri>artifact:jar:dpml/util/dpml-job-impl#SNAPSHOT</uri>
     <uri>artifact:jar:dpml/metro/dpml-state-impl#SNAPSHOT</uri>
     <uri>artifact:jar:dpml/depot/dpml-library#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/metro/dpml-metro-builder#SNAPSHOT</uri>
+    <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
     <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
   </private>
 </classpath>]]>

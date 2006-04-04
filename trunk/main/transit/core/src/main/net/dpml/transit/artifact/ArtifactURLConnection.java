@@ -205,13 +205,12 @@ public class ArtifactURLConnection extends URLConnection
         if( "part".equals( type ) )
         { 
             Repository loader = Transit.getInstance().getRepository();
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             URI uri = m_artifact.toURI();
             if( classes.length == 0 )
             {
                 try
                 {
-                    return loader.getPlugin( classloader, uri, new Object[0] );
+                    return loader.getPlugin( uri, new Object[0] );
                 }
                 catch( InvocationTargetException e )
                 {
@@ -230,16 +229,13 @@ public class ArtifactURLConnection extends URLConnection
                     Class c = classes[i];
                     if( ClassLoader.class.equals( c ) )
                     {
-                        return loader.getPluginClassLoader( classloader, uri );
+                        Part part = loader.getPart( uri );
+                        return part.getClassLoader();
                     }
                     else if( Class.class.equals( c ) )
                     {
-                        return loader.getPluginClass( classloader, uri );
+                        return loader.getPluginClass( uri );
                     }
-                    //else if( Plugin.class.equals( c ) )
-                    //{
-                    //    return loader.getPluginDescriptor( uri );
-                    //}
                     else if( Part.class.equals( c ) )
                     {
                         return loader.getPart( uri );

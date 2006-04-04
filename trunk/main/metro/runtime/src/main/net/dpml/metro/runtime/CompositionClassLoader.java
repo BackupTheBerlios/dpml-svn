@@ -26,7 +26,9 @@ import java.util.ArrayList;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
-import net.dpml.transit.StandardClassLoader;
+
+import net.dpml.part.StandardClassLoader;
+
 import net.dpml.lang.Category;
 
 /**
@@ -48,11 +50,11 @@ class CompositionClassLoader extends StandardClassLoader
     //--------------------------------------------------------------------
 
     public CompositionClassLoader( 
-      URI uri, Category category, ClassLoader base, URI[] uris, ClassLoader parent )
+      URI uri, Category category, ClassLoader management, ClassLoader client )
     {
-        super( uri, category, urisToURLs( uris, parent ), parent );
+        super( uri, category, new URL[0], client );
 
-        m_base = base;
+        m_base = management;
     }
 
     //--------------------------------------------------------------------

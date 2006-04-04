@@ -126,7 +126,7 @@
     <include key="dpml-metro-component" tag="protected"/>
     <include key="dpml-metro-model" tag="protected"/>
     <include key="dpml-state-impl"/>
-    <include key="dpml-metro-builder"/>
+    <include key="dpml-metro-runtime"/>
   </dependencies>
   <dependencies scope="test">
     <include ref="ant/ant-junit"/>

@@ -50,7 +50,7 @@ import net.dpml.configuration.Configurable;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.configuration.impl.DefaultConfiguration;
 
-import net.dpml.logging.Logger;
+import net.dpml.lang.Logger;
 
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
@@ -94,13 +94,61 @@ class DefaultComponentModel extends UnicastEventSource
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
+    
+    public DefaultComponentModel( 
+      Logger logger, ComponentController controller, DefaultComposition composition, String partition ) 
+      throws ControlException, IOException, RemoteException
+    {
+        super( logger );
+        
+        m_classpath = composition.getClasspath();
+        m_controller = controller;
+        m_directive = composition.getComponentDirective();
+        m_classloader = composition.getClassLoader();
+        m_classname = m_directive.getClassname();
+        m_class = m_controller.loadComponentClass( m_classloader, m_classname );
+        m_type = m_controller.loadType( m_class );
+
+        String name = m_directive.getName();
+        if( null == name )
+        {
+            m_path = partition + m_type.getInfo().getName();
+        }
+        else
+        {
+            m_path = partition + name;
+        }
+        
+        m_activation = m_directive.getActivationPolicy();
+        
+        LifestylePolicy lifestyle = m_directive.getLifestylePolicy();
+        if( null == lifestyle )
+        {
+            m_lifestyle = m_type.getInfo().getLifestylePolicy();
+        }
+        else
+        {
+            m_lifestyle = lifestyle;
+        }
+
+        m_collection = m_directive.getCollectionPolicy();
+        m_parameters = m_directive.getParameters();
+        m_configuration = m_directive.getConfiguration();
+        
+        ContextDirective context = m_directive.getContextDirective();
+        m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
+        
+        final String base = m_path + PARTITION_SEPARATOR;
+        processParts( controller, m_classloader, m_type, m_parts, base );
+        processParts( controller, m_classloader, m_directive, m_parts, base );
+    }
 
     public DefaultComponentModel( 
-      ClassLoader anchor, ComponentController controller, Classpath classpath, 
+      Logger logger, ClassLoader anchor, ComponentController controller, Classpath classpath, 
       ComponentDirective directive, String partition ) 
       throws ControlException, IOException, RemoteException
     {
-        super( new StandardLogger( partition.replace( '/', '.' ) ) );
+        super( logger );
         
         m_classpath = classpath;
         m_controller = controller;
@@ -138,7 +186,6 @@ class DefaultComponentModel extends UnicastEventSource
         m_configuration = directive.getConfiguration();
         
         ContextDirective context = directive.getContextDirective();
-        Logger logger = getLogger();
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
         final String base = m_path + PARTITION_SEPARATOR;

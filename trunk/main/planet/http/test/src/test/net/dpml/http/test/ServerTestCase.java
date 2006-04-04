@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
+ * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,23 +18,18 @@
 
 package net.dpml.http.test;
 
-import java.io.File;
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.component.Controller;
-import net.dpml.component.ControlException;
-
-import net.dpml.metro.PartsManager;
-import net.dpml.metro.ComponentHandler;
-
+import net.dpml.part.Part;
+import net.dpml.transit.Transit;
 
 /**
- * Test a simple component case.
+ * Server component testcase.
  *
- * @author <a href="mailto:dev-dpml@lists.ibiblio.org">The Digital Product Meta Library</a>
- * @version $Id: AbstractDescriptorTestCase.java 1556 2005-01-22 12:43:42Z niclas $
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
 public class ServerTestCase extends TestCase
 {
@@ -46,35 +40,8 @@ public class ServerTestCase extends TestCase
     public void testServerDeployment() throws Exception
     {
         URI uri = new URI( "link:part:dpml/planet/http/dpml-http-server" );
-        Controller control = Controller.STANDARD;
-        ComponentHandler component = (ComponentHandler) control.createComponent( uri );
-        try
-        {
-            PartsManager parts = component.getPartsManager();
-            ComponentHandler webapp = parts.getComponentHandler( "webapp" );
-            File temp = new File( "target/test/temp" );
-            webapp.getContextMap().put( "tempDirectory", temp );
-            component.getProvider().getValue( false );
-        }
-        catch( ControlException e )
-        {
-            Throwable cause = e.getRootCause();
-            if( cause instanceof SecurityException )
-            {
-                final String error = 
-                  "Skipping test due to security exception."
-                  + cause.getMessage();
-                System.out.println( error );
-            }
-            else
-            {
-                throw e;
-            }
-        }
-        finally
-        {
-            component.decommission();
-        }
+        Object object = Transit.getInstance().getRepository().getPlugin( uri, new Object[0] );
+        assertEquals( "class", "net.dpml.http.Server", object.getClass().getName() );
     }
     
     static
@@ -85,5 +52,15 @@ public class ServerTestCase extends TestCase
             "java.util.logging.config.class", 
             "net.dpml.transit.util.ConfigurationHandler" ) );
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
+        System.setProperty( 
+          "dpml.logging.config",
+          "local:properties:dpml/transit/default" );
     }
 }
+
+
+//PartsManager parts = component.getPartsManager();
+//ComponentHandler webapp = parts.getComponentHandler( "webapp" );
+//File temp = new File( "target/test/temp" );
+//webapp.getContextMap().put( "tempDirectory", temp );
+//component.getProvider().getValue( false );

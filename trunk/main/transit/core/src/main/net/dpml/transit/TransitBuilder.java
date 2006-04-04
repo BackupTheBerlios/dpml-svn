@@ -38,7 +38,7 @@ import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.LayoutDirective;
 
 import net.dpml.lang.ValueDirective;
-import net.dpml.lang.DecodingException;
+import net.dpml.part.DecodingException;
 import net.dpml.lang.Logger;
 
 import org.xml.sax.ErrorHandler;

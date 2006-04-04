@@ -35,11 +35,6 @@ public class RepositoryException extends IOException
     static final long serialVersionUID = 1L;
 
     /**
-     * The causal exception.
-     */
-     private final Throwable m_cause;
-
-    /**
      * Construct a new <code>RepositoryException</code> instance.
      *
      * @param message The detail message for this exception.
@@ -58,16 +53,7 @@ public class RepositoryException extends IOException
     public RepositoryException( final String message, final Throwable cause )
     {
         super( message );
-        m_cause = cause;
-    }
-
-   /**
-    * Return the causal exception.
-    * @return the causal exception
-    */
-    public Throwable getCause()
-    {
-        return m_cause;
+        super.initCause( cause );
     }
 }
 

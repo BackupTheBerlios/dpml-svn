@@ -37,6 +37,8 @@ import net.dpml.lang.Construct;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Logger;
 
+import net.dpml.part.Plugin;
+
 /**
  * A registry of descriptions of plugable content handlers. 
  *
@@ -192,7 +194,6 @@ class DefaultContentRegistry extends UnicastRemoteObject
             if( null == handler )
             {
                 Class clazz = loadContentHandlerClass( model );
-                Repository loader = Transit.getInstance().getRepository();
                 String type =  model.getID();
                 Logger logger = getLogger().getChildLogger( type );
                 Value[] params = model.getParameters();
@@ -202,7 +203,7 @@ class DefaultContentRegistry extends UnicastRemoteObject
                 try
                 {
                     Object[] args = Construct.getArgs( map, params, new Object[]{logger, model} );
-                    handler = (ContentHandler) loader.instantiate( clazz, args );
+                    handler = (ContentHandler) Plugin.instantiate( clazz, args );
                 }
                 catch( Throwable e )
                 {
@@ -232,8 +233,7 @@ class DefaultContentRegistry extends UnicastRemoteObject
             {
                 m_logger.debug( "loading content handler plugin: " + uri );
                 Repository loader = Transit.getInstance().getRepository();
-                ClassLoader system = ClassLoader.getSystemClassLoader();
-                clazz = loader.getPluginClass( system, uri );
+                clazz = loader.getPluginClass( uri );
             }
             catch( Exception e )
             {

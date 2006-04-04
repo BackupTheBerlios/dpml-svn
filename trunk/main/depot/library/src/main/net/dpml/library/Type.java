@@ -18,6 +18,8 @@
 
 package net.dpml.library;
 
+import org.w3c.dom.Element;
+
 /**
  * Declaration of a type production.
  *
@@ -42,6 +44,8 @@ public interface Type
     * Return the type production datatype.
     * @return the datatytpe
     */
-    Object getData();
+    //Object getData();
+    Element getElement();
+    
     
 }

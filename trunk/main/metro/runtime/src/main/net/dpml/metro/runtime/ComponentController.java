@@ -39,8 +39,8 @@ import net.dpml.lang.Version;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Value;
-
-import net.dpml.logging.Logger;
+import net.dpml.lang.Logger;
+import net.dpml.lang.DefaultLogger;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
@@ -53,6 +53,8 @@ import net.dpml.metro.PartsManager;
 import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.parameters.Parameters;
+
+import net.dpml.part.StandardClassLoader;
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -110,14 +112,36 @@ class ComponentController
     * @param directive the component definition
     * @return the managable component model
     */
-    public ComponentModel createComponentModel( 
-      Classpath classpath, ComponentDirective directive ) throws ControlException
-    {
-        ClassLoader anchor = Logger.class.getClassLoader();
-        String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
-        return createComponentModel( anchor, classpath, partition, directive );
-    }
+    //public ComponentModel createComponentModel( 
+    //  Classpath classpath, ComponentDirective directive ) throws ControlException
+    //{
+    //    ClassLoader anchor = Logger.class.getClassLoader();
+    //    String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
+    //    return createComponentModel( anchor, classpath, partition, directive );
+    //}
     
+    public ComponentModel createComponentModel( DefaultComposition composition ) throws ControlException
+    {
+        String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
+        try
+        {
+            Logger logger = new DefaultLogger( partition );
+            return new DefaultComponentModel( logger, this, composition, partition );
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Creation of a new component model failed due to an remote exception.";
+            throw new ControllerException( error, e );
+        }
+        catch( IOException e )
+        {
+            final String error = 
+              "Creation of a new component model failed due to an IO exception.";
+            throw new ControllerException( error, e );
+        }
+    }
+
     //--------------------------------------------------------------------------
     // ComponentController
     //--------------------------------------------------------------------------
@@ -135,7 +159,8 @@ class ComponentController
     {
         try
         {
-            return new DefaultComponentModel( anchor, this, classpath, directive, partition );
+            Logger logger = new DefaultLogger( partition );
+            return new DefaultComponentModel( logger, anchor, this, classpath, directive, partition );
         }
         catch( RemoteException e )
         {
@@ -178,9 +203,9 @@ class ComponentController
         {
             final String name = context.getName();
             final String path = context.getContextPath();
-            Logger logger = new StandardLogger( path.replace( '/', '.' ) );
+            Logger logger = new DefaultLogger( path );
             Classpath classpath = context.getClasspath();
-            ClassLoader classloader = getClassLoader( anchor, classpath );
+            ClassLoader classloader = resolveClassLoader( anchor, context );
             return new DefaultComponentHandler( parent, classloader, logger, this, context, flag );
         }
         catch( RemoteException e )
@@ -198,6 +223,22 @@ class ComponentController
             final String error = 
               "Creation of a new component handler failed due to an unexpected error.";
             throw new ControllerException( error, e );
+        }
+    }
+    
+    private ClassLoader resolveClassLoader( ClassLoader anchor, ComponentModel model ) throws IOException
+    {
+        if( model instanceof DefaultComponentModel )
+        {
+            getLogger().debug( "using model classloader (local mode) for " + model.getContextPath() );
+            DefaultComponentModel impl = (DefaultComponentModel) model;
+            return impl.getClassLoader();
+        }
+        else
+        {
+            getLogger().debug( "building new classloader (remote mode) for " + model.getContextPath() );
+            Classpath classpath = model.getClasspath();
+            return getClassLoader( anchor, classpath );
         }
     }
     
@@ -230,10 +271,15 @@ class ComponentController
                 String spec = getPathForLogger( handler );
                 args[i] = java.util.logging.Logger.getLogger( spec );
             }
-            else if( Logger.class.isAssignableFrom( c ) )
+            else if( net.dpml.logging.Logger.class.isAssignableFrom( c ) )
             {
                 String spec = getPathForLogger( handler );
                 args[i] = new StandardLogger( spec );
+            }
+            else if( Logger.class.isAssignableFrom( c ) )
+            {
+                String spec = getPathForLogger( handler );
+                args[i] = new DefaultLogger( spec );
             }
             else if( Parameters.class.isAssignableFrom( c ) )
             {
@@ -261,7 +307,8 @@ class ComponentController
                   + handler.getPath()
                   + "] ("
                   + subject.getName() 
-                  + ").";
+                  + ")."
+                  + StandardClassLoader.toString( getClass().getClassLoader(), c.getClassLoader() );
                 throw new ControllerException( error );
             }
         }
@@ -312,6 +359,15 @@ class ComponentController
     
     Class loadComponentClass( ClassLoader classloader, String classname ) throws ControlException
     {
+        if( null == classloader )
+        {
+            throw new NullPointerException( "classloader" );
+        }
+        if( null == classname )
+        {
+            throw new NullPointerException( "classname" );
+        }
+        
         try
         {
             return classloader.loadClass( classname );

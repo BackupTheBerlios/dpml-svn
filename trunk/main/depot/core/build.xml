@@ -13,7 +13,7 @@
     <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
     <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
     <filter token="DEPOT-MAIN-CLASS" value="net.dpml.depot.Main" />
-    <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.transit.SystemClassLoader" />
+    <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.part.SystemClassLoader" />
     <x:filter token="DEPOT-CONSOLE-URI" feature="uri" type="jar"/>
     <x:filter token="TRANSIT-CORE-URI" ref="dpml/transit/dpml-transit-main" feature="uri" type="jar"/>
     <x:filter token="TRANSIT-CONSOLE-URI" ref="dpml/transit/dpml-transit-console" feature="uri" type="part" alias="true"/>

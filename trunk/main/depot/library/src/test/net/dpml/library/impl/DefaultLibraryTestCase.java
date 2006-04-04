@@ -22,6 +22,8 @@ import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 
+import org.w3c.dom.Element;
+
 /**
  * Test DefaultLibrary implementation.
  *
@@ -162,7 +164,7 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         * Return the type datastructure.
         * @return the data
         */
-        public Object getData()
+        public Element getElement()
         {
             return null;
         }

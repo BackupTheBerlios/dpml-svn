@@ -29,8 +29,8 @@ import net.dpml.station.info.StartupPolicy;
 
 import net.dpml.part.DOM3DocumentBuilder;
 
-import net.dpml.lang.DecodingException;
-import net.dpml.lang.Decoder;
+import net.dpml.part.DecodingException;
+import net.dpml.part.Decoder;
 
 import net.dpml.lang.ValueDirective;
 import net.dpml.transit.util.ElementHelper;
@@ -60,17 +60,16 @@ public final class RegistryBuilder implements Decoder
     {
         Document document = DOCUMENT_BUILDER.parse( uri );
         Element root = document.getDocumentElement();
-        return decode( null, root );
+        return decode( root );
     }
     
    /**
     * Decode a registry descriptior from a DOM element.
-    * @param classloader the base classloader
     * @param element the element representing the root registry
     * @return the registry descriptor
     * @exception DecodingException if a decoding error occurs
     */
-    public Object decode( ClassLoader classloader, Element element ) throws DecodingException
+    public Object decode( Element element ) throws DecodingException
     {
         String tag = element.getTagName();
         if( "application".equals( tag ) )

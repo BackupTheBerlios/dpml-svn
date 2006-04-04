@@ -220,6 +220,9 @@ public final class Main //implements ShutdownHandler
             logger.debug( "system: " + command );
             logger.debug( "uri: " + path );
             logger.debug( "args: [" + toString( args ) + "]" );
+            logger.debug( "system classloader: [" 
+              + System.identityHashCode( ClassLoader.getSystemClassLoader() ) 
+              + "]" );
         }
         Logger log = resolveLogger( logger, command );
         try
@@ -230,7 +233,6 @@ public final class Main //implements ShutdownHandler
             Repository repository = transit.getRepository();
             m_plugin = 
               repository.getPlugin( 
-                ClassLoader.getSystemClassLoader(), 
                 uri, 
                 new Object[]
                 {

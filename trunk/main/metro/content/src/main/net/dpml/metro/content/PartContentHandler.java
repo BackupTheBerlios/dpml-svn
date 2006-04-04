@@ -72,11 +72,7 @@ public class PartContentHandler extends ContentHandler
             for( int i=0; i<classes.length; i++ )
             {
                 Class c = classes[i];
-                if( Directive.class.isAssignableFrom( c ) )
-                {
-                    return CONTROLLER.loadDirective( uri );
-                }
-                else if( Model.class.isAssignableFrom( c ) )
+                if( Model.class.isAssignableFrom( c ) )
                 {
                     return CONTROLLER.createModel( uri );
                 }

@@ -27,7 +27,7 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.logging.Logger;
+import net.dpml.lang.Logger;
 
 import net.dpml.component.Provider;
 import net.dpml.component.ControlException;

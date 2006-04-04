@@ -33,6 +33,7 @@ import net.dpml.component.ActivationPolicy;
 import net.dpml.configuration.Configuration;
 
 import net.dpml.library.info.Scope;
+import net.dpml.library.Resource;
 
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
@@ -43,11 +44,18 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.builder.ComponentTypeDecoder;
+import net.dpml.metro.runtime.DefaultComposition;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.Strategy;
-import net.dpml.part.PartDirective;
+import net.dpml.lang.Classpath;
+import net.dpml.part.Part;
+import net.dpml.part.Info;
+
+import net.dpml.transit.monitor.LoggingAdapter;
+
+//import net.dpml.part.Strategy;
+//import net.dpml.part.PartDirective;
 
 import net.dpml.tools.tasks.PartTask;
 
@@ -269,6 +277,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
    /**
     * Execute the task.
     */
+    /*
     public void execute()
     {
         ClassLoader classloader = createClassLoader();
@@ -277,12 +286,39 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         setStrategy( strategy );
         super.execute();
     }
-
+    */
+    
+   /**
+    * Build the plugin definition.
+    * @exception exception if a build related error occurs
+    */
+    protected Part build( Resource resource )
+    {
+        try
+        {
+            Info info = getInfo( resource );
+            Classpath classpath = getClasspath( resource );
+            ClassLoader classloader = createClassLoader();
+            ComponentDirective profile = buildComponentDirective( classloader );
+            return new DefaultComposition( 
+                new LoggingAdapter( "depot" ),
+                info, classpath, null, profile );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to build an external part defintion."
+              + "\nResource: " + resource;
+            throw new BuildException( error, e, getLocation() );
+        }
+    }
+    
    /**
     * Create a component strategy.
     * @param classloader the classloader
     * @return the component directive
     */
+    /*
     public Strategy createStrategy( ClassLoader classloader )
     {
         try
@@ -302,6 +338,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
             throw new BuildException( error, e, getLocation() );
         }
     }
+    */
     
    /**
     * Return the runtime classloader.

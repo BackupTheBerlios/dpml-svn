@@ -81,6 +81,7 @@ public class StandardBuilder implements Builder
     *
     * @param logger assigned logging channel
     * @param library the library
+    * @param part the part used to establish this class
     * @param verbose verbose execution flag
     */
     public StandardBuilder( Logger logger, Library library, boolean verbose )
@@ -98,7 +99,7 @@ public class StandardBuilder implements Builder
               "An internal error occured while attempting to construct the workbench.";
             throw new BuildException( error, e );
         }
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        Thread.currentThread().setContextClassLoader( Builder.class.getClassLoader() );
     }
 
     // ------------------------------------------------------------------------

@@ -30,7 +30,6 @@ import net.dpml.component.Component;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-//public interface ComponentHandler extends ComponentOperations, ComponentContext
 public interface ComponentHandler extends Component, ComponentContext
 {
    /**

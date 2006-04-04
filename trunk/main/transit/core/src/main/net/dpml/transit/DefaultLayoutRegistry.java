@@ -33,6 +33,8 @@ import net.dpml.transit.model.LayoutModel;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Logger;
 
+import net.dpml.part.Plugin;
+
 /**
  * A registry of descriptions of plugable layout models.
  *
@@ -123,10 +125,9 @@ class DefaultLayoutRegistry extends UnicastRemoteObject
     protected Layout loadLayout( LayoutModel model ) throws IOException
     {
         Class clazz = loadLayoutClass( model );
-        Repository loader = Transit.getInstance().getRepository();
         try
         {
-            return (Layout) loader.instantiate( clazz, new Object[]{model} );
+            return (Layout) Plugin.instantiate( clazz, new Object[]{model} );
         }
         catch( Throwable e )
         { 
@@ -151,8 +152,7 @@ class DefaultLayoutRegistry extends UnicastRemoteObject
             {
                 m_logger.debug( "loading resolver plugin: " + uri );
                 Repository loader = Transit.getInstance().getRepository();
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                clazz = loader.getPluginClass( classloader, uri );
+                clazz = loader.getPluginClass( uri );
             }
             catch( Exception e )
             {

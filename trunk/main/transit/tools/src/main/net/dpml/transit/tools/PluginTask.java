@@ -18,9 +18,12 @@
 
 package net.dpml.transit.tools;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
+import java.util.Map;
+import java.util.Hashtable;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ import org.w3c.dom.Element;
 public class PluginTask extends TransitTask
 {
     private static Repository m_REPOSITORY;
+    
+    private Map m_map = new Hashtable();
 
    /**
     * The uri of the plugin to load.
@@ -184,7 +189,6 @@ public class PluginTask extends TransitTask
         }
 
         final Project project = getProject();
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         final ComponentHelper helper =
           ComponentHelper.getComponentHelper( project );
 
@@ -196,9 +200,9 @@ public class PluginTask extends TransitTask
         try
         {
             URI uri = new URI( m_uri );
-            ClassLoader loader =
-              getRepository().getPluginClassLoader( classloader, uri );
-
+            Part part = getPart( uri );
+            
+            ClassLoader loader = part.getClassLoader();
             Task[] tasks = (Task[]) m_tasks.toArray( new Task[0] );
             if( tasks.length > 0 )
             {
@@ -271,6 +275,22 @@ public class PluginTask extends TransitTask
             throw new BuildException( error, e, getLocation() );
         }
     }
+    
+    private Part getPart( URI uri ) throws IOException
+    {
+        return (Part) getRepository().getPart( uri );
+        //Part part = (Part) m_map.get( uri );
+        //if( null != part )
+        //{
+        //    return part;
+        //}
+        //else
+        //{
+        //    part = (Part) getRepository().getPart( uri );
+        //    m_map.put( uri, part );
+        //    return part;
+        //}
+    }
 
    /**
     * Load an antlib.
@@ -283,15 +303,14 @@ public class PluginTask extends TransitTask
       URI uri, ClassLoader classloader, ComponentHelper helper, Antlib antlib ) throws Exception
     {
         //Plugin plugin = getRepository().getPluginDescriptor( uri );
-        Part part = getRepository().getPart( uri );
-        Object data = part.getStrategy().getDeploymentData();
+        Part part = getPart( uri );
         
         String resource = antlib.getPath();
         if( null == resource )
         {
-            if( data instanceof Resource )
+            if( part instanceof Resource )
             {
-                Resource res = (Resource) data;
+                Resource res = (Resource) part;
                 resource = res.getPath();
             }
             //resource = plugin.getStrategy().getProperties().getProperty( "project.plugin.resource" );
@@ -306,7 +325,7 @@ public class PluginTask extends TransitTask
             throw new BuildException( error, getLocation() );
         }
         
-        String urn = getAntLibURN( antlib, data );
+        String urn = getAntLibURN( antlib, part );
         if( null == urn )
         {
             final String error =
@@ -338,8 +357,7 @@ public class PluginTask extends TransitTask
         }
     }
     
-    //private String getAntLibURN( Antlib antlib, Plugin plugin )
-    private String getAntLibURN( Antlib antlib, Object data )
+    private String getAntLibURN( Antlib antlib, Part part )
     {
         if( null != m_urn )
         {
@@ -352,16 +370,15 @@ public class PluginTask extends TransitTask
         }
         else
         {
-            if( data instanceof Resource )
+            if( part instanceof Resource )
             {
-                Resource res = (Resource) data;
+                Resource res = (Resource) part;
                 return res.getURN();
             }
             else
             {
                 return null;
             }
-            //return plugin.getStrategy().getProperties().getProperty( "project.plugin.urn" );
         }
     }
 

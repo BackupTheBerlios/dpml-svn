@@ -26,13 +26,13 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.dpml.lang.Logger;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
 
 import net.dpml.part.Info;
 import net.dpml.part.Part;
-import net.dpml.part.PartEncoder;
-import net.dpml.part.Strategy;
+import net.dpml.part.PartDecoder;
 
 import net.dpml.library.Type;
 import net.dpml.library.Resource;
@@ -42,6 +42,11 @@ import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+
+import net.dpml.transit.Artifact;
+import net.dpml.transit.monitor.LoggingAdapter;
+
+import org.w3c.dom.Element;
 
 /**
  * Execute all plugins relative to the current build phase.
@@ -75,17 +80,6 @@ public class PartTask extends GenericTask
     
     private File m_output;
     
-    private Strategy m_strategy;
-    
-   /**
-    * Set the build strategy.
-    * @param strategy the build strategy
-    */
-    public void setStrategy( Strategy strategy )
-    {
-        m_strategy = strategy;
-    }
-    
    /**
     * Set the test build policy.  The default is to include 
     * the project artifact in the classpath of a created part, however - in a 
@@ -115,31 +109,8 @@ public class PartTask extends GenericTask
     public void execute()
     {
         Resource resource = getResource();
-        Strategy strategy = getStrategy( resource );
-        Part part = buildPart( resource, strategy );
+        Part part = build( resource );
         writePart( part );
-    }
-    
-   /**
-    * Construct a part using the supplied resource and strategy.
-    * @param resource the resource
-    * @param strategy the strategy
-    * @return the part
-    */
-    public Part buildPart( Resource resource, Strategy strategy )
-    {
-        try
-        {
-            Info info = getInfo( resource );
-            Classpath classpath = getClasspath( resource );
-            return new Part( info, strategy, classpath );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Part construction error.";
-            throw new BuildException( error, e );
-        }
     }
     
    /**
@@ -151,22 +122,16 @@ public class PartTask extends GenericTask
         File file = getOutputFile();
         try
         {
-            Object data = part.getStrategy().getDeploymentData();
-            ClassLoader classloader = data.getClass().getClassLoader();
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
             file.createNewFile();
             final OutputStream output = new FileOutputStream( file );
             try
             {
-                Thread.currentThread().setContextClassLoader( classloader );
-                PartEncoder encoder = new PartEncoder();
-                encoder.encodePart( part, output, "" );
+                part.encode( output );
                 checksum( file );
                 asc( file );
             }
             finally
             {
-                Thread.currentThread().setContextClassLoader( loader );
                 try
                 {
                     output.close();
@@ -207,19 +172,33 @@ public class PartTask extends GenericTask
     * Build the plugin definition.
     * @exception exception if a build related error occurs
     */
-    private Part build( Resource resource ) throws Exception
+    protected Part build( Resource resource )
     {
-        Info info = getInfo( resource );
-        Strategy strategy = getStrategy( resource );
-        Classpath classpath = getClasspath( resource );
-        return new Part( info, strategy, classpath );
+        try
+        {
+            Info info = getInfo( resource );
+            Classpath classpath = getClasspath( resource );
+            Type type = resource.getType( TYPE );
+            Element element = type.getElement();
+            PartDecoder decoder = PartDecoder.getInstance();
+            return decoder.build( info, classpath, element );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to build an external part defintion."
+              + "\nResource: " + resource;
+            throw new BuildException( error, e, getLocation() );
+        }
     }
     
-    private Info getInfo( Resource resource )
+    protected Info getInfo( Resource resource )
     {
+        Artifact artifact = resource.getArtifact( TYPE );
+        URI uri = artifact.toURI();
         String title = getTitle( resource );
         String description = getDescription( resource );
-        return new Info( title, description );
+        return new Info( uri, title, description );
     }
 
     private String getTitle( Resource resource )
@@ -230,47 +209,6 @@ public class PartTask extends GenericTask
     private String getDescription( Resource resource )
     {
         return resource.getProperty( PLUGIN_DESCRIPTION_KEY );
-    }
-    
-   /**
-    * Construct the strategy given the supplied resource.
-    * @param resource the resource
-    * @return the strategy
-    */
-    protected Strategy getStrategy( Resource resource )
-    {
-        if( null == m_strategy )
-        {
-            Type type = resource.getType( TYPE );
-            Object data = type.getData();
-            if( null != data )
-            {
-                if( data instanceof Strategy )
-                {
-                    return (Strategy) data;
-                }
-                else
-                {
-                    final String error =
-                      "Datatype associated as the 'part' datastructure is not an instance of "
-                      + Strategy.class.getName() + "."
-                      + "\nClass " + type.getClass().getName();
-                    throw new BuildException( error, getLocation() );
-                }
-            }
-            else
-            {
-                final String error = 
-                  "No data associated with part declaration."
-                  + "\nResource: " + resource
-                  + "\nType: " + TYPE;
-                throw new BuildException( error, getLocation() );
-            }
-        }
-        else
-        {
-            return m_strategy;
-        }
     }
     
    /**

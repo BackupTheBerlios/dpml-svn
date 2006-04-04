@@ -168,12 +168,10 @@ public class TransitConsoleHandler
         try
         {
             URI uri = (URI) line.getValue( LOAD_COMMAND, null );
-            ClassLoader loader = ClassLoader.getSystemClassLoader();
             List list = line.getValues( ARGUMENTS );
             String[] args = (String[]) list.toArray( new String[ list.size() ] );
             Object instance = 
-              Transit.getInstance().getRepository().getPlugin( 
-                loader, uri, new Object[]{args} );
+              Transit.getInstance().getRepository().getPlugin( uri, new Object[]{args} );
             if( instance instanceof Runnable )
             {
                 Runnable runnable = (Runnable) instance;

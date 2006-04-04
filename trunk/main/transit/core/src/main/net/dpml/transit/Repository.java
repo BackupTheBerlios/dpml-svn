@@ -50,44 +50,21 @@ public interface Repository
     * Get a part classloader relative to a supplied uri.
     *
     * @param parent the parent classloader
-    * @param part the part definition
-    * @return the classloader
-    * @exception IOException if plugin loading exception occurs
-    */
-    ClassLoader getPluginClassLoader( ClassLoader parent, Part part )
-        throws IOException;
-        
-   /**
-    * Get a part classloader relative to a supplied uri.
-    *
-    * @param parent the parent classloader
     * @param uri the part uri
     * @return the plugin classloader
     * @exception IOException if plugin loading exception occurs
     */
-    ClassLoader getPluginClassLoader( ClassLoader parent, URI uri )
+    ClassLoader getPluginClassLoader( URI uri )
         throws IOException;
 
    /**
     * Get a plugin class relative to a supplied uri.
     *
-    * @param parent the parent classloader
     * @param uri the part uri
     * @return the part class
     * @exception IOException if plugin loading exception occurs
     */
-    Class getPluginClass( ClassLoader parent, URI uri )
-        throws IOException;
-
-   /**
-    * Get a plugin class relative to a supplied uri.
-    *
-    * @param parent the parent classloader
-    * @param part the part definition
-    * @return the class
-    * @exception IOException if plugin loading exception occurs
-    */
-    Class getPluginClass( ClassLoader parent, Part part )
+    Class getPluginClass( URI uri )
         throws IOException;
 
    /**
@@ -100,47 +77,6 @@ public interface Repository
     * @exception IOException if plugin loading exception occurs
     * @exception InvocationTargetException if the plugin constructor invocation error occurs
     */
-    Object getPlugin( ClassLoader parent, URI uri, Object[] args  )
+    Object getPlugin( URI uri, Object[] args  )
         throws IOException, InvocationTargetException;
-
-   /**
-    * Instantiate an instance of a class using the supplied array of constructor 
-    * parameter arguments.  Arguments will be evaluated in the order supplied 
-    * for each of the parameters declared by a single public constructor of the 
-    * supplied class.  If a parameter cannot be resolved from supplied arguments
-    * and the parameter is a class with a single public constructor and implementation
-    * shall attempt to instantiate an instance of that class via a recursive 
-    * invocation of this method.
-    *
-    * @param clazz the class of the object to instantiate
-    * @param params a priority ordered array of instances values to be used in
-    *    constructor parameter value assignment
-    * @return the instanciated object
-    * @exception Exception if an instantiation error occurs
-    */
-    Object instantiate( Class clazz, Object[] params ) throws Exception;
-
-   /**
-    * Instantiate an instance using the supplied constructor and array of constructor 
-    * parameter arguments.  
-    *
-    * @param constructor the class constructor
-    * @param params a priority ordered array of instances values to be used in
-    *    constructor parameter value assignment
-    * @return the instanciated object
-    * @exception Exception if an instantiation error occurs
-    */
-    Object instantiate( Constructor constructor, Object[] params ) throws Exception;
-
-    /**
-     * Create a classloader.
-     * @param base the parent classloader
-     * @param plugin the plugin uri
-     * @param classpath the classpath descriptor
-     * @return the classloader
-     * @exception IOException if a classloader construction error occurs
-     */
-    public ClassLoader createClassLoader( ClassLoader base, URI plugin, Classpath classpath )
-        throws IOException;
-
 }

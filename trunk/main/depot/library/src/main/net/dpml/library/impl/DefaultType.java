@@ -25,9 +25,9 @@ import java.util.Hashtable;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.Type;
 
-import net.dpml.lang.Decoder;
-
+import net.dpml.part.Decoder;
 import net.dpml.part.DecoderFactory;
+import net.dpml.lang.Logger;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;
@@ -42,18 +42,20 @@ public class DefaultType extends DefaultDictionary implements Type
 {
     private final DefaultResource m_resource;
     private final TypeDirective m_directive;
+    private final Logger m_logger;
     
    /**
     * Creation of a new DefaultType.
     * @param resource the enclosing resource
     * @param directive the type production directive
     */
-    DefaultType( DefaultResource resource, TypeDirective directive )
+    DefaultType( Logger logger, DefaultResource resource, TypeDirective directive )
     {
         super( resource, directive );
         
         m_resource = resource;
         m_directive = directive;
+        m_logger = logger;
     }
 
    /**
@@ -74,10 +76,16 @@ public class DefaultType extends DefaultDictionary implements Type
         return m_directive.getAlias();
     }
     
+    public Element getElement()
+    {
+        return m_directive.getElement();
+    }
+    
    /**
     * Get the type specific datastructure.
     * @return the datastructure
     */
+    /*
     public Object getData()
     {
         Element element = m_directive.getElement();
@@ -104,9 +112,10 @@ public class DefaultType extends DefaultDictionary implements Type
                     throw new IllegalStateException( error );
                 }
             }
-            DecoderFactory factory = new DecoderFactory( map );
+            Logger logger = getLogger();
+            DecoderFactory factory = new DecoderFactory( logger, map );
             Decoder decoder = factory.loadDecoder( element );
-            return decoder.decode( getClass().getClassLoader(), element );
+            return decoder.decode( element );
         }
         catch( Throwable e )
         {
@@ -115,5 +124,10 @@ public class DefaultType extends DefaultDictionary implements Type
             throw new RuntimeException( error, e );
         }
     }
+    */
     
+    Logger getLogger()
+    {
+        return m_logger;
+    }
 }

@@ -24,10 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.lang.Encoder;
-import net.dpml.lang.DecodingException;
-import net.dpml.lang.Decoder;
-
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
@@ -40,14 +36,7 @@ import org.w3c.dom.TypeInfo;
  */
 public final class DecoderFactory
 {
-   /**
-    * Constant uri used to refernce the internal package encoder.
-    */
-    static final URI LOCAL_URI = createURI( "local:dpml" );
-    
-    static final String PART_XSD_URI = "@PART-XSD-URI@";
-        
-    private static final DecoderFactory INSTANCE = new DecoderFactory();
+    private static final String PART_XSD_URI = "@PART-XSD-URI@";
 
     private final Map m_map; // maps namespace uris to element handlers
     
@@ -77,47 +66,6 @@ public final class DecoderFactory
         {
             m_map = map;
         }
-        if( !m_map.containsKey( "dpml/lang/dpml-part" ) )
-        {
-            m_map.put( "dpml/lang/dpml-part", LOCAL_URI );
-        }
-    }
-    
-   /**
-    * Internal utility to load an encoder using the supplied uri.
-    *
-    * @param uri the encoder uri
-    * @return the encoder
-    * @exception IOException if an IO error occurs
-    * @exception InvocationTargetException if the encoder plugin raises an instantiation error
-    */
-    public static Encoder loadEncoder( URI uri ) throws IOException, InvocationTargetException
-    {
-        if( LOCAL_URI.equals( uri ) )
-        {
-            return new PartEncoder();
-        }
-        else
-        {
-            ClassLoader classloader = getClassLoader();
-            Repository repository = Transit.getInstance().getRepository();
-            Object[] args = new Object[]{INSTANCE};
-            Object object = repository.getPlugin( classloader, uri, args );
-            if( object instanceof Encoder )
-            {
-                return (Encoder) object;
-            }
-            else
-            {
-                final String error = 
-                  "URI ["
-                  + uri
-                  + "] does not resolve to an object assignable to "
-                  + Encoder.class.getName()
-                  + ".";
-                throw new IllegalArgumentException( error );
-            }
-        }
     }
     
    /**
@@ -135,13 +83,15 @@ public final class DecoderFactory
     */
     public Decoder loadDecoder( Element element ) throws Exception
     {
-        URI uri = getDecoderURI( element );
-        if( LOCAL_URI.equals( uri ) )
+        TypeInfo info = element.getSchemaTypeInfo();
+        String namespace = info.getTypeNamespace();
+        if( PART_XSD_URI.equals( namespace ) )
         {
-            return new PartDecoder( this );
+            return PartDecoder.getInstance();
         }
         else
         {
+            URI uri = getDecoderURI( namespace );
             return new DelegatingDecoder( this, uri );
         }
     }
@@ -153,15 +103,9 @@ public final class DecoderFactory
     * @return the builder uri
     * @exception Exception if an eror occurs
     */
-    public URI getDecoderURI( Element element ) throws Exception
+    public URI getDecoderURI( String namespace ) throws Exception
     {
-        TypeInfo info = element.getSchemaTypeInfo();
-        String namespace = info.getTypeNamespace();
-        if( PART_XSD_URI.equals( namespace ) )
-        {
-            return LOCAL_URI;
-        }
-        else if( m_map.containsKey( namespace ) )
+        if( m_map.containsKey( namespace ) )
         {
             return (URI) m_map.get( namespace );
         }
@@ -212,10 +156,10 @@ public final class DecoderFactory
         * @param element the subject element
         * @return the resulting object
         */
-        public Object decode( ClassLoader classloader, Element element ) throws DecodingException
+        public Object decode( Element element ) throws IOException
         {
             Decoder decoder = getDelegateDecoder();
-            return decoder.decode( classloader, element );
+            return decoder.decode( element );
         }
         
         private Decoder getDelegateDecoder()
@@ -247,10 +191,9 @@ public final class DecoderFactory
         {
             try
             {
-                ClassLoader classloader = getClassLoader();
                 Repository repository = Transit.getInstance().getRepository();
                 Object[] args = new Object[]{m_factory};
-                return repository.getPlugin( classloader, m_uri, args );
+                return repository.getPlugin( m_uri, args );
             }
             catch( Throwable e )
             {
@@ -259,32 +202,6 @@ public final class DecoderFactory
                   + "\nDelegate URI: " + m_uri;
                 throw new RuntimeException( error, e ); // change to a factory exception
             }
-        }
-        
-        private ClassLoader getClassLoader()
-        {
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            if( null != classloader )
-            {
-                return classloader;
-            }
-            else
-            {
-                return getClass().getClassLoader();
-            }
-        }
-    }
-    
-    static ClassLoader getClassLoader()
-    {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        if( null != classloader )
-        {
-            return classloader;
-        }
-        else
-        {
-            return DecoderFactory.class.getClassLoader();
         }
     }
     

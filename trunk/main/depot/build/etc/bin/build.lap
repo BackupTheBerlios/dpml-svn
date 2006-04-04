@@ -3,7 +3,7 @@
 #
 
 -Ddpml.transit.include.tools=true
--Djava.system.class.loader=net.dpml.transit.SystemClassLoader
+-Djava.system.class.loader=net.dpml.part.SystemClassLoader
 -Djava.security.policy=${env.DPML_HOME}\share\bin\security.policy
 -Djava.endorsed.dirs=${env.DPML_HOME}\share\lib\endorsed
 -Ddpml.depot.application=dpml.builder

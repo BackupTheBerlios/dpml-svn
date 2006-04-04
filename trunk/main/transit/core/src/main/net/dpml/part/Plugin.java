@@ -18,17 +18,27 @@
 
 package net.dpml.part;
 
-import java.io.Serializable;
+import java.io.Writer;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Array;
+import java.beans.Expression;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import net.dpml.lang.Value;
+import net.dpml.lang.Logger;
+import net.dpml.lang.Classpath;
+import net.dpml.lang.Construct;
 
 /**
  * Plugin part strategy implementation datatype.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Plugin implements Serializable
+public class Plugin extends Part
 {
     private final String m_classname;
     private final Value[] m_params;
@@ -38,8 +48,23 @@ public class Plugin implements Serializable
     * @param classname the target class
     * @param params an array of default value arguments
     */ 
-    public Plugin( String classname, Value[] params )
+    public Plugin( 
+      Logger logger, Info info, Classpath classpath, String classname )
+      throws IOException
     {
+        this( logger, info, classpath, classname, new Value[0] );
+    }
+    
+   /**
+    * Creation of an new plugin datatype.
+    * @param classname the target class
+    * @param params an array of default value arguments
+    */ 
+    public Plugin( 
+      Logger logger, Info info, Classpath classpath, String classname, Value[] params )
+      throws IOException
+    {
+        super( logger, info, classpath );
         if( null == classname )
         {
             throw new NullPointerException( "classname" );
@@ -54,7 +79,7 @@ public class Plugin implements Serializable
     
    /**
     * Get the target classname.
-    * @return the cloassname
+    * @return the classname
     */ 
     public String getClassname()
     {
@@ -71,27 +96,60 @@ public class Plugin implements Serializable
     }
     
    /**
-    * Test if this instance is equal to the supplied instance.
-    * @param other the other instance
-    * @return the equality status
+    * Get the default plugin class.
+    * @return the plugin class
+    * @exception Exception if an error occurs
     */
+    public Class getPluginClass() throws Exception
+    {
+        ClassLoader classloader = getClassLoader();
+        String classname = getClassname();
+        return classloader.loadClass( classname );
+    }
+    
+   /**
+    * Instantiate a value.
+    * @param args supplimentary arguments
+    * @return the resolved instance
+    * @exception Exception if a deployment error occurs
+    */
+    public Object instantiate( Object[] args ) throws Exception
+    {
+        ClassLoader classloader = getClassLoader();
+        ClassLoader context = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( classloader );
+        try
+        {
+            Value[] values = getValues();
+            Class c = getPluginClass();
+            Object[] params = Construct.getArgs( null, values, args );
+            return instantiate( c, params );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( context );
+        }
+    }
+    
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( super.equals( other ) )
         {
-            return false;
-        }
-        else if( other instanceof Plugin )
-        {
-            Plugin plugin = (Plugin) other;
-            if( !m_classname.equals( plugin.m_classname ) )
+            if( other instanceof Plugin )
             {
-                return false;
+                Plugin plugin = (Plugin) other;
+                if( !m_classname.equals( plugin.m_classname ) )
+                {
+                    return false;
+                }
+                else
+                {
+                    return Arrays.equals( m_params, plugin.m_params );
+                }
             }
             else
             {
-            
-                return Arrays.equals( m_params, plugin.m_params );
+                return false;
             }
         }
         else
@@ -100,17 +158,281 @@ public class Plugin implements Serializable
         }
     }
     
-   /**
-    * Get the hashcode for this instance.
-    * @return the hash value
-    */
-    public int hashCode()
+    protected void encodeStrategy( Writer writer, String pad ) throws IOException
     {
-        int hash = m_classname.hashCode();
-        for( int i=0; i<m_params.length; i++ )
+        String classname = getClassname();
+        writer.write( "\n" + pad + "<strategy xsi:type=\"plugin\" class=\"" );
+        writer.write( classname );
+        writer.write( "\"" );
+        if( getValues().length > 0 )
         {
-            hash ^= m_params[i].hashCode();
+            writer.write( ">" );
+            Value[] values = getValues();
+            VALUE_ENCODER.encodeValues( writer, values, pad + "  " );
+            writer.write( "\n" + pad + "</strategy>" );
         }
-        return hash;
+        else
+        {
+            writer.write( "/>" );
+        }
+    }
+
+   /**
+    * Create a factory using a supplied class and command line arguments.
+    *
+    * @param clazz the the factory class
+    * @param args the command line args
+    * @return the plugin instance
+    * @exception IOException if a plugin creation error occurs
+    * @exception InvocationTargetException if a plugin constructor invocation error occurs
+    */
+    public static Object instantiate( Class clazz, Object[] args ) throws IOException, InvocationTargetException
+    {
+        if( null == clazz )
+        {
+            throw new NullPointerException( "clazz" );
+        }
+        if( null == args )
+        {
+            throw new NullPointerException( "args" );
+        }
+        for( int i=0; i < args.length; i++ )
+        {
+            Object p = args[i];
+            if( null == p )
+            {
+                final String error = 
+                  "User supplied instantiation argument at position [" 
+                  + i 
+                  + "] for the class ["
+                  + clazz.getName()
+                  + "] is a null value.";
+                throw new NullPointerException( error );
+            }
+        }
+        
+        if( clazz.getConstructors().length == 1 )
+        {
+            Constructor constructor = getSingleConstructor( clazz );
+            return instantiate( constructor, args );
+        }
+        else
+        {
+            try
+            {
+                Expression expression = new Expression( clazz, "new", args );
+                return expression.getValue();
+            }
+            catch( InvocationTargetException e )
+            {
+                throw e;
+            }
+            catch( PartHandlerException e )
+            {
+                throw e;
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                "Class instantiation error [" + clazz.getName() + "]";
+                throw new PartHandlerException( error, e );
+            }
+        }
+    }
+    
+    private static Object instantiate( Constructor constructor, Object[] args ) 
+      throws PartHandlerException, InvocationTargetException
+    {
+        Object[] arguments = populate( constructor, args );
+        return newInstance( constructor, arguments );
+    }
+    
+    private static Object[] populate( Constructor constructor, Object[] args ) throws PartHandlerException
+    {
+        if( null == constructor )
+        {
+            throw new NullPointerException( "constructor" );
+        }
+        if( null == args )
+        {
+            throw new NullPointerException( "args" );
+        }
+        
+        Class[] classes = constructor.getParameterTypes();
+        Object[] arguments = new Object[ classes.length ];
+        ArrayList list = new ArrayList();
+        for( int i=0; i < args.length; i++ )
+        {
+            list.add( args[i] );
+        }
+
+        //
+        // sweep though the construct arguments one by one and
+        // see if we can assign a value based on the supplied args
+        //
+
+        for( int i=0; i < classes.length; i++ )
+        {
+            Class clazz = classes[i];
+            Iterator iterator = list.iterator();
+            while( iterator.hasNext() )
+            {
+                Object object = iterator.next();
+                Class c = object.getClass();
+                if( isAssignableFrom( clazz, c ) )
+                {
+                    arguments[i] = object;
+                    list.remove( object );
+                    break;
+                }
+            }
+        }
+
+        //
+        // if any arguments are unresolved then check if the argument type
+        // is something we can implicity establish
+        //
+
+        for( int i=0; i < arguments.length; i++ )
+        {
+            if( null == arguments[i] )
+            {
+                Class c = classes[i];
+                if( c.isArray() )
+                {
+                    arguments[i] = getEmptyArrayInstance( c );
+                }
+                else
+                {
+                    final String error =
+                      "Unable to resolve a value for a constructor parameter."
+                      + "\nConstructor class: " + constructor.getDeclaringClass().getName()
+                      + "\nParameter class: " + c.getName()
+                      + "\nParameter position: " + ( i + 1 );
+                    throw new PartHandlerException( error );
+                }
+            }
+        }
+        return arguments;
+    }
+
+    private static boolean isAssignableFrom( Class clazz, Class c )
+    {
+        if( clazz.isPrimitive() )
+        {
+            if( Integer.TYPE == clazz )
+            {
+                return Integer.class.isAssignableFrom( c );
+            }
+            else if( Boolean.TYPE == clazz )
+            {
+                return Boolean.class.isAssignableFrom( c );
+            }
+            else if( Byte.TYPE == clazz )
+            {
+                return Byte.class.isAssignableFrom( c );
+            }
+            else if( Short.TYPE == clazz )
+            {
+                return Short.class.isAssignableFrom( c );
+            }
+            else if( Long.TYPE == clazz )
+            {
+                return Long.class.isAssignableFrom( c );
+            }
+            else if( Float.TYPE == clazz )
+            {
+                return Float.class.isAssignableFrom( c );
+            }
+            else if( Double.TYPE == clazz )
+            {
+                return Double.class.isAssignableFrom( c );
+            }
+            else
+            {
+                final String error =
+                  "Primitive type ["
+                  + c.getName()
+                  + "] not supported.";
+                throw new RuntimeException( error );
+            }
+        }
+        else
+        {
+            return clazz.isAssignableFrom( c );
+        }
+    }
+
+    private static Object newInstance( Constructor constructor, Object[] arguments )
+      throws PartHandlerException, InvocationTargetException
+    {
+        try
+        {
+            Object instance = constructor.newInstance( arguments );
+            //getMonitor().pluginInstantiated( instance );
+            return instance;
+        }
+        catch( InvocationTargetException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Cannot create an instance of ["
+              + constructor.getDeclaringClass().getName()
+              + "] due to an instantiation failure.";
+            throw new PartHandlerException( error, e );
+        }
+    }
+    
+    private static Constructor getSingleConstructor( Class clazz ) throws PartHandlerException
+    {
+        if( null == clazz )
+        {
+            throw new NullPointerException( "clazz" );
+        }
+        Constructor[] constructors = clazz.getConstructors();
+        if( constructors.length < 1 )
+        {
+            final String error =
+              "Target class ["
+              + clazz.getName()
+              + "] does not declare a public constructor.";
+            throw new PartHandlerException( error );
+        }
+        else if( constructors.length > 1 )
+        {
+            final String error =
+              "Target class ["
+              + clazz.getName()
+              + "] declares multiple public constructors.";
+            throw new PartHandlerException( error );
+        }
+        else
+        {
+            return constructors[0];
+        }
+    }
+
+   /**
+    * Constructs an empty array instance.
+    * @param clazz the array class
+    * @return the empty array instance
+    * @exception RepositoryException if an error occurs
+    */
+    private static Object[] getEmptyArrayInstance( Class clazz ) throws PartHandlerException
+    {
+        try
+        {
+            return (Object[]) Array.newInstance( clazz.getComponentType(), 0 );
+        }
+        catch( Throwable e )
+        {
+            final String error =
+              "Internal error while attempting to construct an empty array for the class: "
+              + clazz.getName();
+            throw new PartHandlerException( error, e );
+        }
     }
 }

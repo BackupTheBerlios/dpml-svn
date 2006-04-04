@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.logging.Logger;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
@@ -39,6 +38,7 @@ import net.dpml.component.Service;
 
 import net.dpml.lang.Version;
 import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.Logger;
 
 import net.dpml.job.CommissionerEvent;
 import net.dpml.job.CommissionerController;

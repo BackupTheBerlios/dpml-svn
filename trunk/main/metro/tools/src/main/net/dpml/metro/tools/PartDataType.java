@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
+import net.dpml.metro.builder.ComponentDecoder;
 
 import net.dpml.component.Directive;
 import net.dpml.component.DelegationException;
@@ -144,27 +145,28 @@ public class PartDataType extends Task implements PartReferenceBuilder
             //Logger logger = new AntAdapter( this );
             //CompositionController controller = new CompositionController( logger );
             //return controller.loadDirective( uri );
-            return Controller.STANDARD.loadDirective( uri );
+            ComponentDecoder decoder = new ComponentDecoder();
+            return decoder.loadComponentDirective( uri );
         }
-        catch( PartNotFoundException pnfe )
-        {
-            final String error =
-              "Unable to include the part ["
-              + key 
-              + "] because part reference ["
-              + uri
-              + "] could not be found.";
-            throw new BuildException( error );
-        }
-        catch( DelegationException de )
-        {
-            final String error =
-              "Delegation error while attempting to load part ["
-              + m_uri
-              + "] due to: " 
-              + de.getMessage();
-            throw new BuildException( error, de );
-        }
+        //catch( PartNotFoundException pnfe )
+        //{
+        //    final String error =
+        //      "Unable to include the part ["
+        //      + key 
+        //      + "] because part reference ["
+        //      + uri
+        //      + "] could not be found.";
+        //    throw new BuildException( error );
+        //}
+        //catch( DelegationException de )
+        //{
+        //    final String error =
+        //      "Delegation error while attempting to load part ["
+        //      + m_uri
+        //      + "] due to: " 
+        //      + de.getMessage();
+        //    throw new BuildException( error, de );
+        //}
         catch( IOException ioe )
         {
             final String error =
@@ -177,7 +179,7 @@ public class PartDataType extends Task implements PartReferenceBuilder
         catch( Exception e )
         {
             final String error =
-              "Unexpected error while attempting to load part ["
+              "Unexpected error while attempting to load component directive ["
               + m_uri
               + "] due to: " 
               + e.getMessage();

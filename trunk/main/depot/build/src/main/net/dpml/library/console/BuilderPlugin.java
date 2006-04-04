@@ -24,8 +24,14 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Hashtable;
 
 import net.dpml.lang.Logger;
+
+import net.dpml.part.Part;
+import net.dpml.part.Plugin;
+
 import net.dpml.transit.Transit;
 
 import net.dpml.library.Module;
@@ -34,7 +40,6 @@ import net.dpml.library.Builder;
 import net.dpml.library.Type;
 import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.info.Scope;
-
 import net.dpml.library.impl.DefaultLibrary;
 
 import net.dpml.cli.Option;
@@ -65,6 +70,7 @@ public class BuilderPlugin
 
     private final Logger m_logger;
     private final DefaultLibrary m_library;
+    private final Map m_map = new Hashtable();
     
     private boolean m_verbose;
     
@@ -85,6 +91,8 @@ public class BuilderPlugin
     {
         m_logger = logger;
         m_library = new DefaultLibrary( logger );
+        
+        Thread.currentThread().setContextClassLoader( Builder.class.getClassLoader() );
         
         Parser parser = new Parser();
         parser.setGroup( COMMAND_GROUP );
@@ -151,24 +159,28 @@ public class BuilderPlugin
         }
     }
     
-    private Builder createBuilder( URI uri ) throws Exception
+    private Part createPart( URI uri ) throws Exception
     {
         try
         {
-            Object[] params = new Object[]{m_logger, m_library, new Boolean( m_verbose )};
-            ClassLoader classloader = Builder.class.getClassLoader();
-            Class builderClass = Transit.getInstance().getRepository().getPluginClass( classloader, uri );
-            return (Builder) Transit.getInstance().getRepository().instantiate( builderClass, params );
+            Thread.currentThread().setContextClassLoader( Builder.class.getClassLoader() );
+            return Part.load( uri );
         }
         catch( Exception e )
         {
             final String error = 
-              "Unexpected error occured while attempting to load a plugin builder.\nURI: "
+              "Unexpected error occured while attempting to load builder.\nURI: "
               + uri;
             throw new BuilderError( error, e );
         }
     }
-
+    
+    private Builder createBuilder( Part part ) throws Exception
+    {
+        Object[] params = new Object[]{m_logger, m_library, new Boolean( m_verbose )};
+        return (Builder) part.instantiate( params );
+    }
+    
    /**
     * Resolve the project selection taking into account any overriding -s 
     * selection option, the -c switch, or in the absence of a selction, the 
@@ -265,7 +277,9 @@ public class BuilderPlugin
     private boolean process( CommandLine line, Resource[] resources ) throws Exception
     {
         URI uri = (URI) line.getValue( BUILDER_URI_OPTION, ANT_BUILDER_URI );
-        Builder builder = createBuilder( uri );
+        
+        Part part = createPart( uri );
+        Builder builder = createBuilder( part );
         
         if( resources.length > 1 )
         {

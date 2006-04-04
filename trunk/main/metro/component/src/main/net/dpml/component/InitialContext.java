@@ -141,12 +141,13 @@ public final class InitialContext extends LocalEventProducer
             Runtime.getRuntime().addShutdownHook( new ContextShutdownHook( control ) );
         }
         
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         try
         {
+            Thread.currentThread().setContextClassLoader( InitialContext.class.getClassLoader() );
             URI uri = getControllerURI();
-            ClassLoader classloader = InitialContext.class.getClassLoader();
             Repository repository = Transit.getInstance().getRepository();
-            Class c = repository.getPluginClass( classloader, uri );
+            Class c = repository.getPluginClass( uri );
             Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
             Controller controller = (Controller) constructor.newInstance( new Object[]{control} );
             return controller;
@@ -156,6 +157,10 @@ public final class InitialContext extends LocalEventProducer
             final String error =
               "Internal error while attempting to establish the standard controller.";
             throw new RuntimeException( error, e );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( classloader );
         }
     }
     

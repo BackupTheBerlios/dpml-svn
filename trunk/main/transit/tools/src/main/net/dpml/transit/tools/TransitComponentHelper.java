@@ -27,7 +27,6 @@ import net.dpml.part.Part;
 import net.dpml.part.Plugin;
 import net.dpml.part.Resource;
 
-//import net.dpml.lang.Plugin;
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
@@ -81,14 +80,8 @@ public class TransitComponentHelper extends ComponentHelper
     public static final String TRANSIT_GET_URN = TRANSIT_ANTLIB_URN + ":get";
 
    /**
-    * The constant Transit ANTLIB get task namespace.
-    */
-    public static final String TRANSIT_PREFS_URN = TRANSIT_ANTLIB_URN + ":prefs";
-
-   /**
     * The constant artifact plugin header.
     */
-    //public static final String PLUGIN_ARTIFACT_HEADER = "artifact:plugin:";
     public static final String PLUGIN_ARTIFACT_HEADER = "artifact:part:";
 
    /**
@@ -346,28 +339,28 @@ public class TransitComponentHelper extends ComponentHelper
 
             Repository loader = Transit.getInstance().getRepository();
             Part part = loader.getPart( uri );
-            Object data = part.getStrategy().getDeploymentData();
             
             ClassLoader current = Thread.currentThread().getContextClassLoader();
             
-            if( data instanceof Plugin )
+            if( part instanceof Plugin )
             {
-                Class clazz = loader.getPluginClass( current, part );
+                Plugin plugin = (Plugin) part;
+                Class clazz = plugin.getPluginClass();
                 final String key = uri + ":" + name;
                 getProject().log( "installing single task plugin [" + key + "]", Project.MSG_VERBOSE );
                 super.addTaskDefinition( key, clazz );
             }
-            else if( data instanceof Resource )
+            else if( part instanceof Resource )
             {
-                ClassLoader classloader = loader.getPluginClassLoader( current, part );
-                Resource res = (Resource) data;
+                Resource res = (Resource) part;
                 String resource = res.getPath();
                 getProject().log( "installing antlib plugin [" + resource + "]", Project.MSG_VERBOSE );
+                ClassLoader classloader = part.getClassLoader();
                 InputStream input = classloader.getResourceAsStream( resource );
                 if( null == input )
                 {
                     final String error = 
-                      "Cannot load plugin resource [" 
+                      "Cannot load resource [" 
                       + resource 
                       + "] because it does not exist within the cloassloader defined by the uri [" 
                       + uri 
@@ -419,30 +412,6 @@ public class TransitComponentHelper extends ComponentHelper
     private Project getProject()
     {
         return m_project;
-    }
-
-   /**
-    * Return the plugin uri by resolving the string form the beggining of the name
-    * to the last occurance of ":". The content following the ":" is used by ant for
-    * the actual task name. We use the string preceeding the name to hold the
-    * artifact uri.
-    *
-    * @param name the fully qualified task name
-    * @return the plugin uri
-    * @exception BuildException if a convertion error occurs
-    */
-    private URI getURI( String name ) throws BuildException
-    {
-        String urn = name.substring( 0, name.lastIndexOf( ":" ) );
-        if( name.startsWith( "artifact:plugin:" ) )
-        {
-            return convertToURI( urn );
-        }
-        else
-        {
-            String spec = "artifact:plugin:" + urn.substring( SEVEN );
-            return convertToURI( spec );
-        }
     }
 
    /**
@@ -542,7 +511,5 @@ public class TransitComponentHelper extends ComponentHelper
     public void messageLogged( BuildEvent event )
     {
     }
-
-    private static final int SEVEN = 7;
 }
 

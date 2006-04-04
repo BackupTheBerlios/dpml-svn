@@ -71,21 +71,6 @@
       <include ref="dpml/util/dpml-configuration-impl"/>
     </dependencies>
   </project>
-
-  <project name="dpml-metro-builder" basedir="builder">
-    <types>
-      <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.metro.builder.ComponentBuilder"/>
-    </types>
-    <dependencies>
-      <include key="dpml-metro-model"/>
-      <include ref="dpml/depot/dpml-library"/>
-      <include key="dpml-state-impl"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
     <types>
@@ -102,7 +87,6 @@
       <include ref="dpml/util/dpml-configuration-impl"/>
       <include ref="dpml/util/dpml-job-impl"/>
       <include key="dpml-state-impl"/>
-      <include key="dpml-metro-builder"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
@@ -119,7 +103,7 @@
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
       <include key="dpml-metro-runtime"/>
-      <include key="dpml-metro-builder"/>
+      <include key="dpml-metro-runtime"/>
     </dependencies>
   </project>
 

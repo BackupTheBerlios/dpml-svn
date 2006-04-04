@@ -108,7 +108,7 @@ public class ComponentAdapter extends AbstractAdapter
             ClassLoader classloader = Controller.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
             Repository repository = Transit.getInstance().getRepository();
-            Class c = repository.getPluginClass( classloader, uri );
+            Class c = repository.getPluginClass( uri );
             InitialContext context = new InitialContext( partition );
             Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
             m_controller = (Controller) constructor.newInstance( new Object[]{context} );

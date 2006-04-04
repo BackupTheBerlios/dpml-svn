@@ -34,6 +34,9 @@ import org.apache.tools.ant.BuildException;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Repository;
 
+import net.dpml.part.Part;
+import net.dpml.part.Plugin;
+
 /**
  * Execute the install phase.
  *
@@ -103,7 +106,7 @@ public class InitializationTask extends GenericTask
                     ClassLoader classloader = getClass().getClassLoader();
                     Class clazz = classloader.loadClass( classname );
                     Object[] args = new Object[]{processor};
-                    listeners[i] = (BuildListener) repository.instantiate( clazz, args );
+                    listeners[i] = (BuildListener) Plugin.instantiate( clazz, args );
                 }
                 catch( Throwable e )
                 {
@@ -116,22 +119,25 @@ public class InitializationTask extends GenericTask
             }
             else
             {
+                ClassLoader context = Thread.currentThread().getContextClassLoader();
                 try
                 {
+                    ClassLoader classloader = getClass().getClassLoader();
+                    Thread.currentThread().setContextClassLoader( classloader );
                     String classname = processor.getClassname();
                     Object[] params = new Object[]{processor};
-                    ClassLoader classloader = getClass().getClassLoader();
+                    
                     if( null == classname )
                     {
                         listeners[i] = 
-                          (BuildListener) Transit.getInstance().getRepository().getPlugin( 
-                            classloader, uri, params );
+                          (BuildListener) Transit.getInstance().getRepository().getPlugin( uri, params );
                     }
                     else
                     {
-                        ClassLoader loader = repository.getPluginClassLoader( classloader, uri );
+                        Part part = repository.getPart( uri );
+                        ClassLoader loader = part.getClassLoader();
                         Class c = loader.loadClass( classname );
-                        listeners[i] = (BuildListener) repository.instantiate( c, params );
+                        listeners[i] = (BuildListener) Plugin.instantiate( c, params );
                     }
                 }
                 catch( ClassCastException e )
@@ -151,6 +157,10 @@ public class InitializationTask extends GenericTask
                       + "\nURI: " + uri
                       + "\nName: " + name;
                     throw new ProcessorInstantiationException( error, e );
+                }
+                finally
+                {
+                    Thread.currentThread().setContextClassLoader( context );
                 }
             }
         }

@@ -21,6 +21,7 @@ package net.dpml.metro.runtime;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.EventObject;
 import java.util.LinkedList;
@@ -28,10 +29,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.logging.Logger;
 
-import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.ComponentModel;
+import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.data.Composite;
+import net.dpml.metro.builder.ComponentDecoder;
 
 import net.dpml.component.Controller;
 import net.dpml.component.ControlException;
@@ -41,17 +43,24 @@ import net.dpml.component.ControllerContextListener;
 import net.dpml.component.ControllerContextEvent;
 import net.dpml.component.Model;
 import net.dpml.component.Component;
+import net.dpml.component.Composition;
 
 import net.dpml.part.Part;
-import net.dpml.part.PartDecoder;
-import net.dpml.part.DecoderFactory;
-import net.dpml.part.StandardPartHandler;
-import net.dpml.part.Strategy;
+import net.dpml.part.Builder;
+import net.dpml.part.StandardClassLoader;
+import net.dpml.part.Info;
 
+import net.dpml.part.DecoderFactory;
+import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
+import net.dpml.lang.Logger;
+import net.dpml.lang.DefaultLogger;
 
 import net.dpml.transit.Repository;
 import net.dpml.transit.Transit;
+import net.dpml.transit.monitor.LoggingAdapter;
+
+import org.w3c.dom.Element;
 
 /**
  * The composition controller is the controller used to establish remotely accessible
@@ -60,24 +69,13 @@ import net.dpml.transit.Transit;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class CompositionController extends StandardPartHandler implements Controller
+public class CompositionController implements Controller, Builder
 {
     //--------------------------------------------------------------------
     // static
     //--------------------------------------------------------------------
     
     private static final String COMPONENT_NAMESPACE_URI = "@COMPONENT-NAMESPACE-URI@";
-    private static final String COMPONENT_BUILDER_URI = "@COMPONENT-BUILDER-URI@";
-    
-    static final PartDecoder BUILDER = createPartDecoder();
-    
-    private static PartDecoder createPartDecoder()
-    {
-        Map map = new Hashtable();
-        map.put( COMPONENT_NAMESPACE_URI, createStaticURI( COMPONENT_BUILDER_URI ) );
-        DecoderFactory factory = new DecoderFactory( map );
-        return new PartDecoder( factory );
-    }
     
     //--------------------------------------------------------------------
     // immutable state
@@ -87,7 +85,6 @@ public class CompositionController extends StandardPartHandler implements Contro
     private final ControllerContext m_context;
     private final ComponentController m_controller;
     private final HashMap m_handlers = new HashMap(); // foreign controllers
-    private final Repository m_loader;
     private final InternalControllerContextListener m_listener;
     private final String m_partition;
     
@@ -113,17 +110,38 @@ public class CompositionController extends StandardPartHandler implements Contro
         
         m_context = context;
         m_partition = context.getPartition();
-        Logger root = new StandardLogger( m_partition );
+        Logger root = new DefaultLogger( m_partition );
         m_logger = root.getChildLogger( "control" );
         m_listener = new InternalControllerContextListener( this );
         m_context.addControllerContextListener( m_listener );
-        m_loader = Transit.getInstance().getRepository();
         m_logger.debug( "controller: " + CONTROLLER_URI );
         m_controller = new ComponentController( m_logger, this );
         
         startEventDispatchThread();
     }
     
+    //--------------------------------------------------------------------
+    // Builder
+    //--------------------------------------------------------------------
+    
+    public Part build( Info info, Classpath classpath, Element strategy ) throws IOException
+    {
+        ClassLoader context = Thread.currentThread().getContextClassLoader();
+        try
+        {
+            ClassLoader anchor = Component.class.getClassLoader();
+            Thread.currentThread().setContextClassLoader( anchor );
+            ComponentDecoder decoder = new ComponentDecoder();
+            ComponentDirective directive = decoder.buildComponent( strategy );
+            Logger logger = getLogger();
+            return new DefaultComposition( logger, info, classpath, this, directive );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( context );
+        }
+    }
+
     //--------------------------------------------------------------------
     // PartHandler
     //--------------------------------------------------------------------
@@ -137,9 +155,60 @@ public class CompositionController extends StandardPartHandler implements Contro
     */
     public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
     {
-        return super.getClassLoader( anchor, classpath );
+        ClassLoader management = ComponentDirective.class.getClassLoader();
+        
+        ClassLoader composer = 
+          new CompositionClassLoader( null, Category.PROTECTED, management, anchor );
+        
+        URI[] apis = classpath.getDependencies( Category.PUBLIC );
+        ClassLoader api = StandardClassLoader.buildClassLoader( null, Category.PUBLIC, composer, apis );
+        if( api != composer )
+        {
+            classloaderConstructed( Category.PUBLIC, api );
+        }
+        URI[] spis = classpath.getDependencies( Category.PROTECTED );
+        ClassLoader spi = StandardClassLoader.buildClassLoader( null, Category.PROTECTED, api, spis );
+        if( spi != api )
+        {
+            classloaderConstructed( Category.PROTECTED, spi );
+        }
+        URI[] imps = classpath.getDependencies( Category.PRIVATE );
+        ClassLoader impl = StandardClassLoader.buildClassLoader( null, Category.PRIVATE, spi, imps );
+        if( impl != spi )
+        {
+            classloaderConstructed( Category.PRIVATE, impl );
+        }
+        return impl;
     }
 
+   /**
+    * Handle notification of the creation of a new classloader.
+    * @param type the type of classloader (api, spi or impl)
+    * @param classloader the new classloader 
+    */
+    public void classloaderConstructed( Category category, ClassLoader classloader )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            int id = System.identityHashCode( classloader );
+            StringBuffer buffer = new StringBuffer();
+            buffer.append( "created " );
+            buffer.append( category.toString() );
+            buffer.append( " classloader: " + id );
+            if( classloader instanceof URLClassLoader )
+            {
+                URLClassLoader loader = (URLClassLoader) classloader;
+                URL[] urls = loader.getURLs();
+                for( int i=0; i < urls.length; i++ )
+                {
+                    URL url = urls[i];
+                    buffer.append( "\n  [" + i + "] \t" + url.toString() );
+                }
+            }
+            getLogger().debug( buffer.toString() );
+        }
+    }
+    
    /**
     * Instantiate a value.
     * @param anchor the anchor classloader
@@ -149,6 +218,7 @@ public class CompositionController extends StandardPartHandler implements Contro
     * @return the instantiated service
     * @exception Exception if a deployment error occurs
     */
+    /*
     public Object getInstance( 
       ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception
     {
@@ -164,10 +234,19 @@ public class CompositionController extends StandardPartHandler implements Contro
         {
             final String datatype = data.getClass().getName();
             final String error = 
-              "Unsupported datatype [" + datatype + "].";
+              "Datatype not recognized."
+              + "\nClass: " + datatype;
+            final String report = 
+              error
+              + "\n" 
+              + StandardClassLoader.toString( 
+                  ComponentDirective.class.getClassLoader(),
+                  data.getClass().getClassLoader() );
+            getLogger().error( report );
             throw new IllegalArgumentException( error );
         }
     }
+    */
     
     //--------------------------------------------------------------------
     // Controller
@@ -192,53 +271,46 @@ public class CompositionController extends StandardPartHandler implements Contro
     */
     public Model createModel( URI uri ) throws ControlException, IOException
     {
-        Part part = BUILDER.loadPart( uri );
-        Strategy strategy = part.getStrategy();
-        Object data = strategy.getDeploymentData();
-        if( data instanceof ComponentDirective )
+        Part part = Part.load( uri );
+        if( part instanceof Composition )
         {
-            Classpath classpath = part.getClasspath(); 
-            ComponentDirective directive = (ComponentDirective) data;
-            return m_controller.createComponentModel( classpath, directive );
+            Composition composition = (Composition) part;
+            return createModel( composition );
         }
         else
         {
             final String error = 
-              "Part datatype [" 
-              + data.getClass().getName() 
-              + "] referenced in the part ["
-              + part
-              + "] is not recognized.";
+              "Part class [" 
+              + part.getClass().getName() 
+              + "] not recognized.";
             throw new ControllerException( error );
         }
     }
-    
+
    /**
-    * Create and return a new management context using the supplied part
-    * as the inital management state.
+    * Create and return a new management context using the supplied directive uri.
     *
-    * @param directive the part data structure
-    * @return the management context model
-    * @exception ControlException if an error occurs during model construction
+    * @param composition a composition directive
+    * @return the management model
+    * @exception ControlException if an error occurs
+    * @exception IOException if an I/O error occurs
     */
-    /*
-    public Model createModel( Directive directive ) throws ControlException
+    public Model createModel( Composition composition ) throws ControlException, IOException
     {
-        if( directive instanceof ComponentDirective )
+        if( composition instanceof DefaultComposition )
         {
-            ComponentDirective component = (ComponentDirective) directive;
-            return m_controller.createComponentModel( component );
+            DefaultComposition data = (DefaultComposition) composition;
+            return m_controller.createComponentModel( data );
         }
         else
         {
-            final String error =
-              "Construction of a managment context for the part class ["
-              + directive.getClass().getName() 
-              + "] is not supported.";
+            final String error = 
+              "Composition class [" 
+              + composition.getClass().getName() 
+              + "] not recognized.";
             throw new ControllerException( error );
         }
     }
-    */
     
    /**
     * Create and return a remote reference to a component handler.
@@ -248,23 +320,18 @@ public class CompositionController extends StandardPartHandler implements Contro
     */
     public Component createComponent( URI uri ) throws Exception
     {
-        Part part = BUILDER.loadPart( uri );
-        Strategy strategy = part.getStrategy();
-        Object data = strategy.getDeploymentData();
-        if( data instanceof ComponentDirective )
+        Part part = Part.load( uri );
+        if( part instanceof DefaultComposition )
         {
-            Classpath classpath = part.getClasspath(); 
-            ComponentDirective directive = (ComponentDirective) data;
-            Model model = m_controller.createComponentModel( classpath, directive );
+            DefaultComposition composition = (DefaultComposition) part;
+            Model model = m_controller.createComponentModel( composition );
             return createComponent( model, true );
         }
         else
         {
             final String error = 
-              "Part datatype [" 
-              + data.getClass().getName() 
-              + "] referenced in the part ["
-              + part
+              "Part class [" 
+              + part.getClass().getName() 
               + "] is not recognized.";
             throw new ControllerException( error );
         }
@@ -344,9 +411,12 @@ public class CompositionController extends StandardPartHandler implements Contro
     public Directive loadDirective( URI uri ) throws ControlException, IOException
     {
         ClassLoader current = Thread.currentThread().getContextClassLoader();
+        Part part = Part.load( uri );
+        throw new UnsupportedOperationException( "loadDirective" );
+        
+        /*
         try
         {
-            Part part = BUILDER.loadPart( uri );
             Strategy strategy = part.getStrategy();
             Object data = strategy.getDeploymentData();
             if( data instanceof Directive )
@@ -379,6 +449,7 @@ public class CompositionController extends StandardPartHandler implements Contro
         {
             Thread.currentThread().setContextClassLoader( current );
         }
+        */
     }
     
    /**

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<part xmlns="@PART-XSD-URI@">
+  <info title="Component Part"/>
+  
+  <component xmlns="@COMPONENT-XSD-URI@"
+      type="net.dpml.test.array.ArrayTestComponent"
+      name="test">
+    <context>
+      <entry key="test" lookup="acme.Widget"/>
+    </context>
+  </component>
+  
+  <classpath/>
+  
+</part>
+

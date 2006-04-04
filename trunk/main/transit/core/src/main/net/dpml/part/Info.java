@@ -18,6 +18,7 @@
 
 package net.dpml.part;
 
+import java.net.URI;
 import java.io.Serializable;
 
 /**
@@ -30,14 +31,17 @@ public final class Info implements Serializable
 {
     private final String m_title;
     private final String m_description;
+    private final URI m_uri;
     
    /**
     * Creation of a new part info descriptor.
+    * @param uri the part uri
     * @param title the title of the part
     * @param description the part description
     */
-    public Info( String title, String description )
+    public Info( URI uri, String title, String description )
     {
+        m_uri = uri;
         if( null == title )
         {
             m_title = "Untitled";
@@ -54,6 +58,16 @@ public final class Info implements Serializable
         {
             m_description = description;
         }
+    }
+    
+   /**
+    * Get the part uri.
+    *
+    * @return the uri
+    */
+    public URI getURI()
+    {
+        return m_uri;
     }
     
    /**

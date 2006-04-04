@@ -28,6 +28,8 @@ import net.dpml.component.Directive;
 import net.dpml.component.Controller;
 import net.dpml.component.InitialContext;
 
+import net.dpml.part.Part;
+
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.Transit;
 
@@ -67,18 +69,11 @@ public class PartLoadingTestCase extends TestCase
         
         // initialize the controller
         
-        InitialContext context = new InitialContext();
-        Controller controller = InitialContext.createController( context );
+        Part part = Transit.getInstance().getRepository().getPart( m_uri );
+        System.out.println( "# PART: " + part );
         
         // do stuff
         
-        Directive directive = controller.loadDirective( m_uri );
-        String classname = directive.getClass().getName();
-        assertEquals( "directive-classname", "net.dpml.metro.data.ComponentDirective", classname );
-        
-        // shutdown controller and transit
-        
-        context.dispose();
         model.dispose();
         
         Logger.global.info( "test complete." );

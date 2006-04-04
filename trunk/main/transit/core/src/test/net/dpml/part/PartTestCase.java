@@ -23,6 +23,8 @@ import java.io.FileOutputStream;
 
 import junit.framework.TestCase;
 
+import net.dpml.transit.monitor.LoggingAdapter;
+
 /**
  * Plugin test case.
  *
@@ -35,20 +37,7 @@ public class PartTestCase extends TestCase
     {
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
     }
-    
-    private PartDecoder m_decoder;
-    private PartEncoder m_encoder;
-    
-   /**
-    * Test the demo class.
-    * @exception Exception if a error occurs during test execution
-    */
-    public void setUp() throws Exception
-    {
-        m_decoder = new PartDecoder( new DecoderFactory() );
-        m_encoder = new PartEncoder();
-    }
-    
+        
    /**
     * Test the demo class.
     * @exception Exception if a error occurs during test execution
@@ -74,11 +63,11 @@ public class PartTestCase extends TestCase
         File file = new File( test, path );
         System.out.println( "source: " + file + " (" + file.exists() + ")" );
         
-        Part part = m_decoder.loadPart( file.toURI() );
+        Part part = Part.load( file.toURI() );
         File out = new File( test, "export-" + path );
         FileOutputStream output = new FileOutputStream( out );
-        m_encoder.encodePart( part, output, "" );
-        Part newPart = m_decoder.loadPart( out.toURI() );
+        part.encode( output );
+        Part newPart = Part.load( out.toURI() );
         assertEquals( "part", part, newPart );
     }
 }

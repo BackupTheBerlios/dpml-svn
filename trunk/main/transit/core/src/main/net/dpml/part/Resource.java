@@ -18,14 +18,18 @@
 
 package net.dpml.part;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.Writer;
+
+import net.dpml.lang.Logger;
+import net.dpml.lang.Classpath;
 
 /**
  * Resource part strategy implementation datatype.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Resource implements Serializable
+public class Resource extends Part
 {
     private final String m_urn;
     private final String m_path;
@@ -35,8 +39,10 @@ public class Resource implements Serializable
     * @param urn the resource urn
     * @param path the resource path
     */
-    public Resource( String urn, String path )
+    public Resource( Logger logger, Info info, Classpath classpath, String urn, String path )
+      throws IOException
     {
+        super( logger, info, classpath );
         if( null == urn )
         {
             throw new NullPointerException( "urn" );
@@ -68,26 +74,45 @@ public class Resource implements Serializable
     }
     
    /**
-    * Test if this instance is equal to the supplied instance.
-    * @param other the other instance
-    * @return the equality status
+    * Instantiate a value.
+    * @param args supplimentary arguments
+    * @return the resolved instance
+    * @exception Exception if a deployment error occurs
     */
+    public Object instantiate( Object[] args ) throws Exception
+    {
+        throw new UnsupportedOperationException( "instantiate/1" );
+    }
+    
+    protected void encodeStrategy( Writer writer, String pad ) throws IOException
+    {
+        String urn = getURN();
+        String path = getPath();
+        writer.write( "\n  <strategy xsi:type=\"resource\"" );
+        writer.write( " urn=\"" + urn );
+        writer.write( "\" path=\"" + path );
+        writer.write( "\"/>" );
+    }
+    
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( super.equals( other ) )
         {
-            return false;
-        }
-        else if( other instanceof Resource )
-        {
-            Resource resource = (Resource) other;
-            if( !m_urn.equals( resource.m_urn ) )
+            if( other instanceof Resource )
             {
-                return false;
+                Resource resource = (Resource) other;
+                if( !m_path.equals( resource.m_path ) )
+                {
+                    return false;
+                }
+                else
+                {
+                    return m_urn.equals( resource.m_urn );
+                }
             }
             else
             {
-                return m_path.equals( resource.m_path );
+                return false;
             }
         }
         else
@@ -96,14 +121,5 @@ public class Resource implements Serializable
         }
     }
     
-   /**
-    * Get the hashcode for this instance.
-    * @return the hash value
-    */
-    public int hashCode()
-    {
-        int hash = m_urn.hashCode();
-        hash ^= m_path.hashCode();
-        return hash;
-    }
+    
 }
