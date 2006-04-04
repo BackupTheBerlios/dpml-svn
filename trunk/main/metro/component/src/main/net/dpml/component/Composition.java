@@ -45,7 +45,8 @@ public abstract class Composition extends Part
     * @param info the part info descriptor
     * @param classpath the part classpath definition
     * @param controller the part controller
-    * @param directive the part deployment strategy directive3
+    * @param directive the part deployment strategy directive
+    * @exception IOException if an I/O error occurs
     */
     public Composition( Logger logger, Info info, Classpath classpath, Controller controller, Directive directive )
       throws IOException

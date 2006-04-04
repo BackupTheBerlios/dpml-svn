@@ -201,12 +201,12 @@ public abstract class Part
         return hash;
     }
     
-    
    /**
     * Encode this part strategy to XML.
     *
     * @param writer the output stream writer 
     * @param pad the character offset 
+    * @exception IOException if an I/O error occurs during part externalization
     */
     protected abstract void encodeStrategy( Writer writer, String pad ) throws IOException;
 

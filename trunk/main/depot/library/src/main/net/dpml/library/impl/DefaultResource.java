@@ -101,7 +101,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * @param logger the assigned logging channel
     * @param library the reference library
     * @param module the parent module
-    * @directive the resource directive
+    * @param directive the resource directive
     */
     DefaultResource( Logger logger, DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
     {

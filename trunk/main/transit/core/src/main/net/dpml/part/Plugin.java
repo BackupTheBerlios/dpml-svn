@@ -49,6 +49,7 @@ public class Plugin extends Part
     * @param info the part info descriptor
     * @param classpath the classpath descriptor
     * @param classname the target class
+    * @exception IOException if an I/O error occurs
     */ 
     public Plugin( 
       Logger logger, Info info, Classpath classpath, String classname )
@@ -64,6 +65,7 @@ public class Plugin extends Part
     * @param classpath the classpath descriptor
     * @param classname the target class
     * @param params an array of default value arguments
+    * @exception IOException if an I/O error occurs
     */ 
     public Plugin( 
       Logger logger, Info info, Classpath classpath, String classname, Value[] params )
@@ -136,6 +138,11 @@ public class Plugin extends Part
         }
     }
     
+   /**
+    * Test if this instance is equal to the supllied object.
+    * @param other the other object
+    * @return true if the supplied object is equal to this instance
+    */
     public boolean equals( Object other )
     {
         if( super.equals( other ) )
@@ -163,6 +170,27 @@ public class Plugin extends Part
         }
     }
     
+   /**
+    * Get the has code for this instance.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        int hash = m_classname.hashCode();
+        for( int i=0; i<m_params.length; i++ )
+        {
+            hash ^= m_params[i].hashCode();
+        }
+        return hash;
+    }
+    
+    
+   /**
+    * Encode the pluginstrategy to XML.
+    * @param writer the output stream writer
+    * @param pad the character offset
+    * @exception IOException if an I/O error occurs
+    */
     protected void encodeStrategy( Writer writer, String pad ) throws IOException
     {
         String classname = getClassname();

@@ -19,8 +19,6 @@
 
 package net.dpml.part;
 
-import java.io.IOException;
-
 /**
  * Fatal part related error.
  *
