@@ -55,10 +55,10 @@
         <img src="/images/transit/chain.png"/>
 
         <p>
-        Plugin files use a simple property file format to declare features of
+        Plugin files use a XML file format to declare features of
         of the classloader, including information used when resolving plugins.
         This information is normally created automatically using the
-        <a href="/depot/tools/listeners/plugin.html">Plugin Builder</a> from the
+        <a href="/depot/tasks/plugin.html">Plugin Builder</a> from the
         <a href="/depot/tools/index.html">Depot</a> build system.
         </p>
 
@@ -68,10 +68,9 @@
         </p>
 
 <source>
-Repository repository = Transit.getInstance().getRepository();
-ClassLoader parent = getClass().getClassLoader();
 URI uri = new URI( "artifact:plugin:dpml/examples/hello/hello-world#1.0.0" );
-ClassLoader classloader = repository.getClassloader( parent, uri );
+Part part = Part.load( uri );
+ClassLoader classloader = part.getClassloader();
 </source>
 
     </section>
