@@ -48,10 +48,12 @@ import net.dpml.lang.Logger;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.ValueDirective;
 
+import net.dpml.part.Part;
+import net.dpml.part.PartException;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitBuilder;
-import net.dpml.transit.RepositoryException;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.ProxyDirective;
@@ -170,15 +172,15 @@ public class TransitConsoleHandler
             URI uri = (URI) line.getValue( LOAD_COMMAND, null );
             List list = line.getValues( ARGUMENTS );
             String[] args = (String[]) list.toArray( new String[ list.size() ] );
-            Object instance = 
-              Transit.getInstance().getRepository().getPlugin( uri, new Object[]{args} );
+            Part part = Part.load( uri );
+            Object instance = part.instantiate( new Object[]{args} );
             if( instance instanceof Runnable )
             {
                 Runnable runnable = (Runnable) instance;
                 runnable.run();
             }
         }
-        catch( RepositoryException e )
+        catch( PartException e )
         {
             boolean stack = isDebugEnabled();
             String message = ExceptionHelper.packException( e, stack ); 
@@ -201,7 +203,7 @@ public class TransitConsoleHandler
         else
         {
             final String error = 
-              "Plugin exception.";
+              "Part exception.";
             String message = ExceptionHelper.packException( error, e, true ); 
             System.out.println( message );
         }

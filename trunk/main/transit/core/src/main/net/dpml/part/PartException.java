@@ -27,7 +27,7 @@ import java.io.IOException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartHandlerException extends IOException
+public class PartException extends IOException
 {
    /**
     * Serial version identifier.
@@ -35,22 +35,22 @@ public class PartHandlerException extends IOException
     static final long serialVersionUID = 1L;
 
     /**
-     * Construct a new <code>PartHandlerException</code> instance.
+     * Construct a new <code>PartException</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public PartHandlerException( final String message )
+    public PartException( final String message )
     {
         this( message, null );
     }
 
     /**
-     * Construct a new <code>PartHandlerException</code> instance.
+     * Construct a new <code>PartException</code> instance.
      *
      * @param message The detail message for this exception.
      * @param cause the root cause of the exception
      */
-    public PartHandlerException( final String message, final Throwable cause )
+    public PartException( final String message, final Throwable cause )
     {
         super( message );
         super.initCause( cause );

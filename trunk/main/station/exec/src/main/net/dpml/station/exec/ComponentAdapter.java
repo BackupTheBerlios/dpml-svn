@@ -51,8 +51,8 @@ import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
 import net.dpml.lang.Logger;
 
-import net.dpml.transit.Repository;
-import net.dpml.transit.Transit;
+import net.dpml.part.Part;
+import net.dpml.part.Plugin;
 
 /**
  * The ComponentAdapter provides support for the establishment of a part
@@ -107,11 +107,19 @@ public class ComponentAdapter extends AbstractAdapter
         {
             ClassLoader classloader = Controller.class.getClassLoader();
             URI uri = new URI( "@COMPOSITION-CONTROLLER-URI@" );
-            Repository repository = Transit.getInstance().getRepository();
-            Class c = repository.getPluginClass( uri );
+            Part part = Part.load( uri );
             InitialContext context = new InitialContext( partition );
-            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
-            m_controller = (Controller) constructor.newInstance( new Object[]{context} );
+            if( part instanceof Plugin )
+            {
+                Plugin plugin = (Plugin) part;
+                Class c = plugin.getPluginClass();
+                Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
+                m_controller = (Controller) constructor.newInstance( new Object[]{context} );
+            }
+            else
+            {
+                m_controller = (Controller) part.instantiate( new Object[]{context} ); 
+            }
         }
         catch( Exception e )
         {

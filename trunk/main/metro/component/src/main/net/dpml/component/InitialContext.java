@@ -27,9 +27,10 @@ import java.net.URI;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
-import net.dpml.transit.monitor.LoggingAdapter;
+import net.dpml.lang.DefaultLogger;
+
+import net.dpml.part.Part;
+import net.dpml.part.Plugin;
 
 /**
  * The CompositionControllerContext class wraps a ContentModel and supplies convinience
@@ -146,11 +147,18 @@ public final class InitialContext extends LocalEventProducer
         {
             Thread.currentThread().setContextClassLoader( InitialContext.class.getClassLoader() );
             URI uri = getControllerURI();
-            Repository repository = Transit.getInstance().getRepository();
-            Class c = repository.getPluginClass( uri );
-            Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
-            Controller controller = (Controller) constructor.newInstance( new Object[]{control} );
-            return controller;
+            Part part = Part.load( uri );
+            if( part instanceof Plugin )
+            {
+                Plugin plugin = (Plugin) part;
+                Class c = plugin.getPluginClass();
+                Constructor constructor = c.getConstructor( new Class[]{ControllerContext.class} );
+                return (Controller) constructor.newInstance( new Object[]{control} );
+            }
+            else
+            {
+                return (Controller) part.instantiate( new Object[]{control} );
+            }
         }
         catch( Throwable e )
         {
@@ -212,7 +220,7 @@ public final class InitialContext extends LocalEventProducer
     */
     public InitialContext( String partition, File work, File temp )
     {
-        super( new LoggingAdapter( partition ) );
+        super( new DefaultLogger( partition ) );
 
         m_partition = partition;
 

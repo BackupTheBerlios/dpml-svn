@@ -94,9 +94,6 @@ public final class PartDecoder implements Decoder
                 {
                     getLogger().debug( "loading part [" + uri + "] from cache." );
                 }
-                //System.out.println( "CACHED PART: " + key );
-                //Exception e = new Exception( "trace" );
-                //e.printStackTrace();
                 return part;
             }
         }
@@ -106,9 +103,6 @@ public final class PartDecoder implements Decoder
             {
                 getLogger().debug( "loading part [" + uri + "] from source." );
             }
-            //System.out.println( "LOADING PART: " + key );
-            //Exception e = new Exception( "trace" );
-            //e.printStackTrace();
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
             Part value = decodePart( uri, root );
@@ -178,7 +172,7 @@ public final class PartDecoder implements Decoder
     * Resolve a part plugin or resource strategy.
     * @param information the part info definition
     * @param classpath the part classpath definition
-    * @param element element part definition
+    * @param strategy part deployment strategy definition
     * @return the resolved part
     * @exception IOException if an error occurs during element evaluation
     */
@@ -289,7 +283,7 @@ public final class PartDecoder implements Decoder
                   + " interface."
                   + "\nURI: " + uri 
                   + "\nClass: " + object.getClass().getName();
-                throw new PartHandlerException( error );
+                throw new PartException( error );
             }
         }
         else
@@ -300,7 +294,7 @@ public final class PartDecoder implements Decoder
               + "."
               + "\nURI: " + uri 
               + "\nPart Type: " + part.getClass().getName();
-            throw new PartHandlerException( error );
+            throw new PartException( error );
         }
     }
     

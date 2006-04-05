@@ -37,6 +37,7 @@ import net.dpml.lang.Construct;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Logger;
 
+import net.dpml.part.Part;
 import net.dpml.part.Plugin;
 
 /**
@@ -232,8 +233,19 @@ class DefaultContentRegistry extends UnicastRemoteObject
             try
             {
                 m_logger.debug( "loading content handler plugin: " + uri );
-                Repository loader = Transit.getInstance().getRepository();
-                clazz = loader.getPluginClass( uri );
+                Part part = Part.load( uri );
+                if( part instanceof Plugin )
+                {
+                    Plugin plugin = (Plugin) part;
+                    clazz = plugin.getPluginClass();
+                }
+                else
+                {
+                    final String error = 
+                      "Impementation assumes plugin strategy.  Cannot load non-plugin part."
+                      + "\nURI: " + uri;
+                    throw new IOException( error );
+                }
             }
             catch( Exception e )
             {

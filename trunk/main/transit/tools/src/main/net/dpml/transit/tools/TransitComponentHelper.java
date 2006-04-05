@@ -27,8 +27,6 @@ import net.dpml.part.Part;
 import net.dpml.part.Plugin;
 import net.dpml.part.Resource;
 
-import net.dpml.transit.Repository;
-import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
 
 import org.apache.tools.ant.Project;
@@ -337,8 +335,7 @@ public class TransitComponentHelper extends ComponentHelper
         {
             m_project.log( "installing: " + uri + " as " + urn );
 
-            Repository loader = Transit.getInstance().getRepository();
-            Part part = loader.getPart( uri );
+            Part part = Part.load( uri );
             
             ClassLoader current = Thread.currentThread().getContextClassLoader();
             

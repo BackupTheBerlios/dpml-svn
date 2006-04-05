@@ -346,10 +346,10 @@ public final class Transit
     * @return the repository service
     * @exception IllegalStateException if Transit has not been initialized
     */
-    public Repository getRepository() throws IllegalStateException 
-    {
-        return getTransitContext().getRepository();
-    }
+    //public Repository getRepository() throws IllegalStateException 
+    //{
+    //    return getTransitContext().getRepository();
+    //}
 
    /**
     * Returns a reference to the repository monitor router.  Client application

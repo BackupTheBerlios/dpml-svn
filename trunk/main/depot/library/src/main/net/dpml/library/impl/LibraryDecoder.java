@@ -37,12 +37,11 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.Scope;
 
-import net.dpml.transit.Repository;
-import net.dpml.transit.Transit;
 import net.dpml.transit.util.ElementHelper;
 
 import net.dpml.lang.Category;
 import net.dpml.part.DecodingException;
+import net.dpml.part.Part;
 
 import net.dpml.part.DOM3DocumentBuilder;
 
@@ -744,9 +743,9 @@ public final class LibraryDecoder extends LibraryConstants
     private TypeBuilder loadTypeBuilder( URI uri ) throws Exception
     {
         ClassLoader classloader = TypeBuilder.class.getClassLoader();
-        Repository repository = Transit.getInstance().getRepository();
         Object[] args = new Object[0];
-        Object handler = repository.getPlugin( uri, args );
+        Part part = Part.load( uri );
+        Object handler = part.instantiate( args );
         if( handler instanceof TypeBuilder )
         {
             return (TypeBuilder) handler;

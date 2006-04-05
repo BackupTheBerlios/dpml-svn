@@ -65,7 +65,7 @@ public class PartLoadingTestCase extends TestCase
         
         // initialize the controller
         
-        Part part = Transit.getInstance().getRepository().getPart( m_uri );
+        Part part = Part.load( m_uri );
         
         // do stuff
         

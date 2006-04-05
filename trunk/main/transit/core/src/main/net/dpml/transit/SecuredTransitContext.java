@@ -43,6 +43,7 @@ import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Logger;
 
+
 /**
  * The initial context of the transit system.
  *
@@ -163,7 +164,7 @@ public final class SecuredTransitContext
    /**
     * The repository service provider.
     */
-    private Repository m_repository;
+    //private Repository m_repository;
     
     private ProxyController m_proxyController;
     
@@ -239,10 +240,10 @@ public final class SecuredTransitContext
     * Return the Transit repository service.
     * @return the repository service
     */
-    public Repository getRepository()
-    {
-        return m_repository;
-    }
+    //public Repository getRepository()
+    //{
+    //    return m_repository;
+    //}
 
    /**
     * Return the cache handler.
@@ -310,8 +311,8 @@ public final class SecuredTransitContext
     protected void initialize() throws IOException
     {
         m_linkManager = new ArtifactLinkManager();
-        Logger logger = getLogger().getChildLogger( "cache" );
-        m_repository = new StandardLoader( logger );  // this needs to be configured
+        //Logger logger = getLogger().getChildLogger( "cache" );
+        //m_repository = new StandardLoader( logger );  // this needs to be configured
         initializeCache();
     }
 

@@ -260,7 +260,7 @@ public class Plugin extends Part
             {
                 throw e;
             }
-            catch( PartHandlerException e )
+            catch( PartException e )
             {
                 throw e;
             }
@@ -268,19 +268,19 @@ public class Plugin extends Part
             {
                 final String error = 
                 "Class instantiation error [" + clazz.getName() + "]";
-                throw new PartHandlerException( error, e );
+                throw new PartException( error, e );
             }
         }
     }
     
     private static Object instantiate( Constructor constructor, Object[] args ) 
-      throws PartHandlerException, InvocationTargetException
+      throws PartException, InvocationTargetException
     {
         Object[] arguments = populate( constructor, args );
         return newInstance( constructor, arguments );
     }
     
-    private static Object[] populate( Constructor constructor, Object[] args ) throws PartHandlerException
+    private static Object[] populate( Constructor constructor, Object[] args ) throws PartException
     {
         if( null == constructor )
         {
@@ -342,7 +342,7 @@ public class Plugin extends Part
                       + "\nConstructor class: " + constructor.getDeclaringClass().getName()
                       + "\nParameter class: " + c.getName()
                       + "\nParameter position: " + ( i + 1 );
-                    throw new PartHandlerException( error );
+                    throw new PartException( error );
                 }
             }
         }
@@ -397,7 +397,7 @@ public class Plugin extends Part
     }
 
     private static Object newInstance( Constructor constructor, Object[] arguments )
-      throws PartHandlerException, InvocationTargetException
+      throws PartException, InvocationTargetException
     {
         try
         {
@@ -415,11 +415,11 @@ public class Plugin extends Part
               "Cannot create an instance of ["
               + constructor.getDeclaringClass().getName()
               + "] due to an instantiation failure.";
-            throw new PartHandlerException( error, e );
+            throw new PartException( error, e );
         }
     }
     
-    private static Constructor getSingleConstructor( Class clazz ) throws PartHandlerException
+    private static Constructor getSingleConstructor( Class clazz ) throws PartException
     {
         if( null == clazz )
         {
@@ -432,7 +432,7 @@ public class Plugin extends Part
               "Target class ["
               + clazz.getName()
               + "] does not declare a public constructor.";
-            throw new PartHandlerException( error );
+            throw new PartException( error );
         }
         else if( constructors.length > 1 )
         {
@@ -440,7 +440,7 @@ public class Plugin extends Part
               "Target class ["
               + clazz.getName()
               + "] declares multiple public constructors.";
-            throw new PartHandlerException( error );
+            throw new PartException( error );
         }
         else
         {
@@ -454,7 +454,7 @@ public class Plugin extends Part
     * @return the empty array instance
     * @exception RepositoryException if an error occurs
     */
-    private static Object[] getEmptyArrayInstance( Class clazz ) throws PartHandlerException
+    private static Object[] getEmptyArrayInstance( Class clazz ) throws PartException
     {
         try
         {
@@ -465,7 +465,7 @@ public class Plugin extends Part
             final String error =
               "Internal error while attempting to construct an empty array for the class: "
               + clazz.getName();
-            throw new PartHandlerException( error, e );
+            throw new PartException( error, e );
         }
     }
 }

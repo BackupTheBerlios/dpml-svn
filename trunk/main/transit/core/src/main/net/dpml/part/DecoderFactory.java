@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.TypeInfo;
@@ -190,9 +188,9 @@ public final class DecoderFactory
         {
             try
             {
-                Repository repository = Transit.getInstance().getRepository();
                 Object[] args = new Object[]{m_factory};
-                return repository.getPlugin( m_uri, args );
+                Part part = Part.load( m_uri );
+                return part.instantiate( args );
             }
             catch( Throwable e )
             {

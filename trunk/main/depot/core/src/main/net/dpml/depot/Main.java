@@ -28,8 +28,6 @@ import java.util.Date;
 import net.dpml.transit.Disposable;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitError;
-import net.dpml.transit.Repository;
-import net.dpml.transit.RepositoryException;
 import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.monitor.Adapter;
@@ -41,6 +39,8 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
 import net.dpml.lang.Enum;
 import net.dpml.lang.PID;
 import net.dpml.lang.Logger;
+
+import net.dpml.part.Part;
 
 /**
  * CLI hander for the depot package.
@@ -230,10 +230,10 @@ public final class Main //implements ShutdownHandler
             URI uri = new URI( path );
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) logger );
-            Repository repository = transit.getRepository();
+            
+            Part part = Part.load( uri );
             m_plugin = 
-              repository.getPlugin( 
-                uri, 
+              part.instantiate( 
                 new Object[]
                 {
                     model, 
@@ -242,7 +242,12 @@ public final class Main //implements ShutdownHandler
                 }
               );
         }
-        catch( RepositoryException e )
+        catch( GeneralException e )
+        {
+            getLogger().error( e.getMessage() );
+            System.exit( 1 );
+        }
+        catch( Exception e )
         {
             Throwable cause = e.getCause();
             if( ( null != cause ) && ( cause instanceof GeneralException ) )
@@ -255,11 +260,6 @@ public final class Main //implements ShutdownHandler
                 getLogger().error( e.getMessage(), e.getCause() );
                 System.exit( 1 );
             }
-        }
-        catch( GeneralException e )
-        {
-            getLogger().error( e.getMessage() );
-            System.exit( 1 );
         }
         catch( Throwable e )
         {

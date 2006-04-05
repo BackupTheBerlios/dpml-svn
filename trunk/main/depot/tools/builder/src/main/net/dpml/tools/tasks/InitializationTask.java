@@ -31,9 +31,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildException;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
-
 import net.dpml.part.Part;
 import net.dpml.part.Plugin;
 
@@ -82,7 +79,6 @@ public class InitializationTask extends GenericTask
     private BuildListener[] getBuildListeners( Processor[] processors )
       throws ProcessorInstantiationException
     {
-        Repository repository = Transit.getInstance().getRepository();
         BuildListener[] listeners = new BuildListener[ processors.length ];
         for( int i=0; i<processors.length; i++ )
         {
@@ -127,14 +123,13 @@ public class InitializationTask extends GenericTask
                     String classname = processor.getClassname();
                     Object[] params = new Object[]{processor};
                     
+                    Part part = Part.load( uri );
                     if( null == classname )
                     {
-                        listeners[i] = 
-                          (BuildListener) Transit.getInstance().getRepository().getPlugin( uri, params );
+                        listeners[i] = (BuildListener) part.instantiate( params );
                     }
                     else
                     {
-                        Part part = repository.getPart( uri );
                         ClassLoader loader = part.getClassLoader();
                         Class c = loader.loadClass( classname );
                         listeners[i] = (BuildListener) Plugin.instantiate( c, params );

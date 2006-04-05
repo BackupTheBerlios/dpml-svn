@@ -28,8 +28,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.transit.Transit;
-import net.dpml.transit.Repository;
 import net.dpml.transit.util.ElementHelper;
 
 import net.dpml.part.Part;
@@ -50,9 +48,7 @@ import org.w3c.dom.Element;
  * @version @PROJECT-VERSION@
  */
 public class PluginTask extends TransitTask
-{
-    private static Repository m_REPOSITORY;
-    
+{    
     private Map m_map = new Hashtable();
 
    /**
@@ -278,18 +274,7 @@ public class PluginTask extends TransitTask
     
     private Part getPart( URI uri ) throws IOException
     {
-        return (Part) getRepository().getPart( uri );
-        //Part part = (Part) m_map.get( uri );
-        //if( null != part )
-        //{
-        //    return part;
-        //}
-        //else
-        //{
-        //    part = (Part) getRepository().getPart( uri );
-        //    m_map.put( uri, part );
-        //    return part;
-        //}
+        return Part.load( uri );
     }
 
    /**
@@ -302,7 +287,6 @@ public class PluginTask extends TransitTask
     private void loadAntlib(
       URI uri, ClassLoader classloader, ComponentHelper helper, Antlib antlib ) throws Exception
     {
-        //Plugin plugin = getRepository().getPluginDescriptor( uri );
         Part part = getPart( uri );
         
         String resource = antlib.getPath();
@@ -313,7 +297,6 @@ public class PluginTask extends TransitTask
                 Resource res = (Resource) part;
                 resource = res.getPath();
             }
-            //resource = plugin.getStrategy().getProperties().getProperty( "project.plugin.resource" );
         }
         if( null == resource )
         {
@@ -614,29 +597,6 @@ public class PluginTask extends TransitTask
         public String getPath()
         {
             return m_path;
-        }
-    }
-
-    private Repository getRepository()
-    {
-        if( null == m_REPOSITORY )
-        {
-            m_REPOSITORY = setupRepository();
-        }
-        return m_REPOSITORY;
-    }
-
-    private Repository setupRepository()
-    {
-        try
-        {
-            return Transit.getInstance().getRepository();
-        }
-        catch( Throwable e )
-        {
-            final String error =
-              "Internal error while attemting to resolve Transit repository.";
-            throw new BuildException( error, e, getLocation() );
         }
     }
 }

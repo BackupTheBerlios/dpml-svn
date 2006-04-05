@@ -22,7 +22,7 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.transit.Transit;
+import net.dpml.part.Part;
 
 /**
  * Server component testcase.
@@ -39,7 +39,8 @@ public class ServerTestCase extends TestCase
     public void testServerDeployment() throws Exception
     {
         URI uri = new URI( "link:part:dpml/planet/http/dpml-http-server" );
-        Object object = Transit.getInstance().getRepository().getPlugin( uri, new Object[0] );
+        Part part = Part.load( uri );
+        Object object = part.instantiate( new Object[0] );
         assertEquals( "class", "net.dpml.http.Server", object.getClass().getName() );
     }
     
@@ -56,10 +57,3 @@ public class ServerTestCase extends TestCase
           "local:properties:dpml/transit/default" );
     }
 }
-
-
-//PartsManager parts = component.getPartsManager();
-//ComponentHandler webapp = parts.getComponentHandler( "webapp" );
-//File temp = new File( "target/test/temp" );
-//webapp.getContextMap().put( "tempDirectory", temp );
-//component.getProvider().getValue( false );
