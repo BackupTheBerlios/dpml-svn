@@ -22,10 +22,12 @@ import java.io.File;
 
 import net.dpml.library.Resource;
 import net.dpml.library.impl.DefaultLibrary;
+
 import net.dpml.tools.impl.StandardBuilder;
 
-import net.dpml.util.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
+
+import net.dpml.util.Logger;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;

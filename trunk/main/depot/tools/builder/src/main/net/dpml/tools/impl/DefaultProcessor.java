@@ -21,10 +21,10 @@ package net.dpml.tools.impl;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.dpml.library.impl.DefaultDictionary;
+
 import net.dpml.tools.info.ListenerDirective;
 import net.dpml.tools.model.Processor;
-
-import net.dpml.library.impl.DefaultDictionary;
 
 /**
  * Utility class used for construction of a module model from an XML source.

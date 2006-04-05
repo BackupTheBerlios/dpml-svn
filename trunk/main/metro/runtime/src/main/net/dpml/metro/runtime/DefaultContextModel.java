@@ -26,16 +26,13 @@ import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
 
+import net.dpml.metro.ContextModelManager;
+import net.dpml.metro.ValidationException;
+import net.dpml.metro.ValidationException.Issue;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
-
-import net.dpml.metro.ContextModelManager;
-import net.dpml.metro.ValidationException;
-import net.dpml.metro.ValidationException.Issue;
-
-import net.dpml.util.Logger;
 
 import net.dpml.component.Directive;
 import net.dpml.component.ModelException;
@@ -43,6 +40,8 @@ import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
 
 import net.dpml.lang.UnknownKeyException;
+
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of <tt>ContextModel</tt>.

@@ -20,9 +20,9 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.tools.model.Context;
-
 import net.dpml.library.Resource;
+
+import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.Project;
 

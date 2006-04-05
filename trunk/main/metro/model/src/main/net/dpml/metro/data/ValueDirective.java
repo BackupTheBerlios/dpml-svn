@@ -21,10 +21,10 @@ package net.dpml.metro.data;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.dpml.component.Directive;
+
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
-
-import net.dpml.component.Directive;
 
 /**
  * A <code>ValueDirective</code> represents a single constructed argument value. The directive

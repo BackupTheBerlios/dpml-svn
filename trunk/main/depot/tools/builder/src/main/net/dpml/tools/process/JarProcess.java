@@ -22,12 +22,12 @@ import java.io.File;
 
 import net.dpml.library.info.Scope;
 
+import net.dpml.tools.model.Context;
+import net.dpml.tools.model.Processor;
+
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
-
-import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

@@ -24,12 +24,12 @@ import java.net.URLClassLoader;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import net.dpml.lang.Category;
+import net.dpml.lang.StandardClassLoader;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 
-import net.dpml.lang.StandardClassLoader;
-
-import net.dpml.lang.Category;
 
 /**
  * A named classloader.

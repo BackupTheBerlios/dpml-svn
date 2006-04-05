@@ -27,8 +27,6 @@ import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.util.Logger;
-
 import net.dpml.component.Provider;
 import net.dpml.component.ControlException;
 
@@ -38,6 +36,8 @@ import net.dpml.state.StateListener;
 import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.UnknownOperationException;
 import net.dpml.state.impl.DefaultStateMachine;
+
+import net.dpml.util.Logger;
 
 /**
  * The DefaultProvider class maintains the state of a client instance.  On creation

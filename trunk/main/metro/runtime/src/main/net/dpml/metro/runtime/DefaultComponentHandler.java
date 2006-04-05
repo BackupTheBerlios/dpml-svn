@@ -33,18 +33,6 @@ import java.util.Hashtable;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 
-import net.dpml.metro.info.Type;
-import net.dpml.metro.info.LifestylePolicy;
-import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.metro.info.Priority;
-import net.dpml.metro.data.CategoryDirective;
-import net.dpml.metro.ComponentModel;
-import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.PartsManager;
-import net.dpml.metro.ComponentModelManager;
-
-import net.dpml.util.Logger;
-
 import net.dpml.component.Controller;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Disposable;
@@ -59,7 +47,19 @@ import net.dpml.component.ModelEvent;
 import net.dpml.lang.Version;
 import net.dpml.lang.UnknownKeyException;
 
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ComponentHandler;
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentModelManager;
+import net.dpml.metro.data.CategoryDirective;
+import net.dpml.metro.info.Type;
+import net.dpml.metro.info.LifestylePolicy;
+import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.Priority;
+
 import net.dpml.state.State;
+
+import net.dpml.util.Logger;
 
 
 /**

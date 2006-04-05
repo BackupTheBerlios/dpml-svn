@@ -18,9 +18,9 @@
 
 package net.dpml.tools.process;
 
-import net.dpml.util.ExceptionHelper;
-
 import net.dpml.tools.tasks.PartTask;
+
+import net.dpml.util.ExceptionHelper;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;

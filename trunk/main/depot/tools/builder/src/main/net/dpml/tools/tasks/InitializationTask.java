@@ -22,6 +22,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
+import net.dpml.lang.Part;
+import net.dpml.lang.Plugin;
+
 import net.dpml.library.Resource;
 
 import net.dpml.tools.model.Processor;
@@ -30,9 +33,6 @@ import net.dpml.tools.model.ProcessorNotFoundException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildException;
-
-import net.dpml.lang.Part;
-import net.dpml.lang.Plugin;
 
 /**
  * Execute the install phase.

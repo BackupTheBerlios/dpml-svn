@@ -26,6 +26,8 @@ import java.util.Properties;
 
 import javax.xml.XMLConstants;
 
+import net.dpml.lang.Category;
+
 import net.dpml.library.info.IncludeDirective;
 import net.dpml.library.info.IncludeDirective.Mode;
 import net.dpml.library.info.ModuleDirective;
@@ -33,8 +35,6 @@ import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.Scope;
-
-import net.dpml.lang.Category;
 
 /**
  * Utility class used for construction of a module model from an XML source.

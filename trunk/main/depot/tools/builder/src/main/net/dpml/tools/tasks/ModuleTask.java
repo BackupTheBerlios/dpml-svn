@@ -21,13 +21,13 @@ package net.dpml.tools.tasks;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import net.dpml.tools.model.Context;
-
 import net.dpml.library.Resource;
 import net.dpml.library.Module;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.impl.LibraryEncoder;
+
+import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

@@ -21,16 +21,15 @@ package net.dpml.library.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.Properties;
 
 import net.dpml.lang.Category;
-import net.dpml.util.Logger;
 
 import net.dpml.library.Type;
 import net.dpml.library.Resource;
@@ -44,8 +43,9 @@ import net.dpml.library.info.AbstractDirective;
 import net.dpml.library.info.ValidationException;
 import net.dpml.library.info.Scope;
 
-import net.dpml.transit.Artifact;
+import net.dpml.util.Logger;
 
+import net.dpml.transit.Artifact;
 
 /**
  * Implementation of a resource.

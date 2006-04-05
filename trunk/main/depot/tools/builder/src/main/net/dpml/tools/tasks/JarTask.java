@@ -20,13 +20,13 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
+import net.dpml.library.Resource;
+import net.dpml.library.Type;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
-
-import net.dpml.library.Resource;
-import net.dpml.library.Type;
 
 /**
  * Execute all plugins relative to the current build phase.

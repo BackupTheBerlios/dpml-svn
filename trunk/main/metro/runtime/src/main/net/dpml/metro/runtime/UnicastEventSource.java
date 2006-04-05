@@ -24,9 +24,9 @@ import java.rmi.NoSuchObjectException;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.util.Logger;
-
 import net.dpml.component.Disposable;
+
+import net.dpml.util.Logger;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 

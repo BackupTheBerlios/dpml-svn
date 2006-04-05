@@ -22,10 +22,10 @@ import java.io.IOException;
 import java.net.URI;
 
 import net.dpml.lang.Classpath;
-import net.dpml.util.Logger;
-
 import net.dpml.lang.Info;
 import net.dpml.lang.Part;
+
+import net.dpml.util.Logger;
 
 /**
  * Component composition.

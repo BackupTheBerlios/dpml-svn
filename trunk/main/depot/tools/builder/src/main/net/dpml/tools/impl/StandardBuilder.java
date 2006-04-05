@@ -31,9 +31,10 @@ import net.dpml.tools.model.Workbench;
 import net.dpml.tools.model.Context;
 
 import net.dpml.transit.Artifact;
-import net.dpml.util.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.tools.MainTask;
+
+import net.dpml.util.Logger;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;

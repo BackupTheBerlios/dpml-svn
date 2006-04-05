@@ -24,28 +24,27 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.lang.reflect.InvocationTargetException;
 
-
-import net.dpml.metro.PartsManager;
-import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.ComponentModelManager;
-import net.dpml.metro.ComponentModel;
-
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.ControlException;
 import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.Service;
 
-import net.dpml.lang.Version;
-import net.dpml.lang.UnknownKeyException;
-import net.dpml.util.Logger;
-
 import net.dpml.job.CommissionerEvent;
 import net.dpml.job.CommissionerController;
 import net.dpml.job.TimeoutException;
 import net.dpml.job.TimeoutError;
-
 import net.dpml.job.impl.DefaultCommissioner;
+
+import net.dpml.lang.Version;
+import net.dpml.lang.UnknownKeyException;
+
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentHandler;
+import net.dpml.metro.ComponentModelManager;
+import net.dpml.metro.ComponentModel;
+
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of the local Parts interface.

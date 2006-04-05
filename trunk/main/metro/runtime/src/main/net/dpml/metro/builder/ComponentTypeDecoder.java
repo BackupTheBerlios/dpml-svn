@@ -25,7 +25,6 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 import net.dpml.lang.Version;
-import net.dpml.util.DecodingException;
 
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.info.Type;
@@ -41,6 +40,7 @@ import net.dpml.metro.info.ThreadSafePolicy;
 import net.dpml.metro.info.Priority;
 
 import net.dpml.util.DOM3DocumentBuilder;
+import net.dpml.util.DecodingException;
 
 import net.dpml.state.State;
 import net.dpml.state.impl.StateDecoder;

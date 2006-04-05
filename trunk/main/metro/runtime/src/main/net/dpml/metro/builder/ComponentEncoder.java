@@ -29,8 +29,6 @@ import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Directive;
 
 import net.dpml.lang.Value;
-import net.dpml.util.Encoder;
-
 import net.dpml.lang.ValueEncoder;
 
 import net.dpml.metro.data.ContextDirective;
@@ -43,6 +41,8 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
+
+import net.dpml.util.Encoder;
 
 /**
  * Component part handler.

@@ -37,13 +37,12 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.Scope;
 
-import net.dpml.util.ElementHelper;
-
 import net.dpml.lang.Category;
-import net.dpml.util.DecodingException;
 import net.dpml.lang.Part;
 
+import net.dpml.util.DecodingException;
 import net.dpml.util.DOM3DocumentBuilder;
+import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;

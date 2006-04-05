@@ -21,6 +21,8 @@ package net.dpml.tools.impl;
 import java.util.List;
 import java.util.ArrayList;
 
+import net.dpml.lang.UnknownKeyException;
+
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
@@ -33,10 +35,7 @@ import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Processor;
 import net.dpml.tools.model.ProcessorNotFoundException;
 
-import net.dpml.lang.UnknownKeyException;
-
 import org.apache.tools.ant.Project;
-
 
 /**
  * The Profile interface exposes the working configuration of the build system.

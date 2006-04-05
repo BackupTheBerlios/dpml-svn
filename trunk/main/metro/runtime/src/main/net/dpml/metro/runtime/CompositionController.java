@@ -27,10 +27,6 @@ import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.dpml.metro.ComponentModel;
-import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.builder.ComponentDecoder;
-
 import net.dpml.component.Controller;
 import net.dpml.component.ControlException;
 import net.dpml.component.ControllerContext;
@@ -44,9 +40,13 @@ import net.dpml.lang.Part;
 import net.dpml.lang.Builder;
 import net.dpml.lang.StandardClassLoader;
 import net.dpml.lang.Info;
-
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
+
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.builder.ComponentDecoder;
+
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 

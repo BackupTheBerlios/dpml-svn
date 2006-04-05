@@ -25,6 +25,20 @@ import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
 
+import net.dpml.component.Directive;
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.ControlException;
+import net.dpml.component.ModelListener;
+import net.dpml.component.ModelEvent;
+
+import net.dpml.configuration.Configuration;
+import net.dpml.configuration.Configurable;
+import net.dpml.configuration.ConfigurationException;
+import net.dpml.configuration.impl.DefaultConfiguration;
+
+import net.dpml.lang.Classpath;
+import net.dpml.lang.UnknownKeyException;
+
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
@@ -39,24 +53,10 @@ import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ContextModelManager;
 
-import net.dpml.component.Directive;
-import net.dpml.component.ActivationPolicy;
-import net.dpml.component.ControlException;
-import net.dpml.component.ModelListener;
-import net.dpml.component.ModelEvent;
-
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.Configurable;
-import net.dpml.configuration.ConfigurationException;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.util.Logger;
-
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;
 
-import net.dpml.lang.Classpath;
-import net.dpml.lang.UnknownKeyException;
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of a mutable component model.

@@ -18,10 +18,10 @@
 
 package net.dpml.depot;
 
+import java.io.File;
 import java.net.URL;
 import java.net.URI;
 import java.rmi.RMISecurityManager;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,9 +38,9 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
 
 import net.dpml.lang.Enum;
 import net.dpml.lang.PID;
-import net.dpml.util.Logger;
-
 import net.dpml.lang.Part;
+
+import net.dpml.util.Logger;
 
 /**
  * CLI hander for the depot package.

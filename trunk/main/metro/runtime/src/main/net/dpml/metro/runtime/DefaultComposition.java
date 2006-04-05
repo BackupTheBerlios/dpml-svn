@@ -24,13 +24,14 @@ import java.io.Writer;
 import net.dpml.component.Controller;
 import net.dpml.component.Composition;
 
+import net.dpml.lang.Classpath;
+import net.dpml.lang.Info;
+
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.builder.ComponentEncoder;
 
-import net.dpml.lang.Classpath;
 import net.dpml.util.Logger;
 
-import net.dpml.lang.Info;
 
 /**
  * Component composition.

@@ -27,20 +27,19 @@ import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.util.Map;
 
-import net.dpml.configuration.Configuration;
-
 import net.dpml.component.Directive;
 import net.dpml.component.ControlException;
 import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.ServiceNotFoundException;
 
+import net.dpml.configuration.Configuration;
+
+import net.dpml.lang.StandardClassLoader;
 import net.dpml.lang.Version;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Value;
-import net.dpml.util.Logger;
-import net.dpml.util.DefaultLogger;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
@@ -54,7 +53,8 @@ import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.lang.StandardClassLoader;
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
 
 /**
  * The ComponentController class is a controller of a component instance.

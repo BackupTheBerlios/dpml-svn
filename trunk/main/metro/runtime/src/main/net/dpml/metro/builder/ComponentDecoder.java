@@ -32,14 +32,15 @@ import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.data.LookupDirective;
+
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.lang.ValueDecoder;
 
+import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Document;

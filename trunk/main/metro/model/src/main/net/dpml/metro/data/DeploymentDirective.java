@@ -19,6 +19,7 @@
 package net.dpml.metro.data;
 
 import net.dpml.component.ActivationPolicy;
+
 import net.dpml.metro.info.Composite;
 import net.dpml.metro.info.PartReference;
 
