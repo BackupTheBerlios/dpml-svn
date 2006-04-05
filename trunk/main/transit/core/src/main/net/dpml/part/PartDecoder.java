@@ -148,7 +148,8 @@ public final class PartDecoder implements Decoder
    /**
     * Resolve a part from a DOM element.
     * @param uri the part uri
-    * @return element part definition
+    * @param element element part definition
+    * @return the resoplved part datastructure
     * @exception IOException if an error occurs during element evaluation
     */
     public Part decodePart( URI uri, Element element ) throws IOException
@@ -177,7 +178,8 @@ public final class PartDecoder implements Decoder
     * Resolve a part plugin or resource strategy.
     * @param information the part info definition
     * @param classpath the part classpath definition
-    * @return element part deployment definition
+    * @param element element part definition
+    * @return the resolved part
     * @exception IOException if an error occurs during element evaluation
     */
     public Part build( Info information, Classpath classpath, Element strategy ) throws IOException
