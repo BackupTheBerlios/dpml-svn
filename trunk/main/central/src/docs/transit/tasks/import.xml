@@ -34,7 +34,6 @@
         </p>
 
         <table>
-          <tr><th>Attribute</th><th>Description</th></tr>
           <tr>
             <td>uri</td>
             <td>A URI resolvable to a template resource.</td>

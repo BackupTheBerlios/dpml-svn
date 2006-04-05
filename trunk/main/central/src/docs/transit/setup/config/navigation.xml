@@ -27,7 +27,7 @@
     <menu>
       <item name="Local" href="local.html"/>
       <item name="Proxy" href="proxy.html"/>
-      <item name="Hosts" href="hosts.html"/>
+      <item name="Hosts" href="hosts/index.html"/>
     </menu>
 
  </body>

@@ -43,7 +43,7 @@
             <td>The URL referencing the remote repository root.</td>
           </tr>
           <tr>
-            <td>layout</td>
+            <td><a href="layouts.html">layout</a></td>
             <td>required</td>
             <td>The name of the layout scheme employed by the remote host
                 (standard layout names include 'classic', 'modern' and 
@@ -52,13 +52,13 @@
           <tr>
             <td>enabled</td>
             <td>implied</td>
-            <td>The enabled status of the host defintion.  The default 
+            <td>The enabled status of the host definition.  The default 
                value is true.</td>
           </tr>
           <tr>
             <td>trusted</td>
             <td>implied</td>
-            <td>The trusted status of the host defintion.  The default 
+            <td>The trusted status of the host definition.  The default 
                value is false.</td>
           </tr>
           <tr>

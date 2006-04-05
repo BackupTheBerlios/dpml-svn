@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- 
- Copyright 2004-2005 Stephen McConnell
- Copyright 2004 Niclas Hedhman
+ Copyright 2004 Stephen McConnell
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -20,14 +20,12 @@
 
 <project>
 
- <title>Transit</title>
+ <title>DPML Central</title>
 
  <body>
 
     <menu>
-      <item name="Plugins" href="plugins.html"/>
-      <item name="Layouts" href="layouts.html"/>
-      <item name="Monitors" href="monitors.html"/>
+      <item name="Layout" href="layouts.html"/>
     </menu>
 
  </body>

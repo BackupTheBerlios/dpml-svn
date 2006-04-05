@@ -101,20 +101,10 @@ public class HelloImpl
   URI uri = new URI( "artifact:part:mycompany/thisproject/hello-impl#1.4.1" );
   Object[] args = new Object[] { "Hello, World!" };
   Part part = Part.load( uri );
-  Object plugin = part.instantiate( args );
-  if( plugin instanceof Hello )
-  {
-      m_hello = (Hello) plugin;
-  }
-  else
-  {
-      throw Exception( "Loaded plugin is not of the right type." );
-  }
-  :
-  :
-  :
-  m_hello.announce();
+  Hello plugin = (Hello) part.instantiate( args );
+  plugin.announce();
 </source>
+
         <p>
           For this to work, you will need to create the plugin meta
           descriptor. The easiest way is to use the DPML Depot build system,

@@ -48,7 +48,7 @@
             type
           </td>
           <td>
-            The type of the artifact - e.g. "template". 
+            The type of the artifact - e.g. "properties". 
           </td>
         </tr>
         <tr>
@@ -89,17 +89,17 @@
         </p>
         <p>
           The following example local URI identifies a resource named
-          "standard" associated with the "dpml/tools" group, using a 
-          resource type called "template".
+          "standard" associated with the "org/acme" group, using a 
+          resource type "properties".
         </p>
 
-        <source>local:dpml/tools/standard</source>
+        <source>local:properties:org/acme/standard</source>
 
         <p>
           The above uri is equivalent to the following logical file path:
         </p>
 
-        <pre>${dpml.prefs}/dpml/tools/templates/standard.template</pre>
+        <pre>${dpml.prefs}/org/acme/properties/standard.properties</pre>
 
       </subsection>
 
