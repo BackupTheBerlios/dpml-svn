@@ -80,8 +80,7 @@ ClassLoader classloader = part.getClassloader();
 
 <source>
 URI uri = new URI( "artifact:part:dpml/examples/hello/hello-world#1.0.0" );
-URL url = uri.toURL();
-ClassLoader classloader = (ClassLoader) url.getContent( new Class[]{ ClassLoader.class } );
+ClassLoader classloader = (ClassLoader) uri.toURL().getContent( new Class[]{ ClassLoader.class } );
 </source>
 
     </section>
