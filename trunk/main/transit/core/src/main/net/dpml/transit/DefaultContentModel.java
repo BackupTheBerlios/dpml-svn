@@ -27,7 +27,7 @@ import net.dpml.transit.model.ContentModel;
 import net.dpml.transit.model.ContentListener;
 import net.dpml.transit.model.ContentEvent;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of a content model that maintains an active 

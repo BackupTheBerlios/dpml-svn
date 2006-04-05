@@ -27,10 +27,10 @@ import net.dpml.station.info.RegistryDescriptor.Entry;
 import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.StartupPolicy;
 
-import net.dpml.part.DOM3DocumentBuilder;
+import net.dpml.util.DOM3DocumentBuilder;
 
-import net.dpml.part.DecodingException;
-import net.dpml.part.Decoder;
+import net.dpml.util.DecodingException;
+import net.dpml.util.Decoder;
 
 import net.dpml.lang.ValueDirective;
 import net.dpml.util.ElementHelper;
@@ -126,7 +126,7 @@ public final class RegistryBuilder implements Decoder
         ValueDirective[] values = buildValueDirectives( params );
         
         // need to rework ApplicationDescriptor such that the codebase is presented
-        // as an abstract type - e.g. net.dpml.part.CodeBaseDirective verus 
+        // as an abstract type - e.g. net.dpml.lang.CodeBaseDirective verus 
         // net.dpml.metro.CodeBaseDirective
         
         return new ApplicationDescriptor( 

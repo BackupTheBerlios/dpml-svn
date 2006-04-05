@@ -40,7 +40,7 @@ import net.dpml.station.ApplicationException;
 import net.dpml.station.ApplicationListener;
 import net.dpml.station.ApplicationEvent;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.lang.PID;
 
 /**

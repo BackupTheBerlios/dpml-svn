@@ -39,7 +39,7 @@ import java.util.WeakHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.artifact.ArtifactAlreadyExistsException;

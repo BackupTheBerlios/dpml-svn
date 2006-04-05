@@ -30,7 +30,7 @@ import java.util.TimeZone;
 import java.util.Properties;
 
 import net.dpml.lang.Category;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.library.Type;
 import net.dpml.library.Resource;

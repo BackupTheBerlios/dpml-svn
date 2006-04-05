@@ -29,9 +29,9 @@ import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Directive;
 
 import net.dpml.lang.Value;
-import net.dpml.part.Encoder;
+import net.dpml.util.Encoder;
 
-import net.dpml.part.ValueEncoder;
+import net.dpml.lang.ValueEncoder;
 
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoryDirective;

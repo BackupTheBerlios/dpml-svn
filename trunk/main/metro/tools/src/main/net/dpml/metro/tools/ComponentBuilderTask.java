@@ -49,13 +49,13 @@ import net.dpml.metro.runtime.DefaultComposition;
 import net.dpml.parameters.Parameters;
 
 import net.dpml.lang.Classpath;
-import net.dpml.part.Part;
-import net.dpml.part.Info;
+import net.dpml.lang.Part;
+import net.dpml.lang.Info;
 
 import net.dpml.transit.monitor.LoggingAdapter;
 
-//import net.dpml.part.Strategy;
-//import net.dpml.part.PartDirective;
+//import net.dpml.lang.Strategy;
+//import net.dpml.lang.PartDirective;
 
 import net.dpml.tools.tasks.PartTask;
 

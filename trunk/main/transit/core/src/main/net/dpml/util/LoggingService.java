@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.util;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.LogRecord;
+
+import net.dpml.lang.PID;
 
 /**
  * Interface exposed by a remote logging service to local log aggregation handlers. 

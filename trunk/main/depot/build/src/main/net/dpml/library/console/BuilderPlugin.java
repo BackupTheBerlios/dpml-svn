@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
-import net.dpml.part.Part;
+import net.dpml.lang.Part;
 
 import net.dpml.library.Module;
 import net.dpml.library.Resource;

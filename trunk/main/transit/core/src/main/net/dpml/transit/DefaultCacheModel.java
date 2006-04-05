@@ -31,7 +31,7 @@ import java.util.EventListener;
 import java.util.Set;
 import java.util.TreeSet;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.CacheDirective;

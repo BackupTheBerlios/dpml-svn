@@ -54,7 +54,7 @@ import net.dpml.transit.model.HostLayoutEvent;
 import net.dpml.util.Util;
 
 import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /** 
  * This class represents a single host where resources are stored at.

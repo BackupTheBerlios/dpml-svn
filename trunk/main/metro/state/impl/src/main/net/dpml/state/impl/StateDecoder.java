@@ -28,7 +28,7 @@ import net.dpml.state.Action;
 import net.dpml.state.Trigger.TriggerEvent;
 import net.dpml.state.StateBuilderRuntimeException;
 
-import net.dpml.part.DOM3DocumentBuilder;
+import net.dpml.util.DOM3DocumentBuilder;
 
 import net.dpml.util.ElementHelper;
 

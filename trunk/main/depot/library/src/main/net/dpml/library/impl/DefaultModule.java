@@ -42,7 +42,7 @@ import net.dpml.library.ModuleNotFoundException;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.DuplicateKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * A Module is a collection of resources.  It serves to establish a 

@@ -40,15 +40,15 @@ import net.dpml.component.Model;
 import net.dpml.component.Component;
 import net.dpml.component.Composition;
 
-import net.dpml.part.Part;
-import net.dpml.part.Builder;
-import net.dpml.part.StandardClassLoader;
-import net.dpml.part.Info;
+import net.dpml.lang.Part;
+import net.dpml.lang.Builder;
+import net.dpml.lang.StandardClassLoader;
+import net.dpml.lang.Info;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
-import net.dpml.lang.Logger;
-import net.dpml.lang.DefaultLogger;
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
 
 import org.w3c.dom.Element;
 

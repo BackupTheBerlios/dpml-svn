@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-import net.dpml.part.StandardClassLoader;
+import net.dpml.lang.StandardClassLoader;
 
 /**
  * The DepotRMIClassLoaderSpi handles the loading of classes that are based on 

@@ -20,7 +20,7 @@ package net.dpml.library.impl;
 
 import java.io.File;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.monitor.LoggingAdapter;
 

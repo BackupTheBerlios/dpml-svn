@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 
-import net.dpml.part.StandardClassLoader;
+import net.dpml.lang.StandardClassLoader;
 
 import net.dpml.lang.Category;
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.util;
 
 /**
  * Transit Logger is a interface through which different logging solutions

@@ -33,7 +33,7 @@ import net.dpml.transit.monitor.NetworkMonitorRouter;
 import net.dpml.transit.model.TransitModel;
 
 import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * The Transit class manages the establishment of a singleton transit instance

@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**

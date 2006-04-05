@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import java.io.Writer;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.dpml.lang.Value;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Construct;
 

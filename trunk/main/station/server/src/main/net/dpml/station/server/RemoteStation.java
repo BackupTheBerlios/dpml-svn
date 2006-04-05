@@ -40,7 +40,7 @@ import net.dpml.station.info.ApplicationDescriptor;
 import net.dpml.station.info.StartupPolicy;
 import net.dpml.station.ApplicationRegistry;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.Disposable;
 

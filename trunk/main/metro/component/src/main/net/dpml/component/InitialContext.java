@@ -27,10 +27,10 @@ import java.net.URI;
 import java.util.EventObject;
 import java.util.EventListener;
 
-import net.dpml.lang.DefaultLogger;
+import net.dpml.util.DefaultLogger;
 
-import net.dpml.part.Part;
-import net.dpml.part.Plugin;
+import net.dpml.lang.Part;
+import net.dpml.lang.Plugin;
 
 /**
  * The CompositionControllerContext class wraps a ContentModel and supplies convinience

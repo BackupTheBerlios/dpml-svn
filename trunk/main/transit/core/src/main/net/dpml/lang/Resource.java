@@ -16,14 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 
-import net.dpml.lang.Logger;
 import net.dpml.lang.Classpath;
+
+import net.dpml.util.Logger;
 
 /**
  * Resource part strategy implementation datatype.

@@ -16,12 +16,15 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.util;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 import java.util.Hashtable;
+
+import net.dpml.lang.Part;
+import net.dpml.lang.PartDecoder;
 
 import net.dpml.transit.Artifact;
 

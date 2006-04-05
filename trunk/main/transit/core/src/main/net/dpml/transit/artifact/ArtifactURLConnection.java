@@ -37,7 +37,7 @@ import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;
 import net.dpml.util.MimeTypeHandler;
 
-import net.dpml.part.Part;
+import net.dpml.lang.Part;
 
 /**
  * The connection handler for URLs based on the "artifact" protocol family.

@@ -26,7 +26,7 @@ import java.util.EventListener;
 import net.dpml.lang.Value;
 import net.dpml.lang.ValueDirective;
 import net.dpml.lang.Construct;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.info.CodeBaseDirective;
 import net.dpml.transit.model.CodeBaseModel;

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import java.io.IOException;
 import java.util.ArrayList;

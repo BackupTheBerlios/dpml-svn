@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
+import net.dpml.lang.Part;
 
 import junit.framework.TestCase;
 

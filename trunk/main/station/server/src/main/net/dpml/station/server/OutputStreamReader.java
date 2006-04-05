@@ -23,7 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Stream reader utility class.

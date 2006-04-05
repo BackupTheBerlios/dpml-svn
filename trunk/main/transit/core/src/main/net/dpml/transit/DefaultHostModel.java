@@ -39,7 +39,7 @@ import net.dpml.transit.model.RequestIdentifier;
 import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of a host manager.

@@ -252,7 +252,6 @@
       </group>
       <group title="Transit">
         <package name="net.dpml.lang"/>
-        <package name="net.dpml.part"/>
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
         <package name="net.dpml.util"/>

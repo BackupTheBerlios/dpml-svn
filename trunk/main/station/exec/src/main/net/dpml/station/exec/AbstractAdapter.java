@@ -29,7 +29,7 @@ import net.dpml.component.Service;
 import net.dpml.component.ServiceNotFoundException;
 import net.dpml.component.ActivationPolicy;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * The AbstractAdapter class is a minimalistic implementation of a part 

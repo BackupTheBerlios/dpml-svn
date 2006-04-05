@@ -38,7 +38,7 @@ import net.dpml.component.Service;
 
 import net.dpml.lang.Version;
 import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.job.CommissionerEvent;
 import net.dpml.job.CommissionerController;

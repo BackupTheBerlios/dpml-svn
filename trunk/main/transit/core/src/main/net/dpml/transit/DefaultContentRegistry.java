@@ -35,10 +35,10 @@ import net.dpml.transit.model.ContentModel;
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;
 import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
-import net.dpml.part.Part;
-import net.dpml.part.Plugin;
+import net.dpml.lang.Part;
+import net.dpml.lang.Plugin;
 
 /**
  * A registry of descriptions of plugable content handlers. 

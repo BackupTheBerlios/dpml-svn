@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,12 +25,16 @@ import java.util.Hashtable;
 import java.lang.ref.WeakReference;
 
 import net.dpml.lang.Classpath;
-import net.dpml.lang.Logger;
-import net.dpml.lang.DefaultLogger;
 import net.dpml.lang.Value;
 
 import net.dpml.transit.Artifact;
+
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
 import net.dpml.util.ElementHelper;
+import net.dpml.util.DOM3DocumentBuilder;
+import net.dpml.util.Decoder;
+import net.dpml.util.DecodingException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

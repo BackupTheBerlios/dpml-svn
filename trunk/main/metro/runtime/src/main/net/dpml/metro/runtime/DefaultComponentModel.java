@@ -50,7 +50,7 @@ import net.dpml.configuration.Configurable;
 import net.dpml.configuration.ConfigurationException;
 import net.dpml.configuration.impl.DefaultConfiguration;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.parameters.Parameters;
 import net.dpml.parameters.impl.DefaultParameters;

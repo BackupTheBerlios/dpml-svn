@@ -40,7 +40,7 @@ import net.dpml.library.ResourceNotFoundException;
 
 import net.dpml.transit.Artifact;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Utility class used for construction of a module model from an XML source.

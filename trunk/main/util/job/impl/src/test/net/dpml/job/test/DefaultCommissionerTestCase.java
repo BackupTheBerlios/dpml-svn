@@ -20,7 +20,7 @@ package net.dpml.job.test;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.monitor.LoggingAdapter;
 

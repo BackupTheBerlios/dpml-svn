@@ -28,7 +28,7 @@ import net.dpml.library.Library;
 import net.dpml.library.Resource;
 import net.dpml.library.impl.DefaultLibrary;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.monitor.LoggingAdapter;
 

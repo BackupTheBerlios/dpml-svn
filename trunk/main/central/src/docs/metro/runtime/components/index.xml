@@ -42,7 +42,7 @@
         This internal controller deals with the establishment of the lifestyle handler taking into 
         account lifestyle and collection policies declared under the <tt>ComponentModel</tt>.  
         The <tt>DefaultComponentHandler</tt> maintains a map of objects implementing the 
-        <tt>net.dpml.part.Instance</tt> interface.  This map representes the collection of 
+        <tt>net.dpml.lang.Instance</tt> interface.  This map representes the collection of 
         runtime service providers bound to the type/directive combination. 
         </p>
 

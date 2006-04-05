@@ -30,8 +30,8 @@ import java.util.ArrayList;
 
 import net.dpml.util.ElementHelper;
 
-import net.dpml.part.Part;
-import net.dpml.part.Resource;
+import net.dpml.lang.Part;
+import net.dpml.lang.Resource;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;

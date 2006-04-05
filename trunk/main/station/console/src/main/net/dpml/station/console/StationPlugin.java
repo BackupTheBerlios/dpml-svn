@@ -55,7 +55,7 @@ import net.dpml.state.Transition;
 import net.dpml.state.Interface;
 
 import net.dpml.transit.Artifact;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.lang.PID;
 import net.dpml.transit.Disposable;
 import net.dpml.lang.ValueDirective;

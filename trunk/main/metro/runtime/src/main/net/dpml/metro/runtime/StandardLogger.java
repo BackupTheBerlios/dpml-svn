@@ -18,7 +18,7 @@
 
 package net.dpml.metro.runtime;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.transit.monitor.LoggingAdapter;
 
 /**

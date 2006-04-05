@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.util;
 
 import java.net.URI;
 import java.net.URL;
@@ -32,7 +32,6 @@ import java.io.FileNotFoundException;
 import javax.xml.XMLConstants;
 
 import net.dpml.transit.Artifact;
-import net.dpml.util.ExceptionHelper;
 
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMLocator;

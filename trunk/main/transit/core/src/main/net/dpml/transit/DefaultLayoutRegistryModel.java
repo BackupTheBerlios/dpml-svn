@@ -35,7 +35,7 @@ import net.dpml.transit.model.LayoutRegistryEvent;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of a layout registry model that maitains 

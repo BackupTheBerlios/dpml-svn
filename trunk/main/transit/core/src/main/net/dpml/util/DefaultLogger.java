@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
+package net.dpml.util;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import net.dpml.lang.PID;
 
 /**
  * Generic logging channel.
@@ -27,7 +29,7 @@ import java.util.logging.Level;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class DefaultLogger implements net.dpml.lang.Logger
+public final class DefaultLogger implements net.dpml.util.Logger
 {
     // ------------------------------------------------------------------------
     // static
@@ -210,7 +212,7 @@ public final class DefaultLogger implements net.dpml.lang.Logger
     * @param category the sub-category name.
     * @return the child logging channel
     */
-    public net.dpml.lang.Logger getChildLogger( String category )
+    public net.dpml.util.Logger getChildLogger( String category )
     {
         if( ( null == category ) || "".equals( category ) )
         {

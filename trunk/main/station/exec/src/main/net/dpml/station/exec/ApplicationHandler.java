@@ -36,7 +36,7 @@ import net.dpml.transit.Artifact;
 import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.PID;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;

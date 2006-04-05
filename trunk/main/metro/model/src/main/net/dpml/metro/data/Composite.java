@@ -20,12 +20,12 @@ package net.dpml.metro.data;
 
 import java.io.IOException;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Value;
 
-import net.dpml.part.Info;
-import net.dpml.part.Plugin;
+import net.dpml.lang.Info;
+import net.dpml.lang.Plugin;
 
 /**
  * A component based plugin.

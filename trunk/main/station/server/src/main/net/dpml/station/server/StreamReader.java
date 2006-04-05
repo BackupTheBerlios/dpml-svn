@@ -20,7 +20,7 @@ package net.dpml.station.server;
 
 import java.io.InputStream;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Stream reader utility class.

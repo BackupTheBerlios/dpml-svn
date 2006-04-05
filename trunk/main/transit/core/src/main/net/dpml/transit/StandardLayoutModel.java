@@ -24,7 +24,7 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.lang.Value;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutListener;

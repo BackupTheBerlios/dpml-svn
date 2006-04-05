@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import net.dpml.lang.Value;
 import net.dpml.lang.Construct;

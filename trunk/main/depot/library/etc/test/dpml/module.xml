@@ -143,7 +143,7 @@
          <property name="project.template" value="${basedir}/builder.xml"/>
        </properties>
        <types>
-         <part:plugin alias="true" class="net.dpml.part.PartManager"/>
+         <part:plugin alias="true" class="net.dpml.lang.PartManager"/>
          <type id="jar"/>
        </types>
        <dependencies>

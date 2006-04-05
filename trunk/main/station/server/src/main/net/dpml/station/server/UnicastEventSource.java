@@ -23,7 +23,7 @@ import java.util.EventListener;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 
 /**

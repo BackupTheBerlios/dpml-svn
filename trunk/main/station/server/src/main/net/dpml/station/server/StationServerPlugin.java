@@ -39,7 +39,7 @@ import net.dpml.station.ApplicationRegistry;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.model.TransitModel;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * The RemoteStation is responsible for the establishment of 

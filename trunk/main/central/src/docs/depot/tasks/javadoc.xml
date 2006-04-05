@@ -24,8 +24,8 @@
       <group title="Metro">
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>
-        <package name="net.dpml.part"/>
-        <package name="net.dpml.part.*"/>
+        <package name="net.dpml.lang"/>
+        <package name="net.dpml.lang.*"/>
         <package name="net.dpml.state"/>
         <package name="net.dpml.state.*"/>
         <package name="net.dpml.metro.tools"/>

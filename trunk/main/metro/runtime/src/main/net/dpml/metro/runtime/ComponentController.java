@@ -39,8 +39,8 @@ import net.dpml.lang.Version;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Value;
-import net.dpml.lang.Logger;
-import net.dpml.lang.DefaultLogger;
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
@@ -54,7 +54,7 @@ import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.parameters.Parameters;
 
-import net.dpml.part.StandardClassLoader;
+import net.dpml.lang.StandardClassLoader;
 
 /**
  * The ComponentController class is a controller of a component instance.

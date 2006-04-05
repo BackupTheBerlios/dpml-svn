@@ -22,7 +22,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * Utility class supporting the reading and writing of standard plugins definitions.

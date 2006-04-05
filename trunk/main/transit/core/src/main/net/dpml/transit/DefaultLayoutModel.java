@@ -27,7 +27,7 @@ import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutListener;
 import net.dpml.transit.model.LayoutEvent;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * The DefaultLayoutModel is a model supplied to a layout strategy handler. It 

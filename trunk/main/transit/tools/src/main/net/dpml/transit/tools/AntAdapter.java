@@ -22,7 +22,7 @@ import java.net.URL;
 
 import net.dpml.transit.monitor.Adapter;
 import net.dpml.util.ExceptionHelper;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.Project;

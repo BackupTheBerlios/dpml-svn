@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 

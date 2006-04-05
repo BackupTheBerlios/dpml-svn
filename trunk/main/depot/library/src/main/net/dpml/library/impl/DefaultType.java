@@ -21,7 +21,7 @@ package net.dpml.library.impl;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.Type;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import org.w3c.dom.Element;
 

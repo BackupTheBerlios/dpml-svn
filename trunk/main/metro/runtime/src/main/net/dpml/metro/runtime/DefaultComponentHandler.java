@@ -43,7 +43,7 @@ import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentModelManager;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 import net.dpml.component.Controller;
 import net.dpml.component.ActivationPolicy;

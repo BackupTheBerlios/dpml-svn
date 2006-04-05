@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import net.dpml.lang.Value;
-import net.dpml.part.DecodingException;
+import net.dpml.util.DecodingException;
 
 import net.dpml.component.ActivationPolicy;
 
@@ -37,8 +37,8 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.part.DOM3DocumentBuilder;
-import net.dpml.part.ValueDecoder;
+import net.dpml.util.DOM3DocumentBuilder;
+import net.dpml.lang.ValueDecoder;
 
 import net.dpml.util.ElementHelper;
 

@@ -31,7 +31,7 @@ import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
 /**
  * The ProxyModel class maintains an active configuration model of the 

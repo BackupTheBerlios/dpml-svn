@@ -29,9 +29,9 @@ import java.util.List;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Category;
 
-import net.dpml.part.Info;
-import net.dpml.part.Part;
-import net.dpml.part.PartDecoder;
+import net.dpml.lang.Info;
+import net.dpml.lang.Part;
+import net.dpml.lang.PartDecoder;
 
 import net.dpml.library.Type;
 import net.dpml.library.Resource;

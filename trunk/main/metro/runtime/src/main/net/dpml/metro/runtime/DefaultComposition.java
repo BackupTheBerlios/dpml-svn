@@ -28,9 +28,9 @@ import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.builder.ComponentEncoder;
 
 import net.dpml.lang.Classpath;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
-import net.dpml.part.Info;
+import net.dpml.lang.Info;
 
 /**
  * Component composition.

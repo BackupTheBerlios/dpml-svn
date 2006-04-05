@@ -23,9 +23,9 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.net.URI;
 
-import net.dpml.part.Part;
-import net.dpml.part.Plugin;
-import net.dpml.part.Resource;
+import net.dpml.lang.Part;
+import net.dpml.lang.Plugin;
+import net.dpml.lang.Resource;
 
 import net.dpml.util.ElementHelper;
 

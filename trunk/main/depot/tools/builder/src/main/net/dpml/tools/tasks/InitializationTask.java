@@ -31,8 +31,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildException;
 
-import net.dpml.part.Part;
-import net.dpml.part.Plugin;
+import net.dpml.lang.Part;
+import net.dpml.lang.Plugin;
 
 /**
  * Execute the install phase.

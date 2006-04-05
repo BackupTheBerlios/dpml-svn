@@ -44,12 +44,12 @@ import net.dpml.cli.validation.URIValidator;
 import net.dpml.cli.validation.URLValidator;
 import net.dpml.cli.validation.NumberValidator;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.ValueDirective;
 
-import net.dpml.part.Part;
-import net.dpml.part.PartException;
+import net.dpml.lang.Part;
+import net.dpml.lang.PartException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;

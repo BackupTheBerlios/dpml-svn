@@ -17,17 +17,15 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
-
-import java.io.IOException;
+package net.dpml.lang;
 
 /**
- * Exception to indicate that there was a part handler related error.
+ * Fatal part related error.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartException extends IOException
+public class PartError extends Error
 {
    /**
     * Serial version identifier.
@@ -35,22 +33,22 @@ public class PartException extends IOException
     static final long serialVersionUID = 1L;
 
     /**
-     * Construct a new <code>PartException</code> instance.
+     * Construct a new <code>PartError</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public PartException( final String message )
+    public PartError( final String message )
     {
         this( message, null );
     }
 
     /**
-     * Construct a new <code>PartException</code> instance.
+     * Construct a new <code>PartError</code> instance.
      *
      * @param message The detail message for this exception.
      * @param cause the root cause of the exception
      */
-    public PartException( final String message, final Throwable cause )
+    public PartError( final String message, final Throwable cause )
     {
         super( message );
         super.initCause( cause );

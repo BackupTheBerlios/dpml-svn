@@ -38,9 +38,9 @@ import net.dpml.transit.monitor.NetworkMonitorAdapter;
 
 import net.dpml.lang.Enum;
 import net.dpml.lang.PID;
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
-import net.dpml.part.Part;
+import net.dpml.lang.Part;
 
 /**
  * CLI hander for the depot package.

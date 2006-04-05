@@ -49,10 +49,10 @@ import net.dpml.configuration.Configurable;
 import net.dpml.configuration.Configuration;
 import net.dpml.configuration.impl.DefaultConfigurationBuilder;
 
-import net.dpml.lang.Logger;
+import net.dpml.util.Logger;
 
-import net.dpml.part.Part;
-import net.dpml.part.Plugin;
+import net.dpml.lang.Part;
+import net.dpml.lang.Plugin;
 
 /**
  * The ComponentAdapter provides support for the establishment of a part

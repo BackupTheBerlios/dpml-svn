@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.lang;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,7 +30,8 @@ import javax.xml.XMLConstants;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Classpath;
-import net.dpml.lang.Logger;
+
+import net.dpml.util.Logger;
 
 /**
  * Part datastructure.
@@ -314,7 +315,6 @@ public abstract class Part
    /**
     * Get the implementation classloader.
     * @return the resolved classloader
-    * @exception IOException if an IO error occurs during classpath evaluation
     */
     public ClassLoader getClassLoader()
     {

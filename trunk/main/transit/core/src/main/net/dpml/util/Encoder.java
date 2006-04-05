@@ -16,23 +16,22 @@
  * limitations under the License.
  */
 
-package net.dpml.part;
+package net.dpml.util;
 
+import java.io.Writer;
 import java.io.IOException;
 
-import org.w3c.dom.Element;
-
 /**
- * Interface implemented by generic decoders.
+ * Interface implemented by generic encoders.
  */
-public interface Decoder
+public interface Encoder
 {
    /**
-    * Create an object using a supplied classloader and DOM element.
-    * @param element the DOM element
-    * @return the decoded object
-    * @exception IOException if an error occurs in the evaluation 
-    *   of the supplied element
+    * Externalize a object to XML.
+    * @param writer the output stream writer
+    * @param object the object to externalize
+    * @param pad the character offset
+    * @exception IOException if an IO error occurs
     */
-    Object decode( Element element ) throws IOException;
+    public void encode( Writer writer, Object object, String pad ) throws IOException;
 }
