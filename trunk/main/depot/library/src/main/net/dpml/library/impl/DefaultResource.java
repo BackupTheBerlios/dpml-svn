@@ -73,7 +73,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final String m_path;
     private final File m_basedir;
     private final Logger m_logger;
-    private final String m_version;
+    private String m_version;
     
    /**
     * Creation of a new default resource.
@@ -93,7 +93,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_path = "";
         m_basedir = null;
         m_logger = logger;
-        m_version = resolveVersion();
     }
     
    /**
@@ -115,7 +114,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_directive = directive;
         m_parent = module;
         m_logger = logger;
-        m_version = resolveVersion();
         
         if( module.isRoot() )
         {
@@ -215,6 +213,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     */
     public String getVersion()
     {
+        if( null == m_version )
+        {
+            m_version = resolveVersion();
+        }
         return m_version;
     }
     
