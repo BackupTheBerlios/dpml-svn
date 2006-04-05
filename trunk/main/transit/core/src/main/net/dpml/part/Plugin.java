@@ -86,8 +86,8 @@ public class Plugin extends Part
     
    /**
     * Return the part content or null if the result type is unresolvable 
-    * relative to the supplied classes argument. 
-    * @param classes the content type selection classes
+    * relative to the supplied class argument. 
+    * @param c the content class
     * @return the content
     * @exception IOException if an IO error occurs
     */
@@ -124,9 +124,8 @@ public class Plugin extends Part
    /**
     * Get the default plugin class.
     * @return the plugin class
-    * @exception Exception if an error occurs
     */
-    public Class getPluginClass() throws IOException
+    public Class getPluginClass()
     {
         ClassLoader classloader = getClassLoader();
         String classname = getClassname();
@@ -138,7 +137,7 @@ public class Plugin extends Part
         {
             final String error = 
               "Plugin class [" + classname + "] not found.";
-            throw new PartException( error );
+            throw new IllegalStateException( error );
         }
     }
     

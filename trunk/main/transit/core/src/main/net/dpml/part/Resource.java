@@ -67,7 +67,7 @@ public class Resource extends Part
     * class is supplied a URL referencing the resource identified by path 
     * is returned.  If a String is requested the urn value is returned.
     *
-    * @param classes the content type selection classes
+    * @param c the content class
     * @return the content
     * @exception IOException if an IO error occurs
     */

@@ -59,8 +59,10 @@ public abstract class Composition extends Part
 
    /**
     * Return the part content or null if the result type is unresolvable 
-    * relative to the supplied classes argument. 
-    * @param classes the content type selection classes
+    * relative to the supplied class argument. Class types recognized over and 
+    * above the Part class include Directive, Model, Component and Controller.
+    *
+    * @param c the content class
     * @return the content
     * @exception IOException if an IO error occurs
     */

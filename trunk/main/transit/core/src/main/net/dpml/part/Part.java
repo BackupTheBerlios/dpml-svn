@@ -112,9 +112,8 @@ public abstract class Part
     }
     
    /**
-    * Return the part content default content. 
-    * @param classes the content type selection classes
-    * @return the content
+    * Return the default part content. 
+    * @return the result of part instantiation
     * @exception IOException if an IO error occurs
     */
     public Object getContent() throws IOException
@@ -165,8 +164,10 @@ public abstract class Part
     
    /**
     * Return the part content or null if the result type is unresolvable 
-    * relative to the supplied classes argument. 
-    * @param classes the content type selection classes
+    * relative to the supplied classes argument. Recognized class arguments
+    * include Info, Classpath, Part, ClassLoader, and Object.
+    *
+    * @param c the content type class
     * @return the content
     * @exception IOException if an IO error occurs
     */

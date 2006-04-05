@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ContentHandler;
 import java.net.UnknownServiceException;
 import java.net.URI;
@@ -38,7 +37,6 @@ import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;
 import net.dpml.util.MimeTypeHandler;
 
-import net.dpml.part.Plugin;
 import net.dpml.part.Part;
 
 /**
