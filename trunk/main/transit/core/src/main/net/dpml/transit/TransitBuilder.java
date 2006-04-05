@@ -30,7 +30,7 @@ import java.io.OutputStreamWriter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;

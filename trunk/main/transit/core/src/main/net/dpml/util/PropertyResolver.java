@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.dpml.transit.util;
+package net.dpml.util;
 
 import java.util.Enumeration;
 import java.util.Properties;

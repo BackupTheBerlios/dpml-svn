@@ -59,8 +59,8 @@ import net.dpml.lang.Logger;
 import net.dpml.lang.PID;
 import net.dpml.transit.Disposable;
 import net.dpml.lang.ValueDirective;
-import net.dpml.transit.util.ExceptionHelper;
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.ExceptionHelper;
+import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;

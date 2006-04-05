@@ -46,7 +46,7 @@ import net.dpml.station.info.RegistryDescriptor;
 import net.dpml.station.info.RegistryDescriptor.Entry;
 import net.dpml.station.info.ApplicationRegistryRuntimeException;
 
-import net.dpml.transit.util.StreamUtils;
+import net.dpml.util.StreamUtils;
 
 /**
  * Implements of the application registry within which a set of application profiles 

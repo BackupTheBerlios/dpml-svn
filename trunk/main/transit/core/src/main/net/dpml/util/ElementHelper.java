@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.util;
+package net.dpml.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

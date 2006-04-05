@@ -45,7 +45,7 @@ import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.CacheDirectoryChangeEvent;
 import net.dpml.transit.model.CacheEvent;
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.DuplicateKeyException;
 import net.dpml.lang.UnknownKeyException;

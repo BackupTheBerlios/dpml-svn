@@ -17,7 +17,7 @@ package net.dpml.http;
 
 import net.dpml.logging.Logger;
 
-import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.util.ExceptionHelper;
 
 /**
  * Wrapper to redirect Jetty logging to DPML logging.

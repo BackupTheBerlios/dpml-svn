@@ -35,7 +35,7 @@ import net.dpml.tools.process.ModuleProcess;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;
 

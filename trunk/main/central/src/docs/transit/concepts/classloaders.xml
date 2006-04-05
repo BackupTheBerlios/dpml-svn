@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
+ Copyright 2004-2006 Stephen McConnell
  Copyright 2005 David Leangen
- Copyright 2004-2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -68,9 +68,20 @@
         </p>
 
 <source>
-URI uri = new URI( "artifact:plugin:dpml/examples/hello/hello-world#1.0.0" );
+URI uri = new URI( "artifact:part:dpml/examples/hello/hello-world#1.0.0" );
 Part part = Part.load( uri );
 ClassLoader classloader = part.getClassloader();
+</source>
+
+        <p>
+        The following code fragment demonstrates the equivalent functionality
+        using strict Java core classes.
+        </p>
+
+<source>
+URI uri = new URI( "artifact:part:dpml/examples/hello/hello-world#1.0.0" );
+URL url = uri.toURL();
+ClassLoader classloader = (ClassLoader) url.getContent( new Class[]{ ClassLoader.class } );
 </source>
 
     </section>

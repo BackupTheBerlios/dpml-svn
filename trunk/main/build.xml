@@ -255,6 +255,7 @@
         <package name="net.dpml.part"/>
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
+        <package name="net.dpml.util"/>
       </group>
       <group title="Metro">
         <package name="net.dpml.component"/>

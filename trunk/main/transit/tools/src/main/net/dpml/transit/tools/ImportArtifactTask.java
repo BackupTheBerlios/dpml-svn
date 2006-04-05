@@ -27,7 +27,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.ImportTask;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 /**
  * Ant task that provides support for the import of build file templates

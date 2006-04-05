@@ -20,7 +20,7 @@ package net.dpml.transit;
 
 import net.dpml.transit.artifact.ArtifactException;
 import net.dpml.transit.monitor.NetworkMonitorRouter;
-import net.dpml.transit.util.StreamUtils;
+import net.dpml.util.StreamUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

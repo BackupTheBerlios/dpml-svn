@@ -23,7 +23,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import net.dpml.transit.util.MimeTypeHandler;
+import net.dpml.util.MimeTypeHandler;
 
 /**
  * MimeHandlerTestCase.

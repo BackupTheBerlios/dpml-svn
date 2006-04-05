@@ -32,7 +32,7 @@ import java.io.FileNotFoundException;
 import javax.xml.XMLConstants;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.util.ExceptionHelper;
 
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMLocator;

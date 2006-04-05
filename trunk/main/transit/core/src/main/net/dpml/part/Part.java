@@ -112,6 +112,106 @@ public abstract class Part
     }
     
    /**
+    * Return the part content default content. 
+    * @param classes the content type selection classes
+    * @return the content
+    * @exception IOException if an IO error occurs
+    */
+    public Object getContent() throws IOException
+    {
+        try
+        {
+            return instantiate( new Object[0] );
+        }
+        catch( IOException e )
+        {
+            throw e;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Part instantiation error.";
+            throw new PartException( error, e );
+        }
+    }
+    
+   /**
+    * Return the part content or null if the result type is unresolvable 
+    * relative to the supplied classes argument. 
+    * @param classes the content type selection classes
+    * @return the content
+    * @exception IOException if an IO error occurs
+    */
+    public Object getContent( Class[] classes ) throws IOException
+    {
+        if( classes.length == 0 )
+        {
+            return getContent();
+        }
+        else
+        {
+            for( int i=0; i<classes.length; i++ )
+            {
+                Class c = classes[i];
+                Object content = getContent( c );
+                if( null != content )
+                {
+                    return content;
+                }
+            }
+            return null;
+        }
+    }
+    
+   /**
+    * Return the part content or null if the result type is unresolvable 
+    * relative to the supplied classes argument. 
+    * @param classes the content type selection classes
+    * @return the content
+    * @exception IOException if an IO error occurs
+    */
+    protected Object getContent( Class c ) throws IOException
+    {
+        if( Info.class.isAssignableFrom( c ) )
+        {
+            return getInfo();
+        }
+        else if( Classpath.class.isAssignableFrom( c ) )
+        {
+            return getClasspath();
+        }
+        else if( Part.class.isAssignableFrom( c ) )
+        {
+            return this;
+        }
+        else if( ClassLoader.class.isAssignableFrom( c ) )
+        {
+            return getClassLoader();
+        }
+        else if( Object.class == c )
+        {
+            try
+            {
+                return instantiate( new Object[0] );
+            }
+            catch( IOException e )
+            {
+                throw e;
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Part instantiation error.";
+                throw new PartException( error, e );
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+   /**
     * Get the part info descriptor.
     *
     * @return the part info datastructure

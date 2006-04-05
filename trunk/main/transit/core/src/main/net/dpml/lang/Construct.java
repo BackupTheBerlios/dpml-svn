@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 /**
  * A object resolvable from primitive arguments.

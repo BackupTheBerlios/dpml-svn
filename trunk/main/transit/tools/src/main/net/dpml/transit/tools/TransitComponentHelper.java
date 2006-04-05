@@ -27,7 +27,7 @@ import net.dpml.part.Part;
 import net.dpml.part.Plugin;
 import net.dpml.part.Resource;
 
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

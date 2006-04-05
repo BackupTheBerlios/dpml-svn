@@ -51,7 +51,7 @@ import net.dpml.transit.model.HostNameEvent;
 import net.dpml.transit.model.HostChangeEvent;
 import net.dpml.transit.model.HostPriorityEvent;
 import net.dpml.transit.model.HostLayoutEvent;
-import net.dpml.transit.util.Util;
+import net.dpml.util.Util;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.Logger;

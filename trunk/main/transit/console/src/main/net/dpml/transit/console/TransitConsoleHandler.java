@@ -61,7 +61,7 @@ import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.ContentDirective;
-import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.util.ExceptionHelper;
 
 
 /**

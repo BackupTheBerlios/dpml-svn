@@ -41,7 +41,7 @@ import net.dpml.transit.model.TransitRegistryModel;
 import net.dpml.transit.model.DefaultTransitRegistryModel;
 import net.dpml.lang.Logger;
 import net.dpml.transit.store.TransitStorageHome;
-import net.dpml.transit.util.CLIHelper;
+import net.dpml.util.CLIHelper;
 
 /**
  * The DepotInstaller is responsible for the establishment and integrity of 

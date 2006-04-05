@@ -18,7 +18,7 @@
 
 package net.dpml.tools.process;
 
-import net.dpml.transit.util.ExceptionHelper;
+import net.dpml.util.ExceptionHelper;
 
 import net.dpml.tools.tasks.PartTask;
 

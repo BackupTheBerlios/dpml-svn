@@ -33,7 +33,7 @@ import java.security.PrivilegedAction;
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
-import net.dpml.transit.util.MimeTypeHandler;
+import net.dpml.util.MimeTypeHandler;
 
 /**
  * link: URL protocol connection processor.

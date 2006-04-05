@@ -462,7 +462,7 @@ public final class Main //implements ShutdownHandler
     static
     {
         setSystemProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-        setSystemProperty( "java.util.logging.config.class", "net.dpml.transit.util.ConfigurationHandler" );
+        setSystemProperty( "java.util.logging.config.class", "net.dpml.util.ConfigurationHandler" );
         setSystemProperty( "java.rmi.server.RMIClassLoaderSpi", "net.dpml.depot.DepotRMIClassLoaderSpi" );
         setSystemProperty( Transit.SYSTEM_KEY, Transit.DPML_SYSTEM.getAbsolutePath() );
         setSystemProperty( Transit.HOME_KEY, Transit.DPML_HOME.getAbsolutePath() );

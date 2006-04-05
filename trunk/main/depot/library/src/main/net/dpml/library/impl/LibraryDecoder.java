@@ -37,7 +37,7 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.Scope;
 
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import net.dpml.lang.Category;
 import net.dpml.part.DecodingException;

@@ -56,6 +56,37 @@ public abstract class Composition extends Part
         m_directive = directive;
         m_controller = controller;
     }
+
+   /**
+    * Return the part content or null if the result type is unresolvable 
+    * relative to the supplied classes argument. 
+    * @param classes the content type selection classes
+    * @return the content
+    * @exception IOException if an IO error occurs
+    */
+    protected Object getContent( Class c ) throws IOException
+    {
+        if( Directive.class.isAssignableFrom( c ) )
+        {
+            return m_directive;
+        }
+        else if( Model.class.isAssignableFrom( c ) )
+        {
+            return getModel();
+        }
+        else if( Component.class.isAssignableFrom( c ) )
+        {
+            return newComponent();
+        }
+        else if( Controller.class.isAssignableFrom( c ) )
+        {
+            return m_controller;
+        }
+        else
+        {
+            return super.getContent( c );
+        }
+    }
     
    /**
     * Get the deployment directive.

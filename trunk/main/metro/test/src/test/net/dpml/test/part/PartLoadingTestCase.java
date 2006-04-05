@@ -78,7 +78,7 @@ public class PartLoadingTestCase extends TestCase
     {
         System.setProperty( 
           "java.util.logging.config.class", 
-          "net.dpml.transit.util.ConfigurationHandler" );
+          "net.dpml.util.ConfigurationHandler" );
         System.setProperty( 
           "dpml.logging.config",
           "file:" + System.getProperty( "project.test.dir" ) + "/logging.properties" );

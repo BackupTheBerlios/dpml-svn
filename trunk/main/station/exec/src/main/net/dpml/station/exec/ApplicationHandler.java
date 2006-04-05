@@ -33,7 +33,7 @@ import net.dpml.station.Callback;
 import net.dpml.station.ApplicationException;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.PID;
 import net.dpml.lang.Logger;

@@ -85,6 +85,25 @@ public class Plugin extends Part
     }
     
    /**
+    * Return the part content or null if the result type is unresolvable 
+    * relative to the supplied classes argument. 
+    * @param classes the content type selection classes
+    * @return the content
+    * @exception IOException if an IO error occurs
+    */
+    protected Object getContent( Class c ) throws IOException
+    {
+        if( Class.class.equals( c ) )
+        {
+            return getPluginClass();
+        }
+        else
+        {
+            return super.getContent( c );
+        }
+    }
+    
+   /**
     * Get the target classname.
     * @return the classname
     */ 
@@ -107,11 +126,20 @@ public class Plugin extends Part
     * @return the plugin class
     * @exception Exception if an error occurs
     */
-    public Class getPluginClass() throws Exception
+    public Class getPluginClass() throws IOException
     {
         ClassLoader classloader = getClassLoader();
         String classname = getClassname();
-        return classloader.loadClass( classname );
+        try
+        {
+            return classloader.loadClass( classname );
+        }
+        catch( ClassNotFoundException e )
+        {
+            final String error = 
+              "Plugin class [" + classname + "] not found.";
+            throw new PartException( error );
+        }
     }
     
    /**

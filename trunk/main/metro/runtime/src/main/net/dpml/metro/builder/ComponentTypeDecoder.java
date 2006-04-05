@@ -46,7 +46,7 @@ import net.dpml.state.State;
 import net.dpml.state.impl.StateDecoder;
 import net.dpml.state.impl.DefaultState;
 
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;

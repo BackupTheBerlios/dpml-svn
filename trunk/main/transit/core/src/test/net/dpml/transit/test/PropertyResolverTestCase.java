@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import java.util.Properties;
 
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 /**
  * Testcases for the PropertyResolver

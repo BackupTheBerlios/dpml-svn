@@ -70,6 +70,6 @@ public class SingletonProviderTestCase extends TestCase
           "java.util.logging.config.class", 
           System.getProperty( 
             "java.util.logging.config.class", 
-            "net.dpml.transit.util.ConfigurationHandler" ) );
+            "net.dpml.util.ConfigurationHandler" ) );
     }
 }

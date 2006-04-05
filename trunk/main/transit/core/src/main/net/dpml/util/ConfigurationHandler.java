@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.util;
+package net.dpml.util;
 
 import java.net.URL;
 import java.io.InputStream;
@@ -94,7 +94,7 @@ public class ConfigurationHandler
               "java.util.logging.ConsoleHandler" );
             setProperty( properties, 
               "java.util.logging.ConsoleHandler.formatter", 
-              "net.dpml.transit.util.StandardFormatter" );
+              "net.dpml.util.StandardFormatter" );
             setProperty( properties, "java.util.logging.ConsoleHandler.level", "ALL" );
         }
         

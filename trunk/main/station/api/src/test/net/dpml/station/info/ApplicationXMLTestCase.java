@@ -23,7 +23,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import net.dpml.part.DOM3DocumentBuilder;
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

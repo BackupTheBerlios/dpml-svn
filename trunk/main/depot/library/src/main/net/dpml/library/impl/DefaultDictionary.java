@@ -25,7 +25,7 @@ import java.util.Properties;
 import net.dpml.library.Dictionary;
 import net.dpml.library.info.AbstractDirective;
 
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 /**
  * Utility class used for construction of a module model from an XML source.

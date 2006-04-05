@@ -33,7 +33,7 @@ import net.dpml.part.DecodingException;
 import net.dpml.part.Decoder;
 
 import net.dpml.lang.ValueDirective;
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -39,7 +39,7 @@ import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.lang.Logger;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.model.TransitRegistryModel;
-import net.dpml.transit.util.StreamUtils;
+import net.dpml.util.StreamUtils;
 
 /**
  * Table model that maps table rows to child nodes of a supplied preferences node.

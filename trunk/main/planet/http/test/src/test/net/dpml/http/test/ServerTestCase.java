@@ -50,7 +50,7 @@ public class ServerTestCase extends TestCase
           "java.util.logging.config.class", 
           System.getProperty( 
             "java.util.logging.config.class", 
-            "net.dpml.transit.util.ConfigurationHandler" ) );
+            "net.dpml.util.ConfigurationHandler" ) );
         System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         System.setProperty( 
           "dpml.logging.config",

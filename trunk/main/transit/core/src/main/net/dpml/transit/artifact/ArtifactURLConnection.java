@@ -36,7 +36,7 @@ import net.dpml.transit.Transit;
 import net.dpml.transit.SecuredTransitContext;
 import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;
-import net.dpml.transit.util.MimeTypeHandler;
+import net.dpml.util.MimeTypeHandler;
 
 import net.dpml.part.Plugin;
 import net.dpml.part.Part;
@@ -203,77 +203,8 @@ public class ArtifactURLConnection extends URLConnection
         if( "part".equals( type ) )
         { 
             URI uri = m_artifact.toURI();
-            if( classes.length == 0 )
-            {
-                try
-                {
-                    Part part = Part.load( uri );
-                    return part.instantiate( new Object[0] );
-                }
-                catch( InvocationTargetException e )
-                {
-                    final String error = 
-                      "Plugin constructor invocation exception."
-                      + "\nURI: " + uri;
-                    IOException ioe = new IOException( error );
-                    ioe.initCause( e );
-                    throw ioe;
-                }
-                catch( IOException e )
-                {
-                    throw e;
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Unexpect part exception."
-                      + "\nURI: " + uri;
-                    IOException ioe = new IOException( error );
-                    ioe.initCause( e );
-                    throw ioe;
-                }
-            }
-            else
-            {
-                try
-                {
-                    for( int i=0; i < classes.length; i++ )
-                    {
-                        Class c = classes[i];
-                        if( Part.class.equals( c ) )
-                        {
-                            return Part.load( uri );
-                        }
-                        else if( ClassLoader.class.equals( c ) )
-                        {
-                            Part part = Part.load( uri );
-                            return part.getClassLoader();
-                        }
-                        else if( Class.class.equals( c ) )
-                        {
-                            Part part = Part.load( uri );
-                            if( part instanceof Plugin )
-                            {
-                                Plugin plugin = (Plugin) part;
-                                return plugin.getPluginClass();
-                            }
-                        }
-                    }
-                }
-                catch( IOException e )
-                {
-                    throw e;
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Unexpect part exception."
-                      + "\nURI: " + uri;
-                    IOException ioe = new IOException( error );
-                    ioe.initCause( e );
-                    throw ioe;
-                }
-            }
+            Part part = Part.load( uri );
+            return part.getContent( classes );
         }
         
         //
@@ -319,7 +250,7 @@ public class ArtifactURLConnection extends URLConnection
         }
         return null;
     }
-
+    
     // ------------------------------------------------------------------------
     // implementation
     // ------------------------------------------------------------------------

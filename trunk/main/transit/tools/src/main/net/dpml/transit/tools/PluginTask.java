@@ -28,7 +28,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.transit.util.ElementHelper;
+import net.dpml.util.ElementHelper;
 
 import net.dpml.part.Part;
 import net.dpml.part.Resource;

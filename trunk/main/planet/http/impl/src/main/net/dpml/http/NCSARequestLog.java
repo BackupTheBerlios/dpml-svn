@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 /** 
  * Wrapper for the Jetty NCSA request logger.

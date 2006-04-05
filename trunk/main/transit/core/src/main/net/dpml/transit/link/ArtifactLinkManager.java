@@ -19,7 +19,7 @@
 
 package net.dpml.transit.link;
 
-import net.dpml.transit.util.StreamUtils;
+import net.dpml.util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +34,7 @@ import java.security.PrivilegedExceptionAction;
 
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
-import net.dpml.transit.util.PropertyResolver;
+import net.dpml.util.PropertyResolver;
 
 /** 
  * A link manager that maintains persistent link information as a resource.

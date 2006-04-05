@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.link.Link;
-import net.dpml.transit.util.StreamUtils;
+import net.dpml.util.StreamUtils;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.LayoutDirective;

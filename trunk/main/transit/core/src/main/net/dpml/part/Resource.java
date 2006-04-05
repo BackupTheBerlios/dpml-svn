@@ -20,6 +20,7 @@ package net.dpml.part;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URL;
 
 import net.dpml.lang.Logger;
 import net.dpml.lang.Classpath;
@@ -58,11 +59,38 @@ public class Resource extends Part
         m_urn = urn;
         m_path = path;
     }
+
+   /**
+    * Return the part content or null if the result type is unresolvable 
+    * relative to the supplied classes argument. Class arguments recognized
+    * over an above plugin include the URL and String classes.  If the URL
+    * class is supplied a URL referencing the resource identified by path 
+    * is returned.  If a String is requested the urn value is returned.
+    *
+    * @param classes the content type selection classes
+    * @return the content
+    * @exception IOException if an IO error occurs
+    */
+    protected Object getContent( Class c ) throws IOException
+    {
+        if( URL.class.equals( c ) )
+        {
+            return getClassLoader().getResource( m_path );
+        }
+        else if( String.class.equals( c ) )
+        {
+            return getURN();
+        }
+        else
+        {
+            return super.getContent( c );
+        }
+    }
     
    /**
     * Get the resource urn.
     * @return the urn
-    */ 
+    */
     public String getURN()
     {
         return m_urn;
@@ -85,7 +113,7 @@ public class Resource extends Part
     */
     public Object instantiate( Object[] args ) throws Exception
     {
-        throw new UnsupportedOperationException( "instantiate/1" );
+        return getClassLoader().getResource( m_path );
     }
     
    /**
