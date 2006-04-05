@@ -61,27 +61,27 @@ public class DefaultResourceTestCase extends AbstractTestCase
     * Test assigned build signature version.
     * @exception Exception if a test error occurs
     */
-    //public void testBuildSignatureVersion() throws Exception
-    //{
-    //    System.setProperty( "build.signature", "project.timestamp" );
-    //    Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
-    //    String version = resource.getVersion();
-    //    System.out.println( "# VERSION: " + version );
-    //    assertEquals( "version", "YYYYMMDD.HHMMSS".length(), version.length() );
-    //    System.getProperties().remove( "build.signature" );
-    //}
+    public void testBuildSignatureVersion() throws Exception
+    {
+        System.setProperty( "build.signature", "project.timestamp" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
+        String version = resource.getVersion();
+        System.out.println( "# VERSION: " + version );
+        assertEquals( "version", "YYYYMMDD.HHMMSS".length(), version.length() );
+        System.getProperties().remove( "build.signature" );
+    }
     
    /**
     * Test resource version.
     * @exception Exception if a test error occurs
     */
-    //public void testSnapshotVersion() throws Exception
-    //{
-    //    System.getProperties().remove( "build.signature" );
-    //    Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
-    //    String version = resource.getVersion();
-    //    assertEquals( "version", "SNAPSHOT", version );
-    //}
+    public void testSnapshotVersion() throws Exception
+    {
+        System.getProperties().remove( "build.signature" );
+        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
+        String version = resource.getVersion();
+        assertEquals( "version", "SNAPSHOT", version );
+    }
     
    /**
     * Test resource path.

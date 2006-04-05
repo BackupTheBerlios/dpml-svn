@@ -737,6 +737,7 @@ public class CatalogTask extends Task
 
     private void processType( File reports, File source )
     {
+        log( source.toString() );
         File htmls = reports;
         try
         {

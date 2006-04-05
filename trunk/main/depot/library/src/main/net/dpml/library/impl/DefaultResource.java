@@ -73,7 +73,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final String m_path;
     private final File m_basedir;
     private final Logger m_logger;
-    private String m_version;
     
    /**
     * Creation of a new default resource.
@@ -212,19 +211,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * @return the version
     */
     public String getVersion()
-    {
-        if( null == m_version )
-        {
-            m_version = resolveVersion();
-        }
-        return m_version;
-    }
-    
-   /**
-    * Return the resource version.
-    * @return the version
-    */
-    private String resolveVersion()
     {
         if( null == m_directive )
         {
