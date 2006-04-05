@@ -3,11 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
-  <imports>
-    <import uri="link:module:junit"/>
-    <import uri="link:module:ant"/>
-  </imports>
-
   <modules>
     <module name="acme">
       <resource name="widget">

@@ -75,13 +75,13 @@ public class DefaultResourceTestCase extends AbstractTestCase
     * Test resource version.
     * @exception Exception if a test error occurs
     */
-    public void testSnapshotVersion() throws Exception
-    {
-        System.getProperties().remove( "build.signature" );
-        Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
-        String version = resource.getVersion();
-        assertEquals( "version", "SNAPSHOT", version );
-    }
+    //public void testSnapshotVersion() throws Exception
+    //{
+    //    System.getProperties().remove( "build.signature" );
+    //    Resource resource = getLibrary().getResource( "dpml/metro/dpml-composition-runtime" );
+    //    String version = resource.getVersion();
+    //    assertEquals( "version", "SNAPSHOT", version );
+    //}
     
    /**
     * Test resource path.
