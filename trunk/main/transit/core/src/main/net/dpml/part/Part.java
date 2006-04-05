@@ -316,7 +316,7 @@ public abstract class Part
     * @return the resolved classloader
     * @exception IOException if an IO error occurs during classpath evaluation
     */
-    public ClassLoader getClassLoader() throws IOException
+    public ClassLoader getClassLoader()
     {
         return m_classloader;
     }
