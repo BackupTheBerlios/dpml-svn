@@ -34,6 +34,7 @@ import net.dpml.util.DefaultLogger;
 import net.dpml.util.ElementHelper;
 import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.Decoder;
+import net.dpml.util.DecoderFactory;
 import net.dpml.util.DecodingException;
 
 import org.w3c.dom.Document;
@@ -220,7 +221,7 @@ public final class PartDecoder implements Decoder
             
             try
             {
-                URI uri = getDecoderURIFromNamespaceURI( strategy, namespace );
+                URI uri = getDecoderURI( strategy );
                 Builder builder = loadForeignBuilder( uri );
                 return builder.build( information, classpath, strategy );
             }
@@ -232,6 +233,43 @@ public final class PartDecoder implements Decoder
             }
         }
     }
+
+   /**
+    * Resolve the element decoder uri.
+    *
+    * @param element the DOM element
+    * @return the decoder uri
+    * @exception DecodingException if an error occurs
+    */
+    public URI getDecoderURI( Element element ) throws DecodingException
+    {
+        String uri = ElementHelper.getAttribute( element, "handler" );
+        if( null != uri )
+        {
+            try
+            {
+                return new URI( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Internal error while resolving handler attribute (expecting uri value)";
+                throw new DecodingException( element, error, e );
+            }
+        }
+        TypeInfo info = element.getSchemaTypeInfo();
+        String namespace = info.getTypeNamespace();
+        try
+        {
+            return DecoderFactory.getDecoderURIFromNamespaceURI( namespace );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Internal error while attempting to resolve default decoder uri.";
+            throw new DecodingException( element, error, e );
+        }
+    }
     
    /**
     * Get the assigned logging channel.
@@ -240,30 +278,6 @@ public final class PartDecoder implements Decoder
     protected Logger getLogger()
     {
         return m_logger;
-    }
-    
-    private URI getDecoderURIFromNamespaceURI( Element element, String urn ) throws DecodingException
-    {
-        try
-        {
-            URI raw = new URI( urn );
-            Artifact artifact = Artifact.createArtifact( raw );
-            String scheme = artifact.getScheme();
-            String group = artifact.getGroup();
-            String name = artifact.getName();
-            String type = artifact.getType();
-            String version = artifact.getVersion();
-            String path = "link:part:" + group + "/" + name;
-            Artifact link = Artifact.createArtifact( path );
-            return link.toURI();
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "Unexpected error while resolving builder uri. "
-              + "\nNamespace: " + urn;
-            throw new DecodingException( element, error, e );
-        }
     }
     
     private Builder loadForeignBuilder( URI uri ) throws DecodingException, Exception

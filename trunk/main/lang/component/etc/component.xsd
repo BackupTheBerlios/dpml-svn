@@ -16,7 +16,6 @@
     <element name="categories" type="this:CategoriesType" substitutionGroup="this:category"/>
     <element name="entry" type="this:EntryType"/>
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
-    <!--<element name="part" type="this:TaggedComponent"/>-->
     <element name="parts" type="this:parts"/>
     
     <complexType name="strategy">
@@ -43,6 +42,7 @@
           <attribute name="lifestyle" type="this:lifestyle"/>
           <attribute name="collection" type="this:collection"/>
           <attribute name="activation" type="this:activation"/>
+          <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
         </extension>
       </complexContent>
     </complexType>

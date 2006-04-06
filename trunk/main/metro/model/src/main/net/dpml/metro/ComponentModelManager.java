@@ -61,13 +61,6 @@ public interface ComponentModelManager extends ComponentModel
       throws UnknownKeyException, RemoteException;
 
    /**
-    * Set the component activation policy to the supplied value.
-    * @param policy the new activation policy
-    * @exception RemoteException if a remote I/O error occurs
-    */
-    void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
-
-   /**
     * Override the assigned collection policy.
     * @param policy the collection policy value
     * @exception RemoteException if a remote I/O error occurs

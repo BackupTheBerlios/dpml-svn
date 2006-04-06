@@ -27,6 +27,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.dpml.component.Component;
+import net.dpml.component.Model;
+import net.dpml.component.Composition;
+import net.dpml.component.ActivationPolicy;
 
 import net.dpml.station.Station;
 import net.dpml.station.Callback;
@@ -36,6 +39,8 @@ import net.dpml.transit.Artifact;
 import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.PID;
+import net.dpml.lang.Part;
+
 import net.dpml.util.Logger;
 
 import net.dpml.cli.Option;
@@ -113,7 +118,7 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         super();
         m_logger = logger;
         
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        Thread.currentThread().setContextClassLoader( Composition.class.getClassLoader() );
         
         if( logger.isDebugEnabled() )
         {
@@ -220,7 +225,15 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
             String type = artifact.getType();
             if( type.equals( "part" ) )
             {
-                return new ComponentAdapter( logger, partition, uri, config, params, categories, properties );
+                Part part = Part.load( uri );
+                if( part instanceof Composition )
+                {
+                    Composition composition = (Composition) part;
+                    Model model = composition.getModel();
+                    model.setActivationPolicy( ActivationPolicy.STARTUP );
+                    return composition.newComponent();
+                }
+                //return new ComponentAdapter( logger, partition, uri, config, params, categories, properties );
             }
         }
         

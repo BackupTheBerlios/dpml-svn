@@ -78,7 +78,7 @@ public final class DecoderFactory
     * a part implemenation will be available.
     *
     * @param element the DOM element
-    * @return the associated helper instance
+    * @return the decoder
     * @exception Exception if an eror occurs
     */
     public Decoder loadDecoder( Element element ) throws Exception
@@ -91,20 +91,36 @@ public final class DecoderFactory
         }
         else
         {
-            URI uri = getDecoderURI( namespace );
+            URI uri = getDecoderURI( element );
             return new DelegatingDecoder( this, uri );
         }
     }
     
    /**
-    * Resolve the element helper uri from a supplied element.
+    * Resolve the decoder uri from a supplied element.
     *
-    * @param namespace the DOM element namespace
-    * @return the builder uri
+    * @param element the DOM element
+    * @return the decoder uri
     * @exception Exception if an error occurs
     */
-    public URI getDecoderURI( String namespace ) throws Exception
+    public URI getDecoderURI( Element element ) throws Exception
     {
+        String uri = ElementHelper.getAttribute( element, "handler" );
+        if( null != uri )
+        {
+            try
+            {
+                return new URI( uri );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Internal error while resolving handler attribute (expecting uri value)";
+                throw new DecodingException( element, error, e );
+            }
+        }
+        TypeInfo info = element.getSchemaTypeInfo();
+        String namespace = info.getTypeNamespace();
         if( m_map.containsKey( namespace ) )
         {
             return (URI) m_map.get( namespace );
@@ -115,7 +131,10 @@ public final class DecoderFactory
         }
     }
     
-    private URI getDecoderURIFromNamespaceURI( String urn ) throws Exception
+   /**
+    * Resolve the part handler given an element namespace.
+    */
+    public static URI getDecoderURIFromNamespaceURI( String urn ) throws Exception
     {
         URI raw = new URI( urn );
         Artifact artifact = Artifact.createArtifact( raw );
@@ -124,7 +143,6 @@ public final class DecoderFactory
         String name = artifact.getName();
         String type = artifact.getType();
         String version = artifact.getVersion();
-        
         String path = "link:part:" + group + "/" + name;
         Artifact link = Artifact.createArtifact( path );
         return link.toURI();

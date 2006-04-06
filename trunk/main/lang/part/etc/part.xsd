@@ -101,6 +101,11 @@
         </extension>
       </complexContent>
     </complexType>
+    
+    <simpleType name="URI">
+      <restriction base="anyURI"/>
+    </simpleType>
+    
 
 </schema>
 

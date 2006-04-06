@@ -61,6 +61,13 @@ public interface Model extends Remote
     ActivationPolicy getActivationPolicy() throws RemoteException;
     
    /**
+    * Set the component activation policy to the supplied value.
+    * @param policy the new activation policy
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    void setActivationPolicy( ActivationPolicy policy ) throws RemoteException;
+
+   /**
     * Add a listener to the component model.
     * @param listener the model listener
     * @exception RemoteException if a remote exception occurs

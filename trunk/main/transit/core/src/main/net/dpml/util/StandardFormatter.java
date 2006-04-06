@@ -47,6 +47,10 @@ public class StandardFormatter extends Formatter
      */
     public synchronized String format( LogRecord record ) 
     {
+        if( null == record )
+        {
+            return "";
+        }
         String process = getProcessHeader( record );
         StringBuffer buffer = new StringBuffer( process );
         String header = getLogHeader( record );
@@ -74,7 +78,7 @@ public class StandardFormatter extends Formatter
     private String getFormattedMessage( LogRecord record )
     {
         String message = formatMessage( record );
-        if( message.startsWith( "$[" ) )
+        if( ( null != message ) && message.startsWith( "$[" ) )
         {
             int n = message.indexOf( "] " );
             return message.substring( n + 2 );
@@ -100,7 +104,7 @@ public class StandardFormatter extends Formatter
         StringBuffer buffer = new StringBuffer();
         buffer.append( "[" );
         String message = record.getMessage();
-        if( message.startsWith( "$[" ) )
+        if( ( null != message ) && ( message.startsWith( "$[" ) ) )
         {
             int n = message.indexOf( "] " );
             String id = message.substring( 2, n );
