@@ -30,8 +30,6 @@ import java.net.URISyntaxException;
 import net.dpml.component.Directive;
 import net.dpml.component.ActivationPolicy;
 
-import net.dpml.configuration.Configuration;
-
 import net.dpml.library.info.Scope;
 import net.dpml.library.Resource;
 
@@ -45,8 +43,6 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.builder.ComponentTypeDecoder;
 import net.dpml.metro.runtime.DefaultComposition;
-
-import net.dpml.parameters.Parameters;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Part;
@@ -88,8 +84,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     private ActivationPolicy m_activation = ActivationPolicy.SYSTEM;
     private CategoriesDataType m_categories;
     private ContextDataType m_context;
-    private ParametersDataType m_parameters;
-    private ConfigurationDataType m_configuration;
     private PartsDataType m_parts;
     private File m_output;
     private Type m_type;
@@ -211,46 +205,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         {
              final String error =
               "Illegal attempt to create a duplicate context declaration.";
-             throw new BuildException( error, getLocation() );
-        }
-    }
-
-   /**
-    * Add a parameters instance to the component.
-    * @return the parameters datatype
-    */
-    public ParametersDataType createParameters()
-    {
-        if( null == m_parameters )
-        {
-            Project project = getProject();
-            m_parameters = new ParametersDataType( project );
-            return m_parameters;
-        }
-        else
-        {
-             final String error =
-              "Illegal attempt to create a duplicate parameters declaration.";
-             throw new BuildException( error, getLocation() );
-        }
-    }
-
-   /**
-    * Add a configuration instance to the component.
-    * @return the configuration datatype
-    */
-    public ConfigurationDataType createConfiguration()
-    {
-        if( null == m_configuration )
-        {
-            Project project = getProject();
-            m_configuration = new ConfigurationDataType( project );
-            return m_configuration;
-        }
-        else
-        {
-             final String error =
-              "Illegal attempt to create a duplicate configuration.";
              throw new BuildException( error, getLocation() );
         }
     }
@@ -550,8 +504,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         ActivationPolicy activation = getActivationPolicy();
         CategoriesDirective categories = getCategoriesDirective();
         ContextDirective context = getContextDirective( classloader, type );
-        Parameters parameters = getParameters();
-        Configuration configuration = getConfiguration();
         PartReference[] parts = getParts( classloader );
         
         //
@@ -559,8 +511,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         //
 
         return new ComponentDirective( 
-          id, activation, collection, lifestyle, classname, categories, context, 
-          parameters, configuration, parts );
+          id, activation, collection, lifestyle, classname, categories, context, parts );
     }
 
     private Type loadType( ClassLoader classloader, String classname )
@@ -749,30 +700,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         else
         {
             return m_categories.getCategoriesDirective();
-        }
-    }
-
-    private Parameters getParameters()
-    {
-        if( null == m_parameters )
-        {
-            return m_profile.getParameters();
-        }
-        else
-        {
-            return m_parameters.getParameters();
-        }
-    }
-
-    private Configuration getConfiguration()
-    {
-        if( null == m_configuration )
-        {
-            return m_profile.getConfiguration();
-        }
-        else
-        {
-            return m_configuration.getConfiguration();
         }
     }
 

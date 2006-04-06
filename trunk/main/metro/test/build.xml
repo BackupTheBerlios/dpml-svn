@@ -226,32 +226,6 @@
       </context>
     </c:component>
 
-    <!-- configuration component -->
-    <!--
-    <c:type class="net.dpml.test.config.ConfigurableComponent" name="config" lifestyle="thread"/>
-    <c:component dest="target/test/config.part" test="true" activation="STARTUP"
-        type="net.dpml.test.config.ConfigurableComponent" collection="hard">
-      <configuration name="fred">
-        <place>Cafe de'Orleans</place>
-        <item name="breakfast" value="Cafe et Crossant"/>
-        <item name="lunch" value="Salade de Sub-Oust"/>
-        <item name="dinner" value="Margret de Canard"/>
-      </configuration>
-    </c:component>
-    -->
-    
-    <!-- parameterizable component -->
-    <!--
-    <c:type class="net.dpml.test.params.ParameterizableComponent" name="params" lifestyle="thread"/>
-    <c:component dest="target/test/params.part" test="true" activation="STARTUP"
-        type="net.dpml.test.params.ParameterizableComponent" collection="hard">
-      <parameters>
-        <param name="name" value="fred"/>
-        <param name="size" value="1024"/>
-      </parameters>
-    </c:component>
-    -->
-
     <!-- composite app-->
 
     <c:types>
