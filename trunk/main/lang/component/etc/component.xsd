@@ -25,6 +25,7 @@
             <element name="controller" type="this:ControllerType" minOccurs="0" maxOccurs="1"/>
             <element name="component" type="this:component" minOccurs="0" maxOccurs="1"/>
           </sequence>
+          <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
         </extension>
       </complexContent>
     </complexType>
