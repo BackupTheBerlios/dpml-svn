@@ -31,11 +31,7 @@ import net.dpml.component.ControlException;
 import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
 
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.Configurable;
-import net.dpml.configuration.ConfigurationException;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
+import net.dpml.lang.Classpath;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
@@ -53,9 +49,6 @@ import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ContextModelManager;
 
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
 import net.dpml.util.Logger;
 
 /**
@@ -65,7 +58,7 @@ import net.dpml.util.Logger;
  * @version @PROJECT-VERSION@
  */
 class DefaultComponentModel extends UnicastEventSource 
-  implements ComponentModelManager, Configurable
+  implements ComponentModelManager
 {
     // ------------------------------------------------------------------------
     // state
@@ -87,8 +80,6 @@ class DefaultComponentModel extends UnicastEventSource
     private LifestylePolicy m_lifestyle;
     private CollectionPolicy m_collection;
     
-    private Parameters m_parameters;  // <------------ remove this (covered by context)
-    private Configuration m_configuration; // <----- move to a context entry where the resolved value is a Configuration 
     private Class m_class;
 
     // ------------------------------------------------------------------------
@@ -131,10 +122,7 @@ class DefaultComponentModel extends UnicastEventSource
             m_lifestyle = lifestyle;
         }
 
-        m_collection = m_directive.getCollectionPolicy();
-        m_parameters = m_directive.getParameters();
-        m_configuration = m_directive.getConfiguration();
-        
+        m_collection = m_directive.getCollectionPolicy();        
         ContextDirective context = m_directive.getContextDirective();
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
@@ -182,9 +170,6 @@ class DefaultComponentModel extends UnicastEventSource
         }
 
         m_collection = directive.getCollectionPolicy();
-        m_parameters = directive.getParameters();
-        m_configuration = directive.getConfiguration();
-        
         ContextDirective context = directive.getContextDirective();
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
@@ -274,31 +259,6 @@ class DefaultComponentModel extends UnicastEventSource
         m_context.removeListener( listener );
     }
     
-    // ------------------------------------------------------------------------
-    // Configurable
-    // ------------------------------------------------------------------------
-
-    /**
-     * Set the component model configuration.
-     *
-     * @param configuration the model configuration argument.
-     * @throws ConfigurationException if an error occurs
-     * @throws NullPointerException if  the supplied configuration argument is null
-     */
-    public void configure( Configuration configuration )
-        throws ConfigurationException, NullPointerException
-    {
-        if( null == configuration )
-        {
-            throw new NullPointerException( "configuration" );
-        }
-        
-        Configuration old = m_configuration;
-        m_configuration = configuration;
-        ModelEvent event = new ModelEvent( this, "model.configuration", old, configuration );
-        enqueueEvent( event );
-    }
-
     // ------------------------------------------------------------------------
     // ComponentModel
     // ------------------------------------------------------------------------
@@ -451,30 +411,6 @@ class DefaultComponentModel extends UnicastEventSource
         }
     }
     
-    public Configuration getConfiguration()
-    {
-        if( null == m_configuration )
-        {
-            return new DefaultConfiguration( "configuration", null );
-        }
-        else
-        {
-            return m_configuration;
-        }
-    }
-
-    public Parameters getParameters()
-    {
-        if( null == m_parameters )
-        {
-            return DefaultParameters.EMPTY_PARAMETERS;
-        }
-        else
-        {
-            return m_parameters;
-        }
-    }
-
    /**
     * Return the component logging categories.
     * @return the categories

@@ -25,7 +25,7 @@ import net.dpml.lang.Classpath;
 import org.w3c.dom.Element;
 
 /**
- * Interace implemented by part builders.
+ * Interace implemented by part strategy builders.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

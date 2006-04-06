@@ -119,7 +119,7 @@ public class ComponentDecoder
         
         return new ComponentDirective( 
           name, activation, collection, lifestyle, classname, 
-          categories, context, null, null, parts );
+          categories, context, parts );
     }
     
     private String buildComponentClassname( Element element ) throws DecodingException

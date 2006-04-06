@@ -24,11 +24,6 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Directive;
 
-import net.dpml.configuration.Configuration;
-
-import net.dpml.parameters.Parameters;
-
-
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when
  * included within the scope of a container declaration will be instantiated in
@@ -79,24 +74,6 @@ import net.dpml.parameters.Parameters;
     &lt;include name="<font color="darkred">urn:avalon:home</font>" key="<font color="darkred">home</font>"/&gt;
   &lt;/context&gt;
 
-  <font color="gray"><i>&lt;!--
-  Apply the following configuration when instantiating the component.  This configuration
-  will be applied as the primary configuration in a cascading configuration chain.  A
-  type may declare a default configuration under a "classname".xconfig file that will be
-  used to dereference any configuration requests not resolvable by the configuration
-  supplied here.
-  --&gt;</i></font>
-
-  &lt;configuration&gt;
-    &lt;message value="<font color="darkred">Hello</font>"/&gt;
-  &lt;/configuration&gt;
-
-  <font color="gray"><i>&lt;!--
-  The parameterization criteria from this instance of the component type.
-  --&gt;</i></font>
-
-  &lt;parameters/&gt;
-
 &lt;/component&gt;
 </pre>
  *
@@ -134,16 +111,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     private final String m_classname;
 
    /**
-    * The parameters for component (if any).
-    */
-    private final Parameters m_parameters;
-
-   /**
-    * The configuration for component (if any).
-    */
-    private final Configuration m_configuration;
-
-   /**
     * The components context directive.
     */
     private final ContextDirective m_context;
@@ -166,7 +133,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           CollectionPolicy.SYSTEM, 
           LifestylePolicy.TRANSIENT,
           classname, 
-          null, null, null, null, null );
+          null, null, null );
     }
 
    /**
@@ -184,8 +151,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           template.getClassname(),
           template.getCategoriesDirective(),
           template.getContextDirective(),
-          template.getParameters(),
-          template.getConfiguration(),
           template.getPartReferences() );
     }
 
@@ -198,8 +163,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     * @param classname the component classname
     * @param categories logging categories
     * @param context context directive
-    * @param parameters the default parameters
-    * @param config the default configuration
     * @param parts the component internal parts
     */
     public ComponentDirective(
@@ -210,8 +173,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
            final String classname,
            final CategoriesDirective categories,
            final ContextDirective context,
-           final Parameters parameters,
-           final Configuration config,
            final PartReference[] parts )
     {
         super( name, activation, categories, parts );
@@ -236,8 +197,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         
         m_lifestyle = lifestyle;
         m_collection = collection;
-        m_parameters = parameters;
-        m_configuration = config;
     }
 
     //--------------------------------------------------------------------------
@@ -286,27 +245,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     }
 
    /**
-    * Return the Parameters for the profile.
-    *
-    * @return the Parameters for Component (possibly null).
-    */
-    public Parameters getParameters()
-    {
-        return m_parameters;
-    }
-
-   /**
-    * Return the base Configuration for the profile.  The implementation
-    * garantees that the supplied configuration is not null.
-    *
-    * @return the base Configuration for profile.
-    */
-    public Configuration getConfiguration()
-    {
-        return m_configuration;
-    }
-
-   /**
     * Returns a string representation of the profile.
     * @return a string representation
     */
@@ -347,18 +285,7 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         {
             return false;
         }
-        if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
-        {
-            return false;
-        }
-        if( !equals( m_parameters, profile.getParameters() ) )
-        {
-            return false;
-        }
-        else
-        {
-            return equals( m_configuration, profile.getConfiguration() );
-        }
+        return equals( m_lifestyle, profile.getLifestylePolicy() );
     }
 
    /**
@@ -377,14 +304,6 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         if( null != m_lifestyle )
         {
             hash ^= m_lifestyle.hashCode();
-        }
-        if( !( null == m_parameters ) )
-        {
-            hash ^= m_parameters.hashCode();
-        }
-        if( !( null == m_configuration ) )
-        {
-            hash ^= m_configuration.hashCode();
         }
         return hash;
     }

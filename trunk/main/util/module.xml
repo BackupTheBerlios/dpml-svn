@@ -7,31 +7,6 @@
     <include key="transit"/>
   </dependencies>
 
-  <project name="dpml-job-api" basedir="job/api">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-
-  <project name="dpml-job-impl" basedir="job/impl">
-    <properties>
-      <property name="project.test.fork" value="true"/>
-    </properties>
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include ref="dpml/util/dpml-job-api"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-
   <project name="dpml-util-i18n" basedir="i18n">
     <types>
       <type id="jar"/>
@@ -64,42 +39,5 @@
       <type id="jar"/>
     </types>
   </project>
-   
-  <project name="dpml-configuration-api" basedir="configuration/api">
-    <types>
-      <type id="jar"/>
-    </types>
-  </project>
-   
-  <project name="dpml-configuration-impl" basedir="configuration/impl">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include key="dpml-configuration-api"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-   
-  <project name="dpml-parameters-api" basedir="parameters/api">
-    <types>
-      <type id="jar"/>
-    </types>
-  </project>
-   
-  <project name="dpml-parameters-impl" basedir="parameters/impl">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <include key="dpml-parameters-api"/>
-      <include key="dpml-configuration-api" tag="private"/>
-    </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
-  </project>
-   
+  
 </module>

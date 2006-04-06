@@ -23,13 +23,38 @@
     </dependencies>
   </project>
 
+  <project name="dpml-job-api" basedir="job/api">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies scope="test">
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+
+  <project name="dpml-job-impl" basedir="job/impl">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <include ref="dpml/metro/dpml-job-api"/>
+    </dependencies>
+    <dependencies scope="test">
+      <include ref="dpml/transit/dpml-transit-main"/>
+      <include ref="ant/ant-junit"/>
+    </dependencies>
+  </project>
+
   <project name="dpml-metro-component" basedir="component">
     <types>
       <type id="jar"/>
     </types>
     <dependencies>
       <include key="dpml-state-api" tag="public"/>
-      <include ref="dpml/util/dpml-job-api" tag="public"/>
+      <include ref="dpml/metro/dpml-job-api" tag="public"/>
       <include ref="dpml/transit/dpml-transit-main" tag="private"/>
     </dependencies>
     <dependencies scope="test">
@@ -43,15 +68,11 @@
     </types>
     <dependencies>
       <include key="dpml-state-api"/>
-      <include ref="dpml/util/dpml-parameters-api"/>
-      <include ref="dpml/util/dpml-configuration-api"/>
       <include key="dpml-metro-component"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
       <include key="dpml-state-impl"/>
-      <include ref="dpml/util/dpml-parameters-impl"/>
-      <include ref="dpml/util/dpml-configuration-impl"/>
     </dependencies>
   </project>
    
@@ -66,9 +87,7 @@
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
       <include key="dpml-metro-component" tag="protected"/>
       <include key="dpml-metro-model" tag="protected"/>
-      <include ref="dpml/util/dpml-parameters-impl"/>
-      <include ref="dpml/util/dpml-configuration-impl"/>
-      <include ref="dpml/util/dpml-job-impl"/>
+      <include ref="dpml/metro/dpml-job-impl"/>
       <include key="dpml-state-impl"/>
     </dependencies>
     <dependencies scope="test">
@@ -85,7 +104,6 @@
     <dependencies>
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
-      <include key="dpml-metro-runtime"/>
       <include key="dpml-metro-runtime"/>
     </dependencies>
   </project>

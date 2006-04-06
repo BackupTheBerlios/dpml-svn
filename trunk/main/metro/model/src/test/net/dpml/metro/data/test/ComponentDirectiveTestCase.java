@@ -26,12 +26,6 @@ import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.PartReference;
 
-import net.dpml.configuration.Configuration;
-import net.dpml.configuration.impl.DefaultConfiguration;
-
-import net.dpml.parameters.Parameters;
-import net.dpml.parameters.impl.DefaultParameters;
-
 import net.dpml.component.ActivationPolicy;
 
 /**
@@ -49,8 +43,6 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     private String m_classname;
     private CategoriesDirective m_categories;
     private ContextDirective m_context;
-    private Parameters m_parameters;
-    private Configuration m_configuration;
     private ComponentDirective m_directive;
     private PartReference[] m_parts;
     
@@ -67,13 +59,11 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         m_classname = ComponentDirectiveTestCase.class.getName();
         m_categories = new CategoriesDirective( new CategoryDirective[0] );
         m_context = new ContextDirective( new PartReference[0] );
-        m_parameters = DefaultParameters.EMPTY_PARAMETERS;
-        m_configuration = new DefaultConfiguration( "" );
         m_parts = new PartReference[0];
         m_directive = 
           new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
-            m_categories, m_context, m_parameters, m_configuration, m_parts );
+            m_categories, m_context, m_parts );
     }
     
    /**
@@ -104,7 +94,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, null );
+              m_categories, m_context, null );
             fail( "Did not throw an IllegalArgumentException for a '' name." ); 
         }
         catch( IllegalArgumentException e )
@@ -122,7 +112,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred.blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, null );
+              m_categories, m_context, null );
             fail( "Did not throw an IllegalArgumentException for a name with a period." ); 
         }
         catch( IllegalArgumentException e )
@@ -140,7 +130,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred,blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, null );
+              m_categories, m_context, null );
             fail( "Did not throw an IllegalArgumentException for a name with a comma." ); 
         }
         catch( IllegalArgumentException e )
@@ -158,7 +148,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred/blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, m_parameters, m_configuration, null );
+              m_categories, m_context, null );
             fail( "Did not throw an IllegalArgumentException for a name with a '/'." ); 
         }
         catch( IllegalArgumentException e )
@@ -198,7 +188,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     {
         ComponentDirective directive = new ComponentDirective( 
             m_name, m_activation, m_collection, null, m_classname, 
-            m_categories, m_context, m_parameters, m_configuration, m_parts );
+            m_categories, m_context, m_parts );
         LifestylePolicy lifestyle = directive.getLifestylePolicy();
         assertEquals( "null-lifestyle", null, lifestyle );
     }
@@ -225,21 +215,5 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     public void testContext()
     {
         assertEquals( "context", m_context, m_directive.getContextDirective() );
-    }
-    
-   /**
-    * Test parameters accessor.
-    */
-    public void testParameters()
-    {
-        assertEquals( "parameters", m_parameters, m_directive.getParameters() );
-    }
-    
-   /**
-    * Test configuration accessor.
-    */
-    public void testConfiguration()
-    {
-        assertEquals( "configuration", m_configuration, m_directive.getConfiguration() );
     }
 }

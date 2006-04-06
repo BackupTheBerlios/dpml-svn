@@ -164,15 +164,13 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
         }
         
         
-        URI config = getConfigurationURI( line );
-        URI params = getParametersURI( line );
         URI categories = getCategoriesURI( line );
         Properties properties = getCommandLineProperties( line );
         String raw = System.getProperty( "dpml.station.partition", "" );
         String partition = PropertyResolver.resolve( raw );
         Component component = 
           resolveTargetComponent( 
-            logger, partition, uri, config, params, categories, properties );
+            logger, partition, uri, categories, properties );
         m_callback.started( PROCESS_ID, component );
     }
     
@@ -200,24 +198,13 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
     // internals
     //------------------------------------------------------------------------------
     
-    private URI getConfigurationURI( CommandLine line )
-    {
-        return (URI) line.getValue( CONFIG_OPTION, null );
-    }
-    
-    private URI getParametersURI( CommandLine line )
-    {
-        return (URI) line.getValue( PARAMS_OPTION, null );
-    }
-    
     private URI getCategoriesURI( CommandLine line )
     {
         return (URI) line.getValue( LOGGING_OPTION, null );
     }
     
     private Component resolveTargetComponent( 
-      Logger logger, String partition, URI uri, URI config, URI params, 
-      URI categories, Properties properties ) throws Exception
+      Logger logger, String partition, URI uri, URI categories, Properties properties ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
         {
@@ -233,7 +220,6 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
                     model.setActivationPolicy( ActivationPolicy.STARTUP );
                     return composition.newComponent();
                 }
-                //return new ComponentAdapter( logger, partition, uri, config, params, categories, properties );
             }
         }
         
@@ -346,38 +332,6 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
           .create();
         
 
-    private static final Option CONFIG_OPTION = 
-        OPTION_BUILDER
-          .withShortName( "config" )
-          .withShortName( "c" )
-          .withDescription( "Application configuration uri." )
-          .withRequired( false )
-          .withArgument(
-            ARGUMENT_BUILDER 
-              .withDescription( "URI." )
-              .withName( "uri" )
-              .withMinimum( 1 )
-              .withMaximum( 1 )
-              .withValidator( URI_VALIDATOR )
-              .create() )
-          .create();
-        
-    private static final Option PARAMS_OPTION = 
-        OPTION_BUILDER
-          .withShortName( "params" )
-          .withShortName( "p" )
-          .withDescription( "Application parameters uri." )
-          .withRequired( false )
-          .withArgument(
-            ARGUMENT_BUILDER 
-              .withDescription( "URI." )
-              .withName( "uri" )
-              .withMinimum( 1 )
-              .withMaximum( 1 )
-              .withValidator( URI_VALIDATOR )
-              .create() )
-          .create();
-        
     private static final Option HELP_COMMAND =
       OPTION_BUILDER
         .withShortName( "help" )
@@ -389,8 +343,6 @@ $ metro exec link:part:dpml/planet/http/dpml-http-demo
       GROUP_BUILDER
         .withOption( KEY_OPTION )
         .withOption( PORT_OPTION )
-        .withOption( CONFIG_OPTION )
-        .withOption( PARAMS_OPTION )
         .withOption( CONTEXT_OPTION )
         .withOption( LOGGING_OPTION )
         .create();

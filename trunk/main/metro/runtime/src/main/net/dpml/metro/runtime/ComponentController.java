@@ -33,8 +33,6 @@ import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.ServiceNotFoundException;
 
-import net.dpml.configuration.Configuration;
-
 import net.dpml.lang.StandardClassLoader;
 import net.dpml.lang.Version;
 import net.dpml.lang.Classpath;
@@ -50,8 +48,6 @@ import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ContextModel;
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.builder.ComponentTypeDecoder;
-
-import net.dpml.parameters.Parameters;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
@@ -253,10 +249,8 @@ class ComponentController
         // types:
         // 1. net.dpml.logging.Logger;
         // 2. java.util.logging.Logger;
-        // 3. net.dpml.configuration.Configuration;
-        // 4. net.dpml.parameters.Parameters
-        // 5. #Context
-        // 6. #Parts
+        // 4. #Context
+        // 5. #Parts
         //
         
         for( int i=0; i<classes.length; i++ )
@@ -276,14 +270,6 @@ class ComponentController
             {
                 String spec = getPathForLogger( handler );
                 args[i] = new DefaultLogger( spec );
-            }
-            else if( Parameters.class.isAssignableFrom( c ) )
-            {
-                args[i] = createParametersArgument( handler );
-            }
-            else if( Configuration.class.isAssignableFrom( c ) )
-            {
-                args[i] = createConfigurationArgument( handler );
             }
             else if( ( null != contextInnerClass ) && contextInnerClass.isAssignableFrom( c ) )
             {
@@ -543,42 +529,6 @@ class ComponentController
         return null;
     }
 
-    private Object createParametersArgument( DefaultComponentHandler handler ) throws ControlException
-    {
-        try
-        {
-            Parameters params = handler.getComponentModel().getParameters();
-            InvocationHandler invocationHandler = new ParametersInvocationHandler( params );
-            ClassLoader classloader = params.getClass().getClassLoader();
-            return Proxy.newProxyInstance( 
-              classloader, new Class[]{Parameters.class}, invocationHandler );
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Unable to construct the Parameters invocation handler due to a remote exception.";
-            throw new ControllerException( error, e );
-        }
-    }
-
-    private Object createConfigurationArgument( DefaultComponentHandler handler ) throws ControlException
-    {
-        try
-        {
-            Configuration config = handler.getComponentModel().getConfiguration();
-            InvocationHandler invocationHandler = new ConfigurationInvocationHandler( config );
-            ClassLoader classloader = config.getClass().getClassLoader();
-            return Proxy.newProxyInstance( 
-              classloader, new Class[]{Configuration.class}, invocationHandler );
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Unable to construct the Configuration invocation handler due to a remote exception.";
-            throw new ControllerException( error, e );
-        }
-    }
-    
     private Object createContextInvocationHandler( DefaultProvider provider, Class clazz ) 
       throws ControlException
     {

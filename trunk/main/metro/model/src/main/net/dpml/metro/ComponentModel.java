@@ -26,10 +26,6 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.data.CategoryDirective;
 
-import net.dpml.configuration.Configuration;
-
-import net.dpml.parameters.Parameters;
-
 import net.dpml.lang.Classpath;
 
 /**
@@ -89,20 +85,6 @@ public interface ComponentModel extends Model
     */
     CollectionPolicy getCollectionPolicy() throws RemoteException;
 
-   /**
-    * Return the component configuration.
-    * @return the configuration
-    * @exception RemoteException if a remote exception occurs
-    */
-    Configuration getConfiguration() throws RemoteException;
-
-   /**
-    * Return the component parameters.
-    * @return the parameters
-    * @exception RemoteException if a remote exception occurs
-    */
-    Parameters getParameters() throws  RemoteException;
-    
    /**
     * Return the component logging categories.
     * @return the categories
