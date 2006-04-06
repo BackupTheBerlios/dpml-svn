@@ -21,12 +21,8 @@
     <x:filter token="METRO-TOOLS-URI" feature="uri" type="part" ref="dpml/metro/dpml-metro-tools" />
     <x:filter token="UTIL-ACTIVITY-URI" feature="uri" type="jar" ref="dpml/util/dpml-activity-api" />
     <x:filter token="UTIL-CLI-URI" feature="uri" type="jar" ref="dpml/util/dpml-util-cli" />
-    <x:filter token="UTIL-CONFIGURATION-API-URI" feature="uri" type="jar" ref="dpml/util/dpml-configuration-api" />
-    <x:filter token="UTIL-CONFIGURATION-IMPL-URI" feature="uri" type="jar" ref="dpml/util/dpml-configuration-impl" />
     <x:filter token="UTIL-I18N-URI" feature="uri" type="jar" ref="dpml/util/dpml-util-i18n" />
     <x:filter token="UTIL-LOGGING-API-URI" feature="uri" type="jar" ref="dpml/util/dpml-logging-api" />
-    <x:filter token="UTIL-PARAMS-API-URI" feature="uri" type="jar" ref="dpml/util/dpml-parameters-api" />
-    <x:filter token="UTIL-PARAMS-IMPL-URI" feature="uri" type="jar" ref="dpml/util/dpml-parameters-impl" />
   </target>
 
   <target name="build" depends="standard.build">
