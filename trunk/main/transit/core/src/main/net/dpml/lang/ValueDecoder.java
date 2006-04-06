@@ -18,8 +18,6 @@
 
 package net.dpml.lang;
 
-import net.dpml.lang.Value;
-import net.dpml.lang.Construct;
 import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;

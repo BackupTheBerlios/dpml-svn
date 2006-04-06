@@ -24,11 +24,6 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.lang.ref.WeakReference;
 
-import net.dpml.lang.Classpath;
-import net.dpml.lang.Value;
-
-import net.dpml.transit.Artifact;
-
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 import net.dpml.util.ElementHelper;

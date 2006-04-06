@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 
-import net.dpml.lang.Classpath;
-
 import net.dpml.util.Logger;
 
 /**

@@ -32,7 +32,6 @@ import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
 
 import net.dpml.lang.Classpath;
-import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.metro.data.ComponentDirective;

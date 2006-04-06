@@ -133,6 +133,9 @@ public final class DecoderFactory
     
    /**
     * Resolve the part handler given an element namespace.
+    * @param urn the namespace value
+    * @return the decoder uri
+    * @exception Exception if an error occurs
     */
     public static URI getDecoderURIFromNamespaceURI( String urn ) throws Exception
     {

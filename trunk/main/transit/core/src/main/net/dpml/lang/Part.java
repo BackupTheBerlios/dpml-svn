@@ -28,9 +28,6 @@ import java.net.URLClassLoader;
 
 import javax.xml.XMLConstants;
 
-import net.dpml.lang.Category;
-import net.dpml.lang.Classpath;
-
 import net.dpml.util.Logger;
 
 /**

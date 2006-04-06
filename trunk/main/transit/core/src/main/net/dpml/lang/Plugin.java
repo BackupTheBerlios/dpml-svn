@@ -28,10 +28,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.dpml.lang.Value;
 import net.dpml.util.Logger;
-import net.dpml.lang.Classpath;
-import net.dpml.lang.Construct;
 
 /**
  * Plugin part strategy implementation datatype.

@@ -21,9 +21,6 @@ package net.dpml.lang;
 import java.io.Writer;
 import java.io.IOException;
 
-import net.dpml.lang.Value;
-import net.dpml.lang.Construct;
-
 /**
  * Utility used to write value instances to an output stream as XML.
  *

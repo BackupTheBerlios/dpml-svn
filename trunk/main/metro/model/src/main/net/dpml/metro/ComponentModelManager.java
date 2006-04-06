@@ -22,8 +22,6 @@ import java.rmi.RemoteException;
 
 import net.dpml.metro.info.CollectionPolicy;
 
-import net.dpml.component.ActivationPolicy;
-
 import net.dpml.lang.UnknownKeyException;
 
 /**

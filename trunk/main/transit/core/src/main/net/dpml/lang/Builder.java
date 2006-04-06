@@ -20,8 +20,6 @@ package net.dpml.lang;
 
 import java.io.IOException;
 
-import net.dpml.lang.Classpath;
-
 import org.w3c.dom.Element;
 
 /**
