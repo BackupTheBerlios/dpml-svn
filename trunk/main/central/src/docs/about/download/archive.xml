@@ -25,6 +25,7 @@
         
         <ul>
           <li>Support for the declaration of custom etc/main and etc/text directories.</li>
+          <li>Removal of activity api (functionality covered by state package).</li>
         </ul>
 
 
@@ -81,6 +82,7 @@
         <ul>
           <li>Convergence of the plugin versus component deployment models.</li>
           <li>Resolve bug in Windows SCM controller.</li>
+          <li>Removal of configuration and parameters (functionality covered by Context IOC services).</li>
         </ul>
 
         <table>
