@@ -131,7 +131,25 @@ public class PrepareTask extends GenericTask
         {
             log( "project does not contain 'test' src.", Project.MSG_VERBOSE );
         }
-        if( context.getEtcDirectory().exists() )
+        
+        if( context.getEtcMainDirectory().exists() )
+        {
+            final String includes = 
+              resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+            final String excludes = 
+              resource.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+            
+            //
+            // copy ${etc}/main content to ${target}/build/main
+            //
+            
+            final File etcMain = context.getEtcMainDirectory();
+            final File buildMainDir = context.getTargetDirectory( "build/main" );
+            copy( etcMain, buildMainDir, true, includes, excludes );
+            copy( etcMain, buildMainDir, false, excludes, "" );
+        }
+        
+        if( context.getEtcTestDirectory().exists() )
         {
             final String includes = 
               resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
@@ -142,34 +160,29 @@ public class PrepareTask extends GenericTask
             // copy ${etc}/test content to ${target}/build/test
             //
             
-            File etc = context.getEtcDirectory();
-            final File etcTest = new File( etc, "test" );
-            if( etcTest.exists() )
-            {
-                final File test = context.getTargetDirectory( "test" );
-                copy( etcTest, test, true, includes, excludes );
-                copy( etcTest, test, false, excludes, "" );
-            }
-            
-            //
-            // copy ${etc}/main content to ${target}/build/main
-            //
-            
-            final File etcMain = new File( etc, "main" );
-            if( etcMain.exists() )
-            {
-                final File buildMainDir = context.getTargetDirectory( "build/main" );
-                copy( etcMain, buildMainDir, true, includes, excludes );
-                copy( etcMain, buildMainDir, false, excludes, "" );
-            }
+            final File etcTest = context.getEtcTestDirectory();
+            final File test = context.getTargetDirectory( "test" );
+            copy( etcTest, test, true, includes, excludes );
+            copy( etcTest, test, false, excludes, "" );
+        }
+        
+        if( context.getEtcDirectory().exists() )
+        {
+            final String includes = 
+              resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+            final String excludes = 
+              resource.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+            final File etc = context.getEtcDirectory();
             
             //
             //  ${etc}/* directories (excluding test, main and deliverables)
             // directly to the target directory
             //
 
+            String main = context.getEtcMainDirectory().toString() + "/**";
+            String test = context.getEtcTestDirectory().toString() + "/**";
             File target = context.getTargetDirectory();
-            final String standard = "main/**,test/**,";
+            final String standard = main + "," + test;
             copy( etc, target, true, includes, standard + excludes );
             copy( etc, target, false, excludes, standard );
         }

@@ -45,14 +45,6 @@
     </rmic>
   </target>
 
-  <!--
-  <target name="install" depends="standard.install">
-    <x:property feature="uri" type="part" name="builder.uri"/>
-    <mkdir dir="${dpml.cache}/dpml/lang/parts"/>
-    <echo file="${dpml.cache}/dpml/lang/parts/dpml-component.part.link" message="${builder.uri}"/>
-  </target>
-  -->
-  
 </project>
 
 

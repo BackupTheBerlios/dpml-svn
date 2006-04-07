@@ -40,7 +40,6 @@ public abstract class FeatureTask extends GenericTask
     private String m_key;
     private String m_ref;
     private String m_feature;
-    private String m_prefix;
     private boolean m_windows = true;
     private boolean m_flag = false;  // os not set
     private String m_type; // optional - used to select type when resolving uris
@@ -87,15 +86,6 @@ public abstract class FeatureTask extends GenericTask
     public void setFeature( final String feature )
     {
         m_feature = feature;
-    }
-
-   /**
-    * Set the prefix.
-    * @param prefix ??
-    */
-    public void setPrefix( final String prefix )
-    {
-        m_prefix = prefix;
     }
 
    /**
@@ -318,87 +308,4 @@ public abstract class FeatureTask extends GenericTask
             throw new BuildException( error, e );
         }
     }
-    
-    /*
-    private String getPath( final Resource def )
-    {
-        if( null == m_prefix )
-        {
-            final String error =
-              "Filter attribute 'prefix' is not declared.";
-            throw new BuildException( error );
-        }
-        if( !m_flag )
-        {
-            final String error =
-              "Filter attribute 'platform' is not declared.";
-            throw new BuildException( error );
-        }
-
-        File cache = getCacheDirectory();
-        String root = cache.toString();
-        ProjectPath path = new ProjectPath( getProject() );
-        path.setMode( "RUNTIME" );
-        path.setKey( def.getKey() );
-        path.setResolve( false );
-        String sequence = path.toString();
-        String[] translation = Path.translatePath( getProject(), sequence );
-
-        //
-        // substitute the cache directory with the prefix symbol
-        //
-
-        for( int i=0; i < translation.length; i++ )
-        {
-            String trans = translation[i];
-            if( trans.startsWith( root ) )
-            {
-                String relativeFilename = trans.substring( root.length() );
-                log( relativeFilename, Project.MSG_VERBOSE );
-                translation[i] = m_prefix + relativeFilename;
-            }
-        }
-
-        //
-        // do platform conversion
-        //
-
-        StringBuffer buffer = new StringBuffer();
-        for( int i=0; i < translation.length; i++ )
-        {
-            String trans = convertString( translation[i] );
-            if( i > 0 )
-            {
-                if( m_windows )
-                {
-                    buffer.append( ";" );
-                }
-                else
-                {
-                    buffer.append( ":" );
-                }
-            }
-            buffer.append( trans );
-        }
-
-        return buffer.toString();
-    }
-    */
-    /*
-    private String convertString( String value )
-    {
-        if( !m_flag )
-        {
-            return value;
-        }
-        if( m_windows )
-        {
-            return value.replace( '/', '\\' );
-        }
-        else
-        {
-            return value.replace( '\\', '/' );
-        }
-    }
-    */
 }

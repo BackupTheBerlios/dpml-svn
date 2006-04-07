@@ -19,6 +19,15 @@
 
       <subsection name="Build @VERSION@">
 
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Support for the declaration of custom etc/main and etc/text directories.</li>
+        </ul>
+
+
         <table>
           <tr>
             <td>Windows NSIS Installer</td>

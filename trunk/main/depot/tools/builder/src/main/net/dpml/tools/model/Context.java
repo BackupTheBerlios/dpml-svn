@@ -60,18 +60,6 @@ public interface Context
     String getProperty( String key, String value );
     
    /**
-    * Return the value of a property. If the project contains a declaration 
-    * for the property then that value will be returned, otherwise the property
-    * will be resolved relative to the current resource.
-    *
-    * @param type the type production
-    * @param key the property key
-    * @param value the default value
-    * @return the property value or null if undefined
-    */
-    //String getProperty( Type type, String key, String value );
-    
-   /**
     * Return an Ant path suitable for compile or runtime usage. If the supplied scope is 
     * less than Scope.RUNTIME a runtime path is returned otherwise the test path is 
     * returned.
@@ -122,6 +110,18 @@ public interface Context
     * @return the directory
     */
     File getEtcDirectory();
+
+   /**
+    * Return the project etc/main directory.
+    * @return the directory
+    */
+    File getEtcMainDirectory();
+
+   /**
+    * Return the project etc/test directory.
+    * @return the directory
+    */
+    File getEtcTestDirectory();
 
    /**
     * Return the project target directory.
