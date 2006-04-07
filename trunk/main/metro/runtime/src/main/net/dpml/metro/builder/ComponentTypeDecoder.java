@@ -39,13 +39,12 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.ThreadSafePolicy;
 import net.dpml.metro.info.Priority;
 
-import net.dpml.util.DOM3DocumentBuilder;
-import net.dpml.util.DecodingException;
-
 import net.dpml.state.State;
 import net.dpml.state.impl.StateDecoder;
 import net.dpml.state.impl.DefaultState;
 
+import net.dpml.util.DOM3DocumentBuilder;
+import net.dpml.util.DecodingException;
 import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;

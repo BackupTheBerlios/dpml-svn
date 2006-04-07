@@ -262,6 +262,8 @@
         <package name="net.dpml.metro.*"/>
         <package name="net.dpml.state"/>
         <package name="net.dpml.state.*"/>
+        <package name="net.dpml.job"/>
+        <package name="net.dpml.job.*"/>
       </group>
       <group title="Station">
         <package name="net.dpml.station"/>
@@ -276,16 +278,8 @@
         <package name="net.dpml.cli.*"/>
         <package name="net.dpml.i18n"/>
         <package name="net.dpml.i18n.*"/>
-        <package name="net.dpml.activity"/>
-        <package name="net.dpml.activity.*"/>
-        <package name="net.dpml.configuration"/>
-        <package name="net.dpml.configuration.*"/>
-        <package name="net.dpml.parameters"/>
-        <package name="net.dpml.parameters.*"/>
         <package name="net.dpml.logging"/>
         <package name="net.dpml.logging.*"/>
-        <package name="net.dpml.job"/>
-        <package name="net.dpml.job.*"/>
       </group>
     </x:javadoc>
   </target>

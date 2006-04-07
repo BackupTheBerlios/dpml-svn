@@ -85,10 +85,10 @@
     </types>
     <dependencies>
       <include ref="dpml/util/dpml-logging-api" tag="public"/>
-      <include key="dpml-metro-component" tag="protected"/>
-      <include key="dpml-metro-model" tag="protected"/>
+      <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
+      <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
       <include ref="dpml/metro/dpml-job-impl"/>
-      <include key="dpml-state-impl"/>
+      <include ref="dpml/metro/dpml-state-impl"/>
     </dependencies>
     <dependencies scope="test">
       <include ref="ant/ant-junit"/>
@@ -104,7 +104,7 @@
     <dependencies>
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/transit/dpml-transit-tools"/>
-      <include key="dpml-metro-runtime"/>
+      <include ref="dpml/metro/dpml-metro-runtime"/>
     </dependencies>
   </project>
 
