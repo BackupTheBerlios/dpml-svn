@@ -19,17 +19,6 @@
 
       <subsection name="Build @VERSION@">
 
-        <p>
-        Enhancements include:
-        </p>
-        
-        <ul>
-          <li>Documentation improvements.</li>
-          <li>Resolve bug in part strategy encoding of supplimentary parameters.</li>
-          <li>Add link to the component builder as the dpml-component xsi handler.</li>
-          <li>Implementation of part handler functionlity into the Metro controller.</li>
-        </ul>
-
         <table>
           <tr>
             <td>Windows NSIS Installer</td>
@@ -73,7 +62,62 @@
 
       </subsection>
 
-      <subsection name="Build 1.0.0-RC5">
+
+      <subsection name="Build 1.0.0 RC6 (SVN rev 1333)">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Convergence of the plugin versus component deployment models.</li>
+          <li>Resolve bug in Windows SCM controller.</li>
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.exe">
+                dpml-sdk-win32-1.0.0-RC6.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.zip">
+                dpml-sdk-win32-1.0.0-RC6.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-linux-1.0.0-RC6.tar.gz">
+                dpml-sdk-linux-1.0.0-RC6.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-linux-1.0.0-RC6.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/1.0.0-RC6">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/1.0.0-RC6/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC6/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0 RC5">
 
         <p>
         Enhancements include:

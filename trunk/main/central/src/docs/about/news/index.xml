@@ -12,6 +12,18 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="8 April 2006 RC6 Distribution">
+
+        <p>
+        The RC6 distributution captures rationaization and convergence of  two 
+        deployment strategies - plugins versus components.  Under RC6 the notion of
+        <tt>part</tt> has been refactored to be abstract base for component and plugin
+        definitions - resulting in a cleaner object model and greater utilization of 
+        custom XML schemas introduced in the RC4 distribution.
+        </p>
+
+      </subsection>
+
       <subsection name="28 March 2006 RC4 Distribution">
 
         <p>
@@ -28,7 +40,6 @@
         </p>
 
       </subsection>
-
 
       <subsection name="13 January 2005 20060113 Milstone Distribution">
 
@@ -70,50 +81,7 @@
         improvements to the build and runtime management strategies.
         </p>
 
-        <p>
-        Traffic on the site reflecting growth of content from the series of 
-        milestone builds producted during the third and forth quarters of 2005.
-        </p>
-
         <p><img src="/images/news/2005-06-12-hits.png" alt="2005"/></p>
-
-        <p>
-        Session traffic was largely flat during the last quarter of 2005 
-        presumably on the grounds that the DPML is for the moment dealing 
-        with milestone as opposed to versioned builds.
-        </p>
-
-        <p><img src="/images/news/2005-06-12-sessions.png" alt="2005"/></p>
-
-        <p>
-        Perhaps the most important achievement of 2005 is the validation of the principal that
-        that your can decompose problems down to the insignificant. The DPML
-        currently host some 37 projects.  Each project is itself a self-contained and 
-        surmountable problem space.  This in and of itself is a major achievement because 
-        it demonstrates a resilient development strategy.
-        </p>
-
-        <p>
-        Looking forward the DPML faces several challenges:
-        </p>
-
-        <ul>
-          <li>At a technical level the big to-do items relate to the incorporation 
-            of security policies across the Transit, Depot and Metro systems.</li>
-          <li>At a operational level the building of guidelines and tutorial material that captures the fundamental concepts and principals of assembly versus composition (in effect, the semantics of the next-step in component-based development) are an immediate objective.</li>
-          <li>At a broader level - building the combination of community control 
-            combined with a structured framework for long-term entity integrity 
-            is perhaps the most interesting challenge.  Is the DPML about developer interest or perhaps service providers?  I believe that 2006 will be more about collaboration - collaboration with other open source projects, collaboration with industrial partners, and collaboration with government agencies. But perhaps most interesting of all is the international role - the potential leverage across borders in solving the bigger issues.
-            </li>
-        </ul>
-
-        <p>
-        While 2005 has been all about technology, I'm betting that 2006 will be all about collaboration.
-        </p>
-
-        <p>
-        <i>Cheers, Steve.</i>
-        </p>
 
       </subsection>
 
