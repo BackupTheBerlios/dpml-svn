@@ -155,6 +155,7 @@ public class JarProcess extends AbstractBuildListener
     protected Context getContext( Project project )
     {
         Context context = (Context) project.getReference( "project.context" );
+        context.init();
         if( null == context )
         {
             final String error = 

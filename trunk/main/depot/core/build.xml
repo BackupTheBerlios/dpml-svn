@@ -6,6 +6,7 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <!--
   <target name="init" depends="standard.init">
     <property name="depot.short.filename" value="${project.name}.jar"/>
     <property name="transit.short.filename" value="dpml-transit-main.jar"/>
@@ -22,6 +23,7 @@
     <x:filter token="DEPOT-STATION-URI" ref="dpml/station/dpml-station-console" feature="uri" type="part" alias="true"/>
     <x:filter token="DEPOT-STATION-SERVER-URI" ref="dpml/station/dpml-station-server" feature="uri" type="part" alias="true"/>
   </target>
+  -->
 
   <!--
   BOOTSTRAP TARGETS

@@ -24,6 +24,7 @@
 
   <property file="${basedir}/build.properties"/>
   <property name="home" value="../.."/>
+  
   <import file="${home}/bootstrap.xml"/>
 
   <target name="init" depends="bootstrap.init">

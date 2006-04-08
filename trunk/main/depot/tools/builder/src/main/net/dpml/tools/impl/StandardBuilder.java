@@ -21,11 +21,14 @@ package net.dpml.tools.impl;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.util.Date;
+import java.util.Properties;
 import java.util.Vector;
 
 import net.dpml.library.Builder;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
+import net.dpml.library.Filter;
 
 import net.dpml.tools.model.Workbench;
 import net.dpml.tools.model.Context;
@@ -201,10 +204,10 @@ public class StandardBuilder implements Builder
         {
             m_result = e;
             final String error = 
-              "Unexpected error while attempting to build project [" 
-              + resource.getResourcePath()
-              + "].";
-            throw new BuildException( error );
+              "Unexpected error while attempting to resolve project template."
+              + "\nResource path: " 
+              + resource.getResourcePath();
+            throw new BuildException( error, e );
         }
     }
     
@@ -288,10 +291,41 @@ public class StandardBuilder implements Builder
     Project createProject( Resource resource )
     {
         Project project = createProject();
-        project.setBaseDir( resource.getBaseDir() );
         project.addReference( "project.workbench", m_workbench );
         Context context = m_workbench.createContext( resource, project );
         project.addReference( "project.context", context );
+        return configureProject( project, resource );
+    }
+    
+    static Project configureProject( Project project, Resource resource )
+    {
+        project.addReference( "project.timestamp", new Date() );
+        project.setBaseDir( resource.getBaseDir() );
+
+        String[] names = resource.getPropertyNames();
+        for( int i=0; i<names.length; i++ )
+        {
+            String name = names[i];
+            String value = resource.getProperty( name );
+            project.setNewProperty( name, value );
+        }
+        Filter[] filters = resource.getFilters();
+        for( int i=0; i<filters.length; i++ )
+        {
+            Filter filter = filters[i];
+            String token = filter.getToken();
+            try
+            {
+                String value = filter.getValue( resource );
+                project.getGlobalFilterSet().addFilter( token, value );
+            }
+            catch( Exception e )
+            {
+                final String error =
+                  "Error while attempting to setup the filter [" + token + "].";
+                throw new BuildException( error, e );
+            }
+        }
         return project;
     }
     

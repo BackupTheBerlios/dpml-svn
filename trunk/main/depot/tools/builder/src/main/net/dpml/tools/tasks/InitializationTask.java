@@ -49,12 +49,16 @@ public class InitializationTask extends GenericTask
     */
     public void execute()
     {
-        if( null != getProject().getReference( "project.timestamp" ) )
+        if( null != getProject().getReference( "project.initialization.timestamp" ) )
         {
             return;
         }
+        else
+        {
+            getProject().addReference( "project.initialization.timestamp", new Date() );
+        }
+        
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-        getProject().addReference( "project.timestamp", new Date() );
         Resource resource = getResource();
         log( resource.toString(), Project.MSG_VERBOSE );
         

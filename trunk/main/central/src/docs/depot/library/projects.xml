@@ -121,8 +121,6 @@
   </types>
   <dependencies>
     <include ref="dpml/util/dpml-logging-api" tag="public"/>
-    <include ref="dpml/util/dpml-parameters-impl"/>
-    <include ref="dpml/util/dpml-configuration-impl"/>
     <include key="dpml-metro-component" tag="protected"/>
     <include key="dpml-metro-model" tag="protected"/>
     <include key="dpml-state-impl"/>

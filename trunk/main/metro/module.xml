@@ -49,6 +49,12 @@
   </project>
 
   <project name="dpml-metro-component" basedir="component">
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
     <types>
       <type id="jar"/>
     </types>
@@ -63,6 +69,12 @@
   </project>
   
   <project name="dpml-metro-model" basedir="model">
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" ref="dpml/metro/dpml-metro-runtime" type="part"/>
+    </filters>
     <types>
       <type id="jar"/>
     </types>

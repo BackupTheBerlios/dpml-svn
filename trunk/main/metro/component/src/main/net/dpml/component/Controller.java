@@ -42,16 +42,6 @@ public interface Controller
     URI getURI();
 
    /**
-    * Load a directive from serialized form.
-    *
-    * @param uri the directive uri
-    * @return the directive
-    * @exception ControlException if a direction construction error ocurrs
-    * @exception IOException if an I/O error occurs
-    */
-    //Directive loadDirective( URI uri ) throws ControlException, IOException;
-    
-   /**
     * Create and return a new management context using the supplied directive uri.
     *
     * @param uri a uri identifying a deployment directive

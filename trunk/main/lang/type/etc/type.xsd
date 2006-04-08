@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-Defintion of a component type.
+Component type definition.
 -->
 
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
@@ -16,7 +16,6 @@ Defintion of a component type.
     <import namespace="@COMPONENT-XSD-URI@" schemaLocation="@COMPONENT-XSD-URI@"/>
     
     <element name="type" type="this:TypeDefinition"/>
-    <!--<element name="component" type="component:component" substitutionGroup="component:component"/>-->
     <element name="strategy" type="this:strategy" substitutionGroup="component:strategy"/>
     
     <complexType name="TypeDefinition">
@@ -80,15 +79,6 @@ Defintion of a component type.
       <attribute name="version" type="string"/>
     </complexType>
         
-    <!--
-    <complexType name="PartsType">
-      <choice minOccurs="0" maxOccurs="unbounded">
-        <element ref="this:strategy"/>
-        <element ref="component:part"/>
-      </choice>
-    </complexType>
-    -->
-    
     <complexType name="PropertyType">
       <attribute name="name" type="string"/>
       <attribute name="value" type="string"/>

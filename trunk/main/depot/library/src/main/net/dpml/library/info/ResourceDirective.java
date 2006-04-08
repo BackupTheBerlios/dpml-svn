@@ -53,6 +53,7 @@ public class ResourceDirective extends AbstractDirective
     private final TypeDirective[] m_types;
     private final DependencyDirective[] m_dependencies;
     private final Classifier m_classifier;
+    private final FilterDirective[] m_filters;
     
    /**
     * Creation of a new anonymous resource directive.
@@ -83,10 +84,29 @@ public class ResourceDirective extends AbstractDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
+    * @param filters source filters
     */
     public ResourceDirective( 
       String name, String version, Classifier classifier, String basedir, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties )
+    {
+        this( name, version, classifier, basedir, types, dependencies, properties, null );
+    }
+    
+   /**
+    * Creation of a new resource directive.
+    * @param name the resource name
+    * @param version the resource version
+    * @param classifier LOCAL or EXTERNAL classifier
+    * @param basedir the project basedir
+    * @param types types produced by the resource
+    * @param dependencies resource dependencies
+    * @param properties suppliementary properties
+    * @param filters source filters
+    */
+    public ResourceDirective( 
+      String name, String version, Classifier classifier, String basedir, TypeDirective[] types, 
+      DependencyDirective[] dependencies, Properties properties, FilterDirective[] filters )
     {
         super( properties );
         
@@ -112,6 +132,15 @@ public class ResourceDirective extends AbstractDirective
         m_dependencies = dependencies;
         m_basedir = basedir;
         m_classifier = classifier;
+        
+        if( null == filters )
+        {
+            m_filters = new FilterDirective[0];
+        }
+        else
+        {
+            m_filters = filters;
+        }
     }
     
    /**
@@ -176,6 +205,15 @@ public class ResourceDirective extends AbstractDirective
     public TypeDirective[] getTypeDirectives()
     {
         return m_types;
+    }
+    
+   /**
+    * Return an array of filter directives.
+    * @return the filter directives
+    */
+    public FilterDirective[] getFilterDirectives()
+    {
+        return m_filters;
     }
     
    /**
@@ -252,6 +290,10 @@ public class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
+            else if( !Arrays.equals( m_filters, object.m_filters ) )
+            {
+                return false;
+            }
             else
             {
                 return Arrays.equals( m_dependencies, object.m_dependencies );
@@ -275,6 +317,7 @@ public class ResourceDirective extends AbstractDirective
         hash ^= super.hashValue( m_basedir );
         hash ^= super.hashArray( m_types );
         hash ^= super.hashArray( m_dependencies );
+        hash ^= super.hashArray( m_filters );
         return hash;
     }
 

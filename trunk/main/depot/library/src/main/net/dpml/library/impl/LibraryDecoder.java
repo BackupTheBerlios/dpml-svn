@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import net.dpml.library.Feature;
 import net.dpml.library.TypeBuilder;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
@@ -35,10 +36,15 @@ import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
+import net.dpml.library.info.FilterDirective;
+import net.dpml.library.info.SimpleFilterDirective;
+import net.dpml.library.info.FeatureFilterDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Part;
+
+import net.dpml.util.DecodingException;
 
 import net.dpml.util.DecodingException;
 import net.dpml.util.DOM3DocumentBuilder;
@@ -314,19 +320,7 @@ public final class LibraryDecoder extends LibraryConstants
             {
                 Element child = children[i];
                 final String tag = child.getTagName();
-                if( PROPERTIES_ELEMENT_NAME.equals( tag ) )
-                {
-                    boolean ok = true; // already processed
-                }
-                else if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) ) 
-                {
-                    boolean ok = true; // already processed
-                }
-                else if( TYPES_ELEMENT_NAME.equals( tag ) ) 
-                {
-                    boolean ok = true; // already processed
-                }
-                else if( MODULE_ELEMENT_NAME.equals( tag ) )
+                if( MODULE_ELEMENT_NAME.equals( tag ) )
                 {
                     ResourceDirective directive = 
                       buildResourceDirectiveFromElement( base, child, null );
@@ -349,12 +343,6 @@ public final class LibraryDecoder extends LibraryConstants
                     ResourceDirective directive = 
                       buildResourceDirective( child );
                     list.add( directive );
-                }
-                else
-                {
-                    final String error = 
-                      "Illegal element name [" + tag + "] within 'module' element.";
-                    throw new IllegalArgumentException( error );
                 }
             }
             ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
@@ -553,6 +541,11 @@ public final class LibraryDecoder extends LibraryConstants
                 }
             }
             
+            // add filter definitions
+            FilterDirective[] filters = null;
+            Element filtersElement = ElementHelper.getChild( element, "filters" );
+            filters = buildFilters( filtersElement );
+            
             if( PROJECT_ELEMENT_NAME.equals( tag ) )
             {
                 classifier = Classifier.LOCAL;
@@ -605,7 +598,7 @@ public final class LibraryDecoder extends LibraryConstants
             }
             DependencyDirective[] deps = 
               (DependencyDirective[]) dependencies.toArray( new DependencyDirective[0] );
-            return new ResourceDirective( name, version, classifier, basedir, types, deps, properties );
+            return new ResourceDirective( name, version, classifier, basedir, types, deps, properties, filters );
         }
         else
         {
@@ -614,6 +607,47 @@ public final class LibraryDecoder extends LibraryConstants
               + tag
               + "].";
             throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private FilterDirective[] buildFilters( Element element ) throws Exception
+    {
+        if( null == element )
+        {
+            return new FilterDirective[0];
+        }
+        else
+        {
+            Element[] children = ElementHelper.getChildren( element );
+            FilterDirective[] filters = new FilterDirective[ children.length ];
+            for( int i=0; i<children.length; i++ )
+            {
+                Element child = children[i];
+                String token = ElementHelper.getAttribute( child, "token" );
+                if( "filter".equals( child.getTagName() ) )
+                {
+                    String value = ElementHelper.getAttribute( child, "value" );
+                    filters[i] = new SimpleFilterDirective( token, value );
+                }
+                else if( "feature".equals( child.getTagName() ) )
+                {
+                    String id = ElementHelper.getAttribute( child, "id" );
+                    Feature feature = Feature.parse( id );
+                    String ref = ElementHelper.getAttribute( child, "ref" );
+                    String type = ElementHelper.getAttribute( child, "type" );
+                    boolean alias = ElementHelper.getBooleanAttribute( child, "alias" );
+                    filters[i] = new FeatureFilterDirective( token, ref, feature, type, alias );
+                }
+                else
+                {
+                    final String error = 
+                      "Element name not recognized [" 
+                      + child.getTagName()
+                      + "] (expecting 'filter').";
+                    throw new DecodingException( element, error );
+                }
+            }
+            return filters;
         }
     }
     
@@ -651,7 +685,6 @@ public final class LibraryDecoder extends LibraryConstants
                 }
                 else
                 {
-                    System.out.println( "# UNRECOGNIZED MODULE TYPE" );
                     final String error = 
                       "Element namespace is recognized as within the module definition "
                       + " however the type identifier is not recognized."
@@ -668,7 +701,6 @@ public final class LibraryDecoder extends LibraryConstants
             }
             else
             {
-                System.out.println( "# UNRECOGNIZED TYPE" );
                 final String error = 
                   "Element is recognized as an AbstractType however the type id is not resolvable."
                   + "\nNamespace: " 
@@ -680,7 +712,6 @@ public final class LibraryDecoder extends LibraryConstants
         }
         else
         {
-            System.out.println( "# INVALID ELEMENT" );
             final String error = 
               "Element is not derivived from AbstractType defined under the common namespace."
               + "\nNamespace: " + namespace

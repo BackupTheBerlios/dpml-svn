@@ -17,6 +17,9 @@
   </resource>
 
   <project name="dpml-library-build" basedir="build">
+    <filters>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part"/>
+    </filters>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
@@ -40,7 +43,7 @@
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include urn="artifact:jar:checkstyle/checkstyle#4.1">
         <property name="project.api.host" value="http://api.dpml.net"/>
-        <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+        <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
       </include>
       <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" />
       <include urn="artifact:jar:commons-collections/commons-collections#3.1" />
@@ -63,9 +66,25 @@
 
   <project name="dpml-depot-console" basedir="core">
     <properties>
-      <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
       <property name="project.test.fork" value="true"/>
+      <property name="depot.short.filename" value="${project.name}.jar"/>
+      <property name="transit.short.filename" value="dpml-transit-main.jar"/>
+      <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
     </properties>
+    <filters>
+      <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
+      <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
+      <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
+      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.lang.SystemClassLoader"/>
+      <feature token="BUILD-ID" id="version"/>
+      <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
+      <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
+      <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
+      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-library-build" />
+      <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
+      <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
+      <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
+    </filters>
     <types>
       <type id="jar"/>
     </types>

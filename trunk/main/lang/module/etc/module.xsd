@@ -58,6 +58,7 @@
     <complexType name="ResourceType">
       <sequence>
         <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element name="filters" type="this:FiltersType" minOccurs="0" maxOccurs="1"/>
         <element name="types" type="this:TypesType" minOccurs="0" maxOccurs="1"/>
         <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="3"/>
       </sequence>
@@ -135,6 +136,55 @@
         <enumeration value="public"/>
         <enumeration value="protected"/>
         <enumeration value="private"/>
+      </restriction>
+    </simpleType>
+    
+    <complexType name="AbstractFilter" abstract="true">
+      <complexContent>
+        <restriction base="xsd:anyType">
+          <attribute name="token" type="string" use="required"/>
+        </restriction>
+      </complexContent>
+    </complexType>
+
+    <element name="abstract-filter" type="this:AbstractFilter"/>
+    <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
+    <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>
+    
+    <complexType name="FiltersType">
+      <sequence>
+        <element ref="this:abstract-filter" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="Filter">
+      <complexContent>
+        <extension base="this:AbstractFilter">
+          <attribute name="value" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="Feature">
+      <complexContent>
+        <extension base="this:AbstractFilter">
+          <attribute name="id" type="this:featureEnumeration" use="required"/>
+          <attribute name="type" type="string" use="optional"/>
+          <attribute name="alias" type="boolean" use="optional"/>
+          <attribute name="ref" type="string" use="optional"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <simpleType name="featureEnumeration">
+      <restriction base="string">
+        <enumeration value="name"/>
+        <enumeration value="group"/>
+        <enumeration value="version"/>
+        <enumeration value="uri"/>
+        <enumeration value="spec"/>
+        <enumeration value="path"/>
+        <enumeration value="filename"/>
       </restriction>
     </simpleType>
 

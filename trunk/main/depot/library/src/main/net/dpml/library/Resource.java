@@ -24,6 +24,7 @@ import net.dpml.library.info.Scope;
 import net.dpml.library.info.ResourceDirective.Classifier;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
 import net.dpml.lang.Category;
 
 /**
@@ -34,6 +35,12 @@ import net.dpml.lang.Category;
  */
 public interface Resource extends Dictionary
 {
+   /**
+    * Return the singleton library.
+    * @return the library
+    */
+    Library getLibrary();
+
    /**
     * Return the name of the resource.
     * @return the resource name
@@ -164,4 +171,16 @@ public interface Resource extends Dictionary
     */
     Resource[] getConsumers( boolean expand, boolean sort );
     
+   /**
+    * Return an array of filters associated with the resource.
+    * @return the array of filters
+    */
+    Filter[] getFilters();
+    
+   /**
+    * Return a filename using the layout strategy employed by the cache.
+    * @param id the artifact type
+    * @return the filename
+    */
+    String getLayoutPath( String id );
 }

@@ -112,7 +112,17 @@ public class DefaultDictionary implements Dictionary
     public String getProperty( String key, String value )
     {
         String result = m_properties.getProperty( key, value );
-        return PropertyResolver.resolve( m_properties, result );
+        return resolve( result );
+    }
+    
+   /**
+    * Evaluate and expand any symbolic references in the supplied value.
+    * @param value the value to resolve
+    * @return the resolved value
+    */
+    public String resolve( String value )
+    {
+        return PropertyResolver.resolve( m_properties, value );
     }
     
     //----------------------------------------------------------------------------

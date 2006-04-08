@@ -26,11 +26,6 @@
 
   <target name="init">
     <x:init/>
-    <filter token="PROJECT-VERSION" value="${project.version}"/>
-    <x:filter feature="project.publisher.name" 
-      token="PUBLISHER-NAME" default="The Digital Product Meta Library"/>
-    <x:filter feature="project.publisher.url" 
-      token="PUBLISHER-URL" default="http://www.dpml.net"/>
   </target>
 
   <target name="prepare" depends="init">

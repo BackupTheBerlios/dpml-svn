@@ -43,7 +43,7 @@ public final class ModuleDirective extends ResourceDirective
         this(
           name, null, Classifier.ANONYMOUS, null,
           new TypeDirective[0], new DependencyDirective[0],
-          new ResourceDirective[]{resource}, null );
+          new ResourceDirective[]{resource}, null, null );
     }
     
    /**
@@ -62,7 +62,8 @@ public final class ModuleDirective extends ResourceDirective
           resource.getTypeDirectives(), 
           resource.getDependencyDirectives(), 
           resources, 
-          resource.getProperties() );
+          resource.getProperties(),
+          resource.getFilterDirectives() );
     }
     
    /**
@@ -78,9 +79,9 @@ public final class ModuleDirective extends ResourceDirective
     */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, TypeDirective[] types,
-      DependencyDirective[] dependencies, ResourceDirective[] resources, Properties properties )
+      DependencyDirective[] dependencies, ResourceDirective[] resources, Properties properties, FilterDirective[] filters )
     {
-        super( name, version, classifier, basedir, types, dependencies, properties );
+        super( name, version, classifier, basedir, types, dependencies, properties, filters );
         if( null == resources )
         {
             throw new NullPointerException( "resources" );

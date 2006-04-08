@@ -10,7 +10,7 @@
   <modules>
 
     <module name="dpml" basedir=".">
-
+    
       <properties>
         <property name="project.publisher.name" value="Digital Product Meta Library"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -22,6 +22,12 @@
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
         <property name="project.javadoc.linksource" value="true"/>
       </properties>
+      
+      <filters>
+        <filter token="PROJECT-VERSION" value="${project.version}"/> 
+        <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+        <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      </filters>
 
       <types>
         <type id="module" alias="true"/>

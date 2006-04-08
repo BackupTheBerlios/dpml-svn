@@ -50,7 +50,7 @@ final class DefaultContext implements Context
     
     private Path m_runtime;
     private Path m_test;
-        
+    
    /**
     * Creation of a new project build context.
     * @param resource the resource definition
@@ -63,24 +63,26 @@ final class DefaultContext implements Context
         m_resource = resource;
         m_library = library;
         
-        String[] names = resource.getPropertyNames();
-        for( int i=0; i<names.length; i++ )
-        {
-            String name = names[i];
-            String value = resource.getProperty( name );
-            project.setNewProperty( name, value );
-        }
+        StandardBuilder.configureProject( project, resource );
         
-        project.setNewProperty( "project.name", m_resource.getName() );
-        project.setNewProperty( "project.version", m_resource.getVersion() );
-        if( null == m_resource.getParent() )
-        {
-            project.setNewProperty( "project.group", "" );
-        }
-        else
-        {
-            project.setNewProperty( "project.group", m_resource.getParent().getResourcePath() );
-        }
+        //String[] names = resource.getPropertyNames();
+        //for( int i=0; i<names.length; i++ )
+        //{
+        //    String name = names[i];
+        //    String value = resource.getProperty( name );
+        //    project.setNewProperty( name, value );
+        //}
+        
+        //project.setNewProperty( "project.name", m_resource.getName() );
+        //project.setNewProperty( "project.version", m_resource.getVersion() );
+        //if( null == m_resource.getParent() )
+        //{
+        //    project.setNewProperty( "project.group", "" );
+        //}
+        //else
+        //{
+        //    project.setNewProperty( "project.group", m_resource.getParent().getResourcePath() );
+        //}
         project.setNewProperty( "project.nl", "\n" );
         project.setNewProperty( 
           "project.line", 
@@ -109,10 +111,10 @@ final class DefaultContext implements Context
     }
     
    /**
-    * Initialize the contex during which runtime anbd test path objects are 
+    * Initialize the contex during which runtime and test path objects are 
     * established as project references.
     */
-    private void init()
+    public void init()
     {
         if( m_runtime != null )
         {

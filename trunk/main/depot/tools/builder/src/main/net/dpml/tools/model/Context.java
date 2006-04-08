@@ -60,6 +60,11 @@ public interface Context
     String getProperty( String key, String value );
     
    /**
+    *Initialize the context.
+    */
+    void init();
+    
+   /**
     * Return an Ant path suitable for compile or runtime usage. If the supplied scope is 
     * less than Scope.RUNTIME a runtime path is returned otherwise the test path is 
     * returned.

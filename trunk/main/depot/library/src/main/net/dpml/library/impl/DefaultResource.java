@@ -28,12 +28,16 @@ import java.util.List;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.Properties;
+import java.util.Map;
+import java.util.Hashtable;
 
 import net.dpml.lang.Category;
 
-import net.dpml.library.Type;
-import net.dpml.library.Resource;
+import net.dpml.library.Filter;
+import net.dpml.library.Library;
 import net.dpml.library.Module;
+import net.dpml.library.Resource;
+import net.dpml.library.Type;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
@@ -41,11 +45,13 @@ import net.dpml.library.info.IncludeDirective;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.AbstractDirective;
 import net.dpml.library.info.ValidationException;
+import net.dpml.library.info.FilterDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.util.Logger;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.Transit;
 
 /**
  * Implementation of a resource.
@@ -73,6 +79,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final String m_path;
     private final File m_basedir;
     private final Logger m_logger;
+    private final Map m_filters = new Hashtable();
     
    /**
     * Creation of a new default resource.
@@ -163,15 +170,29 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             }
         }
         
-        setProperty( "name", getName() );
+        // setup the default properties
+        
+        setProperty( "project.name", getName() );
         if( null != m_parent )
         {
-            setProperty( "group", m_parent.getResourcePath() );
+            setProperty( "project.group", m_parent.getResourcePath() );
+        }
+        else
+        {
+            setProperty( "project.group", "" );
         }
         String version = getVersion();
         if( null != version )
         {
-            setProperty( "version", getVersion() );
+            setProperty( "project.version", getVersion() );
+        }
+        
+        FilterDirective[] filters = directive.getFilterDirectives();
+        for( int i=0; i<filters.length; i++ )
+        {
+            FilterDirective filter = filters[i];
+            String token = filter.getToken();
+            m_filters.put( token, filter );
         }
     }
     
@@ -190,6 +211,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     // Resource
     //----------------------------------------------------------------------------
     
+   /**
+    * Return the singleton library.
+    * @return the library
+    */
+    public Library getLibrary()
+    {
+        return m_library;
+    }
+
    /**
     * Return the name of the resource.
     * @return the resource name
@@ -415,6 +445,48 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
     
    /**
+    * Return an array of filters associated with the resource.
+    * @return the array of filters
+    */
+    public Filter[] getFilters()
+    {
+        DefaultModule module = getDefaultParent();
+        if( null != module )
+        {
+            Map map = new Hashtable();
+            Filter[] filters = module.getFilters();
+            for( int i=0; i<filters.length; i++ )
+            {
+                Filter filter = filters[i];
+                String token = filter.getToken();
+                map.put( token, filter );
+            }
+            Filter[] local = getLocalFilters();
+            for( int i=0; i<local.length; i++ )
+            {
+                Filter filter = local[i];
+                String token = filter.getToken();
+                map.put( token, filter );
+            }
+            return (Filter[]) map.values().toArray( new Filter[0] );
+        }
+        else
+        {
+            return getLocalFilters();
+        }
+    }
+    
+    Map getFilterMap()
+    {
+        return m_filters;
+    }
+    
+    Filter[] getLocalFilters()
+    {
+        return (Filter[]) getFilterMap().values().toArray( new Filter[0] );
+    }
+    
+   /**
     * Return an array of resource that are providers to this resource.
     * @param scope the operational scope
     * @param expand if true include transitive dependencies
@@ -498,6 +570,17 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     public ResourceDirective getResourceDirective()
     {
         return m_directive;
+    }
+
+   /**
+    * Return a filename using the layout strategy employed by the cache.
+    * @param id the artifact type
+    * @return the filename
+    */
+    public String getLayoutPath( String id )
+    {
+        Artifact artifact = getArtifact( id );
+        return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
     }
 
    /**
@@ -666,6 +749,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     // internals
     //----------------------------------------------------------------------------
     
+   /**
+    * Return the singlton library.
+    * @return the library
+    */
     DefaultLibrary getDefaultLibrary()
     {
         return m_library;

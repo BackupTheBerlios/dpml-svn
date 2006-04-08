@@ -8,10 +8,6 @@
 
   <available property="builder.exe.available" file="${dpml.system}/bin/build.exe"/>
 
-  <target name="init" depends="standard.init">
-    <x:filter token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" feature="uri" type="part"/>
-  </target>
-
   <target name="install" depends="bin,standard.install">
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">

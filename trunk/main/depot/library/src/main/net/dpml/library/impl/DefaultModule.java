@@ -413,7 +413,7 @@ public final class DefaultModule extends DefaultResource implements Module
         
         return new ModuleDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          exportedTypes, new DependencyDirective[0], directives, properties );
+          exportedTypes, new DependencyDirective[0], directives, properties, null );
     }
     
     //----------------------------------------------------------------------------

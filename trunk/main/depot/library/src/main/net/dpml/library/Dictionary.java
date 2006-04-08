@@ -53,4 +53,11 @@ public interface Dictionary
     */
     String getProperty( String key, String value );
     
+   /**
+    * Evaluate and expand any symbolic references in the supplied value.
+    * @param value the value to resolve
+    * @return the resolved value
+    */
+    String resolve( String value );
+    
 }

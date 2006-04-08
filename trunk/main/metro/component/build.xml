@@ -24,6 +24,7 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <!--
   <target name="init" depends="standard.init">
     <x:filter feature="name" token="NAME"/>
     <x:filter feature="version" token="VERSION"/>
@@ -31,7 +32,8 @@
     <x:filter key="dpml-metro-runtime" feature="uri" type="part" token="PART-HANDLER-URI" />
     <x:filter feature="uri" type="jar" token="PART-BUILDER-URI" />
   </target>
-
+  -->
+  
 </project>
 
 

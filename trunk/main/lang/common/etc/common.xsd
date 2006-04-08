@@ -1,4 +1,10 @@
 <?xml version="1.0"?>
+
+<!--
+Definition of a abstract type used in conjunction with resource defintions
+to identify the availablity of a typed resource.
+-->
+
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:common="@PROJECT-XSD-URI@"
