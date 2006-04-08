@@ -23,10 +23,6 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
-  <target name="init" depends="standard.init">
-    <filter token="STATE-XSD-URI" value="artifact:xsd:dpml/lang/dpml-state#1.0"/>
-  </target>
-
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
       <include name="**/DefaultStateListener.class"/>

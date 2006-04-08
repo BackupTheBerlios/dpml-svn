@@ -64,9 +64,7 @@ public class CompositionController implements Controller, Builder
     //--------------------------------------------------------------------
     // static
     //--------------------------------------------------------------------
-    
-    private static final String COMPONENT_NAMESPACE_URI = "@COMPONENT-NAMESPACE-URI@";
-    
+        
    /**
     * Static URI of this controller.
     */

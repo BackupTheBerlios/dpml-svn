@@ -50,9 +50,6 @@ import net.dpml.lang.Info;
 
 import net.dpml.transit.monitor.LoggingAdapter;
 
-//import net.dpml.lang.Strategy;
-//import net.dpml.lang.PartDirective;
-
 import net.dpml.tools.tasks.PartTask;
 
 import org.apache.tools.ant.BuildException;
@@ -76,7 +73,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     private URI m_uri;
     private String m_key;
     private boolean m_embedded = false;
-    //private URI m_extends;
     private String m_name;
     private String m_classname;
     private LifestylePolicy m_lifestyle;
@@ -229,20 +225,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     }
     
    /**
-    * Execute the task.
-    */
-    /*
-    public void execute()
-    {
-        ClassLoader classloader = createClassLoader();
-        Thread.currentThread().setContextClassLoader( classloader );
-        Strategy strategy = createStrategy( classloader );
-        setStrategy( strategy );
-        super.execute();
-    }
-    */
-    
-   /**
     * Build the plugin definition.
     * @param resource the project resource definition
     * @return the part definition
@@ -269,33 +251,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     }
     
    /**
-    * Create a component strategy.
-    * @param classloader the classloader
-    * @return the component directive
-    */
-    /*
-    public Strategy createStrategy( ClassLoader classloader )
-    {
-        try
-        {
-            PartDirective directive = new PartDirective( PART_HANDLER_URI );
-            ComponentDirective profile = buildComponentDirective( classloader );
-            return new Strategy( STRATEGY_BUILDER_URI, directive, profile, m_alias );
-        }
-        catch( BuildException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Internal error while attempting to build the part.";
-            throw new BuildException( error, e, getLocation() );
-        }
-    }
-    */
-    
-   /**
     * Return the runtime classloader.
     * @return the classloader
     */
@@ -309,62 +264,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         return new AntClassLoader( parentClassLoader, project, path, true );
     }
     
-    /*
-    private File getOutputFile()
-    {
-        if( null != m_output )
-        {
-            return m_output;
-        }
-        else
-        {
-            return getDefaultOutputFile();
-        }
-    }
-
-    private File getDefaultOutputFile()
-    {
-        if( m_embedded ) 
-        {
-            String classname = getClassname();
-            String path = getEmbeddedResourcePath( classname );
-            return getEmbeddedOutputFile( path );
-        }
-        else
-        {
-            return getPartOutputFile();
-        }
-    }
-    */
-
-   /**
-    * Return the embedded reosurce path.
-    * @param classname the component classname
-    * @return the resource path
-    */
-    /*
-    public String getEmbeddedResourcePath( String classname )
-    {
-        String path = classname.replace( '.', '/' );
-        String filename = path + ".xprofile";
-        return filename;
-    }
-    */
-
-   /**
-    * Return the embedded output file.
-    * @param filename the filename
-    * @return the embedded output file
-    */
-    /*
-    public File getEmbeddedOutputFile( String filename )
-    {
-        File classes = getContext().getTargetClassesMainDirectory();
-        File destination = new File( classes, filename );
-        return destination;
-    }
-    */
-
     //---------------------------------------------------------------------
     // Builder
     //---------------------------------------------------------------------
@@ -467,38 +366,6 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         String id = getName( type.getInfo().getName() );
         log( "creating [" + id + "] using [" + classname + "]" );
         
-        //if( null == m_extends )
-        //{
-            m_profile = new ComponentDirective( id, classname );
-        //}
-        //else
-        //{
-        //    try
-        //    {
-        //        Directive part = getController().loadDirective( m_extends );
-        //        if( part instanceof ComponentDirective )
-        //        {
-        //            m_profile = (ComponentDirective) part;
-        //        }
-        //        else
-        //        {
-        //            final String error = 
-        //              "Super-part is not an instance of "
-        //              + ComponentDirective.class.getName();
-        //            throw new BuildException( error );
-        //        }
-        //    }
-        //    catch( Throwable e )
-        //    {
-        //        final String error = 
-        //          "Unable to resolve component super-part ["
-        //          + m_extends
-        //          + "] due to: "
-        //          + e.getMessage();
-        //        throw new BuildException( error, e, getLocation() );
-        //    }
-        //}
-
         LifestylePolicy lifestyle = getLifestylePolicy(); 
         CollectionPolicy collection = getCollectionPolicy( type );
         ActivationPolicy activation = getActivationPolicy();
@@ -751,14 +618,14 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     public static final URI PART_HANDLER_URI = setupURI( "@PART-HANDLER-URI@" );
 
    /**
-    * Constant builder uri.
-    */
-    public static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
-
-   /**
     * Constant strategy builder uri.
     */
     public static final URI STRATEGY_BUILDER_URI = setupURI( "@STRATEGY-BUILDER-URI@" );
+
+   /**
+    * Constant builder uri.
+    */
+    public static final URI PART_BUILDER_URI = setupURI( "@PART-BUILDER-URI@" );
 
    /**
     * Utility function to create a static uri.

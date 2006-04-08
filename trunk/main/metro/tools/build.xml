@@ -24,13 +24,6 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
-  <target name="init" depends="standard.init">
-    <x:filter feature="uri" type="part" token="PART-BUILDER-URI" />
-    <x:filter key="dpml-metro-runtime" feature="uri" type="part" token="PART-HANDLER-URI" />
-    <x:filter ref="dpml/lang/dpml-component" feature="uri" type="xsd" token="COMPONENT-XSD-URI" />
-    <x:filter key="dpml-metro-runtime" feature="uri" type="part" token="STRATEGY-BUILDER-URI" />
-  </target>
-
   <target name="install" depends="standard.install">
     <property name="prefs.metro" location="${dpml.prefs}/dpml/metro"/>
     <mkdir dir="${prefs.metro}/"/>

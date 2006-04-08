@@ -11,6 +11,9 @@
   </project>
    
   <project name="dpml-state-impl" basedir="state/impl">
+    <filters>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
+    </filters>
     <types>
       <type id="jar"/>
     </types>
@@ -89,6 +92,13 @@
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+    </filters>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
@@ -108,6 +118,12 @@
   </project>
    
   <project name="dpml-metro-tools" basedir="tools">
+    <filters>
+      <feature token="PART-BUILDER-URI" id="uri" type="part"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+      <feature token="STRATEGY-BUILDER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:metro"

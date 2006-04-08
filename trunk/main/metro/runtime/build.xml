@@ -24,15 +24,6 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
-  <target name="init" depends="standard.init">
-    <x:filter type="part" feature="uri" token="PART-HANDLER-URI" />
-    <x:filter type="xsd" feature="uri" token="STATE-XSD-URI" ref="dpml/lang/dpml-state"/>
-    <x:filter type="xsd" feature="uri" token="PART-XSD-URI" ref="dpml/lang/dpml-part"/>
-    <x:filter type="xsd" feature="uri" token="TYPE-XSD-URI" ref="dpml/lang/dpml-type"/>
-    <x:filter type="xsd" feature="uri" token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component"/>
-    <x:filter type="xsd" feature="uri" token="COMPONENT-NAMESPACE-URI" ref="dpml/lang/dpml-component"/>
-  </target>
-
   <target name="build" depends="standard.build">
     <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
       <include name="**/DefaultComponentModel.class"/>
