@@ -65,24 +65,6 @@ final class DefaultContext implements Context
         
         StandardBuilder.configureProject( project, resource );
         
-        //String[] names = resource.getPropertyNames();
-        //for( int i=0; i<names.length; i++ )
-        //{
-        //    String name = names[i];
-        //    String value = resource.getProperty( name );
-        //    project.setNewProperty( name, value );
-        //}
-        
-        //project.setNewProperty( "project.name", m_resource.getName() );
-        //project.setNewProperty( "project.version", m_resource.getVersion() );
-        //if( null == m_resource.getParent() )
-        //{
-        //    project.setNewProperty( "project.group", "" );
-        //}
-        //else
-        //{
-        //    project.setNewProperty( "project.group", m_resource.getParent().getResourcePath() );
-        //}
         project.setNewProperty( "project.nl", "\n" );
         project.setNewProperty( 
           "project.line", 
