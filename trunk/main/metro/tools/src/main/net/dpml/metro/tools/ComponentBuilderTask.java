@@ -83,7 +83,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     private PartsDataType m_parts;
     private File m_output;
     private Type m_type;
-    private ComponentDirective m_profile;
+    //private ComponentDirective m_profile;
     private boolean m_alias = false;
     
    /**
@@ -509,7 +509,8 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         ContextDirective context = createContextDirective( classloader, type );
         if( null == context )
         {
-            return m_profile.getContextDirective();
+           // return m_profile.getContextDirective();
+           return null;
         }
 
         //
@@ -562,7 +563,8 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     {
         if( null == m_categories )
         {
-            return m_profile.getCategoriesDirective();
+            //return m_profile.getCategoriesDirective();
+            return null;
         }
         else
         {
