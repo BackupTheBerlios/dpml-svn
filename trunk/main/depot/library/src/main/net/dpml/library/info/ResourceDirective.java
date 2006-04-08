@@ -84,7 +84,6 @@ public class ResourceDirective extends AbstractDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
-    * @param filters source filters
     */
     public ResourceDirective( 
       String name, String version, Classifier classifier, String basedir, TypeDirective[] types, 
