@@ -26,9 +26,9 @@
         <ul>
           <li>Support for the declaration of custom etc/main and etc/text directories.</li>
           <li>Removal of activity api (functionality covered by state package).</li>
+          <li>Support for filter declarations within a <tt>&lt;project&gt;</tt> definition.</li>
         </ul>
-
-
+        
         <table>
           <tr>
             <td>Windows NSIS Installer</td>
