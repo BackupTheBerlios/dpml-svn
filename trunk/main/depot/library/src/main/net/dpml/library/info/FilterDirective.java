@@ -59,7 +59,7 @@ public abstract class FilterDirective extends AbstractDirective implements Filte
     * @param resource the enclosing resource
     * @return the resolved value
     */
-    public abstract String getValue( Resource enclosing ) throws ResourceNotFoundException;
+    public abstract String getValue( Resource resource ) throws ResourceNotFoundException;
     
    /**
     * Compare this object with another for equality.

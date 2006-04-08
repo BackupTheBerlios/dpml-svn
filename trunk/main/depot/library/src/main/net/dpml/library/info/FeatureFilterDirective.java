@@ -73,17 +73,17 @@ public class FeatureFilterDirective extends FilterDirective
     * @param resource the enclosing resource
     * @return the resolved value
     */
-    public String getValue( Resource enclosing ) throws ResourceNotFoundException
+    public String getValue( Resource resource ) throws ResourceNotFoundException
     {
-        Resource resource = getReferenceResource( enclosing );
+        Resource r = getReferenceResource( resource );
         
-        if( null != m_type && !resource.isa( m_type ) )
+        if( null != m_type && !r.isa( m_type ) )
         {
             final String error = 
               "The feature request for the type [" 
               + m_type 
               + "] from the resource ["
-              + resource 
+              + r 
               + "] cannot be fullfilled because the resource does not declare "
               + "production of the requested type.";
             throw new FeatureRuntimeException( error );
@@ -91,15 +91,15 @@ public class FeatureFilterDirective extends FilterDirective
         
         if( m_feature.equals( Feature.NAME ) )
         {
-            return resource.getName();
+            return r.getName();
         }
         else if( m_feature.equals( Feature.GROUP ) )
         {
-            return resource.getParent().getResourcePath();
+            return r.getParent().getResourcePath();
         }
         else if( m_feature.equals( Feature.VERSION ) )
         {
-            String version = resource.getVersion();
+            String version = r.getVersion();
             if( null == version )
             {
                 return "";
@@ -121,10 +121,10 @@ public class FeatureFilterDirective extends FilterDirective
             {
                 if( m_alias )
                 {
-                    Type type = resource.getType( m_type );
+                    Type type = r.getType( m_type );
                     if( type.getAlias() )
                     {
-                        Artifact artifact = resource.getArtifact( m_type );
+                        Artifact artifact = r.getArtifact( m_type );
                         String group = artifact.getGroup();
                         String name = artifact.getName();
                         return "link:" + m_type + ":" + group + "/" + name;
@@ -133,7 +133,7 @@ public class FeatureFilterDirective extends FilterDirective
                     {
                         final String error = 
                           "Cannot resolve link from resource [" 
-                          + resource 
+                          + r 
                           + "] because the resource does not declare production of an alias for the type ["
                           + type.getID() 
                           + "].";
@@ -142,15 +142,15 @@ public class FeatureFilterDirective extends FilterDirective
                 }
                 else
                 {
-                    Artifact artifact = resource.getArtifact( m_type );
+                    Artifact artifact = r.getArtifact( m_type );
                     return artifact.toURI().toASCIIString();
                 }
             }
         }
         else if( m_feature.equals( Feature.SPEC ) )
         {
-            String path = resource.getResourcePath();
-            String version = resource.getVersion();
+            String path = r.getResourcePath();
+            String version = r.getVersion();
             if( null == version )
             {
                 return path;
@@ -170,7 +170,7 @@ public class FeatureFilterDirective extends FilterDirective
             }
             else
             {
-                Artifact artifact = resource.getArtifact( m_type );
+                Artifact artifact = r.getArtifact( m_type );
                 try
                 {
                     File cached = 
@@ -193,7 +193,7 @@ public class FeatureFilterDirective extends FilterDirective
                   "Type attribute must be supplied in conjuction with the filename attribute.";
                 throw new IllegalArgumentException( error );
             }
-            return resource.getLayoutPath( m_type );
+            return r.getLayoutPath( m_type );
         }
         else
         {
