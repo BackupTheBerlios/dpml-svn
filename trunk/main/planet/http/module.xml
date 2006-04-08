@@ -13,7 +13,6 @@
     <dependencies scope="runtime">
       <include ref="dpml/metro/dpml-metro-model"/>
       <include ref="dpml/util/dpml-logging-api"/>
-      <!--<include ref="dpml/util/dpml-configuration-api"/>-->
       <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
       <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
       <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>

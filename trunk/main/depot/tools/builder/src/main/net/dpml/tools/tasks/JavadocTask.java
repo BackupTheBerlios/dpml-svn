@@ -257,7 +257,7 @@ public class JavadocTask extends GenericTask
                 String source = provider.getProperty( "project.api.root" );
                 if( null != source )
                 {
-                    log( "Adding provider link: " + source );
+                    log( "Adding provider link: " + source + "from " + provider );
                     Javadoc.LinkArgument arg = task.createLink();
                     arg.setHref( source );
                 }

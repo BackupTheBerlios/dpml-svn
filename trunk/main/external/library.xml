@@ -22,7 +22,7 @@
 
       <resource name="junit">
         <properties>
-          <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+          <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
         </properties>
         <types>
           <type id="jar"/>
@@ -49,7 +49,7 @@
 
       <resource name="ant">
         <properties>
-          <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+          <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
         </properties>
         <types>
           <type id="jar"/>
