@@ -52,22 +52,32 @@ import org.w3c.dom.ls.LSInput;
 public class DOM3DocumentBuilder
 {
     private final Map m_map;
+    private final Logger m_logger;
     
    /**
     * Creation of a new DOM3 document builder.
     */
     public DOM3DocumentBuilder()
     {
-        this( new Hashtable() );
+        this( new DefaultLogger( "dom" ), new Hashtable() );
+    }
+    
+   /**
+    * Creation of a new DOM3 document builder.
+    */
+    public DOM3DocumentBuilder( Logger logger )
+    {
+        this( logger, new Hashtable() );
     }
     
    /**
     * Creation of a new DOM3 document builder.
     * @param map namespace to builder uri map
     */
-    public DOM3DocumentBuilder( Map map )
+    public DOM3DocumentBuilder( Logger logger, Map map )
     {
         m_map = map;
+        m_logger = logger;
     }
     
    /**
@@ -96,7 +106,7 @@ public class DOM3DocumentBuilder
             }
             LSParser builder = impl.createLSParser( DOMImplementationLS.MODE_SYNCHRONOUS, null );
             DOMConfiguration config = builder.getDomConfig();
-            config.setParameter( "error-handler", new InternalErrorHandler() );
+            config.setParameter( "error-handler", new InternalErrorHandler( m_logger, uri ) );
             config.setParameter( "resource-resolver", new InternalResourceResolver( m_map ) );
             config.setParameter( "validate", Boolean.TRUE );
 
@@ -117,8 +127,10 @@ public class DOM3DocumentBuilder
             final String error = 
               "DOM3 error while attempting to parse document."
               + "\nSource: " + uri;
-            String message = ExceptionHelper.packException( error, e, true );
-            throw new IOException( message );
+            //String message = ExceptionHelper.packException( error, e, true );
+            IOException ioe = new IOException( error );
+            ioe.initCause( e );
+            throw ioe;
         }
     }
     
@@ -222,6 +234,15 @@ public class DOM3DocumentBuilder
     */
     private static final class InternalErrorHandler implements DOMErrorHandler
     {
+        private final URI m_uri;
+        private final Logger m_logger;
+        
+        InternalErrorHandler( Logger logger, URI uri )
+        {
+            m_uri = uri;
+            m_logger = logger;
+        }
+        
        /**
         * Handle the supplied error.
         * @param error the error
@@ -235,26 +256,50 @@ public class DOM3DocumentBuilder
             String uri = locator.getUri();
             if( null == uri )
             {
-                uri = "";
+                uri = m_uri.toString();
             }
-            String position = "[" + line + ":" + column + "] " + uri + ", ";
+            String position = "[" + line + ":" + column + "]";
             String message = error.getMessage();
+            if( null != message )
+            {
+                short severity = error.getSeverity();
+                final String notice = 
+                  "DOM3 Validation Error" 
+                  + "\nSource: " 
+                  + uri + ":" + position
+                  + "\nCause: " 
+                  + message;
+                if( severity == DOMError.SEVERITY_ERROR )
+                {
+                    m_logger.error( notice );
+                }
+                else if( severity == DOMError.SEVERITY_WARNING )
+                {
+                    m_logger.warn( notice );
+                }
+                else
+                {
+                    m_logger.info( notice );
+                }
+            }
+            return true;
+        }
+        
+        private String getLabel( DOMError error )
+        {
             short severity = error.getSeverity();
             if( severity == DOMError.SEVERITY_ERROR )
             {
-                System.out.println( "[ERROR]: " + position + message );
-                final String notice = "DOM3 Validation Error: " + position + message;
-                throw new RuntimeException( notice );
+                return "ERROR";
             }
             else if( severity == DOMError.SEVERITY_WARNING )
             {
-                System.out.println( "[WARNING]: " + position + message );
+                return "WARNING";
             }
             else
             {
-                System.out.println( "[FATAL]: " + position + message );
+                return "FATAL";
             }
-            return true;
         }
     }
 }

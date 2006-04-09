@@ -23,15 +23,15 @@
         <property name="project.javadoc.linksource" value="true"/>
       </properties>
       
+      <types>
+        <type id="module" alias="true"/>
+      </types>
+
       <filters>
         <filter token="PROJECT-VERSION" value="${project.version}"/> 
         <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
         <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
       </filters>
-
-      <types>
-        <type id="module" alias="true"/>
-      </types>
 
       <import file="lang/module.xml"/>
       <import file="transit/module.xml"/>

@@ -6,7 +6,9 @@
         <type id="jar"/>
       </types>
       <dependencies>
-        <include key="ant-launcher"/>
+        <runtime>
+          <include key="ant-launcher"/>
+        </runtime>
       </dependencies>
     </resource>
 
@@ -15,8 +17,10 @@
         <type id="jar"/>
       </types>
       <dependencies>
-        <include key="ant"/>
-        <include ref="junit/junit"/>
+        <runtime>
+          <include key="ant"/>
+          <include ref="junit/junit"/>
+        </runtime>
       </dependencies>
     </resource>
 

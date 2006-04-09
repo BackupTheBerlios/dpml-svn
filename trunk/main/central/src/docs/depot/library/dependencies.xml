@@ -13,31 +13,38 @@
 
       <p>
       Dependencies may be declared within <tt>&lt;module&gt;</tt>, <tt>&lt;project&gt;</tt>,
-      and <tt>&lt;resource&gt;</tt> elements using an <tt>&lt;dependencies&gt;</tt> element. 
+      and <tt>&lt;resource&gt;</tt> elements using the <tt>&lt;dependencies&gt;</tt> element. 
       Resources may declare a single <tt>&lt;dependencies&gt;</tt> element representing the
       runtime dependencies of the resource.  Projects may declare <tt>BUILD</tt>, 
-      <tt>RUNTIME</tt> and <tt>TEST</tt> scoped dependencies.
+      <tt>RUNTIME</tt> and <tt>TEST</tt> scoped dependencies under respective element names.
       </p>
 
-      <subsection name="Attributes on Dependencies">
-
-         <p>
-         The following attributes may be declared on a <tt>&lt;dependencies&gt;</tt> element.
-         </p>
+      <subsection name="Nested elements within Dependencies Element">
       
          <table>
            <tr>
-             <td>scope</td>
-             <td>Dependency scope identifer. Legal values are <tt>BUILD</tt>, 
-               <tt>RUNTIME</tt> and <tt>TEST</tt>. Default value is <tt>RUNTIME</tt>.
-               Declaring a scope is only relevant for dependencies declared within 
-               a project.</td>
+             <td>build</td>
+             <td>0..1</td>
+             <td>Declaration of build time dependencies group.  When building multiple projects
+             build time dependencies may be used to influence project build sequencing.  
+             Any resources referenced within the <tt>&lt;build&gt;</tt> element are gauranteed to
+             be be built prior to the project referencing the dependency.</td>
+           </tr>
+           <tr>
+             <td>runtime</td>
+             <td>0..1</td>
+             <td>Declaration of runtime dependencies group.</td>
+           </tr>
+           <tr>
+             <td>test</td>
+             <td>0..1</td>
+             <td>Declaration of test dependencies group.</td>
            </tr>
          </table>
 
       </subsection>
 
-      <subsection name="Nested elements within Dependencies Element">
+      <subsection name="Nested elements within dependency groups">
       
          <table>
            <tr>
@@ -86,13 +93,13 @@
          </table>
 
          <p>
-         Project includes within runtime scope may also qualify the inclusion relative to one of the 
-         tag values <tt>PUBLIC</tt>, <tt>PROTECTED</tt> or <tt>PRIVATE</tt>.  Tagged includes
+         Project includes within <tt>&lt;runtime&gt;</tt> scope may also qualify the inclusion relative to one of the 
+         tag values <tt>public</tt>, <tt>protected</tt> or <tt>private</tt>.  Tagged includes
          are used in the construction of plugin metadata and are declared using the <tt>tag</tt>
-         attribute.  The <tt>PUBLIC</tt> value is normally used to asset a dependency as a part of 
-         the public API of a plugin.  The <tt>PROTECTED</tt> tag value is normally used to associate
+         attribute.  The <tt>public</tt> category is normally used to assert a dependency that is a part of 
+         the public API of a plugin.  The <tt>protected</tt> category is normally used to associate
          a dependency such as a management API that is an extension of the public API.  The default 
-         tag value <tt>PRIVATE</tt> represents a classloader category that extends the <tt>PROTECTED</tt> 
+         category value <tt>private</tt> represents a classloader category that extends the <tt>protected</tt> 
          classloader and typically represents the internal implementation of a sub-system.
          </p>
 
@@ -116,20 +123,19 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="dpml-http-api" tag="public"/>
-      <include key="dpml-http-spi" tag="protected"/>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/util/dpml-activity-api" tag="protected"/>
-      <include ref="dpml/util/dpml-logging-api" tag="protected"/>
-      <include ref="dpml/util/dpml-configuration-api" tag="protected"/>
-      <include ref="dpml/util/dpml-parameters-api" tag="protected"/>
-      <include urn="artifact:jar:jetty/org.mortbay.jetty#5.1.1"/>
-      <include urn="artifact:jar:jetty/org.mortbay.jaas#5.1.1"/>
-      <include urn="artifact:jar:tomcat/jsp-api#5.0.18"/>
-      <include urn="artifact:jar:tomcat/jasper-compiler#5.0.25"/>
-      <include urn="artifact:jar:tomcat/jasper-runtime#5.0.25"/>
-      <include urn="artifact:jar:commons-logging/commons-logging#1.0.4"/>
-      <include urn="artifact:jar:servletapi/servletapi#2.3" tag="public"/>
+      <runtime>
+        <include ref="dpml/metro/dpml-metro-model"/>
+        <include ref="dpml/util/dpml-logging-api"/>
+        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
+        <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
+        <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
+        <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
+        <include urn="artifact:jar:org/mortbay/jetty#20060213"/>
+        <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
+        <include urn="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
+        <include urn="artifact:jar:commons-el/commons-el#1.0"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
     </dependencies>
   </project>
 
@@ -146,17 +152,21 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="dpml-state-api"/>
-      <include ref="dpml/util/dpml-parameters-api"/>
-      <include ref="dpml/util/dpml-configuration-api"/>
-      <include key="dpml-metro-component"/>
+      <runtime>
+        <include key="dpml-state-api"/>
+        <include key="dpml-metro-component"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+        <include key="dpml-state-impl"/>
+      </test>
     </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-      <include key="dpml-state-impl"/>
-      <include ref="dpml/util/dpml-parameters-impl"/>
-      <include ref="dpml/util/dpml-configuration-impl"/>
-    </dependencies>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" ref="dpml/metro/dpml-metro-runtime" type="part"/>
+    </filters>
   </project>
 ]]></source>
 

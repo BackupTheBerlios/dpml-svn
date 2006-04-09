@@ -84,12 +84,14 @@
     </component>
   </types>
 
-  <dependencies scope="build">
-    <include key="dpml-http-app"/>
-  </dependencies>
-  <dependencies scope="runtime">
-    <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
-    <include key="dpml-http-impl"/>
+  <dependencies>
+    <build>
+      <include key="dpml-http-app"/>
+    </build>
+    <runtime>
+      <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
+      <include key="dpml-http-impl"/>
+    </runtime>
   </dependencies>
 
 </project>

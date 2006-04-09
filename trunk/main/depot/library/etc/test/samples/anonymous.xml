@@ -14,7 +14,9 @@
           <type id="jar"/>
         </types>
         <dependencies>
-          <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+          <runtime>
+            <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+          </runtime>
         </dependencies>
       </project>
     </module>

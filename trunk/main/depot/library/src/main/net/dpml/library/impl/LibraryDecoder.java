@@ -429,21 +429,19 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
 
-    private DependencyDirective buildDependencyDirective( Element element )
+    private DependencyDirective[] buildDependencyDirectives( Element element )
     {
         final String tag = element.getTagName();
         if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
         {
-            final String spec = ElementHelper.getAttribute( element, "scope", "runtime" );
-            Scope scope = Scope.parse( spec );
             Element[] children = ElementHelper.getChildren( element );
-            IncludeDirective[] includes = new IncludeDirective[ children.length ];
+            DependencyDirective[] dependencies = new DependencyDirective[ children.length ];
             for( int i=0; i<children.length; i++ )
             {
                 Element child = children[i];
-                includes[i] = buildIncludeDirective( child );
+                dependencies[i] = buildDependencyDirective( child );
             }
-            return new DependencyDirective( scope, includes );
+            return dependencies;
         }
         else
         {
@@ -452,6 +450,24 @@ public final class LibraryDecoder extends LibraryConstants
               + tag
               + "].";
             throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private DependencyDirective buildDependencyDirective( Element element )
+    {
+        String name = element.getTagName();
+        IncludeDirective[] includes = buildIncludeDirectives( element );
+        if( "build".equals( name ) )
+        {
+            return new DependencyDirective( Scope.BUILD, includes );
+        }
+        else if( "runtime".equals( name ) )
+        {
+            return new DependencyDirective( Scope.RUNTIME, includes );
+        }
+        else
+        {
+            return new DependencyDirective( Scope.TEST, includes );
         }
     }
     
@@ -478,7 +494,6 @@ public final class LibraryDecoder extends LibraryConstants
         final Properties properties = buildProperties( element );
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
         {
-        
             final String tagValue = ElementHelper.getAttribute( element, "tag", "private" );
             Category category = Category.parse( tagValue );
             if( element.hasAttribute( "key" ) )
@@ -574,8 +589,8 @@ public final class LibraryDecoder extends LibraryConstants
                 classifier = Classifier.EXTERNAL;
             }
             
-            ArrayList dependencies = new ArrayList();
             TypeDirective[] types = new TypeDirective[0];
+            DependencyDirective[] dependencies = new DependencyDirective[0];
             Element[] children = ElementHelper.getChildren( element );
             Properties properties = null;
             for( int i=0; i<children.length; i++ )
@@ -588,17 +603,15 @@ public final class LibraryDecoder extends LibraryConstants
                 }
                 else if( DEPENDENCIES_ELEMENT_NAME.equals( childTag ) )
                 {
-                    DependencyDirective dependency = buildDependencyDirective( child );
-                    dependencies.add( dependency );
+                    dependencies = buildDependencyDirectives( child );
                 }
                 else if( PROPERTIES_ELEMENT_NAME.equals( childTag ) )
                 {
                     properties = buildProperties( child );
                 }
             }
-            DependencyDirective[] deps = 
-              (DependencyDirective[]) dependencies.toArray( new DependencyDirective[0] );
-            return new ResourceDirective( name, version, classifier, basedir, types, deps, properties, filters );
+            return new ResourceDirective( 
+              name, version, classifier, basedir, types, dependencies, properties, filters );
         }
         else
         {

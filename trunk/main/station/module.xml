@@ -8,12 +8,20 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include ref="dpml/transit/dpml-transit-main"/>
-      <include ref="dpml/metro/dpml-metro-component"/>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+        <include ref="dpml/metro/dpml-metro-component"/>
+      </runtime>
+      <test>
+        <include ref="junit/junit"/>
+      </test>
     </dependencies>
-    <dependencies scope="test">
-      <include ref="junit/junit"/>
-    </dependencies>
+    <filters>
+      <feature token="COMMON-XSD-URI" ref="dpml/lang/dpml-common" type="xsd" id="uri"/>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
+      <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
+    </filters>
   </project>
 
   <project name="dpml-station-exec" basedir="exec">
@@ -21,17 +29,22 @@
       <type id="jar"/>
       <part:plugin class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
     </types>
-    <dependencies scope="build">
-      <include ref="dpml/metro/dpml-metro-runtime"/>
-    </dependencies>
     <dependencies>
-      <include ref="dpml/transit/dpml-transit-main" tag="public"/>
-      <include ref="dpml/metro/dpml-metro-component" tag="public"/>
-      <include ref="dpml/metro/dpml-metro-model" tag="public"/>
-      <include ref="dpml/station/dpml-station-api" tag="public"/>
-      <include ref="dpml/util/dpml-logging-api" tag="public"/>
-      <include ref="dpml/util/dpml-util-cli"/>
+      <build>
+        <include ref="dpml/metro/dpml-metro-runtime"/>
+      </build>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="public"/>
+        <include ref="dpml/station/dpml-station-api" tag="public"/>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+      </runtime>
     </dependencies>
+    <filters>
+      <feature token="COMPOSITION-CONTROLLER-URI" ref="dpml/metro/dpml-metro-runtime" type="part" id="uri"/>
+    </filters>
   </project>
 
   <project name="dpml-station-builder" basedir="builder">
@@ -39,11 +52,16 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="dpml-station-api" tag="public"/>
+      <runtime>
+        <include key="dpml-station-api" tag="public"/>
+      </runtime>
+      <test>
+        <include ref="junit/junit"/>
+      </test>
     </dependencies>
-    <dependencies scope="test">
-      <include ref="junit/junit"/>
-    </dependencies>
+    <filters>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
+    </filters>
   </project>
    
   <project name="dpml-station-server" basedir="server">
@@ -55,16 +73,21 @@
       <part:plugin class="net.dpml.station.server.StationServerPlugin" alias="true"/>
     </types>
     <dependencies>
-      <include ref="dpml/depot/dpml-depot-console" tag="public"/>
-      <include ref="dpml/metro/dpml-metro-component" tag="public"/>
-      <include ref="dpml/transit/dpml-transit-main" tag="public"/>
-      <include ref="dpml/station/dpml-station-api" tag="public"/>
-      <include ref="dpml/station/dpml-station-builder" tag="protected"/>
-      <include ref="dpml/util/dpml-util-cli"/>
+      <runtime>
+        <include ref="dpml/depot/dpml-depot-console" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="public"/>
+        <include ref="dpml/transit/dpml-transit-main" tag="public"/>
+        <include ref="dpml/station/dpml-station-api" tag="public"/>
+        <include ref="dpml/station/dpml-station-builder" tag="protected"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+        </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
     </dependencies>
-    <dependencies scope="test">
-      <include ref="ant/ant-junit"/>
-    </dependencies>
+    <filters>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
+    </filters>
   </project>
 
   <project name="dpml-station-console" basedir="console">
@@ -73,10 +96,15 @@
       <part:plugin alias="true" class="net.dpml.station.console.StationPlugin"/>
     </types>
     <dependencies>
-      <include ref="dpml/util/dpml-util-cli"/>
-      <include ref="dpml/station/dpml-station-api" tag="public"/>
-      <include ref="dpml/station/dpml-station-server"/>
+      <runtime>
+        <include ref="dpml/util/dpml-util-cli"/>
+        <include ref="dpml/station/dpml-station-api" tag="public"/>
+        <include ref="dpml/station/dpml-station-server"/>
+      </runtime>
     </dependencies>
+    <filters>
+      <feature token="DEPOT-STATION-PLUGIN-URI" ref="dpml/station/dpml-station-server" type="part" id="uri"/>
+    </filters>
   </project>
    
 </module>

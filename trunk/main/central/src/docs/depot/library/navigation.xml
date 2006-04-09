@@ -30,8 +30,9 @@
       <item name="Modules" href="modules.html"/>
       <item name="Projects" href="projects.html"/>
       <item name="Resources" href="resources.html"/>
-      <item name="Dependencies" href="dependencies.html"/>
       <item name="Types" href="types.html"/>
+      <item name="Dependencies" href="dependencies.html"/>
+      <item name="Filters" href="filters/index.html"/>
     </menu>
 
  </body>

@@ -81,34 +81,39 @@
 ]]></source>
 
       <p>
-      The following project definition contains multiple type declarations and nested 
-      properties.
+      The following project definition contains multiple type declarations. In this
+      example the <tt>&lt;part:plugin&gt;</tt> type declaration is a case of a custom
+      type defintion that extends the generic type element.
       </p>
 
 <source><![CDATA[
-
-<project name="dpml-metro-runtime" basedir="runtime">
-  <types>
-    <type id="jar"/>
-    <type id="plugin">
-      <property name="project.plugin.class" 
-         value="net.dpml.metro.runtime.CompositionController"/>
-    </type>
-  </types>
-  <dependencies>
-    <include ref="dpml/util/dpml-logging-api" tag="public"/>
-    <include ref="dpml/util/dpml-activity-api" tag="public"/>
-    <include ref="dpml/util/dpml-parameters-impl"/>
-    <include ref="dpml/util/dpml-configuration-impl"/>
-    <include key="dpml-state-impl"/>
-    <include key="dpml-metro-component" tag="protected"/>
-    <include key="dpml-metro-model" tag="protected"/>
-  </dependencies>
-  <dependencies scope="test">
-    <include ref="ant/ant-junit"/>
-  </dependencies>
-</project>
-
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+        <part:param class="net.dpml.component.InitialContext"/>
+      </part:plugin>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
+        <include ref="dpml/metro/dpml-job-impl"/>
+        <include ref="dpml/metro/dpml-state-impl"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+    </filters>
+  </project>
 ]]></source>
 
     </section>

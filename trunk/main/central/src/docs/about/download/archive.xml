@@ -26,7 +26,10 @@
         <ul>
           <li>Support for the declaration of custom etc/main and etc/text directories.</li>
           <li>Removal of activity api (functionality covered by state package).</li>
+          <li>Removal of the configuration and parameterization packages (functionality covered via Context IOC model).</li>
           <li>Support for filter declarations within a <tt>&lt;project&gt;</tt> definition.</li>
+          <li>Improvements to DOM related error reporting.</li>
+          <li>Structural enhancements to the module schema.</li>
         </ul>
         
         <table>

@@ -19,8 +19,10 @@
        <types>
          <type id="jar"/>
        </types>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+       <dependencies>
+         <test>
+           <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -47,10 +49,12 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include key="dpml-configuration-api"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include key="dpml-configuration-api"/>
+         </runtime>
+         <test>
+          <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -65,11 +69,13 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include key="dpml-parameters-api"/>
-         <include key="dpml-configuration-api" tag="private"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include key="dpml-parameters-api"/>
+           <include key="dpml-configuration-api" tag="private"/>
+         </runtime>
+         <test>
+          <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -88,8 +94,10 @@
        <types>
          <type id="jar"/>
        </types>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+       <dependencies>
+         <test>
+          <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -100,12 +108,14 @@
        <types>
          <type id="jar"/>
        </types>
-       <dependencies scope="runtime">
-         <include key="dpml-transit-main"/>
-         <include ref="ant/ant"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+       <dependencies>
+         <runtime>
+           <include key="dpml-transit-main"/>
+           <include ref="ant/ant"/>
+         </runtime>
+         <test>
+          <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -118,7 +128,9 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include ref="dpml/transit/dpml-transit-main"/>
+         <runtime>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </runtime>
        </dependencies>
      </project>
 
@@ -130,11 +142,13 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include key="dpml-state-api" tag="public"/>
-         <include ref="dpml/util/dpml-configuration-impl"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include key="dpml-state-api" tag="public"/>
+           <include ref="dpml/util/dpml-configuration-impl"/>
+         </runtime>
+         <test>
+          <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -147,11 +161,13 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include key="dpml-state-api" tag="public"/>
-         <include ref="dpml/transit/dpml-transit-main" tag="private"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include key="dpml-state-api" tag="public"/>
+           <include ref="dpml/transit/dpml-transit-main" tag="private"/>
+         </runtime>
+         <test>
+          <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -163,16 +179,18 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include ref="dpml/util/dpml-parameters-api" tag="public"/>
-         <include ref="dpml/util/dpml-configuration-api" tag="public"/>
-         <include key="dpml-state-api" tag="public"/>
-         <include key="dpml-metro-component" tag="public"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
-         <include key="dpml-state-impl"/>
-         <include ref="dpml/util/dpml-parameters-impl"/>
-         <include ref="dpml/util/dpml-configuration-impl"/>
+         <runtime>
+           <include ref="dpml/util/dpml-parameters-api" tag="public"/>
+           <include ref="dpml/util/dpml-configuration-api" tag="public"/>
+           <include key="dpml-state-api" tag="public"/>
+           <include key="dpml-metro-component" tag="public"/>
+         </runtime>
+         <test>
+           <include ref="ant/ant-junit"/>
+           <include key="dpml-state-impl"/>
+           <include ref="dpml/util/dpml-parameters-impl"/>
+           <include ref="dpml/util/dpml-configuration-impl"/>
+         </test>
        </dependencies>
      </project>
 
@@ -184,10 +202,12 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include key="dpml-component-model" tag="public"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include key="dpml-component-model" tag="public"/>
+         </runtime>
+         <test>
+           <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
       
@@ -200,8 +220,10 @@
          <part:plugin class="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
        </types>
        <dependencies>
-         <include key="dpml-component-control" tag="public"/>
-         <include ref="jgoodies/forms" tag="private"/>
+         <runtime>
+           <include key="dpml-component-control" tag="public"/>
+           <include ref="jgoodies/forms" tag="private"/>
+         </runtime>
        </dependencies>
      </project>
 
@@ -214,15 +236,17 @@
          <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
        </types>
        <dependencies>
-         <include ref="dpml/util/dpml-logging-api" tag="public"/>
-         <include ref="dpml/util/dpml-activity-api" tag="public"/>
-         <include ref="dpml/util/dpml-parameters-impl"/>
-         <include ref="dpml/util/dpml-configuration-impl"/>
-         <include key="dpml-component-control" tag="protected"/>
-         <include key="dpml-state-impl"/>
+         <runtime>
+           <include ref="dpml/util/dpml-logging-api" tag="public"/>
+           <include ref="dpml/util/dpml-activity-api" tag="public"/>
+           <include ref="dpml/util/dpml-parameters-impl"/>
+           <include ref="dpml/util/dpml-configuration-impl"/>
+           <include key="dpml-component-control" tag="protected"/>
+           <include key="dpml-state-impl"/>
+         </runtime>
        </dependencies>
      </project>
-
+    
      <project name="dpml-metro-tools" basedir="composition/tools">
        <properties>
          <property name="project.template" value="${basedir}/build.xml"/>
@@ -232,10 +256,12 @@
          <part:resource urn="dpml:metro" path="net/dpml/composition/tools/antlib.xml"/>
        </types>
        <dependencies>
-         <include ref="dpml/tools/dpml-tools-ant"/>
-         <include ref="dpml/transit/dpml-transit-tools"/>
-         <include key="dpml-composition-runtime"/>
-         <include ref="xstream/xstream"/>
+         <runtime>
+           <include ref="dpml/tools/dpml-tools-ant"/>
+           <include ref="dpml/transit/dpml-transit-tools"/>
+           <include key="dpml-composition-runtime"/>
+           <include ref="xstream/xstream"/>
+         </runtime>
        </dependencies>
      </project>
 
@@ -247,10 +273,12 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include ref="dpml/util/dpml-logging-api"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include key="dpml-metro-tools"/>
+         <runtime>
+           <include ref="dpml/util/dpml-logging-api"/>
+         </runtime>
+         <test>
+           <include key="dpml-metro-tools"/>
+         </test>
        </dependencies>
      </project>
 
@@ -266,10 +294,12 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include ref="dpml/transit/dpml-transit-main"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include ref="dpml/transit/dpml-transit-main"/>
+         </runtime>
+         <test>
+           <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -281,7 +311,9 @@
          <type id="jar"/>
        </types>
        <dependencies>
-         <include key="dpml-tools-info"/>
+         <runtime>
+           <include key="dpml-tools-info"/>
+         </runtime>
        </dependencies>
      </project>
 
@@ -294,11 +326,13 @@
          <part:plugin alias="true" class="net.dpml.library.impl.BuildPlugin"/>
        </types>
        <dependencies>
-         <include key="dpml-tools-model"/>
-         <include ref="commons-cli/commons-cli"/>
-       </dependencies>
-       <dependencies scope="test">
-         <include ref="ant/ant-junit"/>
+         <runtime>
+           <include key="dpml-tools-model"/>
+           <include ref="commons-cli/commons-cli"/>
+         </runtime>
+         <test>
+           <include ref="ant/ant-junit"/>
+         </test>
        </dependencies>
      </project>
 
@@ -311,9 +345,11 @@
          <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
        </types>
        <dependencies>
-         <include key="dpml-tools-control"/>
-         <include ref="ant/ant-junit" tag="system"/>
-         <include ref="ant/ant" tag="system"/>
+         <runtime>
+           <include key="dpml-tools-control"/>
+           <include ref="ant/ant-junit" tag="system"/>
+           <include ref="ant/ant" tag="system"/>
+         </runtime>
        </dependencies>
      </project>
 

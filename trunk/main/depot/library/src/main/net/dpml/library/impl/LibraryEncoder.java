@@ -249,7 +249,7 @@ public final class LibraryEncoder extends LibraryConstants
     {
         String id = type.getID();
         boolean alias = type.getAlias();
-        writer.write( "\n" + lead + "  <type id=\"" + id + "\"" );
+        writer.write( "\n" + lead + "<type id=\"" + id + "\"" );
         if( alias )
         {
             writer.write( " alias=\"true\"" );
@@ -262,6 +262,8 @@ public final class LibraryEncoder extends LibraryConstants
     {
         if( dependencies.length > 0 )
         {
+            writer.write( "\n" + lead + "<dependencies>" );
+        
             for( int i=0; i<dependencies.length; i++ )
             {
                 DependencyDirective dependency = dependencies[i];
@@ -269,21 +271,14 @@ public final class LibraryEncoder extends LibraryConstants
                 if( includes.length > 0 )
                 {
                     Scope scope = dependency.getScope();
-                    if( Scope.RUNTIME.equals( scope ) )
-                    {
-                        writer.write( "\n" + lead + "<dependencies>" );
-                    }
-                    else
-                    {
-                        writer.write( "\n" + lead + "<dependencies scope=\"" + scope + "\">" );
-                    }
-                    
+                    String label = scope.toString().toLowerCase();
+                    writer.write( "\n" + lead + "  <" + label + ">" );
                     for( int j=0; j<includes.length; j++ )
                     {
                         IncludeDirective include = includes[j];
                         Mode mode = include.getMode();
                         String value = include.getValue();
-                        writer.write( "\n" + lead + "  <include" );
+                        writer.write( "\n" + lead + "    <include" );
                         if( Mode.KEY.equals( mode ) )
                         {
                             writer.write( " key=\"" + value + "\"" );
@@ -302,8 +297,8 @@ public final class LibraryEncoder extends LibraryConstants
                             Category category = include.getCategory();
                             if( !Category.PRIVATE.equals( category ) )
                             {
-                                String label = category.getName().toLowerCase();
-                                writer.write( " tag=\"" + label + "\"" );
+                                String name = category.getName().toLowerCase();
+                                writer.write( " tag=\"" + name + "\"" );
                             }
                         }
                         
@@ -312,16 +307,17 @@ public final class LibraryEncoder extends LibraryConstants
                         {
                             writer.write( ">" );
                             writeProperties( writer, props, lead + "    ", false );
-                            writer.write( "\n" + lead + "  </include>" );
+                            writer.write( "\n" + lead + "    </include>" );
                         }
                         else
                         {
                             writer.write( "/>" );
                         }
                     }
-                    writer.write( "\n" + lead + "</dependencies>" );
+                    writer.write( "\n" + lead + "  </" + label + ">" );
                 }
             }
+            writer.write( "\n" + lead + "</dependencies>" );
         }
     }
     

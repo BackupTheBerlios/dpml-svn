@@ -14,13 +14,17 @@
     <element name="project" type="this:ProjectType"/>
     <element name="resource" type="this:ResourceType"/>
     <element name="property" type="this:PropertyType"/>
+    <element name="type" type="this:GenericType" substitutionGroup="common:type"/>
+    <element name="abstract-filter" type="this:AbstractFilter"/>
+    <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
+    <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>
     
     <complexType name="LibraryType">
-      <sequence>
+      <all>
         <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
         <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
         <element name="modules" type="this:ModulesType" minOccurs="0" maxOccurs="1"/>
-      </sequence>
+      </all>
     </complexType>
 
     <complexType name="ImportsType">
@@ -51,16 +55,15 @@
     </complexType>
 
     <complexType name="PropertyType">
-      <attribute name="name" type="string"/>
-      <attribute name="value" type="string"/>
+      <attribute name="name" type="string" use="required"/>
+      <attribute name="value" type="string" use="required"/>
     </complexType>
 
     <complexType name="ResourceType">
       <sequence>
-        <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
-        <element name="filters" type="this:FiltersType" minOccurs="0" maxOccurs="1"/>
-        <element name="types" type="this:TypesType" minOccurs="0" maxOccurs="1"/>
-        <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="3"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0" />
+        <element name="types" type="this:TypesType" minOccurs="0"/>
+        <element name="dependencies" type="this:DependenciesType" minOccurs="0"/>
       </sequence>
       <attribute name="name" type="string" use="required"/>
       <attribute name="version" type="string"/>
@@ -69,7 +72,11 @@
 
     <complexType name="ProjectType">
       <complexContent>
-        <extension base="this:ResourceType"/>
+        <extension base="this:ResourceType">
+          <sequence>
+            <element name="filters" type="this:FiltersType" minOccurs="0"/>
+          </sequence>
+        </extension>
       </complexContent>
     </complexType>
 
@@ -102,14 +109,31 @@
         </extension>
       </complexContent>
     </complexType>
-    
-    <element name="type" type="this:GenericType" substitutionGroup="common:type"/>
-    
+        
     <complexType name="DependenciesType">
+      <all>
+        <element name="build" type="this:BuildScope" minOccurs="0" maxOccurs="1"/>
+        <element name="runtime" type="this:RuntimeScope" minOccurs="0" maxOccurs="1"/>
+        <element name="test" type="this:TestScope" minOccurs="0" maxOccurs="1"/>
+      </all>
+    </complexType>
+
+    <complexType name="BuildScope">
       <sequence>
         <element name="include" type="this:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
-      <attribute name="scope" type="this:scope" default="runtime"/>
+    </complexType>
+    
+    <complexType name="RuntimeScope">
+      <sequence>
+        <element name="include" type="this:RuntimeIncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="TestScope">
+      <sequence>
+        <element name="include" type="this:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
     </complexType>
 
     <complexType name="IncludeType">
@@ -119,16 +143,15 @@
       <attribute name="key" type="string"/>
       <attribute name="ref" type="string"/>
       <attribute name="urn" type="string"/>
-      <attribute name="tag" type="string"/>
     </complexType>
 
-    <simpleType name="scope">
-      <restriction base="string">
-        <enumeration value="build"/>
-        <enumeration value="runtime"/>
-        <enumeration value="test"/>
-      </restriction>
-    </simpleType>
+    <complexType name="RuntimeIncludeType">
+      <complexContent>
+        <extension base="this:IncludeType">
+          <attribute name="tag" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
 
     <simpleType name="tag">
       <restriction base="string">
@@ -147,10 +170,6 @@
       </complexContent>
     </complexType>
 
-    <element name="abstract-filter" type="this:AbstractFilter"/>
-    <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
-    <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>
-    
     <complexType name="FiltersType">
       <sequence>
         <element ref="this:abstract-filter" minOccurs="0" maxOccurs="unbounded"/>

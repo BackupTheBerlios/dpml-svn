@@ -65,7 +65,8 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<library xmlns="artifact:xsd:dpml/lang/dpml-module#1.0">
+<library xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
   <imports>
     <import uri="link:module:junit"/>
@@ -75,7 +76,7 @@
   <modules>
 
     <module name="dpml" basedir=".">
-
+    
       <properties>
         <property name="project.publisher.name" value="Digital Product Meta Library"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
@@ -85,11 +86,18 @@
         <property name="project.resource.host" value="http://repository.dpml.net"/>
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+        <property name="project.javadoc.linksource" value="true"/>
       </properties>
-
+      
       <types>
         <type id="module" alias="true"/>
       </types>
+
+      <filters>
+        <filter token="PROJECT-VERSION" value="${project.version}"/> 
+        <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+        <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      </filters>
 
       <import file="lang/module.xml"/>
       <import file="transit/module.xml"/>
@@ -106,6 +114,7 @@
   </modules>
 
 </library>
+
 ]]></source>
 
         <p>

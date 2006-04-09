@@ -12,7 +12,9 @@
         <type id="jar"/>
       </types>
       <dependencies>
-        <include key="looks"/>
+        <runtime>
+          <include key="looks"/>
+        </runtime>
       </dependencies>
     </resource>
 
