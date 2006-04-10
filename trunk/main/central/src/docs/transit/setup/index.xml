@@ -29,7 +29,7 @@
 
       <p>
       Configuration of the Transit system is controlled by a small
-      number of < a href="properties.html">system properties</a> and 
+      number of <a href="properties.html">system properties</a> and 
       a single <a href="config/index.html">XML configuration</a> document.
       </p>
       
