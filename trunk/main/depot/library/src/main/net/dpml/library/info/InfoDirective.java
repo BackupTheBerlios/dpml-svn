@@ -36,8 +36,9 @@ public final class InfoDirective extends AbstractDirective implements Info
     private final String m_description;
     
    /**
-    * Creation of a new anonymous resource directive.
-    * @param token the filter token
+    * Creation of a new info directive.
+    * @param title the title
+    * @param description the description
     */
     public InfoDirective( final String title, final String description )
     {

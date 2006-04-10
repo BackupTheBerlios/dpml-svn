@@ -14,11 +14,12 @@
       <runtime>
         <include ref="dpml/metro/dpml-metro-model"/>
         <include ref="dpml/util/dpml-logging-api"/>
-        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
+        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#6.0.0-B14" tag="PUBLIC"/>
         <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
         <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
         <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
-        <include urn="artifact:jar:org/mortbay/jetty#20060213"/>
+        <include urn="artifact:jar:org/mortbay/jetty#6.0.0-B14"/>
+        <include urn="artifact:jar:org/mortbay/jetty-util#6.0.0-B14"/>
         <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
         <include urn="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
         <include urn="artifact:jar:commons-el/commons-el#1.0"/>
@@ -34,7 +35,7 @@
     </types>
     <dependencies>
       <runtime>
-        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
+        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#6.0.0-B14" tag="PUBLIC"/>
       </runtime>
     </dependencies>
   </project>
