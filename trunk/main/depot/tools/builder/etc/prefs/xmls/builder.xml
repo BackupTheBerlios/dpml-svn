@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
-Default configuration for the Ant-based builder.
+Default configuration for Depot-on-Ant.
 -->
 
 <builder>
-
-  <properties>
-  </properties>
 
   <listeners>
     <listener name="jar" class="net.dpml.tools.process.JarProcess"/>

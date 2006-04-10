@@ -143,13 +143,13 @@ public class DefaultWorkbench implements Workbench
         String[] names = getTypeNames( types );
         ListenerDirective[] descriptors = getListenerDirectives( names );
         ListenerDirective[] sorted = sortListenerDirectives( descriptors );
-        String[] processors = new String[ sorted.length ];
+        String[] listeners = new String[ sorted.length ];
         for( int i=0; i<sorted.length; i++ )
         {
             ListenerDirective directive = sorted[i];
-            processors[i] = directive.getName();
+            listeners[i] = directive.getName();
         }
-        return processors;
+        return listeners;
     }
     
     String[] getTypeNames( Type[] types )

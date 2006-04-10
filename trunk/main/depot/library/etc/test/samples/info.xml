@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<library xmlns="@MODULE-XSD-URI@" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
+
+  <modules>
+    <module name="acme-1">
+      <info/>
+    </module>
+    <module name="acme-2">
+      <info>
+        <description/>
+      </info>
+    </module>
+    <module name="acme-3">
+      <info>
+        <description title="Widget"/>
+      </info>
+    </module>
+    <module name="acme-4">
+      <info>
+        <description title="Widget">
+        An example of a widget.
+        </description>
+      </info>
+    </module>
+    <module name="acme-5">
+      <info>
+        <description>
+        An example of a widget.
+        </description>
+      </info>
+    </module>
+  </modules>
+
+</library>

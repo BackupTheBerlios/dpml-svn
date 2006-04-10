@@ -45,7 +45,15 @@ public class InitializationTask extends GenericTask
     private ArrayList m_list = new ArrayList();
     
    /**
-    * Initialize type to processor mapping.
+    * Initialize type to processor mapping.  During execution the current
+    * resource is consulted with respect to the types it declares it produced.
+    * Each type is identified by a unique type id.  The collection of type ids
+    * are used to resolve an ordered array of build listeners.  The build listener
+    * list is established based on the initial type ids combined with any dependencies
+    * declared by respective listeneners.  Finally, the sorted listeners are attached  
+    * to the current ant project.  Targets in the project template trigger init, 
+    * prepare, build, package, test and install build events which in-turn trigger 
+    * sequentially executed phased functionality within the repective listeners.
     */
     public void execute()
     {

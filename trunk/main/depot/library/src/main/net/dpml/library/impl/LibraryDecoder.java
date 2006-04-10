@@ -744,9 +744,31 @@ public final class LibraryDecoder extends LibraryConstants
             else
             {
                 String title = ElementHelper.getAttribute( child, "title" );
-                String description = ElementHelper.getValue( child );
+                String value = ElementHelper.getValue( child );
+                String description = trim( value );
                 return new InfoDirective( title, description );
             }
+        }
+    }
+    
+    private String trim( String value )
+    {
+        if( null == value )
+        {
+            return null;
+        }
+        String trimmed = value.trim();
+        if( trimmed.startsWith( "\n" ) )
+        {
+            return trim( trimmed.substring( 1 ) );
+        }
+        else if( trimmed.endsWith( "\n" ) )
+        {
+            return trim( trimmed.substring( 0, trimmed.length() - 1 ) );
+        }
+        else
+        {
+            return trimmed;
         }
     }
     

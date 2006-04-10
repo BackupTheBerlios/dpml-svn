@@ -231,9 +231,9 @@ public final class LibraryEncoder extends LibraryConstants
         writer.write( "\n" + lead + "  <description" );
         if( null != info.getTitle() )
         {
-            writer.write( " title\"" + info.getTitle() + "\"" );
+            writer.write( " title=\"" + info.getTitle() + "\"" );
         }
-        String description = info.getDescription().trim();
+        String description = info.getDescription();
         if( null != info.getDescription() )
         {
             writer.write( ">" );
