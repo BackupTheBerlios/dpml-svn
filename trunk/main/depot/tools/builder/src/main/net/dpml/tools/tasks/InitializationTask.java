@@ -69,7 +69,6 @@ public class InitializationTask extends GenericTask
         Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
         Resource resource = getResource();
         log( resource.toString(), Project.MSG_VERBOSE );
-        
         try
         {
             Processor[] processors = getProcessorSequence( resource );

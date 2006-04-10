@@ -307,8 +307,12 @@ public class StandardBuilder implements Builder
         {
             String name = names[i];
             String value = resource.getProperty( name );
-            project.setNewProperty( name, value );
+            project.setProperty( name, value );
         }
+        project.setProperty( "project.name", resource.getName() );
+        project.setProperty( "project.version", resource.getVersion() );
+        project.setProperty( "project.resource.path", resource.getResourcePath() );
+        project.setProperty( "project.basedir", resource.getBaseDir().toString() );
         Filter[] filters = resource.getFilters();
         for( int i=0; i<filters.length; i++ )
         {
