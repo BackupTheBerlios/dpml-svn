@@ -2,7 +2,7 @@
 
 <!--
  Copyright 2005 David Leangen
- Copyright 2004-2005 Stephen McConnell
+ Copyright 2004-2006 Stephen McConnell
  Copyright 2004 Niclas Hedhman
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -63,7 +63,7 @@
         </p>
 
         <p>
-          Transit promotes strong version management. The underlying problem is
+          Transit promotes strong version management. The underlying concern is
           that many parts of the system are dependent on particular versions of
           another part or resource, and can not be freely mixed. To ensure
           that all dependencies are resolved against the proper versions, it is
@@ -83,17 +83,6 @@
           configured to know about which servers are available in its running
           environment.
         </p>
-
-        <!--
-        <table>
-          <tr>
-            <td><img src="/images/info.gif"/></td>
-            <td><i>See also <a href="http://www.osm.net/training/resources/artifacts.html/">
-               OSM Tutorial on Transit Artifacts</a>.</i>
-            </td>
-          </tr>
-        </table>
-        -->
 
     </section>
 

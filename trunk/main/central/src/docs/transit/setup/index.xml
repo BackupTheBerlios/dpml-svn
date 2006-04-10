@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- 
- Copyright 2004-2005 Stephen McConnell
- Copyright 2004 Niclas Hedhman
- Copyright 2005 David Leangen
+ Copyright 2006 Stephen McConnell
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -23,8 +21,6 @@
 <document>
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <author email="niclas@hedhman.org">Niclas Hedhman</author>
-    <author email="david.leangen@konova.com">David Leangen</author>
     <title>DPML Transit Resource Management</title>
   </properties> 
 
@@ -32,8 +28,12 @@
     <section name="Transit System Setup">
 
       <p>
+      Configuration of the Transit system is controlled by a small
+      number of < a href="properties.html">system properties</a> and 
+      a single <a href="config/index.html">XML configuration</a> document.
       </p>
-
+      
+      
     </section>
   </body>
 </document>

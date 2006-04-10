@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!-- 
- Copyright 2005 Stephen McConnell
+ Copyright 2005-2006 Stephen McConnell
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -46,8 +46,8 @@
             <tt>station</tt> commandline handlers), Depot will attempt to 
             locate a Transit Model using an RMI registry.  If declared the 
             value of the property must be in the form <tt>registry[:host[:port]]:name</tt>
-            where the <tt>name</tt> value corresponds to a RMI registry name 
-            bound to an instance of a TransitModel implementation.
+            where the <tt>name</tt> value corresponds to a RMI registry name binding
+            that maps to an instance of a remote TransitModel.
           </td>
         </tr>
         <tr>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <!--
- Copyright 2005 David Leangen
- Copyright 2004-2005 Stephen McConnell
+ Copyright 2004-2006 Stephen McConnell
  Copyright 2004 Niclas Hedhman
+ Copyright 2005 David Leangen
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -47,14 +47,14 @@
 
       <p>
         One of the more difficult tasks when building Java applications
-        is managing classloaders. Often, when combining
-        various projects together into an enterprise application, the
-        application is not able to load the right classes at the right time,
-        causing the application to fail in mysterious and sometimes subtle
+        is classloader management. Often, when combining various projects 
+        together into an enterprise application, the application is not 
+        able to load the right classes at the right time, causing the 
+        application to fail in mysterious and sometimes subtle
         ways. Although a fundamental issue, classloading has remained
-        a rather obscure topic. When combined with component-based development
-        the classloader management concern can become a major configuration 
-        management concern.
+        a rather obscure topic. When combined with component-based 
+        development the classloader management concern can become a major 
+        configuration management concern.
         Transit provides a solution to this problem.
       </p>
 

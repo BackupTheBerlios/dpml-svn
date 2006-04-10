@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+
 <!--
  Copyright 2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
@@ -28,12 +29,11 @@
     <section name="Artifact Protocol">
 
       <p>
-        The key to the repository comes through the artifact protocol. It
-        makes a separation of concern between the requested resource and the
-        location where such a resource can be found. The location is handled
-        by a the protocol handler, and is configured by the user. In reality,
-        once DPML Transit is in place, it is possible to request any type of
-        resource via the familiar java.net.URL() and many existing
+        The artifact proptocol enables the separation of a resource identity 
+        from resource location. Location is handled by a the protocol handler
+        based on the underlying configuration of the Transit system.
+        and is configured by the user. Once DPML Transit is in place it is 
+        possible to request any type of resource via java.net.URL() and many existing
         applications can easily be made <strong>repository enabled</strong>
         just by providing DPML Transit in the classpath and setting one or
         two system properties.
