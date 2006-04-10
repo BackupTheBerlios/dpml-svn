@@ -30,6 +30,7 @@
           <li>Support for filter declarations within a <tt>&lt;project&gt;</tt> definition.</li>
           <li>Improvements to DOM related error reporting.</li>
           <li>Structural enhancements to the module schema.</li>
+          <li>Upgrade to Jetty  6.0.0 B14.</li>
         </ul>
         
         <table>
