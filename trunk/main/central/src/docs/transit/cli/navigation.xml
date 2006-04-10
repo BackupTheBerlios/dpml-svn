@@ -25,11 +25,11 @@
  <body>
 
     <menu>
+      <item name="Load" href="load.html"/>
       <item name="Info" href="info.html"/>
       <item name="Add" href="add/index.html"/>
       <item name="Set" href="set/index.html"/>
       <item name="Remove" href="remove/index.html"/>
-      <item name="Load" href="load.html"/>
     </menu>
 
  </body>

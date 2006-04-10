@@ -22,7 +22,7 @@
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ transit info [<args1> [<args2> ...]]]]></pre>
+<pre><![CDATA[$ transit load <uri> [<args1> [<args2> ...]]]]></pre>
 
       </subsection>
 
