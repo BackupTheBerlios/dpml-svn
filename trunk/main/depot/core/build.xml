@@ -22,7 +22,6 @@
 
   <target name="install" depends="standard.install,bin">
     <property name="local" location="${dpml.system}/local"/>
-    <echo message="INIT == ${project.version}"/>
     <echo>
 #----------------------------------------------------------------------------------
 # Updating ${local}

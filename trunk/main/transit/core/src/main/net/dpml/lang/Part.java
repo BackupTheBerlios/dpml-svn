@@ -427,7 +427,7 @@ public abstract class Part
                 for( int i=0; i < urls.length; i++ )
                 {
                     URL url = urls[i];
-                    buffer.append( "\n  [" + i + "] \t" + url.toString() );
+                    buffer.append( "\n  [" + i + "] " + url.toString() );
                 }
             }
             getLogger().debug( buffer.toString() );

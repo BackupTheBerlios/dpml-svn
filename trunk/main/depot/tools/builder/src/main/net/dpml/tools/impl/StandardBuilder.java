@@ -299,6 +299,11 @@ public class StandardBuilder implements Builder
     
     static Project configureProject( Project project, Resource resource )
     {
+        if( null != project.getReference( "project.timestamp" ) )
+        {
+            return project;
+        }
+        
         project.addReference( "project.timestamp", new Date() );
         project.setBaseDir( resource.getBaseDir() );
 
