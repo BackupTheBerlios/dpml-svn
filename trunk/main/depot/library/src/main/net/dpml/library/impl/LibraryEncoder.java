@@ -28,6 +28,7 @@ import javax.xml.XMLConstants;
 
 import net.dpml.lang.Category;
 
+import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.IncludeDirective;
 import net.dpml.library.info.IncludeDirective.Mode;
 import net.dpml.library.info.ModuleDirective;
@@ -86,11 +87,19 @@ public final class LibraryEncoder extends LibraryConstants
               + COMMON_XSD_URI
               + "\">" );
             
-            Properties properties = module.getProperties();
+            
             String basedir = module.getBasedir();
+            InfoDirective info = module.getInfoDirective();
+            Properties properties = module.getProperties();
             TypeDirective[] types = module.getTypeDirectives();
             DependencyDirective[] dependencies = module.getDependencyDirectives();
             ResourceDirective[] resources = module.getResourceDirectives();
+            
+            if( !info.isNull() )
+            {
+                writer.write( "\n" );
+                writeInfo( writer, info, "  " );
+            }
             if( properties.size() > 0 )
             {
                 writer.write( "\n" );
@@ -125,6 +134,7 @@ public final class LibraryEncoder extends LibraryConstants
         String name = module.getName();
         String version = module.getVersion();
         
+        InfoDirective info = module.getInfoDirective();
         Properties properties = module.getProperties();
         String basedir = module.getBasedir();
         TypeDirective[] types = module.getTypeDirectives();
@@ -142,6 +152,11 @@ public final class LibraryEncoder extends LibraryConstants
         }
         writer.write( ">" );
         
+        if( !info.isNull() )
+        {
+            writer.write( "\n" );
+            writeInfo( writer, info, lead + "  " );
+        }
         if( properties.size() > 0 )
         {
             writer.write( "\n" );
@@ -172,6 +187,7 @@ public final class LibraryEncoder extends LibraryConstants
         String name = resource.getName();
         String version = resource.getVersion();
         
+        InfoDirective info = resource.getInfoDirective();
         Properties properties = resource.getProperties();
         String basedir = resource.getBasedir();
         TypeDirective[] types = resource.getTypeDirectives();
@@ -188,6 +204,11 @@ public final class LibraryEncoder extends LibraryConstants
         }
         writer.write( ">" );
         
+        if( !info.isNull() )
+        {
+            writer.write( "\n" );
+            writeInfo( writer, info, lead + "  " );
+        }
         if( properties.size() > 0 )
         {
             writeProperties( writer, properties, lead + "  ", true );
@@ -201,6 +222,29 @@ public final class LibraryEncoder extends LibraryConstants
             writeDependencies( writer, dependencies, lead + "  " );
         }
         writer.write( "\n" + lead + "</resource>" );
+    }
+    
+    private void writeInfo( 
+      Writer writer, InfoDirective info, String lead ) throws IOException
+    {
+        writer.write( "\n" + lead + "<info>" );
+        writer.write( "\n" + lead + "  <description" );
+        if( null != info.getTitle() )
+        {
+            writer.write( " title\"" + info.getTitle() + "\"" );
+        }
+        String description = info.getDescription().trim();
+        if( null != info.getDescription() )
+        {
+            writer.write( ">" );
+            writer.write( "\n" + lead + "  " + info.getDescription() );
+            writer.write( "\n" + lead + "  </description>" );
+        }
+        else
+        {
+            writer.write( "/>" );
+        }
+        writer.write( "\n" + lead + "</info>" );
     }
     
     private void writeProperties( 

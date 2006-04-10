@@ -35,6 +35,7 @@ import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.info.TypeDirective;
+import net.dpml.library.info.InfoDirective;
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.ResourceNotFoundException;
@@ -407,13 +408,15 @@ public final class DefaultModule extends DefaultResource implements Module
         String name = getName();
         String version = getVersion();
         String basedir = null;
+        InfoDirective info = m_directive.getInfoDirective();
         TypeDirective[] types = m_directive.getTypeDirectives();
         TypeDirective[] exportedTypes = createExportedTypes( types );
         Properties properties = module.getExportProperties();
         
         return new ModuleDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          exportedTypes, new DependencyDirective[0], directives, properties, null );
+          info, exportedTypes, new DependencyDirective[0], 
+          directives, properties, null );
     }
     
     //----------------------------------------------------------------------------

@@ -33,11 +33,13 @@ import java.util.Hashtable;
 
 import net.dpml.lang.Category;
 
+import net.dpml.library.Info;
 import net.dpml.library.Filter;
 import net.dpml.library.Library;
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
+import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
@@ -300,6 +302,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             return ResourceDirective.ANONYMOUS;
         }
+    }
+    
+   /**
+    * Return the info block.
+    * @return the info block
+    */
+    public Info getInfo()
+    {
+        return m_directive.getInfoDirective();
     }
     
    /**
@@ -599,13 +610,14 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         String name = getName();
         String version = getVersion();
         String basedir = null;
+        InfoDirective info = m_directive.getInfoDirective();
         TypeDirective[] types = m_directive.getTypeDirectives();
         TypeDirective[] exportedTypes = createExportedTypes( types );
         DependencyDirective[] dependencies = createDeps( module );
         Properties properties = getExportProperties();
         return new ResourceDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          exportedTypes, dependencies, properties );
+          info, exportedTypes, dependencies, properties );
     }
     
     TypeDirective[] createExportedTypes( TypeDirective[] types )
@@ -939,13 +951,34 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 }
                 catch( InvalidNameException e )
                 {
-                    final String error = 
-                      "A dependency include referencing ["
-                      + ref
-                      + "] declared within ["
-                      + this
-                      + "] could not be resolved.";
-                    throw new InvalidNameException( error );
+                    if( null == category )
+                    {
+                        final String error = 
+                          "A dependency include ["
+                          + ref
+                          + "] within ["
+                          + this
+                          + "] referencing ["
+                          + ref
+                          + "] under the scope ["
+                          + scope
+                          + "] is unknown.";
+                        throw new InvalidNameException( error );
+                    }
+                    else
+                    {
+                        final String error = 
+                          "A dependency include within ["
+                          + this
+                          + "] referencing ["
+                          + ref
+                          + "] under the scope ["
+                          + scope
+                          + "] and category ["
+                          + category
+                          + "] is unknown.";
+                        throw new InvalidNameException( error );
+                    }
                 }
             }
         }
@@ -986,15 +1019,29 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     
     private String getIncludeReference( IncludeDirective directive )
     {
-        if( IncludeDirective.REF.equals( directive.getMode() ) || ( null == m_parent ) )
+        if( null == m_parent )
         {
             return directive.getValue();
         }
         else
         {
-            String path = m_parent.getResourcePath();
-            String key = directive.getValue();
-            return path + "/" + key;
+            if( IncludeDirective.REF.equals( directive.getMode() ) )
+            {
+                return directive.getValue();
+            }
+            else
+            {
+                String path = m_parent.getResourcePath();
+                if( "".equals( path ) )
+                {
+                    return directive.getValue();
+                }
+                else
+                {
+                    String key = directive.getValue();
+                    return path + "/" + key;
+                }
+            }
         }
     }
     

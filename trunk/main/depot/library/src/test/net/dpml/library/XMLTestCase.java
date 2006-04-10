@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.impl;
+package net.dpml.library;
 
 import java.io.File;
 
@@ -24,6 +24,8 @@ import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.TypeDirective;
+
+import net.dpml.library.impl.LibraryDecoder;
 
 import junit.framework.TestCase;
 

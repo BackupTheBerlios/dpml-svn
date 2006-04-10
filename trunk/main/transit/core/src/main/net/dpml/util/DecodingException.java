@@ -22,6 +22,8 @@ import java.io.IOException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 /**
  * Exception related to data decoding from a DOM element.
@@ -75,11 +77,10 @@ public class DecodingException extends IOException
         {
             String message = super.getMessage();
             StringBuffer buffer = new StringBuffer( message );
+            buffer.append( "\n" );
             Element element = getElement();
-            String tag = element.getTagName();
-            buffer.append( "\nElement: <" );
-            buffer.append( tag );
-            buffer.append( " ...>" );
+            String listing = list( element );
+            buffer.append( listing );
             Document document = element.getOwnerDocument();
             String uri = document.getDocumentURI();
             if( null != uri )
@@ -92,5 +93,45 @@ public class DecodingException extends IOException
         {
             return super.getMessage();
         }
+    }
+    
+    public static String list( Element element )
+    {
+        return list( element, "" );
+    }
+    
+    public static String list( Element element, String pad )
+    {
+        StringBuffer buffer = new StringBuffer();
+        String tag = element.getTagName();
+        buffer.append( pad + "<" );
+        buffer.append( tag );
+        NamedNodeMap map = element.getAttributes();
+        for( int i=0; i<map.getLength(); i++ )
+        {
+            Node item = map.item( i );
+            buffer.append( " " + item.getNodeName() + "=\"" );
+            buffer.append( item.getNodeValue() );
+            buffer.append( "\"" );
+        }
+        
+        Element[] children = ElementHelper.getChildren( element );
+        if( children.length > 0 )
+        {
+            buffer.append( ">" );
+            for( int i=0; i<children.length; i++ )
+            {
+                Element child = children[i];
+                String listing = list( child, pad + "  " );
+                String tagName = child.getTagName();
+                buffer.append( "\n" + listing );
+            }
+            buffer.append( "\n" + pad + "</" + tag + ">" );
+        }
+        else
+        {
+            buffer.append( "/>" );
+        }
+        return buffer.toString();
     }
 }

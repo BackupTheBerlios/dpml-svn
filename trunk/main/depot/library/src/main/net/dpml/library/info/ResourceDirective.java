@@ -54,6 +54,7 @@ public class ResourceDirective extends AbstractDirective
     private final DependencyDirective[] m_dependencies;
     private final Classifier m_classifier;
     private final FilterDirective[] m_filters;
+    private final InfoDirective m_info;
     
    /**
     * Creation of a new anonymous resource directive.
@@ -67,10 +68,7 @@ public class ResourceDirective extends AbstractDirective
     {
         this( 
           name, version, Classifier.ANONYMOUS, null, 
-          new TypeDirective[]
-          {
-            new TypeDirective( type )
-          }, 
+          null, new TypeDirective[]{new TypeDirective( type )}, 
           new DependencyDirective[0],
           properties );
     }
@@ -86,10 +84,11 @@ public class ResourceDirective extends AbstractDirective
     * @param properties suppliementary properties
     */
     public ResourceDirective( 
-      String name, String version, Classifier classifier, String basedir, TypeDirective[] types, 
+      String name, String version, Classifier classifier, String basedir, 
+      InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties )
     {
-        this( name, version, classifier, basedir, types, dependencies, properties, null );
+        this( name, version, classifier, basedir, info, types, dependencies, properties, null );
     }
     
    /**
@@ -104,8 +103,10 @@ public class ResourceDirective extends AbstractDirective
     * @param filters source filters
     */
     public ResourceDirective( 
-      String name, String version, Classifier classifier, String basedir, TypeDirective[] types, 
-      DependencyDirective[] dependencies, Properties properties, FilterDirective[] filters )
+      String name, String version, Classifier classifier, String basedir, 
+      InfoDirective info, TypeDirective[] types, 
+      DependencyDirective[] dependencies, Properties properties, 
+      FilterDirective[] filters )
     {
         super( properties );
         
@@ -125,12 +126,23 @@ public class ResourceDirective extends AbstractDirective
         {
             throw new NullPointerException( "classifier" );
         }
+        
         m_name = name;
         m_version = version;
-        m_types = types;
-        m_dependencies = dependencies;
         m_basedir = basedir;
         m_classifier = classifier;
+        
+        if( null == info )
+        {
+            m_info = new InfoDirective( null, null );
+        }
+        else
+        {
+            m_info = info;
+        }
+        
+        m_types = types;
+        m_dependencies = dependencies;
         
         if( null == filters )
         {
@@ -167,6 +179,15 @@ public class ResourceDirective extends AbstractDirective
     public String getBasedir()
     {
         return m_basedir;
+    }
+    
+   /**
+    * Return the info descriptor.
+    * @return the info descriptor
+    */
+    public InfoDirective getInfoDirective()
+    {
+        return m_info;
     }
     
    /**
@@ -285,6 +306,10 @@ public class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
+            else if( !equals( m_info, object.m_info ) )
+            {
+                return false;
+            }
             else if( !Arrays.equals( m_types, object.m_types ) )
             {
                 return false;
@@ -314,6 +339,7 @@ public class ResourceDirective extends AbstractDirective
         hash ^= super.hashValue( m_name );
         hash ^= super.hashValue( m_version );
         hash ^= super.hashValue( m_basedir );
+        hash ^= super.hashValue( m_info );
         hash ^= super.hashArray( m_types );
         hash ^= super.hashArray( m_dependencies );
         hash ^= super.hashArray( m_filters );

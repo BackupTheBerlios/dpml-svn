@@ -102,6 +102,11 @@
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
+    <info>
+      <description title="Metro Container Runtime">
+      DPML Component management platform runtime container.
+      </description>
+    </info>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
@@ -130,6 +135,11 @@
   </project>
    
   <project name="dpml-metro-tools" basedir="tools">
+    <properties>
+      <property name="project.title" value="Metro Tools"/>
+      <property name="project.description" 
+        value="DPML extensions supporting the Ant build system for component type and deployment data management."/>
+    </properties>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:metro"

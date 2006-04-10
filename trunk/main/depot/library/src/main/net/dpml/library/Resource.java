@@ -66,6 +66,12 @@ public interface Resource extends Dictionary
     File getBaseDir();
 
    /**
+    * Return the info block.
+    * @return the info block
+    */
+    Info getInfo();
+    
+   /**
     * Return the resource classifier.
     * @return the classifier (LOCAL, EXTERNAL or ANONYMOUS)
     */

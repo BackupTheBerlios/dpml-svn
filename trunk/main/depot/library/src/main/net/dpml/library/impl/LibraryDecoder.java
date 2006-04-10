@@ -28,6 +28,7 @@ import java.util.Properties;
 
 import net.dpml.library.Feature;
 import net.dpml.library.TypeBuilder;
+import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.IncludeDirective;
@@ -245,29 +246,34 @@ public final class LibraryDecoder extends LibraryConstants
               + "] references a directory.";
             throw new IllegalArgumentException( error );
         }
-        try
+        final File parent = source.getParentFile();
+        final String basedir = path;
+        final Element root = getRootElement( source );
+        final String tag = root.getTagName();
+        if( "module".equals( tag ) || "project".equals( tag ) || "resource".equals( tag ) )
         {
-            final File parent = source.getParentFile();
-            final String basedir = path;
-            final Element root = getRootElement( source );
-            final String tag = root.getTagName();
-            if( "module".equals( tag ) || "project".equals( tag ) || "resource".equals( tag ) )
+            try
             {
                 return buildResourceDirectiveFromElement( parent, root, basedir );
             }
-            else
+            catch( DecodingException e )
             {
-                throw new IllegalArgumentException( tag );
+                throw e;
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "An error occured while attempting to build a resource from a local source [ "
+                  + source
+                  + "] from the path [" 
+                  + path 
+                  + "].";
+                throw new DecodingException( root, error, e );
             }
         }
-        catch( Throwable e )
+        else
         {
-            final String error = 
-              "An error occured while attempting to build a module directive from the source: "
-              + source;
-            IOException ioe = new IOException( error );
-            ioe.initCause( e );
-            throw ioe;
+            throw new IllegalArgumentException( tag );
         }
     }
 
@@ -285,68 +291,156 @@ public final class LibraryDecoder extends LibraryConstants
         final String elementName = element.getTagName();
         if( "import".equals( elementName ) )
         {
-            String path = ElementHelper.getAttribute( element, "file" );
-            File file = new File( base, path );
-            File dir = file.getParentFile();
-            String spec = getRelativePath( base, dir );
-            File source = file.getCanonicalFile();
-            if( !source.exists() )
+            try
+            {
+                String path = ElementHelper.getAttribute( element, "file" );
+                File file = new File( base, path );
+                File dir = file.getParentFile();
+                String spec = getRelativePath( base, dir );
+                File source = file.getCanonicalFile();
+                if( !source.exists() )
+                {
+                    final String error = 
+                      "Cannot include module ["
+                      + source
+                      + "] because the file does not exist.";
+                    throw new DecodingException( element, error ); 
+                }
+                else
+                {
+                    return buildResourceDirective( source, spec );
+                }
+            }
+            catch( DecodingException e )
+            {
+                throw e;
+            }
+            catch( Throwable e )
             {
                 final String error = 
-                  "Cannot include module ["
-                  + source
-                  + "] because the file does not exist.";
-                throw new FileNotFoundException( error ); 
-            }
-            else
-            {
-                return buildResourceDirective( source, spec ); // ##
+                  "Internal error while attempting to resolve a import directive.";
+                throw new DecodingException( element, error, e );
             }
         }
         else if( RESOURCE_ELEMENT_NAME.equals( elementName ) )
         {
-            return buildResourceDirective( element, offset );
+            try
+            {
+                return buildResourceDirective( element, offset );
+            }
+            catch( DecodingException e )
+            {
+                throw e;
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while attempting to build a resource directive from an element.";
+                throw new DecodingException( element, error, e );
+            }
         }
         else if( PROJECT_ELEMENT_NAME.equals( elementName ) )
         {
-            return buildResourceDirective( element, offset );
+            try
+            {
+                return buildResourceDirective( element, offset );
+            }
+            catch( DecodingException e )
+            {
+                throw e;
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while attempting to build a project directive from an element.";
+                throw new DecodingException( element, error, e );
+            }
         }
         else if( MODULE_ELEMENT_NAME.equals( elementName ) )
         {
-            ResourceDirective resource = buildResourceDirective( element, offset );
-            ArrayList list = new ArrayList();
-            Element[] children = ElementHelper.getChildren( element );
-            for( int i=0; i<children.length; i++ )
+            try
             {
-                Element child = children[i];
-                final String tag = child.getTagName();
-                if( MODULE_ELEMENT_NAME.equals( tag ) )
+                ResourceDirective resource = buildResourceDirective( element, offset );
+                ArrayList list = new ArrayList();
+                Element[] children = ElementHelper.getChildren( element );
+                for( int i=0; i<children.length; i++ )
                 {
-                    ResourceDirective directive = 
-                      buildResourceDirectiveFromElement( base, child, null );
-                    list.add( directive );
+                    Element child = children[i];
+                    final String tag = child.getTagName();
+                    if( MODULE_ELEMENT_NAME.equals( tag ) )
+                    {
+                        try
+                        {
+                            ResourceDirective directive = 
+                              buildResourceDirectiveFromElement( base, child, null );
+                            list.add( directive );
+                        }
+                        catch( Throwable e )
+                        {
+                            final String error = 
+                              "Internal error while attempting to build a nested module directive from an element.";
+                            throw new DecodingException( child, error, e );
+                        }
+                    }
+                    else if( IMPORT_ELEMENT_NAME.equals( tag ) ) 
+                    {
+                        try
+                        {
+                            ResourceDirective directive = 
+                              buildResourceDirectiveFromElement( base, child, null );
+                            list.add( directive );
+                        }
+                        catch( Throwable e )
+                        {
+                            final String error = 
+                              "Internal error while attempting to build a a nested import directive from an element.";
+                            throw new DecodingException( child, error, e );
+                        }
+                    }
+                    else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
+                    {
+                        try
+                        {
+                            ResourceDirective directive = 
+                              buildResourceDirective( child );
+                            list.add( directive );
+                        }
+                        catch( Throwable e )
+                        {
+                            final String error = 
+                              "Internal error while attempting to build a a nested project directive from an element.";
+                            throw new DecodingException( child, error, e );
+                        }
+                    }
+                    else if( RESOURCE_ELEMENT_NAME.equals( tag ) ) 
+                    {
+                        try
+                        {
+                            ResourceDirective directive = 
+                              buildResourceDirective( child );
+                            list.add( directive );
+                        }
+                        catch( Throwable e )
+                        {
+                            final String error = 
+                              "Internal error while attempting to build a a nested resource directive from an element.";
+                            throw new DecodingException( child, error, e );
+                        }
+                    }
                 }
-                else if( IMPORT_ELEMENT_NAME.equals( tag ) ) 
-                {
-                    ResourceDirective directive = 
-                      buildResourceDirectiveFromElement( base, child, null );
-                    list.add( directive );
-                }
-                else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
-                {
-                    ResourceDirective directive = 
-                      buildResourceDirective( child );
-                    list.add( directive );
-                }
-                else if( RESOURCE_ELEMENT_NAME.equals( tag ) ) 
-                {
-                    ResourceDirective directive = 
-                      buildResourceDirective( child );
-                    list.add( directive );
-                }
+                ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
+                return new ModuleDirective( resource, resources );
             }
-            ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
-            return new ModuleDirective( resource, resources ); 
+            catch( DecodingException e )
+            {
+                throw e;
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while attempting to build a module directive from an element.";
+                throw new DecodingException( element, error, e );
+            }
         }
         else
         {
@@ -354,7 +448,7 @@ public final class LibraryDecoder extends LibraryConstants
               "Element ["
               + elementName 
               + "] is not a module.";
-            throw new IllegalArgumentException( error );
+            throw new DecodingException( element, error );
         }
     }
     
@@ -383,7 +477,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @param element the enclosing element
     * @return the array of includes
     */
-    private ImportDirective[] buildImportDirectives( Element element )
+    private ImportDirective[] buildImportDirectives( Element element ) throws DecodingException
     {
         Element[] children = ElementHelper.getChildren( element );
         ImportDirective[] includes = new ImportDirective[ children.length ];
@@ -395,28 +489,37 @@ public final class LibraryDecoder extends LibraryConstants
         return includes;
     }
     
-    private ImportDirective buildImportDirective( Element element )
+    private ImportDirective buildImportDirective( Element element ) throws DecodingException
     {
         final String tag = element.getTagName();
         final Properties properties = buildProperties( element );
         if( IMPORT_ELEMENT_NAME.equals( tag ) )
         {
-            if( element.hasAttribute( "file" ) )
+            try
             {
-                final String value = ElementHelper.getAttribute( element, "file", null );
-                return new ImportDirective( ImportDirective.FILE, value, properties );
+                if( element.hasAttribute( "file" ) )
+                {
+                    final String value = ElementHelper.getAttribute( element, "file", null );
+                    return new ImportDirective( ImportDirective.FILE, value, properties );
+                }
+                else if( element.hasAttribute( "uri" ) )
+                {
+                    final String value = ElementHelper.getAttribute( element, "uri", null );
+                    return new ImportDirective( ImportDirective.URI, value, properties );
+                }
+                else
+                {
+                    final String error = 
+                      "Import element does not declare a 'file' or 'uri' attribute.\n"
+                      + element.toString();
+                    throw new IllegalArgumentException( error );
+                }
             }
-            else if( element.hasAttribute( "uri" ) )
-            {
-                final String value = ElementHelper.getAttribute( element, "uri", null );
-                return new ImportDirective( ImportDirective.URI, value, properties );
-            }
-            else
+            catch( Throwable e )
             {
                 final String error = 
-                  "Import element does not declare a 'file' or 'uri' attribute.\n"
-                  + element.toString();
-                throw new IllegalArgumentException( error );
+                  "Internal error while attempting to resolve an import directive.";
+                throw new DecodingException( element, error, e );
             }
         }
         else
@@ -429,39 +532,47 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
 
-    private DependencyDirective[] buildDependencyDirectives( Element element )
+    private DependencyDirective[] buildDependencyDirectives( Element element ) throws DecodingException
     {
-        final String tag = element.getTagName();
-        if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
+        if( null == element )
         {
-            Element[] children = ElementHelper.getChildren( element );
-            DependencyDirective[] dependencies = new DependencyDirective[ children.length ];
-            for( int i=0; i<children.length; i++ )
-            {
-                Element child = children[i];
-                dependencies[i] = buildDependencyDirective( child );
-            }
-            return dependencies;
+            return new DependencyDirective[0];
         }
         else
         {
-            final String error = 
-              "Invalid dependency element name [" 
-              + tag
-              + "].";
-            throw new IllegalArgumentException( error );
+            final String tag = element.getTagName();
+            if( DEPENDENCIES_ELEMENT_NAME.equals( tag ) )
+            {
+                Element[] children = ElementHelper.getChildren( element );
+                DependencyDirective[] dependencies = new DependencyDirective[ children.length ];
+                for( int i=0; i<children.length; i++ )
+                {
+                    Element child = children[i];
+                    dependencies[i] = buildDependencyDirective( child );
+                }
+                return dependencies;
+            }
+            else
+            {
+                final String error = 
+                  "Invalid dependency element name [" 
+                  + tag
+                  + "].";
+                throw new IllegalArgumentException( error );
+            }
         }
     }
     
-    private DependencyDirective buildDependencyDirective( Element element )
+    private DependencyDirective buildDependencyDirective( Element element ) throws DecodingException
     {
         String name = element.getTagName();
+        Scope scope = Scope.parse( name );
         IncludeDirective[] includes = buildIncludeDirectives( element );
-        if( "build".equals( name ) )
+        if( Scope.BUILD.equals( scope ) )
         {
             return new DependencyDirective( Scope.BUILD, includes );
         }
-        else if( "runtime".equals( name ) )
+        else if( Scope.RUNTIME.equals( scope ) )
         {
             return new DependencyDirective( Scope.RUNTIME, includes );
         }
@@ -476,7 +587,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @param element the enclosing element
     * @return the array of includes
     */
-    private IncludeDirective[] buildIncludeDirectives( Element element )
+    private IncludeDirective[] buildIncludeDirectives( Element element ) throws DecodingException
     {
         Element[] children = ElementHelper.getChildren( element );
         IncludeDirective[] includes = new IncludeDirective[ children.length ];
@@ -488,7 +599,7 @@ public final class LibraryDecoder extends LibraryConstants
         return includes;
     }
     
-    private IncludeDirective buildIncludeDirective( Element element )
+    private IncludeDirective buildIncludeDirective( Element element ) throws DecodingException
     {
         final String tag = element.getTagName();
         final Properties properties = buildProperties( element );
@@ -525,7 +636,7 @@ public final class LibraryDecoder extends LibraryConstants
               "Invalid include element name [" 
               + tag 
               + "].";
-            throw new IllegalArgumentException( error );
+            throw new DecodingException( element, error );
         }
     }
     
@@ -556,11 +667,6 @@ public final class LibraryDecoder extends LibraryConstants
                 }
             }
             
-            // add filter definitions
-            FilterDirective[] filters = null;
-            Element filtersElement = ElementHelper.getChild( element, "filters" );
-            filters = buildFilters( filtersElement );
-            
             if( PROJECT_ELEMENT_NAME.equals( tag ) )
             {
                 classifier = Classifier.LOCAL;
@@ -570,7 +676,7 @@ public final class LibraryDecoder extends LibraryConstants
                       "Missing basedir attribute on project [" 
                       + name
                       + "].";
-                    throw new IllegalArgumentException( error );
+                    throw new DecodingException( element, error );
                 }
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )
@@ -589,29 +695,28 @@ public final class LibraryDecoder extends LibraryConstants
                 classifier = Classifier.EXTERNAL;
             }
             
-            TypeDirective[] types = new TypeDirective[0];
-            DependencyDirective[] dependencies = new DependencyDirective[0];
-            Element[] children = ElementHelper.getChildren( element );
-            Properties properties = null;
-            for( int i=0; i<children.length; i++ )
-            {
-                Element child = children[i];
-                final String childTag = child.getTagName();
-                if( TYPES_ELEMENT_NAME.equals( childTag ) )
-                {
-                    types = buildTypes( child );
-                }
-                else if( DEPENDENCIES_ELEMENT_NAME.equals( childTag ) )
-                {
-                    dependencies = buildDependencyDirectives( child );
-                }
-                else if( PROPERTIES_ELEMENT_NAME.equals( childTag ) )
-                {
-                    properties = buildProperties( child );
-                }
-            }
+            final InfoDirective info = 
+              buildInfoDirective( 
+                ElementHelper.getChild( element, "info" ) );
+            
+            final TypeDirective[] types = 
+              buildTypes( 
+                ElementHelper.getChild( element, "types" ) );
+            
+            final DependencyDirective[] dependencies = 
+              buildDependencyDirectives( 
+                ElementHelper.getChild( element, "dependencies" ) );
+                
+            final FilterDirective[] filters = 
+              buildFilters( 
+                ElementHelper.getChild( element, "filters" ) );
+            
+            final Properties properties = 
+              buildProperties( 
+                ElementHelper.getChild( element, "properties" ) );
+            
             return new ResourceDirective( 
-              name, version, classifier, basedir, types, dependencies, properties, filters );
+              name, version, classifier, basedir, info, types, dependencies, properties, filters );
         }
         else
         {
@@ -619,7 +724,29 @@ public final class LibraryDecoder extends LibraryConstants
               "Invalid element name [" 
               + tag
               + "].";
-            throw new IllegalArgumentException( error );
+            throw new DecodingException( element, error );
+        }
+    }
+    
+    private InfoDirective buildInfoDirective( Element element )
+    {
+        if( null == element )
+        {
+            return null;
+        }
+        else
+        {
+            Element child = ElementHelper.getChild( element, "description" );
+            if( null == child )
+            {
+                return null;
+            }
+            else
+            {
+                String title = ElementHelper.getAttribute( child, "title" );
+                String description = ElementHelper.getValue( child );
+                return new InfoDirective( title, description );
+            }
         }
     }
     
@@ -666,6 +793,10 @@ public final class LibraryDecoder extends LibraryConstants
     
     private TypeDirective[] buildTypes( Element element ) throws Exception
     {
+        if( null == element )
+        {
+            return new TypeDirective[0];
+        }
         Element[] children = ElementHelper.getChildren( element );
         TypeDirective[] types = new TypeDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
@@ -726,7 +857,7 @@ public final class LibraryDecoder extends LibraryConstants
         else
         {
             final String error = 
-              "Element is not derivived from AbstractType defined under the common namespace."
+              "Element is not derived from the schema type 'AbstractType' defined under the common namespace."
               + "\nNamespace: " + namespace
               + "\nElement Name (from Schema Info): " + info.getTypeName();
             throw new DecodingException( element, error );
@@ -735,6 +866,10 @@ public final class LibraryDecoder extends LibraryConstants
     
     private Properties buildProperties( Element element )
     {
+        if( null == element )
+        {
+            return null;
+        }
         Properties properties = new Properties();
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )

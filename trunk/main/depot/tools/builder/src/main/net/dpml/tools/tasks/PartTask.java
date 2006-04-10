@@ -61,12 +61,12 @@ public class PartTask extends GenericTask
    /**
     * Property key used to identify the plugin title.
     */
-    public static final String PLUGIN_TITLE_KEY = "project.plugin.title";
+    public static final String PLUGIN_TITLE_KEY = "project.title";
     
    /**
     * Property key used to identify the plugin description.
     */
-    public static final String PLUGIN_DESCRIPTION_KEY = "project.plugin.description";
+    public static final String PLUGIN_DESCRIPTION_KEY = "project.description";
     
    /**
     * Property key used to identify a custom plugin handler classname.
@@ -200,8 +200,8 @@ public class PartTask extends GenericTask
     {
         Artifact artifact = resource.getArtifact( TYPE );
         URI uri = artifact.toURI();
-        String title = getTitle( resource );
-        String description = getDescription( resource );
+        String title = resource.getInfo().getTitle();
+        String description = resource.getInfo().getDescription();
         return new Info( uri, title, description );
     }
 

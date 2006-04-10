@@ -61,9 +61,10 @@
 
     <complexType name="ResourceType">
       <sequence>
-        <element name="properties" type="this:PropertiesType" minOccurs="0" />
-        <element name="types" type="this:TypesType" minOccurs="0"/>
-        <element name="dependencies" type="this:DependenciesType" minOccurs="0"/>
+        <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0"  maxOccurs="1"/>
+        <element name="types" type="this:TypesType" minOccurs="0" maxOccurs="1"/>
+        <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
       </sequence>
       <attribute name="name" type="string" use="required"/>
       <attribute name="version" type="string"/>
@@ -74,7 +75,7 @@
       <complexContent>
         <extension base="this:ResourceType">
           <sequence>
-            <element name="filters" type="this:FiltersType" minOccurs="0"/>
+            <element name="filters" type="this:FiltersType" minOccurs="0"  maxOccurs="1"/>
           </sequence>
         </extension>
       </complexContent>
@@ -109,7 +110,7 @@
         </extension>
       </complexContent>
     </complexType>
-        
+    
     <complexType name="DependenciesType">
       <all>
         <element name="build" type="this:BuildScope" minOccurs="0" maxOccurs="1"/>
@@ -143,6 +144,20 @@
       <attribute name="key" type="string"/>
       <attribute name="ref" type="string"/>
       <attribute name="urn" type="string"/>
+    </complexType>
+
+    <complexType name="InfoType">
+      <sequence>
+        <element name="description" type="this:DescriptionType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="DescriptionType">
+      <simpleContent>
+        <extension base="string">
+          <attribute name="title" type="string"/>
+        </extension>
+      </simpleContent>
     </complexType>
 
     <complexType name="RuntimeIncludeType">

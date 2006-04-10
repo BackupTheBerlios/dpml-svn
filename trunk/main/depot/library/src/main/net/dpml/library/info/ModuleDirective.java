@@ -33,7 +33,7 @@ public final class ModuleDirective extends ResourceDirective
     
    /**
     * Creation of a new module directive supporting the establishment
-    * of an anonymous reesource.
+    * of an anonymous resource.
     *
     * @param name the module name
     * @param resource resource contained within the module
@@ -41,7 +41,7 @@ public final class ModuleDirective extends ResourceDirective
     public ModuleDirective( String name, ResourceDirective resource )
     {
         this(
-          name, null, Classifier.ANONYMOUS, null,
+          name, null, Classifier.ANONYMOUS, null, null,
           new TypeDirective[0], new DependencyDirective[0],
           new ResourceDirective[]{resource}, null, null );
     }
@@ -59,6 +59,7 @@ public final class ModuleDirective extends ResourceDirective
           resource.getVersion(), 
           resource.getClassifier(), 
           resource.getBasedir(), 
+          resource.getInfoDirective(), 
           resource.getTypeDirectives(), 
           resource.getDependencyDirectives(), 
           resources, 
@@ -78,10 +79,13 @@ public final class ModuleDirective extends ResourceDirective
     * @param properties suppliementary properties
     */
     public ModuleDirective(
-      String name, String version, Classifier classifier, String basedir, TypeDirective[] types,
-      DependencyDirective[] dependencies, ResourceDirective[] resources, Properties properties, FilterDirective[] filters )
+      String name, String version, Classifier classifier, String basedir, 
+      InfoDirective info, TypeDirective[] types,
+      DependencyDirective[] dependencies, ResourceDirective[] resources,
+      Properties properties, FilterDirective[] filters )
     {
-        super( name, version, classifier, basedir, types, dependencies, properties, filters );
+        super( name, version, classifier, basedir, info, types, dependencies, properties, filters );
+        
         if( null == resources )
         {
             throw new NullPointerException( "resources" );

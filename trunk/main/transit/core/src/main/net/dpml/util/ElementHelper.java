@@ -120,13 +120,16 @@ public final class ElementHelper
         {
             return null;
         }
-        final NodeList list = root.getElementsByTagName( name );
-        final int n = list.getLength();
-        if( n < 1 )
+        Element[] children = getChildren( root );
+        for( int i=0; i<children.length; i++ )
         {
-            return null;
+            Element child = children[i];
+            if( name.equals( child.getTagName() ) )
+            {
+                return child;
+            }
         }
-        return (Element) list.item( 0 );
+        return null;
     }
 
    /**
