@@ -41,7 +41,11 @@
       <import file="station/module.xml"/>
       <import file="planet/module.xml"/>
 
-      <project name="central" basedir="central"/>
+      <project name="central" basedir="central">
+        <properties>
+          <property name="project.docs.home.path" value="about/index.html"/>
+        </properties>
+      </project>
 
     </module>
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- 
- Copyright 2004 Stephen McConnell
+ Copyright 2004-2005 Stephen McConnell
+ Copyright 2004 Niclas Hedhman
+ Copyright 2005 David Leangen
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -20,19 +21,11 @@
 
 <project>
 
- <title>DPML Central</title>
+ <title>DPML Runtime</title>
 
  <body>
 
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Download" href="download/index.html"/>
-      <item name="Reports" href="reports/index.html"/>
-      <item name="Resources" href="resources/index.html"/>
-      <item name="Notepad" href="notepad/index.html"/>
-      <item name="News and Events" href="news/index.html"/>
-      <item name="Sponsors" href="sponsorship/index.html"/>
-      <item name="Legal" href="legal/index.html"/>
     </menu>
 
  </body>

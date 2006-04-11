@@ -25,14 +25,6 @@
  <body>
 
     <menu>
-      <item name="Overview" href="index.html"/>
-      <item name="Download" href="download/index.html"/>
-      <item name="Reports" href="reports/index.html"/>
-      <item name="Resources" href="resources/index.html"/>
-      <item name="Notepad" href="notepad/index.html"/>
-      <item name="News and Events" href="news/index.html"/>
-      <item name="Sponsors" href="sponsorship/index.html"/>
-      <item name="Legal" href="legal/index.html"/>
     </menu>
 
  </body>

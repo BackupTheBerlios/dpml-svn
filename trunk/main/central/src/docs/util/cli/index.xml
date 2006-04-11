@@ -31,6 +31,8 @@
 
       <p>
         The CLI library provides an API for processing command line interfaces.
+      </p>
+      <p>
         The implementation is based on the Jakarta Commons CLI2 library written 
         by John Keyes and Rob Oxspring.
       </p>

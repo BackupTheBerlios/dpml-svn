@@ -30,7 +30,7 @@
 
   <body verified="true">
 
-    <section name="Transit Overview">
+    <section name="DPML Transit">
 
       <pre>@TRANSIT-HANDLER-URI@</pre>
 

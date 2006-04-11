@@ -4,7 +4,7 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Station</title>
+    <title>DPML Station</title>
   </properties> 
 
   <body>
@@ -12,7 +12,7 @@
     <section name="DPML Station">
 
       <p>
-      The Metro Station is system supporting the maintenance of multiple
+      The DPML Station is system supporting the maintenance of multiple
       applications. It is composed of an remotely accessible registry
       of <a href="applications/index.html">applications</a> and a 
       supporting <a href="cli/index.html">commandline tool</a>.

@@ -26,9 +26,10 @@
 
     <menu>
       <item name="Overview" href="concepts/index.html"/>
-      <item name="Directives" href="directives/index.html"/>
+      <item name="XML Directive" href="directives/index.html"/>
       <item name="Runtime" href="runtime/index.html"/>
-      <item name="Tasks" href="tasks/index.html"/>
+      <item name="Ant" href="tasks/index.html"/>
+      <item name="CLI" href="cli/index.html"/>
     </menu>
 
  </body>

@@ -28,8 +28,7 @@
       <item name="Overview" href="concepts/index.html"/>
       <item name="Profiles" href="profiles/index.html"/>
       <item name="Applications" href="applications/index.html"/>
-      <item name="Station CLI" href="cli/index.html"/>
-      <item name="Metro CLI" href="exec/index.html"/>
+      <item name="CLI" href="cli/index.html"/>
       <item name="SCM" href="scm.html"/>
     </menu>
 

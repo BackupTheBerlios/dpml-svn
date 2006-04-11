@@ -68,6 +68,7 @@ public class DocTask extends GenericTask
     private static final String DOC_LOGO_MIDDLE_FILE_VALUE = "";
     private static final String DOC_LOGO_MIDDLE_URL_VALUE = "";
     private static final String DOC_BRAND_NAME_VALUE = "DPML";
+    private static final String DOC_HOME_PATH_VALUE = "index.html";
 
    /**
     * Constant organization key.
@@ -153,6 +154,11 @@ public class DocTask extends GenericTask
     * Constant docs anchor url key.
     */
     public static final String DOC_ANCHOR_URL_KEY = "project.docs.anchor.url";
+
+   /**
+    * Constant docs home page path.
+    */
+    public static final String DOC_HOME_PATH_KEY = "project.docs.home.path";
 
     private String m_theme;
     private File m_baseToDir;
@@ -257,6 +263,7 @@ public class DocTask extends GenericTask
         mkDir( docs );
         final String theme = getTheme();
         final String output = getOutputFormat();
+        final String home = getHomePath();
         final File themeRoot = getThemesDirectory();
         final File themeDir = new File( themeRoot, theme + "/" + output );
         
@@ -304,6 +311,11 @@ public class DocTask extends GenericTask
     private File getThemesDirectory()
     {
         return new File( Transit.DPML_PREFS, "dpml/tools/themes" );
+    }
+
+    private String getHomePath()
+    {
+        return getProject().getProperty( DOC_HOME_PATH_KEY );
     }
 
     private String getOutputFormat()

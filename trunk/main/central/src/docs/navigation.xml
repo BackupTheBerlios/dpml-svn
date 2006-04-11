@@ -26,6 +26,7 @@
  <body>
 
     <links>
+      <item name="Home" href="about/index.html"/>
       <item name="Utilities" href="util/concepts/index.html"/>
       <item name="Station" href="station/concepts/index.html"/>
       <item name="Metro" href="metro/concepts/index.html"/>
@@ -34,6 +35,7 @@
     </links>
 
     <menu>
+      <item name="Overview" href="about/index.html"/>
       <item name="Download" href="about/download/index.html"/>
       <item name="Reports" href="about/reports/index.html"/>
       <item name="Resources" href="about/resources/index.html"/>

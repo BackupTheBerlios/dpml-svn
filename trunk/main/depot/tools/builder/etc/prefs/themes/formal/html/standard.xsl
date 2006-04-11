@@ -12,6 +12,7 @@
 
   />
 
+  <xsl:param name="homepath"/>
   <xsl:param name="directory" />
   <xsl:param name="file" />
   <xsl:param name="fullpath" />
@@ -31,19 +32,20 @@
 
   <xsl:template match="document">
     <html>
-    <head>
-      <title>
-        <xsl:value-of select="properties/title" />
-      </title>
-      <xsl:variable name="x" select="document('navigation.xml', . )/project/body//menu/level" />
-      <link rel="stylesheet" type="text/css">
-        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />styles/style.css</xsl:attribute>
-      </link>
-      <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
-      <xsl:apply-templates select="properties" />
-      <meta name="publisher" content="DPML" />
-    </head>
-      <xsl:apply-templates select="body" />
+      <head>
+        <title>
+          <xsl:value-of select="properties/title" />
+        </title>
+        <xsl:variable name="x" select="document('navigation.xml', . )/project/body//menu/level" />
+        <link rel="stylesheet" type="text/css">
+          <xsl:attribute name="href">
+            <xsl:value-of select="$relativepath[position() = last()]" />styles/style.css</xsl:attribute>
+        </link>
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+        <xsl:apply-templates select="properties" />
+        <meta name="publisher" content="DPML" />
+      </head>
+      <xsl:apply-templates select="body"/>
     </html>
   </xsl:template>
 
@@ -56,7 +58,6 @@
 
   <xsl:template match="author">
     <meta name="author"><xsl:attribute name="content"><xsl:value-of select="." /></xsl:attribute></meta>
-    <!--<meta name="email"><xsl:attribute name="content"><xsl:value-of select="@email" /></xsl:attribute></meta>-->
   </xsl:template>
 
   <xsl:template match="contributor">
@@ -196,16 +197,19 @@
     <div class="categorybar">
       <xsl:attribute name="dir"><xsl:value-of select="$directory" /></xsl:attribute>
 
+      <!--
       <a>
         <xsl:attribute name="class"><xsl:value-of select="$homeclass" /></xsl:attribute>
-        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />index.html</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$relativepath[position() = last()]" />about/index.html</xsl:attribute>
         Home
       </a>
+      -->
       <xsl:variable name="x" select="document('navigation.xml', . )/project/body//category" />
       <xsl:apply-templates select="$x/item" >
         <xsl:with-param name="dir" select="$x/../level" />
         <xsl:with-param name="class" select="'category'" />
       </xsl:apply-templates>
+      
     </div>
   </xsl:template>
 
