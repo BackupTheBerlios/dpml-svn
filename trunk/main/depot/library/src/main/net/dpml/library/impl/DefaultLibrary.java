@@ -210,14 +210,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     public Module getModule( String ref ) throws ModuleNotFoundException
     {
         return m_module.getModule( ref );
-        //try
-        //{
-        //    return m_module.getModule( ref );
-        //}
-        //catch( ModuleNotFoundException e )
-        //{
-        //    return m_imports.getModule( ref );
-        //}
     }
 
    /**
@@ -229,14 +221,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     public Resource getResource( String ref ) throws ResourceNotFoundException
     {
         return m_module.getResource( ref );
-        //try
-        //{
-        //    return m_module.getResource( ref );
-        //}
-        //catch( ResourceNotFoundException e )
-        //{
-        //    return m_imports.getResource( ref );
-        //}
     }
     
    /**
@@ -381,23 +365,14 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * @exception IllegalArgumentException if the include mode is not URN mode
     * @exception URISyntaxException if the include urn is invaid
     */
-    DefaultResource getAnonymousResource( IncludeDirective include ) 
+    DefaultResource getAnonymousResource( String urn, Properties properties ) 
     throws URISyntaxException
     {
-        if( !include.getMode().equals( IncludeDirective.URN ) )
-        {
-            throw new IllegalArgumentException( 
-              "Invalid include mode: " 
-              + include.getMode() );
-        }
-        
-        String urn = include.getValue();
         if( m_anonymous.containsKey( urn ) )
         {
             return (DefaultResource) m_anonymous.get( urn );
         }
         
-        Properties properties = include.getProperties();
         Artifact artifact = Artifact.createArtifact( urn );
         String group = artifact.getGroup();
         String name = artifact.getName();
@@ -428,13 +403,13 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
             m_anonymous.put( urn, resource );
             return resource;
         }
-        catch( Exception pnfe )
+        catch( Exception e )
         {
             final String error = 
               "Internal error while creating an ANONYMOUS resource: "
               + urn
               + "].";
-            throw new RuntimeException( error, pnfe );
+            throw new RuntimeException( error, e );
         }
     }
     

@@ -916,7 +916,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             {
                 try
                 {
-                    resources[i] = m_library.getAnonymousResource( include );
+                    String value = include.getValue();
+                    String urn = resolve( value );
+                    Properties properties = include.getProperties();
+                    resources[i] = m_library.getAnonymousResource( urn, properties );
                 }
                 catch( URISyntaxException e )
                 {

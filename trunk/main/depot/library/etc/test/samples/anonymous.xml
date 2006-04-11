@@ -5,6 +5,7 @@
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-builder"/>
     <property name="project.standard.template" value="local:template:dpml/tools/standard"/>
     <property name="project.template" value="${project.standard.template}"/>
+    <property name="cc.version" value="3.0"/>
   </properties>
 
   <modules>
@@ -15,7 +16,7 @@
         </types>
         <dependencies>
           <runtime>
-            <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+            <include urn="artifact:jar:commons-collections/commons-collections#${cc.version}"/>
           </runtime>
         </dependencies>
       </project>
