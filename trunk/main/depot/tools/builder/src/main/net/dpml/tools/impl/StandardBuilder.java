@@ -22,7 +22,6 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
-import java.util.Properties;
 import java.util.Vector;
 
 import net.dpml.library.Builder;

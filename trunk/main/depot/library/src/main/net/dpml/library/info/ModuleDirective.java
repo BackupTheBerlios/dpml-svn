@@ -73,10 +73,12 @@ public final class ModuleDirective extends ResourceDirective
     * @param version the resource version
     * @param classifier LOCAL or EXTERNAL classifier
     * @param basedir the project basedir
+    * @param info info descriptor
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param resources resource included within the module
     * @param properties suppliementary properties
+    * @param filters associated filters
     */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, 

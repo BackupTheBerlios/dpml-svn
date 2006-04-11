@@ -18,8 +18,6 @@
 
 package net.dpml.library;
 
-import net.dpml.lang.AbstractDirective;
-
 /**
  * Interface implemented by content filters.
  *

@@ -95,11 +95,22 @@ public class DecodingException extends IOException
         }
     }
     
+   /**
+    * Static utility operation that returns a syring representation of a DOM element.
+    * @param element the element to stringify
+    * @return the string value
+    */
     public static String list( Element element )
     {
         return list( element, "" );
     }
     
+   /**
+    * Static utility operation that returns a syring representation of a DOM element.
+    * @param element the element to stringify
+    * @param pad padding offset
+    * @return the string value
+    */
     public static String list( Element element, String pad )
     {
         StringBuffer buffer = new StringBuffer();

@@ -46,8 +46,6 @@ import net.dpml.lang.Category;
 import net.dpml.lang.Part;
 
 import net.dpml.util.DecodingException;
-
-import net.dpml.util.DecodingException;
 import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.ElementHelper;
 
@@ -324,37 +322,11 @@ public final class LibraryDecoder extends LibraryConstants
         }
         else if( RESOURCE_ELEMENT_NAME.equals( elementName ) )
         {
-            try
-            {
-                return buildResourceDirective( element, offset );
-            }
-            catch( DecodingException e )
-            {
-                throw e;
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Internal error while attempting to build a resource directive from an element.";
-                throw new DecodingException( element, error, e );
-            }
+            return buildResourceDirective( element, offset );
         }
         else if( PROJECT_ELEMENT_NAME.equals( elementName ) )
         {
-            try
-            {
-                return buildResourceDirective( element, offset );
-            }
-            catch( DecodingException e )
-            {
-                throw e;
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Internal error while attempting to build a project directive from an element.";
-                throw new DecodingException( element, error, e );
-            }
+            return buildResourceDirective( element, offset );
         }
         else if( MODULE_ELEMENT_NAME.equals( elementName ) )
         {
@@ -369,63 +341,27 @@ public final class LibraryDecoder extends LibraryConstants
                     final String tag = child.getTagName();
                     if( MODULE_ELEMENT_NAME.equals( tag ) )
                     {
-                        try
-                        {
-                            ResourceDirective directive = 
-                              buildResourceDirectiveFromElement( base, child, null );
-                            list.add( directive );
-                        }
-                        catch( Throwable e )
-                        {
-                            final String error = 
-                              "Internal error while attempting to build a nested module directive from an element.";
-                            throw new DecodingException( child, error, e );
-                        }
+                        ResourceDirective directive = 
+                          buildResourceDirectiveFromElement( base, child, null );
+                        list.add( directive );
                     }
                     else if( IMPORT_ELEMENT_NAME.equals( tag ) ) 
                     {
-                        try
-                        {
-                            ResourceDirective directive = 
-                              buildResourceDirectiveFromElement( base, child, null );
-                            list.add( directive );
-                        }
-                        catch( Throwable e )
-                        {
-                            final String error = 
-                              "Internal error while attempting to build a a nested import directive from an element.";
-                            throw new DecodingException( child, error, e );
-                        }
+                        ResourceDirective directive = 
+                          buildResourceDirectiveFromElement( base, child, null );
+                        list.add( directive );
                     }
                     else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
                     {
-                        try
-                        {
-                            ResourceDirective directive = 
-                              buildResourceDirective( child );
-                            list.add( directive );
-                        }
-                        catch( Throwable e )
-                        {
-                            final String error = 
-                              "Internal error while attempting to build a a nested project directive from an element.";
-                            throw new DecodingException( child, error, e );
-                        }
+                        ResourceDirective directive = 
+                          buildResourceDirective( child );
+                        list.add( directive );
                     }
                     else if( RESOURCE_ELEMENT_NAME.equals( tag ) ) 
                     {
-                        try
-                        {
-                            ResourceDirective directive = 
-                              buildResourceDirective( child );
-                            list.add( directive );
-                        }
-                        catch( Throwable e )
-                        {
-                            final String error = 
-                              "Internal error while attempting to build a a nested resource directive from an element.";
-                            throw new DecodingException( child, error, e );
-                        }
+                        ResourceDirective directive = 
+                          buildResourceDirective( child );
+                        list.add( directive );
                     }
                 }
                 ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );

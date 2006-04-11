@@ -27,7 +27,6 @@ import java.util.Properties;
 import java.util.Hashtable;
 
 import net.dpml.library.info.ImportDirective;
-import net.dpml.library.info.IncludeDirective;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;

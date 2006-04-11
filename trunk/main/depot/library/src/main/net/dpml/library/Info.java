@@ -18,14 +18,8 @@
 
 package net.dpml.library;
 
-import java.util.Properties;
-
-import net.dpml.lang.AbstractDirective;
-
-import net.dpml.library.Info;
-
 /**
- * interface implemented by info providers.
+ * Interface implemented by info handlers.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

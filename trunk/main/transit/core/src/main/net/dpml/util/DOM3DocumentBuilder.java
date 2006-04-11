@@ -64,6 +64,7 @@ public class DOM3DocumentBuilder
     
    /**
     * Creation of a new DOM3 document builder.
+    * @param logger the assigned logging channel
     */
     public DOM3DocumentBuilder( Logger logger )
     {
@@ -72,6 +73,7 @@ public class DOM3DocumentBuilder
     
    /**
     * Creation of a new DOM3 document builder.
+    * @param logger the assigned logging channel
     * @param map namespace to builder uri map
     */
     public DOM3DocumentBuilder( Logger logger, Map map )

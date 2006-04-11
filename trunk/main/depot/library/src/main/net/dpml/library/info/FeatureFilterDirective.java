@@ -72,6 +72,8 @@ public class FeatureFilterDirective extends FilterDirective
     * Return the filter value.
     * @param resource the enclosing resource
     * @return the resolved value
+    * @exception ResourceNotFoundException if the feature references a 
+    *  resource that is unknown
     */
     public String getValue( Resource resource ) throws ResourceNotFoundException
     {

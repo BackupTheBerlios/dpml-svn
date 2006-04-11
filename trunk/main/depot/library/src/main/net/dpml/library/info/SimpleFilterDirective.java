@@ -21,8 +21,6 @@ package net.dpml.library.info;
 import net.dpml.library.Resource;
 import net.dpml.library.ResourceNotFoundException;
 
-import net.dpml.util.PropertyResolver;
-
 /**
  * Simple value filter.
  *
@@ -48,6 +46,7 @@ public class SimpleFilterDirective extends FilterDirective
     * Return the filter value.
     * @param resource the enclosing resource
     * @return the resolved value
+    * @exception ResourceNotFoundException (never thrown)
     */
     public String getValue( Resource resource ) throws ResourceNotFoundException
     {

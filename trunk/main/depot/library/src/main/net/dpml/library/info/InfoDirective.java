@@ -18,8 +18,6 @@
 
 package net.dpml.library.info;
 
-import java.util.Properties;
-
 import net.dpml.lang.AbstractDirective;
 
 import net.dpml.library.Info;

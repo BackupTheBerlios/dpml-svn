@@ -18,8 +18,6 @@
 
 package net.dpml.library.info;
 
-import java.util.Properties;
-
 import net.dpml.lang.AbstractDirective;
 
 import net.dpml.library.Filter;
@@ -58,6 +56,8 @@ public abstract class FilterDirective extends AbstractDirective implements Filte
     * Return the filter value.
     * @param resource the enclosing resource
     * @return the resolved value
+    * @exception ResourceNotFoundException if the feature references a 
+    *  resource that is unknown
     */
     public abstract String getValue( Resource resource ) throws ResourceNotFoundException;
     
