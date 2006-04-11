@@ -28,9 +28,9 @@
       </types>
 
       <filters>
-        <filter token="PROJECT-VERSION" value="${project.version}"/> 
         <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
         <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+        <feature token="PROJECT-VERSION" id="version"/> 
       </filters>
 
       <import file="lang/module.xml"/>
