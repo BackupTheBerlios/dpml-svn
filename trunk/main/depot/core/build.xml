@@ -85,7 +85,7 @@
   </target>
 
   <target name="bin" depends="prepare" unless="depot.exe.available">
-    <copy todir="${dpml.system}" preservelastmodified="true">
+    <copy todir="${dpml.system}" preservelastmodified="true" filtering="false">
       <fileset dir="target">
         <include name="bin/depot.exe"/>
       </fileset>
