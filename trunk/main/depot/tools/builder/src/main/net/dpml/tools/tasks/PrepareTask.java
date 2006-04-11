@@ -88,7 +88,7 @@ public class PrepareTask extends GenericTask
         // setup the file system
         //
         
-        String filters = resource.getProperty( SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
+        String filters = context.getProperty( SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
         mkDir( context.getTargetDirectory() );
         if( context.getSrcMainDirectory().exists() )
         {
@@ -135,9 +135,9 @@ public class PrepareTask extends GenericTask
         if( context.getEtcMainDirectory().exists() )
         {
             final String includes = 
-              resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+              context.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
             final String excludes = 
-              resource.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+              context.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
             
             //
             // copy ${etc}/main content to ${target}/build/main
@@ -152,9 +152,9 @@ public class PrepareTask extends GenericTask
         if( context.getEtcTestDirectory().exists() )
         {
             final String includes = 
-              resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+              context.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
             final String excludes = 
-              resource.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+              context.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
             
             //
             // copy ${etc}/test content to ${target}/build/test
@@ -169,9 +169,9 @@ public class PrepareTask extends GenericTask
         if( context.getEtcDirectory().exists() )
         {
             final String includes = 
-              resource.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+              context.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
             final String excludes = 
-              resource.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+              context.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
             final File etc = context.getEtcDirectory();
             
             //
@@ -183,7 +183,7 @@ public class PrepareTask extends GenericTask
             String test = context.getEtcTestDirectory().toString() + "/**";
             File target = context.getTargetDirectory();
             final String standard = main + "," + test;
-            copy( etc, target, true, includes, standard + excludes );
+            copy( etc, target, true, includes, standard + "," + excludes );
             copy( etc, target, false, excludes, standard );
         }
     }
