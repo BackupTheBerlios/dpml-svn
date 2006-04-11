@@ -4,6 +4,9 @@
   <properties>
     <property name="project.xsd.builder.artifact:xsd:dpml/lang/dpml-component#1.0"
       value="link:part:dpml/metro/dpml-metro-runtime"/>
+    <property name="jetty.version" value="6.0.0-B14"/>
+    <property name="jasper.version" value="5.5.15"/>
+    <property name="sl4j.version" value="1.0-rc5"/>
   </properties>
 
   <project name="dpml-http-impl" basedir="impl">
@@ -14,16 +17,17 @@
       <runtime>
         <include ref="dpml/metro/dpml-metro-model"/>
         <include ref="dpml/util/dpml-logging-api"/>
-        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#6.0.0-B14" tag="PUBLIC"/>
-        <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
-        <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
-        <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
-        <include urn="artifact:jar:org/mortbay/jetty#6.0.0-B14"/>
-        <include urn="artifact:jar:org/mortbay/jetty-util#6.0.0-B14"/>
-        <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
-        <include urn="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
-        <include urn="artifact:jar:commons-el/commons-el#1.0"/>
         <include ref="dpml/transit/dpml-transit-main"/>
+        <include urn="artifact:jar:org/mortbay/jetty/servlet-api-2.5#${jetty.version}" tag="PUBLIC"/>
+        <include urn="artifact:jar:org/mortbay/jetty/jetty-util#${jetty.version}"/>
+        <include urn="artifact:jar:org/mortbay/jetty/jsp-api-2.0#${jetty.version}"/>
+        <include urn="artifact:jar:org/mortbay/jetty/jetty#${jetty.version}"/>
+        <include urn="artifact:jar:tomcat/jasper-runtime#${jasper.version}"/>
+        <include urn="artifact:jar:tomcat/jasper-compiler#${jasper.version}"/>
+        <include urn="artifact:jar:tomcat/jasper-compiler-jdt#${jasper.version}"/>
+        <include urn="artifact:jar:commons-el/commons-el#1.0"/>
+        <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#${sl4j.version}"/>
+        <include urn="artifact:jar:org/slf4j/slf4j-jdk14#${sl4j.version}"/>
       </runtime>
     </dependencies>
   </project>
@@ -35,7 +39,7 @@
     </types>
     <dependencies>
       <runtime>
-        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#6.0.0-B14" tag="PUBLIC"/>
+        <include urn="artifact:jar:org/mortbay/jetty/servlet-api-2.5#${jetty.version}" tag="PUBLIC"/>
       </runtime>
     </dependencies>
   </project>
