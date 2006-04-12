@@ -12,4 +12,3 @@ RedirectMatch ^/transit/overview.html http://www.dpml.net/transit/concepts/index
 RedirectMatch ^/about/setup(.*) http://www.dpml.net/about/download/index.html
 RedirectMatch ^/index.html http://www.dpml.net/about/index.html
 RedirectMatch ^/index.htm http://www.dpml.net/about/index.html
-RedirectMatch ^/ http://www.dpml.net/about/index.html
