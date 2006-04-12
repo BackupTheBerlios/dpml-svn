@@ -7,31 +7,76 @@ Status: work-in-progress
 
 <configuration>
 
-  <phases>
-   
-    <phase name="init">
+    <phases>
+    
+      <phase name="preparation">
+        <!--
+        Convert the client's codebase into a normalized form 
+        suitable for automated construction.
+        -->
+        
+        <invoke id="prepare-etc"/>
+        <invoke id="prepare-main"/>
+        <invoke id="prepare-test"/>
+        <invoke id="prepare-docs"/>
+      
+      </phase>
+
+      <phase name="construction" depends="preparation">
+        <!--
+        For all published types - construct the data suitable for 
+        subsequent packaging.
+        -->
+        
+        <select>
+          <invoke key="build"/> <!-- aka build-jar, build-part, etc -->
+        </select>
+         
+      </phase>
+
+      <phase name="packaging" depends="construction">
+        <!--
+        For all published types - package the constructed data
+        into a single deliverable file.
+        -->
+      </phase>
+    
+      <phase name="validation" depends="packaging">
+        <!--
+        For all published types - validate the packaged deliverable
+        if the deliverable exists and a validation procedure is know.
+        -->
+      </phase>
+    
+      <phase name="installation" depends="validation">
+        <!--
+        For all published types - generate a validated deliverable.
+        -->
+      </phase>
+    
+    </phases>
+    
+    
+    
+    <processes>
     
       <process name="setup">
         <produces>
-          <dir path="${basedir}/etc" name="etc"/>
-          <dir path="${basedir}/src" name="src"/>
-          <dir path="${basedir}/target" name="target"/>
+          <dir path="etc" name="etc"/>
           <dir path="${etc}/main" name="etc.main"/>
           <dir path="${etc}/test" name="etc.test"/>
           <dir path="${etc}/prefs" name="etc.prefs"/>
           <dir path="${etc}/bin" name="etc.bin"/>
           <dir path="${etc}/deliverables" name="etc.deliverables"/>
+          <dir path="src" name="src"/>
           <dir path="${etc}/docs" name="etc.docs"/>
           <dir path="${src}/main" name="src.main"/>
           <dir path="${src}/docs" name="src.docs"/>
           <dir path="${src}/test" name="src.test"/>
+          <dir path="target" name="target"/>
         </produces>
       </process>
-
-    </phase>
-    
-    <phase name="prepare" depends="init">
-    
+        
       <process name="prepare-prefs">
         <consumes>
           <ref id="etc.prefs"/>
@@ -40,7 +85,7 @@ Status: work-in-progress
           <dir path="${target}/prefs" name="target.prefs"/>
         </produces>
       </process>
-
+    
       <process name="prepare-deliverables">
         <consumes>
           <ref id="etc.deliverables"/>
@@ -49,7 +94,7 @@ Status: work-in-progress
           <dir path="${target}/deliverables" name="target.deliverables"/>
         </produces>
       </process>
-  
+      
       <process name="prepare-main">
         <consumes>
           <ref id="target"/>
@@ -60,7 +105,7 @@ Status: work-in-progress
           <dir path="${target}/build/main" name="target.build.main"/>
         </produces>
       </process>
-
+      
       <process name="prepare-test">
         <consumes>
           <ref id="etc.test" optional="true"/>
@@ -70,7 +115,7 @@ Status: work-in-progress
           <dir path="${target}/build/test" name="target.build.test"/>
         </produces>
       </process>
-      
+          
       <process name="prepare-docs">
         <consumes>
           <ref id="etc.docs" optional="true"/>
@@ -81,10 +126,6 @@ Status: work-in-progress
         </produces>
       </process>
       
-    </phase>
-    
-    <phase name="build" depends="prepare">
-      
       <process name="build-main">
         <consumes>
           <ref id="target.build.main" optional="true"/>
@@ -93,7 +134,7 @@ Status: work-in-progress
           <dir path="${target}/classes/main" name="target.classes.main"/>
         </produces>
       </process>
-      
+          
       <process name="build-test">
         <consumes>
           <ref id="target.build.test" optional="true"/>
@@ -102,11 +143,7 @@ Status: work-in-progress
           <dir path="${target}/classes/test" name="target.classes.test"/>
         </produces>
       </process>
-      
-    </phase>
-    
-    <phase name="package" depends="build">
-    
+          
       <process name="jar">
         <consumes>
           <ref id="target.deliverables"/>
@@ -116,7 +153,7 @@ Status: work-in-progress
           <resource base="{target.deliverables}" name="target.deliverables.jar"/>
         </produces>
       </process>
-
+    
       <process name="part" id="part">
         <consumes>
           <ref id="target.deliverables.jar" optional="true"/>
@@ -125,11 +162,7 @@ Status: work-in-progress
           <resource base="{target.deliverables}" name="target.deliverables.part"/>
         </produces>
       </process>
-
-    </phase>
     
-    <phase name="test" depends="package">
-
       <process name="unit-test">
         <consumes>
           <ref id="target.classes.test" optional="true"/>
@@ -139,15 +172,7 @@ Status: work-in-progress
           <dir path="${target}/reports/test" name="target.reports.test"/>
         </produces>
       </process>
-
-    </phase>
     
-    <phase name="install" depends="test">
-    
-      <select>
-        <all/>
-      </select>
-
       <process name="prefs">
         <consumes>
           <ref id="target.prefs"/>
@@ -156,10 +181,11 @@ Status: work-in-progress
           <collection layout="classic" base="${dpml.prefs}" name="prefs"/>
         </produces>
       </process>
-
-      <process name="deliverables">
+    
+      <process name="install">
       
         <description>
+        
         For all of the resources declared by the project defintion - copy
         the resource under the target deliverables directory to the working 
         cache. The process validates that all resource declared as produced by
@@ -168,27 +194,21 @@ Status: work-in-progress
         </description>
         
         <consumes>
-          <select type="*"/>
           <ref id="target.deliverables"/>
+          <select type="*"/>
         </consumes>
         <produces>
           <collection layout="classic" base="${dpml.cache}"  name="cache"/>
         </produces>
       </process>
-
-    </phase>
     
-    <phase name="clean" depends="init">
-
       <process name="purge">
         <consumes>
           <ref id="target"/>
         </consumes>
       </process>
-    
-    </phase>
-    
-  </phases>
+      
+    </processes>
   
 </configuration>
 
