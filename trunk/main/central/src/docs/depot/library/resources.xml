@@ -109,15 +109,17 @@
 
   <resource name="ant">
     <properties>
-      <property name="project.api.root" value="${project.api.host}/${group}/${version}"/>
+      <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
     </properties>
     <types>
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="ant-launcher"/>
-      <include key="ant-trax"/>
-      <include key="ant-xslp"/>
+      <runtime>
+        <include key="ant-launcher"/>
+        <include key="ant-trax"/>
+        <include key="ant-xslp"/>
+      </runtime>
     </dependencies>
   </resource>
 
@@ -126,8 +128,10 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="ant"/>
-      <include ref="junit/junit"/>
+      <runtime>
+        <include key="ant"/>
+        <include ref="junit/junit"/>
+      </runtime>
     </dependencies>
   </resource>
 
@@ -136,7 +140,9 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="ant"/>
+      <runtime>
+        <include key="ant"/>
+      </runtime>
     </dependencies>
   </resource>
 
@@ -145,7 +151,9 @@
       <type id="jar"/>
     </types>
     <dependencies>
-      <include key="ant"/>
+      <runtime>
+        <include key="ant"/>
+      </runtime>
     </dependencies>
   </resource>
 

@@ -108,11 +108,10 @@
     <section name="Example">
 
       <p>
-      The following examle project is taken from the DPML Metro module. The project
+      The following example project is taken from the DPML Metro module. The project
       declares a basedir and the project name <tt>dpml-metro-runtime</tt>.  It declares
-      that it produces two artifacts - a jar file and a plugin file.  The plugin type
-      declaration includes some properties used by the associated build system to 
-      construct a plugin definition (in this case the plugin factory classname).  
+      that it produces two artifacts - a jar file and a plugin part definition.  The part type
+      is an example of a plugin declaration concaining nexted constructor arguments.
       The project includes several dependencies collected under two groups - the 
       first group maps to the projects <tt>RUNTIME</tt> dependencies and second group maps
       to <tt>TEST</tt> scoped dependencies.  Within the runtime group the dependencies 
@@ -122,22 +121,38 @@
       </p>
 
 <source><![CDATA[
-<project name="dpml-metro-runtime" basedir="runtime">
-  <types>
-    <type id="jar"/>
-    <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
-  </types>
-  <dependencies>
-    <include ref="dpml/util/dpml-logging-api" tag="public"/>
-    <include key="dpml-metro-component" tag="protected"/>
-    <include key="dpml-metro-model" tag="protected"/>
-    <include key="dpml-state-impl"/>
-    <include key="dpml-metro-runtime"/>
-  </dependencies>
-  <dependencies scope="test">
-    <include ref="ant/ant-junit"/>
-  </dependencies>
-</project>
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <info>
+      <description title="Metro Container Runtime">
+      DPML Component management platform runtime container.
+      </description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+        <part:param class="net.dpml.component.InitialContext"/>
+      </part:plugin>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
+        <include ref="dpml/metro/dpml-job-impl"/>
+        <include ref="dpml/metro/dpml-state-impl"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+    </filters>
+  </project>
 ]]></source>
 
     </section>
