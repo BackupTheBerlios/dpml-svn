@@ -68,7 +68,7 @@ class ZipCache implements Runnable
             m_store.put( key, entry );
             if( m_thread == null )
             {
-                m_thread = new Thread( this, "ZipCache-cleaner" );
+                m_thread = new Thread( this, "DPML Transit Zip Cache Cleaner" );
                 m_thread.setDaemon( true );
                 m_thread.start();
             }

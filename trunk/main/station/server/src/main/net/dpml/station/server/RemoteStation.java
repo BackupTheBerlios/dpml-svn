@@ -106,7 +106,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         try
         {
             m_server = new LoggingServer( 2020 );
-            m_thread = new Thread( m_server );
+            m_thread = new Thread( m_server, "DPML Station Logging Server" );
             m_thread.start();
         }
         catch( Exception e )
@@ -428,6 +428,7 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
         
         EventDispatchThread( Logger logger )
         {
+            super( "DPML Station Event Dispatch" );
             m_logger = logger;
             m_logger.debug( "starting event dispatch thread" );
         }
