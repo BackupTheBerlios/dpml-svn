@@ -43,12 +43,15 @@
 
         <table>
           <tr>
+            <td>name</td>
             <td>standard</td>
           </tr>
           <tr>
+            <td>url</td>
             <td><tt>local:template:dpml/tools/standard</tt></td>
           </tr>
           <tr>
+            <td>desription</td>
             <td>
               Defines a set of standard targets which are used 
               primarily to fire build events which in turn are handled 
@@ -112,11 +115,7 @@
         <p>
         Currently the standard template includes a <tt>checkstyle</tt> tasks.  This 
         should be considered as temporary pending development of the builder 
-        configuration to support site wide common targets.  In addition to the 
-        standard template, another template named <tt>reactor</tt> is available 
-        which handles multi-project builds driven by ant. Please note that the 
-        reactor template is largely redundant due to the support for multi-project 
-        builds covered by the <tt>build</tt> tool.
+        configuration to support site wide common targets.
         </p>
 
       </subsection>
