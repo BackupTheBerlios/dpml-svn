@@ -25,6 +25,7 @@
         
         <ul>
           <li>Module name processing enhanced to support composite names.</li>
+          <li>Resolution of redundant property assertions in exported modules.</li>
         </ul>
         
         <table>
