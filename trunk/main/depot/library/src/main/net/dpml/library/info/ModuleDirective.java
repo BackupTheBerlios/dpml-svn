@@ -32,6 +32,62 @@ public final class ModuleDirective extends ResourceDirective
     private final ResourceDirective[] m_resources;
     
    /**
+    * Creation of a new module directive.  If the resource name if composite
+    * then the resource directive will be a module directive instance that either 
+    * encloses the resource or enclosed a resource containing the resource.
+    *
+    * @param name the resource name
+    * @param version the resource version
+    * @param classifier LOCAL or EXTERNAL classifier
+    * @param basedir the project basedir
+    * @param info info descriptor
+    * @param types types produced by the resource
+    * @param dependencies resource dependencies
+    * @param properties suppliementary properties
+    * @param filters source filters
+    * @return the immediate enclosing resource
+    */
+    public static ModuleDirective createModuleDirective( 
+      String name, String version, Classifier classifier, String basedir, 
+      InfoDirective info, TypeDirective[] types, 
+      DependencyDirective[] dependencies, Properties properties, 
+      FilterDirective[] filters, ResourceDirective[] resources )
+    {
+        int n = name.indexOf( "/" );
+        if( n > -1 )
+        {
+            ModuleDirective enclosing = null;
+            String[] elements = name.split( "/", -1 );
+            for( int i = ( elements.length-1 ); i>-1; i-- )
+            {
+                String elem = elements[i];
+                if( i == ( elements.length-1 ) )
+                {
+                    enclosing =  
+                      new ModuleDirective(
+                        elem, version, classifier, basedir, info, types, dependencies,
+                        resources, properties, filters );
+                }
+                else
+                {
+                    enclosing = 
+                      new ModuleDirective(
+                        elem, null, Classifier.EXTERNAL, ".", null,
+                        new TypeDirective[0], new DependencyDirective[0],
+                        new ResourceDirective[]{enclosing}, null, null );
+                }
+            }
+            return enclosing;
+        }
+        else
+        {
+            return new ModuleDirective(
+              name, version, classifier, basedir, info, types, dependencies,
+              resources, properties, filters );
+        }
+    }
+    
+   /**
     * Creation of a new module directive supporting the establishment
     * of an anonymous resource.
     *
@@ -44,27 +100,6 @@ public final class ModuleDirective extends ResourceDirective
           name, null, Classifier.ANONYMOUS, null, null,
           new TypeDirective[0], new DependencyDirective[0],
           new ResourceDirective[]{resource}, null, null );
-    }
-    
-   /**
-    * Creation of a new module directive.
-    * @param resource the abstract resource definition
-    * @param resources resource contained within the module
-    */
-    public ModuleDirective(
-      ResourceDirective resource, ResourceDirective[] resources )
-    {
-        this( 
-          resource.getName(), 
-          resource.getVersion(), 
-          resource.getClassifier(), 
-          resource.getBasedir(), 
-          resource.getInfoDirective(), 
-          resource.getTypeDirectives(), 
-          resource.getDependencyDirectives(), 
-          resources, 
-          resource.getProperties(),
-          resource.getFilterDirectives() );
     }
     
    /**

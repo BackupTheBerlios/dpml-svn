@@ -379,7 +379,8 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         String type = artifact.getType();
         
         ResourceDirective resourceDirective = 
-          new ResourceDirective( name, version, type, properties );
+          ResourceDirective.createAnonymousResource( name, version, type, properties );
+
         ModuleDirective enclosing = null;
         String[] elements = group.split( "/", -1 );
         for( int i = ( elements.length-1 ); i>-1; i-- )

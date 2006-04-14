@@ -24,13 +24,7 @@
         </p>
         
         <ul>
-          <li>Support for the declaration of custom etc/main and etc/text directories.</li>
-          <li>Removal of activity api (functionality covered by state package).</li>
-          <li>Removal of the configuration and parameterization packages (functionality covered via Context IOC model).</li>
-          <li>Support for filter declarations within a <tt>&lt;project&gt;</tt> definition.</li>
-          <li>Improvements to DOM related error reporting.</li>
-          <li>Structural enhancements to the module schema.</li>
-          <li>Upgrade to Jetty  6.0.0 B14.</li>
+          <li>Module name processing enhanced to support composite names.</li>
         </ul>
         
         <table>
@@ -76,7 +70,65 @@
 
       </subsection>
 
+      <subsection name="Build 1.0.0 RC7">
 
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Support for the declaration of custom etc/main and etc/text directories.</li>
+          <li>Removal of activity api (functionality covered by state package).</li>
+          <li>Removal of the configuration and parameterization packages (functionality covered via Context IOC model).</li>
+          <li>Support for filter declarations within a <tt>&lt;project&gt;</tt> definition.</li>
+          <li>Improvements to DOM related error reporting.</li>
+          <li>Structural enhancements to the module schema.</li>
+          <li>Upgrade to Jetty  6.0.0 B14.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0 RC7/dpml-sdk-win32-1.0.0 RC7.exe">
+                dpml-sdk-win32-1.0.0 RC7.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0 RC7/dpml-sdk-win32-1.0.0 RC7.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0 RC7/dpml-sdk-win32-1.0.0 RC7.zip">
+                dpml-sdk-win32-1.0.0 RC7.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0 RC7/dpml-sdk-win32-1.0.0 RC7.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0 RC7/dpml-sdk-linux-1.0.0 RC7.tar.gz">
+                dpml-sdk-linux-1.0.0 RC7.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0 RC7/dpml-sdk-linux-1.0.0 RC7.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/1.0.0 RC7">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/1.0.0 RC7/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0 RC7/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+      
       <subsection name="Build 1.0.0 RC6 (SVN rev 1333)">
 
         <p>

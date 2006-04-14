@@ -63,18 +63,21 @@ public class ResourceDirective extends AbstractDirective
     * @param type the resource type
     * @param properties suppliementary properties
     */
-    public ResourceDirective( 
+    public static ResourceDirective createAnonymousResource( 
       String name, String version, String type, Properties properties )
     {
-        this( 
+        return createResourceDirective(
           name, version, Classifier.ANONYMOUS, null, 
           null, new TypeDirective[]{new TypeDirective( type )}, 
           new DependencyDirective[0],
-          properties );
+          properties, null );
     }
     
    /**
-    * Creation of a new resource directive.
+    * Creation of a new resource directive.  If the resource name if composite
+    * then the resource directive will be a module directive instance that either 
+    * encloses the resource or enclosed a resource containing the resource.
+    *
     * @param name the resource name
     * @param version the resource version
     * @param classifier LOCAL or EXTERNAL classifier
@@ -83,15 +86,49 @@ public class ResourceDirective extends AbstractDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
+    * @param filters source filters
+    * @return the immediate enclosing resource
     */
-    public ResourceDirective( 
+    public static ResourceDirective createResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
-      DependencyDirective[] dependencies, Properties properties )
+      DependencyDirective[] dependencies, Properties properties, 
+      FilterDirective[] filters )
     {
-        this( name, version, classifier, basedir, info, types, dependencies, properties, null );
+        int n = name.indexOf( "/" );
+        if( n > -1 )
+        {
+            ResourceDirective enclosing = null;
+            String[] elements = name.split( "/", -1 );
+            for( int i = ( elements.length-1 ); i>-1; i-- )
+            {
+                String elem = elements[i];
+                if( i == ( elements.length-1 ) )
+                {
+                    enclosing =  
+                      new ResourceDirective(
+                        elem, version, classifier, basedir, info, types, dependencies,
+                        properties, filters );
+                }
+                else
+                {
+                    enclosing = 
+                      new ModuleDirective(
+                        elem, null, Classifier.EXTERNAL, ".", null,
+                        new TypeDirective[0], new DependencyDirective[0],
+                        new ResourceDirective[]{enclosing}, null, null );
+                }
+            }
+            return enclosing;
+        }
+        else
+        {
+            return new ResourceDirective(
+              name, version, classifier, basedir, info, types, 
+              dependencies, properties, filters );
+        }
     }
-    
+
    /**
     * Creation of a new resource directive.
     * @param name the resource name
@@ -104,7 +141,7 @@ public class ResourceDirective extends AbstractDirective
     * @param properties suppliementary properties
     * @param filters source filters
     */
-    public ResourceDirective( 
+    ResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 

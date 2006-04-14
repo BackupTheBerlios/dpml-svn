@@ -584,7 +584,7 @@ public final class DefaultModule extends DefaultResource implements Module
                 }
             }
             final String error = 
-              "An  reference to ["
+              "The reference to ["
                 + ref
                 + "] within the module ["
                 + getResourcePath()

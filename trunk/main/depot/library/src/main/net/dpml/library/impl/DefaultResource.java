@@ -615,9 +615,9 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         TypeDirective[] exportedTypes = createExportedTypes( types );
         DependencyDirective[] dependencies = createDeps( module );
         Properties properties = getExportProperties();
-        return new ResourceDirective( 
+        return ResourceDirective.createResourceDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          info, exportedTypes, dependencies, properties );
+          info, exportedTypes, dependencies, properties, null );
     }
     
     TypeDirective[] createExportedTypes( TypeDirective[] types )

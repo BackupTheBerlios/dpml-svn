@@ -322,61 +322,15 @@ public final class LibraryDecoder extends LibraryConstants
         }
         else if( RESOURCE_ELEMENT_NAME.equals( elementName ) )
         {
-            return buildResourceDirective( element, offset );
+            return buildResourceDirective( base, element, offset );
         }
         else if( PROJECT_ELEMENT_NAME.equals( elementName ) )
         {
-            return buildResourceDirective( element, offset );
+            return buildResourceDirective( base, element, offset );
         }
         else if( MODULE_ELEMENT_NAME.equals( elementName ) )
         {
-            try
-            {
-                ResourceDirective resource = buildResourceDirective( element, offset );
-                ArrayList list = new ArrayList();
-                Element[] children = ElementHelper.getChildren( element );
-                for( int i=0; i<children.length; i++ )
-                {
-                    Element child = children[i];
-                    final String tag = child.getTagName();
-                    if( MODULE_ELEMENT_NAME.equals( tag ) )
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirectiveFromElement( base, child, null );
-                        list.add( directive );
-                    }
-                    else if( IMPORT_ELEMENT_NAME.equals( tag ) ) 
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirectiveFromElement( base, child, null );
-                        list.add( directive );
-                    }
-                    else if( PROJECT_ELEMENT_NAME.equals( tag ) ) 
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirective( child );
-                        list.add( directive );
-                    }
-                    else if( RESOURCE_ELEMENT_NAME.equals( tag ) ) 
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirective( child );
-                        list.add( directive );
-                    }
-                }
-                ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
-                return new ModuleDirective( resource, resources );
-            }
-            catch( DecodingException e )
-            {
-                throw e;
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Internal error while attempting to build a module directive from an element.";
-                throw new DecodingException( element, error, e );
-            }
+            return buildResourceDirective( base, element, offset );
         }
         else
         {
@@ -576,12 +530,12 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
-    private ResourceDirective buildResourceDirective( Element element )  throws Exception
+    private ResourceDirective buildResourceDirective( File base, Element element )  throws Exception
     {
-        return buildResourceDirective( element, null );
+        return buildResourceDirective( base, element, null );
     }
     
-    private ResourceDirective buildResourceDirective( Element element, String path ) throws Exception
+    private ResourceDirective buildResourceDirective( File base, Element element, String path ) throws Exception
     {
         Classifier classifier = null;
         final String tag = element.getTagName();
@@ -651,8 +605,52 @@ public final class LibraryDecoder extends LibraryConstants
               buildProperties( 
                 ElementHelper.getChild( element, "properties" ) );
             
-            return new ResourceDirective( 
-              name, version, classifier, basedir, info, types, dependencies, properties, filters );
+            if( MODULE_ELEMENT_NAME.equals( tag ) )
+            {
+                ArrayList list = new ArrayList();
+                Element[] children = ElementHelper.getChildren( element );
+                for( int i=0; i<children.length; i++ )
+                {
+                    Element child = children[i];
+                    final String t = child.getTagName();
+                    if( MODULE_ELEMENT_NAME.equals( t ) )
+                    {
+                        ResourceDirective directive = 
+                          buildResourceDirectiveFromElement( base, child, null );
+                        list.add( directive );
+                    }
+                    else if( IMPORT_ELEMENT_NAME.equals( t ) ) 
+                    {
+                        ResourceDirective directive = 
+                          buildResourceDirectiveFromElement( base, child, null );
+                        list.add( directive );
+                    }
+                    else if( PROJECT_ELEMENT_NAME.equals( t ) ) 
+                    {
+                        ResourceDirective directive = 
+                          buildResourceDirective( base, child );
+                        list.add( directive );
+                    }
+                    else if( RESOURCE_ELEMENT_NAME.equals( t ) ) 
+                    {
+                        ResourceDirective directive = 
+                          buildResourceDirective( base, child );
+                        list.add( directive );
+                    }
+                }
+                
+                ResourceDirective[] resources = 
+                  (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
+                return ModuleDirective.createModuleDirective( 
+                  name, version, classifier, basedir, info, types, dependencies, 
+                  properties, filters, resources );
+            }
+            else
+            {
+                return ResourceDirective.createResourceDirective( 
+                  name, version, classifier, basedir, info, types, dependencies, 
+                  properties, filters );
+            }
         }
         else
         {
