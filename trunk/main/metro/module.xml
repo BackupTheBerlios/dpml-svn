@@ -135,11 +135,12 @@
   </project>
    
   <project name="dpml-metro-tools" basedir="tools">
-    <properties>
-      <property name="project.title" value="Metro Tools"/>
-      <property name="project.description" 
-        value="DPML extensions supporting the Ant build system for component type and deployment data management."/>
-    </properties>
+    <info>
+      <description title="DPML Metro Tools">
+      DPML extensions supporting the Ant build system for component 
+      type and deployment data management
+      </description>
+    </info>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:metro"

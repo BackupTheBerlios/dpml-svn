@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<library xmlns="@MODULE-XSD-URI@" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
+
+  <modules>
+    <module name="org">
+      <properties>
+        <property name="ping" value="pong"/>
+        <property name="batman" value="robin"/>
+      </properties>
+      <module name="acme">
+        <properties>
+          <property name="foo" value="bar"/>
+        </properties>
+      </module>
+    </module>
+  </modules>
+
+</library>

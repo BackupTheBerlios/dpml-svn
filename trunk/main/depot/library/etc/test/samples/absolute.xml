@@ -6,6 +6,7 @@
   <modules>
     <module name="gov/nsa/acme">
       <info/>
+      <resource name="widget/gizmo"/>
     </module>
   </modules>
 

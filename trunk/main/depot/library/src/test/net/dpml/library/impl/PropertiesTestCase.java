@@ -34,7 +34,7 @@ import junit.framework.TestCase;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class AbsoluteTestCase extends AbstractTestCase
+public final class PropertiesTestCase extends AbstractTestCase
 {
     static
     {
@@ -51,36 +51,30 @@ public final class AbsoluteTestCase extends AbstractTestCase
     {
         String base = System.getProperty( "project.test.dir" );
         File test = new File( base );
-        File file = new File( test, "samples/absolute.xml" );
+        File file = new File( test, "samples/properties.xml" );
         Logger logger = new DefaultLogger( "test" );
         m_library = new DefaultLibrary( logger, file );
     }
     
    /**
-    * Validation of an absolute module path expansion.  The module defintion
-    * includes a path in the form "gov/nsa/acme" which should be expanded to
-    * a structure containing the "gov" module, containing the "nsa" module,
-    * containing the "acme" module.
+    * Test the integrity of the local properties.
     * @exception Exception if an error occurs during test execution
     */
-    public void testAbsoluteModulePath() throws Exception
+    public void testRootModuleProperties() throws Exception
     {
-        Module gov = m_library.getModule( "gov" );
-        Module nsa = m_library.getModule( "gov/nsa" );
-        Module acme = m_library.getModule( "gov/nsa/acme" );
+        DefaultModule acme = m_library.getDefaultModule( "org" );
+        String[] names = acme.getLocalPropertyNames();
+        assertEquals( "count", 2, names.length );
     }
     
    /**
-    * Validation of a nested resource path expansion.  The resource defintion
-    * includes a path in the form "widget/gizmo" under the module "gov/nsa/acme" 
-    * which should be expanded to a structure containing the "gov" module, 
-    * containing the "nsa" module, containing the "acme" module, containing
-    * the wiget module containing the gizmo resource.
+    * Test the integrity of the local properties.
     * @exception Exception if an error occurs during test execution
     */
-    public void testNestedResource() throws Exception
+    public void testNestedModuleProperties() throws Exception
     {
-        Module widget = m_library.getModule( "gov/nsa/acme/widget" );
-        Resource gizmo = widget.getResource( "gizmo" );
+        DefaultModule acme = m_library.getDefaultModule( "org/acme" );
+        String[] names = acme.getLocalPropertyNames();
+        assertEquals( "count", 1, names.length );
     }
 }
