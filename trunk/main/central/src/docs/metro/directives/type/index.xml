@@ -10,6 +10,8 @@
   <body>
 
     <section name="Type Task">
+    
+      <pre>artifact:xsd:dpml/lang/dpml-type#1.0</pre>
 
       <subsection name="Description">
 

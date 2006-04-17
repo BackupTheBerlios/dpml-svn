@@ -11,6 +11,8 @@
 
     <section name="Project Library">
 
+      <pre>artifact:xsd:dpml/lang/dpml-module#1.0</pre>
+
       <p>
       The DPML build system maintains information about projects, 
       resources, and modules in a central library.  The library

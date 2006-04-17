@@ -39,7 +39,12 @@
         information about the loaction and layout strategy of the cache and local 
         repository, available remote hosts, and optional proxy settings. 
         </p>
-
+        
+        <p>
+        The following information summarises the formal structures declared under 
+        <tt><a href="http://download.dpml.net/dtds/transit_1_0.dtd">transit_1_0.dtd</a></tt>.
+        </p>
+        
       </subsection>
 
       <subsection name="Attributes">
