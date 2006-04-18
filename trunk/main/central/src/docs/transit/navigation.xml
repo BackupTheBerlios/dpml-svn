@@ -26,7 +26,7 @@
 
     <menu>
       <item name="Overview" href="concepts/index.html"/>
-      <item name="XML Directive" href="parts/index.html"/>
+      <item name="Part Directive" href="parts/index.html"/>
       <item name="Protocols" href="technical/index.html"/>
       <item name="Setup" href="setup/index.html"/>
       <item name="Ant" href="tasks/index.html"/>

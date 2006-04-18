@@ -23,35 +23,22 @@ import java.net.URI;
 import net.dpml.library.Dictionary;
 
 /**
- * The Processor interface defines a process model.
+ * The Processor interface is implemented by phase-aware build processors.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Processor extends Dictionary
+public interface Processor
 {
-   /**
-    * Return the name of the process.
-    * @return the processor name
-    */
-    String getName();
+    void initialize( Context context );
     
-   /**
-    * Return the processor codebase uri.
-    * @return the processor codebase uri
-    */
-    URI getCodeBaseURI();
-
-   /**
-    * Return the processor classname.
-    * @return a possibly null classname
-    */
-    String getClassname();
+    void prepare( Context context );
     
-   /**
-    * Return an array of dependent process names declared by the process type.
-    * @return the process names that this process is depends on
-    */
-    String[] getDepends();
-
+    void build( Context context );
+    
+    void pack( Context context );
+    
+    void validate( Context context );
+    
+    void install( Context context );
 }

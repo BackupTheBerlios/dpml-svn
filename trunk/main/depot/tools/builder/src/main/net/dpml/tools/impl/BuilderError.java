@@ -16,31 +16,32 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.process;
-
-import net.dpml.tools.model.Context;
-
-import net.dpml.tools.tasks.ModuleTask;
-
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
+package net.dpml.tools.impl;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * A BuilderError is thrown when a fatal error occurs during builder configuration.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ModuleProcess extends AbstractProcessor
+public class BuilderError extends Error
 {
-    public void pack( Context context )
+   /**
+    * Creation of a new BuilderError.
+    * @param message the exception message
+    */
+    public BuilderError( String message )
     {
-        Project project = context.getProject();
-        final ModuleTask task = new ModuleTask();
-        task.setProject( project );
-        task.setTaskName( "module" );
-        task.init();
-        task.execute();
+        this( message, null );
+    }
+    
+   /**
+    * Creation of a new BuilderError.
+    * @param message the exception message
+    * @param cause the causal exception
+    */
+    public BuilderError( String message, Throwable cause )
+    {
+        super( message, cause );
     }
 }

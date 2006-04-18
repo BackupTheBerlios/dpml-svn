@@ -23,14 +23,16 @@
   <transit:plugin uri="@PROJECT-URI@">
     <antlib urn="dpml:depot" resource="net/dpml/tools/tasks/antlib.xml"/>
   </transit:plugin>
-
+  
   <target name="init">
     <x:init/>
   </target>
 
-  <target name="prepare" depends="init">
-    <x:prepare/>
+  <target name="clean" depends="init">
+    <delete dir="${project.target.dir}"/>
   </target>
+
+  <target name="prepare" depends="init"/>
 
   <target name="build" depends="prepare"/>
 
@@ -38,13 +40,7 @@
 
   <target name="test" depends="package"/>
 
-  <target name="install" depends="test">
-    <x:install/>
-  </target>
-
-  <target name="clean" depends="init">
-    <delete dir="${project.target.dir}"/>
-  </target>
+  <target name="install" depends="test"/>
 
   <target name="checkstyle" depends="prepare">
     <property name="checkstyle.dir" location="${project.target.reports.dir}/checkstyle"/>

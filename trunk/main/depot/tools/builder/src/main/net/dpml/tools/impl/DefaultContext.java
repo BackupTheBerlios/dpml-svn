@@ -21,20 +21,39 @@ package net.dpml.tools.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URI;
+import java.util.Date;
+
+import net.dpml.lang.Plugin;
+import net.dpml.lang.Part;
+import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
+import net.dpml.library.Filter;
+import net.dpml.library.impl.DefaultLibrary;
+
+import net.dpml.tools.info.PhaseDirective;
+import net.dpml.tools.info.ListenerDirective;
+import net.dpml.tools.info.ProcessorDirective;
 
 import net.dpml.tools.model.Context;
+import net.dpml.tools.model.Processor;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.Target;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.taskdefs.Delete;
 
 /**
  * Default implmentation of a project context.
@@ -42,28 +61,72 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-final class DefaultContext implements Context
+public final class DefaultContext implements Context
 {
     private final Project m_project;
     private final Resource m_resource;
-    private final Library m_library;
+    private final DefaultWorkbench m_workbench;
+    private final Processor[] m_processors;
     
     private Path m_runtime;
     private Path m_test;
     
    /**
     * Creation of a new project build context.
+    * @param project the unconfigured Ant project
+    */
+    public DefaultContext( Project project ) throws Exception
+    {
+        this( 
+          newResource( project.getBaseDir() ), 
+          project );
+    }
+    
+   /**
+    * Creation of a new project build context.
     * @param resource the resource definition
-    * @param library the resource library
     * @param project the Ant project
     */
-    public DefaultContext( Resource resource, Library library, Project project )
+    public DefaultContext( Resource resource, Project project ) throws Exception
     {
         m_project = project;
         m_resource = resource;
-        m_library = library;
         
-        StandardBuilder.configureProject( project, resource );
+        Library library = resource.getLibrary();
+        m_workbench = new DefaultWorkbench( library );
+        
+        project.addReference( "project.timestamp", new Date() );
+        project.setBaseDir( resource.getBaseDir() );
+        
+        String[] names = resource.getPropertyNames();
+        for( int i=0; i<names.length; i++ )
+        {
+            String name = names[i];
+            String value = resource.getProperty( name );
+            project.setProperty( name, value );
+        }
+        project.setProperty( "project.name", resource.getName() );
+        project.setProperty( "project.version", resource.getVersion() );
+        project.setProperty( "project.resource.path", resource.getResourcePath() );
+        project.setProperty( "project.basedir", resource.getBaseDir().toString() );
+        
+        Filter[] filters = resource.getFilters();
+        for( int i=0; i<filters.length; i++ )
+        {
+            Filter filter = filters[i];
+            String token = filter.getToken();
+            try
+            {
+                String value = filter.getValue( resource );
+                project.getGlobalFilterSet().addFilter( token, value );
+            }
+            catch( Exception e )
+            {
+                final String error =
+                  "Error while attempting to setup the filter [" + token + "].";
+                throw new BuildException( error, e );
+            }
+        }
         
         project.setNewProperty( "project.nl", "\n" );
         project.setNewProperty( 
@@ -90,8 +153,66 @@ final class DefaultContext implements Context
         project.setNewProperty( "project.target.deliverables.dir", getTargetDeliverablesDirectory().toString() );
         project.setNewProperty( "project.target.test.dir", getTargetTestDirectory().toString() );
         project.setNewProperty( "project.target.reports.dir", getTargetReportsDirectory().toString() );
+        
+        // add listeners declared in the builder configuration
+        
+        ListenerDirective[] listeners = StandardBuilder.CONFIGURATION.getListenerDirectives();
+        for( int i=0; i<listeners.length; i++ )
+        {
+            ListenerDirective directive = listeners[i];
+            project.log( "adding listener: " + directive.getName(), Project.MSG_VERBOSE );
+            BuildListener buildListener = loadBuildListener( directive );
+            project.addBuildListener( buildListener );
+        }
+        
+        // load processors declared under the builder configuration matching the 
+        // types produced by the project (including dependent processors)
+        
+        ProcessorDirective[] processors = getProcessorSequence();
+        m_processors = new Processor[ processors.length ];
+        for( int i=0; i<processors.length; i++ )
+        {
+            ProcessorDirective processor = processors[i];
+            project.log( "loading processor: " + processor.getName(), Project.MSG_VERBOSE );
+            m_processors[i] = loadProcessor( processor );
+        }
     }
     
+   /**
+    * Return an array of processors.
+    * @return the processor array
+    */
+    public Processor[] getProcessors()
+    {
+        return m_processors;
+    }
+    
+   /**
+    * Return the sequence of processor definitions supporting production of a 
+    * the current resource.  The implementation constructs a sequence of process
+    * instances based on the types declared by the resource combined with 
+    * dependencies declared by respective process definitions. 
+    * 
+    * @return a sorted array of processor definitions supporting type production
+    * @exception ProcessorNotFoundException if a processor referenced by another 
+    *   processor as a dependent cannot be resolved
+    */ 
+    private ProcessorDirective[] getProcessorSequence()
+    {
+        try
+        {
+            return m_workbench.getProcessorSequence( m_resource );
+        }
+        catch( UnknownKeyException e )
+        {
+            final String error = 
+              "Internal error while constructing processor sequence.";
+            IllegalStateException ise = new IllegalStateException( error );
+            ise.initCause( e );
+            throw ise;
+        }
+    }
+
    /**
     * Initialize the contex during which runtime and test path objects are 
     * established as project references.
@@ -201,7 +322,7 @@ final class DefaultContext implements Context
     */
     public Library getLibrary()
     {
-        return m_library;
+        return m_resource.getLibrary();
     }
     
    /**
@@ -554,5 +675,146 @@ final class DefaultContext implements Context
             throw new BuildException( error, e );
         }
     }
+
+    private static Resource newResource( File basedir )
+    {
+        try
+        {
+            Logger logger = new DefaultLogger();
+            DefaultLibrary library = new DefaultLibrary( logger );
+            return library.locate( basedir.getCanonicalFile() );
+        }
+        catch( BuildException e )
+        {
+            throw e;
+        }
+        catch( Exception ioe )
+        {
+            final String error = 
+              "Unexpected error while attempting to construct project context.";
+            throw new RuntimeException( error, ioe );
+        }
+    }
+
+    private static String flatternDependencies( String[] deps )
+    {
+        if( deps.length == 0 )
+        {
+            return null;
+        }
+        StringBuffer buffer = new StringBuffer();
+        for( int i=0; i<deps.length; i++ )
+        {
+            if( i>0 )
+            {
+                buffer.append( "," );
+            }
+            String dep = deps[i];
+            buffer.append( dep );
+        }
+        return buffer.toString();
+    }
+    
+    public BuildListener loadBuildListener( ListenerDirective listener )
+    {
+        String name = listener.getName();
+        URI uri = listener.getURI();
+        try
+        {
+            String classname = listener.getClassname();
+            Object object = loadInstance( name, uri, classname );
+            return (BuildListener) object;
+        }
+        catch( ClassCastException e )
+        {
+            final String error = 
+              "Build listener [" 
+              + name
+              + "] from uri ["
+              + uri
+              + "] does not implement "
+              + BuildListener.class.getName();
+            throw new BuilderError( error );
+        }
+    }
+    
+    public Processor loadProcessor( ProcessorDirective directive )
+    {
+        String name = directive.getName();
+        URI uri = directive.getURI();
+        try
+        {
+            String classname = directive.getClassname();
+            Object object = loadInstance( name, uri, classname );
+            return (Processor) object;
+        }
+        catch( ClassCastException e )
+        {
+            final String error = 
+              "Build processor [" 
+              + name
+              + "] from uri ["
+              + uri
+              + "] does not implement "
+              + Processor.class.getName();
+            throw new BuilderError( error );
+        }
+    }
+    
+    public Object loadInstance( String name, URI uri, String classname )
+    {
+        if( null == uri )
+        {
+            try
+            {
+                ClassLoader classloader = getClass().getClassLoader();
+                Class clazz = classloader.loadClass( classname );
+                Object[] args = new Object[]{this};
+                return Plugin.instantiate( clazz, args );
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while attempting to load a local plugin."
+                  + "\nClass: " + classname
+                  + "\nName: " + name;
+                throw new BuilderError( error, e );
+            }
+        }
+        else
+        {
+            ClassLoader context = Thread.currentThread().getContextClassLoader();
+            try
+            {
+                ClassLoader classloader = getClass().getClassLoader();
+                Thread.currentThread().setContextClassLoader( classloader );
+                Object[] params = new Object[]{this};
+                Part part = Part.load( uri );
+                if( null == classname )
+                {
+                    return part.instantiate( params );
+                }
+                else
+                {
+                    ClassLoader loader = part.getClassLoader();
+                    Class c = loader.loadClass( classname );
+                    return Plugin.instantiate( c, params );
+                }
+            }
+            catch( Throwable e )
+            {
+                final String error = 
+                  "Internal error while attempting to load plugin."
+                  + "\nURI: " + uri
+                  + "\nName: " + name;
+                throw new BuilderError( error, e );
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( context );
+            }
+        }
+    }
+        
 }
 

@@ -21,8 +21,7 @@ package net.dpml.tools.tasks;
 import java.io.File;
 
 import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Workbench;
-import net.dpml.tools.impl.DefaultWorkbench;
+import net.dpml.tools.impl.DefaultContext;
 
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
@@ -109,57 +108,13 @@ public class GenericTask extends Task
     }
     
    /**
-    * Return the build workbench.
-    * @return the workbench
-    */
-    protected Workbench getWorkbench()
-    {
-        Workbench workbench = (Workbench) getProject().getReference( "project.workbench" );
-        if( null != workbench )
-        {
-            return workbench;
-        }
-        else
-        {
-            //
-            // We are running under Ant based invocation.
-            // Create the library, locate this project, create and set the context.
-            //
-            
-            String signature = getProject().getProperty( "build.signature" );
-            if( null != signature )
-            {
-                System.setProperty( "build.signature", signature );
-            }
-            
-            try
-            {
-                Logger logger = new LoggingAdapter();
-                DefaultLibrary library = new DefaultLibrary( logger );
-                workbench = new DefaultWorkbench( library );
-                getProject().addReference( "project.workbench", workbench );
-                return workbench;
-            }
-            catch( BuildException e )
-            {
-                throw e;
-            }
-            catch( Exception ioe )
-            {
-                final String error = 
-                  "Unexpected error while attempting to bootstrap project.";
-                throw new RuntimeException( error, ioe );
-            }
-        }
-    }
-    
-   /**
     * Get the project context.
     * @return the project context
     */
     public Context getContext()
     {
-        Context context = (Context) getProject().getReference( "project.context" );
+        Project project = getProject();
+        Context context = (Context) project.getReference( "project.context" );
         if( null != context )
         {
             return context;
@@ -168,12 +123,8 @@ public class GenericTask extends Task
         {
             try
             {
-                Workbench workbench = getWorkbench();
-                Library library = workbench.getLibrary();
-                File basedir = getProject().getBaseDir();
-                Resource resource = library.locate( basedir.getCanonicalFile() );
-                context = workbench.createContext( resource, getProject() );
-                getProject().addReference( "project.context", context );
+                context = new DefaultContext( project );
+                project.addReference( "project.context", context );
                 return context;
             }
             catch( BuildException e )

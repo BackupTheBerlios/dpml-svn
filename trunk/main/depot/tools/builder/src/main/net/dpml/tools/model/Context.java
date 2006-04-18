@@ -24,6 +24,8 @@ import net.dpml.library.info.Scope;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
 
+import net.dpml.tools.info.ProcessorDirective;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 
@@ -59,6 +61,37 @@ public interface Context
     */
     String getProperty( String key, String value );
     
+   /**
+    * Return an array of processors.
+    * @return the processor array
+    */
+    Processor[] getProcessors();
+    
+   /**
+    * Return the sequence of processor definitions supporting production of a 
+    * the current resource.  The implementation constructs a sequence of process
+    * instances based on the types declared by the resource combined with 
+    * dependencies declared by respective process definitions. 
+    * 
+    * @return a sorted array of processor definitions supporting type production
+    */ 
+    //ProcessorDirective[] getProcessorSequence();
+
+   /**
+    * Return the sequence of processor definitions supporting production of a 
+    * supplied resource.  The implementation constructs a sequence of process
+    * instances based on the types declared by the resource combined with 
+    * dependencies declared by respective process defintions. Clients may
+    * safely invoke processes sequentially relative to the returned process
+    * sequence.
+    * 
+    * @param resource the resource to be produced
+    * @return a sorted array of processor definitions supporting resource production
+    * @exception ProcessorNotFoundException if a processor referenced by another 
+    *   processor as a dependent cannot be resolved
+    */ 
+    //Processor[] getProcessorSequence( Resource resource ) throws ProcessorNotFoundException;
+
    /**
     *Initialize the context.
     */

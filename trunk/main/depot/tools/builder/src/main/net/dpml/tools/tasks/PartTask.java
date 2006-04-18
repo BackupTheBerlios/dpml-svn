@@ -117,6 +117,23 @@ public class PartTask extends GenericTask
     public void writePart( Part part )
     {
         File file = getOutputFile();
+        if( file.exists() )
+        {
+            try
+            {
+                Part existing = Part.load( new URI( file.toURL().toString() ) );
+                if( part.equals( existing ) )
+                {
+                    return;
+                }
+            }
+            catch( Exception e )
+            {
+                // continue
+            }
+        }
+        
+        log( "Building part: " + file );
         try
         {
             file.createNewFile();

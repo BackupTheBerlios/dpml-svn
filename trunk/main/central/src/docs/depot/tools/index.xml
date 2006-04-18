@@ -14,7 +14,7 @@
       <p>
       The Depot Library <a href="../cli/index.html">CLI handler</a> will 
       resolve a builder plugin using the property <tt>project.builder.uri</tt>.
-      The Depot Builder Plugin is an example of a build system based on the 
+      The Depot-on-Ant-Builder Plugin is an example of a build system based on the 
       Apache Ant product.  The plugin class <tt>net.dpml.tools.impl.StandardBuilder</tt>
       handles the establishment and configuration of a Ant Project using information
       from a <a href="../library/projects.html">project</a> definition. The plugin
@@ -31,19 +31,19 @@
       template</a> build file.  Templates are resolved using the <tt>project.template</tt> 
       property which defaults to the value of the <tt>project.standard.template</tt> 
       property.  If neither property is defined, the default template 
-      <tt>local:template:dpml/tools/standard</tt> will be assigned.
+      <tt>local:template:dpml/tools/standard</tt> is assigned.
       </p>
       
       <p>
       During project initialization the the current resource is consulted with
       respect to the types it declares it produced. Each type is identified by a 
       unique type id.  The collection of type ids are used to resolve an ordered array 
-      of build listeners.  The build listener list is established based on the initial 
-      type ids combined with any dependencies declared by respective listeneners.  
+      of build processors.  The build processor list is established based on the initial 
+      type ids combined with any dependencies declared by respective processors.  
       Finally, the sorted listeners are attached to the current ant project.  
       Targets in the project template trigger init, prepare, build, package, test and 
-      install build events which in-turn trigger sequentially executed phased 
-      build-functionality.
+      install build events which in-turn trigger the execution of sequential build phase
+      functionality (such as jar creation, etc.).
       </p>
 
       <subsection name="Builder Configuration">
@@ -54,30 +54,70 @@
 
       <pre>local:xml:dpml/tools/config</pre>
 
-      <p>
-        <i>
-        Please note that the configuration scheme is not final.
-        </i>
-      </p>
+<source><![CDATA[
+<builder default="install">
+  
+  <listeners>
+    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener"/>
+  </listeners>
+
+  <processors>
+    <processor name="jar" class="net.dpml.tools.process.JarProcess"/>
+    <processor name="part" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
+    <processor name="module" class="net.dpml.tools.process.ModuleProcess"/>
+  </processors>
+
+</builder>
+]]></source>
 
       <p>
-      The builder configuration currently contains a set of <tt>&lt;listener&gt;</tt> 
-      declarations.  A <tt>&lt;listener&gt;</tt> definition allows the association of a 
-      collection of properties, a codebase uri, and listener dependencies, 
-      with a named type.  The <tt>type</tt> represents an artifact produced 
-      as a result of applying a specialized build listener to a project with 
-      the objective of building the declared type.
+      The builder configuration contains a set of <tt>&lt;listener&gt;</tt> and 
+      <tt>&lt;processor&gt;</tt> declarations.  A <tt>&lt;listener&gt;</tt> definition 
+      allows the association of a plugin-based build listener to an Ant project. 
+      Processor declarations allow associating of plugins to handle specific datatypes.
+      Using information for the Depot library, listeners and processors provide the 
+      bulk of the common build functionality.  Further customization may be added under 
+      a build.xml file or via supplimentary processors.
       </p>
+      
+      </subsection>
+      
+      <subsection name="Builder Attributes">
+      
+         <table>
+           <tr>
+             <td>default</td>
+             <td>The default build target.</td>
+           </tr>
+         </table>
 
       </subsection>
-            
-      <subsection name="XML Attributes">
+      
+      <subsection name="Nested elements">
+      
+         <table>
+           <tr>
+             <td>listeners</td>
+             <td>0..n</td>
+             <td>
+               A sequence of build listeners.</td>
+           </tr>
+           <tr>
+             <td>processors</td>
+             <td>0..n</td>
+             <td>
+               A sequence of build processors.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Listener Attributes">
       
          <table>
            <tr>
              <td>name</td>
-             <td>The name of the type produced by the processor (e.g. 'jar' or 'part').
-                The value is required.</td>
+             <td>The listener name.</td>
            </tr>
            <tr>
              <td>uri</td>
@@ -90,40 +130,39 @@
            <tr>
              <td>depends</td>
              <td>A optional series of listener names (comma separated) that this listener 
-               is dependent upon. The implementation ensurea that listeners 
+               is dependent upon. The implementation ensures that listeners 
+               are synchronized with respect to dependency ordering whan attached to 
+               an Ant project.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Processor Attributes">
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The name of the type produced by the processor (e.g. 'jar' or 'part').</td>
+           </tr>
+           <tr>
+             <td>uri</td>
+             <td>A plugin codebase uri.</td>
+           </tr>
+           <tr>
+             <td>class</td>
+             <td>Processor classname.</td>
+           </tr>
+           <tr>
+             <td>depends</td>
+             <td>A optional series of processor names (comma separated) that this processor 
+               is dependent upon. The implementation ensures that processors 
                are synchronized with respect to dependency ordering.</td>
            </tr>
          </table>
 
       </subsection>
       
-      <subsection name="XML Nested elements">
-      
-         <table>
-           <tr>
-             <td>property</td>
-             <td>0..n</td>
-             <td>
-               A <a href="../properties/index.html">property</a> associating a 
-               property <tt>name</tt> and <tt>value</tt> with 
-               the listener definition.</td>
-           </tr>
-         </table>
-
-      </subsection>
-
-      <subsection name="Default Configuration">
-<source><![CDATA[
-<builder>
-  <listeners>
-    <listener name="jar" class="net.dpml.tools.process.JarProcess"/>
-    <listener name="plugin" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
-    <listener name="module" class="net.dpml.tools.process.ModuleProcess"/>
-  </listeners>
-</builder>
-]]></source>
-      </subsection>
-
     </section>
 
   </body>

@@ -25,13 +25,13 @@ import java.util.Arrays;
 import net.dpml.library.info.AbstractDirective;
 
 /**
- * The ListenerDirective is an immutable descriptor used to define 
- * a build listener that serves to construct an identified type.
+ * The ProcessorDirective is an immutable descriptor used to define 
+ * a build processor.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ListenerDirective  extends AbstractDirective
+public final class ProcessorDirective extends AbstractDirective
 {
     private final String m_name;
     private final URI m_uri;
@@ -39,17 +39,16 @@ public final class ListenerDirective  extends AbstractDirective
     private final String[] m_dependencies;
     
    /**
-    * Creation of a new listener directive.
-    * @param name the listener name
-    * @param uri the listener codebase
+    * Creation of a new processor directive.
+    * @param name the processor name
+    * @param uri the processor codebase
     * @param classname optional classname of the plugin instantiation target
     * @param dependencies array of listener names that the listener depends upon
     * @param properties supplimentary properties
     * @exception NullPointerException if name or dependencies are null
     * @exception IllegalStateException if both classname and urn values are null
     */
-    public ListenerDirective( 
-      String name, URI uri, String classname, 
+    public ProcessorDirective( String name, URI uri, String classname, 
       String[] dependencies, Properties properties )
       throws NullPointerException, IllegalStateException
     {
@@ -140,15 +139,24 @@ public final class ListenerDirective  extends AbstractDirective
     }
     
    /**
+    * Return a string representation of this instance.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return "processor:" + m_name;
+    }
+    
+   /**
     * Compare this object with another for equality.
     * @param other the other object
     * @return true if equal
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof ListenerDirective ) )
+        if( super.equals( other ) && ( other instanceof ProcessorDirective ) )
         {
-            ListenerDirective object = (ListenerDirective) other;
+            ProcessorDirective object = (ProcessorDirective) other;
             if( !equals( m_name, object.m_name ) )
             {
                 return false;

@@ -23,7 +23,7 @@ import java.io.File;
 import net.dpml.library.info.Scope;
 
 import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
+//import net.dpml.tools.model.Processor;
 
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.JarTask;
@@ -41,127 +41,90 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class JarProcess extends AbstractBuildListener
+public class JarProcess extends AbstractProcessor
 {
-    private Processor m_processor;
-    
-   /**
-    * Creation of a new jar process using the supplied 
-    * processor as the source for property overrived.
-    * @param processor the processor definition
-    */
-    public JarProcess( Processor processor )
+    public void build( Context context )
     {
-        m_processor = processor;
+        Project project = context.getProject();
+        final JavacTask task = new JavacTask( context );
+        task.setProject( project );
+        task.init();
+        task.execute();
     }
     
-    /**
-     * Signals that a target is starting.
-     *
-     * @param event the build event.
-     *
-     * @see BuildEvent#getTarget()
-     */
-    public void targetStarted( BuildEvent event )
+    public void pack( Context context )
     {
-        Target target = event.getTarget();
-        String name = target.getName();
-        if( "build".equals( name ) )
+        Project project = context.getProject();
+        String jarSrcPath = context.getProperty( "project.target.classes.main.dir" );
+        File jarSrcDir = new File( jarSrcPath );
+        if( jarSrcDir.exists() )
         {
-            Project project = event.getProject();
-            Context context = getContext( project );
-            final JavacTask task = new JavacTask( context, m_processor );
+            final JarTask task = new JarTask();
+            task.setProject( project );
+            task.setTaskName( "jar" );
+            task.setSrc( jarSrcDir );
+            final File jar = getJarFile( context );
+            task.setDest( jar );
             task.init();
             task.execute();
         }
-        else if( "package".equals( name ) )
+    }
+    
+    public void validate( Context context )
+    {
+        Project project = context.getProject();
+        String srcPath = context.getProperty( "project.target.build.test.dir" );
+        File src = new File( srcPath );
+        if( src.exists() )
         {
-            Project project = event.getProject();
-            File jarSrcDir = new File( project.getProperty( "project.target.classes.main.dir" ) );
-            if( jarSrcDir.exists() )
+            final File jar = getJarFile( context );
+            Path testCompilePath = context.getPath( Scope.TEST  );
+            if( jar.exists() )
             {
-                final JarTask task = new JarTask();
+                testCompilePath.createPathElement().setLocation( jar );
+            }
+            final File dest = new File( project.getProperty( "project.target.classes.test.dir" ) );
+            try
+            {
+                final JavacTask task = new JavacTask( context );
                 task.setProject( project );
-                task.setTaskName( "jar" );
-                task.setSrc( jarSrcDir );
-                final File jar = getJarFile( project );
-                task.setDest( jar );
+                task.setTaskName( "javac" );
+                task.setSrc( src );
+                task.setDest( dest );
+                task.setClasspath( testCompilePath );
                 task.init();
                 task.execute();
             }
-        }
-        else if( "test".equals( name ) )
-        {
-            Project project = event.getProject();
-            Context context = getContext( project );
-            File src = new File( project.getProperty( "project.target.build.test.dir" ) );
-            if( src.exists() )
+            catch( BuildException e )
             {
-                final File jar = getJarFile( project );
-                Path testCompilePath = context.getPath( Scope.TEST  );
-                if( jar.exists() )
-                {
-                    testCompilePath.createPathElement().setLocation( jar );
-                }
-                final File dest = new File( project.getProperty( "project.target.classes.test.dir" ) );
-                try
-                {
-                    final JavacTask task = new JavacTask( context, m_processor );
-                    task.setProject( project );
-                    task.setTaskName( "javac" );
-                    task.setSrc( src );
-                    task.setDest( dest );
-                    task.setClasspath( testCompilePath );
-                    task.init();
-                    task.execute();
-                }
-                catch( BuildException e )
-                {
-                    throw e;
-                }
-                try
-                {
-                    testCompilePath.createPathElement().setLocation( dest );
-                    final JUnitTestTask task = new JUnitTestTask();
-                    task.setProject( project );
-                    task.setTaskName( "junit" );
-                    task.setSrc( src );
-                    task.setClasspath( testCompilePath );
-                    task.init();
-                    task.execute();
-                }
-                catch( BuildException e )
-                {
-                    throw e;
-                }
+                throw e;
+            }
+            try
+            {
+                testCompilePath.createPathElement().setLocation( dest );
+                final JUnitTestTask task = new JUnitTestTask();
+                task.setProject( project );
+                task.setTaskName( "junit" );
+                task.setSrc( src );
+                task.setClasspath( testCompilePath );
+                task.init();
+                task.execute();
+            }
+            catch( BuildException e )
+            {
+                throw e;
             }
         }
     }
     
-    private File getJarFile( Project project )
+    private File getJarFile( Context context )
     {
-        Context context = getContext( project );
-        File deliverables = new File( project.getProperty( "project.target.deliverables.dir" ) );
+        Project project = context.getProject();
+        String deliverablesPath = context.getProperty( "project.target.deliverables.dir" );
+        File deliverables = new File( deliverablesPath );
         File jars = new File( deliverables, "jars" );
         String filename = context.getLayoutPath( "jar" );
         return new File( jars, filename );
     }
     
-   /**
-    * Get the project definition.
-    * @param project the project
-    * @return the build context
-    */
-    protected Context getContext( Project project )
-    {
-        Context context = (Context) project.getReference( "project.context" );
-        context.init();
-        if( null == context )
-        {
-            final String error = 
-              "Missing project context reference.";
-            throw new BuildException( error );
-        }
-        return context;
-    }
 }

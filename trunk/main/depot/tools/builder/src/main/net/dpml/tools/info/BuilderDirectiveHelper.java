@@ -27,7 +27,6 @@ import java.io.BufferedInputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
-import java.beans.XMLDecoder;
 
 import net.dpml.tools.process.JarProcess;
 import net.dpml.tools.process.PluginProcess;
@@ -37,6 +36,8 @@ import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
 import net.dpml.util.ElementHelper;
+
+import net.dpml.lang.UnknownKeyException;
 
 import org.w3c.dom.Element;
 
@@ -53,6 +54,10 @@ public final class BuilderDirectiveHelper
     private static final String LISTENER_ELEMENT_NAME = "listener";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     private static final String PROPERTY_ELEMENT_NAME = "property";
+    private static final String PROCESSORS_ELEMENT_NAME = "processors";
+    private static final String PROCESSOR_ELEMENT_NAME = "processor";
+    private static final String PHASES_ELEMENT_NAME = "phases";
+    private static final String PHASE_ELEMENT_NAME = "phase";
     
     private BuilderDirectiveHelper()
     {
@@ -121,54 +126,13 @@ public final class BuilderDirectiveHelper
         }
         else
         {
-            return createDefaultBuilderDirective();
+            final String error = 
+              "Missing builder configuration: " 
+              + config;
+            throw new FileNotFoundException( error );
         }
     }
     
-    private static BuilderDirective createDefaultBuilderDirective()
-    {
-        ListenerDirective[] listeners = new ListenerDirective[3];
-        listeners[0] = 
-          new ListenerDirective( 
-            "jar",
-            (URI) null,
-            JarProcess.class.getName(),
-            true,
-            new String[0],
-            null );
-        listeners[1] = 
-          new ListenerDirective( 
-            "part",
-            (URI) null,
-            PluginProcess.class.getName(),
-            true,
-            new String[0],
-            null );
-        listeners[2] = 
-          new ListenerDirective( 
-            "module",
-            (URI) null,
-            ModuleProcess.class.getName(),
-            true,
-            new String[0],
-            null );
-        return new BuilderDirective( listeners, null );
-    }
-    
-   /**
-    * Creates a builder configuration using a supplied uri as the source configuration.
-    * @param uri builder configuration uri
-    * @return the builder directive
-    * @exception Exception if an error occurs
-    */
-    public static BuilderDirective build( URI uri ) throws Exception
-    {
-        URL url = convertToURL( uri );
-        InputStream input = url.openStream();
-        XMLDecoder decoder = new XMLDecoder( new BufferedInputStream( input ) );
-        return (BuilderDirective) decoder.readObject();
-    }
-
     private static URL convertToURL( URI uri ) throws Exception
     {
         if( Artifact.isRecognized( uri ) )
@@ -194,14 +158,17 @@ public final class BuilderDirectiveHelper
         if( !BUILDER_ELEMENT_NAME.equals( elementName ) )
         {
             final String error =
-              "Element is not a builder confiuration.";
+              "Element is not a builder configuration.";
             throw new IllegalArgumentException( error );
         }
         
         // get type descriptors, modules and properties
         
+        String phase = ElementHelper.getAttribute( element, "default", "installation" );
+        
         Properties properties = null;
         ListenerDirective[] listeners = new ListenerDirective[0];
+        ProcessorDirective[] processors = new ProcessorDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -215,6 +182,10 @@ public final class BuilderDirectiveHelper
             {
                 listeners = buildListenerDirectives( child );
             }
+            else if( PROCESSORS_ELEMENT_NAME.equals( tag ) ) 
+            {
+                processors = buildProcessorDirectives( child );
+            }
             else
             {
                 final String error = 
@@ -222,7 +193,7 @@ public final class BuilderDirectiveHelper
                 throw new IllegalArgumentException( error );
             }
         }
-        return new BuilderDirective( listeners, properties );
+        return new BuilderDirective( listeners, phase, processors, properties );
     }
     
     private static ListenerDirective[] buildListenerDirectives( Element element ) throws Exception
@@ -246,11 +217,79 @@ public final class BuilderDirectiveHelper
             final String spec = ElementHelper.getAttribute( element, "uri", null );
             final URI uri = createURI( spec );
             final String classname = ElementHelper.getAttribute( element, "class", null );
-            final boolean artifact = ElementHelper.getBooleanAttribute( element, "artifact", true );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ListenerDirective( name, uri, classname, artifact, depends, properties );
+            return new ListenerDirective( name, uri, classname, depends, properties );
+        }
+        else
+        {
+            final String error = 
+              "Invalid resource element name [" 
+              + tag
+              + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private static ProcessorDirective[] buildProcessorDirectives( Element element ) throws Exception
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        ProcessorDirective[] processors = new ProcessorDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            processors[i] = buildProcessorDirective( child );
+        }
+        return processors;
+    }
+    
+    private static ProcessorDirective buildProcessorDirective( Element element ) throws Exception
+    {
+        final String tag = element.getTagName();
+        if( PROCESSOR_ELEMENT_NAME.equals( tag ) )
+        {
+            final String name = ElementHelper.getAttribute( element, "name", null );
+            final String spec = ElementHelper.getAttribute( element, "uri", null );
+            final URI uri = createURI( spec );
+            final String classname = ElementHelper.getAttribute( element, "class", null );
+            final String deps = ElementHelper.getAttribute( element, "depends", null );
+            final String[] depends = buildDependenciesArray( deps );
+            final Properties properties = buildProperties( element );
+            return new ProcessorDirective( name, uri, classname, depends, properties );
+        }
+        else
+        {
+            final String error = 
+              "Invalid resource element name [" 
+              + tag
+              + "].";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+    private static PhaseDirective[] buildPhaseDirectives( Element element ) throws Exception
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        PhaseDirective[] phases = new PhaseDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            phases[i] = buildPhaseDirective( child );
+        }
+        return phases;
+    }
+    
+    private static PhaseDirective buildPhaseDirective( Element element ) throws Exception
+    {
+        final String tag = element.getTagName();
+        if( PHASE_ELEMENT_NAME.equals( tag ) )
+        {
+            final String name = ElementHelper.getAttribute( element, "name" );
+            final String deps = ElementHelper.getAttribute( element, "depends" );
+            final String[] depends = buildDependenciesArray( deps );
+            final String description = ElementHelper.getAttribute( element, "description" );
+            return new PhaseDirective( name, description, depends );
         }
         else
         {
@@ -312,4 +351,5 @@ public final class BuilderDirectiveHelper
             return new URI( spec );
         }
     }
+    
 }

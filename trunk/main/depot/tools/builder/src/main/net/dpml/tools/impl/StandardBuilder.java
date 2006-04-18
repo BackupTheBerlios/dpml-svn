@@ -29,8 +29,9 @@ import net.dpml.library.Library;
 import net.dpml.library.Resource;
 import net.dpml.library.Filter;
 
-import net.dpml.tools.model.Workbench;
 import net.dpml.tools.model.Context;
+import net.dpml.tools.info.BuilderDirective;
+import net.dpml.tools.info.BuilderDirectiveHelper;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.model.TransitModel;
@@ -64,14 +65,32 @@ public class StandardBuilder implements Builder
     * The default template uri path.
     */
     public static final String DEFAULT_TEMPLATE_URN = "local:template:dpml/tools/standard";
-
+    
+    public static final BuilderDirective CONFIGURATION = loadConfiguration();
+    
+    private static BuilderDirective loadConfiguration()
+    {
+        try
+        {
+            return BuilderDirectiveHelper.build();
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to establish the builder configuration.";
+            BuilderError be = new BuilderError( error, e );
+            be.printStackTrace();
+            return null;
+        }
+    }
+    
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------
     
     private Logger m_logger;
     private TransitModel m_model;
-    private Workbench m_workbench;
+    private Library m_library;
     private boolean m_verbose;
     private Throwable m_result;
 
@@ -84,23 +103,25 @@ public class StandardBuilder implements Builder
     *
     * @param logger assigned logging channel
     * @param library the library
+    */
+    public StandardBuilder( Logger logger, Library library )
+    {
+        this( logger, library, false );
+    }
+    
+   /**
+    * Creation of a new standard builder.
+    *
+    * @param logger assigned logging channel
+    * @param library the library
     * @param verbose verbose execution flag
     */
     public StandardBuilder( Logger logger, Library library, boolean verbose )
     {
         m_logger = logger;
         m_verbose = verbose;
+        m_library = library;
         
-        try
-        {
-            m_workbench = new DefaultWorkbench( library );
-        }
-        catch( Throwable e )
-        {
-            final String error = 
-              "An internal error occured while attempting to construct the workbench.";
-            throw new BuildException( error, e );
-        }
         Thread.currentThread().setContextClassLoader( Builder.class.getClassLoader() );
     }
 
@@ -175,7 +196,9 @@ public class StandardBuilder implements Builder
                     return file;
                 }
             }
-
+            
+            //return null;
+            
             // otherwise we build using either an explicit or default template
             // resolved via a uri (typically a template stored in prefs)
             
@@ -219,7 +242,12 @@ public class StandardBuilder implements Builder
         try
         {
             ProjectHelper helper = (ProjectHelper) project.getReference( "ant.projectHelper" );
-            helper.parse( project, template );
+            
+            if( null != template )
+            {
+                helper.parse( project, template );
+            }
+            
             Vector vector = new Vector();
             
             if( targets.length == 0 )
@@ -227,6 +255,10 @@ public class StandardBuilder implements Builder
                 if( null != project.getDefaultTarget() )
                 {
                     vector.addElement( project.getDefaultTarget() );
+                }
+                else
+                {
+                    vector.addElement( CONFIGURATION.getDefaultPhase() );
                 }
             }
             else
@@ -289,55 +321,23 @@ public class StandardBuilder implements Builder
     
     Project createProject( Resource resource )
     {
-        Project project = createProject();
-        project.addReference( "project.workbench", m_workbench );
-        Context context = m_workbench.createContext( resource, project );
-        project.addReference( "project.context", context );
-        return configureProject( project, resource );
-    }
-    
-    static Project configureProject( Project project, Resource resource )
-    {
-        if( null != project.getReference( "project.timestamp" ) )
+        try
         {
+            Project project = newProject();
+            Context context = new DefaultContext( resource, project );
+            project.addReference( "project.context", context );
             return project;
         }
-        
-        project.addReference( "project.timestamp", new Date() );
-        project.setBaseDir( resource.getBaseDir() );
-
-        String[] names = resource.getPropertyNames();
-        for( int i=0; i<names.length; i++ )
+        catch( Exception e )
         {
-            String name = names[i];
-            String value = resource.getProperty( name );
-            project.setProperty( name, value );
+            final String error = 
+              "Unable to establish build context." 
+              + "\nProject: " + resource;
+            throw new BuildException( error, e );
         }
-        project.setProperty( "project.name", resource.getName() );
-        project.setProperty( "project.version", resource.getVersion() );
-        project.setProperty( "project.resource.path", resource.getResourcePath() );
-        project.setProperty( "project.basedir", resource.getBaseDir().toString() );
-        Filter[] filters = resource.getFilters();
-        for( int i=0; i<filters.length; i++ )
-        {
-            Filter filter = filters[i];
-            String token = filter.getToken();
-            try
-            {
-                String value = filter.getValue( resource );
-                project.getGlobalFilterSet().addFilter( token, value );
-            }
-            catch( Exception e )
-            {
-                final String error =
-                  "Error while attempting to setup the filter [" + token + "].";
-                throw new BuildException( error, e );
-            }
-        }
-        return project;
     }
     
-    Project createProject() 
+    private Project newProject() 
     {
         Project project = new Project();
         project.setSystemProperties();

@@ -27,8 +27,7 @@ import net.dpml.lang.Plugin;
 
 import net.dpml.library.Resource;
 
-import net.dpml.tools.model.Processor;
-import net.dpml.tools.model.ProcessorNotFoundException;
+import net.dpml.tools.model.Context;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildListener;
@@ -48,144 +47,16 @@ public class InitializationTask extends GenericTask
     * Initialize type to processor mapping.  During execution the current
     * resource is consulted with respect to the types it declares it produced.
     * Each type is identified by a unique type id.  The collection of type ids
-    * are used to resolve an ordered array of build listeners.  The build listener
-    * list is established based on the initial type ids combined with any dependencies
-    * declared by respective listeneners.  Finally, the sorted listeners are attached  
-    * to the current ant project.  Targets in the project template trigger init, 
-    * prepare, build, package, test and install build events which in-turn trigger 
-    * sequentially executed phased functionality within the repective listeners.
+    * are used to resolve an ordered array of build processors.  The build processor
+    * list is established based on the initial type ids combined with any processor 
+    * dependencies declared by respective processors.  Finally, the sorted processors 
+    * are invoked by the standard build listener to handle type production concerns. 
+    * Targets in the project template trigger init, prepare, build, package, test and 
+    * install build events which are monitored by the standard listener enabling 
+    * sequentially executed phased functionality within the repective processors.
     */
     public void execute()
     {
-        if( null != getProject().getReference( "project.initialization.timestamp" ) )
-        {
-            return;
-        }
-        else
-        {
-            getProject().addReference( "project.initialization.timestamp", new Date() );
-        }
-        
-        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-        Resource resource = getResource();
-        log( resource.toString(), Project.MSG_VERBOSE );
-        try
-        {
-            Processor[] processors = getProcessorSequence( resource );
-            BuildListener[] listeners = getBuildListeners( processors );
-            for( int i=0; i<listeners.length; i++ )
-            {
-                BuildListener listener = listeners[i];
-                getProject().addBuildListener( listener );
-            }
-        }
-        catch( ProcessorInstantiationException e )
-        {
-            final String error = 
-              "Processor instantiation error.";
-            throw new BuildException( error, e );
-        }
-    }
-    
-    private BuildListener[] getBuildListeners( Processor[] processors )
-      throws ProcessorInstantiationException
-    {
-        BuildListener[] listeners = new BuildListener[ processors.length ];
-        for( int i=0; i<processors.length; i++ )
-        {
-            Processor processor = processors[i];
-            String name = processor.getName();
-            URI uri = processor.getCodeBaseURI();
-            if( null == uri )
-            {
-                String classname = processor.getClassname();
-                if( null == classname )
-                {
-                    final String error = 
-                      "Missing processor uri or classname in processor [" 
-                      + name 
-                      + "].";
-                    throw new IllegalStateException( error );
-                }
-                
-                try
-                {
-                    ClassLoader classloader = getClass().getClassLoader();
-                    Class clazz = classloader.loadClass( classname );
-                    Object[] args = new Object[]{processor};
-                    listeners[i] = (BuildListener) Plugin.instantiate( clazz, args );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Internal error while attempting to load a local processor."
-                      + "\nClass: " + classname
-                      + "\nName: " + name;
-                    throw new ProcessorInstantiationException( error, e );
-                }
-            }
-            else
-            {
-                ClassLoader context = Thread.currentThread().getContextClassLoader();
-                try
-                {
-                    ClassLoader classloader = getClass().getClassLoader();
-                    Thread.currentThread().setContextClassLoader( classloader );
-                    String classname = processor.getClassname();
-                    Object[] params = new Object[]{processor};
-                    
-                    Part part = Part.load( uri );
-                    if( null == classname )
-                    {
-                        listeners[i] = (BuildListener) part.instantiate( params );
-                    }
-                    else
-                    {
-                        ClassLoader loader = part.getClassLoader();
-                        Class c = loader.loadClass( classname );
-                        listeners[i] = (BuildListener) Plugin.instantiate( c, params );
-                    }
-                }
-                catch( ClassCastException e )
-                {
-                    final String error = 
-                      "Build processor [" 
-                      + name
-                      + "] from uri ["
-                      + uri
-                      + "] is not a build listener.";
-                    throw new BuildException( error, getLocation() );
-                }
-                catch( Throwable e )
-                {
-                    final String error = 
-                      "Internal error while attempting to load an external processor."
-                      + "\nURI: " + uri
-                      + "\nName: " + name;
-                    throw new ProcessorInstantiationException( error, e );
-                }
-                finally
-                {
-                    Thread.currentThread().setContextClassLoader( context );
-                }
-            }
-        }
-        return listeners;
-    }
-    
-    private Processor[] getProcessorSequence( Resource resource )
-    {
-        try
-        {
-            return getWorkbench().getProcessorSequence( resource );
-        }
-        catch( ProcessorNotFoundException e )
-        {
-            final String error = 
-              "Internal referential error while resolving processors for ["
-              + resource
-              + "]";
-            throw new BuildException( error, e );
-        }
+        Context context = getContext(); // triggers context establishment
     }
 }

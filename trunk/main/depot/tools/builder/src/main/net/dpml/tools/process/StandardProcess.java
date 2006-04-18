@@ -18,9 +18,12 @@
 
 package net.dpml.tools.process;
 
+import net.dpml.library.Resource;
+
 import net.dpml.tools.model.Context;
 
-import net.dpml.tools.tasks.ModuleTask;
+import net.dpml.tools.tasks.PrepareTask;
+import net.dpml.tools.tasks.InstallTask;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
@@ -32,14 +35,31 @@ import org.apache.tools.ant.BuildEvent;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ModuleProcess extends AbstractProcessor
+public class StandardProcess extends AbstractProcessor
 {
-    public void pack( Context context )
+    public void initialize( Context context )
+    {
+        context.init();
+    }
+    
+    public void prepare( Context context )
+    {
+        context.getProject().log( "commencing preparation", Project.MSG_VERBOSE );
+        Project project = context.getProject();
+        final PrepareTask task = new PrepareTask();
+        task.setProject( project );
+        task.setTaskName( "prepare" );
+        task.init();
+        task.execute();
+        context.getProject().log( "preparation complete", Project.MSG_VERBOSE );
+    }
+    
+    public void install( Context context )
     {
         Project project = context.getProject();
-        final ModuleTask task = new ModuleTask();
+        final InstallTask task = new InstallTask();
         task.setProject( project );
-        task.setTaskName( "module" );
+        task.setTaskName( "install" );
         task.init();
         task.execute();
     }

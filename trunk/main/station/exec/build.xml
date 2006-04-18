@@ -8,12 +8,6 @@
 
   <available property="metro.exe.available" file="${dpml.system}/bin/metro.exe"/>
 
-  <target name="build" depends="standard.build">
-    <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
-      <include name="**/AbstractAdapter.class"/>
-    </rmic>
-  </target>
-
   <target name="install" depends="bin,standard.install">
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">

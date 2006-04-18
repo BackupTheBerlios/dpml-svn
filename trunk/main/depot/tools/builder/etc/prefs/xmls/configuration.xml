@@ -7,57 +7,6 @@ Status: work-in-progress
 
 <configuration>
 
-    <phases>
-    
-      <phase name="preparation">
-        <!--
-        Convert the client's codebase into a normalized form 
-        suitable for automated construction.
-        -->
-        
-        <invoke id="prepare-etc"/>
-        <invoke id="prepare-main"/>
-        <invoke id="prepare-test"/>
-        <invoke id="prepare-docs"/>
-      
-      </phase>
-
-      <phase name="construction" depends="preparation">
-        <!--
-        For all published types - construct the data suitable for 
-        subsequent packaging.
-        -->
-        
-        <select>
-          <invoke key="build"/> <!-- aka build-jar, build-part, etc -->
-        </select>
-         
-      </phase>
-
-      <phase name="packaging" depends="construction">
-        <!--
-        For all published types - package the constructed data
-        into a single deliverable file.
-        -->
-      </phase>
-    
-      <phase name="validation" depends="packaging">
-        <!--
-        For all published types - validate the packaged deliverable
-        if the deliverable exists and a validation procedure is know.
-        -->
-      </phase>
-    
-      <phase name="installation" depends="validation">
-        <!--
-        For all published types - generate a validated deliverable.
-        -->
-      </phase>
-    
-    </phases>
-    
-    
-    
     <processes>
     
       <process name="setup">
@@ -183,16 +132,13 @@ Status: work-in-progress
       </process>
     
       <process name="install">
-      
         <description>
-        
         For all of the resources declared by the project defintion - copy
         the resource under the target deliverables directory to the working 
         cache. The process validates that all resource declared as produced by
         the project are present within the deliverables directory prior to
         initating a cache update.
         </description>
-        
         <consumes>
           <ref id="target.deliverables"/>
           <select type="*"/>

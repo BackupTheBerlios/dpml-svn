@@ -24,7 +24,6 @@ import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
 
 import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -81,7 +80,6 @@ public class JavacTask extends MatchingTask
     private static final String TARGET_VALUE = "1.4";
 
     private final Context m_context;
-    private final Processor m_processor;
         
     private String m_classPathRef;
     private Path m_classPath;
@@ -91,9 +89,8 @@ public class JavacTask extends MatchingTask
    /**
     * Creation of a new JavacTask.
     * @param context the project context
-    * @param processor the associated processor
     */
-    public JavacTask( Context context, Processor processor )
+    public JavacTask( Context context )
     {
         super();
         m_context = context;
@@ -101,7 +98,6 @@ public class JavacTask extends MatchingTask
         {
             Resource resource = context.getResource();
             setProject( context.getProject() );
-            m_processor = processor;
             setTaskName( "javac" );
             setSrc( context.getTargetBuildMainDirectory() );
             setDest( context.getTargetClassesMainDirectory() );
@@ -256,10 +252,6 @@ public class JavacTask extends MatchingTask
         String value = getContext().getProperty( key );
         if( null == value )
         {
-            value = m_processor.getProperty( key );
-        }
-        if( null == value )
-        {
             return fallback;
         }
         else
@@ -271,10 +263,6 @@ public class JavacTask extends MatchingTask
     private String getProperty( final String key, final String fallback )
     {
         String value = getContext().getProperty( key );
-        if( null == value )
-        {
-            value = m_processor.getProperty( key );
-        }
         if( null == value )
         {
             return fallback;

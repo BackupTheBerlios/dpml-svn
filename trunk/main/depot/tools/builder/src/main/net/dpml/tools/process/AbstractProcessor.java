@@ -19,28 +19,37 @@
 package net.dpml.tools.process;
 
 import net.dpml.tools.model.Context;
-
-import net.dpml.tools.tasks.ModuleTask;
-
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
+import net.dpml.tools.model.Processor;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Abstract build processor.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ModuleProcess extends AbstractProcessor
+public class AbstractProcessor implements Processor
 {
+    public void initialize( Context context )
+    {
+    }
+    
+    public void prepare( Context context )
+    {
+    }
+    
+    public void build( Context context )
+    {
+    }
+    
     public void pack( Context context )
     {
-        Project project = context.getProject();
-        final ModuleTask task = new ModuleTask();
-        task.setProject( project );
-        task.setTaskName( "module" );
-        task.init();
-        task.execute();
+    }
+    
+    public void validate( Context context )
+    {
+    }
+    
+    public void install( Context context )
+    {
     }
 }

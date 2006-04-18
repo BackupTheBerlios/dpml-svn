@@ -30,10 +30,11 @@ import net.dpml.library.Type;
 import net.dpml.tools.info.BuilderDirective;
 import net.dpml.tools.info.BuilderDirectiveHelper;
 import net.dpml.tools.info.ListenerDirective;
-import net.dpml.tools.model.Workbench;
+import net.dpml.tools.info.ProcessorDirective;
+
 import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
-import net.dpml.tools.model.ProcessorNotFoundException;
+//import net.dpml.tools.model.Processor;
+//import net.dpml.tools.model.ProcessorNotFoundException;
 
 import org.apache.tools.ant.Project;
 
@@ -43,11 +44,10 @@ import org.apache.tools.ant.Project;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultWorkbench implements Workbench
+class DefaultWorkbench
 {
     private final Library m_library;
-    private final BuilderDirective m_directive;
-    private final DefaultProcessor[] m_processors;
+    private final ProcessorDirective[] m_processors;
     
    /**
     * Creation of a new workbench instance.  The workbench loads the 
@@ -57,7 +57,7 @@ public class DefaultWorkbench implements Workbench
     * @param library the common project library
     * @exception Exception if an error occurs 
     */
-    public DefaultWorkbench( Library library ) throws Exception
+    DefaultWorkbench( Library library ) throws Exception
     {
         if( null == library )
         {
@@ -66,27 +66,9 @@ public class DefaultWorkbench implements Workbench
         
         m_library = library;
         
-        m_directive = BuilderDirectiveHelper.build();
-        ListenerDirective[] directives = m_directive.getListenerDirectives();
-        m_processors = new DefaultProcessor[ directives.length ];
-        for( int i=0; i<directives.length; i++ )
-        {
-            ListenerDirective directive = directives[i];
-            m_processors[i] = new DefaultProcessor( directive );
-        }
+        m_processors = StandardBuilder.CONFIGURATION.getProcessorDirectives();
     }
 
-   /**
-    * Create a project context.
-    * @param resource the resource 
-    * @param project the current project
-    * @return the project context
-    */
-    public Context createContext( Resource resource, Project project )
-    {
-        return new DefaultContext( resource, m_library, project );
-    }
-    
    /**
     * Return the common resource library.
     * @return the library
@@ -100,7 +82,7 @@ public class DefaultWorkbench implements Workbench
     * Return an array of all registered processor definitions.
     * @return the processor definition array
     */
-    public Processor[] getProcessors()
+    public ProcessorDirective[] getProcessorDirectives()
     {
         return m_processors;
     }
@@ -117,39 +99,39 @@ public class DefaultWorkbench implements Workbench
     * @return a sorted array of processor definitions supporting resource production
     * @exception ProcessorNotFoundException if a processor referenced by another 
     *   processor as a dependent cannot be resolved
-    */ 
-    public Processor[] getProcessorSequence( Resource resource )
-      throws ProcessorNotFoundException
+    */
+    public ProcessorDirective[] getProcessorSequence( Resource resource )
+      throws UnknownKeyException
     {
         Type[] types = resource.getTypes();
         return getDefaultProcessorSequence( types );
     }
     
-    DefaultProcessor[] getDefaultProcessorSequence( Type[] types )
-      throws ProcessorNotFoundException
+    ProcessorDirective[] getDefaultProcessorSequence( Type[] types )
+      throws UnknownKeyException
     {
-        String[] names = getListenerNames( types );
-        DefaultProcessor[] processors = new DefaultProcessor[ names.length ];
+        String[] names = getNames( types );
+        ProcessorDirective[] processors = new ProcessorDirective[ names.length ];
         for( int i=0; i<names.length; i++ )
         {
             String name = names[i];
-            processors[i] = getDefaultProcessor( name );
+            processors[i] = getProcessorDirective( name );
         }
         return processors;
     }
     
-    String[] getListenerNames( Type[] types )
+    String[] getNames( Type[] types )
     {
         String[] names = getTypeNames( types );
-        ListenerDirective[] descriptors = getListenerDirectives( names );
-        ListenerDirective[] sorted = sortListenerDirectives( descriptors );
-        String[] listeners = new String[ sorted.length ];
+        ProcessorDirective[] descriptors = getProcessorDirectives( names );
+        ProcessorDirective[] sorted = sortProcessorDirectives( descriptors );
+        String[] list = new String[ sorted.length ];
         for( int i=0; i<sorted.length; i++ )
         {
-            ListenerDirective directive = sorted[i];
-            listeners[i] = directive.getName();
+            ProcessorDirective directive = sorted[i];
+            list[i] = directive.getName();
         }
-        return listeners;
+        return list;
     }
     
     String[] getTypeNames( Type[] types )
@@ -163,7 +145,7 @@ public class DefaultWorkbench implements Workbench
         return names;
     }
 
-    private ListenerDirective[] getListenerDirectives( String[] names )
+    private ProcessorDirective[] getProcessorDirectives( String[] names )
     {
         ArrayList list = new ArrayList();
         for( int i=0; i<names.length; i++ )
@@ -171,7 +153,7 @@ public class DefaultWorkbench implements Workbench
             String name = names[i];
             try
             {
-                ListenerDirective directive = getListenerDirective( name );
+                ProcessorDirective directive = getProcessorDirective( name );
                 list.add( directive );
             }
             catch( UnknownKeyException e )
@@ -179,15 +161,14 @@ public class DefaultWorkbench implements Workbench
                 // ok
             }
         }
-        return (ListenerDirective[]) list.toArray( new ListenerDirective[0] );
+        return (ProcessorDirective[]) list.toArray( new ProcessorDirective[0] );
     }
 
-    private ListenerDirective getListenerDirective( String name ) throws UnknownKeyException
+    private ProcessorDirective getProcessorDirective( String name ) throws UnknownKeyException
     {
-        ListenerDirective[] directives = m_directive.getListenerDirectives();
-        for( int i=0; i<directives.length; i++ )
+        for( int i=0; i<m_processors.length; i++ )
         {
-            ListenerDirective directive = directives[i];
+            ProcessorDirective directive = m_processors[i];
             if( directive.getName().equals( name ) )
             {
                 return directive;
@@ -196,20 +177,20 @@ public class DefaultWorkbench implements Workbench
         throw new UnknownKeyException( name );
     }
 
-    private ListenerDirective[] sortListenerDirectives( ListenerDirective[] directives )
+    private ProcessorDirective[] sortProcessorDirectives( ProcessorDirective[] directives )
     {
         ArrayList visited = new ArrayList();
         ArrayList stack = new ArrayList();
         for( int i=0; i<directives.length; i++ )
         {
-            ListenerDirective directive = directives[i];
-            processListenerDirective( visited, stack, directive );
+            ProcessorDirective directive = directives[i];
+            processProcessorDirective( visited, stack, directive );
         }
-        return (ListenerDirective[]) stack.toArray( new ListenerDirective[0] );
+        return (ProcessorDirective[]) stack.toArray( new ProcessorDirective[0] );
     }
     
-    private void processListenerDirective( 
-      List visited, List stack, ListenerDirective directive )
+    private void processProcessorDirective( 
+      List visited, List stack, ProcessorDirective directive )
     {
         if( visited.contains( directive ) )
         {
@@ -219,26 +200,12 @@ public class DefaultWorkbench implements Workbench
         {
             visited.add( directive );
             String[] deps = directive.getDependencies();
-            ListenerDirective[] providers = getListenerDirectives( deps );
+            ProcessorDirective[] providers = getProcessorDirectives( deps );
             for( int i=0; i<providers.length; i++ )
             {
-                processListenerDirective( visited, stack, providers[i] );
+                processProcessorDirective( visited, stack, providers[i] );
             }
             stack.add( directive );
         }
-    }
-    
-    private DefaultProcessor getDefaultProcessor( String name )
-      throws ProcessorNotFoundException
-    {
-        for( int i=0; i<m_processors.length; i++ )
-        {
-            DefaultProcessor processor = m_processors[i];
-            if( name.equals( processor.getName() ) )
-            {
-                return processor;
-            }
-        }
-        throw new ProcessorNotFoundException( name );
     }
 }

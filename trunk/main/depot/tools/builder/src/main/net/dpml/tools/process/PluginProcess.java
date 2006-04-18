@@ -18,6 +18,8 @@
 
 package net.dpml.tools.process;
 
+import net.dpml.tools.model.Context;
+
 import net.dpml.tools.tasks.PartTask;
 
 import net.dpml.util.ExceptionHelper;
@@ -33,42 +35,30 @@ import org.apache.tools.ant.BuildException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PluginProcess extends AbstractBuildListener
+public class PluginProcess extends AbstractProcessor
 {    
-    /**
-     * Signals that a target is finished.
-     *
-     * @param event An event with any relevant extra information.
-     *              Must not be <code>null</code>.
-     *
-     * @see BuildEvent#getTarget()
-     */
-    public void targetStarted( BuildEvent event )
+    public void pack( Context context )
     {
-        Target target = event.getTarget();
-        String name = target.getName();
-        if( "package".equals( name ) )
+        try
         {
-            try
-            {
-                PartTask task = new PartTask();
-                Project project = event.getProject();
-                task.setProject( project );
-                task.init();
-                task.execute();
-            }
-            catch( BuildException e )
-            {
-                throw e;
-            }
-            catch( Throwable e )
-            {
-                final String message = 
-                  "Unexpected failure during plugin generation.";
-                final String error =
-                  ExceptionHelper.packException( message, e, true );
-                throw new BuildException( error, e );
-            }
+            PartTask task = new PartTask();
+            Project project = context.getProject();
+            task.setProject( project );
+            task.setTaskName( "part" );
+            task.init();
+            task.execute();
+        }
+        catch( BuildException e )
+        {
+            throw e;
+        }
+        catch( Throwable e )
+        {
+            final String message = 
+              "Unexpected failure during plugin generation.";
+            final String error =
+              ExceptionHelper.packException( message, e, true );
+            throw new BuildException( error, e );
         }
     }
 }
