@@ -167,8 +167,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
    /**
     * Creation of a new TransitModel using a supplied configuration
     * and logging channel.  The implementation will construct a proxy
-    * model, layout registry model, cache model, content registry model, 
-    * and repository codebase model using the supplied configuration.
+    * model, layout registry model, cache model, and repository codebase 
+    * model using the supplied configuration.
     *
     * @param logger the assigned loging channel
     * @param directive the transit configuration

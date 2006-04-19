@@ -139,8 +139,7 @@ public class TransitDirective extends AbstractDirective
             CacheDirective.LOCAL_PATH,
             CacheDirective.LOCAL_LAYOUT,
             CacheDirective.EMPTY_LAYOUTS,
-            hosts,
-            CacheDirective.EMPTY_CONTENT );
+            hosts );
         return new TransitDirective( null, cache );
     }
     

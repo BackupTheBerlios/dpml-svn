@@ -32,7 +32,6 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
     private String m_localLayout;
     private LayoutDirective[] m_layouts;
     private HostDirective[] m_hosts;
-    private ContentDirective[] m_content;
     private CacheDirective m_directive;
     
    /**
@@ -47,10 +46,9 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
         m_localLayout = "modern";
         m_layouts = new LayoutDirective[0];
         m_hosts = new HostDirective[0];
-        m_content = new ContentDirective[0];
         m_directive = 
           new CacheDirective( 
-           m_cache, m_cacheLayout, m_local, m_localLayout, m_layouts, m_hosts, m_content );
+           m_cache, m_cacheLayout, m_local, m_localLayout, m_layouts, m_hosts );
     }
     
    /**
@@ -105,15 +103,6 @@ public final class CacheDirectiveTestCase extends AbstractTestCase
     public void testHosts() throws Exception
     {
         assertEquals( "hosts", m_hosts, m_directive.getHostDirectives() );
-    }
-    
-   /**
-    * Test content handler accessor.
-    * @exception Exception if an error occurs during setup.
-    */
-    public void testContent() throws Exception
-    {
-        assertEquals( "content", m_content, m_directive.getContentDirectives() );
     }
     
    /**

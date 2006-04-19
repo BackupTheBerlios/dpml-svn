@@ -1,6 +1,6 @@
 /*
  * Copyright 2004 Niclas Hedhman
- * Copyright 2004-2005 Stephen J. McConnell
+ * Copyright 2004-2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.File;
-import java.net.ContentHandler;
 import java.net.UnknownServiceException;
 import java.net.URI;
 import java.net.URL;
@@ -33,11 +32,11 @@ import java.net.URISyntaxException;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.SecuredTransitContext;
-import net.dpml.transit.ContentRegistry;
 import net.dpml.transit.CacheHandler;
-import net.dpml.util.MimeTypeHandler;
 
 import net.dpml.lang.Part;
+
+import net.dpml.util.MimeTypeHandler;
 
 /**
  * The connection handler for URLs based on the "artifact" protocol family.
@@ -205,17 +204,6 @@ public class ArtifactURLConnection extends URLConnection
             return part.getContent( classes );
         }
         
-        //
-        // check to see if we have a content handler plugin declared for the artifact type
-        //
-
-        ContentRegistry registry = m_context.getCacheHandler().getContentRegistry();
-        ContentHandler handler = registry.getContentHandler( type );
-        if( null != handler )
-        {
-            return handler.getContent( this, classes );
-        }
-
         //
         // otherwise fallback on the default jvm content handling
         //

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
-import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.info.LayoutDirective;
 
 import net.dpml.lang.UnknownKeyException;
@@ -62,26 +61,6 @@ class CacheDirectiveBuilder
         return create( newHosts );
     }
     
-    CacheDirective removeContentDirective( String key ) throws UnknownKeyException
-    {
-        ContentDirective[] handlers = m_directive.getContentDirectives();
-        ArrayList list = new ArrayList();
-        for( int i=0; i<handlers.length; i++ )
-        {
-            ContentDirective handler = handlers[i];
-            if( !handler.getID().equals( key ) )
-            {
-                list.add( handler );
-            }
-        }
-        ContentDirective[] newHandlers = (ContentDirective[]) list.toArray( new ContentDirective[0] );
-        if( newHandlers.length == handlers.length )
-        {
-            throw new UnknownKeyException( key );
-        }
-        return create( newHandlers );
-    }
-
     CacheDirective removeLayoutDirective( String key ) throws UnknownKeyException
     {
         LayoutDirective[] handlers = m_directive.getLayoutDirectives();
@@ -104,27 +83,22 @@ class CacheDirectiveBuilder
     
     CacheDirective create( HostDirective[] hosts )
     {
-        return create( null, null, null, null, null, hosts, null );
-    }
-    
-    CacheDirective create( ContentDirective[] handlers )
-    {
-        return create( null, null, null, null, null, null, handlers );
+        return create( null, null, null, null, null, hosts );
     }
     
     CacheDirective create( LayoutDirective[] layouts )
     {
-        return create( null, null, null, null, layouts, null, null );
+        return create( null, null, null, null, layouts, null );
     }
     
     CacheDirective create( String cache, String cacheLayout, String local, String localLayout )
     {
-        return create( cache, cacheLayout, local, localLayout, null, null, null );
+        return create( cache, cacheLayout, local, localLayout, null, null );
     }
     
     CacheDirective create(
       String cache, String cacheLayout, String local, String localLayout,
-      LayoutDirective[] layouts, HostDirective[] hosts, ContentDirective[] handlers )
+      LayoutDirective[] layouts, HostDirective[] hosts )
     {
         return new CacheDirective( 
           getCache( cache ),
@@ -132,8 +106,7 @@ class CacheDirectiveBuilder
           getLocal( local ),
           getLocalLayout( localLayout ),
           getLayoutDirectives( layouts ),
-          getHostDirectives( hosts ),
-          getContentDirectives( handlers ) );
+          getHostDirectives( hosts ) );
     }
     
     String getCache( String cache )
@@ -205,18 +178,6 @@ class CacheDirectiveBuilder
         else
         {
             return m_directive.getHostDirectives();
-        }
-    }
-
-    ContentDirective[] getContentDirectives( ContentDirective[] handlers )
-    {
-        if( null != handlers )
-        {
-            return handlers;
-        }
-        else
-        {
-            return m_directive.getContentDirectives();
         }
     }
 }

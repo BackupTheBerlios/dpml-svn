@@ -32,28 +32,28 @@
       <subsection name="Description">
 
         <p>
-        Support for the addition of new hosts, layouts, and content handlers.
+        Support for the addition of new hosts and layouts.
         </p>
 
       </subsection>
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ transit add [host <id> | handler <id> | layout <id>]]]></pre>
+<pre><![CDATA[$ transit add [host <id> | layout <id>]]]></pre>
 
       </subsection>
 
       <subsection name="Example">
 
         <p>
-        The following example demonstrates the addition of a new content 
+        The following example demonstrates the addition of a new layout 
          handler to the transit configuration.
         </p>
 
 <pre><![CDATA[
-$ transit add handler demo -uri link:plugin:dpml/demo/dpml-handler#1.2.3]]></pre>
+$ transit add layout demo -uri link:part:acme/demo/demo-layout#1.2.3]]></pre>
 <source><![CDATA[
-Adding content handler: demo
+Adding layout handler: demo
 Saving to: local:xml:dpml/transit/config
 ]]></source>
 

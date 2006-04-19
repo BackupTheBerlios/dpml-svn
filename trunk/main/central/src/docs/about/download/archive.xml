@@ -29,6 +29,8 @@
           <li>Depot builder structural enhancements.</li>
           <li>Addition of configurable project listeners.</li>
           <li>Addition of configurable processors.</li>
+          <li>Removal of transit content handlers (functionality available 
+              under the improved part model).</li>
         </ul>
         
         <table>

@@ -50,7 +50,6 @@ import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheEvent;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
-import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.monitor.CacheMonitorRouter;
 
 /**
@@ -87,8 +86,6 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
 
     private LayoutRegistry m_registry;
     
-    private ContentRegistry m_content;
-
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
@@ -161,13 +158,6 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         {
             getLogger().debug( "bootstrap initialization complete" );
         }
-        
-        //
-        // setup the content registry
-        //
-        
-        ContentRegistryModel contentRegistryModel = model.getContentRegistryModel();
-        m_content = new DefaultContentRegistry( contentRegistryModel, logger );
     }
 
     // ------------------------------------------------------------------------
@@ -271,7 +261,6 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
                 m_resourceHosts.clear();
             }
             terminate( m_registry );
-            terminate( m_content );
         }
         catch( RemoteException e )
         {
@@ -378,15 +367,6 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     // ------------------------------------------------------------------------
     // CacheHandler
     // ------------------------------------------------------------------------
-
-   /**
-    * Return the content registry.
-    * @return the contenthandler registry
-    */
-    public ContentRegistry getContentRegistry()
-    {
-        return m_content;
-    }
 
    /**
     * Return the current cache directory.

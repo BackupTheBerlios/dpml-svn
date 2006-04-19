@@ -120,12 +120,6 @@ public interface CacheHandler
     LayoutRegistry getLayoutRegistry();
     
    /**
-    * Return the content registry.
-    * @return the layout registry.
-    */
-    ContentRegistry getContentRegistry();
-    
-   /**
     * Return the current cache directory.
     * @return the cache directory.
     */

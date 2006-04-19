@@ -32,7 +32,7 @@
       <subsection name="Description">
 
         <p>
-        Support for the removal of hosts, layout, content handlers, or
+        Support for the removal of hosts, layout, or
         proxy settings.
         </p>
 
@@ -40,7 +40,7 @@
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ transit remove host <id> | handler <id> | layout <id> | proxy ]]></pre>
+<pre><![CDATA[$ transit remove host <id> | layout <id> | proxy ]]></pre>
 
       </subsection>
 

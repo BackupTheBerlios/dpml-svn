@@ -104,13 +104,4 @@ public interface CacheModel extends Remote
     */
     LayoutRegistryModel getLayoutRegistryModel() throws RemoteException;
     
-   /**
-    * Return the model maintaining configuration information about
-    * the content registry.
-    *
-    * @return the content model
-    * @exception RemoteException if a remote exception occurs
-    */
-    ContentRegistryModel getContentRegistryModel() throws RemoteException;
-
 }

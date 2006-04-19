@@ -60,7 +60,6 @@ import net.dpml.transit.info.ProxyDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
 import net.dpml.transit.info.LayoutDirective;
-import net.dpml.transit.info.ContentDirective;
 import net.dpml.util.ExceptionHelper;
 
 
@@ -319,19 +318,6 @@ public class TransitConsoleHandler
             }
         }
         
-        ContentDirective[] handlers = cache.getContentDirectives();
-        if( handlers.length > 0 )
-        {
-            buffer.append( "\n\n  Content Handler Settings" );
-            for( int i=0; i<handlers.length; i++ )
-            {
-                ContentDirective handler = handlers[i];
-                buffer.append( "\n\n    " + handler.getID() + " (" + ( i+1 ) + ")" );
-                buffer.append( "\n\n      Codebase:\t" + handler.getCodeBaseURI() );
-                buffer.append( "\n      Title:\t" + handler.getTitle() );
-            }
-        }
-        
         System.out.println( buffer.toString() );
     }
     
@@ -378,39 +364,6 @@ public class TransitConsoleHandler
             newHosts[ hosts.length ] = host;
             CacheDirectiveBuilder builder = new CacheDirectiveBuilder( cache );
             CacheDirective newCache = builder.create( newHosts );
-            return m_builder.create( newCache );
-        }
-        else if( line.hasOption( ADD_HANDLER_COMMAND ) )
-        {
-            String key = (String) line.getValue( ADD_HANDLER_COMMAND, null );
-            CacheDirective cache = m_directive.getCacheDirective();
-            ContentDirective[] handlers = cache.getContentDirectives();
-            for( int i=0; i<handlers.length; i++ )
-            {
-                ContentDirective c = handlers[i];
-                if( c.getID().equals( key ) )
-                {
-                    System.out.println( "ERROR: Content handler id '" + key + "' already assigned." );
-                    return null;
-                }
-            }
-            
-            System.out.println( "Adding content handler: " + key );
-            URI uri = (URI) line.getValue( REQUIRED_CODEBASE_OPTION, null );
-            String title = (String) line.getValue( TITLE_OPTION, null );
-            
-            ContentDirective handler = 
-              new ContentDirective( 
-                key, title, uri, new ValueDirective[0] );
-            
-            ContentDirective[] newHandlers = new ContentDirective[ handlers.length + 1 ];
-            for( int i=0; i<handlers.length; i++ )
-            {
-                newHandlers[i] = handlers[i];
-            }
-            newHandlers[ handlers.length ] = handler;
-            CacheDirectiveBuilder builder = new CacheDirectiveBuilder( cache );
-            CacheDirective newCache = builder.create( newHandlers );
             return m_builder.create( newCache );
         }
         else if( line.hasOption( ADD_LAYOUT_COMMAND ) )
@@ -469,10 +422,6 @@ public class TransitConsoleHandler
         else if( line.hasOption( SET_HOST_COMMAND ) )
         {
             return setHost( line );
-        }
-        else if( line.hasOption( SET_HANDLER_COMMAND ) )
-        {
-            return setHandler( line );
         }
         else if( line.hasOption( SET_LAYOUT_COMMAND ) )
         {
@@ -591,54 +540,6 @@ public class TransitConsoleHandler
         return m_builder.create( newCache );
     }
     
-    private TransitDirective setHandler( CommandLine line ) throws Exception
-    {
-        String key = (String) line.getValue( SET_HANDLER_COMMAND, null );
-        CacheDirective cache = m_directive.getCacheDirective();
-        ContentDirective[] handlers = cache.getContentDirectives();
-        ContentDirective handler = null;
-        for( int i=0; i<handlers.length; i++ )
-        {
-            ContentDirective c = handlers[i];
-            if( c.getID().equals( key ) )
-            {
-                handler = c;
-            }
-        }
-
-        if( null == handler )
-        {
-            System.out.println( "ERROR: Content handler id '" + key + "' not recognized." );
-            return null;
-        }
-            
-        System.out.println( "Updating content handler: " + key );
-        URI uri = (URI) line.getValue( CODEBASE_OPTION, null );
-        String title = (String) line.getValue( TITLE_OPTION, null );
-        
-        ContentDirectiveBuilder builder = new ContentDirectiveBuilder( handler );
-        ContentDirective newDirective = 
-          builder.create( title, uri, null );
-                
-            
-        ContentDirective[] newDirectives = new ContentDirective[ handlers.length ];
-        for( int i=0; i<handlers.length; i++ )
-        {   
-            ContentDirective d = handlers[i];
-            if( d.getID().equals( key ) )
-            {
-                newDirectives[i] = newDirective;
-            }
-            else
-            {
-               newDirectives[i] = d;
-            }
-        }
-        CacheDirectiveBuilder cacheBuilder = new CacheDirectiveBuilder( cache );
-        CacheDirective newCache = cacheBuilder.create( newDirectives );
-        return m_builder.create( newCache );    
-    }
-    
     private TransitDirective setLayout( CommandLine line ) throws Exception
     {
         String key = (String) line.getValue( SET_LAYOUT_COMMAND, null );
@@ -702,23 +603,6 @@ public class TransitConsoleHandler
             catch( UnknownKeyException e )
             {
                 System.out.println( "Unknown host '" + key + "'." );
-                return null;
-            }
-        }
-        else if( line.hasOption( SELECT_HANDLER_COMMAND ) )
-        {
-            String key = (String) line.getValue( SELECT_HANDLER_COMMAND, null );
-            System.out.println( "Removing content handler: " + key );
-            CacheDirective cache = m_directive.getCacheDirective();
-            CacheDirectiveBuilder builder = new CacheDirectiveBuilder( cache );
-            try
-            {
-                CacheDirective newCache = builder.removeContentDirective( key );
-                return m_builder.create( newCache );
-            }
-            catch( UnknownKeyException e )
-            {
-                System.out.println( "Unknown content handler '" + key + "'." );
                 return null;
             }
         }
@@ -1381,19 +1265,6 @@ public class TransitConsoleHandler
             .create() )
         .create();
 
-    private static final Option ADD_HANDLER_COMMAND =
-      COMMAND_BUILDER
-        .withName( "handler" )
-        .withDescription( "Add a new content handler." )
-        .withChildren( ADD_HANDLER_OPTIONS_GROUP )
-        .withArgument(
-          ARGUMENT_BUILDER 
-            .withName( "type" )
-            .withMinimum( 1 )
-            .withMaximum( 1 )
-            .create() )
-        .create();
-
     private static final Option ADD_LAYOUT_COMMAND =
       COMMAND_BUILDER
         .withName( "layout" )
@@ -1402,31 +1273,6 @@ public class TransitConsoleHandler
         .withArgument(
           ARGUMENT_BUILDER 
             .withName( "id" )
-            .withMinimum( 1 )
-            .withMaximum( 1 )
-            .create() )
-        .create();
-        
-    private static final Option SET_HANDLER_COMMAND =
-      COMMAND_BUILDER
-        .withName( "handler" )
-        .withDescription( "Content handler selection." )
-        .withChildren( SET_HANDLER_OPTIONS_GROUP )
-        .withArgument(
-          ARGUMENT_BUILDER 
-            .withName( "type" )
-            .withMinimum( 1 )
-            .withMaximum( 1 )
-            .create() )
-        .create();
-        
-    private static final Option SELECT_HANDLER_COMMAND =
-      COMMAND_BUILDER
-        .withName( "handler" )
-        .withDescription( "Content handler selection." )
-        .withArgument(
-          ARGUMENT_BUILDER 
-            .withName( "type" )
             .withMinimum( 1 )
             .withMaximum( 1 )
             .create() )
@@ -1443,7 +1289,6 @@ public class TransitConsoleHandler
         .withMinimum( 1 )
         .withMinimum( 1 )
         .withOption( ADD_HOST_COMMAND )
-        .withOption( ADD_HANDLER_COMMAND )
         .withOption( ADD_LAYOUT_COMMAND )
         .create();
 
@@ -1455,7 +1300,6 @@ public class TransitConsoleHandler
         .withOption( SET_CACHE_COMMAND )
         .withOption( SET_SYSTEM_COMMAND )
         .withOption( SET_HOST_COMMAND )
-        .withOption( SET_HANDLER_COMMAND )
         .withOption( SET_LAYOUT_COMMAND )
         .create();
     
@@ -1464,7 +1308,6 @@ public class TransitConsoleHandler
         .withMinimum( 1 )
         .withMinimum( 1 )
         .withOption( SELECT_HOST_COMMAND )
-        .withOption( SELECT_HANDLER_COMMAND )
         .withOption( SELECT_LAYOUT_COMMAND )
         .withOption( REMOVE_PROXY_COMMAND )
         .create();

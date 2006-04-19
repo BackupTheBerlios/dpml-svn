@@ -201,7 +201,7 @@ public class TransitBuilder
         CacheDirective cache = 
           new CacheDirective( 
             cachePath, cacheLayout, localPath, localLayout,
-            CacheDirective.EMPTY_LAYOUTS, hosts, CacheDirective.EMPTY_CONTENT );
+            CacheDirective.EMPTY_LAYOUTS, hosts );
         return new TransitDirective( proxy, cache );
     }
     

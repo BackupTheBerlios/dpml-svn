@@ -34,7 +34,7 @@
         <p>
         Command-line supporting the management of one or more transit configurations.
         The <tt>transit</tt> tool provides support for the addition, removal, and 
-        modification of hosts, layouts and content handlers together with functions 
+        modification of hosts and layouts handlers together with functions 
         supporting cache and proxy configuration maintenance.
         </p>
 
@@ -51,10 +51,10 @@
         <table>
           <tr><td>load</td><td>Loads a plugin refernced by a supplied uri.</td></tr>
           <tr><td>info</td><td>Lists the current configration to console.</td></tr>
-          <tr><td>add</td><td>Add a new host, layout or content handler.</td></tr>
-          <tr><td>set</td><td>Update a feature of a host, layout, content handler, 
+          <tr><td>add</td><td>Add a new host or layout handler.</td></tr>
+          <tr><td>set</td><td>Update a feature of a host, layout, 
              cache or proxy configuration.</td></tr>
-          <tr><td>remove </td><td>Remove a host, layout or content handler.</td></tr>
+          <tr><td>remove </td><td>Remove a host or layout handler.</td></tr>
           <tr><td>revert</td><td>Revert the configuration to factory defaults.</td></tr>
           <tr><td>help</td><td>List command help to console.</td></tr>
           <tr><td>profile</td><td>Override selection of the default configuration profile.</td></tr>
@@ -74,7 +74,7 @@ command
   info|add|set|remove|revert|load|help
     info                                              List configuration.
     add
-      host handler layout
+      host layout
         host <id>                                     Add a new resource host.
           -url -username -password -priority -index -disabled -trusted -layout -scheme -prompt
 
@@ -88,16 +88,12 @@ command
             -layout <id>                              Host layout strategy.
             -scheme <scheme>                          Host authentication scheme.
             -prompt <prompt>                          Host authentication prompt.
-        handler <type>                                Add a new content handler.
-          -uri -title
-            -uri <uri>                                Codebase URI (required).
-            -title <name>                             Title.
         layout <id>                                   Add a new layout.
           -uri -title
             -uri <uri>                                Codebase URI (required).
             -title <name>                             Title.
     set                                               Set an configuration aspect.
-      proxy cache system host handler layout
+      proxy cache system host layout
         proxy                                         Select proxy settings.
           -url -username -password -excludes
             -url <url>                                Host URL.
@@ -129,18 +125,13 @@ command
             -layout <id>                              Host layout strategy.
             -scheme <scheme>                          Host authentication scheme.
             -prompt <prompt>                          Host authentication prompt.
-        handler <type>                                Content handler selection.
-          -uri -title
-            -uri <uri>                                Codebase URI.
-            -title <name>                             Title.
         layout <id>                                   Layout scheme selection.
           -uri -title
             -uri <uri>                                Codebase URI.
             -title <name>                             Title.
     remove
-      host handler layout proxy
+      host layout proxy
         host <id>                                     Resource host selection.
-        handler <type>                                Content handler selection.
         layout <id>                                   Layout scheme selection.
         proxy                                         Delete proxy settings.
     revert                                            Set configuration to default.

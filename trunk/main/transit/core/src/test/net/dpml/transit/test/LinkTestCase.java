@@ -26,18 +26,18 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
+import net.dpml.transit.Transit;
+import net.dpml.transit.DefaultTransitModel;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.link.Link;
-import net.dpml.util.StreamUtils;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.HostDirective;
-import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
-import net.dpml.transit.Transit;
-import net.dpml.transit.DefaultTransitModel;
+
+import net.dpml.util.StreamUtils;
 
 /**
  * LinkTestCase.
@@ -64,8 +64,7 @@ public class LinkTestCase extends TestCase
                 "file:${user.dir}/target/test/trusted",
                 "classic",
                 new LayoutDirective[0],
-                new HostDirective[0],
-                new ContentDirective[0] );
+                new HostDirective[0] );
             TransitDirective directive = new TransitDirective( null, cache );
             LoggingAdapter logger = new LoggingAdapter( "test" );
             TransitModel model = new DefaultTransitModel( logger, directive );

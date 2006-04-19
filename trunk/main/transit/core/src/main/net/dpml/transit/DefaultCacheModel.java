@@ -36,11 +36,9 @@ import net.dpml.util.Logger;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.HostDirective;
-import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.model.CacheModel;
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutRegistryModel;
-import net.dpml.transit.model.ContentRegistryModel;
 import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.CacheDirectoryChangeEvent;
@@ -49,7 +47,6 @@ import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.DuplicateKeyException;
 import net.dpml.lang.UnknownKeyException;
-
 
 /**
  * Default implementation of the cache model that maintains information 
@@ -74,8 +71,6 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
 
     private final LayoutRegistryModel m_registry;
     
-    private final ContentRegistryModel m_content;
-
     private HostModel[] m_sortedHosts;
 
     // ------------------------------------------------------------------------
@@ -114,19 +109,6 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
             throw new ModelRuntimeException( error, e );
         }
         
-        try
-        {
-            Logger log = logger.getChildLogger( "content" );
-            ContentDirective[] content = directive.getContentDirectives();
-            m_content = new DefaultContentRegistryModel( log, content );
-        }
-        catch( Exception e )
-        {
-            final String error = 
-              "Unexpected internal error while constructing content handler registry model.";
-            throw new ModelRuntimeException( error, e );
-        }
-        
         // set the cache directory
         
         m_path = directive.getCache();
@@ -162,18 +144,6 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
     // ------------------------------------------------------------------------
     // CacheModel
     // ------------------------------------------------------------------------
-
-   /**
-    * Return the model maintaining configuration information about
-    * the content registry.
-    *
-    * @return the content model
-    * @exception RemoteException if a remote exception occurs
-    */
-    public ContentRegistryModel getContentRegistryModel()
-    {
-        return m_content;
-    }
 
    /**
     * Return the cache layout strategy model used by the cache implementation.
@@ -295,7 +265,6 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
             dispose( host );
         }
         dispose( m_registry );
-        dispose( m_content );
         super.dispose();
     }
     

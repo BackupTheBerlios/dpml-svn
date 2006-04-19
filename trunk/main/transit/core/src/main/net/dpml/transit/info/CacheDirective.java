@@ -59,19 +59,13 @@ public class CacheDirective extends AbstractDirective
     * Empty resource host array.
     */
     public static final HostDirective[] EMPTY_HOSTS = new HostDirective[0];
-    
-   /**
-    * Empty content handler array.
-    */
-    public static final ContentDirective[] EMPTY_CONTENT = new ContentDirective[0];
-    
+        
     private final String m_cache;
     private final String m_cacheLayout;
     private final String m_local;
     private final String m_localLayout;
     private final LayoutDirective[] m_layouts;
     private final HostDirective[] m_hosts;
-    private final ContentDirective[] m_handlers;
     
    /**
     * Create a new CacheDirective.
@@ -79,7 +73,7 @@ public class CacheDirective extends AbstractDirective
     public CacheDirective()
     {
         this( 
-          CACHE_PATH, CACHE_LAYOUT, LOCAL_PATH, LOCAL_LAYOUT, EMPTY_LAYOUTS, EMPTY_HOSTS, EMPTY_CONTENT );
+          CACHE_PATH, CACHE_LAYOUT, LOCAL_PATH, LOCAL_LAYOUT, EMPTY_LAYOUTS, EMPTY_HOSTS );
     }
     
    /**
@@ -90,12 +84,11 @@ public class CacheDirective extends AbstractDirective
     * @param localLayout the local repository layout strategy
     * @param layouts an array of extended layout descriptors
     * @param hosts an array of supplimentary host descriptors
-    * @param handlers an array of custom content handler descriptors
     * @exception NullPointerException if the cache, local, or layout argument is null
     */
     public CacheDirective( 
       String cache, String cacheLayout, String local, String localLayout, 
-      LayoutDirective[] layouts, HostDirective[] hosts, ContentDirective[] handlers )
+      LayoutDirective[] layouts, HostDirective[] hosts )
       throws NullPointerException
     {
         if( null == cache )
@@ -136,15 +129,6 @@ public class CacheDirective extends AbstractDirective
         else
         {
             m_hosts = hosts;
-        }
-        
-        if( null == handlers )
-        {
-            m_handlers = new ContentDirective[0];
-        }
-        else
-        {
-            m_handlers = handlers;
         }
     }
     
@@ -209,17 +193,6 @@ public class CacheDirective extends AbstractDirective
     }
     
    /**
-    * Return the content handler plugin configurations.
-    *
-    * @return the content handler directives
-    */
-    public ContentDirective[] getContentDirectives()
-    {
-        return m_handlers;
-    }
-    
-
-   /**
     * Test if the supplied object is equal to this object.
     * @param other the object to evaluate
     * @return true if this object is equal to the supplied object
@@ -249,13 +222,9 @@ public class CacheDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_hosts, directive.m_hosts ) )
-            {
-                return false;
-            }
             else
             {
-                return Arrays.equals( m_handlers, directive.m_handlers );
+                return Arrays.equals( m_hosts, directive.m_hosts );
             }
         }
         else
@@ -277,7 +246,6 @@ public class CacheDirective extends AbstractDirective
         hash ^= hashValue( m_localLayout );
         hash ^= hashArray( m_layouts );
         hash ^= hashArray( m_hosts );
-        hash ^= hashArray( m_handlers );
         return hash;
     }
 }

@@ -33,7 +33,6 @@ import net.dpml.transit.info.CacheDirective;
 import net.dpml.transit.info.TransitDirective;
 import net.dpml.transit.info.LayoutDirective;
 import net.dpml.transit.info.HostDirective;
-import net.dpml.transit.info.ContentDirective;
 import net.dpml.transit.monitor.LoggingAdapter;
 import net.dpml.transit.model.TransitModel;
 import net.dpml.transit.Transit;
@@ -62,8 +61,7 @@ public class OnlineTestCase extends TestCase
                 "file:${user.dir}/target/test/trusted",
                 CacheDirective.LOCAL_LAYOUT,
                 new LayoutDirective[0],
-                new HostDirective[0],
-                new ContentDirective[0] );
+                new HostDirective[0] );
             TransitDirective directive = new TransitDirective( null, cache );
             LoggingAdapter logger = new LoggingAdapter( "test" );
             TransitModel model = new DefaultTransitModel( logger, directive );

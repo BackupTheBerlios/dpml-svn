@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<!ELEMENT transit ( proxy?, local, hosts, layouts?, handlers? ) >
+<!ELEMENT transit ( proxy?, local, hosts, layouts? ) >
 <!ATTLIST transit cache CDATA #REQUIRED >
 <!ATTLIST transit layout CDATA #REQUIRED >
 
@@ -33,7 +33,6 @@ limitations under the License.
 
 <!ELEMENT layouts ( layout* ) >
 <!ELEMENT hosts ( host* ) >
-<!ELEMENT handlers ( handler* ) >
 
 <!ELEMENT layout ( codebase ) >
 <!ATTLIST layout id CDATA #REQUIRED >
@@ -52,10 +51,6 @@ limitations under the License.
 <!ATTLIST host index CDATA #IMPLIED >
 <!ATTLIST host scheme CDATA #IMPLIED >
 <!ATTLIST host prompt CDATA #IMPLIED >
-
-<!ELEMENT handler ( codebase ) >
-<!ATTLIST handler id CDATA #REQUIRED >
-<!ATTLIST handler title CDATA #IMPLIED >
 
 <!ELEMENT value ( value* ) >
 <!ATTLIST value method CDATA #IMPLIED >

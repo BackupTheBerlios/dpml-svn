@@ -76,7 +76,7 @@
         </p>
 
 <pre><![CDATA[
-$ transit add layout demo -uri link:plugin:dpml/demo/dpml-example-layout#SNAPSHOT]]></pre>
+$ transit add layout demo -uri link:part:dpml/demo/dpml-example-layout#SNAPSHOT]]></pre>
 <source><![CDATA[
 Adding layout: demo
 Saving to: local:xml:dpml/transit/config

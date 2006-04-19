@@ -26,7 +26,6 @@
 
     <menu>
       <item name="Host" href="host.html"/>
-      <item name="Handler" href="handler.html"/>
       <item name="Layout" href="layout.html"/>
     </menu>
 
