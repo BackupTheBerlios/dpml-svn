@@ -28,6 +28,12 @@ package net.dpml.util;
 public interface Logger
 {
    /**
+    * Return TRUE is trace level logging is enabled.
+    * @return the enabled state of trace logging
+    */
+    boolean isTraceEnabled();
+
+   /**
     * Return TRUE is debug level logging is enabled.
     * @return the enabled state of debug logging
     */
@@ -50,6 +56,12 @@ public interface Logger
     * @return the enabled state of error logging
     */
     boolean isErrorEnabled();
+
+   /**
+    * Record a trace level message.
+    * @param message the trace message to record
+    */
+    void trace( String message );
 
    /**
     * Record a debug level message.

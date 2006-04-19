@@ -51,16 +51,20 @@ public final class Priority extends ValuedEnum
     */
     public static final Priority DEBUG = new Priority( "debug", 10 );
 
+   /**
+    * DEBUG logging priority.
+    */
+    public static final Priority TRACE = new Priority( "trace", 5 );
 
    /**
-    * Array of static activation policy enumeration values.
+    * Array of static priority enumeration values.
     */
     private static final Priority[] ENUM_VALUES = 
-      new Priority[]{ERROR, WARN, INFO, DEBUG};
+      new Priority[]{ERROR, WARN, INFO, DEBUG, TRACE};
 
    /**
-    * Returns an array of activation enum values.
-    * @return the activation policies array
+    * Returns an array of priority enum values.
+    * @return the priority policies array
     */
     public static Priority[] values()
     {
@@ -101,6 +105,10 @@ public final class Priority extends ValuedEnum
         else if( value.equalsIgnoreCase( "debug" ) )
         {
             return DEBUG;
+        }
+        else if( value.equalsIgnoreCase( "trace" ) )
+        {
+            return TRACE;
         }
         else
         {

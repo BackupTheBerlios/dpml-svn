@@ -92,6 +92,15 @@ public class LoggingAdapter implements Adapter
     // ------------------------------------------------------------------------
 
    /**
+    * Return TRUE is trace level logging is enabled.
+    * @return the enabled state of trace logging
+    */
+    public boolean isTraceEnabled()
+    {
+        return m_logger.isLoggable( Level.FINER );
+    }
+    
+   /**
     * Return TRUE is debug level logging is enabled.
     * @return the enabled state of debug logging
     */
@@ -125,6 +134,18 @@ public class LoggingAdapter implements Adapter
     public boolean isErrorEnabled()
     {
         return m_logger.isLoggable( Level.SEVERE );
+    }
+
+   /**
+    * Log a debug message is trace mode is enabled.
+    * @param message the message to log
+    */
+    public void trace( String message )
+    {
+        if( isTraceEnabled() )
+        {
+            m_logger.finer( message );
+        }
     }
 
    /**
