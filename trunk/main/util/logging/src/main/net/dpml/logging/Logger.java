@@ -35,6 +35,12 @@ public interface Logger
     boolean isDebugEnabled();
 
    /**
+    * Return TRUE is trace level logging is enabled.
+    * @return the enabled state of trace logging
+    */
+    boolean isTraceEnabled();
+
+   /**
     * Return TRUE is info level logging is enabled.
     * @return the enabled state of info logging
     */
@@ -57,6 +63,12 @@ public interface Logger
     * @param message the debug message to record
     */
     void debug( String message );
+
+   /**
+    * Record a trace level message.
+    * @param message the trace message to record
+    */
+    void trace( String message );
 
    /**
     * Record a informative message.

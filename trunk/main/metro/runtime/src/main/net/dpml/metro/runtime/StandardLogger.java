@@ -18,9 +18,8 @@
 
 package net.dpml.metro.runtime;
 
-import net.dpml.transit.monitor.LoggingAdapter;
-
 import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
 
 /**
  * Default logging adapter.
@@ -55,7 +54,7 @@ final class StandardLogger implements net.dpml.logging.Logger
     */
     public StandardLogger( String path )
     {
-         m_logger = new LoggingAdapter( path );
+         m_logger = new DefaultLogger( path );
     }
 
     // ------------------------------------------------------------------------
@@ -63,7 +62,7 @@ final class StandardLogger implements net.dpml.logging.Logger
     // ------------------------------------------------------------------------
 
    /**
-    * Return TRUE is debug level logging is enabled.
+    * Return TRUE if debug level logging is enabled.
     * @return the enabled state of debug logging
     */
     public boolean isDebugEnabled()
@@ -72,7 +71,16 @@ final class StandardLogger implements net.dpml.logging.Logger
     }
 
    /**
-    * Return TRUE is info level logging is enabled.
+    * Return TRUE if trace level logging is enabled.
+    * @return the enabled state of trace logging
+    */
+    public boolean isTraceEnabled()
+    {
+        return m_logger.isTraceEnabled();
+    }
+
+   /**
+    * Return TRUE if info level logging is enabled.
     * @return the enabled state of info logging
     */
     public boolean isInfoEnabled()
@@ -81,7 +89,7 @@ final class StandardLogger implements net.dpml.logging.Logger
     }
 
    /**
-    * Return TRUE is error level logging is enabled.
+    * Return TRUE if error level logging is enabled.
     * @return the enabled state of error logging
     */
     public boolean isWarnEnabled()
@@ -90,7 +98,7 @@ final class StandardLogger implements net.dpml.logging.Logger
     }
 
    /**
-    * Return TRUE is error level logging is enabled.
+    * Return TRUE if error level logging is enabled.
     * @return the enabled state of error logging
     */
     public boolean isErrorEnabled()
@@ -99,7 +107,16 @@ final class StandardLogger implements net.dpml.logging.Logger
     }
 
    /**
-    * Log a debug message is debug mode is enabled.
+    * Log a trace message if trace mode is enabled.
+    * @param message the message to log
+    */
+    public void trace( String message )
+    {
+        m_logger.trace( message );
+    }
+
+   /**
+    * Log a trace message if trace mode is enabled.
     * @param message the message to log
     */
     public void debug( String message )
@@ -153,6 +170,11 @@ final class StandardLogger implements net.dpml.logging.Logger
         m_logger.error( message, cause );
     }
 
+   /**
+    * Return a child logger.
+    * @param category the subsidiary category path
+    * @return the subsidiary logging channel
+    */
     public net.dpml.logging.Logger getChildLogger( String category )
     {
         if( ( null == category ) || ( "".equals( category ) ) )
@@ -161,7 +183,8 @@ final class StandardLogger implements net.dpml.logging.Logger
         }
         else
         {
-            return new StandardLogger( m_logger.getChildLogger( category ) );
+            Logger logger = m_logger.getChildLogger( category );
+            return new StandardLogger( logger );
         }
     }
 }
