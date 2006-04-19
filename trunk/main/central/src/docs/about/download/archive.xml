@@ -31,6 +31,7 @@
           <li>Addition of configurable processors.</li>
           <li>Removal of transit content handlers (functionality available 
               under the improved part model).</li>
+          <li>Added support for trace level logging.</li>
         </ul>
         
         <table>
