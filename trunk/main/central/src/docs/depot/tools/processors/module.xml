@@ -10,7 +10,7 @@
     <section name="Module Processor">
 
       <p>
-      The module processor is a build listener than handles the production of
+      The module processor handles the production of
       a module descriptor suitable for publication and reference by external 
       projects.
       </p>
@@ -25,7 +25,7 @@
           <td>
             Creates a module descriptor during which all project defintions
             are encoded as resource defintions.  The generated file is an 
-            XML document that contains the encoded form of the 
+            XML document that contains an XML description of the 
             <tt>net.dpml.library.info.ModuleDirective</tt> class.
           </td>
         </tr>

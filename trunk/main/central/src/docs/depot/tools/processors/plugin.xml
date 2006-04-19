@@ -10,8 +10,7 @@
     <section name="Plugin Processor">
 
       <p>
-      The plugin processor is a build listener than handles the production of
-      a Transit plugin descriptor.
+      The plugin processor handles the production of a Transit part descriptor.
       </p>
 
       <table>
@@ -24,7 +23,7 @@
           <td>
             Create a plugin descriptor using runtime dependencies declared on 
             the current project definition. The produced plugin is created 
-            under the <tt>${basedir}/target/deliverables/plugins</tt> directory.
+            under the <tt>${basedir}/target/deliverables/parts</tt> directory.
           </td>
         </tr>
       </table>

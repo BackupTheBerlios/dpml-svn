@@ -9,19 +9,70 @@
 
   <body>
 
-    <section name="Builder Plugin">
-
+    <section name="Ant Builder Plugin">
+    
       <p>
-      The Depot Library <a href="../cli/index.html">CLI handler</a> will 
-      resolve a builder plugin using the property <tt>project.builder.uri</tt>.
-      The Depot-on-Ant-Builder Plugin is an example of a build system based on the 
-      Apache Ant product.  The plugin class <tt>net.dpml.tools.impl.StandardBuilder</tt>
-      handles the establishment and configuration of a Ant Project using information
-      from a <a href="../library/projects.html">project</a> definition. The plugin
-      creates a local <a href="context.html">Context</a> object which provides 
-      convinient access to project related information such as classpaths, file 
-      locations, and project related properties.
+      The Depot <tt><a href="../cli/index.html">build</a></tt> tool loads a 
+      plugin to handle project build requests using the property <tt>project.builder.uri</tt>.  
+      The default builder plugin (<tt>net.dpml.tools.impl.StandardBuilder</tt>) is an 
+      application that dynamically establishes and populates an Ant project based on 
+      information obtained from a <a href="../library/projects.html">project</a> 
+      definition within the common library. The plugin creates a local 
+      <a href="context.html">Context</a> object which provides convinient access to 
+      project related information such as classpaths, file locations, and project 
+      related properties.
       </p>
+      
+      <p>
+      During Ant project initialization the following actions are undertaken:
+      </p>
+      
+      <table>
+        <tr>
+          <td>basedir</td>
+          <td>
+          The Ant project basedir is assigned the value of the Depot project basedir.
+          </td>
+        </tr>
+        <tr>
+          <td>template</td>
+          <td>
+          A build template is assigned from which formal build phased are established
+          The default template declares initialization, preparation, build, packaging, 
+          validation and installation targets (which in turn trigger additional build 
+          functionality via processors declared within the builder configuration). 
+          </td>
+        </tr>
+        <tr>
+          <td>properties</td>
+          <td>
+          Properties associated (or inherited by) the Depot project defintion
+          are mapped to properties in a new Ant project.
+          </td>
+        </tr>
+        <tr>
+          <td>filters</td>
+          <td>
+          Filters declared in the current project are mapped to global filters in 
+          the underlying ant project. 
+          </td>
+        </tr>
+        <tr>
+          <td>paths</td>
+          <td>
+          Compilation and test phase paths are constructed based on the dependencies
+          declared in the Depot project defintion.
+          </td>
+        </tr>
+        <tr>
+          <td>listeners</td>
+          <td>
+          Build-listeners registered in the builder configuration are loaded, sorted
+          with respect to listener dependencies, and attached to the Ant project.
+          </td>
+        </tr>
+      </table>
+      
 
       <p>
       From a technical perspective the project definition provides sufficent information 

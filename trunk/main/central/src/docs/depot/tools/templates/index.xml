@@ -98,7 +98,7 @@
           <tr>
             <td>install</td>
             <td>test</td>
-            <td>Validates that the build has produced the artifacts declatred under the 
+            <td>Validates that the build has produced the artifacts declared under the 
               project defintion and copies these to the local cache.</td>
           </tr>
           <tr>

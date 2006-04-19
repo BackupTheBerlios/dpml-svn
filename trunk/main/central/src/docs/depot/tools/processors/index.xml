@@ -9,27 +9,24 @@
 
   <body>
 
-    <section name="Listeners">
+    <section name="Processors">
       
       <p>
       During project initialization the product definition is consulted to 
       determin the resource types that the project produces.  Using the 
-      builder configuration, listeners are selected, sorted, and assigned to 
+      builder configuration, processors are selected, sorted, and assigned to 
       current ant project to handle type production.
       </p>
 
       <subsection name="Technical Note">
 
         <p>
-        The APIs relating to listener declaration should be considered as 
+        The APIs relating to processor declaration should be considered as 
         non-final.  In effect there is the need for model improvements 
-        to support the declaration of listeners that don't produce a specific
+        to support the declaration of processors that don't produce a specific
         type but instead are involved in the contribution to type production.
         For example - a listener dealing with rmic compilation does not itself 
         produce an build artifact but could contribute to a jar process.  
-        Secondly, there may be benefits in defining a more specific listener 
-        interface that deals with build phases as opposed to the more generic 
-        Ant BuildListener.
         </p>
 
       </subsection>

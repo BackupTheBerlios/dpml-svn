@@ -11,7 +11,7 @@
     <section name="Jar Processor">
 
       <p>
-      The jar processor is a build listener than handles the production of
+      The jar processor is a build processor than handles the production of
       jar file.
       </p>
 

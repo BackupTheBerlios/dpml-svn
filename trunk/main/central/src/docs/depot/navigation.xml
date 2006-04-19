@@ -27,8 +27,8 @@
     <menu>
       <item name="Overview" href="concepts/index.html"/>
       <item name="Library Directive" href="library/index.html"/>
-      <item name="Builder" href="tools/index.html"/>
-      <item name="Ant" href="tasks/index.html"/>
+      <item name="Ant Builder" href="tools/index.html"/>
+      <item name="Ant Tasks" href="tasks/index.html"/>
       <item name="CLI" href="cli/index.html"/>
     </menu>
 
