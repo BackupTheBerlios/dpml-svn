@@ -56,8 +56,6 @@ public final class BuilderDirectiveHelper
     private static final String PROPERTY_ELEMENT_NAME = "property";
     private static final String PROCESSORS_ELEMENT_NAME = "processors";
     private static final String PROCESSOR_ELEMENT_NAME = "processor";
-    private static final String PHASES_ELEMENT_NAME = "phases";
-    private static final String PHASE_ELEMENT_NAME = "phase";
     
     private BuilderDirectiveHelper()
     {
@@ -257,39 +255,6 @@ public final class BuilderDirectiveHelper
             final String[] depends = buildDependenciesArray( deps );
             final Properties properties = buildProperties( element );
             return new ProcessorDirective( name, uri, classname, depends, properties );
-        }
-        else
-        {
-            final String error = 
-              "Invalid resource element name [" 
-              + tag
-              + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-    
-    private static PhaseDirective[] buildPhaseDirectives( Element element ) throws Exception
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        PhaseDirective[] phases = new PhaseDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            phases[i] = buildPhaseDirective( child );
-        }
-        return phases;
-    }
-    
-    private static PhaseDirective buildPhaseDirective( Element element ) throws Exception
-    {
-        final String tag = element.getTagName();
-        if( PHASE_ELEMENT_NAME.equals( tag ) )
-        {
-            final String name = ElementHelper.getAttribute( element, "name" );
-            final String deps = ElementHelper.getAttribute( element, "depends" );
-            final String[] depends = buildDependenciesArray( deps );
-            final String description = ElementHelper.getAttribute( element, "description" );
-            return new PhaseDirective( name, description, depends );
         }
         else
         {

@@ -35,7 +35,6 @@ import net.dpml.library.Type;
 import net.dpml.library.Filter;
 import net.dpml.library.impl.DefaultLibrary;
 
-import net.dpml.tools.info.PhaseDirective;
 import net.dpml.tools.info.ListenerDirective;
 import net.dpml.tools.info.ProcessorDirective;
 
