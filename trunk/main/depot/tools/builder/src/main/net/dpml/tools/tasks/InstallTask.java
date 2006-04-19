@@ -187,7 +187,7 @@ public class InstallTask extends GenericTask
         copy.setPreserveLastModified( preserve );
         copy.setTodir( destination );
         copy.addFileset( fileset );
-        copy.setOverwrite( true );
+        //copy.setOverwrite( true );
         copy.init();
         copy.execute();
     }
