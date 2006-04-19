@@ -18,23 +18,13 @@
 
 package net.dpml.tools.tasks;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Date;
-
-import net.dpml.lang.Part;
-import net.dpml.lang.Plugin;
-
-import net.dpml.library.Resource;
 
 import net.dpml.tools.model.Context;
 
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.BuildException;
-
 /**
- * Execute the install phase.
+ * General initialization during which context establishment is 
+ * undertaken (if not already present).
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

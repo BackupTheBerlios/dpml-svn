@@ -50,9 +50,7 @@ import net.dpml.util.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
-import org.apache.tools.ant.Target;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.taskdefs.Delete;
 
 /**
  * Default implmentation of a project context.
@@ -73,6 +71,7 @@ public final class DefaultContext implements Context
    /**
     * Creation of a new project build context.
     * @param project the unconfigured Ant project
+    * @exception Exception if an error occurs during context extablishment
     */
     public DefaultContext( Project project ) throws Exception
     {
@@ -85,6 +84,7 @@ public final class DefaultContext implements Context
     * Creation of a new project build context.
     * @param resource the resource definition
     * @param project the Ant project
+    * @exception Exception if an error occurs during context extablishment
     */
     public DefaultContext( Resource resource, Project project ) throws Exception
     {
@@ -714,7 +714,7 @@ public final class DefaultContext implements Context
         return buffer.toString();
     }
     
-    public BuildListener loadBuildListener( ListenerDirective listener )
+    private BuildListener loadBuildListener( ListenerDirective listener )
     {
         String name = listener.getName();
         URI uri = listener.getURI();
@@ -737,7 +737,7 @@ public final class DefaultContext implements Context
         }
     }
     
-    public Processor loadProcessor( ProcessorDirective directive )
+    private Processor loadProcessor( ProcessorDirective directive )
     {
         String name = directive.getName();
         URI uri = directive.getURI();
@@ -760,7 +760,7 @@ public final class DefaultContext implements Context
         }
     }
     
-    public Object loadInstance( String name, URI uri, String classname )
+    private Object loadInstance( String name, URI uri, String classname )
     {
         if( null == uri )
         {

@@ -24,8 +24,6 @@ import net.dpml.library.info.Scope;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
 
-import net.dpml.tools.info.ProcessorDirective;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 

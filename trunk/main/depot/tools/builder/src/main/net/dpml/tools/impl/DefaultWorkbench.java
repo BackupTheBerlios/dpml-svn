@@ -26,17 +26,7 @@ import net.dpml.lang.UnknownKeyException;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
-
-import net.dpml.tools.info.BuilderDirective;
-import net.dpml.tools.info.BuilderDirectiveHelper;
-import net.dpml.tools.info.ListenerDirective;
 import net.dpml.tools.info.ProcessorDirective;
-
-import net.dpml.tools.model.Context;
-//import net.dpml.tools.model.Processor;
-//import net.dpml.tools.model.ProcessorNotFoundException;
-
-import org.apache.tools.ant.Project;
 
 /**
  * The Profile interface exposes the working configuration of the build system.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2005-2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,10 +18,6 @@
 
 package net.dpml.tools.model;
 
-import java.net.URI;
-
-import net.dpml.library.Dictionary;
-
 /**
  * The Processor interface is implemented by phase-aware build processors.
  *
@@ -30,15 +26,40 @@ import net.dpml.library.Dictionary;
  */
 public interface Processor
 {
+   /**
+    * Handle initialization.
+    * @param context the working context
+    */
     void initialize( Context context );
     
+   /**
+    * Handle supplimentary codebase preparation.
+    * @param context the working context
+    */
     void prepare( Context context );
     
+   /**
+    * Handle type-specific construction in preparation for 
+    * data packaging.
+    * @param context the working context
+    */
     void build( Context context );
     
+   /**
+    * Packaging of type-specific data.
+    * @param context the working context
+    */
     void pack( Context context );
     
+   /**
+    * Datatype validation.
+    * @param context the working context
+    */
     void validate( Context context );
     
+   /**
+    * Post installation actions.
+    * @param context the working context
+    */
     void install( Context context );
 }

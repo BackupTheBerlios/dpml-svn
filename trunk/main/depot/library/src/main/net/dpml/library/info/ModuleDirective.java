@@ -45,6 +45,7 @@ public final class ModuleDirective extends ResourceDirective
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
     * @param filters source filters
+    * @param resources subsidary resources
     * @return the immediate enclosing resource
     */
     public static ModuleDirective createModuleDirective( 

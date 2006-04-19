@@ -23,17 +23,21 @@ import net.dpml.tools.model.Context;
 import net.dpml.tools.tasks.ModuleTask;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Processor supporting module datatype production.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ModuleProcess extends AbstractProcessor
 {
+   /**
+    * Creation of a module descriptor under the directory
+    * target/deliverables/modules.
+    *
+    * @param context the working context
+    */
     public void pack( Context context )
     {
         Project project = context.getProject();

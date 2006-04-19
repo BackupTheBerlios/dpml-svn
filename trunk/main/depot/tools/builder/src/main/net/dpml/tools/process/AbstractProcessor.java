@@ -29,26 +29,51 @@ import net.dpml.tools.model.Processor;
  */
 public class AbstractProcessor implements Processor
 {
+   /**
+    * Handle initialization.
+    * @param context the working context
+    */
     public void initialize( Context context )
     {
     }
     
+   /**
+    * Handle supplimentary codebase preparation.
+    * @param context the working context
+    */
     public void prepare( Context context )
     {
     }
     
+   /**
+    * Handle type-specific construction in preparation for 
+    * data packaging.
+    * @param context the working context
+    */
     public void build( Context context )
     {
     }
     
+   /**
+    * Packaging of type-specific data.
+    * @param context the working context
+    */
     public void pack( Context context )
     {
     }
     
+   /**
+    * Datatype validation.
+    * @param context the working context
+    */
     public void validate( Context context )
     {
     }
     
+   /**
+    * Post installation actions.
+    * @param context the working context
+    */
     public void install( Context context )
     {
     }

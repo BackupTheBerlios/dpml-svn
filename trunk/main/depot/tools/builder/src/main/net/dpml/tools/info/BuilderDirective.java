@@ -45,6 +45,7 @@ public final class BuilderDirective extends AbstractDirective
     * @param phase the default target phase
     * @param processors an array of processor directives
     * @param properties supplimentary properties
+    * @exception UnknownKeyException if a unknown key is referenced
     */
     public BuilderDirective( 
       ListenerDirective[] listeners, String phase, 

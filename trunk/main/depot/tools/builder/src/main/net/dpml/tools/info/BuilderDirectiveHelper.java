@@ -19,7 +19,6 @@
 package net.dpml.tools.info;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -28,16 +27,10 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
 
-import net.dpml.tools.process.JarProcess;
-import net.dpml.tools.process.PluginProcess;
-import net.dpml.tools.process.ModuleProcess;
-
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
 import net.dpml.util.ElementHelper;
-
-import net.dpml.lang.UnknownKeyException;
 
 import org.w3c.dom.Element;
 

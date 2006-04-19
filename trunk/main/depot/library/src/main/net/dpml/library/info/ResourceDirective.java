@@ -62,6 +62,7 @@ public class ResourceDirective extends AbstractDirective
     * @param version the resource version
     * @param type the resource type
     * @param properties suppliementary properties
+    * @return the resource directive
     */
     public static ResourceDirective createAnonymousResource( 
       String name, String version, String type, Properties properties )

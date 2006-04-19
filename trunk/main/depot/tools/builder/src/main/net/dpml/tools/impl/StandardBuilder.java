@@ -21,13 +21,11 @@ package net.dpml.tools.impl;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
-import java.util.Date;
 import java.util.Vector;
 
 import net.dpml.library.Builder;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
-import net.dpml.library.Filter;
 
 import net.dpml.tools.model.Context;
 import net.dpml.tools.info.BuilderDirective;
@@ -66,6 +64,9 @@ public class StandardBuilder implements Builder
     */
     public static final String DEFAULT_TEMPLATE_URN = "local:template:dpml/tools/standard";
     
+   /**
+    * The builder configuration.
+    */
     public static final BuilderDirective CONFIGURATION = loadConfiguration();
     
     private static BuilderDirective loadConfiguration()

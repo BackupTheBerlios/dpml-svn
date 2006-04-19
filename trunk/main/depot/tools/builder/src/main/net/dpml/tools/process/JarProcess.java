@@ -23,7 +23,6 @@ import java.io.File;
 import net.dpml.library.info.Scope;
 
 import net.dpml.tools.model.Context;
-//import net.dpml.tools.model.Processor;
 
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.JarTask;
@@ -31,18 +30,23 @@ import net.dpml.tools.tasks.JUnitTestTask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.types.Path;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Processor supporting ujava class compilation, jar creation, 
+ * testcase compilation and test execution.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class JarProcess extends AbstractProcessor
 {
+   /**
+    * Executes the compilation of java source files
+    * under the normalized target/main/classes directory.
+    *
+    * @param context the working context
+    */
     public void build( Context context )
     {
         Project project = context.getProject();
@@ -52,6 +56,12 @@ public class JarProcess extends AbstractProcessor
         task.execute();
     }
     
+   /**
+    * Packages java class files into a jar file published under 
+    * the target/deliverables/jars directory.
+    *
+    * @param context the working context
+    */
     public void pack( Context context )
     {
         Project project = context.getProject();
@@ -70,6 +80,12 @@ public class JarProcess extends AbstractProcessor
         }
     }
     
+   /**
+    * Compiles and executes unit tests using a classpath incorporating the 
+    * jar file produced under the pack phase.
+    *
+    * @param context the working context
+    */
     public void validate( Context context )
     {
         Project project = context.getProject();

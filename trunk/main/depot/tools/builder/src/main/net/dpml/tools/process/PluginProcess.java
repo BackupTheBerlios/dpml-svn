@@ -25,18 +25,22 @@ import net.dpml.tools.tasks.PartTask;
 import net.dpml.util.ExceptionHelper;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Processor supporting part datatype production.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class PluginProcess extends AbstractProcessor
 {    
+   /**
+    * Creation of a part descriptor under the directory
+    * target/deliverables/parts.
+    *
+    * @param context the working context
+    */
     public void pack( Context context )
     {
         try

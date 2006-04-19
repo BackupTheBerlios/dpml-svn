@@ -26,8 +26,6 @@ import net.dpml.library.Resource;
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 
-import junit.framework.TestCase;
-
 /**
  * The ImportDirective class describes a the inclusion of a typed value.
  *

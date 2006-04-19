@@ -21,17 +21,17 @@ package net.dpml.tools.impl;
 import net.dpml.tools.model.Context;
 import net.dpml.tools.model.Processor;
 
-import net.dpml.tools.info.ProcessorDirective;
 import net.dpml.tools.process.StandardProcess;
 
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.Target;
-import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 
 /**
- * Standard build listener.
+ * Standard build listener.  The implementation provides support
+ * for codebase structure normalization, and delegation of type-specific
+ * build functions to build processors. 
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -41,6 +41,10 @@ public class StandardBuildListener implements BuildListener
     private final Context m_context;
     private final StandardProcess m_standard;
     
+   /**
+    * Creation of a new standard build listener.
+    * @param context the wotrking context
+    */
     public StandardBuildListener( Context context )
     {
         if( null == context )

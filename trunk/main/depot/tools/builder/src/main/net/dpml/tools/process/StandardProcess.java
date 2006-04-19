@@ -18,30 +18,40 @@
 
 package net.dpml.tools.process;
 
-import net.dpml.library.Resource;
-
 import net.dpml.tools.model.Context;
-
 import net.dpml.tools.tasks.PrepareTask;
 import net.dpml.tools.tasks.InstallTask;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.BuildEvent;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Standard process dealing with context initialization, codfebase 
+ * normalization, and artifact installation.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class StandardProcess extends AbstractProcessor
 {
+   /**
+    * Handles context initialization during which path definitions
+    * for runtime and test concerns are bound to the active project.
+    *
+    * @param context the working context
+    */
     public void initialize( Context context )
     {
         context.init();
     }
     
+   /**
+    * Handles normalization of a codebase during which a working copy of 
+    * the codebase is created under the target/build directory.  Global 
+    * filters are applied and merging of the src/main with etc/main and 
+    * src/test wityh etc/test is undertaken.
+    *
+    * @param context the working context
+    */
     public void prepare( Context context )
     {
         context.getProject().log( "commencing preparation", Project.MSG_VERBOSE );
@@ -54,6 +64,13 @@ public class StandardProcess extends AbstractProcessor
         context.getProject().log( "preparation complete", Project.MSG_VERBOSE );
     }
     
+   /**
+    * Handles replication of content under target/deliverables to the 
+    * common cache directory - includes validation of the presence of declared 
+    * artifacts during execution.
+    *
+    * @param context the working context
+    */
     public void install( Context context )
     {
         Project project = context.getProject();
