@@ -32,6 +32,7 @@ import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 
+import net.dpml.transit.Artifact;
 import net.dpml.transit.NullArgumentException;
 import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.util.PropertyResolver;
@@ -115,8 +116,17 @@ public class ArtifactLinkManager
                 public Object run()
                     throws IOException
                 {
-                    String artifact = linkUri.toASCIIString();
-                    URL store = new URL( null, artifact, new net.dpml.transit.artifact.Handler() );
+                    URL store = null;
+                    if( Artifact.isRecognized( linkUri ) )
+                    {
+                        String artifact = linkUri.toASCIIString();
+                        store = new URL( null, artifact, new net.dpml.transit.artifact.Handler() );
+                    }
+                    else
+                    {
+                        store = linkUri.toURL();
+                    }
+                    
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     InputStream in = store.openConnection().getInputStream();
                     StreamUtils.copyStream( in, out, true );

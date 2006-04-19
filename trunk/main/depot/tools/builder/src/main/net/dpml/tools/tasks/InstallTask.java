@@ -23,12 +23,14 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URI;
 
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.link.ArtifactLinkManager;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -100,15 +102,30 @@ public class InstallTask extends GenericTask
                     Artifact artifact = resource.getArtifact( type.getID() );
                     String uri = artifact.toURI().toASCIIString();
                     String link = resource.getName() + "." + name + ".link";
-                    log( link.toString() );
-                    log( uri.toString() );
                     File out = new File( group, link );
-                    out.createNewFile();
-                    final OutputStream output = new FileOutputStream( out );
-                    final Writer writer = new OutputStreamWriter( output );
-                    writer.write( uri );
-                    writer.close();
-                    output.close();
+                    
+                    boolean flag = true;
+                    if( out.exists() )
+                    {
+                        ArtifactLinkManager manager = new ArtifactLinkManager();
+                        URI enclosed = manager.getTargetURI( new URI( out.toURL().toString() ) );
+                        if( artifact.toURI().equals( enclosed ) )
+                        {
+                            flag = false;
+                        }
+                    }
+                    
+                    if( flag )
+                    {
+                        log( link.toString() );
+                        log( uri.toString() );
+                        out.createNewFile();
+                        final OutputStream output = new FileOutputStream( out );
+                        final Writer writer = new OutputStreamWriter( output );
+                        writer.write( uri );
+                        writer.close();
+                        output.close();
+                    }
                 }
                 catch( Exception e )
                 {
