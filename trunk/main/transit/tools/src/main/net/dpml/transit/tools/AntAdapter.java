@@ -50,6 +50,15 @@ public class AntAdapter implements Adapter
     }
 
    /**
+    * Return TRUE is trace level logging is enabled.
+    * @return the enabled state of trace logging
+    */
+    public boolean isTraceEnabled()
+    {
+        return true;
+    }
+
+   /**
     * Return TRUE is debug level logging is enabled.
     * @return the enabled state of debug logging
     */
@@ -57,7 +66,7 @@ public class AntAdapter implements Adapter
     {
         return true;
     }
-
+    
    /**
     * Return TRUE is info level logging is enabled.
     * @return the enabled state of info logging
@@ -90,6 +99,15 @@ public class AntAdapter implements Adapter
     * @param message the debug message to record
     */
     public void debug( String message )
+    {
+        m_task.log( message, Project.MSG_VERBOSE );
+    }
+
+   /**
+    * Record a trace level message.
+    * @param message the trace message to record
+    */
+    public void trace( String message )
     {
         m_task.log( message, Project.MSG_VERBOSE );
     }
