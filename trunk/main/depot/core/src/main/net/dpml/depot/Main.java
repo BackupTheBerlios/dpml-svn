@@ -41,6 +41,7 @@ import net.dpml.lang.PID;
 import net.dpml.lang.Part;
 
 import net.dpml.util.Logger;
+import net.dpml.util.PropertyResolver;
 
 /**
  * CLI hander for the depot package.
@@ -391,7 +392,8 @@ public final class Main //implements ShutdownHandler
             if( index > -1 && arg.startsWith( "-D" ) )
             {
                 String name = arg.substring( 2, index );
-                String value = arg.substring( index + 1 );
+                String raw = arg.substring( index + 1 );
+                String value = PropertyResolver.resolve( raw );
                 System.setProperty( name, value );
             }
             else

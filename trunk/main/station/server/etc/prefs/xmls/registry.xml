@@ -9,7 +9,6 @@
       <shutdown>6</shutdown>
       <properties>
         <property name="org.mortbay.log.class" value="net.dpml.http.LogAdapter"/>
-        <!--<property name="dpml.logging.level" value="FINE"/>-->
       </properties>
     </jvm>
   

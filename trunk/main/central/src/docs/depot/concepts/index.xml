@@ -12,7 +12,7 @@
     <section name="DPML Depot">
 
       <p>
-      Depot is a the component development workshop.  It provides tools
+      Depot is a development toolkit that extends Ant.  It provides tools
       supporting general build functions, centralizes library management, 
       a framework for project modularization, and a solution that delivers 
       overall simplification to build configuration and maintenance concerns.

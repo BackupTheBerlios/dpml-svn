@@ -95,6 +95,7 @@ public class Server extends org.mortbay.jetty.Server
     
     private final Logger m_logger;
     private final Context m_context;
+    private final ArrayList m_connections = new ArrayList();
 
    /**
     * Creation of a new HTTP server implementation.
@@ -168,7 +169,6 @@ public class Server extends org.mortbay.jetty.Server
         getLogger().debug( "commencing connector addition" );
         ComponentHandler[] handlers = parts.getComponentHandlers( Connector.class );
         getLogger().debug( "connector count: " + handlers.length );
-        ArrayList list = new ArrayList();
         for( int i=0; i<handlers.length; i++ )
         {
             ComponentHandler handler = handlers[i];
@@ -177,7 +177,7 @@ public class Server extends org.mortbay.jetty.Server
             {
                 Provider provider = handler.getProvider();
                 Connector ch = (Connector) provider.getValue( false );
-                list.add( ch );
+                m_connections.add( ch );
             }
             catch( Throwable e )
             {
@@ -186,7 +186,7 @@ public class Server extends org.mortbay.jetty.Server
                 throw new Exception( error, e );
             }
         }
-        Connector[] connectors = (Connector[]) list.toArray( new Connector[0] );
+        Connector[] connectors = (Connector[]) m_connections.toArray( new Connector[0] );
         setConnectors( connectors );
     }
     
@@ -241,23 +241,6 @@ public class Server extends org.mortbay.jetty.Server
         UserRealm[] realms = (UserRealm[]) list.toArray( new UserRealm[0] );
         setUserRealms( realms );
     }
-    
-    /*
-    public void addHandler( Handler handler )
-        throws Exception
-    {
-        Handler[] handlers = getHandlers();
-        Handler[] newHandlers = (Handler[]) LazyList.addToArray( handlers, handler );
-        Arrays.sort( newHandlers );
-        super.setHandlers( newHandlers );
-    }
-    
-    public void setHandlers( Handler[] handlers )
-    {
-        Arrays.sort( handlers );
-        super.setHandlers( handlers );
-    }
-    */
     
     private Logger getLogger()
     {

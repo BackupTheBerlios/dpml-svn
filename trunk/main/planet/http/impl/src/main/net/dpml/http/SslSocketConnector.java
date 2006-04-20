@@ -40,7 +40,11 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
     */
     public interface Context extends ConnectorContext
     {
-        //setCipherSuites( String[] suites );
+       /**
+        * Set the cipher suites.
+        * @param suites the default suites argument
+        */
+        String[] getCipherSuites( String[] suites );
 
        /**
         * Return the certificate password.
@@ -194,5 +198,11 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         
         boolean needClientAuth = context.getNeedClientAuth( false );
         setNeedClientAuth( needClientAuth );
+        
+        String[] suites = context.getCipherSuites( (String[]) null );
+        if( null != suites )
+        {
+            setCipherSuites( suites );
+        }
     }
 }
