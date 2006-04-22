@@ -22,6 +22,7 @@ import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.data.ContextDirective;
+import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.PartReference;
@@ -58,7 +59,14 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         m_lifestyle = LifestylePolicy.SINGLETON;
         m_classname = ComponentDirectiveTestCase.class.getName();
         m_categories = new CategoriesDirective( new CategoryDirective[0] );
-        m_context = new ContextDirective( new PartReference[0] );
+        m_context = 
+          new ContextDirective( 
+            new PartReference[]
+            {
+                new PartReference( "abc", new ValueDirective( "abc" ) ),
+                new PartReference( "def", new ValueDirective( "def" ) )
+            }
+          );
         m_parts = new PartReference[0];
         m_directive = 
           new ComponentDirective( 
@@ -215,5 +223,33 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     public void testContext()
     {
         assertEquals( "context", m_context, m_directive.getContextDirective() );
+    }
+    
+   /**
+    * Test equality.
+    */
+    public void testEquality()
+    {
+        ContextDirective context = 
+          new ContextDirective( 
+            new PartReference[]
+            {
+                new PartReference( "abc", new ValueDirective( "abc" ) ),
+                new PartReference( "def", new ValueDirective( "xyz" ) )
+            }
+          );
+          
+        ComponentDirective a = new ComponentDirective( 
+            m_name, m_activation, m_collection, m_lifestyle, m_classname, 
+            m_categories, m_context, m_parts );
+            
+        ComponentDirective b = new ComponentDirective( 
+            m_name, m_activation, m_collection, m_lifestyle, m_classname, 
+            m_categories, context, m_parts );
+        
+        if( a.equals( b ) )
+        {
+            fail( "non-equal directives return true for equals" );
+        }
     }
 }

@@ -15,7 +15,30 @@
  */
 package net.dpml.http;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
+import java.security.SecureRandom;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.KeyStoreException;
+import java.security.cert.CertificateException;
+import java.security.UnrecoverableKeyException;
+import java.security.NoSuchProviderException;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocketFactory;
+
+import net.dpml.transit.Artifact;
+
+import org.mortbay.resource.Resource;
+import org.mortbay.jetty.security.Password;
 
 /**
  * SSL socket connector.
@@ -34,6 +57,14 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
     private static final int CONFIDENTIAL_PORT = 0;
     private static final int INTEGRAL_PORT = 0;
     private static final boolean ASSUME_SHORT_DISPATCH = false;
+    private static final String KEYSTORE_TYPE = "JKS";
+    private static final String PROTOCOL = "TLS";
+    private static final String ALGORITHM = "SunX509";
+    
+    private transient Context m_context;
+    private transient Password m_certificatePassword;
+    private transient Password m_keystorePassword;
+    private transient Password m_trustPassword;
     
    /**
     * SSL connector context definition.
@@ -47,18 +78,18 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         String[] getCipherSuites( String[] suites );
 
        /**
-        * Return the certificate password.
-        * @param password implementation defined default value
-        * @return the supplied value unless overriden in the deployment configuration
-        */
-        String getPassword( String password );
-        
-       /**
         * Return the keystore password.
         * @param password implementation defined default value
         * @return the supplied value unless overriden in the deployment configuration
         */
-        String getKeyPassword( String password );
+        String getKeyStorePassword( String password );
+        
+       /**
+        * Return the certificate password.
+        * @param password implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getCertificatePassword( String password );
         
        /**
         * Return the keystore algorithm.
@@ -68,7 +99,14 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         String getAlgorithm( String algorithm );
         
        /**
-        * Return the keystore protocol.
+        * Return the keystore type.
+        * @param type implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getKeyStoreType( String type );
+        
+       /**
+        * Return the SSL protocol.
         * @param protocol implementation defined default value
         * @return the supplied value unless overriden in the deployment configuration
         */
@@ -79,14 +117,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         * @param keystore implementation defined default value
         * @return the supplied value unless overriden in the deployment configuration
         */
-        URI getKeystore( URI keystore );
-        
-       /**
-        * Return the keystore type.
-        * @param type implementation defined default value
-        * @return the supplied value unless overriden in the deployment configuration
-        */
-        String getKeystoreType( String type );
+        URI getKeyStore( URI keystore );
         
        /**
         * Return the 'want-client-authentication' policy.
@@ -101,8 +132,45 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         * @return the supplied value unless overriden in the deployment configuration
         */
         boolean getNeedClientAuth( boolean flag );
+        
+       /**
+        * Return the SSL context provider.
+        * @param provider implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getProvider( String provider );
+        
+        // extras
+        
+       /**
+        * Return the keystore algorithm.
+        * @param algorithm implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getTrustAlgorithm( String algorithm );
+        
+       /**
+        * Return the keystore location uri.
+        * @param uri implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        URI getTrustStore( URI uri );
+        
+       /**
+        * Return the keystore type.
+        * @param type implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getTrustStoreType( String type );
+        
+       /**
+        * Return the trust store password.
+        * @param password implementation defined default value
+        * @return the supplied value unless overriden in the deployment configuration
+        */
+        String getTrustStorePassword( String password );
     }
-
+    
    /**
     * Creation of a new ssl connector.
     * @param context the deployment context
@@ -111,6 +179,8 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
     public SslSocketConnector( Context context ) throws Exception
     {
         super();
+        
+        m_context = context;
         
         String host = context.getHost( null );
         if( null != host )
@@ -156,42 +226,42 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         
         // SslSocketConnector$Context
         
-        String password = context.getPassword( null );
-        if( null != password )
+        String certificatePassword = context.getCertificatePassword( null );
+        if( null != certificatePassword )
         {
-            setPassword( password );
+            m_certificatePassword = 
+              Password.getPassword( KEYPASSWORD_PROPERTY, certificatePassword, null );
+            setKeyPassword( certificatePassword );
         }
         
-        String keyPassword = context.getKeyPassword( null );
-        if( null != keyPassword )
+        String keystorePassword = context.getKeyStorePassword( null );
+        if( null != keystorePassword )
         {
-            setKeyPassword( keyPassword );
+            m_keystorePassword = Password.getPassword( PASSWORD_PROPERTY, keystorePassword, null );
+            setPassword( keystorePassword );
         }
         
-        String algorithm = context.getAlgorithm( null );
-        if( null != algorithm )
-        {
-            setAlgorithm( algorithm );
-        }
+        String algorithm = context.getAlgorithm( ALGORITHM );
+        setAlgorithm( algorithm );
         
-        String protocol = context.getProtocol( null );
-        if( null != protocol )
-        {
-            setProtocol( protocol );
-        }
+        String protocol = context.getProtocol( PROTOCOL );
+        setProtocol( protocol );
         
-        URI keystore = context.getKeystore( null );
+        URI keystore = context.getKeyStore( null );
         if( null != keystore )
         {
             String keystorePath = keystore.toASCIIString();
             setKeystore( keystorePath );
         }
         
-        String keystoreType = context.getKeystoreType( null );
-        if( null != keystoreType )
+        String provider = context.getProvider( null );
+        if( null != provider )
         {
-            setKeystoreType( keystoreType );
+            setProvider( provider );
         }
+        
+        String keystoreType = context.getKeyStoreType( KEYSTORE_TYPE );
+        setKeystoreType( keystoreType );
         
         boolean wantClientAuth = context.getWantClientAuth( false );
         setWantClientAuth( wantClientAuth );
@@ -205,4 +275,100 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
             setCipherSuites( suites );
         }
     }
+
+    protected SSLServerSocketFactory createFactory() 
+        throws Exception
+    {
+        final SSLContext context = getSSLContext();
+        KeyManager[] keyManagers = getKeyManagers();
+        TrustManager[] trustManagers = getTrustManagers();
+        System.out.println( "# TRUST: " + trustManagers.length );
+        SecureRandom random = new SecureRandom();
+        context.init( keyManagers, trustManagers, random );
+        //context.init( keyManagers, null, random );
+        return context.getServerSocketFactory();
+    }
+    
+    private KeyManager[] getKeyManagers() throws Exception
+    {
+        final String algorithm = getAlgorithm();
+        final KeyManagerFactory factory = KeyManagerFactory.getInstance( algorithm );
+        final KeyStore store = loadKeyStore();
+        final char[] password = toCharArray( m_certificatePassword );
+        factory.init( store, password );
+        return factory.getKeyManagers();
+    }
+    
+    private KeyStore loadKeyStore() throws Exception
+    {
+        final String type = getKeystoreType();
+        final KeyStore keyStore = KeyStore.getInstance( type );
+        final char[] password = toCharArray( m_keystorePassword );
+        final String keyStorePath = getKeystore();
+        final InputStream input = Resource.newResource( keyStorePath ).getInputStream();
+        keyStore.load( input, password );
+        return keyStore;
+    }
+    
+    private KeyStore loadTrustStore() throws Exception
+    {
+        final String type = m_context.getTrustStoreType( KEYSTORE_TYPE );
+        final KeyStore store = KeyStore.getInstance( type );
+        final char[] password = toCharArray( m_trustPassword );
+        URI uri = m_context.getTrustStore( null );
+        if( null != uri )
+        {
+            URL url = Artifact.toURL( uri );
+            final InputStream input = Resource.newResource( url ).getInputStream();
+            store.load( input, password );
+            return store;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    private TrustManager[] getTrustManagers() throws Exception
+    {
+        final String algorithm = m_context.getTrustAlgorithm( ALGORITHM );
+        final TrustManagerFactory factory = TrustManagerFactory.getInstance( algorithm );
+        final KeyStore store = loadTrustStore();
+        if( store != null )
+        {
+            factory.init( store );
+            return factory.getTrustManagers();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private char[] toCharArray( Password value )
+    {
+        if( null == value )
+        {
+            return null;
+        }
+        else
+        {
+            return value.toString().toCharArray();
+        }
+    }
+    
+    private SSLContext getSSLContext() throws NoSuchAlgorithmException, NoSuchProviderException
+    {
+        final String protocol = getProtocol();
+        final String provider = getProvider();
+        if( null == provider )
+        {
+            return SSLContext.getInstance( protocol );
+        }
+        else
+        {
+            return SSLContext.getInstance( protocol, provider );
+        }
+    }
 }
+    

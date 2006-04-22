@@ -110,7 +110,7 @@ public class PartReference implements Serializable
                 }
                 else
                 {
-                    return m_directive.equals( reference.getDirective() );
+                    return m_directive.equals( reference.m_directive );
                 }
             }
         }

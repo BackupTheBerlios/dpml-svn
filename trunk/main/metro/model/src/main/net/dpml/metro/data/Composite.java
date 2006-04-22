@@ -62,5 +62,33 @@ public final class Composite extends Plugin
     {
         return m_directive;
     }
+    
+   /**
+    * Return true if this object is equal to the supplied object.
+    * @return the equality status
+    */
+    public boolean equals( Object other )
+    {
+        if( super.equals( other ) && ( other instanceof Composite ) )
+        {
+            Composite composite = (Composite) other;
+            return m_directive.equals( composite.m_directive );
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+   /**
+    * Return the hashcode for the instance.
+    * @return the instance hashcode
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= m_directive.hashCode();
+        return hash;
+    }
 }
 

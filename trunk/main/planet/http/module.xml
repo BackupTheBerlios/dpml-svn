@@ -29,6 +29,10 @@
         <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#${sl4j.version}"/>
         <include urn="artifact:jar:org/slf4j/slf4j-jdk14#${sl4j.version}"/>
       </runtime>
+      <test>
+        <include ref="dpml/transit/dpml-transit-main"/>
+        <include ref="ant/ant-junit"/>
+      </test>
     </dependencies>
   </project>
 

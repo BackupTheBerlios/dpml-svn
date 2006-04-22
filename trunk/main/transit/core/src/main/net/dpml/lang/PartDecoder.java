@@ -74,27 +74,31 @@ public final class PartDecoder implements Decoder
    /**
     * Load a part from a uri.
     * @param uri the part uri
+    * @param cache if true parts are cached relative to the requested uri
     * @return the part definition
     * @exception IOException if an IO error occurs
     */
-    public Part loadPart( URI uri ) throws IOException
+    public Part loadPart( URI uri, boolean cache ) throws IOException
     {
         if( null == uri )
         {
             throw new NullPointerException( "uri" );
         }
         String key = buildKey( uri );
-        WeakReference ref = (WeakReference) m_map.get( key );
-        if( null != ref )
+        if( cache )
         {
-            Part part = (Part) ref.get();
-            if( null != part )
+            WeakReference ref = (WeakReference) m_map.get( key );
+            if( null != ref )
             {
-                if( getLogger().isDebugEnabled() )
+                Part part = (Part) ref.get();
+                if( null != part )
                 {
-                    getLogger().debug( "loading part [" + uri + "] from cache." );
+                    if( getLogger().isDebugEnabled() )
+                    {
+                        getLogger().debug( "loading part [" + uri + "] from cache." );
+                    }
+                    return part;
                 }
-                return part;
             }
         }
         try
@@ -106,8 +110,11 @@ public final class PartDecoder implements Decoder
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
             Part value = decodePart( uri, root );
-            WeakReference reference = new WeakReference( value );
-            m_map.put( key, reference );
+            if( cache )
+            {
+                WeakReference reference = new WeakReference( value );
+                m_map.put( key, reference );
+            }
             return value;
         }
         catch( Throwable e )
@@ -277,7 +284,7 @@ public final class PartDecoder implements Decoder
     
     private Builder loadForeignBuilder( URI uri ) throws DecodingException, Exception
     {
-        Part part = loadPart( uri );
+        Part part = loadPart( uri, true );
         if( part instanceof Plugin )
         {
             Plugin plugin = (Plugin) part;

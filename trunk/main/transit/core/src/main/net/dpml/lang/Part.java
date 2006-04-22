@@ -82,7 +82,19 @@ public abstract class Part
     */
     public static Part load( URI uri ) throws IOException
     {
-        return PartDecoder.getInstance().loadPart( uri );
+        return load( uri, true );
+    }
+    
+   /**
+    * Load a part from an external XML source.
+    * @param uri the external part source
+    * @param cache the cache policy
+    * @return the resolved part
+    * @exception IOException of an I/O error occurs
+    */
+    public static Part load( URI uri, boolean cache ) throws IOException
+    {
+        return PartDecoder.getInstance().loadPart( uri, cache );
     }
     
    /**

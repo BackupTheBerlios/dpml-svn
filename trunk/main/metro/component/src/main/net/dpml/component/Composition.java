@@ -35,8 +35,9 @@ import net.dpml.util.Logger;
  */
 public abstract class Composition extends Part
 {
-    private Directive m_directive;
-    private Controller m_controller;
+    private final Directive m_directive;
+    private final Controller m_controller;
+    
     private Model m_model;
     
    /**
@@ -52,6 +53,15 @@ public abstract class Composition extends Part
       throws IOException
     {
         super( logger, info, classpath );
+        
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        if( null == controller )
+        {
+            throw new NullPointerException( "controller" );
+        }
         
         m_directive = directive;
         m_controller = controller;
@@ -154,5 +164,40 @@ public abstract class Composition extends Part
     {
         Component component = newComponent();
         return component.getProvider().getValue( true );
+    }
+    
+   /**
+    * Return true if this object is equal to the supplied object.
+    * @return the equality status
+    */
+    public boolean equals( Object other )
+    {
+        if( super.equals( other ) && ( other instanceof Composition ) )
+        {
+            Composition composite = (Composition) other;
+            if( !m_directive.equals( composite.m_directive )
+            {
+                return false;
+            }
+            else
+            {
+                return m_controller.equals( composite.m_controller )
+            }
+        else
+        {
+            return false;
+        }
+    }
+    
+   /**
+    * Return the hashcode for the instance.
+    * @return the instance hashcode
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= m_directive.hashCode();
+        hash ^= m_controller.hashCode();
+        return hash;
     }
 }

@@ -81,4 +81,32 @@ public final class DefaultComposition extends Composition
         ComponentEncoder encoder = new ComponentEncoder();
         encoder.writeComponent( writer, m_directive, pad );
     }
+
+   /**
+    * Return true if this object is equal to the supplied object.
+    * @return the equality status
+    */
+    public boolean equals( Object other )
+    {
+        if( super.equals( other ) && ( other instanceof DefaultComposition ) )
+        {
+            DefaultComposition composite = (DefaultComposition) other;
+            return m_directive.equals( composite.m_directive );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+   /**
+    * Return the hashcode for the instance.
+    * @return the instance hashcode
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= m_directive.hashCode();
+        return hash;
+    }
 }

@@ -121,7 +121,7 @@ public class PartTask extends GenericTask
         {
             try
             {
-                Part existing = Part.load( new URI( file.toURL().toString() ) );
+                Part existing = Part.load( file.toURI(), false );
                 if( part.equals( existing ) )
                 {
                     return;
