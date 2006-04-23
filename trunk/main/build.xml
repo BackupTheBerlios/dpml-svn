@@ -216,7 +216,7 @@
     <property name="prefs.http" location="${prefs}/dpml/planet/http"/>
     <mkdir dir="${prefs.http}"/>
     <copy todir="${prefs.http}" filtering="false">
-      <fileset dir="planet/http/impl/target/prefs">
+      <fileset dir="planet/http/server/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
