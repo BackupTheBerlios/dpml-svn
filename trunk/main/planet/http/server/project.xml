@@ -23,10 +23,10 @@
           <context>
             <entry key="port" value="8443"/>
             <entry key="maxIdleTime" value="30000"/>
-            <entry key="keyStore" value="local:keystore:dpml/planet/http/demo"/>
+            <entry key="keyStore" value="local:keystore:dpml/planet/http/sample"/>
             <entry key="keyStorePassword" value="password"/>
             <entry key="certificatePassword" value="password"/>
-            <entry key="trustStore" value="local:keystore:dpml/planet/http/trust"/>
+            <entry key="trustStore" value="local:keystore:dpml/planet/http/certs"/>
             <entry key="trustStorePassword" value="password"/>
             <!--
             <entry key="keystore" value="local:keystore:dpml/planet/http/jetty"/>

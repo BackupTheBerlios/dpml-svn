@@ -84,6 +84,7 @@ public final class DefaultComposition extends Composition
 
    /**
     * Return true if this object is equal to the supplied object.
+    * @param other the object to evaluate
     * @return the equality status
     */
     public boolean equals( Object other )

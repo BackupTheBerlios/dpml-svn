@@ -17,8 +17,6 @@
 package net.dpml.http;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import net.dpml.util.PropertyResolver;
 
@@ -36,9 +34,10 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
     {
        /**
         * Get the array of ignore paths.
+        * @param value the default value
         * @return the ignore path array
         */
-        //String[] getIgnorePaths();
+        String[] getIgnorePaths( String[] value );
         
        /**
         * Return the append policy.
@@ -74,13 +73,6 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         * @return the resolved value
         */
         String getLogDateFormat( String value );
-        
-       /**
-        * Return the ignore paths value.
-        * @param value the default value
-        * @return the resolved value
-        */
-        String getIgnorePaths( String value );
         
        /**
         * Return the log time zone.
@@ -144,11 +136,10 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
             setLogDateFormat( dateformat );
         }
 
-        String ignorepaths = context.getIgnorePaths( null );
+        String[] ignorepaths = context.getIgnorePaths( null );
         if( ignorepaths != null )
         {
-            String[] paths = tokenize( ignorepaths );
-            setIgnorePaths( paths );
+            setIgnorePaths( ignorepaths );
         }
 
         String timezone = context.getLogTimeZone( null );
@@ -168,23 +159,5 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         
         boolean useProxyAddressPolicy = context.getUseProxyPreference( false );
         setPreferProxiedForAddress( useProxyAddressPolicy );
-    }
-    
-   /**
-    * Tokenize the supplied string using a ' ,' delimiter.
-    * @param string the string to tokenize
-    * @return the array of values
-    */
-    private static String[] tokenize( String string )
-    {
-        ArrayList result = new ArrayList();
-        StringTokenizer st = new StringTokenizer( string, " ,", false );
-        while( st.hasMoreTokens() )
-        {
-            result.add( st.nextToken() );
-        }
-        String[] retVal = new String[ result.size() ];
-        result.toArray( retVal );
-        return retVal;
     }
 }

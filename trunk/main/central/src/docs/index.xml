@@ -17,20 +17,20 @@
 
         <ul>
           <li>
-            <a href="/transit/index.html">Transit</a> resource management framework.
+            <a href="transit/concepts/index.html">Transit</a> resource management framework.
           </li>
           <li>
-            <a href="/depot/index.html">Depot</a> tools 
+            <a href="depot/concepts/index.html">Depot</a> tools 
             for build automation in complex multi-project environments.
           </li>
           <li>
-            <a href="/metro/index.html">Metro</a> context-driven IOC runtime container.
+            <a href="metro/concepts/index.html">Metro</a> context-driven IOC runtime container.
           </li>
           <li>
-            <a href="/station/index.html">Station</a> multi-appplication management system.
+            <a href="station/concepts/index.html">Station</a> multi-appplication management system.
           </li>
           <li>
-            <a href="/util/index.html">Util</a> supporting utilities.
+            <a href="util/concepts/index.html">Util</a> supporting utilities.
           </li>
         </ul>
 

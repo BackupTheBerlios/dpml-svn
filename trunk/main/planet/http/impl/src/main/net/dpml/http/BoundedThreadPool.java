@@ -98,5 +98,6 @@ public class BoundedThreadPool extends org.mortbay.thread.BoundedThreadPool
         setDaemon( daemon );
         setThreadsPriority( priority );
         setName( name );
+        setMaxIdleTimeMs( idle );
     }
 }

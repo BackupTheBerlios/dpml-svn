@@ -15,17 +15,12 @@
  */
 package net.dpml.http;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
-import java.security.KeyStoreException;
-import java.security.cert.CertificateException;
-import java.security.UnrecoverableKeyException;
 import java.security.NoSuchProviderException;
 
 import javax.net.ssl.KeyManager;
@@ -74,6 +69,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
        /**
         * Set the cipher suites.
         * @param suites the default suites argument
+        * @return the cipher suites
         */
         String[] getCipherSuites( String[] suites );
 
@@ -276,16 +272,18 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         }
     }
 
+   /**
+    * Create a new SSLServerSocketFactory.
+    * @return the factory
+    */
     protected SSLServerSocketFactory createFactory() 
         throws Exception
     {
         final SSLContext context = getSSLContext();
         KeyManager[] keyManagers = getKeyManagers();
         TrustManager[] trustManagers = getTrustManagers();
-        System.out.println( "# TRUST: " + trustManagers.length );
         SecureRandom random = new SecureRandom();
         context.init( keyManagers, trustManagers, random );
-        //context.init( keyManagers, null, random );
         return context.getServerSocketFactory();
     }
     
@@ -341,7 +339,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
         }
         else
         {
-            return null;
+            return new TrustManager[0];
         }
     }
 

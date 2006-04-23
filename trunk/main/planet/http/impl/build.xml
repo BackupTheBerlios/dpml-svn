@@ -124,15 +124,5 @@
 
   </target>
 
-  <target name="install" depends="standard.install">
-    <property name="prefs" location="${dpml.prefs}/dpml/planet/http"/>
-    <mkdir dir="${prefs}"/>
-    <copy toDir="${prefs}" filtering="false">
-      <fileset dir="target/prefs">
-        <include name="**/*"/>
-      </fileset>
-    </copy>
-  </target>
-
 </project>
 
