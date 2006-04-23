@@ -58,11 +58,6 @@ public abstract class Composition extends Part
         {
             throw new NullPointerException( "directive" );
         }
-        if( null == controller )
-        {
-            throw new NullPointerException( "controller" );
-        }
-        
         m_directive = directive;
         m_controller = controller;
     }
@@ -175,14 +170,22 @@ public abstract class Composition extends Part
         if( super.equals( other ) && ( other instanceof Composition ) )
         {
             Composition composite = (Composition) other;
-            if( !m_directive.equals( composite.m_directive )
+            if( !m_directive.equals( composite.m_directive ) )
             {
                 return false;
             }
             else
             {
-                return m_controller.equals( composite.m_controller )
+                if( null == m_controller )
+                {
+                    return null == composite.m_controller;
+                }
+                else
+                {
+                    return m_controller.equals( composite.m_controller );
+                }
             }
+        }
         else
         {
             return false;
@@ -197,7 +200,10 @@ public abstract class Composition extends Part
     {
         int hash = super.hashCode();
         hash ^= m_directive.hashCode();
-        hash ^= m_controller.hashCode();
+        if( null != m_controller )
+        {
+            hash ^= m_controller.hashCode();
+        }
         return hash;
     }
 }
