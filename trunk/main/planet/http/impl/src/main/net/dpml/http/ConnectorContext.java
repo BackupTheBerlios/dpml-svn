@@ -71,7 +71,7 @@ public interface ConnectorContext
     int getAcceptQueueSize( int size );
     
    /**
-    * Return the number of inital acceptors.
+    * Return the number of initial acceptors.
     * @param size implementation defined default value
     * @return the supplied value unless overriden in the deployment configuration
     */
