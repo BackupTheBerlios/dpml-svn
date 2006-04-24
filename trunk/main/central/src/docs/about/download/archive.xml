@@ -32,6 +32,7 @@
           <li>Removal of transit content handlers (functionality available 
               under the improved part model).</li>
           <li>Added support for trace level logging.</li>
+          <li>Addition of test cases in the http impl package and related code improvements</li>
         </ul>
         
         <table>
