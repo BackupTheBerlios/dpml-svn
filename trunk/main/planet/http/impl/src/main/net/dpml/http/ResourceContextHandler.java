@@ -25,7 +25,7 @@ import net.dpml.logging.Logger;
 public class ResourceContextHandler extends org.mortbay.jetty.handler.ContextHandler
 {
    /**
-    * HTTP static resource vontext handler parameters.
+    * HTTP static resource context handler parameters.
     */
     public interface Context extends ContextHandlerContext
     {
@@ -37,8 +37,6 @@ public class ResourceContextHandler extends org.mortbay.jetty.handler.ContextHan
         */
         String getResourceBase();
     }
-    
-    private int m_priority = 0;
     
    /**
     * Creation of a new resource context handler.
