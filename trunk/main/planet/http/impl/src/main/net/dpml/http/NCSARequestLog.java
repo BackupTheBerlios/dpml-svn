@@ -62,8 +62,9 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         
        /**
         * Return the log filename.
-        * @param value the default filename value
-        * @return the resolved filename value
+        * @param value the default filename value (may include symbolic
+        *   references to system properties)
+        * @return the resolved filename
         */
         String getFilename( String value );
         
@@ -97,12 +98,11 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         boolean getLogLatency( boolean flag );
         
        /**
-        * Get the preference policy concerning address registration.
-        * @param flag the proxy preferred policy - if tue the proxy 
-        *   address will be used in preference to the request header address
-        * @return the resulted proxy preferred policy
+        * Get the log cookies policy.
+        * @param flag the default policy
+        * @return the resolved policy
         */
-        boolean getUseProxyPreference( boolean flag );
+        boolean getLogCookies( boolean flag );
     }
 
    /**
@@ -126,7 +126,10 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
             filename = PropertyResolver.resolve( System.getProperties(), filename );
             File file = new File( filename );
             File parent = file.getParentFile();
-            parent.mkdirs();
+            if( null != parent )
+            {
+                parent.mkdirs();
+            }
             setFilename( filename );
         }
 
@@ -157,7 +160,7 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         boolean recordLatencyPolicy = context.getLogLatency( false );
         setLogLatency( recordLatencyPolicy );
         
-        boolean useProxyAddressPolicy = context.getUseProxyPreference( false );
-        setPreferProxiedForAddress( useProxyAddressPolicy );
+        boolean cookiesPolicy = context.getLogCookies( false );
+        setLogCookies( cookiesPolicy );
     }
 }
