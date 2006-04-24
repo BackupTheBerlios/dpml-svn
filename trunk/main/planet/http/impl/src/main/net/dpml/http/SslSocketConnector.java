@@ -275,6 +275,7 @@ public class SslSocketConnector extends org.mortbay.jetty.security.SslSocketConn
    /**
     * Create a new SSLServerSocketFactory.
     * @return the factory
+    * @exception Exception if an error occurs during factory creation
     */
     protected SSLServerSocketFactory createFactory() 
         throws Exception
