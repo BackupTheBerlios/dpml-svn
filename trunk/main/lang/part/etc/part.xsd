@@ -4,7 +4,8 @@
             xmlns:this="@PROJECT-XSD-URI@"
             xmlns:common="@COMMON-XSD-URI@"
             targetNamespace="@PROJECT-XSD-URI@"
-            elementFormDefault="qualified">
+            elementFormDefault="qualified"
+            >
     
     <import namespace="@COMMON-XSD-URI@" schemaLocation="@COMMON-XSD-URI@"/>
     

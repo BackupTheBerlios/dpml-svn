@@ -33,19 +33,19 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     static final DependencyDirective[] DEPENDENCIES = DependencyDirectiveTestCase.DEPENDENCIES;
     static final TypeDirective[] TYPES = TypeDirectiveTestCase.TYPES;
     static final ResourceDirective[] RESOURCES = new ResourceDirective[3];
-    static final FilterDirective[] FILTERS = new FilterDirective[0];
+    static final DataDirective[] DATA = new DataDirective[0];
     
     static
     {
         RESOURCES[0] = 
           new ResourceDirective( 
-            "fred", null, CLASSIFIER, "example/fred", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "fred", null, CLASSIFIER, "example/fred", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         RESOURCES[1] = 
           new ResourceDirective( 
-            "george", "1.3.0", CLASSIFIER, "example/george", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "george", "1.3.0", CLASSIFIER, "example/george", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         RESOURCES[2] = 
           new ResourceDirective( 
-            "mary", "2.7", CLASSIFIER, "example/mary", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "mary", "2.7", CLASSIFIER, "example/mary", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
     }
    
    /**
@@ -58,7 +58,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
         {
             ResourceDirective resource = 
               new ResourceDirective( 
-                null, "1.0", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+                null, "1.0", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -77,7 +77,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
         {
             ResourceDirective resource = 
               new ResourceDirective( 
-                "fred", "1.0", CLASSIFIER, "test", INFO, null, DEPENDENCIES, PROPERTIES, FILTERS );
+                "fred", "1.0", CLASSIFIER, "test", INFO, null, DEPENDENCIES, PROPERTIES, DATA );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -96,7 +96,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
         {
             ResourceDirective resource = 
               new ResourceDirective( 
-                "fred", "1.0", CLASSIFIER, "test", INFO, TYPES, null, PROPERTIES, FILTERS );
+                "fred", "1.0", CLASSIFIER, "test", INFO, TYPES, null, PROPERTIES, DATA );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -112,7 +112,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective(
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         assertEquals( "name", "resource", resource.getName() );
     }
     
@@ -123,7 +123,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         assertEquals( "version", "2.7", resource.getVersion() );
     }
     
@@ -134,7 +134,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         assertEquals( "basedir", "test", resource.getBasedir() );
     }
     
@@ -145,7 +145,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         assertEquals( "types", 3, resource.getTypeDirectives().length );
     }
     
@@ -156,7 +156,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         assertEquals( "dependencies", 3, resource.getDependencyDirectives().length );
     }
     
@@ -167,7 +167,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         assertEquals( "properties", PROPERTIES, resource.getProperties() );
     }
     
@@ -179,7 +179,7 @@ public final class ResourceDirectiveTestCase extends AbstractTestCase
     {
         ResourceDirective resource = 
           new ResourceDirective( 
-            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, FILTERS );
+            "resource", "2.7", CLASSIFIER, "test", INFO, TYPES, DEPENDENCIES, PROPERTIES, DATA );
         doSerializationTest( resource );
     }
 }

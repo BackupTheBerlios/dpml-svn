@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  */
 public class NCSARequestLogTestCase extends TestCase
 {
-    private static final String[] IGNORE_PATHS = new String[]{"abc","def"};
+    private static final String[] IGNORE_PATHS = new String[]{"abc", "def"};
     private static final boolean APPEND_POLICY = true;
     private static final boolean EXTENDED_POLICY = true;
     private static final boolean PROXY_PREFERRED_POLICY = true;

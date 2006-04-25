@@ -76,6 +76,10 @@ public class WebAppContextHandlerTestCase extends AbstractContextHandlerTestCase
         m_handler = new WebAppContextHandler( logger, context );
     }
     
+   /**
+    * Return the context handler under evaluation.
+    * @return the context handler
+    */
     protected ContextHandler getContextHandler()
     {
         return m_handler;

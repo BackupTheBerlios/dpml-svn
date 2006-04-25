@@ -39,6 +39,7 @@ import net.dpml.library.Library;
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
+import net.dpml.library.info.DataDirective;
 import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
@@ -48,6 +49,7 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.AbstractDirective;
 import net.dpml.library.info.ValidationException;
 import net.dpml.library.info.FilterDirective;
+import net.dpml.library.info.FiltersDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.util.Logger;
@@ -189,12 +191,17 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             setProperty( "project.version", getVersion() );
         }
         
-        FilterDirective[] filters = directive.getFilterDirectives();
-        for( int i=0; i<filters.length; i++ )
+        FiltersDirective filtersDirective = 
+          (FiltersDirective) directive.getDataDirective( "filters" );
+        if( null != filtersDirective )
         {
-            FilterDirective filter = filters[i];
-            String token = filter.getToken();
-            m_filters.put( token, filter );
+            FilterDirective[] filters = filtersDirective.getFilterDirectives();
+            for( int i=0; i<filters.length; i++ )
+            {
+                FilterDirective filter = filters[i];
+                String token = filter.getToken();
+                m_filters.put( token, filter );
+            }
         }
     }
     

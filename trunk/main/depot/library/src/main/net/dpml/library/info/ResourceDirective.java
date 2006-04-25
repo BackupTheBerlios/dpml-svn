@@ -53,7 +53,7 @@ public class ResourceDirective extends AbstractDirective
     private final TypeDirective[] m_types;
     private final DependencyDirective[] m_dependencies;
     private final Classifier m_classifier;
-    private final FilterDirective[] m_filters;
+    private final DataDirective[] m_data;
     private final InfoDirective m_info;
     
    /**
@@ -87,14 +87,14 @@ public class ResourceDirective extends AbstractDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
-    * @param filters source filters
+    * @param data supporting production data
     * @return the immediate enclosing resource
     */
     public static ResourceDirective createResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      FilterDirective[] filters )
+      DataDirective[] data )
     {
         int n = name.indexOf( "/" );
         if( n > -1 )
@@ -109,7 +109,7 @@ public class ResourceDirective extends AbstractDirective
                     enclosing =  
                       new ResourceDirective(
                         elem, version, classifier, basedir, info, types, dependencies,
-                        properties, filters );
+                        properties, data );
                 }
                 else
                 {
@@ -126,7 +126,7 @@ public class ResourceDirective extends AbstractDirective
         {
             return new ResourceDirective(
               name, version, classifier, basedir, info, types, 
-              dependencies, properties, filters );
+              dependencies, properties, data );
         }
     }
 
@@ -140,13 +140,13 @@ public class ResourceDirective extends AbstractDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
-    * @param filters source filters
+    * @param data supporting production data
     */
     ResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      FilterDirective[] filters )
+      DataDirective[] data )
     {
         super( properties );
         
@@ -184,13 +184,13 @@ public class ResourceDirective extends AbstractDirective
         m_types = types;
         m_dependencies = dependencies;
         
-        if( null == filters )
+        if( null == data )
         {
-            m_filters = new FilterDirective[0];
+            m_data = new DataDirective[0];
         }
         else
         {
-            m_filters = filters;
+            m_data = data;
         }
     }
     
@@ -268,12 +268,30 @@ public class ResourceDirective extends AbstractDirective
     }
     
    /**
-    * Return an array of filter directives.
-    * @return the filter directives
+    * Return an array of supporting production data directives.
+    * @return the data directives
     */
-    public FilterDirective[] getFilterDirectives()
+    public DataDirective[] getDataDirectives()
     {
-        return m_filters;
+        return m_data;
+    }
+    
+   /**
+    * Return a data directive mathching the supplied key.
+    * @param key the datatype key
+    * @return the data directive or null if unknown
+    */
+    public DataDirective getDataDirective( String key )
+    {
+        for( int i=0; i<m_data.length; i++ )
+        {
+            DataDirective data = m_data[i];
+            if( key.equals( data.getKey() ) )
+            {
+                return data;
+            }
+        }
+        return null;
     }
     
    /**
@@ -354,7 +372,7 @@ public class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_filters, object.m_filters ) )
+            else if( !Arrays.equals( m_data, object.m_data ) )
             {
                 return false;
             }
@@ -382,7 +400,7 @@ public class ResourceDirective extends AbstractDirective
         hash ^= super.hashValue( m_info );
         hash ^= super.hashArray( m_types );
         hash ^= super.hashArray( m_dependencies );
-        hash ^= super.hashArray( m_filters );
+        hash ^= super.hashArray( m_data );
         return hash;
     }
 

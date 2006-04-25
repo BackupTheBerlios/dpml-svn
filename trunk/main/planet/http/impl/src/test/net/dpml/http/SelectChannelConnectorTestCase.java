@@ -19,7 +19,6 @@
 package net.dpml.http;
 
 import java.util.Map;
-import java.util.Hashtable;
 
 import net.dpml.http.SelectChannelConnector.Context;
 
@@ -51,6 +50,10 @@ public class SelectChannelConnectorTestCase extends AbstractConnectorContextTest
         m_connector = new SelectChannelConnector( context );
     }
     
+   /**
+    * Return the connector under evaluation.
+    * @return the connector
+    */
     protected AbstractConnector getConnector()
     {
         return m_connector;

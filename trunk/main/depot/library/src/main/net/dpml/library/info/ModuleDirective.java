@@ -44,7 +44,7 @@ public final class ModuleDirective extends ResourceDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
-    * @param filters source filters
+    * @param data production data
     * @param resources subsidary resources
     * @return the immediate enclosing resource
     */
@@ -52,7 +52,7 @@ public final class ModuleDirective extends ResourceDirective
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      FilterDirective[] filters, ResourceDirective[] resources )
+      DataDirective[] data, ResourceDirective[] resources )
     {
         int n = name.indexOf( "/" );
         if( n > -1 )
@@ -67,7 +67,7 @@ public final class ModuleDirective extends ResourceDirective
                     enclosing =  
                       new ModuleDirective(
                         elem, version, classifier, basedir, info, types, dependencies,
-                        resources, properties, filters );
+                        resources, properties, data );
                 }
                 else
                 {
@@ -84,7 +84,7 @@ public final class ModuleDirective extends ResourceDirective
         {
             return new ModuleDirective(
               name, version, classifier, basedir, info, types, dependencies,
-              resources, properties, filters );
+              resources, properties, data );
         }
     }
     
@@ -114,15 +114,15 @@ public final class ModuleDirective extends ResourceDirective
     * @param dependencies resource dependencies
     * @param resources resource included within the module
     * @param properties suppliementary properties
-    * @param filters associated filters
+    * @param data production data
     */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types,
       DependencyDirective[] dependencies, ResourceDirective[] resources,
-      Properties properties, FilterDirective[] filters )
+      Properties properties, DataDirective[] data )
     {
-        super( name, version, classifier, basedir, info, types, dependencies, properties, filters );
+        super( name, version, classifier, basedir, info, types, dependencies, properties, data );
         
         if( null == resources )
         {

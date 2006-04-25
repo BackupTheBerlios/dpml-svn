@@ -16,6 +16,7 @@
     <element name="property" type="this:PropertyType"/>
     <element name="type" type="this:GenericType" substitutionGroup="common:type"/>
     <element name="abstract-filter" type="this:AbstractFilter"/>
+    <element name="filters" type="this:FiltersType" substitutionGroup="common:data"/>
     <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
     <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>
     
@@ -75,7 +76,7 @@
       <complexContent>
         <extension base="this:ResourceType">
           <sequence>
-            <element name="filters" type="this:FiltersType" minOccurs="0"  maxOccurs="1"/>
+            <element name="data" type="this:DataType" minOccurs="0"  maxOccurs="1"/>
           </sequence>
         </extension>
       </complexContent>
@@ -97,6 +98,12 @@
     <complexType name="TypesType">
       <sequence>
         <element ref="common:type" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="DataType">
+      <sequence>
+        <element ref="common:data" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
     </complexType>
     
@@ -177,18 +184,22 @@
       </restriction>
     </simpleType>
     
+    <complexType name="FiltersType">
+      <complexContent>
+        <extension base="common:AbstractData">
+          <sequence>
+            <element ref="this:abstract-filter" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+
     <complexType name="AbstractFilter" abstract="true">
       <complexContent>
         <restriction base="xsd:anyType">
           <attribute name="token" type="string" use="required"/>
         </restriction>
       </complexContent>
-    </complexType>
-
-    <complexType name="FiltersType">
-      <sequence>
-        <element ref="this:abstract-filter" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
     </complexType>
 
     <complexType name="Filter">

@@ -38,8 +38,10 @@ import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.FilterDirective;
+import net.dpml.library.info.FiltersDirective;
 import net.dpml.library.info.SimpleFilterDirective;
 import net.dpml.library.info.FeatureFilterDirective;
+import net.dpml.library.info.DataDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.lang.Category;
@@ -597,9 +599,9 @@ public final class LibraryDecoder extends LibraryConstants
               buildDependencyDirectives( 
                 ElementHelper.getChild( element, "dependencies" ) );
                 
-            final FilterDirective[] filters = 
-              buildFilters( 
-                ElementHelper.getChild( element, "filters" ) );
+            final DataDirective[] data = 
+              buildDataDirectives( 
+                ElementHelper.getChild( element, "data" ) );
             
             final Properties properties = 
               buildProperties( 
@@ -643,13 +645,13 @@ public final class LibraryDecoder extends LibraryConstants
                   (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
                 return ModuleDirective.createModuleDirective( 
                   name, version, classifier, basedir, info, types, dependencies, 
-                  properties, filters, resources );
+                  properties, data, resources );
             }
             else
             {
                 return ResourceDirective.createResourceDirective( 
                   name, version, classifier, basedir, info, types, dependencies, 
-                  properties, filters );
+                  properties, data );
             }
         }
         else
@@ -706,11 +708,55 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
-    private FilterDirective[] buildFilters( Element element ) throws Exception
+    private DataDirective[] buildDataDirectives( Element element ) throws Exception
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        DataDirective[] data = new DataDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            data[i] = buildDataDirective( child );
+        }
+        return data;
+    }
+    
+    private DataDirective buildDataDirective( Element element ) throws Exception
+    {
+        TypeInfo info = element.getSchemaTypeInfo();
+        String namespace = info.getTypeNamespace();
+        if( null == namespace )
+        {
+            throw new NullPointerException( "namespace" );
+        }
+        else if( MODULE_XSD_URI.equals( namespace ) )
+        {
+            String tag = element.getTagName();
+            if( "filters".equals( tag ) )
+            {
+                return buildFilters( element );
+            }
+            else
+            {
+                final String error = 
+                  "Element name ["
+                  + tag
+                  + "] declared within the module namespace is not recognized.";
+                throw new DecodingException( element, error );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Foreign datatype loading not implemented.";
+            throw new DecodingException( element, error );
+        }
+    }
+    
+    private FiltersDirective buildFilters( Element element ) throws Exception
     {
         if( null == element )
         {
-            return new FilterDirective[0];
+            return new FiltersDirective( new FilterDirective[0] );
         }
         else
         {
@@ -743,7 +789,7 @@ public final class LibraryDecoder extends LibraryConstants
                     throw new DecodingException( element, error );
                 }
             }
-            return filters;
+            return new FiltersDirective( filters );
         }
     }
     

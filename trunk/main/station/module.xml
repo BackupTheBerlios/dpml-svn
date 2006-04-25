@@ -16,12 +16,14 @@
         <include ref="junit/junit"/>
       </test>
     </dependencies>
-    <filters>
-      <feature token="COMMON-XSD-URI" ref="dpml/lang/dpml-common" type="xsd" id="uri"/>
-      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
-      <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri"/>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
-    </filters>
+    <data>
+      <filters>
+        <feature token="COMMON-XSD-URI" ref="dpml/lang/dpml-common" type="xsd" id="uri"/>
+        <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
+        <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri"/>
+        <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
+      </filters>
+    </data>
   </project>
 
   <project name="dpml-station-exec" basedir="exec">
@@ -42,9 +44,11 @@
         <include ref="dpml/util/dpml-util-cli"/>
       </runtime>
     </dependencies>
-    <filters>
-      <feature token="COMPOSITION-CONTROLLER-URI" ref="dpml/metro/dpml-metro-runtime" type="part" id="uri"/>
-    </filters>
+    <data>
+      <filters>
+        <feature token="COMPOSITION-CONTROLLER-URI" ref="dpml/metro/dpml-metro-runtime" type="part" id="uri"/>
+      </filters>
+    </data>
   </project>
 
   <project name="dpml-station-builder" basedir="builder">
@@ -59,9 +63,11 @@
         <include ref="junit/junit"/>
       </test>
     </dependencies>
-    <filters>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
-    </filters>
+    <data>
+      <filters>
+        <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
+      </filters>
+    </data>
   </project>
    
   <project name="dpml-station-server" basedir="server">
@@ -85,9 +91,11 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
-    <filters>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
-    </filters>
+    <data>
+      <filters>
+        <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
+      </filters>
+    </data>
   </project>
 
   <project name="dpml-station-console" basedir="console">
@@ -102,9 +110,11 @@
         <include ref="dpml/station/dpml-station-server"/>
       </runtime>
     </dependencies>
-    <filters>
-      <feature token="DEPOT-STATION-PLUGIN-URI" ref="dpml/station/dpml-station-server" type="part" id="uri"/>
-    </filters>
+    <data>
+      <filters>
+        <feature token="DEPOT-STATION-PLUGIN-URI" ref="dpml/station/dpml-station-server" type="part" id="uri"/>
+      </filters>
+    </data>
   </project>
    
 </module>
