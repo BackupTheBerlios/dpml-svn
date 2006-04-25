@@ -55,6 +55,7 @@ public class RMICTask extends GenericTask
    /**
     * Creation of a new RMICTask.
     * @param context the project context
+    * @param directive the RMIC directive
     */
     public RMICTask( Context context, RMICDirective directive )
     {
@@ -85,8 +86,8 @@ public class RMICTask extends GenericTask
     }
     
    /**
-    * Set the destination directory.
-    * @param destination the destination directory
+    * Set the base directory.
+    * @param base the base directory
     */
     public void setBase( File base )
     {

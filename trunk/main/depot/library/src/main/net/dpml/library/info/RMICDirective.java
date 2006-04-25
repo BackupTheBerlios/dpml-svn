@@ -35,7 +35,7 @@ public class RMICDirective extends DataCollectionDirective
     
    /**
     * Creation of a new data directive.
-    * @param key the unique datatype key
+    * @param patterns the array of include/exclude patterns
     */
     public RMICDirective( PatternDirective[] patterns )
     {

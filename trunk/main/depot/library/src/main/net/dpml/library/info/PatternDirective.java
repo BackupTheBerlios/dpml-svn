@@ -32,10 +32,7 @@ public abstract class PatternDirective extends AbstractDirective
     
    /**
     * Creation of a new include directive.
-    * @param mode the include mode
-    * @param category the runtime category
-    * @param value the value (key or reference address depending on mode)
-    * @param properties supplimentary properties
+    * @param name the pattern name
     */
     public PatternDirective( String name )
     {
