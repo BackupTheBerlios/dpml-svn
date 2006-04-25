@@ -32,7 +32,9 @@
           <li>Removal of transit content handlers (functionality available 
               under the improved part model).</li>
           <li>Added support for trace level logging.</li>
-          <li>Addition of test cases in the http impl package and related code improvements</li>
+          <li>Addition of test cases in the http impl package and related code improvements.</li>
+          <li>Addition of &lt;data&gt; element to project enabling generalization of production criteria.</li>
+          <li>Addition of &lt;rmic&gt; production criteria.</li>
         </ul>
         
         <table>
