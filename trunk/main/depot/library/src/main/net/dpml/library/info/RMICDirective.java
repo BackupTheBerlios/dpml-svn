@@ -21,30 +21,24 @@ package net.dpml.library.info;
 import net.dpml.lang.AbstractDirective;
 
 /**
- * Base class for a data directives.
+ * Definition of the RMIC compilation criteria.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class DataDirective extends AbstractDirective
+public class RMICDirective extends DataCollectionDirective
 {
-    private final String m_id;
+   /**
+    * Reserved datatype key.
+    */
+    public static final String KEY = "rmic";
     
    /**
     * Creation of a new data directive.
-    * @param id the unique datatype key
+    * @param key the unique datatype key
     */
-    public DataDirective( String id )
+    public RMICDirective( PatternDirective[] patterns )
     {
-        m_id = id;
-    }
-    
-   /**
-    * Return the datatype id.
-    * @return the id
-    */
-    public String getID()
-    {
-        return m_id;
+        super( KEY, patterns );
     }
 }

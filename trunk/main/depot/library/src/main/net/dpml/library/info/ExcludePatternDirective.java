@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -21,30 +21,19 @@ package net.dpml.library.info;
 import net.dpml.lang.AbstractDirective;
 
 /**
- * Base class for a data directives.
+ * The ExcludePatternDirective identifies an exclusion pattern.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class DataDirective extends AbstractDirective
+public class ExcludePatternDirective extends PatternDirective
 {
-    private final String m_id;
-    
    /**
-    * Creation of a new data directive.
-    * @param id the unique datatype key
+    * Creation of a new exclusion directive.
+    * @param name the file to include
     */
-    public DataDirective( String id )
+    public ExcludePatternDirective( String name )
     {
-        m_id = id;
-    }
-    
-   /**
-    * Return the datatype id.
-    * @return the id
-    */
-    public String getID()
-    {
-        return m_id;
+        super( name );
     }
 }

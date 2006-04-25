@@ -286,7 +286,7 @@ public class ResourceDirective extends AbstractDirective
         for( int i=0; i<m_data.length; i++ )
         {
             DataDirective data = m_data[i];
-            if( key.equals( data.getKey() ) )
+            if( key.equals( data.getID() ) )
             {
                 return data;
             }

@@ -95,6 +95,11 @@
       <filters>
         <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
       </filters>
+      <rmic>
+        <include name="**/RemoteApplicationRegistry.class"/>
+        <include name="**/RemoteApplication.class"/>
+        <include name="**/RemoteStation.class"/>
+      </rmic>
     </data>
   </project>
 

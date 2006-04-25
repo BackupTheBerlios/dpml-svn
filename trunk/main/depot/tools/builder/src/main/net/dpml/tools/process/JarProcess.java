@@ -20,13 +20,16 @@ package net.dpml.tools.process;
 
 import java.io.File;
 
+import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
+import net.dpml.library.info.RMICDirective;
 
 import net.dpml.tools.model.Context;
 
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
+import net.dpml.tools.tasks.RMICTask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -54,6 +57,17 @@ public class JarProcess extends AbstractProcessor
         task.setProject( project );
         task.init();
         task.execute();
+        
+        Resource resource = context.getResource();
+        RMICDirective rmic = (RMICDirective) resource.getDataDirective( RMICDirective.KEY );
+        if( null != rmic )
+        {
+            System.out.println( "## WE HAVE AN RMIC assertion" );
+            RMICTask rmicTask = new RMICTask( context, rmic );
+            rmicTask.setProject( project );
+            rmicTask.init();
+            rmicTask.execute();
+        }
     }
     
    /**

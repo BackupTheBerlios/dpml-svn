@@ -22,6 +22,7 @@ import java.io.File;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ResourceDirective.Classifier;
+import net.dpml.library.info.DataDirective;
 
 import net.dpml.transit.Artifact;
 import net.dpml.lang.Category;
@@ -188,4 +189,11 @@ public interface Resource extends Dictionary
     * @return the filename
     */
     String getLayoutPath( String id );
+
+   /**
+    * Return a data directive matching the supplied key.
+    * @param key the datatype key
+    * @return the selected datatype or null of unknown
+    */
+    DataDirective getDataDirective( String key );
 }

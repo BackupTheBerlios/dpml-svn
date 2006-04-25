@@ -44,7 +44,6 @@ public interface Type
     * Return the type production datatype.
     * @return the datatytpe
     */
-    //Object getData();
     Element getElement();
     
     

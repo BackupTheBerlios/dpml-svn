@@ -27,6 +27,9 @@
       <filters>
         <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
       </filters>
+      <rmic>
+        <include name="**/DefaultStateListener.class"/>
+      </rmic>
     </data>
   </project>
 
@@ -139,9 +142,18 @@
         <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
         <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
       </filters>
+      <rmic>
+        <include name="**/DefaultComponentModel.class"/>
+        <include name="**/DefaultContextModel.class"/>
+        <include name="**/DefaultComponentHandler.class"/>
+        <include name="**/DefaultProvider.class"/>
+        <include name="**/DefaultComponentHandler.class"/>
+        <include name="**/CompositionHandler.class"/>
+        <include name="**/ValueHandler.class"/>
+      </rmic>
     </data>
   </project>
-   
+  
   <project name="dpml-metro-tools" basedir="tools">
     <info>
       <description title="DPML Metro Tools">
@@ -188,6 +200,11 @@
         <include key="dpml-metro-tools"/>
       </test>
     </dependencies>
+    <data>
+      <rmic>
+        <include name="**/ManagedComponent#DefaultMonitor.class"/>
+      </rmic>
+    </data>
   </project>
   
 </module>

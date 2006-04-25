@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,35 +16,28 @@
  * limitations under the License.
  */
 
-package net.dpml.library.info;
+package net.dpml.library;
 
-import net.dpml.lang.AbstractDirective;
+import org.w3c.dom.Element;
 
 /**
- * Base class for a data directives.
+ * Declaration of a production criteria datatype.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class DataDirective extends AbstractDirective
+public interface Data
 {
-    private final String m_id;
+   /**
+    * Return the data type id.
+    * @return the datatype id
+    */
+    String getID();
     
    /**
-    * Creation of a new data directive.
-    * @param id the unique datatype key
+    * Return the datatype criteria.
+    * @return the criteria in the form of a DOM element.
     */
-    public DataDirective( String id )
-    {
-        m_id = id;
-    }
+    Element getElement();
     
-   /**
-    * Return the datatype id.
-    * @return the id
-    */
-    public String getID()
-    {
-        return m_id;
-    }
 }

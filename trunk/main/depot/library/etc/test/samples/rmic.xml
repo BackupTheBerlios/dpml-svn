@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<library xmlns="@MODULE-XSD-URI@">
+
+  <modules>
+    <module name="acme">
+      <data>
+        <rmic>
+          <include name="red"/>
+          <include name="white"/>
+          <include name="blue"/>
+          <exclude name="pink"/>
+          <exclude name="magenta"/>
+        </rmic>
+      </data>
+    </module>
+  </modules>
+
+</library>

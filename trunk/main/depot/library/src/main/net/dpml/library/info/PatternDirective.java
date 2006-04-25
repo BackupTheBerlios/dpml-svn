@@ -18,43 +18,43 @@
 
 package net.dpml.library.info;
 
-import java.util.Arrays;
+import net.dpml.lang.AbstractDirective;
 
 /**
- * Datatype describing a collection of filters.
+ * Abstract base class for includes and excludes used within collections.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class FiltersDirective extends DataDirective
+public abstract class PatternDirective extends AbstractDirective
 {
-   /**
-    * Reserved key.
-    */
-    public static final String KEY = "filters";
-    
-    private final FilterDirective[] m_filters;
+    private final String m_name;
     
    /**
-    * Creation of a filter collection.
-    * @param filters the array of filters
+    * Creation of a new include directive.
+    * @param mode the include mode
+    * @param category the runtime category
+    * @param value the value (key or reference address depending on mode)
+    * @param properties supplimentary properties
     */
-    public FiltersDirective( FilterDirective[] filters )
+    public PatternDirective( String name )
     {
-        super( "filters" );
-        
-        m_filters = filters;
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        m_name = name;
     }
     
    /**
-    * Return the filter array.
-    * @return the filters
+    * Return the include value.
+    * @return the value
     */
-    public FilterDirective[] getFilterDirectives()
+    public String getName()
     {
-        return m_filters;
+        return m_name;
     }
-    
+
    /**
     * Compare this object with another for equality.
     * @param other the other object
@@ -62,10 +62,10 @@ public class FiltersDirective extends DataDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof FiltersDirective ) )
+        if( super.equals( other ) && ( other instanceof PatternDirective ) )
         {
-            FiltersDirective directive = (FiltersDirective) other;
-            return Arrays.equals( m_filters, directive.m_filters );
+            PatternDirective include = (PatternDirective) other;
+            return equals( m_name, include.m_name );
         }
         else
         {
@@ -75,12 +75,21 @@ public class FiltersDirective extends DataDirective
     
    /**
     * Compute the hash value.
-    * @return the hashcode value
+    * @return the hascode value
     */
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= super.hashArray( m_filters );
+        hash ^= super.hashValue( m_name );
         return hash;
+    }
+   
+   /**
+    * Return a string representation of the include.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return "include:" + m_name;
     }
 }

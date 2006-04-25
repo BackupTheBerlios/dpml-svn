@@ -221,6 +221,16 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     //----------------------------------------------------------------------------
     
    /**
+    * Return a data directive matching the supplied key.
+    * @param key the datatype key
+    * @return the selected datatype or null of unknown
+    */
+    public DataDirective getDataDirective( final String key )
+    {
+        return m_directive.getDataDirective( key );
+    }
+
+   /**
     * Return the singleton library.
     * @return the library
     */

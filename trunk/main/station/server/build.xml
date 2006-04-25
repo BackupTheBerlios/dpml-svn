@@ -6,14 +6,6 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
-  <target name="build" depends="standard.build">
-    <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
-      <include name="**/RemoteApplicationRegistry.class"/>
-      <include name="**/RemoteApplication.class"/>
-      <include name="**/RemoteStation.class"/>
-    </rmic>
-  </target>
-
   <available property="dpml.exe.available" file="${dpml.system}/bin/server/dpml.exe"/>
 
   <target name="install" depends="bin,standard.install">

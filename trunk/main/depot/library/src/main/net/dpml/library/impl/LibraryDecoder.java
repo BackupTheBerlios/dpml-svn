@@ -43,6 +43,10 @@ import net.dpml.library.info.SimpleFilterDirective;
 import net.dpml.library.info.FeatureFilterDirective;
 import net.dpml.library.info.DataDirective;
 import net.dpml.library.info.Scope;
+import net.dpml.library.info.PatternDirective;
+import net.dpml.library.info.IncludePatternDirective;
+import net.dpml.library.info.ExcludePatternDirective;
+import net.dpml.library.info.RMICDirective;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Part;
@@ -731,9 +735,13 @@ public final class LibraryDecoder extends LibraryConstants
         else if( MODULE_XSD_URI.equals( namespace ) )
         {
             String tag = element.getTagName();
-            if( "filters".equals( tag ) )
+            if( FiltersDirective.KEY.equals( tag ) )
             {
-                return buildFilters( element );
+                return buildFiltersDirective( element );
+            }
+            else if( RMICDirective.KEY.equals( tag ) )
+            {
+                return buildRMICDirective( element );
             }
             else
             {
@@ -752,7 +760,34 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
-    private FiltersDirective buildFilters( Element element ) throws Exception
+    private RMICDirective buildRMICDirective( Element element ) throws Exception
+    {
+        PatternDirective[] patterns = buildPatternDirectives( element );
+        return new RMICDirective( patterns );
+    }
+    
+    private PatternDirective[] buildPatternDirectives( Element element ) throws Exception
+    {
+        Element[] children = ElementHelper.getChildren( element );
+        PatternDirective[] patterns = new PatternDirective[ children.length ];
+        for( int i=0; i<children.length; i++ )
+        {
+            Element child = children[i];
+            String tag = child.getTagName();
+            String name = ElementHelper.getAttribute( child, "name" );
+            if( "include".equals( tag ) )
+            {
+                patterns[i] = new IncludePatternDirective( name );
+            }
+            else
+            {
+                patterns[i] = new ExcludePatternDirective( name );
+            }
+        }
+        return patterns;
+    }
+    
+    private FiltersDirective buildFiltersDirective( Element element ) throws Exception
     {
         if( null == element )
         {
