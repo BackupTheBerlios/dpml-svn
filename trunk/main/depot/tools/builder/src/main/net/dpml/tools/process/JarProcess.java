@@ -62,7 +62,6 @@ public class JarProcess extends AbstractProcessor
         RMICDirective rmic = (RMICDirective) resource.getDataDirective( RMICDirective.KEY );
         if( null != rmic )
         {
-            System.out.println( "## WE HAVE AN RMIC assertion" );
             RMICTask rmicTask = new RMICTask( context, rmic );
             rmicTask.setProject( project );
             rmicTask.init();
