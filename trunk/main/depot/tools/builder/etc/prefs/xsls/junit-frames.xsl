@@ -23,7 +23,7 @@
 
 <!--
 
- Sample stylesheet to be used with Ant JUnitReport output.
+ Sample stylesheet to be used with Depot JUnitReport output.
 
  It creates a set of HTML files a la javadoc where you can browse easily
  through all packages and classes.
@@ -570,7 +570,7 @@ h6 {
     <table width="100%">
     <tr>
         <td align="left"></td>
-        <td align="right">Designed for use with <a href="http://www.junit.org/">JUnit</a> and <a href="http://ant.apache.org/">Ant</a>.</td>
+        <td align="right">Designed for use with <a href="http://www.junit.org/">JUnit</a> and <a href="http://www.dpml.net/depot">Depot</a>.</td>
     </tr>
     </table>
     <hr size="1"/>
