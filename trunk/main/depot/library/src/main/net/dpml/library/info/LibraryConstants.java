@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.impl;
+package net.dpml.library.info;
 
 /**
  * Abstract base class for encoder and decoder..

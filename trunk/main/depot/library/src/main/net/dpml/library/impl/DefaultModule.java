@@ -68,9 +68,9 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param library the library
     * @param directive the library directive from which common properties are established
     */
-    DefaultModule( Logger logger, DefaultLibrary library, AbstractDirective directive ) 
+    DefaultModule( DefaultLibrary library, AbstractDirective directive ) 
     {
-        super( logger, library, directive );
+        super( library, directive );
         
         m_root = true;
         m_directive = null;
@@ -83,10 +83,10 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param module the parent module
     * @param directive the library directive from which common properties are established
     */
-    DefaultModule( Logger logger, DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
+    DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
       throws DuplicateKeyException
     {
-        super( logger, library, module, directive );
+        super( library, module, directive );
         
         m_root = false;
         m_directive = directive;
@@ -193,18 +193,17 @@ public final class DefaultModule extends DefaultResource implements Module
             }
             else
             {
-                Logger logger = getLogger();
                 DefaultLibrary library = getDefaultLibrary();
                 if( directive instanceof ModuleDirective )
                 {
                     ModuleDirective d = (ModuleDirective) directive;
-                    DefaultModule module = new DefaultModule( logger, library, this, d );
+                    DefaultModule module = new DefaultModule( library, this, d );
                     m_map.put( key, module );
                     return module;
                 }
                 else
                 {
-                    DefaultResource resource = new DefaultResource( logger, library, this, directive );
+                    DefaultResource resource = new DefaultResource( library, this, directive );
                     m_map.put( key, resource );
                     return resource;
                 }

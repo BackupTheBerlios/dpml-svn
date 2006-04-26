@@ -21,8 +21,6 @@ package net.dpml.library.impl;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.Type;
 
-import net.dpml.util.Logger;
-
 import org.w3c.dom.Element;
 
 /**
@@ -35,20 +33,18 @@ public class DefaultType extends DefaultDictionary implements Type
 {
     private final DefaultResource m_resource;
     private final TypeDirective m_directive;
-    private final Logger m_logger;
     
    /**
     * Creation of a new DefaultType.
     * @param resource the enclosing resource
     * @param directive the type production directive
     */
-    DefaultType( Logger logger, DefaultResource resource, TypeDirective directive )
+    DefaultType( DefaultResource resource, TypeDirective directive )
     {
         super( resource, directive );
         
         m_resource = resource;
         m_directive = directive;
-        m_logger = logger;
     }
 
    /**
@@ -76,10 +72,5 @@ public class DefaultType extends DefaultDictionary implements Type
     public Element getElement()
     {
         return m_directive.getElement();
-    }
-    
-    Logger getLogger()
-    {
-        return m_logger;
     }
 }

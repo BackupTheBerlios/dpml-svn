@@ -20,9 +20,11 @@ package net.dpml.library.impl;
 
 import java.io.File;
 
-import net.dpml.util.Logger;
+import net.dpml.library.info.LibraryDecoder;
 
 import net.dpml.transit.monitor.LoggingAdapter;
+
+import net.dpml.util.Logger;
 
 import junit.framework.TestCase;
 

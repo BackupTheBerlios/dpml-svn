@@ -25,6 +25,7 @@ import net.dpml.library.Module;
 import net.dpml.library.Resource;
 
 import net.dpml.library.info.RMICDirective;
+import net.dpml.library.info.LibraryDecoder;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;

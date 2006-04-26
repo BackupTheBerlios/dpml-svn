@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Hashtable;
 
+import net.dpml.library.info.LibraryDecoder;
 import net.dpml.library.info.ImportDirective;
 import net.dpml.library.info.LibraryDirective;
 import net.dpml.library.info.ModuleDirective;
@@ -91,7 +92,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         m_logger = logger;
         m_directive = (LibraryDirective) super.getAbstractDirective();
         m_root = source.getParentFile().getCanonicalFile();
-        m_module = new DefaultModule( m_logger, this, m_directive );
+        m_module = new DefaultModule( this, m_directive );
         
         getLogger().debug( "loaded root module: " + m_root );
         System.setProperty( "dpml.library.basedir", m_root.toString() );
@@ -397,7 +398,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         try
         {
-            DefaultModule root = new DefaultModule( m_logger, this, m_directive );
+            DefaultModule root = new DefaultModule( this, m_directive );
             root.addResource( enclosing );
             DefaultResource resource =  root.getDefaultResource( group + "/" + name );
             m_anonymous.put( urn, resource );

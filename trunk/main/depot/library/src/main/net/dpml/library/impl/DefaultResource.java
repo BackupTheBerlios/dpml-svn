@@ -82,7 +82,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final String[] m_typeNames;
     private final String m_path;
     private final File m_basedir;
-    private final Logger m_logger;
     private final Map m_filters = new Hashtable();
     
    /**
@@ -91,7 +90,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * @param library the reference library
     * @param directive the directive
     */
-    DefaultResource( Logger logger, DefaultLibrary library, AbstractDirective directive )
+    DefaultResource( DefaultLibrary library, AbstractDirective directive )
     {
         super( null, directive );
         
@@ -102,7 +101,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_typeNames = new String[0];
         m_path = "";
         m_basedir = null;
-        m_logger = logger;
     }
     
    /**
@@ -112,7 +110,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * @param module the parent module
     * @param directive the resource directive
     */
-    DefaultResource( Logger logger, DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
+    DefaultResource( DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
     {
         super( module, directive );
         if( null == directive )
@@ -123,7 +121,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_library = library;
         m_directive = directive;
         m_parent = module;
-        m_logger = logger;
         
         if( module.isRoot() )
         {
@@ -211,7 +208,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         for( int i=0; i<directives.length; i++ )
         {
             TypeDirective directive = directives[i];
-            types[i] = new DefaultType( m_logger, this, directive );
+            types[i] = new DefaultType( this, directive );
         }
         return types;
     }
@@ -1330,8 +1327,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     * Return the logging channel.
     * @return the logging channel
     */
-    protected Logger getLogger()
-    {
-        return m_logger;
-    }
+    //protected Logger getLogger()
+    //{
+    //    return m_logger;
+    //}
 }

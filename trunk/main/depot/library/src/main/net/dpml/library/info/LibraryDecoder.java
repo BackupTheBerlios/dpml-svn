@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.library.impl;
+package net.dpml.library.info;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,25 +28,8 @@ import java.util.Properties;
 
 import net.dpml.library.Feature;
 import net.dpml.library.TypeBuilder;
-import net.dpml.library.info.InfoDirective;
-import net.dpml.library.info.LibraryDirective;
-import net.dpml.library.info.ImportDirective;
-import net.dpml.library.info.IncludeDirective;
-import net.dpml.library.info.ModuleDirective;
-import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.library.info.DependencyDirective;
-import net.dpml.library.info.TypeDirective;
-import net.dpml.library.info.FilterDirective;
-import net.dpml.library.info.FiltersDirective;
-import net.dpml.library.info.SimpleFilterDirective;
-import net.dpml.library.info.FeatureFilterDirective;
-import net.dpml.library.info.DataDirective;
-import net.dpml.library.info.Scope;
-import net.dpml.library.info.PatternDirective;
-import net.dpml.library.info.IncludePatternDirective;
-import net.dpml.library.info.ExcludePatternDirective;
-import net.dpml.library.info.RMICDirective;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Part;
@@ -746,17 +729,13 @@ public final class LibraryDecoder extends LibraryConstants
             else
             {
                 final String error = 
-                  "Element name ["
-                  + tag
-                  + "] declared within the module namespace is not recognized.";
+                  "Datatype not recognized.";
                 throw new DecodingException( element, error );
             }
         }
         else
         {
-            final String error = 
-              "Foreign datatype loading not implemented.";
-            throw new DecodingException( element, error );
+            return new GenericDataDirective( element );
         }
     }
     
@@ -883,10 +862,10 @@ public final class LibraryDecoder extends LibraryConstants
             else
             {
                 final String error = 
-                  "Element is recognized as an AbstractType however the type id is not resolvable."
+                  "Element type is invalid."
                   + "\nNamespace: " 
                   + namespace
-                  + "\nElement Name (from Schema Info): " 
+                  + "\nElement Type Name: " 
                   + info.getTypeName();
                 throw new DecodingException( element, error );
             }

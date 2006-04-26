@@ -26,6 +26,9 @@ import net.dpml.library.Module;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.ResourceDirective;
 import net.dpml.library.info.TypeDirective;
+import net.dpml.library.info.LibraryDecoder;
+import net.dpml.library.info.LibraryEncoder;
+
 
 /**
  * Test DefaultLibrary implementation.
