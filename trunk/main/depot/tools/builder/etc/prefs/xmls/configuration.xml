@@ -30,7 +30,7 @@ Status: work-in-progress
   
   <!-- processes -->
   
-  <process id="prepare-main" class="net.dpml.tools.process.PrepareMain">
+  <process id="prepare-main" class="net.dpml.tools.process.PrepareMainProcess">
     <consumes>
       <input id="etc.main" policy="optional"/>
       <input id="src.main" policy="optional"/>
@@ -40,7 +40,7 @@ Status: work-in-progress
     </produces>
   </process>
 
-  <process id="prepare-test" class="net.dpml.tools.process.PrepareTest">
+  <process id="prepare-test" class="net.dpml.tools.process.PrepareTestProcess">
     <consumes policy="conditional">
       <input id="etc.test" policy="optional"/>
       <input id="src.test" policy="optional"/>
@@ -51,7 +51,7 @@ Status: work-in-progress
     </produces>
   </process>
 
-  <process id="compile-main" class="net.dpml.tools.process.CompileMain">
+  <process id="compile-main" class="net.dpml.tools.process.CompileMainProcess">
     <consumes>
       <input id="target.build.main.dir" policy="conditional"/>
     </consumes>
@@ -60,7 +60,7 @@ Status: work-in-progress
     </produces>
   </process>
   
-  <process id="compile-test" class="net.dpml.tools.process.CompileTest">
+  <process id="compile-test" class="net.dpml.tools.process.CompileTestProcess">
     <consumes>
       <input id="target.build.test.dir" policy="conditional"/>
     </consumes>
@@ -69,7 +69,7 @@ Status: work-in-progress
     </produces>
   </process>
   
-  <process id="junit" class="net.dpml.tools.process.ProcessJunit">
+  <process id="junit" class="net.dpml.tools.process.JunitProcess">
     <consumes>
       <input id="target.test.dir" policy="optional"/>
       <input id="target.classes.test.dir" policy="conditional"/>
@@ -79,7 +79,7 @@ Status: work-in-progress
     </produces>
   </process>
   
-  <process id="jar" class="net.dpml.tools.process.ProcessJar">
+  <process id="jar" class="net.dpml.tools.process.JarProcess">
     <consumes>
       <input id="target.reports.test.dir"/>
       <input id="target.build.main.dir" policy="conditional"/>
@@ -89,13 +89,13 @@ Status: work-in-progress
     </produces>
   </process>
   
-  <process id="rmic" class="net.dpml.tools.process.ProcessRMIC">
+  <process id="rmic" class="net.dpml.tools.process.RMICProcess">
     <consumes>
       <input id="target.classes.main.dir" policy="conditional"/>
     </consumes>
   </process>
   
-  <process id="part" class="net.dpml.tools.process.ProcessPart">
+  <process id="part" class="net.dpml.tools.process.PartProcess">
     <consumes>
       <input id="target.classes.main.dir" policy="optional"/>
     </consumes>

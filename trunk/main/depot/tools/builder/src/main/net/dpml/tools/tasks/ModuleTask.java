@@ -25,7 +25,7 @@ import net.dpml.library.Resource;
 import net.dpml.library.Module;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
-import net.dpml.library.impl.LibraryEncoder;
+import net.dpml.library.info.LibraryEncoder;
 
 import net.dpml.tools.model.Context;
 
