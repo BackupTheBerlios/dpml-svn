@@ -215,7 +215,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @return the resource directive
     * @exception IOException if an IO exception occurs
     */
-    public ResourceDirective buildResourceDirective( File source, String path ) throws IOException
+    public ResourceDirective buildResourceDirectiveFromFile( File source, String path ) throws IOException
     {        
         if( null == source )
         {
@@ -276,11 +276,13 @@ public final class LibraryDecoder extends LibraryConstants
       File base, Element element, String offset ) throws Exception
     {
         final String elementName = element.getTagName();
-        if( "import".equals( elementName ) )
+        final String path = ElementHelper.getAttribute( element, "file" );
+        //if( "import".equals( elementName ) )
+        if( null != path )
         {
             try
             {
-                String path = ElementHelper.getAttribute( element, "file" );
+                //String path = ElementHelper.getAttribute( element, "file" );
                 File file = new File( base, path );
                 File dir = file.getParentFile();
                 String spec = getRelativePath( base, dir );
@@ -288,14 +290,16 @@ public final class LibraryDecoder extends LibraryConstants
                 if( !source.exists() )
                 {
                     final String error = 
-                      "Cannot include module ["
+                      "Cannot include "
+                      + elementName
+                      + " from the file ["
                       + source
                       + "] because the file does not exist.";
                     throw new DecodingException( element, error ); 
                 }
                 else
                 {
-                    return buildResourceDirective( source, spec );
+                    return buildResourceDirectiveFromFile( source, spec );
                 }
             }
             catch( DecodingException e )
@@ -309,6 +313,11 @@ public final class LibraryDecoder extends LibraryConstants
                 throw new DecodingException( element, error, e );
             }
         }
+        else
+        {
+            return buildResourceDirective( base, element, offset );
+        }
+        /*
         else if( RESOURCE_ELEMENT_NAME.equals( elementName ) )
         {
             return buildResourceDirective( base, element, offset );
@@ -329,6 +338,7 @@ public final class LibraryDecoder extends LibraryConstants
               + "] is not a module.";
             throw new DecodingException( element, error );
         }
+        */
     }
     
     private String getRelativePath( File base, File dir ) throws IOException
@@ -602,28 +612,13 @@ public final class LibraryDecoder extends LibraryConstants
                 {
                     Element child = children[i];
                     final String t = child.getTagName();
-                    if( MODULE_ELEMENT_NAME.equals( t ) )
+                    
+                    if( RESOURCE_ELEMENT_NAME.equals( t ) 
+                      || PROJECT_ELEMENT_NAME.equals( t ) 
+                      || MODULE_ELEMENT_NAME.equals( t ) )
                     {
                         ResourceDirective directive = 
                           buildResourceDirectiveFromElement( base, child, null );
-                        list.add( directive );
-                    }
-                    else if( IMPORT_ELEMENT_NAME.equals( t ) ) 
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirectiveFromElement( base, child, null );
-                        list.add( directive );
-                    }
-                    else if( PROJECT_ELEMENT_NAME.equals( t ) ) 
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirective( base, child );
-                        list.add( directive );
-                    }
-                    else if( RESOURCE_ELEMENT_NAME.equals( t ) ) 
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirective( base, child );
                         list.add( directive );
                     }
                 }

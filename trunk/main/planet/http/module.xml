@@ -48,7 +48,7 @@
     </dependencies>
   </project>
 
-  <import file="server/project.xml"/>
+  <project file="server/project.xml"/>
 
   <project name="dpml-http-test" basedir="test">
     <properties>

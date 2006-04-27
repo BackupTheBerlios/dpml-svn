@@ -8,7 +8,7 @@
 
   <modules>
     <module name="acme">
-      <import file="widget.xml"/>
+      <module file="widget.xml"/>
     </module>
   </modules>
 

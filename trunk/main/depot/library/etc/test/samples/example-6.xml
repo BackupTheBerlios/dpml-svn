@@ -7,7 +7,7 @@
   </imports>
 
   <modules>
-    <import file="widget.xml"/>
+    <module file="widget.xml"/>
   </modules>
 
 </library>

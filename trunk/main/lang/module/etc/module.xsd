@@ -68,9 +68,10 @@
         <element name="types" type="this:TypesType" minOccurs="0" maxOccurs="1"/>
         <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
       </sequence>
-      <attribute name="name" type="string" use="required"/>
+      <attribute name="name" type="string"/>
       <attribute name="version" type="string"/>
       <attribute name="basedir" type="string"/>
+      <attribute name="file" type="string"/>
     </complexType>
 
     <complexType name="ProjectType">

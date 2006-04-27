@@ -8,12 +8,12 @@
   </properties>
 
   <modules>
-    <import file="junit/module.xml"/>
-    <import file="commons-cli/module.xml"/>
-    <import file="xstream/module.xml"/>
-    <import file="jgoodies/module.xml"/>
-    <import file="dpml/module.xml"/>
-    <import file="ant/module.xml"/>
+    <module file="junit/module.xml"/>
+    <module file="commons-cli/module.xml"/>
+    <module file="xstream/module.xml"/>
+    <module file="jgoodies/module.xml"/>
+    <module file="dpml/module.xml"/>
+    <module file="ant/module.xml"/>
   </modules>
 
 </library>
