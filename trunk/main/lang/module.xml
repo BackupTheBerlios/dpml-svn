@@ -10,6 +10,12 @@
     </types>
   </resource>
    
+  <resource name="dpml-process" version="1.0">
+    <types>
+      <type id="xsd"/>
+    </types>
+  </resource>
+
   <resource name="dpml-part" version="1.0">
     <types>
       <type id="xsd"/>

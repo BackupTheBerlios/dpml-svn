@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:this="@PROJECT-XSD-URI@"
+    targetNamespace="@PROJECT-XSD-URI@"
+    elementFormDefault="qualified"
+    >
+    
+    <element name="configuration" type="this:ConfigurationType"/>
+    <element name="process" type="this:ProcessType"/>
+    <element name="product" type="this:ProductType"/>
+    
+    <element name="dir" type="this:DirectoryType" substitutionGroup="this:product"/>
+    <element name="file" type="this:FileType" substitutionGroup="this:product"/>
+    
+    <!-- top-level configuration definitions -->
+    
+    <complexType name="ConfigurationType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="this:product"/>
+        <element ref="this:process"/>
+      </choice>
+    </complexType>
+
+    <!-- product definitions -->
+    
+    <complexType name="ProductType">
+      <sequence>
+        <element name="description" type="this:DescriptionType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="name" type="string" use="required"/>
+    </complexType>
+    
+    <complexType name="DescriptionType">
+      <simpleContent>
+        <extension base="string">
+          <attribute name="title" type="string"/>
+        </extension>
+      </simpleContent>
+    </complexType>
+    
+    <complexType name="DirectoryType">
+      <complexContent>
+        <extension base="this:ProductType">
+          <attribute name="path" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="FileType">
+      <complexContent>
+        <extension base="this:ProductType">
+          <sequence>
+             <element ref="CriteriaType" minOccurs="0" maxOccurs="1"/>
+          </sequence>
+          <attribute name="type" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="CriteriaType">
+      <complexContent>
+        <extension base="anyType"/>
+      </complexContent>
+    </complextType>
+
+    <!-- process definitions -->
+
+    <complexType name="ProcessType">
+      <sequence>
+        <element name="consumes" type="this:ConsumesType" minOccurs="0" maxOccurs="1"/>
+        <element name="produces" type="this:ProducesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="name" type="string" use="required"/>
+      <attribute name="class" type="string" use="required"/>
+    </complexType>
+
+    <complexType name="ConsumesType">
+      <sequence>
+        <element ref="this:product" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="policy" type="this:PolicyType"/>
+    </complexType>
+    
+    <complexType name="ProducesType">
+      <sequence>
+        <element name="output" type="this:OutputType"/>
+      </sequence>
+      <attribute name="policy" type="this:PolicyType"/>
+    </complexType>
+    
+    <complexType name="InputType">
+      <attribute name="id" type="string"/>
+      <attribute name="policy" type="this:PolicyType"/>
+    </complexType>
+    
+    <complexType name="OutputType">
+      <attribute name="id" type="string"/>
+    </complexType>
+    
+</schema>
+
