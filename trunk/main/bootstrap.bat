@@ -33,6 +33,8 @@ CALL :transit-main
 IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-tools
 IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-lang-process
+IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-library
 IF ERRORLEVEL 1 GOTO :exit
 CALL :depot-ant-builder
@@ -114,6 +116,13 @@ PUSHD transit\tools
 CALL :build clean install
 POPD
 GOTO :EOF
+
+:dpml-lang-process
+PUSHD lang\process
+CALL :build clean install
+POPD
+GOTO :EOF
+
 
 :dpml-library
 PUSHD depot\library

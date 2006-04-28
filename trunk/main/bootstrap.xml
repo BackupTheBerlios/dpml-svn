@@ -440,7 +440,9 @@
            haltonfailure="yes" failureproperty="junit.failure"
            haltonerror="yes" errorproperty="junit.error">
       <sysproperty key="build.signature" value="${build.signature}"/>
+      <sysproperty key="project.basedir" value="${basedir}"/>
       <sysproperty key="project.test.dir" value="${target.test.dir}"/>
+      <sysproperty key="project.version" value="${project.version}"/>
       <classpath>
         <path refid="project.test.path"/>
         <pathelement location="${target.test-classes.dir}"/>

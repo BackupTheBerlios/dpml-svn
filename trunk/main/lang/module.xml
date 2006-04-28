@@ -14,6 +14,11 @@
     <types>
       <type id="xsd"/>
     </types>
+    <dependencies>
+      <build>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </build>
+    </dependencies>
   </resource>
 
   <resource name="dpml-part" version="1.0">
@@ -63,6 +68,7 @@
     <dependencies>
       <build>
         <include key="dpml-common"/>
+        <include key="dpml-process"/>
       </build>
     </dependencies>
   </resource>

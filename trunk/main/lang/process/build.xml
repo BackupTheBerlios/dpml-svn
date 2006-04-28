@@ -28,6 +28,17 @@
   <property name="home" value="../.."/>
   <import file="${home}/bootstrap.xml"/>
 
+  <target name="setup-path" depends="init">
+    <echo message="TRANSIT: ${project.version}.jar"/>
+    <path id="project.main.path">
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${project.version}.jar"/>
+      <pathelement location="${target.classes.dir}"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+    </path>
+  </target>
+
   <target name="init" depends="bootstrap.init">
     <filter token="PROJECT-XSD-URI" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
   </target>

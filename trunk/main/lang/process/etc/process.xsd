@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
-
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:this="@PROJECT-XSD-URI@"
     targetNamespace="@PROJECT-XSD-URI@"
-    elementFormDefault="qualified"
-    >
+    elementFormDefault="qualified">
     
     <element name="configuration" type="this:ConfigurationType"/>
     <element name="process" type="this:ProcessType"/>
@@ -40,6 +38,17 @@
       </simpleContent>
     </complexType>
     
+    <!-- crteria: applies a processing constraint on a product -->
+    <!--
+    <complexType name="CriteriaType"> 
+      <complexContent>
+        <extension base="anyType">
+          <attribute name="id" type="string" use="required"/> 
+        </extension>
+      </complexContent>
+    </complexType>
+    -->
+    
     <complexType name="DirectoryType">
       <complexContent>
         <extension base="this:ProductType">
@@ -47,26 +56,29 @@
         </extension>
       </complexContent>
     </complexType>
-
+    
     <complexType name="FileType">
       <complexContent>
         <extension base="this:ProductType">
+          <!--
           <sequence>
-             <element ref="CriteriaType" minOccurs="0" maxOccurs="1"/>
+            <element ref="this:CriteriaType" minOccurs="0" maxOccurs="1"/>
           </sequence>
+          -->
           <attribute name="type" type="string" use="required"/>
         </extension>
       </complexContent>
     </complexType>
-
-    <complexType name="CriteriaType">
-      <complexContent>
-        <extension base="anyType"/>
-      </complexContent>
-    </complextType>
-
+    
+    <simpleType name="PolicyType">
+      <restriction base="string">
+        <enumeration value="optional"/>
+        <enumeration value="conditional"/>
+      </restriction>
+    </simpleType>
+    
     <!-- process definitions -->
-
+    
     <complexType name="ProcessType">
       <sequence>
         <element name="consumes" type="this:ConsumesType" minOccurs="0" maxOccurs="1"/>
@@ -75,17 +87,17 @@
       <attribute name="name" type="string" use="required"/>
       <attribute name="class" type="string" use="required"/>
     </complexType>
-
+    
     <complexType name="ConsumesType">
       <sequence>
-        <element ref="this:product" minOccurs="0" maxOccurs="unbounded"/>
+        <element name="input" type="this:InputType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
       <attribute name="policy" type="this:PolicyType"/>
     </complexType>
     
     <complexType name="ProducesType">
       <sequence>
-        <element name="output" type="this:OutputType"/>
+        <element name="output" type="this:OutputType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
       <attribute name="policy" type="this:PolicyType"/>
     </complexType>

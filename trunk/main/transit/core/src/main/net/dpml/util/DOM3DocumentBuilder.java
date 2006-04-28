@@ -220,6 +220,11 @@ public class DOM3DocumentBuilder
         
         private URI resolveURI( String namespace ) throws URISyntaxException
         {
+            String value = System.getProperty( namespace );
+            if( null != value )
+            {
+                return new URI( value );
+            }
             if( m_map.containsKey( namespace ) )
             {
                 return (URI) m_map.get( namespace );
