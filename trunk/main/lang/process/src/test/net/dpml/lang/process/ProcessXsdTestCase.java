@@ -23,6 +23,7 @@ import java.net.URI;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.ElementHelper;
@@ -126,7 +127,7 @@ public class ProcessXsdTestCase extends TestCase
     }
     
    /**
-    * List the processes that are declared as implicit.
+    * Test the evaluation of implicit targets.
     * @exception Exception if an error occurs
     */
     public void testImplicitTargets() throws Exception
@@ -135,15 +136,58 @@ public class ProcessXsdTestCase extends TestCase
         for( int i=0; i<implicits.length; i++ )
         {
             Element implicit = implicits[i];
-            listProcess( implicit );
+            String name = ElementHelper.getAttribute( implicit, "name" );
+            System.out.println( "# process: " + name );
         }
+        System.out.println( "" );
     }
     
-    private Element[] getImplicitProcesses()
+   /**
+    * test explicit targets.
+    * @exception Exception if an error occurs
+    */
+    public void testExplicitProducts() throws Exception
+    {
+        Element jar = (Element) m_products.get( "target.deliverables.jar" );
+        if( null == jar )
+        {
+            throw new NullPointerException( "target.deliverables.jar" );
+        }
+        ArrayList list = new ArrayList();
+        getInputProcesses( list, jar );
+        Element[] processors = (Element[]) list.toArray( new Element[0] );
+        for( int i=0; i<processors.length; i++ )
+        {
+            String name = ElementHelper.getAttribute( processors[i], "name" );
+            System.out.println( "# process: " + name );
+        }
+        System.out.println( "" );
+    }
+
+   /**
+    * test explicit targets.
+    * @exception Exception if an error occurs
+    */
+    public void testProcessTarget() throws Exception
+    {
+        ArrayList list = new ArrayList();
+        Element rmic = (Element) m_processes.get( "rmic" );
+        Element jar = (Element) m_processes.get( "jar" );
+        getImpliedProcesses( list, rmic );
+        getImpliedProcesses( list, jar );
+        Element[] processors = (Element[]) list.toArray( new Element[0] );
+        for( int i=0; i<processors.length; i++ )
+        {
+            String name = ElementHelper.getAttribute( processors[i], "name" );
+            System.out.println( "# process: " + name );
+        }
+    }
+
+    private Element[] getImplicitProcesses() throws DecodingException
     {
         ArrayList list = new ArrayList();
         String[] keys = (String[]) m_processes.keySet().toArray( new String[0] );
-        for( int i=(keys.length-1); i>-1; i-- )
+        for( int i=0; i<keys.length; i++ )
         {
             String key = keys[i];
             Element elem = (Element) m_processes.get( key );
@@ -152,40 +196,79 @@ public class ProcessXsdTestCase extends TestCase
                 list.add( elem );
             }
         }
-        return (Element[]) list.toArray( new Element[0] );
+        Element[] implicits = (Element[]) list.toArray( new Element[0] );
+        ArrayList expanded = new ArrayList();
+        for( int i=0; i<implicits.length; i++ )
+        {
+            Element implicit = implicits[i];
+            getImpliedProcesses( expanded, implicit );
+        }
+        return (Element[]) expanded.toArray( new Element[0] );
     }
     
-    private void listProcess( Element process )
+    private void getImpliedProcesses( List list, Element process ) throws DecodingException
     {
+        getDepedentProcessors( list, process );
         Element[] inputs = getInputElements( process );
         for( int i=0; i<inputs.length; i++ )
         {
             Element e = inputs[i];
             String id = ElementHelper.getAttribute( e, "id" );
             Element product = (Element) m_products.get( id );
-            //System.out.println( "#   input: " + DecodingException.list( product ) );
-            Element[] processes = getInputProcesses( product );
-            for( int j=0; j<processes.length; j++ )
+            getInputProcesses( list, product );
+        }
+        if( !list.contains( process ) )
+        {
+            list.add( process );
+        }
+    }
+    
+    private void getDepedentProcessors( List list, Element process ) throws DecodingException
+    {
+        Element dependencies = ElementHelper.getChild( process, "dependencies" );
+        if( null == dependencies )
+        {
+            return;
+        }
+        else
+        {
+            Element[] children = ElementHelper.getChildren( dependencies );
+            String[] keys = new String[ children.length ];
+            for( int i=0; i<children.length; i++ )
             {
-                listProcess( processes[i] );
-                //System.out.println( "#   processes: " + DecodingException.list( processes[i] ) );
+                Element child = children[i];
+                String key = ElementHelper.getAttribute( child, "id" );
+                Element proc = (Element) m_processes.get( key );
+                if( null == proc )
+                {
+                    final String error = 
+                      "Processor dependency ["
+                      + key
+                      + "] not recognized.";
+                    throw new DecodingException( child, error );
+                }
+                else
+                {
+                    getImpliedProcesses( list, proc );
+                }
             }
         }
-        String name = ElementHelper.getAttribute( process, "name" );
-        System.out.println( "# process: " + name );
     }
     
-    private Element[] getInputProcesses( Element product )
+    private void getInputProcesses( List list, Element product ) throws DecodingException
     {
+        if( null == product )
+        {
+            throw new NullPointerException( "product" );
+        }
         String name = ElementHelper.getAttribute( product, "name" );
-        return getProducers( name );
+        getProducers( list, name );
     }
     
-    private Element[] getProducers( String id )
+    private void getProducers( List list, String id ) throws DecodingException
     {
-        ArrayList list = new ArrayList();
         String[] keys = (String[]) m_processes.keySet().toArray( new String[0] );
-        for( int i=(keys.length-1); i>-1; i-- )
+        for( int i=0; i<keys.length; i++ )
         {
             String key = keys[i];
             Element process = (Element) m_processes.get( key );
@@ -195,11 +278,14 @@ public class ProcessXsdTestCase extends TestCase
                 String productionId = ids[j];
                 if( id.equals( productionId ) )
                 {
-                    list.add( process );
+                    getImpliedProcesses( list, process );
+                    if( !list.contains( process ) )
+                    {
+                        list.add( process );
+                    }
                 }
             }
         }
-        return (Element[]) list.toArray( new Element[0] );
     }
     
     private String[] getProcessProductionIDs( Element process )

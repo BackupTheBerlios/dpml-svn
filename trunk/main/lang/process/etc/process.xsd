@@ -81,12 +81,20 @@
     
     <complexType name="ProcessType">
       <sequence>
+        <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
         <element name="consumes" type="this:ConsumesType" minOccurs="0" maxOccurs="1"/>
         <element name="produces" type="this:ProducesType" minOccurs="0" maxOccurs="1"/>
       </sequence>
       <attribute name="name" type="string" use="required"/>
       <attribute name="class" type="string" use="required"/>
       <attribute name="implicit" type="boolean" default="false"/>
+      <attribute name="depends" type="string"/>
+    </complexType>
+    
+    <complexType name="DependenciesType">
+      <sequence>
+        <element name="include" type="this:DependencyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
     </complexType>
     
     <complexType name="ConsumesType">
@@ -101,6 +109,10 @@
         <element name="output" type="this:OutputType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
       <attribute name="policy" type="this:PolicyType"/>
+    </complexType>
+    
+    <complexType name="DependencyType">
+      <attribute name="id" type="string"/>
     </complexType>
     
     <complexType name="InputType">

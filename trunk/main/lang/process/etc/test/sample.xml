@@ -61,6 +61,7 @@
   
   <process name="prepare-test" class="net.dpml.tools.process.PrepareTestProcess">
     <consumes policy="conditional">
+      <input id="target.build.main.dir" policy="optional"/>
       <input id="etc.test" policy="optional"/>
       <input id="src.test" policy="optional"/>
     </consumes>
@@ -81,6 +82,7 @@
   
   <process name="compile-test" class="net.dpml.tools.process.CompileTestProcess" implicit="true">
     <consumes>
+      <input id="target.classes.main.dir" policy="optional"/>
       <input id="target.build.test.dir" policy="conditional"/>
     </consumes>
     <produces>
@@ -92,6 +94,7 @@
     <consumes>
       <input id="target.test.dir" policy="optional"/>
       <input id="target.classes.test.dir" policy="conditional"/>
+      <input id="target.classes.main.dir"/>
     </consumes>
     <produces>
       <output id="target.reports.test.dir"/>
@@ -109,6 +112,9 @@
   </process>
   
   <process name="rmic" class="net.dpml.tools.process.RMICProcess">
+    <dependencies>
+      <include id="compile-main"/>
+    </dependencies>
     <consumes>
       <input id="target.classes.main.dir" policy="conditional"/>
     </consumes>
