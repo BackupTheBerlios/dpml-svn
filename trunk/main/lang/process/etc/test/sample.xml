@@ -10,6 +10,13 @@
     </description>
   </dir>
   
+  <dir name="src.test" path="${project.src.test.dir}">
+    <description title="Project test source directory.">
+    Project source for test content to be added to the 
+    normalized ${target.build.test.dir} directory.
+    </description>
+  </dir>
+  
   <dir name="etc.main" path="${project.etc.main.dir}">
     <description title="Project supplimentary main content directory.">
     Project source for supplimentary content to be added to the 
@@ -17,6 +24,12 @@
     </description>
   </dir>
   
+  <dir name="etc.test" path="${project.etc.test.dir}">
+    <description title="Project supplimentary test content directory.">
+    Project source for supplimentary test content to be added to the 
+    normalized ${target.build.test.dir} directory.
+    </description>
+  </dir>
   
   <dir name="target.dir" path="${project.basedir}/target"/>
   <dir name="target.test.dir" path="${target.dir}/test"/>
@@ -57,7 +70,7 @@
     </produces>
   </process>
   
-  <process name="compile-main" class="net.dpml.tools.process.CompileMainProcess">
+  <process name="compile-main" class="net.dpml.tools.process.CompileMainProcess" implicit="true">
     <consumes>
       <input id="target.build.main.dir" policy="conditional"/>
     </consumes>
@@ -66,7 +79,7 @@
     </produces>
   </process>
   
-  <process name="compile-test" class="net.dpml.tools.process.CompileTestProcess">
+  <process name="compile-test" class="net.dpml.tools.process.CompileTestProcess" implicit="true">
     <consumes>
       <input id="target.build.test.dir" policy="conditional"/>
     </consumes>
