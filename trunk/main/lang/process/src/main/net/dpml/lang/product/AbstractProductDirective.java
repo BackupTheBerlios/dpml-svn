@@ -30,12 +30,12 @@ import net.dpml.lang.AbstractDirective;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class ProductDirective extends AbstractDirective
+public abstract class AbstractProductDirective extends AbstractDirective
 {
     private final String m_name;
     private final String m_description;
     
-    public ProductDirective( final String name, final String description )
+    public AbstractProductDirective( final String name, final String description )
     {
         if( null == name )
         {
@@ -70,9 +70,9 @@ public abstract class ProductDirective extends AbstractDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof ProductDirective ) )
+        if( super.equals( other ) && ( other instanceof AbstractProductDirective ) )
         {
-            ProductDirective object = (ProductDirective) other;
+            AbstractProductDirective object = (AbstractProductDirective) other;
             if( !m_name.equals( object.m_name ) )
             {
                 return false;
