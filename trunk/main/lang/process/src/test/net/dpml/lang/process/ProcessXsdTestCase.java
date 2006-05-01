@@ -114,9 +114,6 @@ public class ProcessXsdTestCase extends TestCase
     
     public void testSampleParse() throws Exception
     {
-        System.out.println( "products: " + m_products.size() );
-        System.out.println( "processes: " + m_processes.size() );
-        
         String[] keys = (String[]) m_processes.keySet().toArray( new String[0] );
         for( int i=0; i<keys.length; i++ )
         {
@@ -207,6 +204,10 @@ public class ProcessXsdTestCase extends TestCase
     
     private void getImpliedProcesses( List list, Element process ) throws DecodingException
     {
+        if( list.contains( process ) )
+        {
+            return;
+        }
         getDepedentProcessors( list, process );
         Element[] inputs = getInputElements( process );
         for( int i=0; i<inputs.length; i++ )
@@ -220,6 +221,7 @@ public class ProcessXsdTestCase extends TestCase
         {
             list.add( process );
         }
+        processValidators( list, process );
     }
     
     private void getDepedentProcessors( List list, Element process ) throws DecodingException
@@ -254,6 +256,41 @@ public class ProcessXsdTestCase extends TestCase
         }
     }
     
+    private void processValidators( List list, Element process ) throws DecodingException
+    {
+        Element validators = ElementHelper.getChild( process, "validators" );
+        if( null == validators )
+        {
+            return;
+        }
+        else
+        {
+            Element[] children = ElementHelper.getChildren( validators );
+            String[] keys = new String[ children.length ];
+            for( int i=0; i<children.length; i++ )
+            {
+                Element child = children[i];
+                String key = ElementHelper.getAttribute( child, "id" );
+                Element proc = (Element) m_processes.get( key );
+                if( null == proc )
+                {
+                    final String error = 
+                      "Processor validation dependency ["
+                      + key
+                      + "] not recognized.";
+                    throw new DecodingException( child, error );
+                }
+                else
+                {
+                    if( !list.contains( proc ) )
+                    {
+                        getImpliedProcesses( list, proc );
+                    }
+                }
+            }
+        }
+    }
+    
     private void getInputProcesses( List list, Element product ) throws DecodingException
     {
         if( null == product )
@@ -266,6 +303,7 @@ public class ProcessXsdTestCase extends TestCase
     
     private void getProducers( List list, String id ) throws DecodingException
     {
+        
         String[] keys = (String[]) m_processes.keySet().toArray( new String[0] );
         for( int i=0; i<keys.length; i++ )
         {
@@ -274,10 +312,13 @@ public class ProcessXsdTestCase extends TestCase
             String productionId = getProcessProductionID( process );
             if( id.equals( productionId ) )
             {
-                getImpliedProcesses( list, process );
                 if( !list.contains( process ) )
                 {
-                    list.add( process );
+                    getImpliedProcesses( list, process );
+                    if( !list.contains( process ) )
+                    {
+                        list.add( process );
+                    }
                 }
             }
         }

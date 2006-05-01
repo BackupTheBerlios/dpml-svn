@@ -68,6 +68,7 @@
         <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
         <element name="consumes" type="this:ConsumesType" minOccurs="0" maxOccurs="1"/>
         <element name="produces" type="this:ProducesType" minOccurs="0" maxOccurs="1"/>
+        <element name="validators" type="this:ValidatorsType" minOccurs="0" maxOccurs="1"/>
       </sequence>
       <attribute name="name" type="string" use="required"/>
       <attribute name="class" type="string" use="required"/>
@@ -75,6 +76,12 @@
     </complexType>
     
     <complexType name="DependenciesType">
+      <sequence>
+        <element name="include" type="this:DependencyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ValidatorsType">
       <sequence>
         <element name="include" type="this:DependencyType" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>

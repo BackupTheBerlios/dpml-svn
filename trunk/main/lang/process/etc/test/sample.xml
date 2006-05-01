@@ -75,7 +75,9 @@
   
   <process name="compile-main" class="net.dpml.tools.process.CompileMainProcess" implicit="true">
     <consumes>
-      <input id="target.build.main.dir" policy="conditional"/>
+      <input xsi:type="Selection" id="target.build.main.dir" policy="conditional">
+        <exclude name="**/*.java,**/package.html"/>
+      </input>
     </consumes>
     <produces id="target.classes.main.dir"/>
   </process>
@@ -88,7 +90,7 @@
     <produces id="target.classes.test.dir"/>
   </process>
   
-  <process name="prepare-junit" class="net.dpml.tools.process.PrepareJUnitProcess">
+  <process name="setup-junit" class="net.dpml.tools.process.PrepareJUnitProcess">
     <dependencies>
       <include id="prepare-test"/>
     </dependencies>
@@ -98,27 +100,26 @@
     <produces id="target.test.dir"/>
   </process>
   
-  <process name="junit" class="net.dpml.tools.process.JunitProcess">
+  <process name="jar" class="net.dpml.tools.process.JarProcess">
+    <consumes>
+      <input id="target.classes.main.dir" policy="conditional"/>
+    </consumes>
+    <produces id="target.deliverables.jar"/>
+    <validators>
+      <include id="junit"/>
+    </validators>
+  </process>
+  
+  <process name="junit" class="net.dpml.tools.process.JavaUnitProcess">
     <dependencies>
-      <include id="prepare-junit"/>
+      <include id="jar"/>
       <include id="compile-test"/>
     </dependencies>
     <consumes>
       <input id="target.test.dir"/>
       <input id="target.classes.test.dir" policy="conditional"/>
-      <input id="target.classes.main.dir"/>
     </consumes>
     <produces id="target.reports.test.dir"/>
-  </process>
-  
-  <process name="jar" class="net.dpml.tools.process.JarProcess">
-    <dependencies>
-      <include id="junit"/>
-    </dependencies>
-    <consumes>
-      <input id="target.build.main.dir" policy="conditional"/>
-    </consumes>
-    <produces id="target.deliverables.jar"/>
   </process>
   
   <process name="rmic" class="net.dpml.tools.process.RMICProcess">
