@@ -26,9 +26,11 @@ package net.dpml.lang.product;
  */
 public class DirectoryProductDirective extends AbstractProductDirective
 {
-    public ProductDirective( final String name, final String description, String path )
+    private final String m_path;
+    
+    public DirectoryProductDirective( final String name, final InfoDirective info, String path )
     {
-        super( name, description );
+        super( name, info );
         
         if( null == path )
         {
@@ -57,7 +59,7 @@ public class DirectoryProductDirective extends AbstractProductDirective
         if( super.equals( other ) && ( other instanceof DirectoryProductDirective ) )
         {
             DirectoryProductDirective object = (DirectoryProductDirective) other;
-            return m_path.equals( object.m_path ) )
+            return m_path.equals( object.m_path );
         }
         else
         {

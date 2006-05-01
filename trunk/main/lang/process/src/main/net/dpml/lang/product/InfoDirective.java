@@ -25,55 +25,42 @@ import java.util.Properties;
 import net.dpml.lang.AbstractDirective;
 
 /**
- * The AbstractProductDirective class describes a product instance such as a file or directory.
+ * The InfoDirective describes a title and general information about an entiry.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class AbstractProductDirective extends AbstractDirective
+public abstract class InfoDirective extends AbstractDirective
 {
-    private final String m_name;
-    private final InfoDirective m_info;
+    private final String m_title;
+    private final String m_description;
     
-    public AbstractProductDirective( final String name, final InfoDirective info )
+    public InfoDirective( final String title, final String description )
     {
-        if( null == name )
+        if( null == title )
         {
-            throw new NullPointerException( "name" );
+            throw new NullPointerException( "title" );
         }
-        if( null == info )
-        {
-            throw new NullPointerException( "info" );
-        }
-        m_name = name;
-        m_info = info;
+        m_title = title;
+        m_description = description;
     }
     
    /**
     * Get the product name.
     * @return the product name.
     */
-    public String getName()
-    {
-        return m_name;
-    }
-
-    
-   /**
-    * Get the product title.
-    * @return the product title.
-    */
     public String getTitle()
     {
-        return m_info.getTitle();
+        return m_title;
     }
+
    /**
     * Get the product description.
     * @return the product description.
     */
     public String getDescription()
     {
-        return m_info.getDescription();
+        return m_description;
     }
 
    /**
@@ -83,16 +70,16 @@ public abstract class AbstractProductDirective extends AbstractDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof AbstractProductDirective ) )
+        if( super.equals( other ) && ( other instanceof InfoDirective ) )
         {
-            AbstractProductDirective object = (AbstractProductDirective) other;
-            if( !m_name.equals( object.m_name ) )
+            InfoDirective object = (InfoDirective) other;
+            if( !m_title.equals( object.m_title ) )
             {
                 return false;
             }
             else
             {
-                return equals( m_info, object.m_info );
+                return equals( m_description, object.m_description );
             }
         }
         else
@@ -108,8 +95,8 @@ public abstract class AbstractProductDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= hashValue( m_name );
-        hash ^= hashValue( m_info );
+        hash ^= hashValue( m_title );
+        hash ^= hashValue( m_description );
         return hash;
     }
 }
