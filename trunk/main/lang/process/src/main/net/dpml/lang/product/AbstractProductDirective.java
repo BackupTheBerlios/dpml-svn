@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -25,7 +25,7 @@ import java.util.Properties;
 import net.dpml.lang.AbstractDirective;
 
 /**
- * The ProductDirective class describes a product instance such as a file or directory.
+ * The AbstractProductDirective class describes a product instance such as a file or directory.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,13 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.lang.process;
-
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Properties;
-
-import net.dpml.lang.AbstractDirective;
+package net.dpml.lang.product;
 
 /**
  * The DirectoryProductDirective class describes a working directory.
@@ -32,27 +26,25 @@ import net.dpml.lang.AbstractDirective;
  */
 public class DirectoryProductDirective extends AbstractProductDirective
 {
-    public ProductDirective( final String name, final String description )
+    public ProductDirective( final String name, final String description, String path )
     {
         super( name, description );
+        
+        if( null == path )
+        {
+            throw new NullPointerException( "path" );
+        }
+        
+        m_path = path;
     }
     
    /**
     * Get the product name.
     * @return the product name.
     */
-    public String getName()
+    public String getPath()
     {
-        return m_name;
-    }
-
-   /**
-    * Get the product description.
-    * @return the product description.
-    */
-    public String getDescription()
-    {
-        return m_description;
+        return m_path;
     }
 
    /**
@@ -62,17 +54,10 @@ public class DirectoryProductDirective extends AbstractProductDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof ProductDirective ) )
+        if( super.equals( other ) && ( other instanceof DirectoryProductDirective ) )
         {
-            ProductDirective object = (ProductDirective) other;
-            if( !m_name.equals( object.m_name ) )
-            {
-                return false;
-            }
-            else
-            {
-                return equals( m_description, object.m_description );
-            }
+            DirectoryProductDirective object = (DirectoryProductDirective) other;
+            return m_path.equals( object.m_path ) )
         }
         else
         {
@@ -87,8 +72,7 @@ public class DirectoryProductDirective extends AbstractProductDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= hashValue( m_name );
-        hash ^= hashValue( m_description );
+        hash ^= hashValue( m_path );
         return hash;
     }
 }
