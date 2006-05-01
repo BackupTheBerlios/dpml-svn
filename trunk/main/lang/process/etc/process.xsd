@@ -38,17 +38,6 @@
       </simpleContent>
     </complexType>
     
-    <!-- crteria: applies a processing constraint on a product -->
-    <!--
-    <complexType name="CriteriaType"> 
-      <complexContent>
-        <extension base="anyType">
-          <attribute name="id" type="string" use="required"/> 
-        </extension>
-      </complexContent>
-    </complexType>
-    -->
-    
     <complexType name="DirectoryType">
       <complexContent>
         <extension base="this:ProductType">
@@ -60,11 +49,6 @@
     <complexType name="FileType">
       <complexContent>
         <extension base="this:ProductType">
-          <!--
-          <sequence>
-            <element ref="this:CriteriaType" minOccurs="0" maxOccurs="1"/>
-          </sequence>
-          -->
           <attribute name="type" type="string" use="required"/>
         </extension>
       </complexContent>
@@ -104,19 +88,34 @@
     </complexType>
     
     <complexType name="ProducesType">
-      <sequence>
-        <element name="output" type="this:OutputType" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-      <attribute name="policy" type="this:PolicyType"/>
+      <attribute name="id" type="string" use="required"/>
     </complexType>
     
     <complexType name="DependencyType">
-      <attribute name="id" type="string"/>
+      <attribute name="id" type="string" use="required"/>
     </complexType>
     
     <complexType name="InputType">
-      <attribute name="id" type="string"/>
-      <attribute name="policy" type="this:PolicyType"/>
+      <attribute name="id" type="string" use="required"/>
+      <attribute name="policy" type="this:PolicyType" default="optional"/>
+    </complexType>
+    
+    <complexType name="Selection">
+      <complexContent>
+        <extension base="this:InputType">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="include" type="this:SelectorType"/>
+            <element name="exclude" type="this:SelectorType"/>
+          </choice>
+          <attribute name="defaultIncludes" type="string"/>
+          <attribute name="defaultExcludes" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="SelectorType">
+      <attribute name="name" type="string"/>
+      <attribute name="filter" type="boolean" default="true"/>
     </complexType>
     
     <complexType name="OutputType">

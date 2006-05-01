@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<configuration xmlns="@PROJECT-XSD-URI@"> 
+<configuration xmlns="@PROJECT-XSD-URI@"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:this="@PROJECT-XSD-URI@"> 
 
   <!-- client products -->
   
@@ -53,33 +55,31 @@
   
   <process name="prepare-main" class="net.dpml.tools.process.PrepareMainProcess">
     <consumes>
-      <input id="etc.main" policy="optional"/>
-      <input id="src.main" policy="optional"/>
+      <input xsi:type="Selection" id="etc.main" policy="optional">
+        <include name="*.*"/>
+        <exclude name=""/>
+      </input>
+      <input xsi:type="Selection" id="src.main" policy="optional">
+        <include name="*.*"/>
+        <exclude name=""/>
+      </input>
     </consumes>
-    <produces>
-      <output id="target.build.main.dir"/>
-    </produces>
+    <produces id="target.build.main.dir"/>
   </process>
   
   <process name="prepare-test" class="net.dpml.tools.process.PrepareTestProcess">
     <consumes policy="conditional">
       <input id="target.build.main.dir" policy="optional"/>
-      <input id="etc.test" policy="optional"/>
       <input id="src.test" policy="optional"/>
     </consumes>
-    <produces>
-      <output id="target.build.test.dir"/>
-      <output id="target.test.dir"/>
-    </produces>
+    <produces id="target.build.test.dir"/>
   </process>
   
   <process name="compile-main" class="net.dpml.tools.process.CompileMainProcess" implicit="true">
     <consumes>
       <input id="target.build.main.dir" policy="conditional"/>
     </consumes>
-    <produces>
-      <output id="target.classes.main.dir"/>
-    </produces>
+    <produces id="target.classes.main.dir"/>
   </process>
   
   <process name="compile-test" class="net.dpml.tools.process.CompileTestProcess" implicit="true">
@@ -87,20 +87,30 @@
       <input id="target.classes.main.dir" policy="optional"/>
       <input id="target.build.test.dir" policy="conditional"/>
     </consumes>
-    <produces>
-      <output id="target.classes.test.dir"/>
-    </produces>
+    <produces id="target.classes.test.dir"/>
+  </process>
+  
+  <process name="prepare-junit" class="net.dpml.tools.process.PrepareJUnitProcess">
+    <dependencies>
+      <include id="prepare-test"/>
+    </dependencies>
+    <consumes policy="conditional">
+      <input id="etc.test" policy="optional"/>
+    </consumes>
+    <produces id="target.test.dir"/>
   </process>
   
   <process name="junit" class="net.dpml.tools.process.JunitProcess">
+    <dependencies>
+      <include id="prepare-junit"/>
+      <include id="compile-test"/>
+    </dependencies>
     <consumes>
       <input id="target.test.dir" policy="optional"/>
       <input id="target.classes.test.dir" policy="conditional"/>
       <input id="target.classes.main.dir"/>
     </consumes>
-    <produces>
-      <output id="target.reports.test.dir"/>
-    </produces>
+    <produces id="target.reports.test.dir"/>
   </process>
   
   <process name="jar" class="net.dpml.tools.process.JarProcess">
@@ -110,9 +120,7 @@
     <consumes>
       <input id="target.build.main.dir" policy="conditional"/>
     </consumes>
-    <produces>
-      <output id="target.deliverables.jar"/>
-    </produces>
+    <produces id="target.deliverables.jar"/>
   </process>
   
   <process name="rmic" class="net.dpml.tools.process.RMICProcess">
@@ -128,9 +136,7 @@
     <consumes>
       <input id="target.classes.main.dir" policy="optional"/>
     </consumes>
-    <produces>
-      <output id="target.deliverables.part"/>
-    </produces>
+    <produces id="target.deliverables.part"/>
   </process>
   
 </configuration>

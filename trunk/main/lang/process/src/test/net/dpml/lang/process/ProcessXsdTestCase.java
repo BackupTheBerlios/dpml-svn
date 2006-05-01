@@ -136,8 +136,7 @@ public class ProcessXsdTestCase extends TestCase
         for( int i=0; i<implicits.length; i++ )
         {
             Element implicit = implicits[i];
-            String name = ElementHelper.getAttribute( implicit, "name" );
-            System.out.println( "# process: " + name );
+            reportProcess( implicit );
         }
         System.out.println( "" );
     }
@@ -158,8 +157,8 @@ public class ProcessXsdTestCase extends TestCase
         Element[] processors = (Element[]) list.toArray( new Element[0] );
         for( int i=0; i<processors.length; i++ )
         {
-            String name = ElementHelper.getAttribute( processors[i], "name" );
-            System.out.println( "# process: " + name );
+            Element process = processors[i];
+            reportProcess( process );
         }
         System.out.println( "" );
     }
@@ -178,8 +177,8 @@ public class ProcessXsdTestCase extends TestCase
         Element[] processors = (Element[]) list.toArray( new Element[0] );
         for( int i=0; i<processors.length; i++ )
         {
-            String name = ElementHelper.getAttribute( processors[i], "name" );
-            System.out.println( "# process: " + name );
+            Element process = processors[i];
+            reportProcess( process );
         }
     }
 
@@ -272,39 +271,29 @@ public class ProcessXsdTestCase extends TestCase
         {
             String key = keys[i];
             Element process = (Element) m_processes.get( key );
-            String[] ids = getProcessProductionIDs( process );
-            for( int j=0; j<ids.length; j++ )
+            String productionId = getProcessProductionID( process );
+            if( id.equals( productionId ) )
             {
-                String productionId = ids[j];
-                if( id.equals( productionId ) )
+                getImpliedProcesses( list, process );
+                if( !list.contains( process ) )
                 {
-                    getImpliedProcesses( list, process );
-                    if( !list.contains( process ) )
-                    {
-                        list.add( process );
-                    }
+                    list.add( process );
                 }
             }
         }
     }
     
-    private String[] getProcessProductionIDs( Element process )
+    private String getProcessProductionID( Element process )
     {
-        Element[] outputs = getOutputElements( process );
-        String[] result = new String[ outputs.length ];
-        for( int i=0; i<outputs.length; i++ )
+        Element produces = ElementHelper.getChild( process, "produces" );
+        if( null == produces )
         {
-            Element output = outputs[i];
-            String out = ElementHelper.getAttribute( output, "id" );
-            result[i] = out;
+            return null;
         }
-        return result;
-    }
-    
-    private Element[] getOutputElements( Element process )
-    {
-        Element outputs = ElementHelper.getChild( process, "produces" );
-        return ElementHelper.getChildren( outputs );
+        else
+        {
+            return ElementHelper.getAttribute( produces, "id" );
+        }
     }
     
     private Element[] getInputElements( Element process )
@@ -332,21 +321,25 @@ public class ProcessXsdTestCase extends TestCase
             }
         }
         Element produces = ElementHelper.getChild( process, "produces" );
-        Element[] outputs = ElementHelper.getChildren( produces );
-        for( int i=0; i<outputs.length; i++ )
+        if( null != produces )
         {
-            Element output = outputs[i];
-            String id = ElementHelper.getAttribute( output, "id" );
+            String id = ElementHelper.getAttribute( produces, "id" );
             Element product = (Element) m_products.get( id );
             if( null == product )
             {
                 final String error =
-                  "Output element:\n"
-                  + DecodingException.list( output )
+                  "Output production assertion:\n"
+                  + DecodingException.list( produces )
                   + "\n references an unknown product: "
                   + id;
                 fail( error );
             }
         }
+    }
+    
+    private void reportProcess( Element process )
+    {
+        String id = ElementHelper.getAttribute( process, "name" );
+        System.out.println( "# process: " + id );
     }
 }
