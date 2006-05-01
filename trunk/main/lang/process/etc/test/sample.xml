@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configuration xmlns="@PROJECT-XSD-URI@"> 
 
-  <!-- products -->
+  <!-- client products -->
   
   <dir name="src.main" path="${project.src.main.dir}">
     <description title="Project main source directory.">
@@ -30,6 +30,8 @@
     normalized ${target.build.test.dir} directory.
     </description>
   </dir>
+  
+  <!-- normalized products -->
   
   <dir name="target.dir" path="${project.basedir}/target"/>
   <dir name="target.test.dir" path="${target.dir}/test"/>
@@ -102,8 +104,10 @@
   </process>
   
   <process name="jar" class="net.dpml.tools.process.JarProcess">
+    <dependencies>
+      <include id="junit"/>
+    </dependencies>
     <consumes>
-      <input id="target.reports.test.dir"/>
       <input id="target.build.main.dir" policy="conditional"/>
     </consumes>
     <produces>
@@ -128,5 +132,5 @@
       <output id="target.deliverables.part"/>
     </produces>
   </process>
-
+  
 </configuration>

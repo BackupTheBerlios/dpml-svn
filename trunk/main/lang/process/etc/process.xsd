@@ -88,7 +88,6 @@
       <attribute name="name" type="string" use="required"/>
       <attribute name="class" type="string" use="required"/>
       <attribute name="implicit" type="boolean" default="false"/>
-      <attribute name="depends" type="string"/>
     </complexType>
     
     <complexType name="DependenciesType">
