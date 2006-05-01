@@ -98,6 +98,7 @@
     <complexType name="InputType">
       <attribute name="id" type="string" use="required"/>
       <attribute name="policy" type="this:PolicyType" default="optional"/>
+      <attribute name="filtering" type="boolean" default="false"/>
     </complexType>
     
     <complexType name="Selection">
@@ -115,7 +116,6 @@
     
     <complexType name="SelectorType">
       <attribute name="name" type="string"/>
-      <attribute name="filter" type="boolean" default="true"/>
     </complexType>
     
     <complexType name="OutputType">

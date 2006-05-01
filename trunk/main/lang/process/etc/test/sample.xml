@@ -55,13 +55,11 @@
   
   <process name="prepare-main" class="net.dpml.tools.process.PrepareMainProcess">
     <consumes>
-      <input xsi:type="Selection" id="etc.main" policy="optional">
-        <include name="*.*"/>
-        <exclude name=""/>
+      <input xsi:type="Selection" id="etc.main" filtering="false">
+        <include name="**/*.exe,**/*.jar*,**/*.dll,**/*.gif,**/*.jpeg,**/*.jpg,**/*.ico,**/*.png,**/*.keystore"/>
       </input>
-      <input xsi:type="Selection" id="src.main" policy="optional">
-        <include name="*.*"/>
-        <exclude name=""/>
+      <input xsi:type="Selection" id="etc.main" filtering="true">
+        <exclude name="**/*.exe,**/*.jar*,**/*.dll,**/*.gif,**/*.jpeg,**/*.jpg,**/*.ico,**/*.png,**/*.keystore"/>
       </input>
     </consumes>
     <produces id="target.build.main.dir"/>
@@ -69,7 +67,7 @@
   
   <process name="prepare-test" class="net.dpml.tools.process.PrepareTestProcess">
     <consumes policy="conditional">
-      <input id="target.build.main.dir" policy="optional"/>
+      <input id="target.build.main.dir"/>
       <input id="src.test" policy="optional"/>
     </consumes>
     <produces id="target.build.test.dir"/>
@@ -84,7 +82,7 @@
   
   <process name="compile-test" class="net.dpml.tools.process.CompileTestProcess" implicit="true">
     <consumes>
-      <input id="target.classes.main.dir" policy="optional"/>
+      <input id="target.classes.main.dir"/>
       <input id="target.build.test.dir" policy="conditional"/>
     </consumes>
     <produces id="target.classes.test.dir"/>
@@ -95,7 +93,7 @@
       <include id="prepare-test"/>
     </dependencies>
     <consumes policy="conditional">
-      <input id="etc.test" policy="optional"/>
+      <input id="etc.test"/>
     </consumes>
     <produces id="target.test.dir"/>
   </process>
@@ -106,7 +104,7 @@
       <include id="compile-test"/>
     </dependencies>
     <consumes>
-      <input id="target.test.dir" policy="optional"/>
+      <input id="target.test.dir"/>
       <input id="target.classes.test.dir" policy="conditional"/>
       <input id="target.classes.main.dir"/>
     </consumes>
@@ -134,7 +132,7 @@
   
   <process name="part" class="net.dpml.tools.process.PartProcess">
     <consumes>
-      <input id="target.classes.main.dir" policy="optional"/>
+      <input id="target.classes.main.dir"/>
     </consumes>
     <produces id="target.deliverables.part"/>
   </process>
