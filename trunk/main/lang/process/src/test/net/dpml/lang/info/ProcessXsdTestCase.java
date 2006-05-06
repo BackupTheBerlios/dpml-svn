@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.lang.process;
+package net.dpml.lang.info;
 
 import java.io.File;
 import java.net.URI;
