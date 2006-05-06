@@ -36,7 +36,7 @@ import org.w3c.dom.TypeInfo;
 import junit.framework.TestCase;
 
 /**
- * The Process XSD class validates the prodicess XSD schema.
+ * The ProcessXsdTestCase class validates a process XML schema instance.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
