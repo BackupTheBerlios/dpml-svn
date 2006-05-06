@@ -326,15 +326,7 @@ public class ProcessXsdTestCase extends TestCase
     
     private String getProcessProductionID( Element process )
     {
-        Element produces = ElementHelper.getChild( process, "produces" );
-        if( null == produces )
-        {
-            return null;
-        }
-        else
-        {
-            return ElementHelper.getAttribute( produces, "id" );
-        }
+        return ElementHelper.getAttribute( process, "produces" );
     }
     
     private Element[] getInputElements( Element process )
@@ -361,16 +353,15 @@ public class ProcessXsdTestCase extends TestCase
                 fail( error );
             }
         }
-        Element produces = ElementHelper.getChild( process, "produces" );
-        if( null != produces )
+        String id = getProcessProductionID( process );
+        if( null != id )
         {
-            String id = ElementHelper.getAttribute( produces, "id" );
             Element product = (Element) m_products.get( id );
             if( null == product )
             {
                 final String error =
                   "Output production assertion:\n"
-                  + DecodingException.list( produces )
+                  + DecodingException.list( process )
                   + "\n references an unknown product: "
                   + id;
                 fail( error );

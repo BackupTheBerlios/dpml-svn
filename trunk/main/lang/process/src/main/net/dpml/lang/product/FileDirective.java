@@ -19,36 +19,43 @@
 package net.dpml.lang.product;
 
 /**
- * The DirectoryProductDirective class describes a working directory.
+ * The FileDirective class describes a deliverable produced by a process.
+ * A file is normally associated with a colocated MD5 and ASC resource.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DirectoryProductDirective extends AbstractProductDirective
+public class FileDirective extends AbstractProductDirective
 {
-    private final String m_path;
+    private final String m_type;
     
-    public DirectoryProductDirective( final String name, final InfoDirective info, String path )
+   /**
+    * Creation of a new file directive. 
+    * @param name the product identifier
+    * @param info supplimentary product info
+    * @param type the artifact type
+    */
+    public FileDirective( final String name, final InfoDirective info, String type )
     {
         super( name, info );
         
-        if( null == path )
+        if( null == type )
         {
-            throw new NullPointerException( "path" );
+            throw new NullPointerException( "type" );
         }
         
-        m_path = path;
+        m_type = type;
     }
     
    /**
-    * Get the product name.
-    * @return the product name.
+    * Get the product type name.
+    * @return the product type.
     */
-    public String getPath()
+    public String getType()
     {
-        return m_path;
+        return m_type;
     }
-
+    
    /**
     * Compare this object with another for equality.
     * @param other the other object
@@ -56,10 +63,10 @@ public class DirectoryProductDirective extends AbstractProductDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof DirectoryProductDirective ) )
+        if( super.equals( other ) && ( other instanceof FileDirective ) )
         {
-            DirectoryProductDirective object = (DirectoryProductDirective) other;
-            return m_path.equals( object.m_path );
+            FileDirective object = (FileDirective) other;
+            return m_type.equals( object.m_type );
         }
         else
         {
@@ -74,7 +81,7 @@ public class DirectoryProductDirective extends AbstractProductDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= hashValue( m_path );
+        hash ^= hashValue( m_type );
         return hash;
     }
 }
