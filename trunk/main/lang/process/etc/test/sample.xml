@@ -77,7 +77,7 @@
       produces="target.classes.main.dir">
     <consumes>
       <input xsi:type="Selection" id="target.build.main.dir" policy="conditional">
-        <exclude name="**/*.java,**/package.html"/>
+        <include name="**/*.java,**/package.html"/>
       </input>
     </consumes>
   </process>
@@ -86,7 +86,9 @@
       produces="target.classes.test.dir">
     <consumes>
       <input id="target.classes.main.dir"/>
-      <input id="target.build.test.dir" policy="conditional"/>
+      <input xsi:type="Selection" id="target.build.test.dir" policy="conditional">
+        <include name="**/*.java"/>
+      </input>
     </consumes>
   </process>
   
