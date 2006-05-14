@@ -7,18 +7,18 @@
     <module name="acme">
       <resource name="widget">
         <types>
-          <type id="foo">
+          <type id="foo" xsi:type="GenericType">
             <property name="pink" value="floyd"/>
             <property name="alice" value="cooper"/>
           </type>
-          <part:plugin class="Widget"/>
+          <type id="part" xsi:type="part:plugin" class="Widget"/>
         </types>
       </resource>
     </module>
     <module name="acme">
       <resource name="gizmo">
         <types>
-          <part:plugin class="gizmo"/>
+          <type id="part" xsi:type="part:plugin" class="gizmo"/>
         </types>
       </resource>
     </module>

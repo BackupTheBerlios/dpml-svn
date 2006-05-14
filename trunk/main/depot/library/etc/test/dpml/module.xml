@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module xmlns="@MODULE-XSD-URI@"
   xmlns:part="@PART-XSD-URI@"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   name="dpml" basedir=".." >
 
    <properties>
@@ -157,7 +158,7 @@
          <property name="project.template" value="${basedir}/builder.xml"/>
        </properties>
        <types>
-         <part:plugin alias="true" class="net.dpml.lang.PartManager"/>
+         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.lang.PartManager"/>
          <type id="jar"/>
        </types>
        <dependencies>
@@ -217,7 +218,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <part:plugin class="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
+         <type id="part" xsi:type="part:plugin" class="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
        </types>
        <dependencies>
          <runtime>
@@ -233,7 +234,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
+         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.metro.runtime.CompositionController"/>
        </types>
        <dependencies>
          <runtime>
@@ -253,7 +254,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <part:resource urn="dpml:metro" path="net/dpml/composition/tools/antlib.xml"/>
+         <type id="part" xsi:type="part:resource"  urn="dpml:metro" path="net/dpml/composition/tools/antlib.xml"/>
        </types>
        <dependencies>
          <runtime>
@@ -323,7 +324,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <part:plugin alias="true" class="net.dpml.library.impl.BuildPlugin"/>
+         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.library.impl.BuildPlugin"/>
        </types>
        <dependencies>
          <runtime>
@@ -342,7 +343,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
+         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
        </types>
        <dependencies>
          <runtime>

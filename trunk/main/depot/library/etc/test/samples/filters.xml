@@ -5,18 +5,14 @@
 
   <modules>
     <module name="acme">
-      <data>
-        <filters>
-          <filter token="PUBLISHER" value="ACME"/>
-        </filters>
-      </data>
+      <filters>
+        <filter token="PUBLISHER" value="ACME"/>
+      </filters>
       <project name="widget" basedir=".">
-        <data>
-          <filters>
-            <filter token="NAME" value="Widget"/>
-            <filter token="DESCRIPTION" value="A Widget."/>
-          </filters>
-        </data>
+        <filters>
+          <filter token="NAME" value="Widget"/>
+          <filter token="DESCRIPTION" value="A Widget."/>
+        </filters>
       </project>
     </module>
   </modules>

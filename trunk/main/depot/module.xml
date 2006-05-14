@@ -21,7 +21,8 @@
   <project name="dpml-library-build" basedir="build">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
+      <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.library.console.BuilderPlugin"/>
+      <!--<part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>-->
     </types>
     <dependencies>
       <runtime>
@@ -33,11 +34,9 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
-    <data>
-      <filters>
-        <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part"/>
-      </filters>
-    </data>
+    <filters>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part"/>
+    </filters>
   </project>
    
   <project name="dpml-depot-console" basedir="core">
@@ -58,22 +57,20 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
-    <data>
-      <filters>
-        <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
-        <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
-        <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
-        <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.lang.SystemClassLoader"/>
-        <feature token="BUILD-ID" id="version"/>
-        <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
-        <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
-        <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
-        <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-library-build" />
-        <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
-        <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
-        <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
-      </filters>
-    </data>
+    <filters>
+      <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
+      <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
+      <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
+      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.lang.SystemClassLoader"/>
+      <feature token="BUILD-ID" id="version"/>
+      <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
+      <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
+      <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
+      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-library-build" />
+      <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
+      <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
+      <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
+    </filters>
   </project>
 
   <resource name="dpml-tools-builder" basedir="tools/builder">

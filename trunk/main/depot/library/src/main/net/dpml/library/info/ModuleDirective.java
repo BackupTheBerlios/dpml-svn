@@ -52,7 +52,8 @@ public final class ModuleDirective extends ResourceDirective
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      DataDirective[] data, ResourceDirective[] resources )
+      FilterDirective[] filters, DataDirective[] data, 
+      ResourceDirective[] resources )
     {
         int n = name.indexOf( "/" );
         if( n > -1 )
@@ -67,7 +68,7 @@ public final class ModuleDirective extends ResourceDirective
                     enclosing =  
                       new ModuleDirective(
                         elem, version, classifier, basedir, info, types, dependencies,
-                        resources, properties, data );
+                        resources, properties, filters, data );
                 }
                 else
                 {
@@ -75,7 +76,7 @@ public final class ModuleDirective extends ResourceDirective
                       new ModuleDirective(
                         elem, null, Classifier.EXTERNAL, ".", null,
                         new TypeDirective[0], new DependencyDirective[0],
-                        new ResourceDirective[]{enclosing}, null, null );
+                        new ResourceDirective[]{enclosing}, null, null, null );
                 }
             }
             return enclosing;
@@ -84,7 +85,7 @@ public final class ModuleDirective extends ResourceDirective
         {
             return new ModuleDirective(
               name, version, classifier, basedir, info, types, dependencies,
-              resources, properties, data );
+              resources, properties, filters, data );
         }
     }
     
@@ -100,7 +101,7 @@ public final class ModuleDirective extends ResourceDirective
         this(
           name, null, Classifier.ANONYMOUS, null, null,
           new TypeDirective[0], new DependencyDirective[0],
-          new ResourceDirective[]{resource}, null, null );
+          new ResourceDirective[]{resource}, null, null, null );
     }
     
    /**
@@ -120,9 +121,9 @@ public final class ModuleDirective extends ResourceDirective
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types,
       DependencyDirective[] dependencies, ResourceDirective[] resources,
-      Properties properties, DataDirective[] data )
+      Properties properties, FilterDirective[] filters, DataDirective[] data )
     {
-        super( name, version, classifier, basedir, info, types, dependencies, properties, data );
+        super( name, version, classifier, basedir, info, types, dependencies, properties, filters, data );
         
         if( null == resources )
         {

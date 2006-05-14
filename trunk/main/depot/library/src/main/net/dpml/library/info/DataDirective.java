@@ -20,31 +20,67 @@ package net.dpml.library.info;
 
 import net.dpml.lang.AbstractDirective;
 
+import org.w3c.dom.Element;
+
 /**
  * Base class for a data directives.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class DataDirective extends AbstractDirective
+public class DataDirective extends AbstractDirective
 {
-    private final String m_id;
+    private final Element m_element;
     
    /**
-    * Creation of a new data directive.
-    * @param id the unique datatype key
+    * Creation of a new data directive using a DOM element as the 
+    * datastructure definition.
+    * @param element the DOM element
     */
-    public DataDirective( String id )
+    public DataDirective( Element element )
     {
-        m_id = id;
+        if( null == element )
+        {
+            throw new NullPointerException( "element" );
+        }
+        m_element = element;
     }
     
    /**
-    * Return the datatype id.
-    * @return the id
+    * Return the datatype element.
+    * @return the DOM element
     */
-    public String getID()
+    public String getElement()
     {
-        return m_id;
+        return m_element;
+    }
+
+   /**
+    * Compare this object with another for equality.
+    * @param other the other object
+    * @return true if equal
+    */
+    public boolean equals( Object other )
+    {
+        if( super.equals( other ) && ( other instanceof DataDirective ) )
+        {
+            DataDirective object = (DataDirective) other;
+            return m_element.equals( object.m_element );
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+   /**
+    * Compute the hash value.
+    * @return the hascode value
+    */
+    public int hashCode()
+    {
+        int hash = super.hashCode();
+        hash ^= m_element.hashCode();
+        return hash;
     }
 }

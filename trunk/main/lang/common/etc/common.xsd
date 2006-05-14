@@ -11,22 +11,33 @@ to identify the availablity of a typed resource.
             targetNamespace="@PROJECT-XSD-URI@"
             elementFormDefault="qualified">
         
-    <element name="data" type="common:AbstractData" abstract="true"/>
-    <element name="type" type="common:AbstractType" abstract="true"/>
     <element name="codebase" type="common:CodeBaseType" abstract="true"/>
+    <element name="type" type="common:AbstractType" abstract="true"/>
     
+    <!--<element name="data" type="common:AbstractData" abstract="true"/>-->
+    
+    <!--
     <complexType name="AbstractData">
       <complexContent>
         <restriction base="xsd:anyType"/>
       </complexContent>
     </complexType>
+    -->
     
+    <!--
     <complexType name="AbstractType">
       <complexContent>
-        <restriction base="xsd:anyType">
+        <restriction base="xsd:anyType"> 
+          <attribute name="id" type="string" use="required"/>
           <attribute name="alias" type="boolean" default="false"/>
         </restriction>
       </complexContent>
+    </complexType>
+    -->
+    
+    <complexType name="AbstractType">
+      <attribute name="id" type="string"/>
+      <attribute name="alias" type="boolean" default="false"/>
     </complexType>
     
     <complexType name="CodeBaseType" abstract="true">

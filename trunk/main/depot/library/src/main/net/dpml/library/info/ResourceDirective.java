@@ -50,10 +50,11 @@ public class ResourceDirective extends AbstractDirective
     private final String m_name;
     private final String m_version;
     private final String m_basedir;
-    private final TypeDirective[] m_types;
+    private final DataDirective[] m_types;
+    private final DataDirective[] m_data;
     private final DependencyDirective[] m_dependencies;
     private final Classifier m_classifier;
-    private final DataDirective[] m_data;
+    private final FilterDirective[] m_filters;
     private final InfoDirective m_info;
     
    /**
@@ -69,11 +70,11 @@ public class ResourceDirective extends AbstractDirective
     {
         return createResourceDirective(
           name, version, Classifier.ANONYMOUS, null, 
-          null, new TypeDirective[]{new TypeDirective( type )}, 
+          null, new DataDirective[]{new TypeDirective( type )}, 
           new DependencyDirective[0],
           properties, null );
     }
-    
+
    /**
     * Creation of a new resource directive.  If the resource name if composite
     * then the resource directive will be a module directive instance that either 
@@ -87,46 +88,47 @@ public class ResourceDirective extends AbstractDirective
     * @param types types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
+    * @param filters project filters
     * @param data supporting production data
     * @return the immediate enclosing resource
     */
     public static ResourceDirective createResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
-      InfoDirective info, TypeDirective[] types, 
+      InfoDirective info, DataDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      DataDirective[] data )
+      FilterDirective[] filters )
     {
         int n = name.indexOf( "/" );
         if( n > -1 )
         {
-            ResourceDirective enclosing = null;
+            ResourceDirective resource = null;
             String[] elements = name.split( "/", -1 );
             for( int i = ( elements.length-1 ); i>-1; i-- )
             {
                 String elem = elements[i];
                 if( i == ( elements.length-1 ) )
                 {
-                    enclosing =  
+                    resource =  
                       new ResourceDirective(
                         elem, version, classifier, basedir, info, types, dependencies,
-                        properties, data );
+                        properties, filters );
                 }
                 else
                 {
-                    enclosing = 
+                    resource = 
                       new ModuleDirective(
                         elem, null, Classifier.EXTERNAL, ".", null,
-                        new TypeDirective[0], new DependencyDirective[0],
-                        new ResourceDirective[]{enclosing}, null, null );
+                        new DataDirective[0], new DependencyDirective[0],
+                        new ResourceDirective[]{resource}, null, null );
                 }
             }
-            return enclosing;
+            return resource;
         }
         else
         {
             return new ResourceDirective(
               name, version, classifier, basedir, info, types, 
-              dependencies, properties, data );
+              dependencies, properties, filters );
         }
     }
 
@@ -137,16 +139,16 @@ public class ResourceDirective extends AbstractDirective
     * @param classifier LOCAL or EXTERNAL classifier
     * @param basedir the project basedir
     * @param info info descriptor
-    * @param types types produced by the resource
+    * @param data type production data
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
-    * @param data supporting production data
+    * @param filters suppliementary filters
     */
     ResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
-      InfoDirective info, TypeDirective[] types, 
+      InfoDirective info, DataDirective[] data, 
       DependencyDirective[] dependencies, Properties properties, 
-      DataDirective[] data )
+      FilterDirective[] filters )
     {
         super( properties );
         
@@ -181,17 +183,28 @@ public class ResourceDirective extends AbstractDirective
             m_info = info;
         }
         
-        m_types = types;
         m_dependencies = dependencies;
         
-        if( null == data )
+        if( null == filters )
         {
-            m_data = new DataDirective[0];
+            m_filters = new FilterDirective[0];
         }
         else
         {
-            m_data = data;
+            m_filters = filters;
         }
+        
+        ArrayList list = new ArrayList();
+        for( int i=0; i<types.length; i++ )
+        {
+            DataDrective directive = types[i];
+            if( directive instanceof TypeDirective )
+            {
+                list.add( directive );
+            }
+        }
+        m_types = (TypeDirective[]) list.toArray( new TypeDirective[0] );
+        m_data = types;
     }
     
    /**
@@ -268,30 +281,22 @@ public class ResourceDirective extends AbstractDirective
     }
     
    /**
-    * Return an array of supporting production data directives.
+    * Return an array of supplimentary filter directives.
+    * @return the filter directives
+    */
+    public FilterDirective[] getFilterDirectives()
+    {
+        return m_filters;
+    }
+    
+   /**
+    * Return an array of supporting production data directives
+    * (including all produced types).
     * @return the data directives
     */
     public DataDirective[] getDataDirectives()
     {
         return m_data;
-    }
-    
-   /**
-    * Return a data directive mathching the supplied key.
-    * @param key the datatype key
-    * @return the data directive or null if unknown
-    */
-    public DataDirective getDataDirective( String key )
-    {
-        for( int i=0; i<m_data.length; i++ )
-        {
-            DataDirective data = m_data[i];
-            if( key.equals( data.getID() ) )
-            {
-                return data;
-            }
-        }
-        return null;
     }
     
    /**

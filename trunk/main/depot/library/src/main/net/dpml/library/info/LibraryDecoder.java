@@ -596,6 +596,10 @@ public final class LibraryDecoder extends LibraryConstants
               buildDependencyDirectives( 
                 ElementHelper.getChild( element, "dependencies" ) );
                 
+            final FilterDirective[] filters = 
+              buildFilterDirectives( 
+                ElementHelper.getChild( element, "filters" ) );
+            
             final DataDirective[] data = 
               buildDataDirectives( 
                 ElementHelper.getChild( element, "data" ) );
@@ -627,13 +631,13 @@ public final class LibraryDecoder extends LibraryConstants
                   (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
                 return ModuleDirective.createModuleDirective( 
                   name, version, classifier, basedir, info, types, dependencies, 
-                  properties, data, resources );
+                  properties, filters, data, resources );
             }
             else
             {
                 return ResourceDirective.createResourceDirective( 
                   name, version, classifier, basedir, info, types, dependencies, 
-                  properties, data );
+                  properties, filters, data );
             }
         }
         else
@@ -713,11 +717,16 @@ public final class LibraryDecoder extends LibraryConstants
         else if( MODULE_XSD_URI.equals( namespace ) )
         {
             String tag = element.getTagName();
-            if( FiltersDirective.KEY.equals( tag ) )
-            {
-                return buildFiltersDirective( element );
-            }
-            else if( RMICDirective.KEY.equals( tag ) )
+            //if( FiltersDirective.KEY.equals( tag ) )
+            //{
+            //    return buildFiltersDirective( element );
+            //}
+            //else 
+            
+            // TODO: rework all of the following to allow for arbitrary process 
+            // parameters
+            
+            if( RMICDirective.KEY.equals( tag ) )
             {
                 return buildRMICDirective( element );
             }
@@ -761,6 +770,48 @@ public final class LibraryDecoder extends LibraryConstants
         return patterns;
     }
     
+    private FilterDirective[] buildFilterDirectives( Element element ) throws Exception
+    {
+        if( null == element )
+        {
+            return new FilterDirective[0];
+        }
+        else
+        {
+            Element[] children = ElementHelper.getChildren( element );
+            FilterDirective[] filters = new FilterDirective[ children.length ];
+            for( int i=0; i<children.length; i++ )
+            {
+                Element child = children[i];
+                String token = ElementHelper.getAttribute( child, "token" );
+                if( "filter".equals( child.getTagName() ) )
+                {
+                    String value = ElementHelper.getAttribute( child, "value" );
+                    filters[i] = new SimpleFilterDirective( token, value );
+                }
+                else if( "feature".equals( child.getTagName() ) )
+                {
+                    String id = ElementHelper.getAttribute( child, "id" );
+                    Feature feature = Feature.parse( id );
+                    String ref = ElementHelper.getAttribute( child, "ref" );
+                    String type = ElementHelper.getAttribute( child, "type" );
+                    boolean alias = ElementHelper.getBooleanAttribute( child, "alias" );
+                    filters[i] = new FeatureFilterDirective( token, ref, feature, type, alias );
+                }
+                else
+                {
+                    final String error = 
+                      "Element name not recognized [" 
+                      + child.getTagName()
+                      + "] (expecting 'filter').";
+                    throw new DecodingException( element, error );
+                }
+            }
+            return filters;
+        }
+    }
+    
+    /*
     private FiltersDirective buildFiltersDirective( Element element ) throws Exception
     {
         if( null == element )
@@ -801,6 +852,7 @@ public final class LibraryDecoder extends LibraryConstants
             return new FiltersDirective( filters );
         }
     }
+    */
     
     private TypeDirective[] buildTypes( Element element ) throws Exception
     {
@@ -822,55 +874,81 @@ public final class LibraryDecoder extends LibraryConstants
     {
         TypeInfo info = element.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
+        String typeName = info.getTypeName();
         if( null == namespace )
         {
             throw new NullPointerException( "namespace" );
         }
-        String typeName = info.getTypeName();
-        if( info.isDerivedFrom( COMMON_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
+        else if( COMMON_XSD_URI.equals( namespace ) )
         {
-            final boolean alias = getAliasFlag( element );
-            if( MODULE_XSD_URI.equals( namespace ) )
+            if( "AbstractType".equals( typeName ) )
             {
-                if( "GenericType".equals( typeName ) ) 
-                {
-                    final String id = getID( element );
-                    final Properties properties = getProperties( element );
-                    return new TypeDirective( id, alias, properties );
-                }
-                else
-                {
-                    final String error = 
-                      "Element namespace is recognized as within the module definition "
-                      + " however the type identifier is not recognized."
-                      + "\nNamespace: " 
-                      + namespace
-                      + "\nType Name: " 
-                      + info.getTypeName();
-                    throw new DecodingException( element, error );
-                }
-            }
-            else if( info.isDerivedFrom( PART_XSD_URI, "StrategyType", TypeInfo.DERIVATION_EXTENSION ) )
-            {
-                return new TypeDirective( "part", alias, element );
+                final String id = getID( element );
+                final boolean alias = getAliasFlag( element );
+                return new TypeDirective( id, alias );
             }
             else
             {
                 final String error = 
-                  "Element type is invalid."
+                  "Cannot create type bacause the element type is unrecognized."
                   + "\nNamespace: " 
                   + namespace
-                  + "\nElement Type Name: " 
+                  + "\nType Name: " 
                   + info.getTypeName();
                 throw new DecodingException( element, error );
             }
         }
+        else if( MODULE_XSD_URI.equals( namespace ) )
+        {
+            if( "GenericType".equals( typeName ) )
+            {
+                final String id = getID( element );
+                final boolean alias = getAliasFlag( element );
+                final Properties properties = getProperties( element );
+                return new TypeDirective( id, alias, properties );
+            }
+            else if( "RMICType".equals( typeName ) )
+            {
+                final String error = 
+                  "RMIC element support is not implemented."
+                  + "\nNamespace: " 
+                  + namespace
+                  + "\nType: " 
+                  + info.getTypeName();
+                throw new DecodingException( element, error );
+            }
+            else
+            {
+                final String error = 
+                  "Cannot create type bacause the element type is unrecognized."
+                  + "\nNamespace: " 
+                  + namespace
+                  + "\nType Name: " 
+                  + info.getTypeName();
+                throw new DecodingException( element, error );
+            }
+        }
+        else if( PART_XSD_URI.equals( namespace ) )
+        {
+            final boolean alias = getAliasFlag( element );
+            return new TypeDirective( "part", alias, element );
+        }
+        else if( info.isDerivedFrom( COMMON_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
+        {
+            final String id = getID( element );
+            final boolean alias = getAliasFlag( element );
+            return new TypeDirective( id, alias, element );
+        }
         else
         {
             final String error = 
-              "Element is not derived from the schema type 'AbstractType' defined under the common namespace."
-              + "\nNamespace: " + namespace
-              + "\nElement Name (from Schema Info): " + info.getTypeName();
+              "Unsupported element type encountered in tpe directive production."
+              + "\nNamespace: " 
+              + namespace
+              + "\nType: " 
+              + info.getTypeName()
+              + "\nName: " 
+              + element.getTagName();
             throw new DecodingException( element, error );
         }
     }

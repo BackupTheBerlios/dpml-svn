@@ -40,7 +40,7 @@
         </extension>
       </complexContent>
     </complexType>
-    
+
     <complexType name="resource">
       <complexContent>
         <extension base="this:StrategyType">

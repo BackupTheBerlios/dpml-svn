@@ -8,6 +8,7 @@
   </info>
   
   <!-- <strategy xsi:type="plugin" class="Widget"/>-->
+  
   <plugin class="Widget"/>
   
   <classpath>

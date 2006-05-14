@@ -188,17 +188,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             setProperty( "project.version", getVersion() );
         }
         
-        FiltersDirective filtersDirective = 
-          (FiltersDirective) directive.getDataDirective( "filters" );
-        if( null != filtersDirective )
+        FilterDirective[] filters = directive.getFilterDirectives();
+        for( int i=0; i<filters.length; i++ )
         {
-            FilterDirective[] filters = filtersDirective.getFilterDirectives();
-            for( int i=0; i<filters.length; i++ )
-            {
-                FilterDirective filter = filters[i];
-                String token = filter.getToken();
-                m_filters.put( token, filter );
-            }
+            FilterDirective filter = filters[i];
+            String token = filter.getToken();
+            m_filters.put( token, filter );
         }
     }
     
@@ -631,7 +626,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         Properties properties = getExportProperties();
         return ResourceDirective.createResourceDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          info, exportedTypes, dependencies, properties, null );
+          info, exportedTypes, dependencies, properties, null, null );
     }
     
     TypeDirective[] createExportedTypes( TypeDirective[] types )

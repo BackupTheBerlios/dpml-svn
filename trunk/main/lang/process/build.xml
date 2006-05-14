@@ -41,6 +41,8 @@
 
   <target name="init" depends="bootstrap.init">
     <filter token="PROJECT-XSD-URI" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
+    <filter token="PART-XSD-URI" value="artifact:xsd:${project.group}/dpml-part#1.0"/>
+    <filter token="COMMON-XSD-URI" value="artifact:xsd:dpml/lang/dpml-common#1.0"/>
   </target>
 
   <target name="package" depends="bootstrap.package">

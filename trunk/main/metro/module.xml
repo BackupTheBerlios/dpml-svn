@@ -23,10 +23,10 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
+    <filters>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
+    </filters>
     <data>
-      <filters>
-        <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
-      </filters>
       <rmic>
         <include name="**/DefaultStateListener.class"/>
       </rmic>
@@ -76,14 +76,12 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
-    <data>
-      <filters>
-        <feature token="NAME" id="name"/>
-        <feature token="VERSION" id="version"/>
-        <feature token="GROUP" id="group"/>
-        <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
-      </filters>
-    </data>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
   </project>
   
   <project name="dpml-metro-model" basedir="model">
@@ -100,14 +98,12 @@
         <include key="dpml-state-impl"/>
       </test>
     </dependencies>
-    <data>
-      <filters>
-        <feature token="NAME" id="name"/>
-        <feature token="VERSION" id="version"/>
-        <feature token="GROUP" id="group"/>
-        <feature token="PART-HANDLER-URI" id="uri" ref="dpml/metro/dpml-metro-runtime" type="part"/>
-      </filters>
-    </data>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" ref="dpml/metro/dpml-metro-runtime" type="part"/>
+    </filters>
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
@@ -134,14 +130,14 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+    </filters>
     <data>
-      <filters>
-        <feature token="PART-HANDLER-URI" id="uri" type="part"/>
-        <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
-        <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
-        <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
-        <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
-      </filters>
       <rmic>
         <include name="**/DefaultComponentModel.class"/>
         <include name="**/DefaultContextModel.class"/>
@@ -173,14 +169,12 @@
         <include ref="dpml/metro/dpml-metro-runtime"/>
       </runtime>
     </dependencies>
-    <data>
-      <filters>
-        <feature token="PART-BUILDER-URI" id="uri" type="part"/>
-        <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
-        <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
-        <feature token="STRATEGY-BUILDER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
-      </filters>
-    </data>
+    <filters>
+      <feature token="PART-BUILDER-URI" id="uri" type="part"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+      <feature token="STRATEGY-BUILDER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
   </project>
 
   <project name="dpml-metro-test" basedir="test">

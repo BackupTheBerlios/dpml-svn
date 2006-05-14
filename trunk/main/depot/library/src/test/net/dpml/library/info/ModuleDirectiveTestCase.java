@@ -38,13 +38,13 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         
         MODULES[0] = new ModuleDirective( 
           "aaa", "1.1", ResourceDirective.LOCAL, ".", info, types, 
-          dependencies, resources, PROPERTIES, null );
+          dependencies, resources, PROPERTIES, null, null );
         MODULES[1] = new ModuleDirective( 
           "bbb", "1.1", ResourceDirective.LOCAL, ".", info, types, 
-          dependencies, resources, PROPERTIES, null );
+          dependencies, resources, PROPERTIES, null, null );
         MODULES[2] = new ModuleDirective( 
           "ccc", "1.1", ResourceDirective.LOCAL, ".", info, types, 
-          dependencies, resources, PROPERTIES, null );
+          dependencies, resources, PROPERTIES, null, null );
     }
 
     private final Classifier m_classifier = ResourceDirective.LOCAL;
@@ -55,6 +55,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     private final TypeDirective[] m_types = TypeDirectiveTestCase.TYPES;
     private final DependencyDirective[] m_dependencies = DependencyDirectiveTestCase.DEPENDENCIES;
     private final ResourceDirective[] m_resources = ResourceDirectiveTestCase.RESOURCES;
+    private final FilterDirective[] m_filters = new FilterDirective[0];
     private final DataDirective[] m_data = new DataDirective[0];
     
     private ModuleDirective m_module;
@@ -67,7 +68,8 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     {
         m_module = 
           new ModuleDirective( 
-            m_name, m_version, m_classifier, "test", m_info, m_types, m_dependencies, m_resources, PROPERTIES, m_data );
+            m_name, m_version, m_classifier, "test", m_info, m_types, m_dependencies, 
+            m_resources, PROPERTIES, m_filters, m_data );
     }
 
    /**
@@ -79,7 +81,8 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              null, m_version, m_classifier, "test", m_info, m_types, m_dependencies, m_resources, PROPERTIES, m_data );
+              null, m_version, m_classifier, "test", m_info, m_types, 
+              m_dependencies, m_resources, PROPERTIES, m_filters, m_data );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -97,7 +100,8 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, null, m_classifier, "test", m_info, m_types, m_dependencies, m_resources, PROPERTIES, m_data );
+              m_name, null, m_classifier, "test", m_info, m_types, m_dependencies, 
+              m_resources, PROPERTIES, m_filters, m_data );
         }
         catch( NullPointerException e )
         {
@@ -114,7 +118,8 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_classifier, "test", m_info, m_types, null, m_resources, PROPERTIES, m_data );
+              m_name, m_version, m_classifier, "test", m_info, m_types, null, 
+              m_resources, PROPERTIES, m_filters, m_data );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -132,7 +137,8 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         try
         {
             new ModuleDirective( 
-              m_name, m_version, m_classifier, "test", m_info, m_types, m_dependencies, null, PROPERTIES, m_data );
+              m_name, m_version, m_classifier, "test", m_info, m_types, 
+              m_dependencies, null, PROPERTIES, m_filters, m_data );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )

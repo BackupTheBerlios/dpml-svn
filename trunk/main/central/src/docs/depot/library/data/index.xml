@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Type Production</title>
+  </properties> 
+
+  <body>
+
+    <section name="Process Data">
+
+      <p>
+      </p>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td></td>
+             <td>0..n</td>
+             <td></td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      </p>
+
+<source>
+<![CDATA[
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+
+
+

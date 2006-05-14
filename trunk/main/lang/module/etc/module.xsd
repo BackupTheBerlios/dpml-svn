@@ -14,12 +14,12 @@
     <element name="project" type="this:ProjectType"/>
     <element name="resource" type="this:ResourceType"/>
     <element name="property" type="this:PropertyType"/>
-    <element name="type" type="this:GenericType" substitutionGroup="common:type"/>
-    <element name="abstract-filter" type="this:AbstractFilter"/>
+    <!--<element name="type" type="this:GenericType" substitutionGroup="common:type"/>-->
+    <!--<element name="abstract-filter" type="this:AbstractFilter"/>
     <element name="filters" type="this:FiltersType" substitutionGroup="common:data"/>
     <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
-    <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>
-    <element name="rmic" type="this:RMICType" substitutionGroup="common:data"/>
+    <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>-->
+    <!--<element name="rmic" type="this:RMICType" substitutionGroup="common:data"/>-->
     
     <complexType name="LibraryType">
       <all>
@@ -78,7 +78,8 @@
       <complexContent>
         <extension base="this:ResourceType">
           <sequence>
-            <element name="data" type="this:DataType" minOccurs="0"  maxOccurs="1"/>
+            <element name="filters" type="this:FiltersType" minOccurs="0"  maxOccurs="1"/>
+            <!--<element name="data" type="this:DataType" minOccurs="0"  maxOccurs="1"/>-->
           </sequence>
         </extension>
       </complexContent>
@@ -98,16 +99,24 @@
     </complexType>
     
     <complexType name="TypesType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="type" type="common:AbstractType"/>
+        <element name="data" type="anyType"/>
+      </choice>
+      <!--
       <sequence>
         <element ref="common:type" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
+      -->
     </complexType>
     
+    <!--
     <complexType name="DataType">
       <sequence>
         <element ref="common:data" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
     </complexType>
+    -->
     
     <complexType name="GenericType">
       <complexContent>
@@ -115,7 +124,7 @@
           <sequence>
              <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
           </sequence>
-          <attribute name="id" type="string" use="required"/>
+          <!--<attribute name="id" type="string" use="required"/>-->
         </extension>
       </complexContent>
     </complexType>
@@ -192,6 +201,7 @@
       </complexContent>
     </complexType>
     
+    <!--
     <complexType name="PatternCollectionType">
       <complexContent>
         <extension base="common:AbstractData">
@@ -202,7 +212,15 @@
         </extension>
       </complexContent>
     </complexType>
+    -->
     
+    <complexType name="PatternCollectionType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="include" type="this:IncludePatternType"/>
+        <element name="exclude" type="this:ExcludePatternType"/>
+      </choice>
+    </complexType>
+
     <complexType name="IncludePatternType">
       <simpleContent>
         <extension base="string">
@@ -219,7 +237,7 @@
       </simpleContent>
     </complexType>
 
-
+    <!--
     <complexType name="FiltersType">
       <complexContent>
         <extension base="common:AbstractData">
@@ -229,13 +247,17 @@
         </extension>
       </complexContent>
     </complexType>
-
+    -->
+    
+    <complexType name="FiltersType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="filter" type="this:Filter"/>
+        <element name="feature" type="this:Feature"/>
+      </choice>
+    </complexType>
+    
     <complexType name="AbstractFilter" abstract="true">
-      <complexContent>
-        <restriction base="xsd:anyType">
-          <attribute name="token" type="string" use="required"/>
-        </restriction>
-      </complexContent>
+      <attribute name="token" type="string" use="required"/>
     </complexType>
 
     <complexType name="Filter">

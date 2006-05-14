@@ -1,9 +1,12 @@
 <?xml version="1.0"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:common="artifact:xsd:dpml/lang/dpml-common#1.0"
     xmlns:this="@PROJECT-XSD-URI@"
     targetNamespace="@PROJECT-XSD-URI@"
     elementFormDefault="qualified">
+    
+    <import namespace="artifact:xsd:dpml/lang/dpml-common#1.0" schemaLocation="artifact:xsd:dpml/lang/dpml-common#1.0"/>
     
     <element name="configuration" type="this:ConfigurationType"/>
     <element name="process" type="this:ProcessType"/>
@@ -68,8 +71,6 @@
       <attribute name="implicit" type="boolean" default="false"/>
       <attribute name="produces" type="string" use="optional"/>
     </complexType>
-
-    <complexType name="ParametersType" abstract="true"/>
     
     <complexType name="DependenciesType">
       <sequence>
@@ -132,7 +133,7 @@
       </restriction>
     </simpleType>
     
-    <complexType name="SelectionParameters">
+    <complexType name="SelectionParameters" abstract="true">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element name="include" type="this:SelectorType"/>
         <element name="exclude" type="this:SelectorType"/>
@@ -141,19 +142,23 @@
       <attribute name="defaultExcludes" type="string"/>
     </complexType>
     
-    <complexType name="SelectiveProcess">
+    <!-- specialized production types -->
+
+    <complexType name="rmic">
       <complexContent>
-        <extension base="this:ProcessType">
-          <sequence>
-            <element name="selection" type="this:SelectionParameters" minOccurs="0" maxOccurs="1"/>
-          </sequence>
+        <extension base="this:SelectionParameters"/>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="junit">
+      <complexContent>
+        <extension base="this:SelectionParameters">
+          <attribute name="fork" type="boolean" use="optional" default="false"/>
         </extension>
       </complexContent>
     </complexType>
     
-    <!-- specialized production types -->
-    
-    <complexType name="JarParameters">
+    <complexType name="jar">
       <complexContent>
         <extension base="this:SelectionParameters">
           <attribute name="compress" type="boolean" use="optional" default="true"/>

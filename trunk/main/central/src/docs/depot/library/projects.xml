@@ -77,8 +77,10 @@
              <td><a href="types.html">types</a></td>
              <td>0..1</td>
              <td>A collection of <a href="types.html">types</a> associated with the project
-               (e.g. a jar file or a plugin definition).  The types declared by a project
-               can be viewed as the artifact produced by the project as a result of a build.</td>
+               (e.g. a jar file, plugin, war, etc.).  Each type declaration asserted by a project
+               can be viewed as an artifact produced by the project as a result of a build. When 
+               a project declares a type, features of that type (such as the filename) may be 
+               accessed by build procedures associated to this or other projects).</td>
            </tr>
            <tr>
              <td><a href="dependencies.html">dependencies</a></td>
@@ -99,6 +101,12 @@
                 string tokens in source code with values resolved from the project
                 model (or other project/resources).</td>
            </tr>
+           <tr>
+             <td><a href="data/index.html">filters</a></td>
+             <td>0..1</td>
+             <td>Declaration of process data.  Process data entries may be used to 
+                 trigger supplimentary or custom build processes.</td>
+           </tr>
          </table>
 
       </subsection>
@@ -111,13 +119,13 @@
       The following example project is taken from the DPML Metro module. The project
       declares a basedir and the project name <tt>dpml-metro-runtime</tt>.  It declares
       that it produces two artifacts - a jar file and a plugin part definition.  The part type
-      is an example of a plugin declaration concaining nexted constructor arguments.
+      is an example of a plugin declaration containing nexted constructor arguments.
       The project includes several dependencies collected under two groups - the 
       first group maps to the projects <tt>RUNTIME</tt> dependencies and second group maps
       to <tt>TEST</tt> scoped dependencies.  Within the runtime group the dependencies 
       in this example are tagged with respect to classloader categories <tt>PUBLIC</tt>, 
       <tt>PROTECTED</tt> or <tt>PRIVATE</tt> (the default). Runtime dependency tags are 
-      used extensively in the creation of plugin metadata. 
+      typically used in the creation of a classloader chains.
       </p>
 
 <source><![CDATA[

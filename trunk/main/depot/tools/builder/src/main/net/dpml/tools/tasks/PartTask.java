@@ -194,6 +194,7 @@ public class PartTask extends GenericTask
             Info info = getInfo( resource );
             Classpath classpath = getClasspath( resource );
             Type type = resource.getType( TYPE );
+            
             Element element = type.getElement();
             PartDecoder decoder = PartDecoder.getInstance();
             return decoder.build( info, classpath, element );

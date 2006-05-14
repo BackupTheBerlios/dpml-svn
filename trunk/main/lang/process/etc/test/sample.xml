@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <configuration xmlns="@PROJECT-XSD-URI@"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:this="@PROJECT-XSD-URI@"> 
+    xmlns:this="@PROJECT-XSD-URI@" 
+    xmlns:part="@PART-XSD-URI@"> 
 
   <!-- client products -->
   
@@ -110,7 +111,7 @@
     <validators>
       <include id="junit"/>
     </validators>
-    <params xsi:type="this:JarParameters" index="true" compress="true">
+    <params xsi:type="this:jar" index="true" compress="true">
       <include name="**/*.*"/>
       <exclude name="**/package.html"/>
     </params>
@@ -126,7 +127,7 @@
       <input id="target.test.dir"/>
       <input id="target.classes.test.dir" policy="conditional"/>
     </consumes>
-    <params xsi:type="this:SelectionParameters"/>
+    <params xsi:type="this:junit"/>
   </process>
   
   <process name="rmic" class="net.dpml.tools.process.RMICProcess">
@@ -136,7 +137,7 @@
     <consumes>
       <input id="target.classes.main.dir" policy="conditional"/>
     </consumes>
-    <params xsi:type="this:SelectionParameters"/>
+    <params xsi:type="this:rmic"/>
   </process>
   
   <process name="part" class="net.dpml.tools.process.PartProcess"
@@ -145,5 +146,7 @@
       <input id="target.classes.main.dir"/>
     </consumes>
   </process>
+  <!--
+  -->
   
 </configuration>

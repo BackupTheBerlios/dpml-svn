@@ -12,14 +12,30 @@
     <module name="acme">
       <resource name="widget">
         <types>
-          <type id="foo">
+          <type id="foo" xsi:type="GenericType">
             <property name="pink" value="floyd"/>
             <property name="alice" value="cooper"/>
           </type>
-          <part:plugin class="Widget"/>
+          <type xsi:type="part:plugin" class="Widget"/>
         </types>
       </resource>
     </module>
   </modules>
+  
+  <!--
+  
+  <project name="acme" basedir=".">
+  
+    <production>
+      <type id="jar"/>
+      <type id="part" xsi:type="part:plugin" class="Widget"/>
+      <data xsi:type="depot:rmic">
+        <include name="**/RemoteWidget.class"/>
+      </data>
+    </production>
+    
+  </project>
+  
+  -->
 
 </library>

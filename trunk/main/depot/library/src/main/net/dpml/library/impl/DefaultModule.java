@@ -410,12 +410,11 @@ public final class DefaultModule extends DefaultResource implements Module
         InfoDirective info = m_directive.getInfoDirective();
         TypeDirective[] types = m_directive.getTypeDirectives();
         TypeDirective[] exportedTypes = createExportedTypes( types );
-        //Properties properties = module.getExportProperties();  // <-- why the module?
         Properties properties = getExportProperties();
         return new ModuleDirective( 
           name, version, Classifier.EXTERNAL, basedir,
           info, exportedTypes, new DependencyDirective[0], 
-          directives, properties, null );
+          directives, properties, null, null );
     }
     
     //----------------------------------------------------------------------------
