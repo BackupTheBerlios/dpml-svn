@@ -89,7 +89,6 @@ public class ResourceDirective extends AbstractDirective
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
     * @param filters project filters
-    * @param data supporting production data
     * @return the immediate enclosing resource
     */
     public static ResourceDirective createResourceDirective( 

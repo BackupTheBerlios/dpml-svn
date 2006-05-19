@@ -101,7 +101,7 @@ public class RMICTask extends GenericTask
     
    /**
     * Set the excludes.
-    * @param includes the include paths
+    * @param excludes the excluded paths
     */
     public void setExcludes( String[] excludes )
     {

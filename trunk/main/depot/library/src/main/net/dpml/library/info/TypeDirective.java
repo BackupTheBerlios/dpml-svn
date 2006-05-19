@@ -75,9 +75,9 @@ public class TypeDirective extends DataDirective implements Type
     
    /**
     * Creation of a new generic type directive.
-    * @param element DOM element defining the type 
     * @param name the name
     * @param alias alias production policy
+    * @param properties supplimentary properties 
     */
     public TypeDirective( String name, boolean alias, Properties properties )
     {
