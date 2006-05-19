@@ -135,7 +135,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         
         // setup produced types
         
-        m_types = buildTypes( directive.getTypeDirectives() );
+        //m_types = buildTypes( directive.getTypeDirectives() );
+        m_types = directive.getTypeDirectives();
         m_typeNames = new String[ m_types.length ];
         for( int i=0; i<m_types.length; i++ )
         {
@@ -207,16 +208,16 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
     }
     
-    private Type[] buildTypes( TypeDirective[] directives )
-    {
-        Type[] types = new Type[ directives.length ];
-        for( int i=0; i<directives.length; i++ )
-        {
-            TypeDirective directive = directives[i];
-            types[i] = new DefaultType( this, directive );
-        }
-        return types;
-    }
+    //private Type[] buildTypes( TypeDirective[] directives )
+    //{
+    //    Type[] types = new Type[ directives.length ];
+    //    for( int i=0; i<directives.length; i++ )
+    //    {
+    //        TypeDirective directive = directives[i];
+    //        types[i] = new DefaultType( this, directive );
+    //    }
+    //    return types;
+    //}
     
     //----------------------------------------------------------------------------
     // Resource

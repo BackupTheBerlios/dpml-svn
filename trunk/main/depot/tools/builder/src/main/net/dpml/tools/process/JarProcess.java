@@ -21,19 +21,25 @@ package net.dpml.tools.process;
 import java.io.File;
 
 import net.dpml.library.Resource;
+import net.dpml.library.Type;
 import net.dpml.library.info.Scope;
-//import net.dpml.library.info.RMICDirective;
+import net.dpml.library.info.TypeDirective;
+import net.dpml.library.info.JarTypeDirective;
 
 import net.dpml.tools.model.Context;
 
 import net.dpml.tools.tasks.JavacTask;
 import net.dpml.tools.tasks.JarTask;
 import net.dpml.tools.tasks.JUnitTestTask;
-//import net.dpml.tools.tasks.RMICTask;
+import net.dpml.tools.tasks.RMICTask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.TypeInfo;
+
 
 /**
  * Processor supporting ujava class compilation, jar creation, 
@@ -58,15 +64,20 @@ public class JarProcess extends AbstractProcessor
         task.init();
         task.execute();
         
-        //Resource resource = context.getResource();
-        //RMICDirective rmic = (RMICDirective) resource.getDataDirective( RMICDirective.KEY );
-        //if( null != rmic )
-        //{
-        //    RMICTask rmicTask = new RMICTask( context, rmic );
-        //    rmicTask.setProject( project );
-        //    rmicTask.init();
-        //    rmicTask.execute();
-        //}
+        Resource resource = context.getResource();
+        Type type = resource.getType( "jar" );
+        if( type instanceof JarTypeDirective )
+        {
+            JarTypeDirective directive = (JarTypeDirective) type;
+            String[] includes = directive.getRMICIncludes();
+            String[] excludes = directive.getRMICExcludes();
+              RMICTask rmicTask = new RMICTask( context );
+              rmicTask.setProject( project );
+              rmicTask.setIncludes( includes );
+              rmicTask.setExcludes( excludes );
+              rmicTask.init();
+              rmicTask.execute();
+        }
     }
     
    /**

@@ -70,13 +70,14 @@
       <property name="project.test.fork" value="true"/>
     </properties>
     <types>
-      <type id="jar"/>
+      <type id="jar" xsi:type="jar">
+        <rmic>
+          <include name="**/RemoteApplicationRegistry.class"/>
+          <include name="**/RemoteApplication.class"/>
+          <include name="**/RemoteStation.class"/>
+        </rmic>
+      </type>
       <type xsi:type="part:plugin" class="net.dpml.station.server.StationServerPlugin" alias="true"/>
-      <data xsi:type="RMICType">
-        <include name="**/RemoteApplicationRegistry.class"/>
-        <include name="**/RemoteApplication.class"/>
-        <include name="**/RemoteStation.class"/>
-      </data>
     </types>
     <dependencies>
       <runtime>
@@ -99,7 +100,7 @@
   <project name="dpml-station-console" basedir="console">
     <types>
       <type id="jar"/>
-      <data xsi:type="part:plugin" alias="true" class="net.dpml.station.console.StationPlugin"/>
+      <type xsi:type="part:plugin" alias="true" class="net.dpml.station.console.StationPlugin"/>
     </types>
     <dependencies>
       <runtime>

@@ -20,6 +20,8 @@ package net.dpml.library.info;
 
 import java.util.Properties;
 
+import net.dpml.library.Type;
+
 import net.dpml.lang.AbstractDirective;
 
 import org.w3c.dom.Element;
@@ -30,7 +32,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class TypeDirective extends DataDirective
+public class TypeDirective extends DataDirective implements Type
 {
     private final String m_name;
     private final boolean m_alias;

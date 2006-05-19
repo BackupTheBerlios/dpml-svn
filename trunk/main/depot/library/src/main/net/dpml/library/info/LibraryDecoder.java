@@ -318,28 +318,6 @@ public final class LibraryDecoder extends LibraryConstants
         {
             return buildResourceDirective( base, element, offset );
         }
-        /*
-        else if( RESOURCE_ELEMENT_NAME.equals( elementName ) )
-        {
-            return buildResourceDirective( base, element, offset );
-        }
-        else if( PROJECT_ELEMENT_NAME.equals( elementName ) )
-        {
-            return buildResourceDirective( base, element, offset );
-        }
-        else if( MODULE_ELEMENT_NAME.equals( elementName ) )
-        {
-            return buildResourceDirective( base, element, offset );
-        }
-        else
-        {
-            final String error =
-              "Element ["
-              + elementName 
-              + "] is not a module.";
-            throw new DecodingException( element, error );
-        }
-        */
     }
     
     private String getRelativePath( File base, File dir ) throws IOException
@@ -906,6 +884,11 @@ public final class LibraryDecoder extends LibraryConstants
                 final Properties properties = getProperties( element );
                 return new TypeDirective( id, alias, properties );
             }
+            else if( "jar".equals( typeName ) )
+            {
+                final boolean alias = getAliasFlag( element );
+                return new JarTypeDirective( element, alias );
+            }
             else if( "RMICType".equals( typeName ) )
             {
                 return new DataDirective( element );
@@ -935,7 +918,7 @@ public final class LibraryDecoder extends LibraryConstants
         else
         {
             final String error = 
-              "Unsupported element type encountered during directive production."
+              "Unsupported element encountered during type directive production."
               + "\nNamespace: " 
               + namespace
               + "\nType: " 

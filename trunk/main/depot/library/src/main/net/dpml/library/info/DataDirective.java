@@ -18,6 +18,8 @@
 
 package net.dpml.library.info;
 
+import net.dpml.library.Data;
+
 import java.util.Properties;
 
 import org.w3c.dom.Element;
@@ -28,7 +30,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DataDirective extends AbstractDirective
+public class DataDirective extends AbstractDirective implements Data
 {
     private final Element m_element;
     
