@@ -5,7 +5,7 @@
 
   <module file="http/module.xml"/>
 
-  <project name="dpml-process" basedir="process">
+  <project name="dpml-process-info" basedir="process/info">
     <types>
       <type id="xsd"/>
     </types>
