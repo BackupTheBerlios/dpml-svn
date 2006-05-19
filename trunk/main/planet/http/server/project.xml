@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="dpml-http-server" basedir="." xmlns="artifact:xsd:dpml/lang/dpml-module#1.0">
+<project name="dpml-http-server" basedir="." 
+  xmlns="artifact:xsd:dpml/lang/dpml-module#1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:metro="artifact:xsd:dpml/lang/dpml-component#1.0">
 
   <types>
-    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" 
+    <type xsi:type="metro:component"
         type="net.dpml.http.Server" 
+        id="part"
         alias="true">
-      <parts>
+      <parts xmlns="artifact:xsd:dpml/lang/dpml-component#1.0">
         <!-- 
         Add a select channel connector to 8080.
         -->
@@ -83,7 +87,7 @@
           </context>
         </component>
       </parts>
-    </component>
+    </type>
   </types>
 
   <dependencies>

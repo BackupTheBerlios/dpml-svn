@@ -11,7 +11,7 @@
   <project name="dpml-transit-console" basedir="console">
     <types>
       <type id="jar"/>
-      <part:plugin class="net.dpml.transit.console.TransitConsoleHandler" alias="true"/>
+      <data xsi:type="part:plugin" class="net.dpml.transit.console.TransitConsoleHandler" alias="true"/>
     </types>
     <dependencies>
       <runtime>

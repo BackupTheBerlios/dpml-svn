@@ -13,6 +13,9 @@
   <project name="dpml-state-impl" basedir="state/impl">
     <types>
       <type id="jar"/>
+      <data xsi:type="RMICType">
+        <include name="**/DefaultStateListener.class"/>
+      </data>
     </types>
     <dependencies>
       <runtime>
@@ -26,11 +29,6 @@
     <filters>
       <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
     </filters>
-    <data>
-      <rmic>
-        <include name="**/DefaultStateListener.class"/>
-      </rmic>
-    </data>
   </project>
 
   <project name="dpml-job-api" basedir="job/api">
@@ -114,9 +112,18 @@
     </info>
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+      <data xsi:type="part:plugin" alias="true" class="net.dpml.metro.runtime.CompositionController">
         <part:param class="net.dpml.component.InitialContext"/>
-      </part:plugin>
+      </data>
+      <data xsi:type="RMICType">
+        <include name="**/DefaultComponentModel.class"/>
+        <include name="**/DefaultContextModel.class"/>
+        <include name="**/DefaultComponentHandler.class"/>
+        <include name="**/DefaultProvider.class"/>
+        <include name="**/DefaultComponentHandler.class"/>
+        <include name="**/CompositionHandler.class"/>
+        <include name="**/ValueHandler.class"/>
+      </data>
     </types>
     <dependencies>
       <runtime>
@@ -137,17 +144,6 @@
       <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
       <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
     </filters>
-    <data>
-      <rmic>
-        <include name="**/DefaultComponentModel.class"/>
-        <include name="**/DefaultContextModel.class"/>
-        <include name="**/DefaultComponentHandler.class"/>
-        <include name="**/DefaultProvider.class"/>
-        <include name="**/DefaultComponentHandler.class"/>
-        <include name="**/CompositionHandler.class"/>
-        <include name="**/ValueHandler.class"/>
-      </rmic>
-    </data>
   </project>
   
   <project name="dpml-metro-tools" basedir="tools">
@@ -159,7 +155,7 @@
     </info>
     <types>
       <type id="jar"/>
-      <part:resource alias="true" urn="dpml:metro"
+      <data xsi:type="part:resource" alias="true" urn="dpml:metro"
         path="net/dpml/metro/tools/antlib.xml"/>
     </types>
     <dependencies>
@@ -184,6 +180,9 @@
     </properties>
     <types>
       <type id="jar"/>
+      <data xsi:type="RMICType">
+        <include name="**/ManagedComponent#DefaultMonitor.class"/>
+      </data>
     </types>
     <dependencies>
       <runtime>
@@ -194,11 +193,6 @@
         <include key="dpml-metro-tools"/>
       </test>
     </dependencies>
-    <data>
-      <rmic>
-        <include name="**/ManagedComponent#DefaultMonitor.class"/>
-      </rmic>
-    </data>
   </project>
   
 </module>

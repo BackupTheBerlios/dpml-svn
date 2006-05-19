@@ -76,7 +76,7 @@
   <resource name="dpml-tools-builder" basedir="tools/builder">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
+      <data xsi:type="part:plugin" alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
     </types>
     <dependencies>
       <runtime>
@@ -93,7 +93,7 @@
   <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
     <types>
       <type id="jar"/>
-      <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
+      <data xsi:type="part:resource" alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
     </types>
     <dependencies>
       <runtime>
@@ -114,7 +114,7 @@
   <project name="dpml-depot-convert" basedir="tools/convert">
     <types>
       <type id="jar"/>
-      <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
+      <data xsi:type="part:resource" alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
     </types>
     <dependencies>
       <runtime>

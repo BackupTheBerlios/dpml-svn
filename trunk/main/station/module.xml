@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module name="station"
     xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
 
   <project name="dpml-station-api" basedir="api">
@@ -27,7 +28,7 @@
   <project name="dpml-station-exec" basedir="exec">
     <types>
       <type id="jar"/>
-      <part:plugin class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
+      <type xsi:type="part:plugin" class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
     </types>
     <dependencies>
       <build>
@@ -70,7 +71,12 @@
     </properties>
     <types>
       <type id="jar"/>
-      <part:plugin class="net.dpml.station.server.StationServerPlugin" alias="true"/>
+      <type xsi:type="part:plugin" class="net.dpml.station.server.StationServerPlugin" alias="true"/>
+      <data xsi:type="RMICType">
+        <include name="**/RemoteApplicationRegistry.class"/>
+        <include name="**/RemoteApplication.class"/>
+        <include name="**/RemoteStation.class"/>
+      </data>
     </types>
     <dependencies>
       <runtime>
@@ -88,19 +94,12 @@
     <filters>
       <feature token="APPLICATION-XSD-URI" ref="dpml/lang/dpml-application" type="xsd" id="uri"/>
     </filters>
-    <data>
-      <rmic>
-        <include name="**/RemoteApplicationRegistry.class"/>
-        <include name="**/RemoteApplication.class"/>
-        <include name="**/RemoteStation.class"/>
-      </rmic>
-    </data>
   </project>
 
   <project name="dpml-station-console" basedir="console">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.station.console.StationPlugin"/>
+      <data xsi:type="part:plugin" alias="true" class="net.dpml.station.console.StationPlugin"/>
     </types>
     <dependencies>
       <runtime>
