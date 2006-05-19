@@ -65,18 +65,21 @@ public class JarProcess extends AbstractProcessor
         task.execute();
         
         Resource resource = context.getResource();
-        Type type = resource.getType( "jar" );
-        if( type instanceof JarTypeDirective )
+        if( resource.isa( "jar" ) )
         {
-            JarTypeDirective directive = (JarTypeDirective) type;
-            String[] includes = directive.getRMICIncludes();
-            String[] excludes = directive.getRMICExcludes();
-              RMICTask rmicTask = new RMICTask( context );
-              rmicTask.setProject( project );
-              rmicTask.setIncludes( includes );
-              rmicTask.setExcludes( excludes );
-              rmicTask.init();
-              rmicTask.execute();
+            Type type = resource.getType( "jar" );
+            if( type instanceof JarTypeDirective )
+            {
+                JarTypeDirective directive = (JarTypeDirective) type;
+                String[] includes = directive.getRMICIncludes();
+                String[] excludes = directive.getRMICExcludes();
+                  RMICTask rmicTask = new RMICTask( context );
+                  rmicTask.setProject( project );
+                  rmicTask.setIncludes( includes );
+                  rmicTask.setExcludes( excludes );
+                  rmicTask.init();
+                  rmicTask.execute();
+            }
         }
     }
     

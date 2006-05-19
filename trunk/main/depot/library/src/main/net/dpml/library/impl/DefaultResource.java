@@ -385,7 +385,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
           + "] not recognized with the scope of resource ["
           + getResourcePath()
           + "].";
-        throw new InvalidTypeNameException( error );
+        throw new IllegalArgumentException( error );
     }
     
    /**
