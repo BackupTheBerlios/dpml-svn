@@ -35,6 +35,15 @@ public abstract class AbstractDirective implements Serializable
     * Creation of a new abstract directive.
     * @param properties the properties associated with the directive
     */
+    public AbstractDirective()
+    {
+        this( null );
+    }
+    
+   /**
+    * Creation of a new abstract directive.
+    * @param properties the properties associated with the directive
+    */
     public AbstractDirective( Properties properties )
     {
         if( null == properties )

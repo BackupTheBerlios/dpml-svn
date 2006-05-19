@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -588,8 +589,8 @@ public final class LibraryDecoder extends LibraryConstants
               buildInfoDirective( 
                 ElementHelper.getChild( element, "info" ) );
             
-            final TypeDirective[] types = 
-              buildTypes( 
+            final DataDirective[] data = 
+              buildDataTypes( 
                 ElementHelper.getChild( element, "types" ) );
             
             final DependencyDirective[] dependencies = 
@@ -599,10 +600,6 @@ public final class LibraryDecoder extends LibraryConstants
             final FilterDirective[] filters = 
               buildFilterDirectives( 
                 ElementHelper.getChild( element, "filters" ) );
-            
-            final DataDirective[] data = 
-              buildDataDirectives( 
-                ElementHelper.getChild( element, "data" ) );
             
             final Properties properties = 
               buildProperties( 
@@ -630,14 +627,14 @@ public final class LibraryDecoder extends LibraryConstants
                 ResourceDirective[] resources = 
                   (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
                 return ModuleDirective.createModuleDirective( 
-                  name, version, classifier, basedir, info, types, dependencies, 
-                  properties, filters, data, resources );
+                  name, version, classifier, basedir, info, data, dependencies, 
+                  properties, filters, resources );
             }
             else
             {
                 return ResourceDirective.createResourceDirective( 
-                  name, version, classifier, basedir, info, types, dependencies, 
-                  properties, filters, data );
+                  name, version, classifier, basedir, info, data, dependencies, 
+                  properties, filters );
             }
         }
         else
@@ -694,6 +691,7 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
+    /*
     private DataDirective[] buildDataDirectives( Element element ) throws Exception
     {
         Element[] children = ElementHelper.getChildren( element );
@@ -739,7 +737,7 @@ public final class LibraryDecoder extends LibraryConstants
         }
         else
         {
-            return new GenericDataDirective( element );
+            return new DataDirective( element );
         }
     }
     
@@ -769,6 +767,7 @@ public final class LibraryDecoder extends LibraryConstants
         }
         return patterns;
     }
+    */
     
     private FilterDirective[] buildFilterDirectives( Element element ) throws Exception
     {
@@ -854,23 +853,23 @@ public final class LibraryDecoder extends LibraryConstants
     }
     */
     
-    private TypeDirective[] buildTypes( Element element ) throws Exception
+    private DataDirective[] buildDataTypes( Element element ) throws Exception
     {
         if( null == element )
         {
-            return new TypeDirective[0];
+            return new DataDirective[0];
         }
         Element[] children = ElementHelper.getChildren( element );
-        TypeDirective[] types = new TypeDirective[ children.length ];
+        DataDirective[] data = new DataDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            types[i] = buildType( child );
+            data[i] = buildDataType( child );
         }
-        return types;
+        return data;
     }
 
-    private TypeDirective buildType( Element element ) throws Exception
+    private DataDirective buildDataType( Element element ) throws Exception
     {
         TypeInfo info = element.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
@@ -909,13 +908,7 @@ public final class LibraryDecoder extends LibraryConstants
             }
             else if( "RMICType".equals( typeName ) )
             {
-                final String error = 
-                  "RMIC element support is not implemented."
-                  + "\nNamespace: " 
-                  + namespace
-                  + "\nType: " 
-                  + info.getTypeName();
-                throw new DecodingException( element, error );
+                return new DataDirective( element );
             }
             else
             {
@@ -931,18 +924,18 @@ public final class LibraryDecoder extends LibraryConstants
         else if( PART_XSD_URI.equals( namespace ) )
         {
             final boolean alias = getAliasFlag( element );
-            return new TypeDirective( "part", alias, element );
+            return new TypeDirective( element, "part", alias );
         }
         else if( info.isDerivedFrom( COMMON_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
         {
             final String id = getID( element );
             final boolean alias = getAliasFlag( element );
-            return new TypeDirective( id, alias, element );
+            return new TypeDirective( element, id, alias );
         }
         else
         {
             final String error = 
-              "Unsupported element type encountered in tpe directive production."
+              "Unsupported element type encountered during directive production."
               + "\nNamespace: " 
               + namespace
               + "\nType: " 

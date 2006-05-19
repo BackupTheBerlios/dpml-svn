@@ -129,6 +129,7 @@ public class ProcessXsdTestCase extends TestCase
     */
     public void testImplicitTargets() throws Exception
     {
+        System.out.println( "PROCESS DRIVEN" );
         Element[] implicits = getImplicitProcesses();
         for( int i=0; i<implicits.length; i++ )
         {
@@ -144,6 +145,7 @@ public class ProcessXsdTestCase extends TestCase
     */
     public void testExplicitProducts() throws Exception
     {
+        System.out.println( "PRODUCT DRIVEN" );
         Element jar = (Element) m_products.get( "target.deliverables.jar" );
         if( null == jar )
         {
@@ -166,6 +168,7 @@ public class ProcessXsdTestCase extends TestCase
     */
     public void testProcessTarget() throws Exception
     {
+        System.out.println( "PROCESS" );
         ArrayList list = new ArrayList();
         Element rmic = (Element) m_processes.get( "rmic" );
         Element jar = (Element) m_processes.get( "jar" );

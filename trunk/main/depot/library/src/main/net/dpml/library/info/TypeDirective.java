@@ -20,6 +20,8 @@ package net.dpml.library.info;
 
 import java.util.Properties;
 
+import net.dpml.lang.AbstractDirective;
+
 import org.w3c.dom.Element;
 
 /**
@@ -28,11 +30,10 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class TypeDirective extends AbstractDirective
+public class TypeDirective extends DataDirective
 {
     private final String m_name;
     private final boolean m_alias;
-    private final Element m_element;
     
    /**
     * Creation of a new type directive.
@@ -50,14 +51,31 @@ public final class TypeDirective extends AbstractDirective
     */
     public TypeDirective( String name, boolean alias )
     {
-        this( name, alias, (Properties) null );
+        this( (Element) null, name, alias );
     }
     
    /**
     * Creation of a new type directive.
+    * @param element DOM element defining the type 
     * @param name the name
     * @param alias alias production policy
-    * @param properties supplimentary properties
+    */
+    public TypeDirective( Element element, String name, boolean alias )
+    {
+        super( element );
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        m_name = name;
+        m_alias = alias;
+    }
+    
+   /**
+    * Creation of a new generic type directive.
+    * @param element DOM element defining the type 
+    * @param name the name
+    * @param alias alias production policy
     */
     public TypeDirective( String name, boolean alias, Properties properties )
     {
@@ -68,25 +86,6 @@ public final class TypeDirective extends AbstractDirective
         }
         m_name = name;
         m_alias = alias;
-        m_element = null;
-    }
-    
-   /**
-    * Creation of a new type directive.
-    * @param name the name
-    * @param alias alias production policy
-    * @param element DOM element defining the type 
-    */
-    public TypeDirective( String name, boolean alias, Element element )
-    {
-        super( null );
-        if( null == name )
-        {
-            throw new NullPointerException( "name" );
-        }
-        m_name = name;
-        m_alias = alias;
-        m_element = element;
     }
     
    /**
@@ -105,15 +104,6 @@ public final class TypeDirective extends AbstractDirective
     public boolean getAlias()
     {
         return m_alias;
-    }
-    
-   /**
-    * Return the underlying custom element.
-    * @return the DOM element
-    */
-    public Element getElement()
-    {
-        return m_element;
     }
     
    /**

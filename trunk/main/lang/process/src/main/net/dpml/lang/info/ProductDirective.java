@@ -25,17 +25,17 @@ import java.util.Properties;
 import net.dpml.lang.AbstractDirective;
 
 /**
- * The AbstractProductDirective class describes a product instance such as a file or directory.
+ * The ProductDirective class describes a product instance such as a file or directory.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class AbstractProductDirective extends AbstractDirective
+public abstract class ProductDirective extends AbstractDirective
 {
     private final String m_name;
     private final InfoDirective m_info;
     
-    public AbstractProductDirective( final String name, final InfoDirective info )
+    public ProductDirective( final String name, final InfoDirective info )
     {
         if( null == name )
         {
@@ -83,9 +83,9 @@ public abstract class AbstractProductDirective extends AbstractDirective
     */
     public boolean equals( Object other )
     {
-        if( super.equals( other ) && ( other instanceof AbstractProductDirective ) )
+        if( super.equals( other ) && ( other instanceof ProductDirective ) )
         {
-            AbstractProductDirective object = (AbstractProductDirective) other;
+            ProductDirective object = (ProductDirective) other;
             if( !m_name.equals( object.m_name ) )
             {
                 return false;

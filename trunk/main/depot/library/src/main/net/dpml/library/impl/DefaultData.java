@@ -16,51 +16,43 @@
  * limitations under the License.
  */
 
-package net.dpml.library.info;
+package net.dpml.library.impl;
 
-import net.dpml.lang.AbstractDirective;
+import net.dpml.library.info.DataDirective;
+import net.dpml.library.Data;
 
 import org.w3c.dom.Element;
 
 /**
- * Generic data directives.
+ * Internal exception throw to indicate a bad name reference.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class GenericDataDirective extends DataDirective
+public class DefaultData extends DefaultDictionary implements Data
 {
-    private final Element m_element;
+    private final DefaultResource m_resource;
+    private final DataDirective m_directive;
     
    /**
-    * Creation of a new generic data directive.
-    * @param element the definining element
+    * Creation of a new DefaultData.
+    * @param resource the enclosing resource
+    * @param directive the type production directive
     */
-    public GenericDataDirective( Element element )
+    DefaultData( DefaultResource resource, DataDirective directive )
     {
-        super( getElementID( element ) );
+        super( resource, directive );
         
-        m_element = element;
+        m_resource = resource;
+        m_directive = directive;
     }
-    
+
    /**
-    * Return the element defining this datatype.
+    * Get the DOM element defining the produced datatype.
     * @return the DOM element
     */
     public Element getElement()
     {
-        return m_element;
-    }
-    
-    private static String getElementID( Element element )
-    {
-        if( null == element )
-        {
-            throw new NullPointerException( "element" );
-        }
-        else
-        {
-            return element.getTagName();
-        }
+        return m_directive.getElement();
     }
 }

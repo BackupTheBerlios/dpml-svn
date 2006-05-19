@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultType extends DefaultDictionary implements Type
+public class DefaultType extends DefaultData implements Type
 {
     private final DefaultResource m_resource;
     private final TypeDirective m_directive;
@@ -65,12 +65,4 @@ public class DefaultType extends DefaultDictionary implements Type
         return m_directive.getAlias();
     }
     
-   /**
-    * Get the DOM element defining the produced datatype.
-    * @return the DOM element
-    */
-    public Element getElement()
-    {
-        return m_directive.getElement();
-    }
 }

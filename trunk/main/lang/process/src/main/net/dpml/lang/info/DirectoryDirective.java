@@ -24,7 +24,7 @@ package net.dpml.lang.info;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DirectoryDirective extends AbstractProductDirective
+public class DirectoryDirective extends ProductDirective
 {
     private final String m_path;
     

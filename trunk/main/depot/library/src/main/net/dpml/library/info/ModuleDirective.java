@@ -41,19 +41,17 @@ public final class ModuleDirective extends ResourceDirective
     * @param classifier LOCAL or EXTERNAL classifier
     * @param basedir the project basedir
     * @param info info descriptor
-    * @param types types produced by the resource
+    * @param data datatypes produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
-    * @param data production data
     * @param resources subsidary resources
     * @return the immediate enclosing resource
     */
     public static ModuleDirective createModuleDirective( 
       String name, String version, Classifier classifier, String basedir, 
-      InfoDirective info, TypeDirective[] types, 
+      InfoDirective info, DataDirective[] data, 
       DependencyDirective[] dependencies, Properties properties, 
-      FilterDirective[] filters, DataDirective[] data, 
-      ResourceDirective[] resources )
+      FilterDirective[] filters, ResourceDirective[] resources )
     {
         int n = name.indexOf( "/" );
         if( n > -1 )
@@ -67,16 +65,16 @@ public final class ModuleDirective extends ResourceDirective
                 {
                     enclosing =  
                       new ModuleDirective(
-                        elem, version, classifier, basedir, info, types, dependencies,
-                        resources, properties, filters, data );
+                        elem, version, classifier, basedir, info, data, dependencies,
+                        resources, properties, filters );
                 }
                 else
                 {
                     enclosing = 
                       new ModuleDirective(
                         elem, null, Classifier.EXTERNAL, ".", null,
-                        new TypeDirective[0], new DependencyDirective[0],
-                        new ResourceDirective[]{enclosing}, null, null, null );
+                        new DataDirective[0], new DependencyDirective[0],
+                        new ResourceDirective[]{enclosing}, null, null );
                 }
             }
             return enclosing;
@@ -84,8 +82,8 @@ public final class ModuleDirective extends ResourceDirective
         else
         {
             return new ModuleDirective(
-              name, version, classifier, basedir, info, types, dependencies,
-              resources, properties, filters, data );
+              name, version, classifier, basedir, info, data, dependencies,
+              resources, properties, filters );
         }
     }
     
@@ -100,8 +98,8 @@ public final class ModuleDirective extends ResourceDirective
     {
         this(
           name, null, Classifier.ANONYMOUS, null, null,
-          new TypeDirective[0], new DependencyDirective[0],
-          new ResourceDirective[]{resource}, null, null, null );
+          new DataDirective[0], new DependencyDirective[0],
+          new ResourceDirective[]{resource}, null, null );
     }
     
    /**
@@ -111,19 +109,18 @@ public final class ModuleDirective extends ResourceDirective
     * @param classifier LOCAL or EXTERNAL classifier
     * @param basedir the project basedir
     * @param info info descriptor
-    * @param types types produced by the resource
+    * @param data datatypes produced by the resource
     * @param dependencies resource dependencies
     * @param resources resource included within the module
     * @param properties suppliementary properties
-    * @param data production data
     */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, 
-      InfoDirective info, TypeDirective[] types,
+      InfoDirective info, DataDirective[] data,
       DependencyDirective[] dependencies, ResourceDirective[] resources,
-      Properties properties, FilterDirective[] filters, DataDirective[] data )
+      Properties properties, FilterDirective[] filters )
     {
-        super( name, version, classifier, basedir, info, types, dependencies, properties, filters, data );
+        super( name, version, classifier, basedir, info, data, dependencies, properties, filters );
         
         if( null == resources )
         {

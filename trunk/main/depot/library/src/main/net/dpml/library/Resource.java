@@ -191,9 +191,8 @@ public interface Resource extends Dictionary
     String getLayoutPath( String id );
 
    /**
-    * Return a data directive matching the supplied key.
-    * @param key the datatype key
-    * @return the selected datatype or null of unknown
+    * Return the array of production data.
+    * @return the associated production data
     */
-    DataDirective getDataDirective( String key );
+    Data[] getData();
 }

@@ -30,17 +30,13 @@ import net.dpml.lang.AbstractDirective;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class InfoDirective extends AbstractDirective
+public class InfoDirective extends AbstractDirective
 {
     private final String m_title;
     private final String m_description;
     
     public InfoDirective( final String title, final String description )
     {
-        if( null == title )
-        {
-            throw new NullPointerException( "title" );
-        }
         m_title = title;
         m_description = description;
     }
@@ -73,7 +69,7 @@ public abstract class InfoDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof InfoDirective ) )
         {
             InfoDirective object = (InfoDirective) other;
-            if( !m_title.equals( object.m_title ) )
+            if( !equals( m_title, object.m_title ) )
             {
                 return false;
             }

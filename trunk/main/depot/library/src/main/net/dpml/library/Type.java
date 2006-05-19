@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Type
+public interface Type extends Data
 {
    /**
     * Return the type production id.
@@ -39,12 +39,5 @@ public interface Type
     * @return the alias flag
     */
     boolean getAlias();
-    
-   /**
-    * Return the type production datatype.
-    * @return the datatytpe
-    */
-    Element getElement();
-    
     
 }

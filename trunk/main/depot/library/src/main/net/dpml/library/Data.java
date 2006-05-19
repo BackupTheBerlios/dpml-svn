@@ -29,15 +29,9 @@ import org.w3c.dom.Element;
 public interface Data
 {
    /**
-    * Return the data type id.
-    * @return the datatype id
-    */
-    String getID();
-    
-   /**
-    * Return the datatype criteria.
-    * @return the criteria in the form of a DOM element.
+    * Return the production datatype.
+    * @return the DOM element
     */
     Element getElement();
-    
+
 }

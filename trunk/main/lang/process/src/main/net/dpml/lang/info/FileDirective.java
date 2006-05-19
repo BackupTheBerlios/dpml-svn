@@ -25,17 +25,19 @@ package net.dpml.lang.info;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class FileDirective extends AbstractProductDirective
+public class FileDirective extends ProductDirective
 {
     private final String m_type;
+    private final String m_base;
     
    /**
     * Creation of a new file directive. 
     * @param name the product identifier
     * @param info supplimentary product info
     * @param type the artifact type
+    * @param base id of the partent directory
     */
-    public FileDirective( final String name, final InfoDirective info, String type )
+    public FileDirective( final String name, final InfoDirective info, String type, String base )
     {
         super( name, info );
         
@@ -45,6 +47,7 @@ public class FileDirective extends AbstractProductDirective
         }
         
         m_type = type;
+        m_base = base;
     }
     
    /**
@@ -54,6 +57,15 @@ public class FileDirective extends AbstractProductDirective
     public String getType()
     {
         return m_type;
+    }
+    
+   /**
+    * Get the product base directory id.
+    * @return the product base directory identifier.
+    */
+    public String getBaseID()
+    {
+        return m_base;
     }
     
    /**

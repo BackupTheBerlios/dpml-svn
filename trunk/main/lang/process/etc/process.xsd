@@ -9,11 +9,14 @@
     <import namespace="artifact:xsd:dpml/lang/dpml-common#1.0" schemaLocation="artifact:xsd:dpml/lang/dpml-common#1.0"/>
     
     <element name="configuration" type="this:ConfigurationType"/>
+    
     <element name="process" type="this:ProcessType"/>
     <element name="product" type="this:ProductType"/>
     
     <element name="dir" type="this:DirectoryType" substitutionGroup="this:product"/>
     <element name="file" type="this:FileType" substitutionGroup="this:product"/>
+    <element name="collection" type="this:CollectionType" substitutionGroup="this:product"/>
+    <element name="workspace" type="this:WorkspaceType" substitutionGroup="this:product"/>
     
     <!-- top-level configuration definitions -->
     
@@ -24,22 +27,35 @@
       </choice>
     </complexType>
 
-    <!-- product definitions -->
+    <!-- abstract base -->
     
-    <complexType name="ProductType" abstract="true">
+    <complexType name="DescriptionType">
+      <simpleContent>
+        <extension base="string"/>
+      </simpleContent>
+    </complexType>
+    
+    <complexType name="InfoType">
       <sequence>
         <element name="description" type="this:DescriptionType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+    </complexType>
+    
+    <complexType name="BaseType" abstract="true">
+      <sequence>
+        <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
       </sequence>
       <attribute name="name" type="string" use="required"/>
     </complexType>
     
-    <complexType name="DescriptionType">
-      <simpleContent>
-        <extension base="string">
-          <attribute name="title" type="string"/>
-        </extension>
-      </simpleContent>
+    <complexType name="ProductType" abstract="true">
+      <complexContent>
+        <extension base="this:BaseType"/>
+      </complexContent>
     </complexType>
+    
+    <!-- product definitions -->
     
     <complexType name="DirectoryType">
       <complexContent>
@@ -49,27 +65,63 @@
       </complexContent>
     </complexType>
     
-    <complexType name="FileType">
+    <complexType name="WorkspaceType">
       <complexContent>
-        <extension base="this:ProductType">
-          <attribute name="type" type="string" use="required"/>
+        <extension base="this:DirectoryType">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element ref="this:product"/>
+          </choice>
         </extension>
       </complexContent>
     </complexType>
     
+    <complexType name="FileType">
+      <complexContent>
+        <extension base="this:ProductType">
+          <attribute name="type" type="string" use="required"/>
+          <attribute name="base" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="CollectionType">
+      <complexContent>
+        <extension base="this:ProductType">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="include" type="this:SelectorType"/>
+            <element name="exclude" type="this:SelectorType"/>
+          </choice>
+          <attribute name="defaultIncludes" type="string"/>
+          <attribute name="defaultExcludes" type="string"/>
+          <attribute name="criteria" type="this:criteria" default="any"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <simpleType name="criteria">
+      <restriction base="string">
+        <enumeration value="any"/>
+        <enumeration value="file"/>
+        <enumeration value="dir"/>
+      </restriction>
+    </simpleType>
+
     <!-- generic process definition -->
     
     <complexType name="ProcessType">
-      <sequence>
-        <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
-        <element name="consumes" type="this:ConsumesType" minOccurs="0" maxOccurs="1"/>
-        <element name="validators" type="this:ValidatorsType" minOccurs="0" maxOccurs="1"/>
-        <element name="params" type="anyType" minOccurs="0" maxOccurs="1"/>
-      </sequence>
-      <attribute name="name" type="string" use="required"/>
-      <attribute name="class" type="string" use="required"/>
-      <attribute name="implicit" type="boolean" default="false"/>
-      <attribute name="produces" type="string" use="optional"/>
+      <complexContent>
+        <extension base="this:BaseType">
+          <sequence>
+            <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
+            <element name="consumes" type="this:ConsumesType" minOccurs="0" maxOccurs="1"/>
+            <element name="validators" type="this:ValidatorsType" minOccurs="0" maxOccurs="1"/>
+            <element name="params" type="anyType" minOccurs="0" maxOccurs="1"/>
+          </sequence>
+          <attribute name="class" type="string" use="required"/>
+          <attribute name="implicit" type="boolean" default="false"/>
+          <attribute name="produces" type="string" use="optional"/>
+        </extension>
+      </complexContent>
     </complexType>
     
     <complexType name="DependenciesType">

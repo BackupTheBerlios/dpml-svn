@@ -18,7 +18,7 @@
 
 package net.dpml.library.info;
 
-import net.dpml.lang.AbstractDirective;
+import java.util.Properties;
 
 import org.w3c.dom.Element;
 
@@ -39,18 +39,25 @@ public class DataDirective extends AbstractDirective
     */
     public DataDirective( Element element )
     {
-        if( null == element )
-        {
-            throw new NullPointerException( "element" );
-        }
+        super();
         m_element = element;
+    }
+    
+   /**
+    * Creation of a new data directive using a supplied properties argument. 
+    * @param properties associated properties
+    */
+    public DataDirective( Properties properties )
+    {
+        super( properties );
+        m_element = null;
     }
     
    /**
     * Return the datatype element.
     * @return the DOM element
     */
-    public String getElement()
+    public Element getElement()
     {
         return m_element;
     }
@@ -65,7 +72,7 @@ public class DataDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof DataDirective ) )
         {
             DataDirective object = (DataDirective) other;
-            return m_element.equals( object.m_element );
+            return equals( m_element, object.m_element );
         }
         else
         {
@@ -80,7 +87,7 @@ public class DataDirective extends AbstractDirective
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= m_element.hashCode();
+        hash ^= hashValue( m_element );
         return hash;
     }
 }

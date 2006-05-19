@@ -39,6 +39,7 @@ import net.dpml.library.Library;
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
+import net.dpml.library.Data;
 import net.dpml.library.info.DataDirective;
 import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.TypeDirective;
@@ -49,7 +50,6 @@ import net.dpml.library.info.DependencyDirective;
 import net.dpml.library.info.AbstractDirective;
 import net.dpml.library.info.ValidationException;
 import net.dpml.library.info.FilterDirective;
-import net.dpml.library.info.FiltersDirective;
 import net.dpml.library.info.Scope;
 
 import net.dpml.util.Logger;
@@ -83,6 +83,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     private final String m_path;
     private final File m_basedir;
     private final Map m_filters = new Hashtable();
+    private final Data[] m_data;
     
    /**
     * Creation of a new default resource.
@@ -101,6 +102,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         m_typeNames = new String[0];
         m_path = "";
         m_basedir = null;
+        m_data = new Data[0];
     }
     
    /**
@@ -131,6 +133,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             m_path = module.getResourcePath() + "/" + directive.getName();
         }
         
+        // setup produced types
+        
         m_types = buildTypes( directive.getTypeDirectives() );
         m_typeNames = new String[ m_types.length ];
         for( int i=0; i<m_types.length; i++ )
@@ -138,6 +142,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             Type type = m_types[i];
             m_typeNames[i] = type.getID();
         }
+        
+        // setup production data
+        
+        m_data = new Data[0];
+        
+        // setup the resource basedir
         
         File anchor = getAnchor();
         String filename = m_directive.getBasedir();
@@ -213,13 +223,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     //----------------------------------------------------------------------------
     
    /**
-    * Return a data directive matching the supplied key.
-    * @param key the datatype key
-    * @return the selected datatype or null of unknown
+    * Return a data directives.
+    * @return the associated production data
     */
-    public DataDirective getDataDirective( final String key )
+    public Data[] getData()
     {
-        return m_directive.getDataDirective( key );
+        return m_data;
     }
 
    /**
@@ -626,7 +635,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         Properties properties = getExportProperties();
         return ResourceDirective.createResourceDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          info, exportedTypes, dependencies, properties, null, null );
+          info, exportedTypes, dependencies, properties, null );
     }
     
     TypeDirective[] createExportedTypes( TypeDirective[] types )

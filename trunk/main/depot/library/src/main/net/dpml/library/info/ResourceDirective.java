@@ -50,7 +50,7 @@ public class ResourceDirective extends AbstractDirective
     private final String m_name;
     private final String m_version;
     private final String m_basedir;
-    private final DataDirective[] m_types;
+    private final TypeDirective[] m_types;
     private final DataDirective[] m_data;
     private final DependencyDirective[] m_dependencies;
     private final Classifier m_classifier;
@@ -94,7 +94,7 @@ public class ResourceDirective extends AbstractDirective
     */
     public static ResourceDirective createResourceDirective( 
       String name, String version, Classifier classifier, String basedir, 
-      InfoDirective info, DataDirective[] types, 
+      InfoDirective info, DataDirective[] data, 
       DependencyDirective[] dependencies, Properties properties, 
       FilterDirective[] filters )
     {
@@ -110,7 +110,7 @@ public class ResourceDirective extends AbstractDirective
                 {
                     resource =  
                       new ResourceDirective(
-                        elem, version, classifier, basedir, info, types, dependencies,
+                        elem, version, classifier, basedir, info, data, dependencies,
                         properties, filters );
                 }
                 else
@@ -127,7 +127,7 @@ public class ResourceDirective extends AbstractDirective
         else
         {
             return new ResourceDirective(
-              name, version, classifier, basedir, info, types, 
+              name, version, classifier, basedir, info, data, 
               dependencies, properties, filters );
         }
     }
@@ -156,9 +156,9 @@ public class ResourceDirective extends AbstractDirective
         {
             throw new NullPointerException( "name" );
         }
-        if( null == types )
+        if( null == data )
         {
-            throw new NullPointerException( "types" );
+            throw new NullPointerException( "data" );
         }
         if( null == dependencies )
         {
@@ -195,16 +195,16 @@ public class ResourceDirective extends AbstractDirective
         }
         
         ArrayList list = new ArrayList();
-        for( int i=0; i<types.length; i++ )
+        for( int i=0; i<data.length; i++ )
         {
-            DataDrective directive = types[i];
+            DataDirective directive = data[i];
             if( directive instanceof TypeDirective )
             {
                 list.add( directive );
             }
         }
         m_types = (TypeDirective[]) list.toArray( new TypeDirective[0] );
-        m_data = types;
+        m_data = data;
     }
     
    /**
@@ -373,10 +373,6 @@ public class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
-            else if( !Arrays.equals( m_types, object.m_types ) )
-            {
-                return false;
-            }
             else if( !Arrays.equals( m_data, object.m_data ) )
             {
                 return false;
@@ -403,9 +399,9 @@ public class ResourceDirective extends AbstractDirective
         hash ^= super.hashValue( m_version );
         hash ^= super.hashValue( m_basedir );
         hash ^= super.hashValue( m_info );
-        hash ^= super.hashArray( m_types );
-        hash ^= super.hashArray( m_dependencies );
         hash ^= super.hashArray( m_data );
+        hash ^= super.hashArray( m_dependencies );
+        hash ^= super.hashArray( m_filters );
         return hash;
     }
 
