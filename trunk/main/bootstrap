@@ -105,13 +105,6 @@ transitTools()
     cd ../..
 }
 
-dpmlLangProcess()
-{
-    cd lang/process
-    build clean install
-    cd ../..
-}
-
 dpmlLibrary()
 {
     cd depot/library
@@ -166,7 +159,6 @@ dpmlType
 dpmlApplication
 transitMain
 transitTools
-dpmlLangProcess
 dpmlLibrary
 depotAntBuilder
 externalModules

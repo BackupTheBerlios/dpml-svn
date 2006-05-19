@@ -10,17 +10,6 @@
     </types>
   </resource>
    
-  <resource name="dpml-process" version="1.0">
-    <types>
-      <type id="xsd"/>
-    </types>
-    <dependencies>
-      <build>
-        <include ref="dpml/transit/dpml-transit-main"/>
-      </build>
-    </dependencies>
-  </resource>
-
   <resource name="dpml-part" version="1.0">
     <types>
       <type id="xsd"/>
@@ -68,7 +57,7 @@
     <dependencies>
       <build>
         <include key="dpml-common"/>
-        <include key="dpml-process"/>
+        <include key="dpml-part"/>
       </build>
     </dependencies>
   </resource>

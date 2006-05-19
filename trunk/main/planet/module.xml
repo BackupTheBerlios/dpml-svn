@@ -5,4 +5,20 @@
 
   <module file="http/module.xml"/>
 
+  <project name="dpml-process" basedir="process">
+    <types>
+      <type id="xsd"/>
+    </types>
+    <dependencies>
+      <build>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </build>
+    </dependencies>
+    <filters>
+      <feature token="PROJECT-XSD-URI" id="uri" type="xsd"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
+      <feature token="COMMON-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-common"/>
+    </filters>
+  </project>
+
 </module>
