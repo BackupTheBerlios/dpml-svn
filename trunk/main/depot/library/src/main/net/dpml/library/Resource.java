@@ -22,7 +22,6 @@ import java.io.File;
 
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.ResourceDirective.Classifier;
-import net.dpml.library.info.DataDirective;
 
 import net.dpml.transit.Artifact;
 import net.dpml.lang.Category;

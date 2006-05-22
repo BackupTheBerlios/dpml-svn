@@ -21,15 +21,8 @@ package net.dpml.http;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.http.ResourceContextHandler.Context;
-
-import net.dpml.util.ContextInvocationHandler;
-
-import net.dpml.logging.Logger;
-
 import org.mortbay.jetty.handler.ErrorHandler;
 import org.mortbay.jetty.handler.ContextHandler;
-import org.mortbay.jetty.MimeTypes;
 
 import junit.framework.TestCase;
 
@@ -40,7 +33,7 @@ public abstract class AbstractContextHandlerTestCase extends TestCase
 {
     private static final String[] VIRTUAL_HOSTS = new String[]{"virtual.acme.org", "virtual.secret.acme.org"};
     private static final String[] HOSTS = new String[]{"www.acme.org", "secret.acme.org"};
-    private static final String[] WELCOME_FILES = new String[]{"about.html","index.html","index.htm"};
+    private static final String[] WELCOME_FILES = new String[]{"about.html", "index.html", "index.htm"};
     private static final ClassLoader CLASSLOADER = AbstractContextHandlerTestCase.class.getClassLoader();
     private static final Map MIME_TYPES = new Hashtable();
     private static final String CONTEXT_PATH = "acme";
@@ -65,6 +58,10 @@ public abstract class AbstractContextHandlerTestCase extends TestCase
         return map;
     }
 
+   /**
+    * Return the test context handler.
+    * @return the context handler
+    */
     protected abstract ContextHandler getContextHandler();
 
    /**

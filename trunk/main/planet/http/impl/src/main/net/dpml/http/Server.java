@@ -26,10 +26,12 @@ import net.dpml.metro.ComponentHandler;
 import net.dpml.component.Provider;
 
 import org.mortbay.thread.ThreadPool;
-import org.mortbay.jetty.RequestLog;
-import org.mortbay.xml.XmlConfiguration;
-import org.mortbay.jetty.security.UserRealm;
 import org.mortbay.jetty.Connector;
+import org.mortbay.jetty.Handler;
+import org.mortbay.jetty.RequestLog;
+import org.mortbay.jetty.handler.HandlerCollection;
+import org.mortbay.jetty.security.UserRealm;
+import org.mortbay.xml.XmlConfiguration;
 
 /**
  * HTTP server implementation.
@@ -53,16 +55,6 @@ public class Server extends org.mortbay.jetty.Server
         * @return a uri referencing a Jetty configuration profile
         */
         URI getConfiguration( URI uri );
-        
-       /**
-        * Get the assigned request logger. If no request logger is 
-        * assigned by the deployment scenario a default request logger
-        * will be established.
-        *
-        * @param logger the default value
-        * @return the resolved request logger
-        */
-        RequestLog getRequestLog( RequestLog logger );
         
        /**
         * Get the assigned thread pool. If no thread pool is 
@@ -141,26 +133,12 @@ public class Server extends org.mortbay.jetty.Server
         }
         
         //
-        // setup the request log
-        //
-        
-        RequestLog log = context.getRequestLog( null );
-        if( null != log )
-        {
-            super.setRequestLog( log );
-        }
-        else
-        {
-            super.setRequestLog( parts.getRequestLog() );
-        }
-        
-        //
         // add connectors, realms and context handlers
         //
         
         addConnectors( parts );
         addUserRealms( parts );
-        addContextHandlers( parts );
+        addHandlers( parts );
         getLogger().debug( "server established" );
     }
     
@@ -190,11 +168,12 @@ public class Server extends org.mortbay.jetty.Server
         setConnectors( connectors );
     }
     
-    private void addContextHandlers( PartsManager parts ) throws Exception
+    private void addHandlers( PartsManager parts ) throws Exception
     {
-        getLogger().debug( "commencing context handler addition" );
-        ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.handler.ContextHandler.class );
+        getLogger().debug( "commencing handler addition" );
+        ComponentHandler[] handlers = parts.getComponentHandlers( Handler.class );
         getLogger().debug( "handler count: " + handlers.length );
+        HandlerCollection collection = new HandlerCollection();
         for( int i=0; i<handlers.length; i++ )
         {
             ComponentHandler handler = handlers[i];
@@ -202,24 +181,25 @@ public class Server extends org.mortbay.jetty.Server
             try
             {
                 Provider provider = handler.getProvider();
-                org.mortbay.jetty.handler.ContextHandler ch = 
-                  (org.mortbay.jetty.handler.ContextHandler) provider.getValue( false );
-                super.addHandler( ch );
+                org.mortbay.jetty.Handler ch = 
+                  (org.mortbay.jetty.Handler) provider.getValue( false );
+                collection.addHandler( ch );
             }
             catch( Throwable e )
             {
                 final String error = 
-                  "Failed to deploy content handler: " + handler;
+                  "Failed to deploy handler: " + handler;
                 throw new Exception( error, e );
             }
         }
+        super.setHandler( collection );
     }
     
     private void addUserRealms( PartsManager parts )  throws Exception
     {
         getLogger().debug( "commencing realm addition" );
         ArrayList list = new ArrayList();
-        ComponentHandler[] handlers = parts.getComponentHandlers( org.mortbay.jetty.security.UserRealm.class );
+        ComponentHandler[] handlers = parts.getComponentHandlers( UserRealm.class );
         for( int i=0; i<handlers.length; i++ )
         {
             ComponentHandler handler = handlers[i];

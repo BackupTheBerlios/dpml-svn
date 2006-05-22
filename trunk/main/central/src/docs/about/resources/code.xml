@@ -97,7 +97,7 @@ set listchars=tab:&gt;.
 
       <p>
         If you contribute to a file (code or documentation), add yourself as 
-        the copyright source at the begging of the file.
+        the copyright source at the beggining of the file.
         For .java files the preferred Javadoc format is:
       </p>
 

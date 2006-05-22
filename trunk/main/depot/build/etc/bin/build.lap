@@ -1,5 +1,6 @@
 # 
 # This file contains the runtime configuration of the Janel java launcher application.
+# Copyright 2005-2006 Stephen J. McConnell
 #
 
 -Ddpml.transit.include.tools=true

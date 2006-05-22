@@ -21,7 +21,6 @@ package net.dpml.http;
 import java.io.File;
 import java.net.URI;
 import java.util.Map;
-import java.util.Hashtable;
 
 import net.dpml.http.SslSocketConnector.Context;
 
@@ -69,6 +68,10 @@ public class SslSocketConnectorTestCase extends AbstractConnectorContextTestCase
         m_connector = new SslSocketConnector( context );
     }
     
+   /**
+    * Return the connector under test.
+    * @return the connector
+    */
     protected AbstractConnector getConnector()
     {
         return m_connector;

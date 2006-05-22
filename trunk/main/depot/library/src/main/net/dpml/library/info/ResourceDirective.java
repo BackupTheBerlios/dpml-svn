@@ -85,7 +85,7 @@ public class ResourceDirective extends AbstractDirective
     * @param classifier LOCAL or EXTERNAL classifier
     * @param basedir the project basedir
     * @param info info descriptor
-    * @param types types produced by the resource
+    * @param data types produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
     * @param filters project filters

@@ -20,7 +20,6 @@ package net.dpml.http;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Hashtable;
 
 import net.dpml.http.ServletContextHandler.Context;
 
@@ -55,6 +54,10 @@ public class ServletContextHandlerTestCase extends AbstractContextHandlerTestCas
         m_handler = new ServletContextHandler( logger, context );
     }
     
+   /**
+    * Return the context handler under test.
+    * @return the context handler
+    */
     protected ContextHandler getContextHandler()
     {
         return m_handler;

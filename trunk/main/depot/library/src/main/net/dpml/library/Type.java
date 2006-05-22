@@ -18,8 +18,6 @@
 
 package net.dpml.library;
 
-import org.w3c.dom.Element;
-
 /**
  * Declaration of a type production.
  *

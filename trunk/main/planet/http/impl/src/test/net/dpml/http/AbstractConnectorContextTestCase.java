@@ -21,12 +21,6 @@ package net.dpml.http;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.http.ResourceContextHandler.Context;
-
-import net.dpml.util.ContextInvocationHandler;
-
-import net.dpml.logging.Logger;
-
 import org.mortbay.jetty.AbstractConnector;
 
 import junit.framework.TestCase;
@@ -52,6 +46,7 @@ public abstract class AbstractConnectorContextTestCase extends TestCase
     
     /**
      * Setup the context map.
+     * @return the context map
      * @throws Exception if an error occurs
      */
     protected Map createMap() throws Exception
@@ -73,6 +68,10 @@ public abstract class AbstractConnectorContextTestCase extends TestCase
         return map;
     }
 
+   /**
+    * Return the connector under test.
+    * @return the connector
+    */
     protected abstract AbstractConnector getConnector();
 
    /**

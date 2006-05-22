@@ -40,7 +40,6 @@ import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 import net.dpml.library.Data;
-import net.dpml.library.info.DataDirective;
 import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
@@ -51,8 +50,6 @@ import net.dpml.library.info.AbstractDirective;
 import net.dpml.library.info.ValidationException;
 import net.dpml.library.info.FilterDirective;
 import net.dpml.library.info.Scope;
-
-import net.dpml.util.Logger;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;

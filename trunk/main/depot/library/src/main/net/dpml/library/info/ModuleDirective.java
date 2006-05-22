@@ -44,6 +44,7 @@ public final class ModuleDirective extends ResourceDirective
     * @param data datatypes produced by the resource
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
+    * @param filters project filters
     * @param resources subsidary resources
     * @return the immediate enclosing resource
     */
@@ -113,6 +114,7 @@ public final class ModuleDirective extends ResourceDirective
     * @param dependencies resource dependencies
     * @param resources resource included within the module
     * @param properties suppliementary properties
+    * @param filters project filters
     */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, 

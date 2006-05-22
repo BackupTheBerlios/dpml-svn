@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2005-2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -23,7 +23,6 @@ import java.io.File;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 import net.dpml.library.info.Scope;
-import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.JarTypeDirective;
 
 import net.dpml.tools.model.Context;
@@ -36,10 +35,6 @@ import net.dpml.tools.tasks.RMICTask;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
-
 
 /**
  * Processor supporting ujava class compilation, jar creation, 

@@ -20,7 +20,6 @@ package net.dpml.library.info;
 
 import java.util.Arrays;
 
-import net.dpml.lang.AbstractDirective;
 import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;

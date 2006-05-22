@@ -54,6 +54,14 @@ public class LogAdapter implements org.mortbay.log.Logger
     }
     
    /**
+    * Set the debug enabled status.
+    * @param flag true if debug is enabled
+    */
+    public void setDebugEnabled( boolean flag )
+    {
+    }
+    
+   /**
     * Publish an info level log message.
     * @param msg the message
     * @param arg0 an intial argument

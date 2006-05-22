@@ -30,7 +30,6 @@ import java.util.Properties;
 import net.dpml.library.Feature;
 import net.dpml.library.TypeBuilder;
 import net.dpml.library.info.ResourceDirective.Classifier;
-import net.dpml.library.info.DependencyDirective;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Part;
@@ -858,22 +857,9 @@ public final class LibraryDecoder extends LibraryConstants
         }
         else if( COMMON_XSD_URI.equals( namespace ) )
         {
-            if( "AbstractType".equals( typeName ) )
-            {
-                final String id = getID( element );
-                final boolean alias = getAliasFlag( element );
-                return new TypeDirective( id, alias );
-            }
-            else
-            {
-                final String error = 
-                  "Cannot create type bacause the element type is unrecognized."
-                  + "\nNamespace: " 
-                  + namespace
-                  + "\nType Name: " 
-                  + info.getTypeName();
-                throw new DecodingException( element, error );
-            }
+            final String id = getID( element );
+            final boolean alias = getAliasFlag( element );
+            return new TypeDirective( id, alias );
         }
         else if( MODULE_XSD_URI.equals( namespace ) )
         {
@@ -888,10 +874,6 @@ public final class LibraryDecoder extends LibraryConstants
             {
                 final boolean alias = getAliasFlag( element );
                 return new JarTypeDirective( element, alias );
-            }
-            else if( "RMICType".equals( typeName ) )
-            {
-                return new DataDirective( element );
             }
             else
             {

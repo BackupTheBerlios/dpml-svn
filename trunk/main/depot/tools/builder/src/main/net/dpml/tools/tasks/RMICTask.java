@@ -20,7 +20,6 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
 
 import net.dpml.tools.model.Context;

@@ -1,4 +1,5 @@
 #!/bin/sh
+# Copyright 2005-2006 Stephen J. McConnell
 #
 
 BUILD_JVM_OPTS="-Ddpml.transit.include.tools=true -Ddpml.depot.application=dpml.builder"
