@@ -44,6 +44,7 @@ ${basedir}
     /main                -- resource to be copied to target/build/main
     /test                -- resource to be copied to target/build/test
     /docs                -- resource to be copied to target/build/docs
+    /resources           -- resource to be copied to target/test
     /**                  -- copied to target/**
 
 </source>
@@ -60,6 +61,8 @@ ${basedir}
     /deliverables        -- output artifacts initially populated with
                             the content from /target/etc/deliverables
                             if present
+    /test                -- working test directory initially populated 
+                            with the content from ${project.etc}/resources
 </source>
 
 

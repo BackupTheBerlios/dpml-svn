@@ -161,11 +161,29 @@ public class PrepareTask extends GenericTask
             //
             
             final File etcTest = context.getEtcTestDirectory();
-            final File test = context.getTargetDirectory( "test" );
+            //final File test = context.getTargetDirectory( "test" );
+            final File test = context.getTargetDirectory( "build/test" );
             copy( etcTest, test, true, includes, excludes );
             copy( etcTest, test, false, excludes, "" );
         }
         
+        if( context.getEtcResourcesDirectory().exists() )
+        {
+            final String includes = 
+              context.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
+            final String excludes = 
+              context.getProperty( ETC_FILTERED_EXCLUDES_KEY, ETC_FILTERED_EXCLUDES_VALUE );
+            
+            //
+            // copy ${etc}/test content to ${target}/build/test
+            //
+            
+            final File etcResources = context.getEtcResourcesDirectory();
+            final File test = context.getTargetDirectory( "test" );
+            copy( etcResources, test, true, includes, excludes );
+            copy( etcResources, test, false, excludes, "" );
+        }
+
         if( context.getEtcDirectory().exists() )
         {
             final String includes = 
@@ -181,8 +199,9 @@ public class PrepareTask extends GenericTask
 
             String main = context.getEtcMainDirectory().toString() + "/**";
             String test = context.getEtcTestDirectory().toString() + "/**";
+            String resources = context.getEtcResourcesDirectory().toString() + "/**";
             File target = context.getTargetDirectory();
-            final String standard = main + "," + test;
+            final String standard = main + "," + test + "," + resources;
             copy( etc, target, true, includes, standard + "," + excludes );
             copy( etc, target, false, excludes, standard );
         }

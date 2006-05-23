@@ -143,6 +143,7 @@ public final class DefaultContext implements Context
         project.setNewProperty( "project.etc.dir", getEtcDirectory().toString() );
         project.setNewProperty( "project.etc.main.dir", getEtcMainDirectory().toString() );
         project.setNewProperty( "project.etc.test.dir", getEtcTestDirectory().toString() );
+        project.setNewProperty( "project.etc.resources.dir", getEtcResourcesDirectory().toString() );
         
         project.setNewProperty( "project.target.dir", getTargetDirectory().toString() );
         project.setNewProperty( "project.target.build.main.dir", getTargetBuildMainDirectory().toString() );
@@ -390,6 +391,16 @@ public final class DefaultContext implements Context
     public File getEtcTestDirectory()
     {
         String path = getProperty( "project.etc.test", "etc/test" );
+        return createFile( path );
+    }
+
+   /**
+    * Return the project etc/resources directory.
+    * @return the directory
+    */
+    public File getEtcResourcesDirectory()
+    {
+        String path = getProperty( "project.etc.resources", "etc/resources" );
         return createFile( path );
     }
 

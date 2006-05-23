@@ -156,6 +156,7 @@
   <property name="etc.main" value="${etc}/main"/>
   <property name="etc.deliverables" value="${etc}/deliverables"/>
   <property name="etc.test" value="${etc}/test"/>
+  <property name="etc.resources" value="${etc}/resources"/>
 
   <property name="target" value="target"/>
   <property name="target.dir" location="${basedir}/${target}"/>
@@ -238,18 +239,38 @@
   <available file="${etc.test}" property="etc.test.available"/>
   <target name="prepare-etc-test" if="etc.test.available">
     <!--
-    Any files in etc/test get copied over to target/test with filtering
+    Any files in etc/test get copied over to target/build/test with filtering
     applied.
     -->
-    <mkdir dir="${target.test.dir}"/>
-    <copy toDir="${target.test.dir}" filtering="on" failonerror="false">
+    <mkdir dir="${target.build.test.dir}"/>
+    <copy toDir="${target.build.test.dir}" filtering="on" failonerror="false">
       <fileset dir="${etc.test}">
         <include name="**/*"/>
         <exclude name="**/*.jar"/>
       </fileset>
     </copy>
-    <copy toDir="${target.test.dir}" filtering="off" failonerror="false">
+    <copy toDir="${target.build.test.dir}" filtering="off" failonerror="false">
       <fileset dir="${etc.test}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <available file="${etc.resources}" property="etc.resources.available"/>
+  <target name="prepare-etc-resources" if="etc.resources.available">
+    <!--
+    Any files in etc/resources get copied over to target/test with filtering
+    applied.
+    -->
+    <mkdir dir="${target.test.dir}"/>
+    <copy toDir="${target.test.dir}" filtering="on" failonerror="false">
+      <fileset dir="${etc.resources}">
+        <include name="**/*"/>
+        <exclude name="**/*.jar"/>
+      </fileset>
+    </copy>
+    <copy toDir="${target.test.dir}" filtering="off" failonerror="false">
+      <fileset dir="${etc.resources}">
         <include name="**/*.jar"/>
       </fileset>
     </copy>
@@ -266,6 +287,7 @@
         <exclude name="${etc.main}/*"/>
         <exclude name="${etc.test}/*"/>
         <exclude name="${etc.deliverables}/*"/>
+        <exclude name="${etc.resources}/*"/>
       </fileset>
     </copy>
   </target>
@@ -349,7 +371,7 @@
   </target>
 
   <target name="prepare" depends="init,prepare-etc-deliverable,prepare-etc-main,
-       prepare-etc-test,prepare-etc, prepare-src-main, prepare-src-test,
+       prepare-etc-test,prepare-etc-resources,prepare-etc, prepare-src-main, prepare-src-test,
        prepare-build-main, prepare-build-test">
     <tstamp/>
   </target>

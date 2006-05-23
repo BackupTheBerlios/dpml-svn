@@ -135,6 +135,12 @@ public interface Context
     File getEtcTestDirectory();
 
    /**
+    * Return the project etc/resources directory.
+    * @return the directory
+    */
+    File getEtcResourcesDirectory();
+
+   /**
     * Return the project target directory.
     * @return the directory
     */
