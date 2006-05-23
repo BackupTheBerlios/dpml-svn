@@ -143,7 +143,7 @@ public final class DefaultContext implements Context
         project.setNewProperty( "project.etc.dir", getEtcDirectory().toString() );
         project.setNewProperty( "project.etc.main.dir", getEtcMainDirectory().toString() );
         project.setNewProperty( "project.etc.test.dir", getEtcTestDirectory().toString() );
-        project.setNewProperty( "project.etc.resources.dir", getEtcResourcesDirectory().toString() );
+        project.setNewProperty( "project.etc.data.dir", getEtcDataDirectory().toString() );
         
         project.setNewProperty( "project.target.dir", getTargetDirectory().toString() );
         project.setNewProperty( "project.target.build.main.dir", getTargetBuildMainDirectory().toString() );
@@ -340,8 +340,8 @@ public final class DefaultContext implements Context
     */
     public File getSrcMainDirectory()
     {
-        String path = getProperty( "project.src.main", "main" );
-        return new File( getSrcDirectory(), path );
+        String path = getProperty( "project.src.main", "src/main" );
+        return createFile( path );
     }
     
    /**
@@ -350,8 +350,8 @@ public final class DefaultContext implements Context
     */
     public File getSrcTestDirectory()
     {
-        String path = getProperty( "project.src.test", "test" );
-        return new File( getSrcDirectory(), path );
+        String path = getProperty( "project.src.test", "src/test" );
+        return createFile( path );
     }
     
    /**
@@ -360,8 +360,8 @@ public final class DefaultContext implements Context
     */
     public File getSrcDocsDirectory()
     {
-        String path = getProperty( "project.src.docs", "docs" );
-        return new File( getSrcDirectory(), path );
+        String path = getProperty( "project.src.docs", "src/docs" );
+        return createFile( path );
     }
     
    /**
@@ -398,9 +398,9 @@ public final class DefaultContext implements Context
     * Return the project etc/resources directory.
     * @return the directory
     */
-    public File getEtcResourcesDirectory()
+    public File getEtcDataDirectory()
     {
-        String path = getProperty( "project.etc.resources", "etc/resources" );
+        String path = getProperty( "project.etc.data", "etc/data" );
         return createFile( path );
     }
 

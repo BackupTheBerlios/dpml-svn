@@ -44,7 +44,7 @@ ${basedir}
     /main                -- resource to be copied to target/build/main
     /test                -- resource to be copied to target/build/test
     /docs                -- resource to be copied to target/build/docs
-    /resources           -- resource to be copied to target/test
+    /data                -- resource to be copied to target/test
     /**                  -- copied to target/**
 
 </source>
@@ -62,7 +62,7 @@ ${basedir}
                             the content from /target/etc/deliverables
                             if present
     /test                -- working test directory initially populated 
-                            with the content from ${project.etc}/resources
+                            with the content from ${project.etc}/data
 </source>
 
 
@@ -76,29 +76,34 @@ ${basedir}
       <table>
         <tr><th>Property</th><th>Description</th></tr>
         <tr>
-          <td>${project.src}</td>
-          <td>The name of the directory containing the project sources.
-          The default value is "src".</td>
-        </tr>
-        <tr>
           <td>${project.src.main}</td>
-          <td>The name of the sub-directory with ${project.src} containing
-              the java source hierachy. Default value is "main".</td>
+          <td>The path relative to the project basedir containing
+              the java source hierachy. Default value is "src/main".</td>
         </tr>
         <tr>
           <td>${project.src.test}</td>
-          <td>The name of the sub-directory with ${project.src} containing
-              the java unit test source hierachy. Default value is "test".</td>
+          <td>The path relative to the project basedir containing
+              the java test source hierachy. Default value is "src/test".</td>
         </tr>
         <tr>
           <td>${project.src.docs}</td>
-          <td>The name of the sub-directory with ${project.src} containing
-              the documentation sources. Default value is "docs".</td>
+          <td>The path relative to the project basedir containing
+              the documentation source hierachy. Default value is "src/docs".</td>
         </tr>
         <tr>
-          <td>${project.etc}</td>
-          <td>The name of the directory containing supplimentary resources.
-          The default value is "etc".</td>
+          <td>${project.etc.main}</td>
+          <td>The path relative to the project basedir containing
+              the supplimentary resources. Default value is "etc/main".</td>
+        </tr>
+        <tr> 
+          <td>${project.src.test}</td>
+          <td>The path relative to the project basedir containing
+              the supplimentary test resources. Default value is "etc/test".</td>
+        </tr>
+        <tr> 
+          <td>${project.src.data}</td>
+          <td>The path relative to the project basedir containing
+              the test data. Default value is "etc/data".</td>
         </tr>
       </table>
 

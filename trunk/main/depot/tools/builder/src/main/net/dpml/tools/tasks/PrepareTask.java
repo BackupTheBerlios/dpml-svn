@@ -45,7 +45,7 @@ public class PrepareTask extends GenericTask
       "project.prepare.etc.filtered.includes";
     private static final String ETC_FILTERED_INCLUDES_VALUE =
       "**/*";
-
+    
     private static final String ETC_FILTERED_EXCLUDES_KEY =
       "project.prepare.etc.filtered.excludes";
     private static final String ETC_FILTERED_EXCLUDES_VALUE =
@@ -167,7 +167,7 @@ public class PrepareTask extends GenericTask
             copy( etcTest, test, false, excludes, "" );
         }
         
-        if( context.getEtcResourcesDirectory().exists() )
+        if( context.getEtcDataDirectory().exists() )
         {
             final String includes = 
               context.getProperty( ETC_FILTERED_INCLUDES_KEY, ETC_FILTERED_INCLUDES_VALUE );
@@ -178,10 +178,10 @@ public class PrepareTask extends GenericTask
             // copy ${etc}/test content to ${target}/build/test
             //
             
-            final File etcResources = context.getEtcResourcesDirectory();
+            final File data = context.getEtcDataDirectory();
             final File test = context.getTargetDirectory( "test" );
-            copy( etcResources, test, true, includes, excludes );
-            copy( etcResources, test, false, excludes, "" );
+            copy( data, test, true, includes, excludes );
+            copy( data, test, false, excludes, "" );
         }
 
         if( context.getEtcDirectory().exists() )
@@ -199,9 +199,9 @@ public class PrepareTask extends GenericTask
 
             String main = context.getEtcMainDirectory().toString() + "/**";
             String test = context.getEtcTestDirectory().toString() + "/**";
-            String resources = context.getEtcResourcesDirectory().toString() + "/**";
+            String data = context.getEtcDataDirectory().toString() + "/**";
             File target = context.getTargetDirectory();
-            final String standard = main + "," + test + "," + resources;
+            final String standard = main + "," + test + "," + data;
             copy( etc, target, true, includes, standard + "," + excludes );
             copy( etc, target, false, excludes, standard );
         }
