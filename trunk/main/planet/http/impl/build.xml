@@ -73,6 +73,12 @@
       </services>
     </type>
 
+    <type xmlns="metro" class="net.dpml.http.ContextHandlerCollection" threadsafe="true" name="context">
+      <services>
+        <service class="org.mortbay.jetty.handler.HandlerCollection"/>
+      </services>
+    </type>
+
     <type xmlns="metro" name="server" class="net.dpml.http.Server" threadsafe="true" collection="hard">
       <services>
         <service class="net.dpml.http.Server"/>

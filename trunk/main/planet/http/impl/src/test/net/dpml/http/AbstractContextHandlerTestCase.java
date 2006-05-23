@@ -18,6 +18,7 @@
 
 package net.dpml.http;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Hashtable;
 
@@ -32,7 +33,7 @@ import junit.framework.TestCase;
 public abstract class AbstractContextHandlerTestCase extends TestCase
 {
     private static final String[] VIRTUAL_HOSTS = new String[]{"virtual.acme.org", "virtual.secret.acme.org"};
-    private static final String[] HOSTS = new String[]{"www.acme.org", "secret.acme.org"};
+    private static final String[] CONNECTORS = new String[]{"www.acme.org", "secret.acme.org"};
     private static final String[] WELCOME_FILES = new String[]{"about.html", "index.html", "index.htm"};
     private static final ClassLoader CLASSLOADER = AbstractContextHandlerTestCase.class.getClassLoader();
     private static final Map MIME_TYPES = new Hashtable();
@@ -48,7 +49,7 @@ public abstract class AbstractContextHandlerTestCase extends TestCase
     {
         Map map = new Hashtable();
         map.put( "virtualHosts", VIRTUAL_HOSTS );
-        map.put( "hosts", HOSTS );
+        map.put( "connectors", CONNECTORS );
         map.put( "welcomeFiles", WELCOME_FILES );
         map.put( "classLoader", CLASSLOADER );
         map.put( "contextPath", CONTEXT_PATH );
@@ -70,16 +71,28 @@ public abstract class AbstractContextHandlerTestCase extends TestCase
     */
     public void testVirtualHosts() throws Exception
     {
-        assertEquals( "virtualHosts", VIRTUAL_HOSTS, getContextHandler().getVirtualHosts() );
+        String[] hosts = getContextHandler().getVirtualHosts();
+        if( !Arrays.equals( VIRTUAL_HOSTS, hosts ) )
+        {
+            final String error =
+              "Supplied virtual hosts array does not equal return value.";
+            fail( error );
+        }
     }
 
    /**
     * Test hosts assignment integrity.
     * @throws Exception if an error occurs during test execution
     */
-    public void testHosts() throws Exception
+    public void testConnectors() throws Exception
     {
-        assertEquals( "hosts", HOSTS, getContextHandler().getHosts() );
+        String[] connectors = getContextHandler().getConnectors();
+        if( !Arrays.equals( CONNECTORS, connectors ) )
+        {
+            final String error =
+              "Supplied connector array does not equal return value.";
+            fail( error );
+        }
     }
     
    /**
@@ -88,9 +101,15 @@ public abstract class AbstractContextHandlerTestCase extends TestCase
     */
     public void testWelcomeFiles() throws Exception
     {
-        assertEquals( "welcomeFiles", WELCOME_FILES, getContextHandler().getWelcomeFiles() );
+        String[] files = getContextHandler().getWelcomeFiles();
+        if( !Arrays.equals( WELCOME_FILES, files ) )
+        {
+            final String error =
+              "Supplied welcome files array does not equal return value.";
+            fail( error );
+        }
     }
-
+    
    /**
     * Test classloader assignment integrity.
     * @throws Exception if an error occurs during test execution

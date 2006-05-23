@@ -60,10 +60,10 @@ class ContextHelper
             handler.setDisplayName( name );
         }
         
-        String[] hosts = context.getHosts( null );
+        String[] hosts = context.getConnectors( null );
         if( null != hosts )
         {
-            handler.setHosts( hosts );
+            handler.setConnectors( hosts );
         }
         
         String[] virtual = context.getVirtualHosts( null );

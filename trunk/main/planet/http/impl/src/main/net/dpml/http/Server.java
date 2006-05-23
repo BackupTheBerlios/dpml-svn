@@ -83,6 +83,12 @@ public class Server extends org.mortbay.jetty.Server
         * @return the default thread pool.
         */
         ThreadPool getThreadPool();
+        
+       /**
+        * Return the context handler collection.
+        * @return the configured context handler collection.
+        */
+        ContextHandlerCollection getContextHandlerCollection();
     }
     
     private final Logger m_logger;
@@ -133,12 +139,15 @@ public class Server extends org.mortbay.jetty.Server
         }
         
         //
-        // add connectors, realms and context handlers
+        // add connectors, realms and handlers
         //
         
         addConnectors( parts );
         addUserRealms( parts );
-        addHandlers( parts );
+        
+        ContextHandlerCollection collection = parts.getContextHandlerCollection();
+        setHandler( collection );
+        
         getLogger().debug( "server established" );
     }
     
@@ -166,33 +175,6 @@ public class Server extends org.mortbay.jetty.Server
         }
         Connector[] connectors = (Connector[]) m_connections.toArray( new Connector[0] );
         setConnectors( connectors );
-    }
-    
-    private void addHandlers( PartsManager parts ) throws Exception
-    {
-        getLogger().debug( "commencing handler addition" );
-        ComponentHandler[] handlers = parts.getComponentHandlers( Handler.class );
-        getLogger().debug( "handler count: " + handlers.length );
-        HandlerCollection collection = new HandlerCollection();
-        for( int i=0; i<handlers.length; i++ )
-        {
-            ComponentHandler handler = handlers[i];
-            getLogger().debug( "adding handler: " + handler );
-            try
-            {
-                Provider provider = handler.getProvider();
-                org.mortbay.jetty.Handler ch = 
-                  (org.mortbay.jetty.Handler) provider.getValue( false );
-                collection.addHandler( ch );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "Failed to deploy handler: " + handler;
-                throw new Exception( error, e );
-            }
-        }
-        super.setHandler( collection );
     }
     
     private void addUserRealms( PartsManager parts )  throws Exception

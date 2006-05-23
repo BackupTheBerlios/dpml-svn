@@ -34,11 +34,12 @@ public interface ContextHandlerContext
     String[] getVirtualHosts( String[] hosts );
     
    /**
-    * Get the array of hosts.
-    * @param hosts the default host array
+    * Get the array of connectors. The function returns the set of 
+    * connectors in the form <tt>host:port</tt>.
+    * @param connectors the default connector array
     * @return the resolved host array
     */
-    String[] getHosts( String[] hosts );
+    String[] getConnectors( String[] hosts );
     
    /**
     * Get the array of welcome files.

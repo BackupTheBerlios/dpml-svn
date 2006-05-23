@@ -401,13 +401,6 @@ class DefaultComponentHandler extends UnicastEventSource
               + "]." );
         }
         
-        // check if this component can handle the request
-        
-        //if( isaCandidate( service ) )
-        //{
-        //    return this;
-        //}
-        
         // check if a child component can handle the request
         
         Component[] components = m_parts.getComponents();

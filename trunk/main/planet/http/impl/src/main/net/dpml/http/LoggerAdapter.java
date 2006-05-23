@@ -36,10 +36,10 @@ public class LoggerAdapter implements org.mortbay.log.Logger
             System.setProperty( "org.mortbay.log.class", LoggerAdapter.class.getName() );
             m_LOGGER.debug( "logging adapter established" );
         }
-        else
-        {
-            throw new IllegalStateException( "m_LOGGER already initialized." );
-        }
+        //else
+        //{
+        //    throw new IllegalStateException( "m_LOGGER already initialized." );
+        //}
     }
     
     private final Logger m_logger;
