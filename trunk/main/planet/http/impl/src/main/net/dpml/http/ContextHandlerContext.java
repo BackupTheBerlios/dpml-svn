@@ -39,7 +39,7 @@ public interface ContextHandlerContext
     * @param connectors the default connector array
     * @return the resolved host array
     */
-    String[] getConnectors( String[] hosts );
+    String[] getConnectors( String[] connectors );
     
    /**
     * Get the array of welcome files.
