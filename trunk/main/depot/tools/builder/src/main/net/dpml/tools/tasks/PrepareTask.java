@@ -161,7 +161,6 @@ public class PrepareTask extends GenericTask
             //
             
             final File etcTest = context.getEtcTestDirectory();
-            //final File test = context.getTargetDirectory( "test" );
             final File test = context.getTargetDirectory( "build/test" );
             copy( etcTest, test, true, includes, excludes );
             copy( etcTest, test, false, excludes, "" );

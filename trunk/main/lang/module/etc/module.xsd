@@ -196,11 +196,13 @@
       </complexContent>
     </complexType>
     
+    <!--
     <complexType name="RMICType">
       <complexContent>
         <extension base="this:PatternCollectionType"/>
       </complexContent>
     </complexType>
+    -->
     
     <complexType name="PatternCollectionType">
       <choice minOccurs="0" maxOccurs="unbounded">
