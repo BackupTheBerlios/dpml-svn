@@ -6,7 +6,6 @@
       value="link:part:dpml/metro/dpml-metro-runtime"/>
     <property name="jetty.version" value="6.0.0-R534"/>
     <property name="jasper.version" value="5.5.15"/>
-    <!--<property name="sl4j.version" value="1.0-rc5"/>-->
     <property name="sl4j.version" value="1.0.1"/>
   </properties>
 

@@ -57,10 +57,10 @@ public class WorkspaceTestCase extends TestCase
         
         File basedir = new File( System.getProperty( "project.basedir" ) );
         File target = new File( basedir, "target" );
-        File deliverables = new File( target, "deliverables" );
-        File xsds = new File( deliverables, "xsds" );
-        String version = System.getProperty( "project.version" );
-        File xsd = new File( xsds, "dpml-process-" + version + ".xsd" );
+        //File deliverables = new File( target, "deliverables" );
+        //File xsds = new File( deliverables, "xsds" );
+        //String version = System.getProperty( "project.version" );
+        File xsd = new File( target, "process.xsd" );
         System.setProperty( XSD_URI, xsd.toURI().toString() );
 
         // parse the layout file
