@@ -10,7 +10,7 @@
         id="part"
         alias="true">
       <parts xmlns="artifact:xsd:dpml/lang/dpml-component#1.0">
-        <!-- 
+        <!--
         Add a select channel connector to 8080.
         -->
         <component key="plain" type="net.dpml.http.SelectChannelConnector">

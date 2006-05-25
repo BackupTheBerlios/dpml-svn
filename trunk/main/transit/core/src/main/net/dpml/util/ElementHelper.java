@@ -206,7 +206,8 @@ public final class ElementHelper
         {
             value = node.getNodeValue();
         }
-        return normalize( value );
+        //return normalize( value );
+        return value;
     }
 
    /**
@@ -236,9 +237,10 @@ public final class ElementHelper
         if( !node.hasAttribute( key ) )
         {
             return def;
-        } 
-        final String value = node.getAttribute( key );
-        return normalize( value );
+        }
+        //final String value = node.getAttribute( key );
+        //return normalize( value );
+        return node.getAttribute( key );
     }
 
    /**
