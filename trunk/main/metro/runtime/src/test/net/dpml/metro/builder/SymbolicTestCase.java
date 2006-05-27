@@ -75,7 +75,7 @@ public class SymbolicTestCase extends TestCase
             {
                 ValueDirective value = (ValueDirective) directive;
                 String base = value.getBaseValue();
-                assertEquals( "value", "${dpml/prefs}/abc", base );
+                assertEquals( "value", "${dpml.prefs}/abc", base );
             }
             else
             {
