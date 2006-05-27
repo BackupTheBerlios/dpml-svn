@@ -27,8 +27,6 @@ CALL :dpml-component
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-type
 IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-application
-IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
 IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-tools
@@ -93,12 +91,6 @@ GOTO :EOF
 
 :dpml-type
 PUSHD lang\type
-CALL :build clean install
-POPD
-GOTO :EOF
-
-:dpml-application
-PUSHD lang\application
 CALL :build clean install
 POPD
 GOTO :EOF
