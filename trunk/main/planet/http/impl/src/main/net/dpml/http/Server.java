@@ -27,9 +27,7 @@ import net.dpml.component.Provider;
 
 import org.mortbay.thread.ThreadPool;
 import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.RequestLog;
-import org.mortbay.jetty.handler.HandlerCollection;
 import org.mortbay.jetty.security.UserRealm;
 import org.mortbay.xml.XmlConfiguration;
 

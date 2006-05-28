@@ -41,10 +41,11 @@ public abstract class AbstractContextHandlerTestCase extends TestCase
     private static final String DISPLAY_NAME = "testing";
     private static final ErrorHandler ERROR_HANDLER = new ErrorHandler();
     
-    /**
-     * Setup the context map.
-     * @throws Exception if an error occurs
-     */
+   /**
+    * Setup the context map.
+    * @return the context map
+    * @throws Exception if an error occurs
+    */
     protected Map createMap() throws Exception
     {
         Map map = new Hashtable();

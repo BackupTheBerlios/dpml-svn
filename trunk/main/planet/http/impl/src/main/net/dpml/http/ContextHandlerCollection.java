@@ -15,17 +15,11 @@
  */
 package net.dpml.http;
 
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-
 import net.dpml.logging.Logger;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.component.Provider;
-
-import org.mortbay.jetty.Handler;
 
 /**
  * HTTP server implementation.
