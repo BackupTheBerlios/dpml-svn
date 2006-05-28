@@ -93,6 +93,16 @@ public class StandardBuildListener implements BuildListener
         Target target = event.getTarget();
         String targetName = target.getName();
         Processor[] processors = m_context.getProcessors();
+        if( "clean".equals( targetName ) )
+        {
+            event.getProject().log( "executing clenup phase", Project.MSG_VERBOSE );
+            m_standard.clean( m_context );
+            for( int i=0; i<processors.length; i++ )
+            {
+                Processor processor = processors[i];
+                processor.clean( m_context );
+            }
+        }
         if( "init".equals( targetName ) )
         {
             event.getProject().log( "executing initialization phase", Project.MSG_VERBOSE );

@@ -198,8 +198,6 @@ public class StandardBuilder implements Builder
                 }
             }
             
-            //return null;
-            
             // otherwise we build using either an explicit or default template
             // resolved via a uri (typically a template stored in prefs)
             

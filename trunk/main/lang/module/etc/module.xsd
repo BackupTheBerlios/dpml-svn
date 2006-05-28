@@ -15,6 +15,9 @@
     <element name="resource" type="this:ResourceType"/>
     <element name="property" type="this:PropertyType"/>
     <element name="type" type="common:AbstractType" substitutionGroup="common:type"/>
+    
+    <element name="data" type="this:InstructionSetType"/>
+    
     <!--<element name="abstract-filter" type="this:AbstractFilter"/>
     <element name="filters" type="this:FiltersType" substitutionGroup="common:data"/>
     <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
@@ -173,7 +176,7 @@
         </extension>
       </complexContent>
     </complexType>
-
+    
     <simpleType name="tag">
       <restriction base="string">
         <enumeration value="system"/>
@@ -182,63 +185,9 @@
         <enumeration value="private"/>
       </restriction>
     </simpleType>
-
-    <complexType name="jar">
-      <complexContent>
-        <extension base="common:AbstractType">
-          <sequence>
-            <element name="src" type="this:PatternCollectionType" minOccurs="0" maxOccurs="1"/>
-            <element name="rmic" type="this:PatternCollectionType" minOccurs="0" maxOccurs="1"/>
-          </sequence>
-          <attribute name="compress" type="boolean" default="true"/>
-          <attribute name="index" type="boolean" default="true"/>
-        </extension>
-      </complexContent>
-    </complexType>
     
-    <!--
-    <complexType name="RMICType">
-      <complexContent>
-        <extension base="this:PatternCollectionType"/>
-      </complexContent>
-    </complexType>
-    -->
-    
-    <complexType name="PatternCollectionType">
-      <choice minOccurs="0" maxOccurs="unbounded">
-        <element name="include" type="this:IncludePatternType"/>
-        <element name="exclude" type="this:ExcludePatternType"/>
-      </choice>
-    </complexType>
+    <!-- filter management -->
 
-    <complexType name="IncludePatternType">
-      <simpleContent>
-        <extension base="string">
-          <attribute name="name" type="string"/>
-        </extension>
-      </simpleContent>
-    </complexType>
-
-    <complexType name="ExcludePatternType">
-      <simpleContent>
-        <extension base="string">
-          <attribute name="name" type="string"/>
-        </extension>
-      </simpleContent>
-    </complexType>
-
-    <!--
-    <complexType name="FiltersType">
-      <complexContent>
-        <extension base="common:AbstractData">
-          <sequence>
-            <element ref="this:abstract-filter" minOccurs="0" maxOccurs="unbounded"/>
-          </sequence>
-        </extension>
-      </complexContent>
-    </complexType>
-    -->
-    
     <complexType name="FiltersType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element name="filter" type="this:Filter"/>
@@ -280,6 +229,56 @@
         <enumeration value="filename"/>
       </restriction>
     </simpleType>
+
+    <!-- new stuff-->
+    
+    <complexType name="InstructionSetType">
+      <sequence>
+        <element name="data" type="this:DataType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="DataType" abstract="true">
+      <attribute name="id" type="string" use="required"/>
+    </complexType>
+    
+    <!-- existing process stuff-->
+
+    <complexType name="jar">
+      <complexContent>
+        <extension base="common:AbstractType">
+          <sequence>
+            <element name="src" type="this:PatternCollectionType" minOccurs="0" maxOccurs="1"/>
+            <element name="rmic" type="this:PatternCollectionType" minOccurs="0" maxOccurs="1"/>
+          </sequence>
+          <attribute name="compress" type="boolean" default="true"/>
+          <attribute name="index" type="boolean" default="true"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="PatternCollectionType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="include" type="this:IncludePatternType"/>
+        <element name="exclude" type="this:ExcludePatternType"/>
+      </choice>
+    </complexType>
+
+    <complexType name="IncludePatternType">
+      <simpleContent>
+        <extension base="string">
+          <attribute name="name" type="string"/>
+        </extension>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="ExcludePatternType">
+      <simpleContent>
+        <extension base="string">
+          <attribute name="name" type="string"/>
+        </extension>
+      </simpleContent>
+    </complexType>
 
 </schema>
 

@@ -30,6 +30,14 @@ import net.dpml.tools.model.Processor;
 public class AbstractProcessor implements Processor
 {
    /**
+    * Handle cleanup.
+    * @param context the working context
+    */
+    public void clean( Context context )
+    {
+    }
+    
+   /**
     * Handle initialization.
     * @param context the working context
     */

@@ -75,7 +75,8 @@ public final class BuilderDirective extends AbstractDirective
         
         m_phase = phase;
         m_processors = processors;
-        m_listeners = sortListenerDirectives( listeners );
+        //m_listeners = sortListenerDirectives( listeners );
+        m_listeners = listeners;
     }
     
    /**
@@ -147,6 +148,7 @@ public final class BuilderDirective extends AbstractDirective
         return hash;
     }
     
+    /*
     private static ListenerDirective[] sortListenerDirectives( ListenerDirective[] directives )
       throws UnknownKeyException
     {
@@ -207,4 +209,5 @@ public final class BuilderDirective extends AbstractDirective
         }
         throw new UnknownKeyException( name );
     }
+    */
 }

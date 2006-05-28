@@ -27,6 +27,12 @@ package net.dpml.tools.model;
 public interface Processor
 {
    /**
+    * Handle cleanup.
+    * @param context the working context
+    */
+    void clean( Context context );
+    
+   /**
     * Handle initialization.
     * @param context the working context
     */

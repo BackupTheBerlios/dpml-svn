@@ -31,9 +31,10 @@ import net.dpml.library.info.AbstractDirective;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ListenerDirective  extends AbstractDirective
+public final class ListenerDirective  extends AbstractDirective implements Comparable
 {
     private final String m_name;
+    private final int m_priority;
     private final URI m_uri;
     private final String m_classname;
     private final String[] m_dependencies;
@@ -41,6 +42,7 @@ public final class ListenerDirective  extends AbstractDirective
    /**
     * Creation of a new listener directive.
     * @param name the listener name
+    * @param priority the listener priority
     * @param uri the listener codebase
     * @param classname optional classname of the plugin instantiation target
     * @param dependencies array of listener names that the listener depends upon
@@ -49,7 +51,7 @@ public final class ListenerDirective  extends AbstractDirective
     * @exception IllegalStateException if both classname and urn values are null
     */
     public ListenerDirective( 
-      String name, URI uri, String classname, 
+      String name, int priority, URI uri, String classname, 
       String[] dependencies, Properties properties )
       throws NullPointerException, IllegalStateException
     {
@@ -73,6 +75,7 @@ public final class ListenerDirective  extends AbstractDirective
                 throw new IllegalStateException( error );
             }
         }
+        m_priority = priority;
         m_dependencies = dependencies;
         m_name = name;
         m_uri = uri;
@@ -86,6 +89,15 @@ public final class ListenerDirective  extends AbstractDirective
     public String getName()
     {
         return m_name;
+    }
+    
+   /**
+    * Return the listener priority.
+    * @return the priority value
+    */
+    public int getPriority()
+    {
+        return m_priority;
     }
     
    /**
@@ -139,6 +151,33 @@ public final class ListenerDirective  extends AbstractDirective
         return m_dependencies;
     }
     
+    /**
+     * Compares this <code>ListenerDirective</code> object to another object.
+     * If the object is an <code>ListenerDirective</code>, this function behaves
+     * like <code>compareTo(Integer)</code>.  Otherwise, it throws a
+     * <code>ClassCastException</code>.
+     *
+     * @param other the <code>Object</code> to be compared.
+     * @return the value <code>0</code> if the argument is a 
+     * <code>ListenerDirective</code> with a priority numerically equal to this 
+     * <code>ListenerDirective</code>; a value less than <code>0</code> 
+     * if the argument is a <code>ListenerDirective</code> numerically 
+     * greater than this <code>ListenerDirective</code>; and a value 
+     * greater than <code>0</code> if the argument is a 
+     * <code>ListenerDirective</code> numerically less than this 
+     * <code>ListenerDirective</code>.
+     * @exception <code>ClassCastException</code> if the argument is not an
+     * <code>ListenerDirective</code>.
+     * @see java.lang.Comparable
+     */
+    public int compareTo( Object other )
+    {
+        ListenerDirective directive = (ListenerDirective) other;
+        Integer p1 = new Integer( m_priority );
+        Integer p2 = new Integer( directive.getPriority() );
+        return p1.compareTo( p2 );
+    }
+    
    /**
     * Compare this object with another for equality.
     * @param other the other object
@@ -150,6 +189,10 @@ public final class ListenerDirective  extends AbstractDirective
         {
             ListenerDirective object = (ListenerDirective) other;
             if( !equals( m_name, object.m_name ) )
+            {
+                return false;
+            }
+            else if( m_priority != object.m_priority )
             {
                 return false;
             }
@@ -178,6 +221,7 @@ public final class ListenerDirective  extends AbstractDirective
         hash ^= super.hashValue( m_name );
         hash ^= super.hashArray( m_dependencies );
         hash ^= super.hashValue( m_uri );
+        hash ^= m_priority;
         return hash;
     }
 }

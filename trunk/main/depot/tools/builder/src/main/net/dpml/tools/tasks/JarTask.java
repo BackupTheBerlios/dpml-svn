@@ -174,7 +174,6 @@ public class JarTask extends GenericTask
             final Manifest.Section main = manifest.getMainSection();
 
             String publisher = resource.getProperty( "project.publisher.name" );
-            //String publisher = getContext().getProperty( type, "project.publisher.name", null );
             if( null != publisher )
             {
                 addAttribute( main, "Created-By", publisher );
@@ -187,7 +186,6 @@ public class JarTask extends GenericTask
                 addAttribute( main, "Class-Path", classpath );
             }
             
-            //final String mainClass = getContext().getProperty( type, JAR_MAIN_KEY, null );
             final String mainClass = resource.getProperty( JAR_MAIN_KEY );
             if( null != mainClass )
             {
@@ -195,29 +193,24 @@ public class JarTask extends GenericTask
             }
 
             addAttribute( main, "Extension-Name", getResource().getResourcePath() );
-            //String specificationVendor = getContext().getProperty( type, "project.specification.vendor", null );
             String specificationVendor = resource.getProperty( "project.specification.vendor" );
             if( null != specificationVendor )
             {
                 addAttribute( main, "Specification-Vendor", specificationVendor );
             }
 
-            //String version = getContext().getProperty( type, "project.specification.version", null );
             String version = resource.getProperty( "project.specification.version" );
             if( null != version )
             {
                 addAttribute( main, "Specification-Version", version );
             }
             
-            //String implementationVendor = getContext().getProperty( type, "project.implementation.vendor", null );
             String implementationVendor = resource.getProperty( "project.implementation.vendor" );
             if( null != implementationVendor )
             {
                 addAttribute( main, "Implementation-Vendor", implementationVendor );
             }
 
-            //String implementationVendorID = 
-            //  getContext().getProperty( type, "project.implementation.vendor-id", null );
             String implementationVendorID = resource.getProperty( "project.implementation.vendor-id" );
             if( null != implementationVendorID )
             {

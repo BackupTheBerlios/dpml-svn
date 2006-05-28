@@ -26,6 +26,7 @@ import java.io.BufferedInputStream;
 import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
+import java.util.Arrays;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
@@ -184,6 +185,7 @@ public final class BuilderDirectiveHelper
                 throw new IllegalArgumentException( error );
             }
         }
+        Arrays.sort( listeners );
         return new BuilderDirective( listeners, phase, processors, properties );
     }
     
@@ -208,10 +210,12 @@ public final class BuilderDirectiveHelper
             final String spec = ElementHelper.getAttribute( element, "uri", null );
             final URI uri = createURI( spec );
             final String classname = ElementHelper.getAttribute( element, "class", null );
+            final String value = ElementHelper.getAttribute( element, "priority", null );
+            int priority = Integer.parseInt( value );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
             final String[] depends = buildDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ListenerDirective( name, uri, classname, depends, properties );
+            return new ListenerDirective( name, priority, uri, classname, depends, properties );
         }
         else
         {

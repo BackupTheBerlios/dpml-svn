@@ -80,7 +80,7 @@ public class JavacTask extends MatchingTask
     private static final String TARGET_VALUE = "1.4";
 
     private final Context m_context;
-        
+    
     private String m_classPathRef;
     private Path m_classPath;
     private File m_destination;

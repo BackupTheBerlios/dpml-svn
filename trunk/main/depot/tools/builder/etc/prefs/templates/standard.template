@@ -28,9 +28,7 @@
     <x:init/>
   </target>
 
-  <target name="clean" depends="init">
-    <delete dir="${project.target.dir}"/>
-  </target>
+  <target name="clean" depends="init"/>
 
   <target name="prepare" depends="init"/>
 
