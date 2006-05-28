@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2005-2006 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,73 +16,56 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.process;
-
-import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
+package net.dpml.tools;
 
 /**
- * Abstract build processor.
+ * The Processor interface is implemented by phase-aware build processors.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class AbstractProcessor implements Processor
+public interface Processor
 {
    /**
     * Handle cleanup.
     * @param context the working context
     */
-    public void clean( Context context )
-    {
-    }
+    void clean( Context context );
     
    /**
     * Handle initialization.
     * @param context the working context
     */
-    public void initialize( Context context )
-    {
-    }
+    void initialize( Context context );
     
    /**
     * Handle supplimentary codebase preparation.
     * @param context the working context
     */
-    public void prepare( Context context )
-    {
-    }
+    void prepare( Context context );
     
    /**
     * Handle type-specific construction in preparation for 
     * data packaging.
     * @param context the working context
     */
-    public void build( Context context )
-    {
-    }
+    void build( Context context );
     
    /**
     * Packaging of type-specific data.
     * @param context the working context
     */
-    public void pack( Context context )
-    {
-    }
+    void pack( Context context );
     
    /**
     * Datatype validation.
     * @param context the working context
     */
-    public void validate( Context context )
-    {
-    }
+    void validate( Context context );
     
    /**
     * Post installation actions.
     * @param context the working context
     */
-    public void install( Context context )
-    {
-    }
+    void install( Context context );
 }

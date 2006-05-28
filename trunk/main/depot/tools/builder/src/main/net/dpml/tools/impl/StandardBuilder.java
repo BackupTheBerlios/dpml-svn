@@ -27,7 +27,7 @@ import net.dpml.library.Builder;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 import net.dpml.tools.info.BuilderDirective;
 import net.dpml.tools.info.BuilderDirectiveHelper;
 

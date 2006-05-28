@@ -22,7 +22,7 @@ import java.io.File;
 
 import net.dpml.library.info.Scope;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

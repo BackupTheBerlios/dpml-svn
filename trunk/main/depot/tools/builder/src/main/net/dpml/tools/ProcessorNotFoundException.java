@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
+package net.dpml.tools;
 
 /**
  * A ProcessorNotFoundException is thrown when a requested for a named 

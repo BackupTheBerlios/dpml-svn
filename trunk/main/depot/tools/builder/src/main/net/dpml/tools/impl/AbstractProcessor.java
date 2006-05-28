@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2006 Stephen J. McConnell
+ * Copyright 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,56 +16,73 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
+package net.dpml.tools.impl;
+
+import net.dpml.tools.Context;
+import net.dpml.tools.Processor;
 
 /**
- * The Processor interface is implemented by phase-aware build processors.
+ * Abstract build processor.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Processor
+public class AbstractProcessor implements Processor
 {
    /**
     * Handle cleanup.
     * @param context the working context
     */
-    void clean( Context context );
+    public void clean( Context context )
+    {
+    }
     
    /**
     * Handle initialization.
     * @param context the working context
     */
-    void initialize( Context context );
+    public void initialize( Context context )
+    {
+    }
     
    /**
     * Handle supplimentary codebase preparation.
     * @param context the working context
     */
-    void prepare( Context context );
+    public void prepare( Context context )
+    {
+    }
     
    /**
     * Handle type-specific construction in preparation for 
     * data packaging.
     * @param context the working context
     */
-    void build( Context context );
+    public void build( Context context )
+    {
+    }
     
    /**
     * Packaging of type-specific data.
     * @param context the working context
     */
-    void pack( Context context );
+    public void pack( Context context )
+    {
+    }
     
    /**
     * Datatype validation.
     * @param context the working context
     */
-    void validate( Context context );
+    public void validate( Context context )
+    {
+    }
     
    /**
     * Post installation actions.
     * @param context the working context
     */
-    void install( Context context );
+    public void install( Context context )
+    {
+    }
 }

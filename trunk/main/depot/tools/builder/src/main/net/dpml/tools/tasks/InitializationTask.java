@@ -20,7 +20,7 @@ package net.dpml.tools.tasks;
 
 import java.util.ArrayList;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 /**
  * General initialization during which context establishment is 

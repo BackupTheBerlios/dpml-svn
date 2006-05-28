@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.model;
+package net.dpml.tools;
 
 import java.io.File;
 
-import net.dpml.library.info.Scope;
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
+import net.dpml.library.info.Scope;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;

@@ -11,14 +11,6 @@ Default configuration for Depot-on-Ant.
   <listeners>
     <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener" priority="0"/>
   </listeners>
-
-  <!--
-  <processors>
-    <processor name="jar" class="net.dpml.tools.process.JarProcess"/>
-    <processor name="part" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
-    <processor name="module" class="net.dpml.tools.process.ModuleProcess"/>
-  </processors>
-  -->
   
 </builder>
 

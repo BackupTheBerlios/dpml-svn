@@ -39,8 +39,8 @@ import net.dpml.library.impl.DefaultLibrary;
 import net.dpml.tools.info.ListenerDirective;
 import net.dpml.tools.info.ProcessorDirective;
 
-import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
+import net.dpml.tools.Context;
+import net.dpml.tools.Processor;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;

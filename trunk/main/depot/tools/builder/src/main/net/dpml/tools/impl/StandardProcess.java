@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.tools.process;
+package net.dpml.tools.impl;
 
 import java.io.File;
 
@@ -25,7 +25,7 @@ import net.dpml.library.Type;
 import net.dpml.library.info.Scope;
 import net.dpml.library.info.JarTypeDirective;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 import net.dpml.tools.tasks.PrepareTask;
 import net.dpml.tools.tasks.InstallTask;

@@ -27,7 +27,7 @@ import net.dpml.library.info.Scope;
 import net.dpml.library.info.ModuleDirective;
 import net.dpml.library.info.LibraryEncoder;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

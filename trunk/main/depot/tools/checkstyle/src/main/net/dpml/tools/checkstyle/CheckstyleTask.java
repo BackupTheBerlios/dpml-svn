@@ -27,7 +27,7 @@ import com.puppycrawl.tools.checkstyle.CheckStyleTask;
 import net.dpml.library.Resource;
 import net.dpml.library.Module;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;

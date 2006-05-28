@@ -23,7 +23,7 @@ import java.util.StringTokenizer;
 
 import net.dpml.library.info.Scope;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 import net.dpml.transit.Transit;
 

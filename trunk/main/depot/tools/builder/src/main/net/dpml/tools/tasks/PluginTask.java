@@ -22,7 +22,7 @@ import net.dpml.library.Library;
 import net.dpml.library.Resource;
 import net.dpml.library.ResourceNotFoundException;
 
-import net.dpml.tools.model.Context;
+import net.dpml.tools.Context;
 
 import org.apache.tools.ant.BuildException;
 

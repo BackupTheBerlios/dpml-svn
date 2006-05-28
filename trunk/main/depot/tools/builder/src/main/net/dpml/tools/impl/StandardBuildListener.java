@@ -18,10 +18,8 @@
 
 package net.dpml.tools.impl;
 
-import net.dpml.tools.model.Context;
-import net.dpml.tools.model.Processor;
-
-import net.dpml.tools.process.StandardProcess;
+import net.dpml.tools.Context;
+import net.dpml.tools.Processor;
 
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
@@ -30,8 +28,9 @@ import org.apache.tools.ant.Project;
 
 /**
  * Standard build listener.  The implementation provides support
- * for codebase structure normalization, and delegation of type-specific
- * build functions to build processors. 
+ * for codebase structure normalization and execution of common build
+ * procedures conditional to the presence of specific target directories
+ * and declared resource production types.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -39,7 +38,7 @@ import org.apache.tools.ant.Project;
 public class StandardBuildListener implements BuildListener
 {
     private final Context m_context;
-    private final StandardProcess m_standard;
+    private final Processor m_standard;
     
    /**
     * Creation of a new standard build listener.
@@ -92,76 +91,40 @@ public class StandardBuildListener implements BuildListener
     {
         Target target = event.getTarget();
         String targetName = target.getName();
-        Processor[] processors = m_context.getProcessors();
         if( "clean".equals( targetName ) )
         {
             event.getProject().log( "executing clenup phase", Project.MSG_VERBOSE );
             m_standard.clean( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.clean( m_context );
-            }
         }
         if( "init".equals( targetName ) )
         {
             event.getProject().log( "executing initialization phase", Project.MSG_VERBOSE );
             m_standard.initialize( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.initialize( m_context );
-            }
         }
         else if( "prepare".equals( targetName ) )
         {
             event.getProject().log( "executing preparation phase", Project.MSG_VERBOSE );
             m_standard.prepare( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.prepare( m_context );
-            }
         }
         else if( "build".equals( targetName ) )
         {
             event.getProject().log( "executing build phase", Project.MSG_VERBOSE );
             m_standard.build( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.build( m_context );
-            }
         }
         else if( "package".equals( targetName ) )
         {
             event.getProject().log( "executing packaging phase", Project.MSG_VERBOSE );
             m_standard.pack( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.pack( m_context );
-            }
         }
         else if( "test".equals( targetName ) )
         {
             event.getProject().log( "executing validation phase", Project.MSG_VERBOSE );
             m_standard.validate( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.validate( m_context );
-            }
         }
         else if( "install".equals( targetName ) )
         {
             event.getProject().log( "executing installation phase", Project.MSG_VERBOSE );
             m_standard.install( m_context );
-            for( int i=0; i<processors.length; i++ )
-            {
-                Processor processor = processors[i];
-                processor.install( m_context );
-            }
         }
     }
 

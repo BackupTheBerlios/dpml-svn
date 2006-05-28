@@ -26,12 +26,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.beans.IntrospectionException;
 
-import net.dpml.tools.tasks.GenericTask;
-
 import net.dpml.library.info.Scope;
 
 import net.dpml.metro.info.Type;
 import net.dpml.metro.builder.ComponentTypeEncoder;
+
+import net.dpml.tools.tasks.GenericTask;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;

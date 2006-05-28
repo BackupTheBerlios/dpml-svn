@@ -21,9 +21,9 @@ package net.dpml.metro.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dpml.metro.data.ValueDirective;
-
 import net.dpml.lang.Value;
+
+import net.dpml.metro.data.ValueDirective;
 
 import org.apache.tools.ant.BuildException;
 
