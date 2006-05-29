@@ -60,12 +60,6 @@ public interface Context
     String getProperty( String key, String value );
     
    /**
-    * Return an array of processors.
-    * @return the processor array
-    */
-    Processor[] getProcessors();
-    
-   /**
     *Initialize the context.
     */
     void init();

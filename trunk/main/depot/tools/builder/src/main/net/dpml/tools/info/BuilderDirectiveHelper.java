@@ -160,7 +160,6 @@ public final class BuilderDirectiveHelper
         
         Properties properties = null;
         ListenerDirective[] listeners = new ListenerDirective[0];
-        ProcessorDirective[] processors = new ProcessorDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -174,10 +173,6 @@ public final class BuilderDirectiveHelper
             {
                 listeners = buildListenerDirectives( child );
             }
-            else if( PROCESSORS_ELEMENT_NAME.equals( tag ) ) 
-            {
-                processors = buildProcessorDirectives( child );
-            }
             else
             {
                 final String error = 
@@ -186,7 +181,7 @@ public final class BuilderDirectiveHelper
             }
         }
         Arrays.sort( listeners );
-        return new BuilderDirective( listeners, phase, processors, properties );
+        return new BuilderDirective( listeners, phase, properties );
     }
     
     private static ListenerDirective[] buildListenerDirectives( Element element ) throws Exception
@@ -213,9 +208,8 @@ public final class BuilderDirectiveHelper
             final String value = ElementHelper.getAttribute( element, "priority", null );
             int priority = Integer.parseInt( value );
             final String deps = ElementHelper.getAttribute( element, "depends", null );
-            final String[] depends = buildDependenciesArray( deps );
             final Properties properties = buildProperties( element );
-            return new ListenerDirective( name, priority, uri, classname, depends, properties );
+            return new ListenerDirective( name, priority, uri, classname, properties );
         }
         else
         {
@@ -224,54 +218,6 @@ public final class BuilderDirectiveHelper
               + tag
               + "].";
             throw new IllegalArgumentException( error );
-        }
-    }
-    
-    private static ProcessorDirective[] buildProcessorDirectives( Element element ) throws Exception
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        ProcessorDirective[] processors = new ProcessorDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            processors[i] = buildProcessorDirective( child );
-        }
-        return processors;
-    }
-    
-    private static ProcessorDirective buildProcessorDirective( Element element ) throws Exception
-    {
-        final String tag = element.getTagName();
-        if( PROCESSOR_ELEMENT_NAME.equals( tag ) )
-        {
-            final String name = ElementHelper.getAttribute( element, "name", null );
-            final String spec = ElementHelper.getAttribute( element, "uri", null );
-            final URI uri = createURI( spec );
-            final String classname = ElementHelper.getAttribute( element, "class", null );
-            final String deps = ElementHelper.getAttribute( element, "depends", null );
-            final String[] depends = buildDependenciesArray( deps );
-            final Properties properties = buildProperties( element );
-            return new ProcessorDirective( name, uri, classname, depends, properties );
-        }
-        else
-        {
-            final String error = 
-              "Invalid resource element name [" 
-              + tag
-              + "].";
-            throw new IllegalArgumentException( error );
-        }
-    }
-    
-    private static String[] buildDependenciesArray( String value )
-    {
-        if( null == value )
-        {
-            return new String[0];
-        }
-        else
-        {
-            return value.split( "," );
         }
     }
     

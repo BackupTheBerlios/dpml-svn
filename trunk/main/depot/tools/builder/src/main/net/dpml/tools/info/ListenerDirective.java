@@ -37,7 +37,6 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     private final int m_priority;
     private final URI m_uri;
     private final String m_classname;
-    private final String[] m_dependencies;
     
    /**
     * Creation of a new listener directive.
@@ -51,18 +50,13 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     * @exception IllegalStateException if both classname and urn values are null
     */
     public ListenerDirective( 
-      String name, int priority, URI uri, String classname, 
-      String[] dependencies, Properties properties )
+      String name, int priority, URI uri, String classname, Properties properties )
       throws NullPointerException, IllegalStateException
     {
         super( properties );
         if( null == name )
         {
             throw new NullPointerException( "name" );
-        }
-        if( null == dependencies )
-        {
-            throw new NullPointerException( "dependencies" );
         }
         if( null == uri )
         {
@@ -76,7 +70,6 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
             }
         }
         m_priority = priority;
-        m_dependencies = dependencies;
         m_name = name;
         m_uri = uri;
         m_classname = classname;
@@ -137,20 +130,6 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
         return m_classname;
     }
     
-   /**
-    * Return the listener dependencies. If a listener declares a dependency 
-    * on another listener, it is in effect saying that the names listeners 
-    * must be executed before this listener.  At an operational level listener
-    * dependencies effect the order in which listeners are attached to a 
-    * an Ant project.
-    *
-    * @return the array of listener names 
-    */
-    public String[] getDependencies()
-    {
-        return m_dependencies;
-    }
-    
     /**
      * Compares this <code>ListenerDirective</code> object to another object.
      * If the object is an <code>ListenerDirective</code>, this function behaves
@@ -196,13 +175,9 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
             {
                 return false;
             }
-            else if( !equals( m_uri, object.m_uri ) )
-            {
-                return false;
-            }
             else
             {
-                return Arrays.equals( m_dependencies, object.m_dependencies );
+                return equals( m_uri, object.m_uri );
             }
         }
         else
@@ -219,7 +194,6 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     {
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
-        hash ^= super.hashArray( m_dependencies );
         hash ^= super.hashValue( m_uri );
         hash ^= m_priority;
         return hash;

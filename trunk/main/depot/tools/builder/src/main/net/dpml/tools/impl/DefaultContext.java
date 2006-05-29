@@ -37,7 +37,6 @@ import net.dpml.library.Filter;
 import net.dpml.library.impl.DefaultLibrary;
 
 import net.dpml.tools.info.ListenerDirective;
-import net.dpml.tools.info.ProcessorDirective;
 
 import net.dpml.tools.Context;
 import net.dpml.tools.Processor;
@@ -63,8 +62,6 @@ public final class DefaultContext implements Context
 {
     private final Project m_project;
     private final Resource m_resource;
-    private final DefaultWorkbench m_workbench;
-    private final Processor[] m_processors;
     
     private Path m_runtime;
     private Path m_test;
@@ -93,8 +90,6 @@ public final class DefaultContext implements Context
         m_resource = resource;
         
         Library library = resource.getLibrary();
-        m_workbench = new DefaultWorkbench( library );
-        
         project.addReference( "project.timestamp", new Date() );
         project.setBaseDir( resource.getBaseDir() );
         
@@ -165,55 +160,8 @@ public final class DefaultContext implements Context
             BuildListener buildListener = loadBuildListener( directive );
             project.addBuildListener( buildListener );
         }
-        
-        // load processors declared under the builder configuration matching the 
-        // types produced by the project (including dependent processors)
-        
-        ProcessorDirective[] processors = getProcessorSequence();
-        m_processors = new Processor[ processors.length ];
-        for( int i=0; i<processors.length; i++ )
-        {
-            ProcessorDirective processor = processors[i];
-            project.log( "loading processor: " + processor.getName(), Project.MSG_VERBOSE );
-            m_processors[i] = loadProcessor( processor );
-        }
     }
     
-   /**
-    * Return an array of processors.
-    * @return the processor array
-    */
-    public Processor[] getProcessors()
-    {
-        return m_processors;
-    }
-    
-   /**
-    * Return the sequence of processor definitions supporting production of a 
-    * the current resource.  The implementation constructs a sequence of process
-    * instances based on the types declared by the resource combined with 
-    * dependencies declared by respective process definitions. 
-    * 
-    * @return a sorted array of processor definitions supporting type production
-    * @exception ProcessorNotFoundException if a processor referenced by another 
-    *   processor as a dependent cannot be resolved
-    */ 
-    private ProcessorDirective[] getProcessorSequence()
-    {
-        try
-        {
-            return m_workbench.getProcessorSequence( m_resource );
-        }
-        catch( UnknownKeyException e )
-        {
-            final String error = 
-              "Internal error while constructing processor sequence.";
-            IllegalStateException ise = new IllegalStateException( error );
-            ise.initCause( e );
-            throw ise;
-        }
-    }
-
    /**
     * Initialize the contex during which runtime and test path objects are 
     * established as project references.
@@ -748,30 +696,7 @@ public final class DefaultContext implements Context
             throw new BuilderError( error );
         }
     }
-    
-    private Processor loadProcessor( ProcessorDirective directive )
-    {
-        String name = directive.getName();
-        URI uri = directive.getURI();
-        try
-        {
-            String classname = directive.getClassname();
-            Object object = loadInstance( name, uri, classname );
-            return (Processor) object;
-        }
-        catch( ClassCastException e )
-        {
-            final String error = 
-              "Build processor [" 
-              + name
-              + "] from uri ["
-              + uri
-              + "] does not implement "
-              + Processor.class.getName();
-            throw new BuilderError( error );
-        }
-    }
-    
+        
     private Object loadInstance( String name, URI uri, String classname )
     {
         if( null == uri )
@@ -826,6 +751,5 @@ public final class DefaultContext implements Context
             }
         }
     }
-        
 }
 

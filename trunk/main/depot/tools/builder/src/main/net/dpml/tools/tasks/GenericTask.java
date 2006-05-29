@@ -116,9 +116,26 @@ public class GenericTask extends Task
         }
         else
         {
+            // this is an Ant initiated bootstrapping of Depot (i.e. we are 
+            // not using a project established via the default builder) as such
+            // we need to declare the build signature argument and construct the
+            // project context
+            
+            String signature = project.getProperty( "build.signature" );
+            if( null != signature )
+            {
+                System.setProperty( "build.signature", signature );
+            }
+            
             try
             {
                 context = new DefaultContext( project );
+                Resource resource = context.getResource();
+                String name = resource.getName();
+                String version = resource.getVersion();
+                project.log( "\n-------------------------------------------------------------------------" );
+                project.log( name + "#" + version );
+                project.log( "-------------------------------------------------------------------------" );
                 project.addReference( "project.context", context );
                 return context;
             }
