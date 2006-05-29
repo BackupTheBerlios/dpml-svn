@@ -18,8 +18,6 @@
 
 package net.dpml.tools.tasks;
 
-import java.util.ArrayList;
-
 import net.dpml.tools.Context;
 
 /**
@@ -31,19 +29,8 @@ import net.dpml.tools.Context;
  */
 public class InitializationTask extends GenericTask
 {
-    private ArrayList m_list = new ArrayList();
-    
    /**
-    * Initialize type to processor mapping.  During execution the current
-    * resource is consulted with respect to the types it declares it produced.
-    * Each type is identified by a unique type id.  The collection of type ids
-    * are used to resolve an ordered array of build processors.  The build processor
-    * list is established based on the initial type ids combined with any processor 
-    * dependencies declared by respective processors.  Finally, the sorted processors 
-    * are invoked by the standard build listener to handle type production concerns. 
-    * Targets in the project template trigger init, prepare, build, package, test and 
-    * install build events which are monitored by the standard listener enabling 
-    * sequentially executed phased functionality within the repective processors.
+    * Initialize the project build context. 
     */
     public void execute()
     {
