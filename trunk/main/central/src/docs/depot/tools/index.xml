@@ -68,7 +68,7 @@
           <td>listeners</td>
           <td>
           Build-listeners registered in the builder configuration are loaded, sorted
-          with respect to listener dependencies, and attached to the Ant project.
+          with respect to listener priority, and attached to the Ant project.
           </td>
         </tr>
       </table>
@@ -85,18 +85,6 @@
       <tt>local:template:dpml/tools/standard</tt> is assigned.
       </p>
       
-      <p>
-      During project initialization the the current resource is consulted with
-      respect to the types it declares it produced. Each type is identified by a 
-      unique type id.  The collection of type ids are used to resolve an ordered array 
-      of build processors.  The build processor list is established based on the initial 
-      type ids combined with any dependencies declared by respective processors.  
-      Finally, the sorted listeners are attached to the current ant project.  
-      Targets in the project template trigger init, prepare, build, package, test and 
-      install build events which in-turn trigger the execution of sequential build phase
-      functionality (such as jar creation, etc.).
-      </p>
-
       <subsection name="Builder Configuration">
 
       <p>
@@ -109,26 +97,17 @@
 <builder default="install">
   
   <listeners>
-    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener"/>
+    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener" priority="0"/>
   </listeners>
-
-  <processors>
-    <processor name="jar" class="net.dpml.tools.process.JarProcess"/>
-    <processor name="part" class="net.dpml.tools.process.PluginProcess" depends="jar"/>
-    <processor name="module" class="net.dpml.tools.process.ModuleProcess"/>
-  </processors>
 
 </builder>
 ]]></source>
 
       <p>
-      The builder configuration contains a set of <tt>&lt;listener&gt;</tt> and 
-      <tt>&lt;processor&gt;</tt> declarations.  A <tt>&lt;listener&gt;</tt> definition 
-      allows the association of a plugin-based build listener to an Ant project. 
-      Processor declarations allow associating of plugins to handle specific datatypes.
-      Using information for the Depot library, listeners and processors provide the 
-      bulk of the common build functionality.  Further customization may be added under 
-      a build.xml file or via supplimentary processors.
+      The builder configuration contains a set of <tt>&lt;listener&gt;</tt> declarations.  
+      A <tt>&lt;listener&gt;</tt> definition allows the association of a plugin-based build 
+      listener to an Ant project. Further customization may be added under 
+      a build.xml file.
       </p>
       
       </subsection>
@@ -153,12 +132,6 @@
              <td>
                A sequence of build listeners.</td>
            </tr>
-           <tr>
-             <td>processors</td>
-             <td>0..n</td>
-             <td>
-               A sequence of build processors.</td>
-           </tr>
          </table>
 
       </subsection>
@@ -179,41 +152,14 @@
              <td>Listener classname.</td>
            </tr>
            <tr>
-             <td>depends</td>
-             <td>A optional series of listener names (comma separated) that this listener 
-               is dependent upon. The implementation ensures that listeners 
-               are synchronized with respect to dependency ordering whan attached to 
-               an Ant project.</td>
+             <td>priority</td>
+             <td>The listener priority value. Lower priority values are assigned 
+             to the project ahead of listeners with a higher priotrity value.</td>
            </tr>
          </table>
 
       </subsection>
 
-      <subsection name="Processor Attributes">
-      
-         <table>
-           <tr>
-             <td>name</td>
-             <td>The name of the type produced by the processor (e.g. 'jar' or 'part').</td>
-           </tr>
-           <tr>
-             <td>uri</td>
-             <td>A plugin codebase uri.</td>
-           </tr>
-           <tr>
-             <td>class</td>
-             <td>Processor classname.</td>
-           </tr>
-           <tr>
-             <td>depends</td>
-             <td>A optional series of processor names (comma separated) that this processor 
-               is dependent upon. The implementation ensures that processors 
-               are synchronized with respect to dependency ordering.</td>
-           </tr>
-         </table>
-
-      </subsection>
-      
     </section>
 
   </body>
