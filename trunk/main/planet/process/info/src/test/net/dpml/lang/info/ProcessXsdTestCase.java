@@ -48,6 +48,10 @@ public class ProcessXsdTestCase extends TestCase
     private Map m_products;
     private Map m_processes;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if an error occursduring testcase setup
+    */
     public void setUp() throws Exception
     {
         // get the sample xml file to parse
@@ -60,9 +64,6 @@ public class ProcessXsdTestCase extends TestCase
         
         File basedir = new File( System.getProperty( "project.basedir" ) );
         File target = new File( basedir, "target" );
-        //File deliverables = new File( target, "deliverables" );
-        //File xsds = new File( deliverables, "xsds" );
-        //String version = System.getProperty( "project.version" );
         File xsd = new File( target, "process.xsd" );
         System.setProperty( XSD_URI, xsd.toURI().toString() );
 
@@ -112,6 +113,10 @@ public class ProcessXsdTestCase extends TestCase
         }
     }
     
+   /**
+    * Test parsing of the sample file.
+    * @exception Exception if an error occurs during test execution
+    */
     public void testSampleParse() throws Exception
     {
         String[] keys = (String[]) m_processes.keySet().toArray( new String[0] );

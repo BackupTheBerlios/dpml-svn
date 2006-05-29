@@ -19,8 +19,6 @@
 package net.dpml.lang.info;
 
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Properties;
 
 import net.dpml.lang.AbstractDirective;
 
@@ -38,12 +36,25 @@ public class InputDirective extends AbstractDirective
     private final String[] m_excludes;
     private final boolean m_filtering;
     
+   /**
+    * Creation of a new input directive.
+    * @param id the input id
+    * @param policy the input policy
+    */
     public InputDirective( 
       final String id, final Policy policy )
     {
         this( id, policy, false, new String[0], new String[0] );
     }
     
+   /**
+    * Creation of a new input directive.
+    * @param id the input id
+    * @param policy the input policy
+    * @param filtering the filterining flag 
+    * @param includes the set of include names
+    * @param excludes the set of exclude names
+    */
     public InputDirective( 
       final String id, final Policy policy, boolean filtering, 
       final String[] includes, final String[] excludes )
@@ -76,8 +87,8 @@ public class InputDirective extends AbstractDirective
     }
     
    /**
-    * Get the id of the consumed product.
-    * @return the product id
+    * Get the input id.
+    * @return the id
     */
     public String getID()
     {
@@ -85,7 +96,7 @@ public class InputDirective extends AbstractDirective
     }
     
    /**
-    * Get the policy associated within the consumption input.
+    * Get the policy associated within the input.
     * @return the input policy
     */
     public Policy getPolicy()

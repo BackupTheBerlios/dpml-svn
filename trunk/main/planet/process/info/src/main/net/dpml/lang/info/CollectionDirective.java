@@ -21,7 +21,8 @@ package net.dpml.lang.info;
 import java.util.Arrays;
 
 /**
- * The DirectoryProductDirective class describes a working directory.
+ * The CollectionDirective class describes a collection of include and exclude
+ * names.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -32,6 +33,14 @@ public class CollectionDirective extends ProductDirective
     private final String[] m_includes;
     private final String[] m_excludes;
     
+   /**
+    * Creation of a new collection directive.
+    * @param name the collection name
+    * @param info information about the collection
+    * @param criteria collection criteria
+    * @param includes the set of include names
+    * @param excludes the set of exclude names
+    */
     public CollectionDirective( 
       final String name, final InfoDirective info, CollectionCriteria criteria, 
       String[] includes, String[] excludes )
@@ -57,7 +66,7 @@ public class CollectionDirective extends ProductDirective
     }
     
    /**
-    * Get the selection criteria.
+    * Get the collection criteria.
     * @return the criteria value
     */
     public CollectionCriteria getCollectionCriteria()

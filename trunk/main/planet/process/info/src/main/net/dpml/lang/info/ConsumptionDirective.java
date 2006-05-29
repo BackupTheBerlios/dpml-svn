@@ -33,6 +33,11 @@ public class ConsumptionDirective extends AbstractDirective
     private final InputDirective[] m_input;
     private final Policy m_policy;
     
+   /**
+    * Creation of a new comsumption directive.
+    * @param input the set of input process names
+    * @param policy the consumption policy
+    */
     public ConsumptionDirective( InputDirective[] input, Policy policy )
     {
         if( null == input )

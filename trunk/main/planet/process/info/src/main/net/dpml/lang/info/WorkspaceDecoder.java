@@ -22,10 +22,6 @@ package net.dpml.lang.info;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Properties;
 
 import net.dpml.lang.DuplicateKeyException;
 
@@ -35,7 +31,6 @@ import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Utility class supporting workspace decoding.

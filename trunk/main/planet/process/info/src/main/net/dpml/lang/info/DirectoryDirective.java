@@ -28,6 +28,12 @@ public class DirectoryDirective extends ProductDirective
 {
     private final String m_path;
     
+   /**
+    * Creation of a new directory directive.
+    * @param name the directory name
+    * @param info infomation about the directory
+    * @param path the directory path
+    */
     public DirectoryDirective( final String name, final InfoDirective info, String path )
     {
         super( name, info );
@@ -41,8 +47,8 @@ public class DirectoryDirective extends ProductDirective
     }
     
    /**
-    * Get the product name.
-    * @return the product name.
+    * Get the directory path.
+    * @return the path
     */
     public String getPath()
     {

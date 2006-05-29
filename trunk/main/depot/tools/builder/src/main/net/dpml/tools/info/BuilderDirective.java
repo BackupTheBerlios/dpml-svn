@@ -19,8 +19,6 @@
 package net.dpml.tools.info;
 
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import net.dpml.library.info.AbstractDirective;

@@ -18,10 +18,6 @@
 
 package net.dpml.lang.info;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import net.dpml.lang.AbstractDirective;
 
 /**
@@ -35,6 +31,11 @@ public class InfoDirective extends AbstractDirective
     private final String m_title;
     private final String m_description;
     
+   /**
+    * Creation of a new info directive.
+    * @param title the title
+    * @param description the description
+    */
     public InfoDirective( final String title, final String description )
     {
         m_title = title;
@@ -42,8 +43,8 @@ public class InfoDirective extends AbstractDirective
     }
     
    /**
-    * Get the product name.
-    * @return the product name.
+    * Get the title.
+    * @return the name.
     */
     public String getTitle()
     {
@@ -51,8 +52,8 @@ public class InfoDirective extends AbstractDirective
     }
 
    /**
-    * Get the product description.
-    * @return the product description.
+    * Get the description.
+    * @return the description.
     */
     public String getDescription()
     {

@@ -19,19 +19,11 @@
 package net.dpml.lang.info;
 
 import java.io.File;
-import java.net.URI;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
 
 import net.dpml.util.DOM3DocumentBuilder;
-import net.dpml.util.ElementHelper;
-import net.dpml.util.DecodingException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 
 import junit.framework.TestCase;
 
@@ -46,6 +38,10 @@ public class WorkspaceTestCase extends TestCase
     
     private WorkspaceDirective m_workspace;
     
+   /**
+    * Testcase setup.
+    * @exception Exception if an error occursduring testcase setup
+    */
     public void setUp() throws Exception
     {
         // get the sample xml file to parse
@@ -75,6 +71,10 @@ public class WorkspaceTestCase extends TestCase
         m_workspace = decoder.build( doc );
     }
     
+   /**
+    * Test worksace creation.
+    * @exception Exception if an error occurs during test execution
+    */
     public void testWorkspace() throws Exception
     {
         System.out.println( "# WORKSPACE " + m_workspace.getName() );
@@ -96,6 +96,10 @@ public class WorkspaceTestCase extends TestCase
         assertEquals( "count", 7, products.length );
     }
     
+   /**
+    * Test worksace lookup.
+    * @exception Exception if an error occurs during test execution
+    */
     public void testLookup() throws Exception
     {
         System.out.println( "# LOOKUP " + m_workspace.getName() );

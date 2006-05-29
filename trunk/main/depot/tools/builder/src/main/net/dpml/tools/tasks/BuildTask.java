@@ -28,7 +28,6 @@ import net.dpml.library.info.JarTypeDirective;
 import net.dpml.tools.Context;
 
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.types.Path;
 
 /**

@@ -18,10 +18,6 @@
 
 package net.dpml.lang.info;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import net.dpml.lang.AbstractDirective;
 
 /**
@@ -35,6 +31,11 @@ public abstract class ProductDirective extends AbstractDirective
     private final String m_name;
     private final InfoDirective m_info;
     
+   /**
+    * Creation of a new product directive.
+    * @param name the process name
+    * @param info product info
+    */
     public ProductDirective( final String name, final InfoDirective info )
     {
         if( null == name )

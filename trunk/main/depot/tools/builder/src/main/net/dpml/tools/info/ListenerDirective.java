@@ -20,7 +20,6 @@ package net.dpml.tools.info;
 
 import java.net.URI;
 import java.util.Properties;
-import java.util.Arrays;
 
 import net.dpml.library.info.AbstractDirective;
 
@@ -142,11 +141,11 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
      * greater than <code>0</code> if the argument is a 
      * <code>ListenerDirective</code> numerically less than this 
      * <code>ListenerDirective</code>.
-     * @exception <code>ClassCastException</code> if the argument is not an
+     * @exception ClassCastException if the argument is not an
      * <code>ListenerDirective</code>.
      * @see java.lang.Comparable
      */
-    public int compareTo( Object other )
+    public int compareTo( Object other ) throws ClassCastException
     {
         ListenerDirective directive = (ListenerDirective) other;
         Integer p1 = new Integer( m_priority );

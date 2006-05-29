@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.lang.AbstractDirective;
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;
 
@@ -38,6 +37,14 @@ public class WorkspaceDirective extends DirectoryDirective
     
     private final transient Map m_map = new Hashtable();
     
+   /**
+    * Creation of a new workspace directive.
+    * @param name the workspace name
+    * @param info workspace info
+    * @param path directory path
+    * @param products array of products within the workspace
+    * @exception DuplicateKeyException if one or more duplicate product keys are supplied
+    */
     public WorkspaceDirective( 
       final String name, InfoDirective info, final String path, final ProductDirective[] products )
       throws DuplicateKeyException
@@ -74,7 +81,8 @@ public class WorkspaceDirective extends DirectoryDirective
 
    /**
     * Get a named product from the layout.
-    * @return the named product.
+    * @param name the product name
+    * @return the named product
     * @exception UnknownKeyException if the requested name is unknown
     */
     public ProductDirective getProductDirective( String name ) throws UnknownKeyException

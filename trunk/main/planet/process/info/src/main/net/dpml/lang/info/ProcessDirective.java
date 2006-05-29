@@ -19,8 +19,6 @@
 package net.dpml.lang.info;
 
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Properties;
 
 import net.dpml.lang.AbstractDirective;
 
@@ -44,6 +42,17 @@ public class ProcessDirective extends AbstractDirective
     private final String[] m_validators;
     private final DataDirective m_data;
     
+   /**
+    * Creation of a new process directive.
+    * @param name the process name
+    * @param classname the processor classname
+    * @param implicit the implicit flag
+    * @param production the output type
+    * @param dependencies the set of dependent processor names
+    * @param inputs the set of input resources
+    * @param validators the set of validation processes
+    * @param data the processor data
+    */
     public ProcessDirective( 
       final String name, final String classname, boolean implicit, String production,
       final String[] dependencies, InputDirective[] inputs, String[] validators, 

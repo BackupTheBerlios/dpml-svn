@@ -18,10 +18,6 @@
 
 package net.dpml.lang.info;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Properties;
-
 import net.dpml.lang.AbstractDirective;
 
 /**

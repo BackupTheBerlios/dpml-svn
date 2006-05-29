@@ -20,16 +20,11 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
-import net.dpml.library.Resource;
-import net.dpml.library.Type;
 import net.dpml.library.info.Scope;
-import net.dpml.library.info.JarTypeDirective;
 
 import net.dpml.tools.Context;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Delete;
 import org.apache.tools.ant.types.Path;
 
 /**

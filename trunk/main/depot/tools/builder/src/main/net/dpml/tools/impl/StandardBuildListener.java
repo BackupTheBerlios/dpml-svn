@@ -24,7 +24,6 @@ import net.dpml.tools.Context;
 
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Project;
 
 /**
