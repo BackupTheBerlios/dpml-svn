@@ -145,15 +145,15 @@ public class GenericTask extends Task
             
             try
             {
-                Context context = new DefaultContext( project );
-                Resource resource = context.getResource();
-                String name = resource.getName();
-                String version = resource.getVersion();
-                project.log( "\n-------------------------------------------------------------------------" );
-                project.log( name + "#" + version );
-                project.log( "-------------------------------------------------------------------------" );
-                project.addReference( "project.context", context );
-                return context;
+                return new DefaultContext( project );
+                //Resource resource = context.getResource();
+                //String name = resource.getName();
+                //String version = resource.getVersion();
+                //project.log( "\n-------------------------------------------------------------------------" );
+                //project.log( name + "#" + version );
+                //project.log( "-------------------------------------------------------------------------" );
+                //project.addReference( "project.context", context );
+                //return context;
             }
             catch( BuildException e )
             {

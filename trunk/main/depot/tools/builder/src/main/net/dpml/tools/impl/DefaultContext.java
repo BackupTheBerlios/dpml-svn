@@ -92,6 +92,7 @@ public final class DefaultContext implements Context
         Library library = resource.getLibrary();
         project.addReference( "project.timestamp", new Date() );
         project.setBaseDir( resource.getBaseDir() );
+        project.addReference( "project.context", this );
         
         String[] names = resource.getPropertyNames();
         for( int i=0; i<names.length; i++ )

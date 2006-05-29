@@ -138,12 +138,7 @@ public class StandardBuilder implements Builder
     */
     public boolean build( Resource resource, String[] targets )
     {
-        String path = resource.getResourcePath();
-        String version = resource.getVersion();
         Project project = createProject( resource );
-        project.log( "\n-------------------------------------------------------------------------" );
-        project.log( path + "#" + version );
-        project.log( "-------------------------------------------------------------------------" );
         File template = getTemplateFile( resource );
         return build( resource, project, template, targets );
     }
@@ -325,7 +320,6 @@ public class StandardBuilder implements Builder
         {
             Project project = newProject();
             Context context = new DefaultContext( resource, project );
-            project.addReference( "project.context", context );
             return project;
         }
         catch( Exception e )

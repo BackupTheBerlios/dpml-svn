@@ -269,7 +269,7 @@ public class BuilderPlugin
     * abort the build sequence and exit.
     *
     * @param line the commandline
-    * @param resources the sorted sequence of prouject to build
+    * @param resources the sorted sequence of projects to build
     */
     private boolean process( CommandLine line, Resource[] resources ) throws Exception
     {

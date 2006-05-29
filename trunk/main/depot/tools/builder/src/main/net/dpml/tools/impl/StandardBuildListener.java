@@ -18,6 +18,8 @@
 
 package net.dpml.tools.impl;
 
+import net.dpml.library.Resource;
+
 import net.dpml.tools.Context;
 
 import org.apache.tools.ant.BuildListener;
@@ -58,6 +60,13 @@ public class StandardBuildListener implements BuildListener
      */
     public void buildStarted( BuildEvent event )
     {
+        Resource resource = m_context.getResource();
+        String path = resource.getResourcePath();
+        String version = resource.getVersion();
+        Project project = m_context.getProject();
+        project.log( "\n-------------------------------------------------------------------------" );
+        project.log( path + "#" + version );
+        project.log( "-------------------------------------------------------------------------" );
     }
 
     /**
