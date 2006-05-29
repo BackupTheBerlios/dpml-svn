@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.lang.ref.WeakReference;
 
+import net.dpml.transit.link.ArtifactLinkManager;
+
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 import net.dpml.util.ElementHelper;
@@ -42,7 +44,7 @@ import org.w3c.dom.TypeInfo;
 public final class PartDecoder implements Decoder
 {
    /**
-    * Part ZSD uri.
+    * Part XSD uri.
     */
     public static final String PART_XSD_URI = "@PART-XSD-URI@";
 
@@ -128,11 +130,24 @@ public final class PartDecoder implements Decoder
         }
     }
     
-    private String buildKey( URI uri )
+    private String buildKey( URI uri ) throws IOException
     {
         ClassLoader classloader = getAnchorClassLoader();
         int n = System.identityHashCode( classloader );
-        return "" + n + "#" + uri.toASCIIString();
+        return "" + n + "#" + getRealURI( uri ).toASCIIString();
+    }
+    
+    private URI getRealURI( URI uri ) throws IOException
+    {
+        if( "link".equals( uri.getScheme() ) )
+        {
+            ArtifactLinkManager manager = new ArtifactLinkManager();
+            return manager.getTargetURI( uri );
+        }
+        else
+        {
+            return uri;
+        }
     }
     
    /**
