@@ -39,7 +39,6 @@ import net.dpml.library.impl.DefaultLibrary;
 import net.dpml.tools.info.ListenerDirective;
 
 import net.dpml.tools.Context;
-import net.dpml.tools.Processor;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
@@ -50,6 +49,7 @@ import net.dpml.util.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.types.Path;
 
 /**
@@ -131,6 +131,8 @@ public final class DefaultContext implements Context
           "project.info", 
           "---------------------------------------------------------------------------\n"
           + resource.getResourcePath()
+          + "#"
+          + resource.getVersion()
           + "\n---------------------------------------------------------------------------" );
         
         project.setNewProperty( "project.src.dir", getSrcDirectory().toString() );
@@ -159,6 +161,8 @@ public final class DefaultContext implements Context
             project.log( "adding listener: " + directive.getName(), Project.MSG_VERBOSE );
             BuildListener buildListener = loadBuildListener( directive );
             project.addBuildListener( buildListener );
+            BuildEvent event = new BuildEvent( project );
+            buildListener.buildStarted( event );
         }
     }
     

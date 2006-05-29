@@ -19,7 +19,6 @@
 package net.dpml.tools.impl;
 
 import net.dpml.tools.Context;
-import net.dpml.tools.Processor;
 
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
@@ -27,10 +26,7 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Project;
 
 /**
- * Standard build listener.  The implementation provides support
- * for codebase structure normalization and execution of common build
- * procedures conditional to the presence of specific target directories
- * and declared resource production types.
+ * Standard build listener.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -38,7 +34,6 @@ import org.apache.tools.ant.Project;
 public class StandardBuildListener implements BuildListener
 {
     private final Context m_context;
-    private final Processor m_standard;
     
    /**
     * Creation of a new standard build listener.
@@ -52,7 +47,6 @@ public class StandardBuildListener implements BuildListener
         }
         
         m_context = context;
-        m_standard = new StandardProcess();
     }
     
     /**
@@ -89,43 +83,6 @@ public class StandardBuildListener implements BuildListener
      */
     public void targetStarted( BuildEvent event )
     {
-        Target target = event.getTarget();
-        String targetName = target.getName();
-        if( "clean".equals( targetName ) )
-        {
-            event.getProject().log( "executing cleanup phase", Project.MSG_VERBOSE );
-            m_standard.clean( m_context );
-        }
-        else if( "init".equals( targetName ) )
-        {
-            event.getProject().log( "executing initialization phase", Project.MSG_VERBOSE );
-            m_standard.initialize( m_context );
-        }
-        else if( "prepare".equals( targetName ) )
-        {
-            event.getProject().log( "executing preparation phase", Project.MSG_VERBOSE );
-            m_standard.prepare( m_context );
-        }
-        else if( "build".equals( targetName ) )
-        {
-            event.getProject().log( "executing build phase", Project.MSG_VERBOSE );
-            m_standard.build( m_context );
-        }
-        else if( "package".equals( targetName ) )
-        {
-            event.getProject().log( "executing packaging phase", Project.MSG_VERBOSE );
-            m_standard.pack( m_context );
-        }
-        else if( "test".equals( targetName ) )
-        {
-            event.getProject().log( "executing validation phase", Project.MSG_VERBOSE );
-            m_standard.validate( m_context );
-        }
-        else if( "install".equals( targetName ) )
-        {
-            event.getProject().log( "executing installation phase", Project.MSG_VERBOSE );
-            m_standard.install( m_context );
-        }
     }
 
     /**

@@ -109,10 +109,26 @@ public class GenericTask extends Task
     public Context getContext()
     {
         Project project = getProject();
-        Context context = (Context) project.getReference( "project.context" );
-        if( null != context )
+        Object object = project.getReference( "project.context" );
+        if( object != null )
         {
-            return context;
+            if( object instanceof Context )
+            {
+                return (Context) object;
+            }
+            else
+            {
+                //System.out.println( 
+                //  net.dpml.lang.StandardClassLoader.toString( 
+                //    object.getClass().getClassLoader(),
+                //    Context.class.getClassLoader() ) );
+                
+                final String error = 
+                  "Object assigned under the 'project.context' key is not assignable to a context instance."
+                  + "\nObject: " + object.getClass().getName()
+                  + "\nExpecting: " + Context.class.getName();
+                throw new IllegalStateException( error );
+            }
         }
         else
         {
@@ -129,7 +145,7 @@ public class GenericTask extends Task
             
             try
             {
-                context = new DefaultContext( project );
+                Context context = new DefaultContext( project );
                 Resource resource = context.getResource();
                 String name = resource.getName();
                 String version = resource.getVersion();
