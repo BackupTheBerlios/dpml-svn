@@ -51,8 +51,7 @@ import org.apache.tools.ant.taskdefs.Delete;
 public class StandardProcess extends AbstractProcessor
 {
    /**
-    * Handles context initialization during which path definitions
-    * for runtime and test concerns are bound to the active project.
+    * Handles context initialization.
     *
     * @param context the working context
     */
@@ -70,15 +69,6 @@ public class StandardProcess extends AbstractProcessor
     */
     public void prepare( Context context )
     {
-        context.init();
-        context.getProject().log( "commencing preparation", Project.MSG_VERBOSE );
-        Project project = context.getProject();
-        final PrepareTask task = new PrepareTask();
-        task.setProject( project );
-        task.setTaskName( "prepare" );
-        task.init();
-        task.execute();
-        context.getProject().log( "preparation complete", Project.MSG_VERBOSE );
     }
     
    /**
@@ -88,6 +78,7 @@ public class StandardProcess extends AbstractProcessor
     */
     public void build( Context context )
     {
+        /*
         // If a target/build/main or target/build/test exists then we should be  
         // triggering content compilation.  Compilation requires project input 
         // with respect to javac source selection and subsequent rmic 
@@ -155,6 +146,7 @@ public class StandardProcess extends AbstractProcessor
             task.init();
             task.execute();
         }
+        */
     }
 
    /**
@@ -163,6 +155,7 @@ public class StandardProcess extends AbstractProcessor
     */
     public void pack( Context context )
     {
+        /*
         Project project = context.getProject();
         Resource resource = context.getResource();
         
@@ -218,6 +211,7 @@ public class StandardProcess extends AbstractProcessor
             task.init();
             task.execute();
         }
+        */
     }
     
    /**
@@ -262,12 +256,6 @@ public class StandardProcess extends AbstractProcessor
     */
     public void install( Context context )
     {
-        Project project = context.getProject();
-        final InstallTask task = new InstallTask();
-        task.setProject( project );
-        task.setTaskName( "install" );
-        task.init();
-        task.execute();
     }
 
    /**
@@ -277,14 +265,6 @@ public class StandardProcess extends AbstractProcessor
     */
     public void clean( Context context )
     {
-        File dir = context.getTargetDirectory();
-        Project project = context.getProject();
-        final Delete task = new Delete();
-        task.setProject( project );
-        task.setTaskName( "delete" );
-        task.setDir( dir );
-        task.init();
-        task.execute();
     }
 
     private File getJarFile( Context context )

@@ -20,7 +20,7 @@
     xmlns:transit="antlib:net.dpml.transit" 
     xmlns:x="dpml:depot" >
 
-  <transit:plugin uri="@PROJECT-URI@">
+  <transit:plugin uri="@PROJECT-LINK-URI@">
     <antlib urn="dpml:depot" resource="net/dpml/tools/tasks/antlib.xml"/>
   </transit:plugin>
   
@@ -28,23 +28,35 @@
     <x:init/>
   </target>
 
-  <target name="clean" depends="init"/>
+  <target name="clean" depends="init">
+    <x:clean/>
+  </target>
 
-  <target name="prepare" depends="init"/>
+  <target name="prepare" depends="init">
+    <x:prepare/>
+  </target>
 
-  <target name="build" depends="prepare"/>
+  <target name="build" depends="prepare">
+    <x:build/>
+  </target>
 
-  <target name="package" depends="build"/>
+  <target name="package" depends="build">
+    <x:package/>
+  </target>
 
-  <target name="test" depends="package"/>
+  <target name="test" depends="package">
+    <x:test/>
+  </target>
 
-  <target name="install" depends="test"/>
+  <target name="install" depends="test">
+    <x:install/>
+  </target>
 
   <target name="checkstyle" depends="prepare">
     <property name="checkstyle.dir" location="${project.target.reports.dir}/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
     <property name="project.checkstyle.data" location="${project.target.reports.dir}/checkstyle"/>
-    <x:plugin uri="@DEPOT-CHECKSTYLE-PLUGIN-URI@">
+    <x:plugin uri="@DEPOT-CHECKSTYLE-PLUGIN-LINK-URI@">
       <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>

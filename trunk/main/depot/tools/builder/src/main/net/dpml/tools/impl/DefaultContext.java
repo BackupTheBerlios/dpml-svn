@@ -163,7 +163,7 @@ public final class DefaultContext implements Context
     }
     
    /**
-    * Initialize the contex during which runtime and test path objects are 
+    * Initialize the context during which runtime and test path objects are 
     * established as project references.
     */
     public void init()

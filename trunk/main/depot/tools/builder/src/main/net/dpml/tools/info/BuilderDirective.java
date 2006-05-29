@@ -42,7 +42,6 @@ public final class BuilderDirective extends AbstractDirective
     * Creation of a new library directive.
     * @param listeners an array of listener directives
     * @param phase the default target phase
-    * @param processors an array of processor directives
     * @param properties supplimentary properties
     * @exception UnknownKeyException if a unknown key is referenced
     */

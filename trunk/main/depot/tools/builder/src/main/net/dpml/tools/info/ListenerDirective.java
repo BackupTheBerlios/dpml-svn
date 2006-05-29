@@ -26,7 +26,7 @@ import net.dpml.library.info.AbstractDirective;
 
 /**
  * The ListenerDirective is an immutable descriptor used to define 
- * a build listener that serves to construct an identified type.
+ * a build listener to be attached to an Ant project.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -44,7 +44,6 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     * @param priority the listener priority
     * @param uri the listener codebase
     * @param classname optional classname of the plugin instantiation target
-    * @param dependencies array of listener names that the listener depends upon
     * @param properties supplimentary properties
     * @exception NullPointerException if name or dependencies are null
     * @exception IllegalStateException if both classname and urn values are null
@@ -76,8 +75,8 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     }
     
    /**
-    * Return the listener resource type name.
-    * @return the name of the resource type produced by the listener
+    * Return the listener name.
+    * @return the listener name
     */
     public String getName()
     {
@@ -94,7 +93,7 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     }
     
    /**
-    * Return the listener codebase urn.
+    * Return the listener codebase uri.
     * @return the urn
     */
     public URI getURI()
@@ -103,8 +102,8 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     }
     
    /**
-    * Return the listener codebase urn.
-    * @return the urn
+    * Return the listener codebase uri as a string.
+    * @return the uri value
     */
     public String getURISpec()
     {
@@ -119,11 +118,9 @@ public final class ListenerDirective  extends AbstractDirective implements Compa
     }
     
    /**
-    * Return true if the listener produces a build artifact.  If false
-    * the listener may contribute to a build process but does not generate a 
-    * specific artifact type.
+    * Get the listener classname.
     *
-    * @return true if the listener produces an artifact
+    * @return the classname of the listener
     */
     public String getClassname()
     {

@@ -10,6 +10,7 @@
   <target name="init" depends="bootstrap.init">
     <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#${dpml.xsd.version}"/>
     <filter token="PROJECT-URI" value="artifact:part:${project.group}/${project.name}#${project.version}" />
+    <filter token="PROJECT-LINK-URI" value="link:part:${project.group}/${project.name}" />
     <filter token="PROJECT-NAME" value="${project.name}" />
     <filter token="PROJECT-GROUP" value="${project.group}"/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>
@@ -18,6 +19,8 @@
     <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-URI" 
         value="artifact:plugin:${project.group}/dpml-depot-checkstyle#${project.version}"/>
+    <filter token="DEPOT-CHECKSTYLE-PLUGIN-LINK-URI" 
+        value="link:plugin:${project.group}/dpml-depot-checkstyle"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">

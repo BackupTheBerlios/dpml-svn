@@ -93,10 +93,10 @@ public class StandardBuildListener implements BuildListener
         String targetName = target.getName();
         if( "clean".equals( targetName ) )
         {
-            event.getProject().log( "executing clenup phase", Project.MSG_VERBOSE );
+            event.getProject().log( "executing cleanup phase", Project.MSG_VERBOSE );
             m_standard.clean( m_context );
         }
-        if( "init".equals( targetName ) )
+        else if( "init".equals( targetName ) )
         {
             event.getProject().log( "executing initialization phase", Project.MSG_VERBOSE );
             m_standard.initialize( m_context );

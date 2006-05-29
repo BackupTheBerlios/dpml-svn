@@ -48,8 +48,6 @@ public final class BuilderDirectiveHelper
     private static final String LISTENER_ELEMENT_NAME = "listener";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     private static final String PROPERTY_ELEMENT_NAME = "property";
-    private static final String PROCESSORS_ELEMENT_NAME = "processors";
-    private static final String PROCESSOR_ELEMENT_NAME = "processor";
     
     private BuilderDirectiveHelper()
     {

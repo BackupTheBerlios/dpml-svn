@@ -82,6 +82,8 @@ public class PrepareTask extends GenericTask
         final Project project = getProject();
         Resource resource = getResource();
         Context context = getContext();
+        context.init();
+        
         log( "basedir: " + getResource().getBaseDir(), Project.MSG_VERBOSE );
         
         //
