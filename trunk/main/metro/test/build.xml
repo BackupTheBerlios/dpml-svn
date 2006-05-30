@@ -26,6 +26,11 @@
 
   <target name="build" depends="standard.build">
 
+    <rmic base="${project.target.classes.main.dir}" 
+        classpathref="project.compile.path">
+      <include name="**/ManagedComponent#DefaultMonitor.class"/>
+    </rmic>
+
     <x:plugin uri="link:part:dpml/metro/dpml-metro-tools"/>
 
     <!-- create the test component types -->

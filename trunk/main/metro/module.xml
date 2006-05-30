@@ -12,11 +12,7 @@
    
   <project name="dpml-state-impl" basedir="state/impl">
     <types>
-      <type id="jar" xsi:type="jar">
-        <rmic>
-          <include name="**/DefaultStateListener.class"/>
-        </rmic>
-      </type>
+      <type id="jar"/>
     </types>
     <dependencies>
       <runtime>
@@ -112,17 +108,7 @@
       </description>
     </info>
     <types>
-      <type id="jar" xsi:type="jar">
-        <rmic>
-          <include name="**/DefaultComponentModel.class"/>
-          <include name="**/DefaultContextModel.class"/>
-          <include name="**/DefaultComponentHandler.class"/>
-          <include name="**/DefaultProvider.class"/>
-          <include name="**/DefaultComponentHandler.class"/>
-          <include name="**/CompositionHandler.class"/>
-          <include name="**/ValueHandler.class"/>
-        </rmic>
-      </type>
+      <type id="jar"/>
       <type xsi:type="part:plugin" alias="true" class="net.dpml.metro.runtime.CompositionController">
         <part:param class="net.dpml.component.InitialContext"/>
       </type>
@@ -181,11 +167,7 @@
       <property name="project.javadoc.exclude" value="true"/>
     </properties>
     <types>
-      <type id="jar" xsi:type="jar">
-        <rmic>
-          <include name="**/ManagedComponent#DefaultMonitor.class"/>
-        </rmic>
-      </type>
+      <type id="jar"/>
     </types>
     <dependencies>
       <runtime>

@@ -23,7 +23,6 @@ import java.io.File;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 import net.dpml.library.info.Scope;
-import net.dpml.library.info.JarTypeDirective;
 
 import net.dpml.tools.Context;
 
@@ -64,27 +63,6 @@ public class BuildTask extends GenericTask
             task.setProject( project );
             task.init();
             task.execute();
-        }
-        
-        // resolve rmic selection
-        
-        Resource resource = context.getResource();
-        if( resource.isa( "jar" ) )
-        {
-            Type type = resource.getType( "jar" );
-            if( type instanceof JarTypeDirective )
-            {
-                JarTypeDirective directive = (JarTypeDirective) type;
-                String[] includes = directive.getRMICIncludes();
-                String[] excludes = directive.getRMICExcludes();
-                RMICTask rmicTask = new RMICTask( context );
-                Project project = context.getProject();
-                rmicTask.setProject( project );
-                rmicTask.setIncludes( includes );
-                rmicTask.setExcludes( excludes );
-                rmicTask.init();
-                rmicTask.execute();
-            }
         }
         
         // conditionaly compile test classes

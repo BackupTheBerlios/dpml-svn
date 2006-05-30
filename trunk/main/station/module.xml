@@ -86,13 +86,7 @@
       <property name="project.test.fork" value="true"/>
     </properties>
     <types>
-      <type id="jar" xsi:type="jar">
-        <rmic>
-          <include name="**/RemoteApplicationRegistry.class"/>
-          <include name="**/RemoteApplication.class"/>
-          <include name="**/RemoteStation.class"/>
-        </rmic>
-      </type>
+      <type id="jar"/>
       <type xsi:type="part:plugin" class="net.dpml.station.server.StationServerPlugin" alias="true"/>
     </types>
     <dependencies>

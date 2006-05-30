@@ -668,84 +668,6 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
-    /*
-    private DataDirective[] buildDataDirectives( Element element ) throws Exception
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        DataDirective[] data = new DataDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            data[i] = buildDataDirective( child );
-        }
-        return data;
-    }
-    
-    private DataDirective buildDataDirective( Element element ) throws Exception
-    {
-        TypeInfo info = element.getSchemaTypeInfo();
-        String namespace = info.getTypeNamespace();
-        if( null == namespace )
-        {
-            throw new NullPointerException( "namespace" );
-        }
-        else if( MODULE_XSD_URI.equals( namespace ) )
-        {
-            String tag = element.getTagName();
-            //if( FiltersDirective.KEY.equals( tag ) )
-            //{
-            //    return buildFiltersDirective( element );
-            //}
-            //else 
-            
-            // TODO: rework all of the following to allow for arbitrary process 
-            // parameters
-            
-            if( RMICDirective.KEY.equals( tag ) )
-            {
-                return buildRMICDirective( element );
-            }
-            else
-            {
-                final String error = 
-                  "Datatype not recognized.";
-                throw new DecodingException( element, error );
-            }
-        }
-        else
-        {
-            return new DataDirective( element );
-        }
-    }
-    
-    private RMICDirective buildRMICDirective( Element element ) throws Exception
-    {
-        PatternDirective[] patterns = buildPatternDirectives( element );
-        return new RMICDirective( patterns );
-    }
-    
-    private PatternDirective[] buildPatternDirectives( Element element ) throws Exception
-    {
-        Element[] children = ElementHelper.getChildren( element );
-        PatternDirective[] patterns = new PatternDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            String tag = child.getTagName();
-            String name = ElementHelper.getAttribute( child, "name" );
-            if( "include".equals( tag ) )
-            {
-                patterns[i] = new IncludePatternDirective( name );
-            }
-            else
-            {
-                patterns[i] = new ExcludePatternDirective( name );
-            }
-        }
-        return patterns;
-    }
-    */
-    
     private FilterDirective[] buildFilterDirectives( Element element ) throws Exception
     {
         if( null == element )
@@ -787,49 +709,6 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
-    /*
-    private FiltersDirective buildFiltersDirective( Element element ) throws Exception
-    {
-        if( null == element )
-        {
-            return new FiltersDirective( new FilterDirective[0] );
-        }
-        else
-        {
-            Element[] children = ElementHelper.getChildren( element );
-            FilterDirective[] filters = new FilterDirective[ children.length ];
-            for( int i=0; i<children.length; i++ )
-            {
-                Element child = children[i];
-                String token = ElementHelper.getAttribute( child, "token" );
-                if( "filter".equals( child.getTagName() ) )
-                {
-                    String value = ElementHelper.getAttribute( child, "value" );
-                    filters[i] = new SimpleFilterDirective( token, value );
-                }
-                else if( "feature".equals( child.getTagName() ) )
-                {
-                    String id = ElementHelper.getAttribute( child, "id" );
-                    Feature feature = Feature.parse( id );
-                    String ref = ElementHelper.getAttribute( child, "ref" );
-                    String type = ElementHelper.getAttribute( child, "type" );
-                    boolean alias = ElementHelper.getBooleanAttribute( child, "alias" );
-                    filters[i] = new FeatureFilterDirective( token, ref, feature, type, alias );
-                }
-                else
-                {
-                    final String error = 
-                      "Element name not recognized [" 
-                      + child.getTagName()
-                      + "] (expecting 'filter').";
-                    throw new DecodingException( element, error );
-                }
-            }
-            return new FiltersDirective( filters );
-        }
-    }
-    */
-    
     private DataDirective[] buildDataTypes( Element element ) throws Exception
     {
         if( null == element )
@@ -869,11 +748,6 @@ public final class LibraryDecoder extends LibraryConstants
                 final boolean alias = getAliasFlag( element );
                 final Properties properties = getProperties( element );
                 return new TypeDirective( id, alias, properties );
-            }
-            else if( "jar".equals( typeName ) )
-            {
-                final boolean alias = getAliasFlag( element );
-                return new JarTypeDirective( element, alias );
             }
             else
             {

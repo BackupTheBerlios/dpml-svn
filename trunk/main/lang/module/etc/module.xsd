@@ -15,15 +15,7 @@
     <element name="resource" type="this:ResourceType"/>
     <element name="property" type="this:PropertyType"/>
     <element name="type" type="common:AbstractType" substitutionGroup="common:type"/>
-    
-    <element name="data" type="this:InstructionSetType"/>
-    
-    <!--<element name="abstract-filter" type="this:AbstractFilter"/>
-    <element name="filters" type="this:FiltersType" substitutionGroup="common:data"/>
-    <element name="filter" type="this:Filter" substitutionGroup="this:abstract-filter"/>
-    <element name="feature" type="this:Feature" substitutionGroup="this:abstract-filter"/>-->
-    <!--<element name="rmic" type="this:RMICType" substitutionGroup="common:data"/>-->
-    
+        
     <complexType name="LibraryType">
       <all>
         <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
@@ -103,10 +95,6 @@
     <complexType name="TypesType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element ref="common:type"/>
-        <!--
-        <element name="type" type="common:AbstractType"/>
-        <element name="data" type="anyType"/>
-        -->
       </choice>
     </complexType>
     
@@ -230,27 +218,16 @@
       </restriction>
     </simpleType>
 
-    <!-- new stuff-->
-    
-    <complexType name="InstructionSetType">
-      <sequence>
-        <element name="data" type="this:DataType" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-    </complexType>
-    
-    <complexType name="DataType" abstract="true">
-      <attribute name="id" type="string" use="required"/>
-    </complexType>
-    
-    <!-- existing process stuff-->
+    <!-- jar type -->
 
+    <!--
     <complexType name="jar">
       <complexContent>
         <extension base="common:AbstractType">
-          <sequence>
-            <element name="src" type="this:PatternCollectionType" minOccurs="0" maxOccurs="1"/>
-            <element name="rmic" type="this:PatternCollectionType" minOccurs="0" maxOccurs="1"/>
-          </sequence>
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="include" type="this:IncludePatternType"/>
+            <element name="exclude" type="this:ExcludePatternType"/>
+          </choice>
           <attribute name="compress" type="boolean" default="true"/>
           <attribute name="index" type="boolean" default="true"/>
         </extension>
@@ -279,6 +256,7 @@
         </extension>
       </simpleContent>
     </complexType>
-
+    -->
+    
 </schema>
 
