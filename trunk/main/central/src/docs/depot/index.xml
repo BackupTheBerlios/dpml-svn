@@ -10,6 +10,21 @@
   <body>
 
     <section name="DPML Depot">
+    
+      <p>
+      DPML Depot provides support for the management of complex multi-project 
+      builds.
+      </p>
+      
+      <ul>
+        <li>module, project and resource management</li>
+        <li>transitive dependency management</li>
+        <li>build automation</li>
+        <li>multiproject sequencing</li>
+        <li>cross-project queries</li>
+        <li>repository-based resource management</li>
+        <li>build customization via Ant</li>
+      </ul>
 
       <p>
       The project builder provides support for the building of multiple 
@@ -17,7 +32,7 @@
       declarations, and build strategy.  The builder makes extensive use
       of a common <a href="library/index.html">library</a> to establish a build 
       context and identify the build system <a href="tools/index.html">
-      implementation</a> to execute.
+      implementation</a>.
       </p>
 
       <img src="../images/tools/library.png"/>

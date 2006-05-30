@@ -29,7 +29,7 @@
     <section name="System Properties">
 
       <p>
-        Two system properties may be used to control the condiguration 
+        Two optional system properties may be used to control the configuration 
         of the Transit system.  One property provides a mechanisms whereby a 
         remote active transit model can be associated as the confiuration
         for a local transit instance.  A second property is available for 

@@ -34,7 +34,7 @@
       <subsection name="Description">
 
         <p>
-        A part defines a deployment unit.  
+        A part defines a plugin or general deployment unit.
         </p>
         
         <p>
