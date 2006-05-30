@@ -59,7 +59,7 @@ public class DOM3DocumentBuilder
     */
     public DOM3DocumentBuilder()
     {
-        this( new DefaultLogger( "dom" ), new Hashtable() );
+        this( new DefaultLogger( "dom" ) );
     }
     
    /**
