@@ -28,7 +28,6 @@ abstract class LibraryConstants
 {
     static final String PART_XSD_URI = "@PART-XSD-URI@";
     static final String MODULE_XSD_URI = "@MODULE-XSD-URI@";
-    static final String COMMON_XSD_URI = "@COMMON-XSD-URI@";
     
     static final String XML_HEADER = 
       "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";

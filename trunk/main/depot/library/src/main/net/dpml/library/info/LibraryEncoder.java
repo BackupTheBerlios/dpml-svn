@@ -77,9 +77,6 @@ public final class LibraryEncoder extends LibraryConstants
               + "\""
               + "\n    xmlns:xsi=\"" 
               + XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI
-              + "\""
-              + "\n    xmlns:common=\"" 
-              + COMMON_XSD_URI
               + "\">" );
             
             
