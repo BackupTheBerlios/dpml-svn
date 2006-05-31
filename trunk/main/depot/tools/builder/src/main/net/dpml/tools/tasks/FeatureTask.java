@@ -20,6 +20,8 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
+import net.dpml.lang.Version;
+
 import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
@@ -186,33 +188,8 @@ public abstract class FeatureTask extends GenericTask
             {
                 if( m_alias )
                 {
-                    Type type = resource.getType( m_type );
-                    if( type.getAlias() )
-                    {
-                        Artifact artifact = resource.getArtifact( m_type );
-                        String group = artifact.getGroup();
-                        String name = artifact.getName();
-                        try
-                        {
-                            return "link:" + m_type + ":" + group + "/" + name;
-                        }
-                        catch( Exception e )
-                        {
-                            final String error = 
-                              "Unable to resolve link uri for resource: " + resource;
-                            throw new BuildException( error, e, getLocation() );
-                        }
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Cannot resolve link from resource [" 
-                          + resource 
-                          + "] because the resource does not declare production of an alias for the type ["
-                          + type.getID() 
-                          + "].";
-                        throw new BuildException( error, getLocation() );
-                    }
+                    Artifact artifact = resource.getLinkArtifact( m_type );
+                    return artifact.toURI().toString();
                 }
                 else
                 {

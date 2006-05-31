@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<part xmlns="@PART-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<part xmlns="@PART-XSD-SPEC-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   
   <info title="Demo Resource">
     <description>

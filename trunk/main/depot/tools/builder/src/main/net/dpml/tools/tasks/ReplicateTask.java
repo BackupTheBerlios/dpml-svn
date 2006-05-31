@@ -185,8 +185,7 @@ public class ReplicateTask extends GenericTask
             
             Artifact artifact = resource.getArtifact( id );
             copyArtifact( artifact, cache, destination, layout );
-            boolean alias = type.getAlias();
-            if( alias )
+            if( null != type.getVersion() )
             {
                 Artifact link = resource.getLinkArtifact( id );
                 copyArtifact( link, cache, destination, layout );

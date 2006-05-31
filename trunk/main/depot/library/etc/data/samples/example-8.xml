@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <library xmlns="@MODULE-XSD-URI@" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
+    xmlns:part="@PART-XSD-URI@">
 
   <imports>
     <import uri="link:module:junit"/>

@@ -51,7 +51,7 @@ public abstract class Part
    /**
     * Part schema URN.
     */
-    protected static final String PART_SCHEMA_URN = "@PART-XSD-URI@";
+    protected static final String PART_SCHEMA_URN = "@PART-XSD-SPEC-URI@";
 
    /**
     * Part header.

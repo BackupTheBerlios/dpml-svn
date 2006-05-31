@@ -46,7 +46,7 @@ public final class PartDecoder implements Decoder
    /**
     * Part XSD uri.
     */
-    public static final String PART_XSD_URI = "@PART-XSD-URI@";
+    public static final String PART_XSD_URI = "@PART-XSD-SPEC-URI@";
 
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
       new DOM3DocumentBuilder();

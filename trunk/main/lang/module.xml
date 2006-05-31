@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="lang"
-    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
+<module name="lang" xmlns="link:xsd:dpml/lang/dpml-module#1.0">
    
-  <!--
-  <resource name="dpml-common" version="1.0">
-    <types>
-      <type id="xsd" alias="true"/>
-    </types>
-  </resource>
-  -->
-  
-  <resource name="dpml-module" version="1.0">
+  <resource name="dpml-module">
     <types>
       <type id="xsd"/>
     </types>
   </resource>
 
-  <resource name="dpml-part" version="1.0">
+  <resource name="dpml-part">
     <types>
-      <type id="xsd"/>
+      <type id="xsd" version="1.0"/>
     </types>
     <dependencies>
       <build>
@@ -29,15 +18,15 @@
     </dependencies>
   </resource>
 
-  <resource name="dpml-state" version="1.0">
+  <resource name="dpml-state">
     <types>
-      <type id="xsd"/>
+      <type id="xsd" version="1.0"/>
     </types>
   </resource>
    
-  <resource name="dpml-component" version="1.0">
+  <resource name="dpml-component">
     <types>
-      <type id="xsd"/>
+      <type id="xsd" version="1.0"/>
     </types>
     <dependencies>
       <build>
@@ -46,9 +35,9 @@
     </dependencies>
   </resource>
 
-  <resource name="dpml-type" version="1.0">
+  <resource name="dpml-type">
     <types>
-      <type id="xsd"/>
+      <type id="xsd" version="1.0"/>
     </types>
     <dependencies>
       <build>

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:this="@PROJECT-XSD-URI@"
-            targetNamespace="@PROJECT-XSD-URI@"
+            xmlns:this="@PROJECT-XSD-SPEC-URI@"
+            targetNamespace="@PROJECT-XSD-SPEC-URI@"
             elementFormDefault="qualified">
     
     <element name="library" type="this:LibraryType"/>
@@ -97,6 +97,7 @@
 
     <complexType name="AbstractType" abstract="true">
       <attribute name="alias" type="boolean" default="false"/>
+      <attribute name="version" type="string"/>
     </complexType>
     
     <complexType name="GenericType">

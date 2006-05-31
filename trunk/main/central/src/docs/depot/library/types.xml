@@ -22,7 +22,7 @@
       <tt>&lt;types&gt;</tt> element.  The nested <tt>&lt;type&gt;</tt>
       element declares the type name under the <tt>id</tt> attribute.
       Optional properties may be declared as nested <tt>&lt;property&gt;</tt>
-      elements.       
+      elements.
       </p>
 
       <p>
@@ -42,6 +42,17 @@
            <tr>
              <td>id</td>
              <td>The type identifier (required).</td>
+           </tr>
+           <tr>
+             <td>version</td>
+             <td>Declaration of an link-based alias version If declared a link
+               will be created with a version corresponding to the supplied value
+               (a version in the form &lt;major&gt'.&lt;minor&gt; such as <tt>1.2</tt>.</td>
+           </tr>
+           <tr>
+             <td>alias</td>
+             <td>Declaration of an an un-versioned link (may not be used in conjunction 
+             with the version attribute).</td>
            </tr>
          </table>
 

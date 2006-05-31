@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -179,7 +180,7 @@ public class DOM3DocumentBuilder
        /**
         * Resolve an LS input. 
         * @param type the node type
-        * @param namespace the node naespace
+        * @param namespace the node namespace
         * @param publicId the public id
         * @param systemId the system id
         * @param base the base value
@@ -194,6 +195,12 @@ public class DOM3DocumentBuilder
                 input.setPublicId( publicId );
                 input.setSystemId( systemId );
                 input.setBaseURI( base );
+                
+                if( null == namespace )
+                {
+                    return input;
+                }
+                
                 try
                 {
                     URI uri = resolveURI( namespace );
@@ -220,6 +227,10 @@ public class DOM3DocumentBuilder
         
         private URI resolveURI( String namespace ) throws URISyntaxException
         {
+            if( null == namespace )
+            {
+                throw new NullPointerException( "namespace" );
+            }
             String value = System.getProperty( namespace );
             if( null != value )
             {

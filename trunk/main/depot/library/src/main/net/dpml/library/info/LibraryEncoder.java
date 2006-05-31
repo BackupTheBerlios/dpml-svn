@@ -26,9 +26,11 @@ import java.util.Properties;
 
 import javax.xml.XMLConstants;
 
+import net.dpml.lang.Category;
+import net.dpml.lang.Version;
+
 import net.dpml.library.info.IncludeDirective.Mode;
 
-import net.dpml.lang.Category;
 
 /**
  * Utility class used for construction of a module model from an XML source.
@@ -285,11 +287,18 @@ public final class LibraryEncoder extends LibraryConstants
     private void writeType( Writer writer, TypeDirective type, String lead ) throws IOException
     {
         String id = type.getID();
-        boolean alias = type.getAlias();
         writer.write( "\n" + lead + "<type id=\"" + id + "\"" );
-        if( alias )
+        Version version = type.getVersion();
+        if( null != version )
         {
-            writer.write( " alias=\"true\"" );
+            if( Version.NULL_VERSION.equals( version ) )
+            {
+                writer.write( " alias=\"true\"" );
+            }
+            else
+            {
+                writer.write( " version=\"" + version.getMajor() + "." + version.getMinor() + "\"" );
+            }
         }
         writer.write( "/>" );
     }

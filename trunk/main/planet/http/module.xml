@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="http" basedir="." xmlns="artifact:xsd:dpml/lang/dpml-module#1.0">
+<module name="http" basedir="." xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
   <properties>
-    <property name="project.xsd.builder.artifact:xsd:dpml/lang/dpml-component#1.0"
+    <property name="project.xsd.builder.link:xsd:dpml/lang/dpml-component#1.0"
       value="link:part:dpml/metro/dpml-metro-runtime"/>
     <property name="jetty.version" value="6.0.0-R534"/>
     <property name="jasper.version" value="5.5.15"/>

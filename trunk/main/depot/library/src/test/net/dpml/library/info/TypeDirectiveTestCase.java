@@ -18,6 +18,9 @@
 
 package net.dpml.library.info;
 
+import net.dpml.lang.Version;
+
+
 /**
  * The ModuleDirective class describes a module data-structure.
  *
@@ -29,9 +32,9 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
     static final TypeDirective[] TYPES = new TypeDirective[3];
     static
     {
-        TYPES[0] = new TypeDirective( "jar", false, PROPERTIES );
-        TYPES[1] = new TypeDirective( "plugin", true, PROPERTIES );
-        TYPES[2] = new TypeDirective( "widget", false, PROPERTIES );
+        TYPES[0] = new TypeDirective( "jar", null, PROPERTIES );
+        TYPES[1] = new TypeDirective( "plugin", Version.NULL_VERSION, PROPERTIES );
+        TYPES[2] = new TypeDirective( "widget", Version.parse( "1.2" ), PROPERTIES );
     }
     
    /**
@@ -42,7 +45,7 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
     {
         try
         {
-            TypeDirective type = new TypeDirective( null, true, PROPERTIES );
+            TypeDirective type = new TypeDirective( null, Version.NULL_VERSION, PROPERTIES );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -56,19 +59,37 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
     */
     public void testTypeName()
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
+        TypeDirective type = new TypeDirective( "abc", Version.parse( "1.2" ), PROPERTIES );
         assertEquals( "type", "abc", type.getID() );
     }
     
    /**
     * Test the type directive alias accessor.
     */
-    public void testTypeAlias()
+    public void testNullTypeVersion()
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
-        assertTrue( "alias", type.getAlias() );
-        type = new TypeDirective( "abc", false, PROPERTIES );
-        assertFalse( "alias", type.getAlias() );
+        TypeDirective type = new TypeDirective( "abc", null, PROPERTIES );
+        assertEquals( "null-version", null, type.getVersion() );
+    }
+    
+   /**
+    * Test the type directive alias accessor.
+    */
+    public void testExplicitTypeVersion()
+    {
+        Version version = Version.parse( "1.2" );
+        TypeDirective type = new TypeDirective( "abc", version, PROPERTIES );
+        assertEquals( "version", version, type.getVersion() );
+    }
+    
+   /**
+    * Test the type directive alias accessor.
+    */
+    public void testLogicalNullVersion()
+    {
+        Version version = Version.NULL_VERSION;
+        TypeDirective type = new TypeDirective( "abc", version, PROPERTIES );
+        assertEquals( "version", version, type.getVersion() );
     }
     
    /**
@@ -77,7 +98,7 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
     */
     public void testSerialization() throws Exception
     {
-        TypeDirective type = new TypeDirective( "abc", true, PROPERTIES );
+        TypeDirective type = new TypeDirective( "abc", Version.parse( "1.2" ), PROPERTIES );
         doSerializationTest( type );
     }
 }

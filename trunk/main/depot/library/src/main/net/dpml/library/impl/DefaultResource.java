@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Hashtable;
 
 import net.dpml.lang.Category;
+import net.dpml.lang.Version;
 
 import net.dpml.library.Info;
 import net.dpml.library.Filter;
@@ -386,7 +387,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     }
     
    /**
-    * Construct an unversion link artifact for the supplied type.
+    * Construct an link artifact for the supplied type.
     * @param id the resource type id
     * @return the link artifact
     */
@@ -404,18 +405,37 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
         String group = getGroupName();
         String name = getName();
+        Type type = getType( id );
+        Version version = type.getVersion();
+        if( null == version )
+        {
+            final String error = 
+              "Resource does not declare production of an alias for the requested type."
+              + "\nResource: " + this
+              + "\nType: " + id;
+            throw new IllegalArgumentException( error );
+        }
         try
         {
-            if( null == group )
+            String spec = "link:" + id;
+            if( null != group )
             {
-                String spec = "link:" + id + ":" + name;
-                return Artifact.createArtifact( spec );
+                spec = spec + ":" + group + "/" + name;
             }
             else
             {
-                String spec = "link:" + id + ":" + group + "/" + name;
-                return Artifact.createArtifact( spec );
+                spec = spec + ":" + name;
             }
+            if( !Version.NULL_VERSION.equals( version ) )
+            {
+                int major = version.getMajor();
+                int minor = version.getMinor();
+                spec = spec + "#"
+                  + major
+                  + "."
+                  + minor;
+            }
+            return Artifact.createArtifact( spec );
         }
         catch( Throwable e )
         {
@@ -643,8 +663,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             TypeDirective type = types[i];
             String id = type.getID();
-            boolean alias = type.getAlias();
-            export[i] = new TypeDirective( id, alias );
+            Version version = type.getVersion();
+            export[i] = new TypeDirective( id, version );
         }
         return export;
     }

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:part="@PART-XSD-URI@"
-            xmlns:this="@PROJECT-XSD-URI@"
-            targetNamespace="@PROJECT-XSD-URI@"
+            xmlns:part="@PART-XSD-LINK-URI@"
+            xmlns:this="@PROJECT-XSD-LINK-URI@"
+            targetNamespace="@PROJECT-XSD-LINK-URI@"
             elementFormDefault="qualified">
     
-    <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
+    <import namespace="@PART-XSD-LINK-URI@" schemaLocation="@PART-XSD-LINK-URI@"/>
 
     <element name="component" type="this:component" substitutionGroup="part:strategy"/>
     <element name="strategy" type="this:strategy" substitutionGroup="part:strategy"/>

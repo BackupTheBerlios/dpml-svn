@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
-  xmlns:state="artifact:xsd:dpml/lang/dpml-state#1.0">
+<type xmlns="@TYPE-XSD-URI@"
+  xmlns:state="@STATE-XSD-URI@">
 
   <info name="test"
       class="net.dpml.test.part.ExampleComponent"
@@ -18,8 +18,7 @@
     <entry key="color" class="java.awt.Color" optional="false"/>
   </context>
 
-  <!-- ISSUE need to add support for declarations such as <state:state ...> -->
-  <state xmlns="artifact:xsd:dpml/lang/dpml-state#1.0"/>
+  <state xmlns="@STATE-XSD-URI@"/>
 
   <parts/>
 

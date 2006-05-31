@@ -53,6 +53,8 @@ import java.util.StringTokenizer;
  */
 public final class Version implements Comparable, Serializable
 {
+    public static final Version NULL_VERSION = new Version( -1, 0, 0 );
+    
    /**
     * Serial version identifier.
     */

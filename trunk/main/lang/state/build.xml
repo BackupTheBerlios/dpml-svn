@@ -28,16 +28,19 @@
   <import file="${home}/bootstrap.xml"/>
 
   <target name="init" depends="bootstrap.init">
-    <filter token="PROJECT-XSD-URI" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
+    <property name="xsd.uri" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
+    <property name="xsd.spec.uri" value="link:xsd:${project.group}/${project.name}#${specification.version}"/>
+    <filter token="PROJECT-XSD-URI" value="${xsd.spec.uri}"/>
   </target>
 
   <target name="package" depends="bootstrap.package">
-    <property name="targetDir" location="${target.deliverables.dir}/xsds"/>
-    <mkdir dir="${targetDir}"/>
+    <property name="xsds.dir" location="${target.deliverables.dir}/xsds"/>
+    <mkdir dir="${xsds.dir}"/>
     <property name="filename" value="${project.name}-${project.version}.xsd"/>
-    <copy toFile="${targetDir}/${filename}" preservelastmodified="true" overwrite="true" 
+    <copy toFile="${xsds.dir}/${filename}" preservelastmodified="true" overwrite="true" 
       file="${target.dir}/state.xsd"/>
-    <checksum fileext=".md5" file="${targetDir}/${filename}"/>
+    <checksum fileext=".md5" file="${xsds.dir}/${filename}"/>
+    <echo file="${xsds.dir}/${project.name}-${specification.version}.xsd.link" message="${xsd.uri}"/>
   </target>
 
 </project>

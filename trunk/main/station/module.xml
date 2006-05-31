@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module name="station"
-    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
 
   <project name="dpml-station-info" basedir="info">
     <types>
-      <type id="xsd" alias="true"/>
+      <type id="xsd" version="1.0"/>
     </types>
     <dependencies>
       <build>
@@ -14,8 +14,8 @@
       </build>
     </dependencies>
     <filters>
-      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
-      <feature token="PROJECT-XSD-URI" type="xsd" id="uri"/>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri" alias="true"/>
+      <feature token="PROJECT-XSD-URI" type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
 
@@ -33,9 +33,9 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
-      <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri"/>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri"/>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri" alias="true"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
 
@@ -75,7 +75,7 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
    
@@ -101,7 +101,7 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
 

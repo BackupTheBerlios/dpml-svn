@@ -33,6 +33,7 @@ import net.dpml.library.info.ResourceDirective.Classifier;
 
 import net.dpml.lang.Category;
 import net.dpml.lang.Part;
+import net.dpml.lang.Version;
 
 import net.dpml.util.DecodingException;
 import net.dpml.util.DOM3DocumentBuilder;
@@ -741,9 +742,9 @@ public final class LibraryDecoder extends LibraryConstants
             // it's a generic type declaration
             
             final String id = getID( element );
-            final boolean alias = getAliasFlag( element );
             final Properties properties = getProperties( element );
-            return new TypeDirective( id, alias, properties );
+            final Version version = getVersion( element );
+            return new TypeDirective( id, version, properties );
         }
         else if( info.isDerivedFrom( MODULE_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
         {
@@ -751,16 +752,16 @@ public final class LibraryDecoder extends LibraryConstants
               PART_XSD_URI.equals( namespace ) 
               || info.isDerivedFrom( PART_XSD_URI, "StrategyType", TypeInfo.DERIVATION_EXTENSION ) )
             {
-                final boolean alias = getAliasFlag( element );
-                return new TypeDirective( element, "part", alias );
+                final Version version = getVersion( element );
+                return new TypeDirective( element, "part", version );
             }
             else
             {
                 // id attribute is required 
                 
                 final String id = getID( element );
-                final boolean alias = getAliasFlag( element );
-                return new TypeDirective( element, id, alias );
+                final Version version = getVersion( element );
+                return new TypeDirective( element, id, version );
             }
         }
         else
@@ -774,6 +775,23 @@ public final class LibraryDecoder extends LibraryConstants
               + "\nName: " 
               + element.getTagName();
             throw new DecodingException( element, error );
+        }
+    }
+    
+    private Version getVersion( Element element )
+    {
+        final String version = ElementHelper.getAttribute( element, "version" );
+        if( null != version )
+        {
+            return Version.parse( version );
+        }
+        else if( getAliasFlag( element ) )
+        {
+            return Version.NULL_VERSION;
+        }
+        else
+        {
+            return null;
         }
     }
     

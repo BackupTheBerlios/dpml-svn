@@ -20,6 +20,8 @@ package net.dpml.library.info;
 
 import java.util.Properties;
 
+import net.dpml.lang.Version;
+
 import net.dpml.library.Type;
 
 import org.w3c.dom.Element;
@@ -33,7 +35,7 @@ import org.w3c.dom.Element;
 public class TypeDirective extends DataDirective implements Type
 {
     private final String m_name;
-    private final boolean m_alias;
+    private final Version m_version;
     
    /**
     * Creation of a new type directive.
@@ -41,51 +43,51 @@ public class TypeDirective extends DataDirective implements Type
     */
     public TypeDirective( String name )
     {
-        this( name, false );
+        this( name, null );
     }
     
    /**
     * Creation of a new type directive.
     * @param name the name
-    * @param alias alias production policy
+    * @param version alias version
     */
-    public TypeDirective( String name, boolean alias )
+    public TypeDirective( String name, Version version )
     {
-        this( (Element) null, name, alias );
+        this( (Element) null, name, version );
     }
     
    /**
     * Creation of a new type directive.
     * @param element DOM element defining the type 
-    * @param name the name
-    * @param alias alias production policy
+    * @param id the type id
+    * @param version alias version
     */
-    public TypeDirective( Element element, String name, boolean alias )
+    public TypeDirective( Element element, String id, Version version )
     {
         super( element );
-        if( null == name )
+        if( null == id )
         {
-            throw new NullPointerException( "name" );
+            throw new NullPointerException( "id" );
         }
-        m_name = name;
-        m_alias = alias;
+        m_name = id;
+        m_version = version;
     }
     
    /**
     * Creation of a new generic type directive.
-    * @param name the name
-    * @param alias alias production policy
+    * @param id the type id
+    * @param version alias version
     * @param properties supplimentary properties 
     */
-    public TypeDirective( String name, boolean alias, Properties properties )
+    public TypeDirective( String id, Version version, Properties properties )
     {
         super( properties );
-        if( null == name )
+        if( null == id )
         {
-            throw new NullPointerException( "name" );
+            throw new NullPointerException( "id" );
         }
-        m_name = name;
-        m_alias = alias;
+        m_name = id;
+        m_version = version;
     }
     
    /**
@@ -98,12 +100,12 @@ public class TypeDirective extends DataDirective implements Type
     }
     
    /**
-    * Return the alias production policy.
-    * @return true if this type is associated with an alias
+    * Return the alias version.
+    * @return the alias version
     */
-    public boolean getAlias()
+    public Version getVersion()
     {
-        return m_alias;
+        return m_version;
     }
     
    /**
@@ -122,7 +124,7 @@ public class TypeDirective extends DataDirective implements Type
             }
             else
             {
-                return ( m_alias == object.m_alias );
+                return equals( m_version, object.m_version );
             }
         }
         else
@@ -138,11 +140,8 @@ public class TypeDirective extends DataDirective implements Type
     public int hashCode()
     {
         int hash = super.hashCode();
-        if( m_alias )
-        {
-            hash ^= 1298657;
-        }
-        hash ^= m_name.hashCode();
+        hash ^= hashValue( m_name );
+        hash ^= hashValue( m_version );
         return hash;
     }
     

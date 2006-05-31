@@ -8,7 +8,7 @@
   <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">
-    <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#${dpml.xsd.version}"/>
+    <filter token="PART-XSD-URI" value="link:xsd:dpml/lang/dpml-part#${dpml.xsd.version}"/>
     <filter token="PROJECT-URI" value="artifact:part:${project.group}/${project.name}#${project.version}" />
     <filter token="PROJECT-LINK-URI" value="link:part:${project.group}/${project.name}" />
     <filter token="PROJECT-NAME" value="${project.name}" />

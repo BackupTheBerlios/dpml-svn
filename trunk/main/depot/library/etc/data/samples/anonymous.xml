@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<library xmlns="@MODULE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<library xmlns="@MODULE-XSD-URI@">
 
   <properties>
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-builder"/>

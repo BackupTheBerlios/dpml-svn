@@ -20,6 +20,8 @@ package net.dpml.library.info;
 
 import java.io.File;
 
+import net.dpml.lang.Version;
+
 import net.dpml.library.Feature;
 import net.dpml.library.FeatureRuntimeException;
 import net.dpml.library.Resource;
@@ -113,41 +115,7 @@ public class FeatureFilterDirective extends FilterDirective
         }
         else if( m_feature.equals( Feature.URI ) )
         {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the uri attribute.";
-                throw new FeatureRuntimeException( error );
-            }
-            else
-            {
-                if( m_alias )
-                {
-                    Type type = r.getType( m_type );
-                    if( type.getAlias() )
-                    {
-                        Artifact artifact = r.getArtifact( m_type );
-                        String group = artifact.getGroup();
-                        String name = artifact.getName();
-                        return "link:" + m_type + ":" + group + "/" + name;
-                    }
-                    else
-                    {
-                        final String error = 
-                          "Cannot resolve link from resource [" 
-                          + r 
-                          + "] because the resource does not declare production of an alias for the type ["
-                          + type.getID() 
-                          + "].";
-                        throw new FeatureRuntimeException( error );
-                    }
-                }
-                else
-                {
-                    Artifact artifact = r.getArtifact( m_type );
-                    return artifact.toURI().toASCIIString();
-                }
-            }
+            return resolveURIFeature( r );
         }
         else if( m_feature.equals( Feature.SPEC ) )
         {
@@ -202,6 +170,69 @@ public class FeatureFilterDirective extends FilterDirective
             final String error = 
               "Invalid feature [" + m_feature + "].";
             throw new FeatureRuntimeException( error );
+        }
+    }
+    
+    private String resolveURIFeature( Resource resource )
+    {
+        if( null == m_type )
+        {
+            final String error = 
+              "Type attribute must be supplied in conjuction with the uri attribute.";
+            throw new FeatureRuntimeException( error );
+        }
+        else
+        {
+            if( m_alias )
+            {
+                Type type = resource.getType( m_type );
+                Version version = type.getVersion();
+                if( null != version )
+                {
+                    Artifact artifact = resource.getArtifact( m_type );
+                    String group = artifact.getGroup();
+                    String name = artifact.getName();
+                    if( Version.NULL_VERSION.equals( version ) )
+                    {
+                        return "link:" 
+                          + m_type 
+                          + ":" 
+                          + group
+                          + "/" 
+                          + name; 
+                    }
+                    else
+                    {
+                        int major = version.getMajor();
+                        int minor = version.getMinor();
+                        return "link:" 
+                          + m_type 
+                          + ":" 
+                          + group 
+                          + "/" 
+                          + name
+                          + "#"
+                          + major
+                          + "."
+                          + minor;
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Cannot resolve link from resource [" 
+                      + resource
+                      + "] because the resource does not declare production of an alias for the type ["
+                      + type.getID() 
+                      + "].";
+                    throw new FeatureRuntimeException( error );
+                }
+            }
+            else
+            {
+                Artifact artifact = resource.getArtifact( m_type );
+                return artifact.toURI().toASCIIString();
+            }
         }
     }
     

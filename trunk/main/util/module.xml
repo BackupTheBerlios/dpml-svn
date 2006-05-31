@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <module name="util" basedir="."
-    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
   <dependencies>

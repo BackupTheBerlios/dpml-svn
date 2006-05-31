@@ -8,11 +8,11 @@
 
   <target name="init" depends="bootstrap.init">
     <property name="project.xsd.version" value="${project.version}"/>
-    <filter token="MODULE-XSD-URI" value="artifact:xsd:dpml/lang/dpml-module#1.0"/>
-    <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#1.0"/>
+    <filter token="MODULE-XSD-URI" value="link:xsd:dpml/lang/dpml-module#1.0"/>
+    <filter token="PART-XSD-URI" value="link:xsd:dpml/lang/dpml-part#1.0"/>
     <filter value="${junit.version}" token="JUNIT_VERSION"/>
     <filter value="${project.version}" token="PROJECT-VERSION"/>
-    <filter value="artifact:plugin:dpml/tools/dpml-tools-ant#${project.version}" token="ANT-BUILDER-URI"/>
+    <filter value="link:part:dpml/depot/dpml-tools-builder" token="ANT-BUILDER-URI"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">

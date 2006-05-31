@@ -18,6 +18,9 @@
 
 package net.dpml.library;
 
+import net.dpml.lang.Version;
+
+
 /**
  * Declaration of a type production.
  *
@@ -33,9 +36,9 @@ public interface Type extends Data
     String getID();
     
    /**
-    * Return the type production alias flag value.
-    * @return the alias flag
+    * Return the alias version.
+    * @return the alias version value (may be null)
     */
-    boolean getAlias();
+    Version getVersion();
     
 }

@@ -25,6 +25,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URI;
 
+import net.dpml.lang.Version;
+
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
@@ -73,17 +75,17 @@ public class InstallTask extends GenericTask
             // type that it declares
             //
 
-            String name = type.getID();
-            String filename = getContext().getLayoutPath( name );
-            File group = new File( deliverables, name + "s" );
+            String id = type.getID();
+            String filename = getContext().getLayoutPath( id );
+            File group = new File( deliverables, id + "s" );
             File target = new File( group, filename );
-            if( !target.exists() && !name.equalsIgnoreCase( "null" ) )
+            if( !target.exists() && !id.equalsIgnoreCase( "null" ) )
             {
                 final String error = 
                   "Project [" 
                   + resource 
                   + "] declares that it produces the resource type ["
-                  + name 
+                  + id
                   + "] however no artifacts of that type are present in the target deliverables directory.";
                 throw new BuildException( error, getLocation() );
             }
@@ -94,16 +96,30 @@ public class InstallTask extends GenericTask
             // install process.
             //
 
-            boolean alias = type.getAlias();
-            if( alias )
+            Version version = type.getVersion();
+            if( null != version )
             {
                 try
                 {
-                    Artifact artifact = resource.getArtifact( type.getID() );
+                    Artifact artifact = resource.getArtifact( id );
                     String uri = artifact.toURI().toASCIIString();
-                    String link = resource.getName() + "." + name + ".link";
-                    File out = new File( group, link );
                     
+                    String link = null;
+                    if( Version.NULL_VERSION.equals( version ) )
+                    {
+                        link = resource.getName() + "." + id + ".link";
+                    }
+                    else
+                    {
+                        link = resource.getName()
+                        + "-"
+                        + version.getMajor()
+                        + "." 
+                        + version.getMinor()
+                        + "."
+                        + id + ".link";
+                    }
+                    File out = new File( group, link );
                     boolean flag = true;
                     if( out.exists() )
                     {
@@ -131,7 +147,7 @@ public class InstallTask extends GenericTask
                 {
                     final String error = 
                       "Internal error while attempting to create a link for the resource type ["
-                      + name 
+                      + id 
                       + "] in project ["
                       + resource
                       + "].";

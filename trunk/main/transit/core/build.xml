@@ -37,8 +37,8 @@
   </target>
 
   <target name="init" depends="bootstrap.init">
-    <property name="part.xsd.version" value="${project.version}"/>
-    <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#${dpml.xsd.version}"/>
+    <property name="part.xsd.version" value="${project.specification.version}"/>
+    <filter token="PART-XSD-SPEC-URI" value="link:xsd:dpml/lang/dpml-part#${part.xsd.version}"/>
     <filter token="PROJECT-NAME" value="${project.name}"/>
     <filter token="PROJECT-GROUP" value="${project.group}"/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>

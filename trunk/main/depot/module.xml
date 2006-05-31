@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module name="depot"
-    xmlns="artifact:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
 
   <resource name="dpml-library" basedir="library">
     <types>

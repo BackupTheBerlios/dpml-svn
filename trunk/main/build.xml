@@ -64,7 +64,9 @@
     </copy>
   </target>
 
-  <target name="replicate" depends="standard.install">
+  <target name="replicate" depends="standard.install,replication"/>
+
+  <target name="replication" depends="prepare">
     <property name="share.local" location="${share}/local"/>
     <x:replicate self="true" verbose="false" toDir="${share.local}" layout="modern"/>
   </target>

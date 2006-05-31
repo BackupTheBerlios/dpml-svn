@@ -18,6 +18,8 @@
 
 package net.dpml.library.impl;
 
+import net.dpml.lang.Version;
+
 import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
@@ -129,17 +131,17 @@ public class DefaultLibraryTestCase extends AbstractTestCase
     private static class MockType implements Type
     {
         private String m_name;
-        private boolean m_alias;
+        private Version m_version;
         
        /**
         * Creation of a new mock type instance.
         * @param name the type name
         * @param alias the alias production flag
         */
-        public MockType( String name, boolean alias )
+        public MockType( String name, Version version )
         {
             m_name = name;
-            m_alias = alias;
+            m_version = version;
         }
         
        /**
@@ -152,12 +154,12 @@ public class DefaultLibraryTestCase extends AbstractTestCase
         }
     
        /**
-        * Return the type alias flag.
-        * @return the flag
+        * Return the alias version.
+        * @return the version
         */
-        public boolean getAlias()
+        public Version getVersion()
         {
-            return m_alias;
+            return m_version;
         }
         
        /**
