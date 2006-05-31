@@ -47,7 +47,7 @@
              <td>version</td>
              <td>Declaration of an link-based alias version If declared a link
                will be created with a version corresponding to the supplied value
-               (a version in the form &lt;major&gt'.&lt;minor&gt; such as <tt>1.2</tt>.</td>
+               (a version in the form &lt;major&gt;.&lt;minor&gt; e.g. as <tt>1.2</tt>.</td>
            </tr>
            <tr>
              <td>alias</td>
