@@ -749,10 +749,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         {
             if( m_directive.isLocal() )
             {
-                return "project:" + getResourcePath();
+                return toString( "project" );
             }
         }
-        return "resource:" + getResourcePath();
+        return toString( "resource" );
+    }
+    
+    private String toString( String type )
+    {
+        return type + ":" + getResourcePath() + "#" + getVersion();
     }
     
    /**
