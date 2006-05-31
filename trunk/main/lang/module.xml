@@ -4,19 +4,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0">
    
+  <!--
   <resource name="dpml-common" version="1.0">
+    <types>
+      <type id="xsd" alias="true"/>
+    </types>
+  </resource>
+  -->
+  
+  <resource name="dpml-module" version="1.0">
     <types>
       <type id="xsd"/>
     </types>
   </resource>
-   
+
   <resource name="dpml-part" version="1.0">
     <types>
       <type id="xsd"/>
     </types>
     <dependencies>
       <build>
-        <include key="dpml-common"/>
+        <include key="dpml-module"/>
       </build>
     </dependencies>
   </resource>
@@ -50,29 +58,4 @@
     </dependencies>
   </resource>
 
-  <resource name="dpml-module" version="1.0">
-    <types>
-      <type id="xsd"/>
-    </types>
-    <dependencies>
-      <build>
-        <include key="dpml-common"/>
-        <include key="dpml-part"/>
-      </build>
-    </dependencies>
-  </resource>
-
-  <!--
-  <resource name="dpml-application" version="1.0">
-    <types>
-      <type id="xsd"/>
-    </types>
-    <dependencies>
-      <build>
-        <include key="dpml-part"/>
-      </build>
-    </dependencies>
-  </resource>
-  -->
-  
 </module>

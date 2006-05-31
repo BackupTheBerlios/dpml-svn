@@ -4,6 +4,5 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
   <module file="http/module.xml"/>
-  <module file="process/module.xml"/>
 
 </module>

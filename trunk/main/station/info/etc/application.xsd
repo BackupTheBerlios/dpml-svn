@@ -26,17 +26,15 @@ Example:
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:this="@PROJECT-XSD-URI@"
-            xmlns:common="@COMMON-XSD-URI@"
             xmlns:part="@PART-XSD-URI@"
             targetNamespace="@PROJECT-XSD-URI@"
             elementFormDefault="qualified">
     
-    <import namespace="@COMMON-XSD-URI@" schemaLocation="@COMMON-XSD-URI@"/>
     <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
 
+    <element name="codebase" type="part:codebase"/>
     <element name="application" type="this:ApplicationType"/>
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
-    <element name="codebase" type="part:codebase" substitutionGroup="common:codebase"/>
     <element name="registry" type="this:RegistryType"/>
     <element name="app" type="this:TaggedApplicationType"/>
     
@@ -51,7 +49,7 @@ Example:
     <complexType name="ApplicationType">
       <sequence>
         <element name="jvm" type="this:JVMType" minOccurs="0" maxOccurs="1"/>
-        <element ref="common:codebase" minOccurs="1" maxOccurs="1"/>
+        <element ref="this:codebase" minOccurs="1" maxOccurs="1"/>
       </sequence>
       <attribute name="title" type="string"/>
       <attribute name="policy" type="this:StartupPolicy"/>

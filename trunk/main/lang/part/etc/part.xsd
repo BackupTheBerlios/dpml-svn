@@ -2,18 +2,18 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:this="@PROJECT-XSD-URI@"
-            xmlns:common="@COMMON-XSD-URI@"
+            xmlns:module="@MODULE-XSD-URI@"
             targetNamespace="@PROJECT-XSD-URI@"
             elementFormDefault="qualified"
             >
     
-    <import namespace="@COMMON-XSD-URI@" schemaLocation="@COMMON-XSD-URI@"/>
+    <import namespace="@MODULE-XSD-URI@" schemaLocation="@MODULE-XSD-URI@"/>
     
     <element name="part" type="this:PartType"/>
-    <element name="strategy" type="this:StrategyType" substitutionGroup="common:type"/>
+    <element name="strategy" type="this:StrategyType" substitutionGroup="module:typedef"/>
     <element name="plugin" type="this:plugin" substitutionGroup="this:strategy"/>
     <element name="resource" type="this:resource" substitutionGroup="this:strategy"/>
-    <element name="codebase" type="this:codebase" substitutionGroup="common:codebase"/>
+    <element name="codebase" type="this:CodeBaseType"/>
     <element name="param" type="this:ValueType"/>
     
     <complexType name="PartType">
@@ -26,7 +26,7 @@
 
     <complexType name="StrategyType" abstract="true">
       <complexContent>
-        <extension base="common:AbstractType"/>
+        <extension base="module:AbstractType"/>
       </complexContent>
     </complexType>
     
@@ -95,12 +95,16 @@
 
     <complexType name="codebase">
       <complexContent>
-        <extension base="common:CodeBaseType">
+        <extension base="this:CodeBaseType">
           <sequence>
             <element ref="this:param" minOccurs="0" maxOccurs="unbounded"/>
           </sequence>
         </extension>
       </complexContent>
+    </complexType>
+    
+    <complexType name="CodeBaseType" abstract="true">
+      <attribute name="uri" type="anyURI"/>
     </complexType>
     
     <simpleType name="URI">

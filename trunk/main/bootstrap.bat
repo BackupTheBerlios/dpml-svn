@@ -15,11 +15,9 @@ CALL :antlib-cleanup
 IF ERRORLEVEL 1 GOTO :exit
 CALL :xml-setup
 IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-common
+CALL :dpml-module
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-part
-IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-module
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-state
 IF ERRORLEVEL 1 GOTO :exit
@@ -57,12 +55,6 @@ GOTO :EOF
 
 :xml-setup
 CALL ant -f bootstrap.xml xml
-GOTO :EOF
-
-:dpml-common
-PUSHD lang\common
-CALL :build clean install
-POPD
 GOTO :EOF
 
 :dpml-module

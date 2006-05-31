@@ -158,7 +158,7 @@
          <property name="project.template" value="${basedir}/builder.xml"/>
        </properties>
        <types>
-         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.lang.PartManager"/>
+         <part:plugin alias="true" class="net.dpml.lang.PartManager"/>
          <type id="jar"/>
        </types>
        <dependencies>
@@ -218,7 +218,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <type id="part" xsi:type="part:plugin" class="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
+         <part:plugin class="net.dpml.metro.runtime.edit.CompositionEditorFactory"/>
        </types>
        <dependencies>
          <runtime>
@@ -234,7 +234,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.metro.runtime.CompositionController"/>
+         <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/>
        </types>
        <dependencies>
          <runtime>
@@ -254,7 +254,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <type id="part" xsi:type="part:resource"  urn="dpml:metro" path="net/dpml/composition/tools/antlib.xml"/>
+         <part:resource  urn="dpml:metro" path="net/dpml/composition/tools/antlib.xml"/>
        </types>
        <dependencies>
          <runtime>
@@ -324,7 +324,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.library.impl.BuildPlugin"/>
+         <part:plugin alias="true" class="net.dpml.library.impl.BuildPlugin"/>
        </types>
        <dependencies>
          <runtime>
@@ -343,7 +343,7 @@
        </properties>
        <types>
          <type id="jar"/>
-         <type id="part" xsi:type="part:plugin" alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
+         <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
        </types>
        <dependencies>
          <runtime>

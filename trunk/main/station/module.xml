@@ -14,7 +14,6 @@
       </build>
     </dependencies>
     <filters>
-      <feature token="COMMON-XSD-URI" ref="dpml/lang/dpml-common" type="xsd" id="uri"/>
       <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
       <feature token="PROJECT-XSD-URI" type="xsd" id="uri"/>
     </filters>
@@ -34,7 +33,6 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="COMMON-XSD-URI" ref="dpml/lang/dpml-common" type="xsd" id="uri"/>
       <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri"/>
       <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri"/>
       <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri"/>
@@ -44,7 +42,7 @@
   <project name="dpml-station-exec" basedir="exec">
     <types>
       <type id="jar"/>
-      <type xsi:type="part:plugin" class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
+      <part:plugin class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
     </types>
     <dependencies>
       <build>
@@ -87,7 +85,7 @@
     </properties>
     <types>
       <type id="jar"/>
-      <type xsi:type="part:plugin" class="net.dpml.station.server.StationServerPlugin" alias="true"/>
+      <part:plugin class="net.dpml.station.server.StationServerPlugin" alias="true"/>
     </types>
     <dependencies>
       <runtime>
@@ -110,7 +108,7 @@
   <project name="dpml-station-console" basedir="console">
     <types>
       <type id="jar"/>
-      <type xsi:type="part:plugin" alias="true" class="net.dpml.station.console.StationPlugin"/>
+      <part:plugin alias="true" class="net.dpml.station.console.StationPlugin"/>
     </types>
     <dependencies>
       <runtime>

@@ -30,7 +30,6 @@
     <x:replicate self="true" verbose="false" layout="modern" todir="${local}"  >
       <include ref="dpml/depot/dpml-tools-builder"/>
       <include ref="dpml/depot/dpml-library"/>
-      <include ref="dpml/lang/dpml-common"/>
       <include ref="dpml/lang/dpml-part"/>
     </x:replicate>
     <echo>

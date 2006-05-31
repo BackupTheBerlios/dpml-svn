@@ -2,12 +2,10 @@
 
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:part="@PART-XSD-URI@"
-            xmlns:common="@COMMON-XSD-URI@"
             xmlns:this="@PROJECT-XSD-URI@"
             targetNamespace="@PROJECT-XSD-URI@"
             elementFormDefault="qualified">
     
-    <import namespace="@COMMON-XSD-URI@" schemaLocation="@COMMON-XSD-URI@"/>
     <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
 
     <element name="component" type="this:component" substitutionGroup="part:strategy"/>
@@ -88,7 +86,6 @@
     
     <complexType name="parts">
       <sequence>
-        <!-- <element ref="this:part" minOccurs="0" maxOccurs="unbounded"/> -->
         <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
     </complexType>

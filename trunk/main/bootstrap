@@ -42,13 +42,6 @@ xmlSetup()
     ant -f bootstrap.xml xml
 }
 
-dpmlCommon()
-{
-    cd lang/common
-    build clean install
-    cd ../..
-}
-
 dpmlModule()
 {
     cd lang/module
@@ -143,9 +136,8 @@ depotCore()
 ID=$1
 antlibCleanup
 xmlSetup
-dpmlCommon
-dpmlPart
 dpmlModule
+dpmlPart
 dpmlState
 dpmlComponent
 dpmlType

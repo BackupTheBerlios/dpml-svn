@@ -730,46 +730,38 @@ public final class LibraryDecoder extends LibraryConstants
         TypeInfo info = element.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
         String typeName = info.getTypeName();
+        
         if( null == namespace )
         {
             throw new NullPointerException( "namespace" );
         }
-        else if( COMMON_XSD_URI.equals( namespace ) )
+        
+        if( MODULE_XSD_URI.equals( namespace ) )
         {
+            // it's a generic type declaration
+            
             final String id = getID( element );
             final boolean alias = getAliasFlag( element );
-            return new TypeDirective( id, alias );
+            final Properties properties = getProperties( element );
+            return new TypeDirective( id, alias, properties );
         }
-        else if( MODULE_XSD_URI.equals( namespace ) )
+        else if( info.isDerivedFrom( MODULE_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
         {
-            if( "GenericType".equals( typeName ) )
+            if( 
+              PART_XSD_URI.equals( namespace ) 
+              || info.isDerivedFrom( PART_XSD_URI, "StrategyType", TypeInfo.DERIVATION_EXTENSION ) )
             {
-                final String id = getID( element );
                 final boolean alias = getAliasFlag( element );
-                final Properties properties = getProperties( element );
-                return new TypeDirective( id, alias, properties );
+                return new TypeDirective( element, "part", alias );
             }
             else
             {
-                final String error = 
-                  "Cannot create type bacause the element type is unrecognized."
-                  + "\nNamespace: " 
-                  + namespace
-                  + "\nType Name: " 
-                  + info.getTypeName();
-                throw new DecodingException( element, error );
+                // id attribute is required 
+                
+                final String id = getID( element );
+                final boolean alias = getAliasFlag( element );
+                return new TypeDirective( element, id, alias );
             }
-        }
-        else if( PART_XSD_URI.equals( namespace ) )
-        {
-            final boolean alias = getAliasFlag( element );
-            return new TypeDirective( element, "part", alias );
-        }
-        else if( info.isDerivedFrom( COMMON_XSD_URI, "AbstractType", TypeInfo.DERIVATION_EXTENSION ) )
-        {
-            final String id = getID( element );
-            final boolean alias = getAliasFlag( element );
-            return new TypeDirective( element, id, alias );
         }
         else
         {

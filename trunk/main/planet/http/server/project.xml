@@ -5,10 +5,7 @@
   xmlns:metro="artifact:xsd:dpml/lang/dpml-component#1.0">
 
   <types>
-    <type xsi:type="metro:component"
-        type="net.dpml.http.Server" 
-        id="part"
-        alias="true">
+    <metro:component alias="true" type="net.dpml.http.Server">
       <parts xmlns="artifact:xsd:dpml/lang/dpml-component#1.0">
         <!--
         Add a select channel connector to 8080.
@@ -94,7 +91,7 @@
           </parts>
         </component>
       </parts>
-    </type>
+    </metro:component>
   </types>
 
   <dependencies>
