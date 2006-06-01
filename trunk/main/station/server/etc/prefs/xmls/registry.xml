@@ -3,7 +3,7 @@
 <registry xmlns="@APPLICATION-XSD-URI@">
 
   <app key="demo" title="Test Application" policy="manual">
-
+  
     <jvm>
       <startup>6</startup>
       <shutdown>6</shutdown>
@@ -11,9 +11,9 @@
         <property name="org.mortbay.log.class" value="net.dpml.http.LogAdapter"/>
       </properties>
     </jvm>
-  
+    
     <codebase uri="link:part:dpml/planet/http/dpml-http-server"/>
-
+  
   </app>
 
 </registry>

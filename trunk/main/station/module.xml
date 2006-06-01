@@ -35,7 +35,8 @@
     <filters>
       <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri" alias="true"/>
       <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri" alias="true"/>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri" alias="true"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" 
+          type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
 
