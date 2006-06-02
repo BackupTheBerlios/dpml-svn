@@ -77,10 +77,10 @@ public class Server extends org.mortbay.jetty.Server
         ThreadPool getThreadPool();
         
        /**
-        * Return the context handler collection.
-        * @return the configured context handler collection.
+        * Return the handler collection.
+        * @return the configured handler collection.
         */
-        ContextHandlerCollection getContextHandlerCollection();
+        HandlerCollection getHandlerCollection();
     }
     
     private final Logger m_logger;
@@ -137,7 +137,7 @@ public class Server extends org.mortbay.jetty.Server
         addConnectors( parts );
         addUserRealms( parts );
         
-        ContextHandlerCollection collection = parts.getContextHandlerCollection();
+        HandlerCollection collection = parts.getHandlerCollection();
         setHandler( collection );
         
         getLogger().debug( "server established" );

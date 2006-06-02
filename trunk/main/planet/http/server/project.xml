@@ -46,58 +46,71 @@
           </context>
         </component>
         <!--
-        Add context handler collection.
+        Add handler collection.
         -->
-        <component key="contextHandlerCollection" type="net.dpml.http.ContextHandlerCollection" 
+        <component key="handlerCollection" type="net.dpml.http.HandlerCollection" 
             lifestyle="singleton"
             collection="hard">
+            
           <parts>
-            <!--
-            Creation of a HTTP server configured to present static content in 
-            the ${dpml.share}/docs directory.
-            -->
-            <component key="docs" type="net.dpml.http.ResourceContextHandler"
-                collection="hard" lifestyle="singleton">
-              <context>
-                <entry key="resourceBase" value="${dpml.share}/docs"/>
-                <entry key="contextPath" value="/docs"/>
-              </context>
+          
+            <component key="contextHandlerCollection" type="net.dpml.http.ContextHandlerCollection" 
+              lifestyle="singleton"
+              collection="hard">
+              
+              <parts>
+                <!--
+                Creation of a HTTP server configured to present static content in 
+                the ${dpml.share}/docs directory.
+                -->
+                <component key="docs" type="net.dpml.http.ResourceContextHandler"
+                    collection="hard" lifestyle="singleton">
+                  <context>
+                    <entry key="resourceBase" value="${dpml.share}/docs"/>
+                    <entry key="contextPath" value="/docs"/>
+                  </context>
+                </component>
+                <!--
+                Add an experimental servlet context.
+                (Need to add context cloassloader configuration but this requires 
+                per-component threads - currently limited to classes declared within
+                the part classloader).
+                -->
+                <component key="servlets" type="net.dpml.http.ServletContextHandler"
+                    collection="hard" lifestyle="singleton">
+                  <context>
+                    <entry key="resourceBase" value="${dpml.data}"/>
+                    <entry key="contextPath" value="/data"/>
+                    <entry key="servletHolders">
+                      <param class="net.dpml.http.ServletHolder">
+                        <param value="data"/>
+                        <param value="org.mortbay.jetty.servlet.DefaultServlet"/>
+                      </param>
+                    </entry>
+                    <entry key="servletEntries">
+                      <param class="net.dpml.http.ServletEntry">
+                        <param value="data"/>
+                        <param value="/"/>
+                      </param>
+                    </entry>
+                  </context>
+                </component>
+              
+                <!--
+                Add a web application.
+                -->
+                <component key="webapp" type="net.dpml.http.WebAppContextHandler"
+                    collection="hard" lifestyle="singleton">
+                  <context>
+                    <entry key="contextPath" value="/"/>
+                    <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
+                  </context>
+                </component>
+              
+              </parts>
+            
             </component>
-            <!--
-            Add an experimental servlet context.
-            (Need to add context cloassloader configuration but this requires 
-            per-component threads - currently limited to classes declared within
-            the part classloader).
-            -->
-            <component key="servlets" type="net.dpml.http.ServletContextHandler"
-                collection="hard" lifestyle="singleton">
-              <context>
-                <entry key="resourceBase" value="${dpml.data}"/>
-                <entry key="contextPath" value="/data"/>
-                <entry key="servletHolders">
-                  <param class="net.dpml.http.ServletHolder">
-                    <param value="data"/>
-                    <param value="org.mortbay.jetty.servlet.DefaultServlet"/>
-                  </param>
-                </entry>
-                <entry key="servletEntries">
-                  <param class="net.dpml.http.ServletEntry">
-                    <param value="data"/>
-                    <param value="/"/>
-                  </param>
-                </entry>
-              </context>
-            </component>
-            <!--
-            Add a web application.
-            -->
-            <component key="webapp" type="net.dpml.http.WebAppContextHandler"
-                collection="hard" lifestyle="singleton">
-              <context>
-                <entry key="contextPath" value="/"/>
-                <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
-              </context>
-            </component>
+          
             <!-- 
             NCSA Request log. 
             -->
@@ -110,10 +123,15 @@
                 <entry key="extended" value="true"/>
               </context>
             </component>
+            
           </parts>
+          
         </component>
+        
       </parts>
+      
     </component>
+    
   </types>
 
   <dependencies>

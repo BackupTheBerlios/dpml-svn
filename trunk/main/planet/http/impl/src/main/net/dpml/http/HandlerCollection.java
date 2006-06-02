@@ -22,11 +22,13 @@ import net.dpml.metro.ComponentHandler;
 import net.dpml.component.Provider;
 
 /**
- * Context handler collection.
+ * A collection of handlers.
+ * For each request, all handler are called, regardless of 
+ * the response status or exceptions.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ContextHandlerCollection extends org.mortbay.jetty.handler.ContextHandlerCollection
+public class HandlerCollection extends org.mortbay.jetty.handler.HandlerCollection
 {
    /**
     * Internal parts management interface.
@@ -39,12 +41,12 @@ public class ContextHandlerCollection extends org.mortbay.jetty.handler.ContextH
     private final Parts m_parts;
 
    /**
-    * Creation of a new HTTP server implementation.
+    * Creation of a new handler collection.
     * @param logger the assigned logging channel
     * @param parts the parts manager
     * @exception Exception if an instantiation error occurs
     */
-    public ContextHandlerCollection( Logger logger, Parts parts ) throws Exception
+    public HandlerCollection( Logger logger, Parts parts ) throws Exception
     {
         super();
          
