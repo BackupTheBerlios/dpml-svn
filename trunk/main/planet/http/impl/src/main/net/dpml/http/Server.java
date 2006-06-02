@@ -77,7 +77,10 @@ public class Server extends org.mortbay.jetty.Server
         ThreadPool getThreadPool();
         
        /**
-        * Return the handler collection.
+        * Return the collection of handlers.  For any given request all handlers
+        * in the collection will be supplied with a request irrespective of response 
+        * status.
+        *
         * @return the configured handler collection.
         */
         HandlerCollection getHandlerCollection();
@@ -136,9 +139,10 @@ public class Server extends org.mortbay.jetty.Server
         
         addConnectors( parts );
         addUserRealms( parts );
-        
         HandlerCollection collection = parts.getHandlerCollection();
         setHandler( collection );
+        
+        // notify completion of server establishment
         
         getLogger().debug( "server established" );
     }
