@@ -57,7 +57,8 @@ public class Server extends org.mortbay.jetty.Server
        /**
         * Get the assigned thread pool. If no thread pool is 
         * assigned by the deployment scenario a default pool
-        * will be established.
+        * will be established using the thread pool assigned in the
+        * component internal parts.
         *
         * @param pool the default value
         * @return the resolved thread pool
