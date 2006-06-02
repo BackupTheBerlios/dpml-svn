@@ -104,6 +104,7 @@
                   <context>
                     <entry key="contextPath" value="/"/>
                     <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
+                    <entry key="tempDirectory" value="${dpml.data}/work/http"/>
                   </context>
                 </component>
               
