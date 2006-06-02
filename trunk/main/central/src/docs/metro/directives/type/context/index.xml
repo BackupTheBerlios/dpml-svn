@@ -45,7 +45,7 @@
     <section name="Examples">
 
 <source>
-<![CDATA[<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0">
+<![CDATA[<type xmlns="link:xsd:dpml/lang/dpml-type#1.0">
 
   <info name="context"
       class="net.dpml.test.ContextTestComponent"

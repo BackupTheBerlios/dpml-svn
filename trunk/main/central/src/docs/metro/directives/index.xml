@@ -27,11 +27,11 @@
       
 <source><![CDATA[<?xml version="1.0"?>
 
-<part xmlns="artifact:xsd:dpml/lang/dpml-part#1.0">
+<part xmlns="link:xsd:dpml/lang/dpml-part#1.0">
 
   <info/>
 
-  <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" type="org.acme.Widget"/>
+  <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" type="org.acme.Widget"/>
 
   <classpath>
     <private>

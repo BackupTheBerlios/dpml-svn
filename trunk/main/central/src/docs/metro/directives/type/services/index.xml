@@ -50,11 +50,11 @@
 <source><![CDATA[
 <?xml version="1.0"?>
 
-<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0"
+<type xmlns="link:xsd:dpml/lang/dpml-type#1.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="artifact:xsd:dpml/lang/dpml-part#1.0"
-    xmlns:type="artifact:xsd:dpml/lang/dpml-type#1.0"
-    xmlns:component="artifact:xsd:dpml/lang/dpml-component#1.0">
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:type="link:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:component="link:xsd:dpml/lang/dpml-component#1.0">
 
   <info name="pool"
       class="net.dpml.http.BoundedThreadPool"

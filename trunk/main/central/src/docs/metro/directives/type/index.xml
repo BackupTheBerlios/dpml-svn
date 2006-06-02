@@ -11,7 +11,7 @@
 
     <section name="Type Task">
     
-      <pre>artifact:xsd:dpml/lang/dpml-type#1.0</pre>
+      <pre>link:xsd:dpml/lang/dpml-type#1.0</pre>
 
       <subsection name="Description">
 
@@ -80,8 +80,7 @@
 
 <source><![CDATA[
 <?xml version="1.0"?>
-
-<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0">
+<type xmlns="link:xsd:dpml/lang/dpml-type#1.0">
 
   <info name="server"
       class="net.dpml.http.Server"
@@ -100,7 +99,7 @@
     <entry key="requestLog" class="org.mortbay.jetty.RequestLog" optional="true"/>
   </context>
   
-  <state xmlns="artifact:xsd:dpml/lang/dpml-state#1.0">
+  <state xmlns="link:xsd:dpml/lang/dpml-state#1.0">
     <trigger event="initialization">
       <transition name="init" target="started">
         <operation name="startup" method="start"/>
@@ -122,7 +121,7 @@
   </state>
 
   <parts>
-    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" 
+    <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
         key="requestLog"
         class="net.dpml.http.NCSARequestLog"
         name="requestLog"
@@ -134,7 +133,7 @@
         <entry key="extended" class="boolean" value="true"/>
       </context>
     </component>
-    <component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0" 
+    <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
         key="threadPool"
         class="net.dpml.http.BoundedThreadPool"
         name="threadPool"

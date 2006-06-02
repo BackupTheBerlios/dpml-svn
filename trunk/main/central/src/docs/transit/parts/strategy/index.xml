@@ -74,7 +74,7 @@
       </p>
 
 <source>
-<![CDATA[<component xmlns="artifact:xsd:dpml/lang/dpml-component#1.0"
+<![CDATA[<component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
      type="net.dpml.http.Server"
       collection="system"
       activation="system">

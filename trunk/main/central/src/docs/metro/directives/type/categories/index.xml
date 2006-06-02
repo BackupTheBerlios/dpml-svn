@@ -35,7 +35,7 @@
 <![CDATA[
 <?xml version="1.0"?>
 
-<type xmlns="artifact:xsd:dpml/lang/dpml-type#1.0">
+<type xmlns="link:xsd:dpml/lang/dpml-type#1.0">
 
   <info name="categories"
       class="net.dpml.test.categories.CategoriesComponent"
