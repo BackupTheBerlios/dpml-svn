@@ -75,8 +75,10 @@
       <subsection name="Technical Note">
 
         <p>
-        File structure layouts within DPML_HOME have been updated.  For Win32 users 
-        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        XSD schema reference have been update to use symbolic links in favour
+        of direct artifact references. XSD namespace references are now declared
+        in the form <tt>link:xsd:dpml/lang/dpml-module#1.0</tt> (which in-turn references
+        an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
         </p>
 
       </subsection>

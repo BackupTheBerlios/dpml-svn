@@ -17,6 +17,7 @@
       The following table lists archived milestone distributions published by the DPML.
       </p>
 
+      <!--
       <subsection name="Build @VERSION@">
 
         <p>
@@ -24,17 +25,6 @@
         </p>
         
         <ul>
-          <li>Module name processing enhanced to support composite names.</li>
-          <li>Removal of redundant property assertions in exported modules.</li>
-          <li>Depot builder structural enhancements.</li>
-          <li>Addition of configurable project listeners.</li>
-          <li>Addition of configurable processors.</li>
-          <li>Removal of transit content handlers (functionality available 
-              under the improved part model).</li>
-          <li>Added support for trace level logging.</li>
-          <li>Addition of test cases in the http impl package and related code improvements.</li>
-          <li>Addition of &lt;data&gt; element to project enabling generalization of production criteria.</li>
-          <li>Addition of &lt;rmic&gt; production criteria.</li>
         </ul>
         
         <table>
@@ -76,6 +66,80 @@
         <p>
         Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a>, 
         <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+      -->
+      
+      <subsection name="Build 1.0.0-RC8">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Module processing enhanced to support composite names.</li>
+          <li>Removal of redundant property assertions in exported modules.</li>
+          <li>Depot builder structural enhancements.</li>
+          <li>Addition of configurable project listeners.</li>
+          <li>Removal of transit content handlers (functionality available 
+              under the improved part model).</li>
+          <li>Added support for trace level logging.</li>
+          <li>Addition of test cases in the http impl package and related code improvements.</li>
+          <li>Replaced artifact based XSDL target namespaces with logical links.</li>
+          <li>Improved part sequencing in the Metro container.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC8/dpml-sdk-win32-1.0.0-RC8.exe">
+                dpml-sdk-win32-1.0.0-RC8.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC8/dpml-sdk-win32-1.0.0-RC8.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC8/dpml-sdk-win32-1.0.0-RC8.zip">
+                dpml-sdk-win32-1.0.0-RC8.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC8/dpml-sdk-win32-1.0.0-RC8.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC8/dpml-sdk-linux-1.0.0-RC8.tar.gz">
+                dpml-sdk-linux-1.0.0-RC8.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC8/dpml-sdk-linux-1.0.0-RC8.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/1.0.0-RC8">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/1.0.0-RC8/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC8/catalog/index.html">Catalog</a> reports are available.
+        </p>
+        
+        <p>
+        Note:
+        </p>
+
+        <p>
+        XSD schema reference have been update to use symbolic links in favour
+        of direct artifact references. XSD namespace references are now declared
+        in the form <tt>link:xsd:dpml/lang/dpml-module#1.0</tt> (which in-turn references
+        an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
         </p>
 
       </subsection>

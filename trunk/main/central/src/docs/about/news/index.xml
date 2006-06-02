@@ -12,6 +12,30 @@
 
     <section name="News &amp; Events">
 
+      <subsection name="3 June 2006 RC8 Distribution">
+
+        <p>
+        DPML RC8 distributution is released. The release includes
+        finalization of the Depot build management model, enhancements to the 
+        Metro runtime with respect to internal part deployment ordering, the 
+        incorporation of symbolic links across all XSD references (enabling 
+        improved future evolution of schema documents). In addition the HTTP 
+        package has been updated to incorporate resolution of Jetty 6.0.0 
+        IE/SSL issue.
+        </p>
+
+      </subsection>
+
+      <subsection name="12 April 2006 RC7 Distribution">
+
+        <p>
+        Documentation enhancements. Improvements to the module schema, general
+        cleanup of the codebase (including removal of projects no longer required).
+        Upgrade of the HTTP package to Jetty 1.0.0-B14.
+        </p>
+
+      </subsection>
+
       <subsection name="8 April 2006 RC6 Distribution">
 
         <p>
