@@ -83,10 +83,6 @@ public final class LibraryDecoder extends LibraryConstants
             File base = source.getParentFile();
             return buildLibraryDirective( base, root );
         }
-        catch( IOException e )
-        {
-            throw e;
-        }
         catch( Exception e )
         {
             final String error = 
@@ -111,10 +107,6 @@ public final class LibraryDecoder extends LibraryConstants
             final Document document = DOCUMENT_BUILDER.parse( uri );
             Element root = document.getDocumentElement();
             return buildResourceDirectiveFromElement( null, root, null );
-        }
-        catch( IOException e )
-        {
-            throw e;
         }
         catch( Exception e )
         {
@@ -244,10 +236,10 @@ public final class LibraryDecoder extends LibraryConstants
             {
                 return buildResourceDirectiveFromElement( parent, root, basedir );
             }
-            catch( DecodingException e )
-            {
-                throw e;
-            }
+            //catch( DecodingException e )
+            //{
+            //    throw e;
+            //}
             catch( Throwable e )
             {
                 final String error = 
@@ -278,7 +270,6 @@ public final class LibraryDecoder extends LibraryConstants
     {
         final String elementName = element.getTagName();
         final String path = ElementHelper.getAttribute( element, "file" );
-        //if( "import".equals( elementName ) )
         if( null != path )
         {
             try
