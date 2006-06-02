@@ -4,12 +4,14 @@
 
   <types>
     <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-        alias="true" type="net.dpml.http.Server">
+        alias="true" type="net.dpml.http.Server" lifestyle="singleton" collection="hard">
       <parts>
         <!--
         Add a select channel connector to 8080.
         -->
-        <component key="plain" type="net.dpml.http.SelectChannelConnector">
+        <component key="http" type="net.dpml.http.SelectChannelConnector" 
+            lifestyle="singleton"
+            collection="hard">
           <context>
             <entry key="port" value="8080"/>
             <entry key="maxIdleTime" value="50000"/>
@@ -19,7 +21,9 @@
         <!--
         Add a SSL connector to 8443.
         -->
-        <component key="ssl" type="net.dpml.http.SslSocketConnector">
+        <component key="https" type="net.dpml.http.SslSocketConnector" 
+            lifestyle="singleton"
+            collection="hard">
           <context>
             <entry key="port" value="8443"/>
             <entry key="maxIdleTime" value="30000"/>
@@ -33,7 +37,9 @@
         <!--
         Add a user realm.
         -->
-        <component key="realm" type="net.dpml.http.HashUserRealm">
+        <component key="realm" type="net.dpml.http.HashUserRealm"
+            lifestyle="singleton"
+            collection="hard">
           <context>
             <entry key="name" value="Test Realm"/>
             <entry key="URI" value="local:properties:dpml/planet/http/realm"/>
@@ -42,13 +48,16 @@
         <!--
         Add context handler collection.
         -->
-        <component key="contextHandlerCollection" type="net.dpml.http.ContextHandlerCollection">
+        <component key="contextHandlerCollection" type="net.dpml.http.ContextHandlerCollection" 
+            lifestyle="singleton"
+            collection="hard">
           <parts>
             <!--
             Creation of a HTTP server configured to present static content in 
             the ${dpml.share}/docs directory.
             -->
-            <component key="docs" type="net.dpml.http.ResourceContextHandler">
+            <component key="docs" type="net.dpml.http.ResourceContextHandler"
+                collection="hard" lifestyle="singleton">
               <context>
                 <entry key="resourceBase" value="${dpml.share}/docs"/>
                 <entry key="contextPath" value="/docs"/>
@@ -60,7 +69,8 @@
             per-component threads - currently limited to classes declared within
             the part classloader).
             -->
-            <component key="servlets" type="net.dpml.http.ServletContextHandler">
+            <component key="servlets" type="net.dpml.http.ServletContextHandler"
+                collection="hard" lifestyle="singleton">
               <context>
                 <entry key="resourceBase" value="${dpml.data}"/>
                 <entry key="contextPath" value="/data"/>
@@ -81,10 +91,23 @@
             <!--
             Add a web application.
             -->
-            <component key="webapp" type="net.dpml.http.WebAppContextHandler">
+            <component key="webapp" type="net.dpml.http.WebAppContextHandler"
+                collection="hard" lifestyle="singleton">
               <context>
                 <entry key="contextPath" value="/"/>
                 <entry key="war" value="link:war:dpml/planet/http/dpml-http-app"/>
+              </context>
+            </component>
+            <!-- 
+            NCSA Request log. 
+            -->
+            <component key="ncsa" 
+                type="net.dpml.http.NCSARequestLogHandler" 
+                collection="hard" lifestyle="singleton">
+              <context>
+                <entry key="filename" value="${dpml.data}/logs/http/request.log"/>
+                <entry key="append" value="true"/>
+                <entry key="extended" value="true"/>
               </context>
             </component>
           </parts>

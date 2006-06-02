@@ -1,6 +1,5 @@
 /*
- * Copyright 2004 Niclas Hedman.
- * Copyright 2005-2006 Stephen McConnell.
+ * Copyright 2006 Stephen McConnell.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +19,15 @@ import java.io.File;
 
 import net.dpml.util.PropertyResolver;
 
+import org.mortbay.jetty.handler.RequestLogHandler;
+import org.mortbay.jetty.NCSARequestLog;
+
 /** 
  * Wrapper for the Jetty NCSA request logger.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
+public class NCSARequestLogHandler extends RequestLogHandler
 {
    /**
     * Component context.
@@ -104,22 +106,26 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
         */
         boolean getLogCookies( boolean flag );
     }
+    
+    private final NCSARequestLog m_ncsa;
 
    /**
     * Creation of a new NCSA request log.
     * @param context the deployment context
     */
-    public NCSARequestLog( Context context )
+    public NCSARequestLogHandler( Context context )
     {
+        m_ncsa = new NCSARequestLog();
+        
         boolean append = context.getAppend( false );
-        setAppend( append );
-
+        m_ncsa.setAppend( append );
+        
         boolean extended = context.getExtended( false );
-        setExtended( extended );
-
+        m_ncsa.setExtended( extended );
+        
         boolean preferProxiedFor = context.getPreferProxiedForAddress( false );
-        setPreferProxiedForAddress( preferProxiedFor );
-
+        m_ncsa.setPreferProxiedForAddress( preferProxiedFor );
+        
         String filename = context.getFilename( null );
         if( filename != null )
         {
@@ -130,37 +136,39 @@ public class NCSARequestLog extends org.mortbay.jetty.NCSARequestLog
             {
                 parent.mkdirs();
             }
-            setFilename( filename );
+            m_ncsa.setFilename( filename );
         }
-
+        
         String dateformat = context.getLogDateFormat( null );
         if( dateformat != null )
         {
-            setLogDateFormat( dateformat );
+            m_ncsa.setLogDateFormat( dateformat );
         }
-
+        
         String[] ignorepaths = context.getIgnorePaths( null );
         if( ignorepaths != null )
         {
-            setIgnorePaths( ignorepaths );
+            m_ncsa.setIgnorePaths( ignorepaths );
         }
-
+        
         String timezone = context.getLogTimeZone( null );
         if( timezone != null )
         {
-            setLogTimeZone( timezone );
+            m_ncsa.setLogTimeZone( timezone );
         }
-
+        
         int retain = context.getRetainDays( -1 );
         if( retain > 0 )
         {
-            setRetainDays( retain );
+            m_ncsa.setRetainDays( retain );
         }
         
         boolean recordLatencyPolicy = context.getLogLatency( false );
-        setLogLatency( recordLatencyPolicy );
+        m_ncsa.setLogLatency( recordLatencyPolicy );
         
         boolean cookiesPolicy = context.getLogCookies( false );
-        setLogCookies( cookiesPolicy );
+        m_ncsa.setLogCookies( cookiesPolicy );
+        
+        setRequestLog( m_ncsa );
     }
 }

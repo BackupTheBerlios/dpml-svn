@@ -20,10 +20,12 @@ package net.dpml.metro.runtime;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 import net.dpml.component.Directive;
 import net.dpml.component.ActivationPolicy;
@@ -70,7 +72,8 @@ class DefaultComponentModel extends UnicastEventSource
     private final ClassLoader m_classloader;
     private final Classpath m_classpath;
     
-    private final HashMap m_parts = new HashMap();
+    private final List m_keys = new LinkedList();
+    private final Hashtable m_parts = new Hashtable();
     private final DefaultContextModel m_context;
     private final String m_path;
     
@@ -121,7 +124,7 @@ class DefaultComponentModel extends UnicastEventSource
             m_lifestyle = lifestyle;
         }
 
-        m_collection = m_directive.getCollectionPolicy();        
+        m_collection = m_directive.getCollectionPolicy();
         ContextDirective context = m_directive.getContextDirective();
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
         
@@ -193,6 +196,10 @@ class DefaultComponentModel extends UnicastEventSource
                 ComponentDirective component = (ComponentDirective) part;
                 ComponentModel model = 
                   controller.createComponentModel( classloader, classpath, base, component );
+                if( !map.containsKey( key ) )
+                {
+                    m_keys.add( key );
+                }
                 map.put( key, model );
             }
             else
@@ -390,7 +397,8 @@ class DefaultComponentModel extends UnicastEventSource
     */
     public String[] getPartKeys()
     {
-        return (String[]) m_parts.keySet().toArray( new String[0] );
+        return (String[]) m_keys.toArray( new String[0] );
+        //return (String[]) m_parts.keySet().toArray( new String[0] );
     }
     
    /**

@@ -21,7 +21,8 @@ package net.dpml.http;
 import java.util.Map;
 import java.util.Hashtable;
 
-import net.dpml.http.NCSARequestLog.Context;
+import net.dpml.http.NCSARequestLogHandler.Context;
+import org.mortbay.jetty.NCSARequestLog;
 
 import net.dpml.util.ContextInvocationHandler;
 
@@ -43,6 +44,7 @@ public class NCSARequestLogTestCase extends TestCase
     private static final boolean LATENCY_POLICY = true;
     private static final boolean COOKIE_POLICY = true;
     
+    private NCSARequestLogHandler m_handler;
     private NCSARequestLog m_logger;
     
     /**
@@ -65,7 +67,8 @@ public class NCSARequestLogTestCase extends TestCase
         
         Class clazz = Context.class;
         Context context = (Context) ContextInvocationHandler.getProxiedInstance( clazz, map );
-        m_logger = new NCSARequestLog( context );
+        m_handler = new NCSARequestLogHandler( context );
+        m_logger = (NCSARequestLog) m_handler.getRequestLog(); 
     }
     
     

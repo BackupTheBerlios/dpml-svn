@@ -315,7 +315,7 @@ class DefaultComponentHandler extends UnicastEventSource
     //--------------------------------------------------------------------------
     
    /**
-    * Return an <tt>Provider</tt> holder. The value returned will be a function 
+    * Return a <tt>Provider</tt>. The value returned will be a function 
     * of the lifestyle policy implemented by the component.
     * 
     * @return the <tt>Provider</tt>
@@ -332,7 +332,7 @@ class DefaultComponentHandler extends UnicastEventSource
     }
     
    /**
-    * Return the component model assiged to the handler.
+    * Return the component model assigned to the handler.
     * @return the component model
     */
     public ComponentModel getComponentModel()
@@ -623,10 +623,6 @@ class DefaultComponentHandler extends UnicastEventSource
             Version v = s.getVersion();
             Class c = s.getServiceClass();
             
-            //System.out.println( "# CLASS: " + clazz + " / " + c + ", " + clazz.isAssignableFrom( c ) );
-            //System.out.println( "# VERSION: " + version + " / " + v + ", " +  v.complies( version ) );
-            //System.out.println( "# VERSION/2: " + version.complies( v ) );
-            
             if( v.complies( version ) && clazz.isAssignableFrom( c ) )
             {
                 return true;
@@ -836,7 +832,7 @@ class DefaultComponentHandler extends UnicastEventSource
         private boolean m_disposed = false;
         
        /**
-        * Return an <tt>I(nstance</tt> taking into account the component 
+        * Return an <tt>DefaultProvider</tt> taking into account the component 
         * lifestyle policy.
         * @return the <tt>Provider</tt> manager
         * @exception ControlException of a controller error occurs

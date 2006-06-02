@@ -43,9 +43,9 @@
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.http.NCSARequestLog" threadsafe="true" name="ncsa">
+    <type xmlns="metro" class="net.dpml.http.NCSARequestLogHandler" threadsafe="true" name="ncsa">
       <services>
-        <service class="org.mortbay.jetty.RequestLog"/>
+        <service class="org.mortbay.jetty.handler.RequestLogHandler"/>
       </services>
     </type>
 
@@ -61,7 +61,7 @@
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.http.SelectChannelConnector" threadsafe="true" name="sc-connector">
+    <type xmlns="metro" class="net.dpml.http.SelectChannelConnector" threadsafe="true" name="select">
       <services>
         <service class="org.mortbay.jetty.Connector"/>
       </services>
@@ -73,7 +73,7 @@
       </services>
     </type>
 
-    <type xmlns="metro" class="net.dpml.http.ContextHandlerCollection" threadsafe="true" name="context">
+    <type xmlns="metro" class="net.dpml.http.ContextHandlerCollection" threadsafe="true" name="handlers">
       <services>
         <service class="org.mortbay.jetty.handler.HandlerCollection"/>
       </services>
@@ -104,14 +104,6 @@
         </state>
       </state>
       <parts>
-        <component key="requestLog" 
-            type="net.dpml.http.NCSARequestLog" collection="hard" activation="DEMAND">
-          <context>
-            <entry key="filename" value="$${dpml.data}/logs/http/request.log"/>
-            <entry key="append" value="true"/>
-            <entry key="extended" value="true"/>
-          </context>
-        </component>
         <component key="threadPool" 
             type="net.dpml.http.BoundedThreadPool" collection="hard" activation="DEMAND">
           <context>

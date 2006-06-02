@@ -55,9 +55,6 @@
       <property name="project.test.fork" value="true"/>
       <property name="project.javadoc.exclude" value="true"/>
     </properties>
-    <types>
-      <type id="jar"/>
-    </types>
     <dependencies>
       <build>
         <include key="dpml-http-server"/>

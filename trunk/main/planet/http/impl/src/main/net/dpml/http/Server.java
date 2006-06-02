@@ -71,12 +71,6 @@ public class Server extends org.mortbay.jetty.Server
     public interface Parts extends PartsManager
     {
        /**
-        * Return the default request log.
-        * @return the default request log.
-        */
-        RequestLog getRequestLog();
-        
-       /**
         * Return the default thread pool.
         * @return the default thread pool.
         */

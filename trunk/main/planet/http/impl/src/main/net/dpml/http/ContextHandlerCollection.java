@@ -58,7 +58,7 @@ public class ContextHandlerCollection extends org.mortbay.jetty.handler.ContextH
         {
             String key = keys[i];
             ComponentHandler handler = parts.getComponentHandler( key );
-            getLogger().info( "adding context handler: " + handler );
+            getLogger().info( "adding handler: " + handler );
             try
             {
                 Provider provider = handler.getProvider();

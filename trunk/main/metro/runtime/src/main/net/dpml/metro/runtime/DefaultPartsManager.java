@@ -148,7 +148,18 @@ class DefaultPartsManager implements PartsManager
     */
     public String[] getKeys()
     {
-        return (String[]) m_handlers.keySet().toArray( new String[0] );
+        try
+        {
+            return m_handler.getComponentManager().getPartKeys();
+        }
+        catch( RemoteException e )
+        {
+            final String error = 
+              "Remote IO error while attempting to get parts keys in component ["
+              + m_handler
+              + "]";
+            throw new ControllerRuntimeException( error, e );
+        }
     }
     
    /**
@@ -291,7 +302,6 @@ class DefaultPartsManager implements PartsManager
                     {
                         list.add( component );
                         queue.add( component, 0 );
-                        //component.commission();
                     }
                 }
                 catch( Throwable e )
