@@ -3,7 +3,7 @@
    
   <resource name="dpml-module">
     <types>
-      <type id="xsd"/>
+      <type id="xsd" version="1.0"/>
     </types>
   </resource>
 

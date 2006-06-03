@@ -43,7 +43,6 @@
       file="${target.dir}/module.xsd"/>
     <checksum fileext=".md5" file="${xsds}/${filename}"/>
     <echo file="${xsds}/${project.name}-${specification.version}.xsd.link" message="${xsd.uri}"/>
-    <echo file="${xsds}/${project.name}.xsd.link" message="${xsd.uri}"/>
   </target>
 
 </project>
