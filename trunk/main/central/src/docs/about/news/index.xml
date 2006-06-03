@@ -12,10 +12,10 @@
 
     <section name="News &amp; Events">
 
-      <subsection name="3 June 2006 RC8 Distribution">
+      <subsection name="3 June 2006 RC9 Distribution">
 
         <p>
-        DPML RC8 distributution is released. The release includes
+        DPML RC9 distributution is released. The release includes
         finalization of the Depot build management model, enhancements to the 
         Metro runtime with respect to internal part deployment ordering, the 
         incorporation of symbolic links across all XSD references (enabling 
