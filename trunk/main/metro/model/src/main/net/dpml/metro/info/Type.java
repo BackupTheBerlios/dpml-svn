@@ -298,7 +298,8 @@ public class Type extends Composite implements Serializable
     */
     public static Type createType( Class clazz )
     {
-        final InfoDescriptor info = new InfoDescriptor( "object", clazz.getName() );
+        String name = clazz.getName();
+        final InfoDescriptor info = new InfoDescriptor( name, clazz.getName() );
         final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
         final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
         final ServiceDescriptor[] services = 
