@@ -262,38 +262,6 @@ class DefaultComponentHandler extends UnicastEventSource
         return m_controller.getCompositionController();
     }
     
-   /**
-    * Create a nested component handler.
-    * @param anchor the anchor classloader
-    * @param uri the component part definition
-    * @return the component handler
-    * @exception Exception if an error occurs during component loading or establishment
-    */
-    //public ComponentHandler createComponentHandler( ClassLoader anchor, URI uri ) throws Exception
-    //{
-        /*
-        Directive directive = getController().loadDirective( uri );
-        if( directive instanceof ComponentDirective )
-        {
-            ComponentDirective cd = (ComponentDirective) directive;
-            String partition = getPath() + "/";
-            Classpath classpath = m_model.getClasspath();
-            ComponentModel model = 
-              m_controller.createComponentModel( anchor, classpath, partition, cd );
-            return m_controller.createDefaultComponentHandler( 
-              this, anchor, model, true );
-        }
-        else
-        {
-            final String error = 
-              "Component directive class ["
-              + directive.getClass()
-              + "] is not supported.";
-            throw new IllegalArgumentException( error );
-        }
-        */
-    //}
-
     //--------------------------------------------------------------------------
     // ModelListener
     //--------------------------------------------------------------------------
@@ -1024,7 +992,8 @@ class DefaultComponentHandler extends UnicastEventSource
             catch( Exception e )
             {
                 final String error = 
-                  "Per-thread lifestyle policy handler encountered an error while attempting to establish instance.";
+                  "Per-thread lifestyle policy handler encountered an error "
+                  + "while attempting to establish instance.";
                 throw new ControllerRuntimeException( error, e );
             }
         }

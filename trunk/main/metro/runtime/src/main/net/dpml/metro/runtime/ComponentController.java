@@ -387,79 +387,6 @@ class ComponentController
         return loadServices( type, classloader );
     }
     
-    /*
-    private ClassLoader createClassLoader( ClassLoader anchor, Classpath classpath, String name )
-    {
-        ClassLoader parent = anchor;
-        final ClassLoader base = getClass().getClassLoader();
-        final ClasspathDirective[] cpds = directive.getClasspathDirectives();
-        for( int i=0; i<cpds.length; i++ )
-        {
-            ClasspathDirective cpd = cpds[i];
-            Category tag = cpd.getCategory();
-            URI[] uris = filter( cpd.getURIs(), parent );
-            if( uris.length > 0 )
-            {
-                parent = new CompositionClassLoader( null, tag, base, uris, parent );
-            }
-        }
-        return parent;
-    }
-
-    private URI[] filter( URI[] uris, ClassLoader classloader )
-    {
-        if( classloader instanceof URLClassLoader )
-        {
-            URLClassLoader loader = (URLClassLoader) classloader;
-            return filterURLClassLoader( uris, loader );
-        }
-        else
-        {
-            return uris;
-        }
-    }
-
-    private URI[] filterURLClassLoader( URI[] uris, URLClassLoader parent )
-    {
-        ArrayList list = new ArrayList();
-        for( int i = ( uris.length - 1 ); i>-1; i-- )
-        {
-            URI uri = uris[i];
-            String path = uri.toString();
-            if( !exists( uri, parent ) )
-            {
-                list.add( uri );
-            }
-        }
-        return (URI[]) list.toArray( new URI[0] );
-    }
-
-    private boolean exists( URI uri, URLClassLoader classloader )
-    {
-        ClassLoader parent = classloader.getParent();
-        if( parent instanceof URLClassLoader )
-        {
-            URLClassLoader loader = (URLClassLoader) parent;
-            if( exists( uri, loader ) )
-            {
-                return true;
-            }
-        }
-        String ref = uri.toString();
-        URL[] urls = classloader.getURLs();
-        for( int i=0; i<urls.length; i++ )
-        {
-            URL url = urls[i];
-            String spec = url.toString();
-            if( spec.equals( ref ) )
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    */
-    
     private Logger getLogger()
     {
         return m_logger;
@@ -567,7 +494,33 @@ class ComponentController
     String getPathForLogger( DefaultComponentHandler handler )
     {
         String path = handler.getPath();
-        return path.replace( '/', '.' );
+        String category = path.replace( '/', '.' );
+        return trimCategoryPath( category );
+    }
+    
+    String trimCategoryPath( String path )
+    {
+        if( null == path )
+        {
+            return "";
+        }
+        else
+        {
+            if( path.startsWith( "." ) )
+            {
+                String substring = path.substring( 1 );
+                return trimCategoryPath( substring );
+            }
+            else if( path.endsWith( "." ) )
+            {
+                String substring = path.substring( 0, path.length() - 1 );
+                return trimCategoryPath( substring );
+            }
+            else
+            {
+                return path;
+            }
+        }
     }
     
     Object getContextValue( DefaultComponentHandler handler, String key ) throws ControlException
