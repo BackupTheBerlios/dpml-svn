@@ -102,8 +102,8 @@
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
-    <info>
-      <description title="Metro Container Runtime">
+    <info title="Metro Container Runtime">
+      <description>
       DPML Component management platform runtime container.
       </description>
     </info>
@@ -135,8 +135,8 @@
   </project>
   
   <project name="dpml-metro-tools" basedir="tools">
-    <info>
-      <description title="DPML Metro Tools">
+    <info title="DPML Metro Tools">
+      <description>
       DPML extensions supporting the Ant build system for component 
       type and deployment data management
       </description>

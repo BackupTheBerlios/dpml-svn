@@ -148,16 +148,9 @@
 
     <complexType name="InfoType">
       <sequence>
-        <element name="description" type="this:DescriptionType" minOccurs="0" maxOccurs="1"/>
+        <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
       </sequence>
-    </complexType>
-
-    <complexType name="DescriptionType">
-      <simpleContent>
-        <extension base="string">
-          <attribute name="title" type="string"/>
-        </extension>
-      </simpleContent>
+      <attribute name="title" type="string"/>
     </complexType>
 
     <complexType name="RuntimeIncludeType">

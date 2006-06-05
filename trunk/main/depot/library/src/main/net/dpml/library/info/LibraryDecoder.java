@@ -624,6 +624,7 @@ public final class LibraryDecoder extends LibraryConstants
         }
         else
         {
+            String title = ElementHelper.getAttribute( element, "title" );
             Element child = ElementHelper.getChild( element, "description" );
             if( null == child )
             {
@@ -631,7 +632,6 @@ public final class LibraryDecoder extends LibraryConstants
             }
             else
             {
-                String title = ElementHelper.getAttribute( child, "title" );
                 String value = ElementHelper.getValue( child );
                 String description = trim( value );
                 return new InfoDirective( title, description );

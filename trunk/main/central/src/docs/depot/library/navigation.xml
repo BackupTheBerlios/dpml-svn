@@ -25,11 +25,12 @@
  <body>
 
     <menu>
-      <item name="Properties" href="properties.html"/>
       <item name="Imports" href="imports.html"/>
       <item name="Modules" href="modules.html"/>
       <item name="Projects" href="projects.html"/>
       <item name="Resources" href="resources.html"/>
+      <item name="Info" href="info.html"/>
+      <item name="Properties" href="properties.html"/>
       <item name="Types" href="types.html"/>
       <item name="Dependencies" href="dependencies.html"/>
       <item name="Filters" href="filters/index.html"/>

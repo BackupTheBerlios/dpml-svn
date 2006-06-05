@@ -67,6 +67,12 @@
       
          <table>
            <tr>
+             <td><a href="info.html">info</a></td>
+             <td>0..1</td>
+             <td>Declaration of supplimentary human readable <a href="info.html">info</a> 
+                about the project.</td>
+           </tr>
+           <tr>
              <td><a href="properties.html">properties</a></td>
              <td>0..1</td>
              <td>Declaration of a set of <a href="properties.html">properties</a> 
@@ -101,12 +107,6 @@
                 string tokens in source code with values resolved from the project
                 model (or other project/resources).</td>
            </tr>
-           <tr>
-             <td><a href="data/index.html">filters</a></td>
-             <td>0..1</td>
-             <td>Declaration of process data.  Process data entries may be used to 
-                 trigger supplimentary or custom build processes.</td>
-           </tr>
          </table>
 
       </subsection>
@@ -130,8 +130,8 @@
 
 <source><![CDATA[
   <project name="dpml-metro-runtime" basedir="runtime">
-    <info>
-      <description title="Metro Container Runtime">
+    <info title="Metro Container Runtime">
+      <description>
       DPML Component management platform runtime container.
       </description>
     </info>
@@ -155,10 +155,10 @@
     </dependencies>
     <filters>
       <feature token="PART-HANDLER-URI" id="uri" type="part"/>
-      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state"/>
-      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part"/>
-      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type"/>
-      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
     </filters>
   </project>
 ]]></source>

@@ -13,13 +13,13 @@
       </info>
     </module>
     <module name="acme-3">
-      <info>
-        <description title="Widget"/>
+      <info title="Widget">
+        <description/>
       </info>
     </module>
     <module name="acme-4">
-      <info>
-        <description title="Widget">
+      <info title="Widget">
+        <description>
         An example of a widget.
         </description>
       </info>

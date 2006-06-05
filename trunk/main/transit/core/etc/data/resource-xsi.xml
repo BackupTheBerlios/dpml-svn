@@ -7,7 +7,7 @@
     </description>
   </info>
   
-  <resource urn="foo:bar" path="org/acme"/>
+  <strategy xsi:type="resource" urn="foo:bar" path="org/acme"/>
   
   <classpath>
     <public>

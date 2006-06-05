@@ -41,6 +41,19 @@
       </table>
 
       </subsection>
+
+      <subsection name="Special URI Feature related Attributes">
+      
+      <table>
+        <tr>
+          <td>alias</td>
+          <td>If <tt>true</tt> the artifact uri returned for the uri feature will 
+          be a link (assuming that the resource declares production of
+          an link alias).</td>
+        </tr>
+      </table>
+
+      </subsection>
       
       <subsection name="Features">
       
@@ -49,7 +62,6 @@
         </p>
 
         <table>
-          <tr><th>Feature</th><th>Description</th></tr>
           <tr>
             <td>name</td>
             <td>The resource name.</td>

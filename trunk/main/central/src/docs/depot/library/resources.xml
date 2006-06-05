@@ -58,19 +58,25 @@
       
          <table>
            <tr>
-             <td>properties</td>
+             <td><a href="info.html">info</a></td>
+             <td>0..1</td>
+             <td>Declaration of supplimentary human readable <a href="info.html">info</a> 
+                about the resource.</td>
+           </tr>
+           <tr>
+             <td><a href="properties.html">properties</a></td>
              <td>0..1</td>
              <td>Declaration of a set of <a href="properties.html">properties</a> 
                 associated with the resource.</td>
            </tr>
            <tr>
-             <td>types</td>
+             <td><a href="types.html">types</a></td>
              <td>0..1</td>
              <td>A collection of <a href="types.html">types</a> associated with the resource
                (e.g. a jar file or a plugin definition).</td>
            </tr>
            <tr>
-             <td>dependecies</td>
+             <td><a href="dependencies.html">dependencies</a></td>
              <td>0..n</td>
              <td>A collection of <a href="dependencies.html">dependencies</a> that the resource has 
               with other resources.</td>

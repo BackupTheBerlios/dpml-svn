@@ -37,7 +37,7 @@ public class PartTestCase extends TestCase
     }
         
    /**
-    * Test the demo class.
+    * Test the loading of a part using the plugin strategy.
     * @exception Exception if a error occurs during test execution
     */
     public void testPlugin() throws Exception
@@ -46,7 +46,7 @@ public class PartTestCase extends TestCase
     }
     
    /**
-    * Test the demo class.
+    * Test the loading of a part using the resource strategy.
     * @exception Exception if a error occurs during test execution
     */
     public void testResource() throws Exception
@@ -54,13 +54,30 @@ public class PartTestCase extends TestCase
         evaluateDocument( "resource.xml" );
     }
     
+   /**
+    * Test the loading of a part using the plugin strategy via an xsi type reference.
+    * @exception Exception if a error occurs during test execution
+    */
+    public void testXsiPlugin() throws Exception
+    {
+        evaluateDocument( "plugin-xsi.xml" );
+    }
+    
+   /**
+    * Test the loading of a part using the resource strategy via an xsi type reference.
+    * @exception Exception if a error occurs during test execution
+    */
+    public void testXsiResource() throws Exception
+    {
+        evaluateDocument( "resource-xsi.xml" );
+    }
+    
     private void evaluateDocument( String path ) throws Exception
     {
         String base = System.getProperty( "project.test.dir" );
         File test = new File( base );
         File file = new File( test, path );
-        System.out.println( "source: " + file + " (" + file.exists() + ")" );
-        
+        //System.out.println( "source: " + file + " (" + file.exists() + ")" );
         Part part = Part.load( file.toURI() );
         File out = new File( test, "export-" + path );
         FileOutputStream output = new FileOutputStream( out );

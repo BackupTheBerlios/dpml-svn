@@ -20,20 +20,16 @@
       <subsection name="Build @VERSION@">
 
         <p>
-        Enhancements include:
+        Resolved issues and/or enhancements:
         </p>
         
         <ul>
-          <li>Module processing enhanced to support composite names.</li>
-          <li>Removal of redundant property assertions in exported modules.</li>
-          <li>Depot builder structural enhancements.</li>
-          <li>Addition of configurable project listeners.</li>
-          <li>Removal of transit content handlers (functionality available 
-              under the improved part model).</li>
-          <li>Added support for trace level logging.</li>
-          <li>Addition of test cases in the http impl package and related code improvements.</li>
-          <li>Replaced artifact based XSDL target namespaces with logical links.</li>
-          <li>Improved part sequencing in the Metro container.</li>
+          <li>Updated project/module/resource <tt>info</tt> element to be equivalent
+              to the info element declared under the <tt>plugin</tt> schema.</li>
+          <li>Documentation improvements inclouding information about type versions
+              and alias references.</li>
+          <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
+              XML instances.</li>
         </ul>
         
         <table>
@@ -73,6 +69,68 @@
         </table>
 
         <p>
+        Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are available.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0-RC9">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Module processing enhanced to support composite names.</li>
+          <li>Removal of redundant property assertions in exported modules.</li>
+          <li>Depot builder structural enhancements.</li>
+          <li>Addition of configurable project listeners.</li>
+          <li>Removal of transit content handlers (functionality available 
+              under the improved part model).</li>
+          <li>Added support for trace level logging.</li>
+          <li>Addition of test cases in the http impl package and related code improvements.</li>
+          <li>Replaced artifact based XSDL target namespaces with logical links.</li>
+          <li>Improved part sequencing in the Metro container.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.exe">
+                dpml-sdk-win32-1.0.0-RC9.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.zip">
+                dpml-sdk-win32-1.0.0-RC9.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-linux-1.0.0-RC9.tar.gz">
+                dpml-sdk-linux-1.0.0-RC9.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-linux-1.0.0-RC9.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
         Note:
         </p>
 
@@ -84,8 +142,8 @@
         </p>
 
         <p>
-        Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are available.
+        Online <a href="http://api.dpml.net/dpml/1.0.0-RC9">Javadoc</a>, 
+        <a href="http://www.dpml.net/reports/1.0.0-RC9/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC9/catalog/index.html">Catalog</a> reports are available.
         </p>
 
       </subsection>
