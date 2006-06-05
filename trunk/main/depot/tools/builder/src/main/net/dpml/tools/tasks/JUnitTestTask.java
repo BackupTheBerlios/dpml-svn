@@ -291,6 +291,16 @@ public class JUnitTestTask extends GenericTask
         testBaseDir.setValue( working.toString() );
         junit.addConfiguredSysproperty( testBaseDir );
 
+        final Environment.Variable targetDir = new Environment.Variable();
+        targetDir.setKey( "project.target.dir" );
+        targetDir.setValue( getContext().getTargetDirectory().toString() );
+        junit.addConfiguredSysproperty( targetDir );
+
+        final Environment.Variable deliverablesDir = new Environment.Variable();
+        deliverablesDir.setKey( "project.target.deliverables.dir" );
+        deliverablesDir.setValue( getContext().getTargetDeliverablesDirectory().toString() );
+        junit.addConfiguredSysproperty( deliverablesDir );
+
         final Environment.Variable basedir = new Environment.Variable();
         basedir.setKey( "basedir" );
         basedir.setValue( project.getBaseDir().toString() );
