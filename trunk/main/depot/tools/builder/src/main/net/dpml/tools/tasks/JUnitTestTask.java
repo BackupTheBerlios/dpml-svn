@@ -19,8 +19,12 @@
 package net.dpml.tools.tasks;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
+import net.dpml.library.Feature;
+import net.dpml.library.Type;
+import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
 
 import net.dpml.tools.Context;
@@ -334,7 +338,31 @@ public class JUnitTestTask extends GenericTask
         logging.setKey( "java.util.logging.config.class" );
         logging.setValue( "net.dpml.util.ConfigurationHandler" );
         junit.addConfiguredSysproperty( logging );
-
+        
+        try
+        {
+            Context context = getContext();
+            Resource resource = context.getResource();
+            Type[] types = context.getResource().getTypes();
+            for( int i=0; i<types.length; i++ )
+            {
+                Type type = types[i];
+                String id = type.getID();
+                File file = context.getTargetDeliverable( id );
+                String path = file.getCanonicalPath();
+                final Environment.Variable variable = new Environment.Variable();
+                variable.setKey( "project.deliverable." + id + ".filename" );
+                variable.setValue( path );
+                junit.addConfiguredSysproperty( variable );
+            }
+        }
+        catch( IOException ioe )
+        {
+            final String error = 
+              "Unexpected IO error while building deliverable filename properties.";
+            throw new BuildException( error, ioe );
+        }
+        
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
         junit.setTaskName( getTaskName() );
