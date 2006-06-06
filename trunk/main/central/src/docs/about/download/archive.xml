@@ -30,10 +30,12 @@
               and alias references.</li>
           <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
               XML instances.</li>
-          <li>Update JUnit task to assert forked test mode as default.</li>
+          <li>Update JUnit task to assert forked test mode as default and 
+              association of system properties for all local deliverables.</li>
           <li>Removal of redundant declaration in component and type XSD.</li>
           <li>Updated Type class to support dynamic introspection of context inner interfaces
               allowing component creation without an explicit .type resource).</li>
+          <li>Consolidated duplicate code dealing with freature resolution.</li>
         </ul>
         
         <table>
