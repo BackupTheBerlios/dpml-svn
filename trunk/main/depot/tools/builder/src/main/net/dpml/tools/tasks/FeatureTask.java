@@ -22,6 +22,8 @@ import java.io.File;
 
 import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Resource;
+import net.dpml.library.Feature;
+import net.dpml.library.Type;
 
 import net.dpml.transit.Artifact;
 
@@ -39,8 +41,6 @@ public abstract class FeatureTask extends GenericTask
     private String m_key;
     private String m_ref;
     private String m_feature;
-    private boolean m_windows = true;
-    private boolean m_flag = false;  // os not set
     private String m_type; // optional - used to select type when resolving uris
     private boolean m_alias = false; // used when resolving uris
 
@@ -88,23 +88,6 @@ public abstract class FeatureTask extends GenericTask
     }
 
    /**
-    * Set the platform.
-    * @param os a value of 'windows' or 'unix'
-    */
-    public void setPlatform( final String os )
-    {
-        m_flag = true;
-        if( "windows".equalsIgnoreCase( os ) )
-        {
-            m_windows = true;
-        }
-        else if( "unix".equalsIgnoreCase( os ) )
-        {
-            m_windows = false;
-        }
-    }
-
-   /**
     * Optionaly set the resource type that the feature is related to.
     * @param type the resource type
     */
@@ -140,112 +123,15 @@ public abstract class FeatureTask extends GenericTask
         
         String ref = getRef();
         Resource resource = getResource( ref );
-        
-        if( null != m_type && !resource.isa( m_type ) )
+        Feature feature = Feature.parse( m_feature );
+        if( null == m_type )
         {
-            final String error = 
-              "The feature request for the type [" 
-              + m_type 
-              + "] from the resource ["
-              + resource 
-              + "] cannot be fullfilled because the resource does not declare "
-              + "production of the requested type.";
-            throw new BuildException( error, getLocation() );
-        }
-
-        if( m_feature.equals( "name" ) )
-        {
-            return resource.getName();
-        }
-        else if( m_feature.equals( "group" ) )
-        {
-            return resource.getParent().getResourcePath();
-        }
-        else if( m_feature.equals( "version" ) )
-        {
-            String version = resource.getVersion();
-            if( null == version )
-            {
-                return "";
-            }
-            else
-            {
-                return version;
-            }
-        }
-        else if( m_feature.equals( "uri" ) )
-        {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the uri attribute.";
-                throw new BuildException( error, getLocation() );
-            }
-            else
-            {
-                if( m_alias )
-                {
-                    Artifact artifact = resource.getLinkArtifact( m_type );
-                    return artifact.toURI().toString();
-                }
-                else
-                {
-                    Artifact artifact = resource.getArtifact( m_type );
-                    return artifact.toURI().toString();
-                }
-            }
-        }
-        else if( m_feature.equals( "spec" ) )
-        {
-            String path = resource.getResourcePath();
-            String version = resource.getVersion();
-            if( null == version )
-            {
-                return path;
-            }
-            else
-            {
-                return path + "#" + version;
-            }
-        }
-        else if( m_feature.equals( "path" ) )
-        {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the uri attribute.";
-                throw new BuildException( error, getLocation() );
-            }
-            else
-            {
-                Artifact artifact = resource.getArtifact( m_type );
-                try
-                {
-                    File cached = 
-                      (File) artifact.toURL().getContent( new Class[]{File.class} );
-                    return cached.getCanonicalPath();
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Unable to resolve resource path.";
-                    throw new BuildException( error, e, getLocation() );
-                }
-            }
-        }
-        else if( m_feature.equals( "filename" ) )
-        {
-            if( null == m_type )
-            {
-                final String error = 
-                  "Type attribute must be supplied in conjuction with the filename attribute.";
-                throw new BuildException( error, getLocation() );
-            }
-            return getContext().getLayoutPath( m_type );
+            return Feature.resolve( resource, feature );
         }
         else
         {
-            return resource.getProperty( m_feature );
+            Type type = resource.getType( m_type );
+            return Feature.resolve( resource, feature, type, m_alias );
         }
     }
     
