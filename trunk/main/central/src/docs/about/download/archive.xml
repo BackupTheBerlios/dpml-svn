@@ -32,6 +32,8 @@
               XML instances.</li>
           <li>Update JUnit task to assert forked test mode as default.</li>
           <li>Removal of redundant declaration in component and type XSD.</li>
+          <li>Updated Type class to support dynamic introspection of context inner interfaces
+              allowing component creation without an explicit .type resource).</li>
         </ul>
         
         <table>
