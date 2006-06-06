@@ -18,7 +18,12 @@
 
 package net.dpml.library;
 
+import java.io.File;
+
+import net.dpml.lang.Version;
 import net.dpml.lang.Enum;
+
+import net.dpml.transit.Artifact;
 
 /**
  * Enumeration identifying resource features.
@@ -68,7 +73,8 @@ public final class Feature extends Enum
    /**
     * Array of scope enumeration values.
     */
-    private static final Feature[] ENUM_VALUES = new Feature[]{NAME, GROUP, VERSION, URI, SPEC, PATH, FILENAME};
+    private static final Feature[] ENUM_VALUES = 
+      new Feature[]{NAME, GROUP, VERSION, URI, SPEC, PATH, FILENAME};
 
    /**
     * Returns an array of activation enum values.
@@ -141,5 +147,197 @@ public final class Feature extends Enum
             throw new IllegalArgumentException( error );
         }
     }
+    
+   /**
+    * Return the value of a feature.
+    * @param resource the target resource
+    * @return the resolved value
+    */
+    public static String resolve( Resource resource, Feature feature ) 
+    {
+        return resolve( resource, feature, null, false );
+    }
+    
+   /**
+    * Return the value of a feature.
+    * @param resource the target resource
+    * @param type the selected type
+    * @return the resolved value
+    */
+    public static String resolve( Resource resource, Feature feature, Type type ) 
+    {
+        return resolve( resource, feature, type, false );
+    }
+    
+   /**
+    * Return the value of a feature.
+    * @param resource the target resource
+    * @param type the selected type
+    * @param alias flag indicated that alias based uri resolution is requested
+    * @return the resolved value
+    */
+    public static String resolve( Resource resource, Feature feature, Type type, boolean alias ) 
+    {
+        if( null != type && !resource.isa( type.getID() ) )
+        {
+            final String error = 
+              "The feature request for the type [" 
+              + type 
+              + "] from the resource ["
+              + resource 
+              + "] cannot be fullfilled because the resource does not declare "
+              + "production of the requested type.";
+            throw new FeatureRuntimeException( error );
+        }
+        
+        if( feature.equals( Feature.NAME ) )
+        {
+            return resource.getName();
+        }
+        else if( feature.equals( Feature.GROUP ) )
+        {
+            return resource.getParent().getResourcePath();
+        }
+        else if( feature.equals( Feature.VERSION ) )
+        {
+            String version = resource.getVersion();
+            if( null == version )
+            {
+                return "";
+            }
+            else
+            {
+                return version;
+            }
+        }
+        else if( feature.equals( Feature.URI ) )
+        {
+            return resolveURIFeature( resource, type, alias );
+        }
+        else if( feature.equals( Feature.SPEC ) )
+        {
+            String path = resource.getResourcePath();
+            String version =resource.getVersion();
+            if( null == version )
+            {
+                return path;
+            }
+            else
+            {
+                return path + "#" + version;
+            }
+        }
+        else if( feature.equals( Feature.PATH ) )
+        {
+            if( null == type )
+            {
+                final String error = 
+                  "Type must be supplied in conjuction with the uri feature.";
+                throw new FeatureRuntimeException( error );
+            }
+            else
+            {
+                String id = type.getID();
+                Artifact artifact = resource.getArtifact( id );
+                try
+                {
+                    File cached = 
+                      (File) artifact.toURL().getContent( new Class[]{File.class} );
+                    return cached.getCanonicalPath();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unable to resolve resource path.";
+                    throw new FeatureRuntimeException( error, e );
+                }
+            }
+        }
+        else if( feature.equals( Feature.FILENAME ) )
+        {
+            if( null == type )
+            {
+                final String error = 
+                  "Type must be supplied in conjuction with the filename feature.";
+                throw new IllegalArgumentException( error );
+            }
+            String id = type.getID();
+            return resource.getLayoutPath( id );
+        }
+        else
+        {
+            final String error = 
+              "Invalid feature [" + feature + "].";
+            throw new FeatureRuntimeException( error );
+        }
+    }
+    
+    private static String resolveURIFeature( Resource resource, Type type )
+    {
+        return resolveURIFeature( resource, type, false );
+    }
+    
+    private static String resolveURIFeature( Resource resource, Type type, boolean alias )
+    {
+        if( null == type )
+        {
+            final String error = 
+              "Type must be supplied in conjuction with the uri feature request.";
+            throw new FeatureRuntimeException( error );
+        }
+        else
+        {
+            String id = type.getID();
+            if( alias )
+            {
+                Version version = type.getVersion();
+                if( null != version )
+                {
+                    Artifact artifact = resource.getArtifact( id );
+                    String group = artifact.getGroup();
+                    String name = artifact.getName();
+                    if( Version.NULL_VERSION.equals( version ) )
+                    {
+                        return "link:" 
+                          + id 
+                          + ":" 
+                          + group
+                          + "/" 
+                          + name; 
+                    }
+                    else
+                    {
+                        int major = version.getMajor();
+                        int minor = version.getMinor();
+                        return "link:" 
+                          + id 
+                          + ":" 
+                          + group 
+                          + "/" 
+                          + name
+                          + "#"
+                          + major
+                          + "."
+                          + minor;
+                    }
+                }
+                else
+                {
+                    final String error = 
+                      "Cannot resolve link from resource [" 
+                      + resource
+                      + "] because the resource does not declare production of an alias for the type ["
+                      + id 
+                      + "].";
+                    throw new FeatureRuntimeException( error );
+                }
+            }
+            else
+            {
+                Artifact artifact = resource.getArtifact( id );
+                return artifact.toURI().toASCIIString();
+            }
+        }
+    }    
 }
 

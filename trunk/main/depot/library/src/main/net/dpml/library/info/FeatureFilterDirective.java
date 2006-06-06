@@ -80,7 +80,17 @@ public class FeatureFilterDirective extends FilterDirective
     public String getValue( Resource resource ) throws ResourceNotFoundException
     {
         Resource r = getReferenceResource( resource );
+        if( null == m_type )
+        {
+            return Feature.resolve( r, m_feature );
+        }
+        else
+        {
+            Type type = r.getType( m_type );
+            return Feature.resolve( r, m_feature, type, m_alias );
+        }
         
+        /*
         if( null != m_type && !r.isa( m_type ) )
         {
             final String error = 
@@ -171,8 +181,9 @@ public class FeatureFilterDirective extends FilterDirective
               "Invalid feature [" + m_feature + "].";
             throw new FeatureRuntimeException( error );
         }
+        */
     }
-    
+    /*
     private String resolveURIFeature( Resource resource )
     {
         if( null == m_type )
@@ -235,6 +246,7 @@ public class FeatureFilterDirective extends FilterDirective
             }
         }
     }
+    */
     
     private Resource getReferenceResource( Resource resource ) throws ResourceNotFoundException
     {
