@@ -38,13 +38,4 @@ public class NullTestCase extends TestCase
         Controller control = Controller.STANDARD;
         assertNotNull( "control", control );
     }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

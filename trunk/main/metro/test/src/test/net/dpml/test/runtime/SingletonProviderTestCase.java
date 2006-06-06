@@ -63,13 +63,4 @@ public class SingletonProviderTestCase extends TestCase
         assertEquals( "singletons-are-equal", firstProvider, secondProvider );
         component.decommission();
     }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

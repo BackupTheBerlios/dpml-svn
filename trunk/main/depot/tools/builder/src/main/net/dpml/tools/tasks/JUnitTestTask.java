@@ -330,6 +330,11 @@ public class JUnitTestTask extends GenericTask
         endorsed.setValue( new File( Transit.DPML_SYSTEM, "lib/endorsed" ).getAbsolutePath() );
         junit.addConfiguredSysproperty( endorsed );
 
+        final Environment.Variable logging = new Environment.Variable();
+        logging.setKey( "java.util.logging.config.class" );
+        logging.setValue( "net.dpml.util.ConfigurationHandler" );
+        junit.addConfiguredSysproperty( logging );
+
         junit.setErrorProperty( ERROR_KEY );
         junit.setFailureProperty( FAILURE_KEY );
         junit.setTaskName( getTaskName() );
@@ -483,7 +488,7 @@ public class JUnitTestTask extends GenericTask
     private static final String TEST_SRC_VALUE = "test";
     private static final String TEST_ENV_VALUE = "env";
     private static final boolean DEBUG_VALUE = true;
-    private static final boolean FORK_VALUE = false;
+    private static final boolean FORK_VALUE = true;
     private static final boolean HALT_ON_ERROR_VALUE = true;
     private static final boolean HALT_ON_FAILURE_VALUE = true;
 

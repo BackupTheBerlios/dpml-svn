@@ -43,17 +43,4 @@ public class ServerTestCase extends TestCase
         Object object = part.instantiate( new Object[0] );
         assertEquals( "class", "net.dpml.http.Server", object.getClass().getName() );
     }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-        System.setProperty( 
-          "dpml.logging.config",
-          "local:properties:dpml/transit/default" );
-    }
 }

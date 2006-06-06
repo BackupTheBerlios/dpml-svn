@@ -68,12 +68,4 @@ public class ArrayTestCase extends TestCase
         assertTrue( "array-return-value", flag );
     }
     
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

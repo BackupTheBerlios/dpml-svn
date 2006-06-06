@@ -87,13 +87,4 @@ public class DefaultComponentHandlerTestCase extends TestCase
         Provider instance = (Provider) component.getProvider();
         assertTrue( "is-active-post-instantiation", component.isActive() );
     }
-
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

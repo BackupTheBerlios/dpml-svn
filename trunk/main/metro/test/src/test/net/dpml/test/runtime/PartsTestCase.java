@@ -70,13 +70,4 @@ public class PartsTestCase extends TestCase
         Color c = child.getColor();
         assertEquals( "color", color, c );
     }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

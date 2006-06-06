@@ -16,7 +16,6 @@ Component type definition.
     <import namespace="@COMPONENT-XSD-URI@" schemaLocation="@COMPONENT-XSD-URI@"/>
     
     <element name="type" type="this:TypeDefinition"/>
-    <element name="strategy" type="this:strategy" substitutionGroup="component:strategy"/>
     
     <complexType name="TypeDefinition">
       <sequence>
@@ -25,7 +24,7 @@ Component type definition.
         <element name="context" type="this:ContextType" minOccurs="0" maxOccurs="1"/>
         <element name="categories" type="this:CategoriesType" minOccurs="0" maxOccurs="1"/>
         <element ref="state:state" minOccurs="0" maxOccurs="1"/>
-        <element name="parts" type="component:parts" minOccurs="0" maxOccurs="1"/>
+        <element name="parts" type="component:PartsType" minOccurs="0" maxOccurs="1"/>
       </sequence>
     </complexType>
     
@@ -84,12 +83,6 @@ Component type definition.
       <attribute name="value" type="string"/>
     </complexType>
 
-    <complexType name="strategy">
-      <complexContent>
-        <extension base="component:strategy"/>
-      </complexContent>
-    </complexType>
-    
     <simpleType name="priority">
       <restriction base="string">
         <enumeration value="info"/>

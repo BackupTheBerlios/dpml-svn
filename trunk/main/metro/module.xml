@@ -40,9 +40,6 @@
   </project>
 
   <project name="dpml-job-impl" basedir="job/impl">
-    <properties>
-      <property name="project.test.fork" value="true"/>
-    </properties>
     <types>
       <type id="jar"/>
     </types>
@@ -163,7 +160,6 @@
 
   <project name="dpml-metro-test" basedir="test">
     <properties>
-      <property name="project.test.fork" value="true"/>
       <property name="project.javadoc.exclude" value="true"/>
     </properties>
     <types>

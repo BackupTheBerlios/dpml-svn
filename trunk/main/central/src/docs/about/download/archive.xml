@@ -30,6 +30,8 @@
               and alias references.</li>
           <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
               XML instances.</li>
+          <li>Update JUnit task to assert forked test mode as default.</li>
+          <li>Removal of redundant declaration in component and type XSD.</li>
         </ul>
         
         <table>

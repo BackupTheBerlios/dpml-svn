@@ -66,13 +66,4 @@ public class LifecycleTestCase extends TestCase
         component.decommission();
         assertTrue( "component is stopped", startable.wasStopped() );
     }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

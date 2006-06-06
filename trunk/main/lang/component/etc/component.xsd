@@ -9,24 +9,10 @@
     <import namespace="@PART-XSD-LINK-URI@" schemaLocation="@PART-XSD-LINK-URI@"/>
 
     <element name="component" type="this:component" substitutionGroup="part:strategy"/>
-    <element name="strategy" type="this:strategy" substitutionGroup="part:strategy"/>
     <element name="category" type="this:CategoryType"/>
     <element name="categories" type="this:CategoriesType" substitutionGroup="this:category"/>
     <element name="entry" type="this:EntryType"/>
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
-    <element name="parts" type="this:parts"/>
-    
-    <complexType name="strategy">
-      <complexContent>
-        <extension base="part:StrategyType">
-          <sequence>
-            <element name="controller" type="this:ControllerType" minOccurs="0" maxOccurs="1"/>
-            <element name="component" type="this:component" minOccurs="0" maxOccurs="1"/>
-          </sequence>
-          <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
-        </extension>
-      </complexContent>
-    </complexType>
     
     <complexType name="component">
       <complexContent>
@@ -34,7 +20,7 @@
           <sequence>
             <element name="categories" type="this:CategoriesType" minOccurs="0" maxOccurs="1"/>
             <element name="context" type="this:ContextType" minOccurs="0" maxOccurs="1"/>
-            <element name="parts" type="this:parts" minOccurs="0" maxOccurs="1"/>
+            <element name="parts" type="this:PartsType" minOccurs="0" maxOccurs="1"/>
           </sequence>
           <attribute name="name" type="string"/>
           <attribute name="type" type="string" use="required"/>
@@ -44,13 +30,6 @@
           <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
         </extension>
       </complexContent>
-    </complexType>
-    
-    <complexType name="ControllerType">
-      <sequence>
-        <element ref="part:param" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-      <attribute name="uri" type="string" use="required"/>
     </complexType>
     
     <complexType name="CategoryType">
@@ -84,7 +63,7 @@
       </complexContent>
     </complexType>
     
-    <complexType name="parts">
+    <complexType name="PartsType">
       <sequence>
         <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>

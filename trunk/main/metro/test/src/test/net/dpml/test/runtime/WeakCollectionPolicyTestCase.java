@@ -85,13 +85,4 @@ public class WeakCollectionPolicyTestCase extends TestCase
         assertEquals( "count", 0, count );
         component.decommission();
     }
-    
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }

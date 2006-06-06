@@ -23,6 +23,7 @@ import java.net.URL;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
+import java.beans.IntrospectionException;
 
 import net.dpml.lang.Version;
 
@@ -71,7 +72,7 @@ public final class ComponentTypeDecoder
     * @return the component type descriptor
     * @exception IOException if an error occurs reading the type definition
     */
-    public Type loadType( Class subject ) throws IOException
+    public Type loadType( Class subject ) throws IOException, IntrospectionException
     {
         String classname = subject.getName();
         String path = classname.replace( '.', '/' );

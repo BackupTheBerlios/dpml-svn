@@ -40,7 +40,6 @@
    
   <project name="dpml-depot-console" basedir="core">
     <properties>
-      <property name="project.test.fork" value="true"/>
       <property name="depot.short.filename" value="${project.name}.jar"/>
       <property name="transit.short.filename" value="dpml-transit-main.jar"/>
       <property name="project.jar.main.class" value="net.dpml.depot.Main"/>

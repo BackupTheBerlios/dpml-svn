@@ -20,6 +20,9 @@
 package net.dpml.metro.info;
 
 import java.io.Serializable;
+import java.beans.IntrospectionException;
+import java.util.ArrayList;
+import java.lang.reflect.Method;
 
 import net.dpml.state.State;
 
@@ -293,20 +296,170 @@ public class Type extends Composite implements Serializable
     
    /**
     * Utility operation to construct a default type given a supplied class.
-    * @param clazz the component implementation class
+    * @param subject the component implementation class
     * @return the defalt type descriptor for the class
     */
-    public static Type createType( Class clazz )
+    public static Type createType( Class subject )
+       throws IntrospectionException
     {
-        String name = clazz.getName();
-        final InfoDescriptor info = new InfoDescriptor( name, clazz.getName() );
+        final InfoDescriptor info = new InfoDescriptor( null, subject.getName() );
         final CategoryDescriptor[] loggers = new CategoryDescriptor[0];
-        final ContextDescriptor context = new ContextDescriptor( new EntryDescriptor[0] );
+        final ContextDescriptor context = createContextDescriptor( subject );
         final ServiceDescriptor[] services = 
           new ServiceDescriptor[]{
-            new ServiceDescriptor( clazz.getName() )
+            new ServiceDescriptor( subject.getName() )
           };
         final PartReference[] parts = new PartReference[0];
         return new Type( info, loggers, context, services, parts, State.NULL_STATE );
+    }
+    
+    private static ContextDescriptor createContextDescriptor( Class subject ) 
+      throws IntrospectionException
+    {
+        EntryDescriptor[] entries = createEntryDescriptors( subject );
+        return new ContextDescriptor( entries );
+    }
+
+    private static EntryDescriptor[] createEntryDescriptors( Class subject ) 
+       throws IntrospectionException
+    {
+        String classname = subject.getName();
+        Class[] classes = subject.getClasses();
+        Class param = locateClass( "$Context", classes );
+        if( null == param )
+        {
+            return new EntryDescriptor[0];
+        }
+        else
+        {
+            //
+            // For each method in the Context inner-interface we construct a 
+            // descriptor that establishes the key, type, and required status.
+            //
+
+            Method[] methods = param.getMethods();
+            ArrayList list = new ArrayList();
+            for( int i=0; i<methods.length; i++ )
+            {
+                Method method = methods[i];
+                String name = method.getName();
+                if( name.startsWith( "get" ) )
+                {
+                    EntryDescriptor descriptor = 
+                      createEntryDescriptor( method );
+                    list.add( descriptor );
+                }
+            }
+            return (EntryDescriptor[]) list.toArray( new EntryDescriptor[0] );
+        }
+    }
+
+   /**
+    * Creation of a new parameter descriptor using a supplied method.
+    * The method is the method used by the component implementation to get the parameter 
+    * instance. 
+    */
+    private static EntryDescriptor createEntryDescriptor( Method method ) 
+      throws IntrospectionException
+    {
+        validateMethodName( method );
+        validateNoExceptions( method );
+
+        String key = EntryDescriptor.getEntryKey( method );
+
+        Class returnType = method.getReturnType();
+        if( method.getParameterTypes().length == 0 )
+        {
+            //
+            // required context entry
+            //
+
+            validateNonNullReturnType( method );
+            String type = returnType.getName();
+            return new EntryDescriptor( key, type, EntryDescriptor.REQUIRED );
+        }
+        else if( method.getParameterTypes().length == 1 )
+        {
+            Class[] params = method.getParameterTypes();
+            Class param = params[0];
+            if( returnType.isAssignableFrom( param ) )
+            {
+                String type = param.getName();
+                return new EntryDescriptor( key, type, EntryDescriptor.OPTIONAL );
+            }
+            else
+            {
+                final String error = 
+                  "Context entry assessor declares an optional default parameter class ["
+                  + param.getName()
+                  + "] which is not assignable to the return type ["
+                  + returnType.getName()
+                  + "]";
+                throw new IntrospectionException( error );
+            }
+        }
+        else
+        {
+            final String error =
+              "Unable to establish a required or optional context entry method pattern on ["
+              + method.getName()
+              + "]";
+            throw new IntrospectionException( error );
+        }
+    }
+    
+    private static void validateMethodName( Method method ) 
+      throws IntrospectionException
+    {
+        if( !method.getName().startsWith( "get" ) )
+        {
+            final String error = 
+              "Method ["
+              + method.getName()
+              + "] does not start with 'get'.";
+            throw new IntrospectionException( error );
+        }
+    }
+
+    private static void validateNoExceptions( Method method ) 
+      throws IntrospectionException
+    {
+        Class[] exceptionTypes = method.getExceptionTypes();
+        if( exceptionTypes.length > 0 )
+        {
+            final String error = 
+              "Method ["
+              + method.getName()
+              + "] declares one or more exceptions.";
+            throw new IntrospectionException( error );
+        }
+    }
+
+    private static void validateNonNullReturnType( Method method ) 
+       throws IntrospectionException
+    {
+        Class returnType = method.getReturnType();
+        if( Void.TYPE.equals( returnType ) ) 
+        {
+            final String error = 
+              "Method ["
+              + method.getName()
+              + "] does not declare a return type.";
+            throw new IntrospectionException( error );
+        }
+    }
+
+    private static Class locateClass( String postfix, Class[] classes )
+    {
+        for( int i=0; i<classes.length; i++ )
+        {
+            Class inner = classes[i];
+            String name = inner.getName();
+            if( name.endsWith( postfix ) )
+            {
+                return inner;
+            }
+        }
+        return null;
     }
 }

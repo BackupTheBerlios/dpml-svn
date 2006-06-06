@@ -3,8 +3,10 @@
   xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
   <types>
-    <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-        alias="true" type="net.dpml.http.Server" lifestyle="singleton" collection="hard">
+    <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" alias="true" 
+        type="net.dpml.http.Server" 
+        lifestyle="singleton" 
+        collection="hard">
       <parts>
         <!--
         Add a select channel connector to 8080.

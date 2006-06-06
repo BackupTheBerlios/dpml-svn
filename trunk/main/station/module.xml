@@ -29,7 +29,7 @@
         <include ref="dpml/metro/dpml-metro-component"/>
       </runtime>
       <test>
-        <include ref="junit/junit"/>
+        <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
     <filters>
@@ -59,7 +59,8 @@
       </runtime>
     </dependencies>
     <filters>
-      <feature token="COMPOSITION-CONTROLLER-URI" ref="dpml/metro/dpml-metro-runtime" type="part" id="uri"/>
+      <feature token="COMPOSITION-CONTROLLER-URI" 
+          ref="dpml/metro/dpml-metro-runtime" type="part" id="uri"/>
     </filters>
   </project>
 
@@ -72,11 +73,12 @@
         <include key="dpml-station-api" tag="public"/>
       </runtime>
       <test>
-        <include ref="junit/junit"/>
+        <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
     <filters>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri" alias="true"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" 
+          type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
    
@@ -102,7 +104,8 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" type="xsd" id="uri" alias="true"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" 
+          type="xsd" id="uri" alias="true"/>
     </filters>
   </project>
 
@@ -119,7 +122,8 @@
       </runtime>
     </dependencies>
     <filters>
-      <feature token="DEPOT-STATION-PLUGIN-URI" ref="dpml/station/dpml-station-server" type="part" id="uri"/>
+      <feature token="DEPOT-STATION-PLUGIN-URI" ref="dpml/station/dpml-station-server" 
+          type="part" id="uri"/>
     </filters>
   </project>
    

@@ -68,12 +68,4 @@ public class AppTestCase extends TestCase
         assertEquals( "count", 2, count );
     }
     
-    static
-    {
-        System.setProperty( 
-          "java.util.logging.config.class", 
-          System.getProperty( 
-            "java.util.logging.config.class", 
-            "net.dpml.util.ConfigurationHandler" ) );
-    }
 }
