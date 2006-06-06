@@ -471,11 +471,25 @@ public abstract class Part
         String description = info.getDescription();
         if( null == description )
         {
-            writer.write( "\n  <info title=\"" + title + "\"/>" );
+            if( null == title )
+            {
+                writer.write( "\n  <info/>" );
+            }
+            else
+            {
+                writer.write( "\n  <info title=\"" + title + "\"/>" );
+            }
         }
         else
         {
-            writer.write( "\n  <info title=\"" + title + "\">" );
+            if( null == title )
+            {
+                writer.write( "\n  <info>" );
+            }
+            else
+            {
+                writer.write( "\n  <info title=\"" + title + "\">" );
+            }
             writer.write( "\n    <description>" + description + "</description>" );
             writer.write( "\n  </info>" );
         }

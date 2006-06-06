@@ -27,7 +27,7 @@ import java.io.Serializable;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class Info implements Serializable
+public final class Info extends AbstractDirective
 {
     private final String m_title;
     private final String m_description;
@@ -42,22 +42,8 @@ public final class Info implements Serializable
     public Info( URI uri, String title, String description )
     {
         m_uri = uri;
-        if( null == title )
-        {
-            m_title = "Untitled";
-        }
-        else
-        {
-            m_title = title;
-        }
-        if( null == description )
-        {
-            m_description = "";
-        }
-        else
-        {
-            m_description = description;
-        }
+        m_title = title;
+        m_description = description;
     }
     
    /**
@@ -97,20 +83,20 @@ public final class Info implements Serializable
     */
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( !super.equals( other ) )
         {
             return false;
         }
         else if( other instanceof Info )
         {
             Info info = (Info) other;
-            if( !m_title.equals( info.m_title ) )
+            if( !equals( m_title, info.m_title ) )
             {
                 return false;
             }
             else
             {
-                return m_description.equals( info.m_description );
+                return equals( m_description, info.m_description );
             }
         }
         else
@@ -125,8 +111,9 @@ public final class Info implements Serializable
     */
     public int hashCode()
     {
-        int hash = m_title.hashCode();
-        hash ^= m_description.hashCode();
+        int hash = super.hashCode();
+        hash ^= hashValue( m_title );
+        hash ^= hashValue( m_description );
         return hash;
     }
 }
