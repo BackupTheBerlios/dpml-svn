@@ -236,7 +236,7 @@ public class ComponentDecoder
         }
     }
     
-    private ContextDirective getNestedContextDirective( Element root )
+    private ContextDirective getNestedContextDirective( Element root ) throws DecodingException
     {
         Element context = ElementHelper.getChild( root, "context" );
         if( null == context )
@@ -249,7 +249,7 @@ public class ComponentDecoder
         }
     }
     
-    private ContextDirective createContextDirective( Element element )
+    private ContextDirective createContextDirective( Element element ) throws DecodingException
     {
         String classname = ElementHelper.getAttribute( element, "class" );
         Element[] children = ElementHelper.getChildren( element );
@@ -262,7 +262,7 @@ public class ComponentDecoder
         return new ContextDirective( classname, entries );
     }
     
-    private PartReference createContextEntryPartReference( Element element )
+    private PartReference createContextEntryPartReference( Element element ) throws DecodingException
     {
         String key = ElementHelper.getAttribute( element, "key" );
         String spec = ElementHelper.getAttribute( element, "lookup" );
@@ -273,8 +273,23 @@ public class ComponentDecoder
         }
         else
         {
-            ValueDirective directive = buildValueDirective( element );
-            return new PartReference( key, directive );
+            String name = element.getTagName();
+            if( "entry".equals( name ) )
+            {
+                ValueDirective directive = buildValueDirective( element );
+                return new PartReference( key, directive );
+            }
+            else if( "component".equals( name ) )
+            {
+                ComponentDirective directive = createComponentDirective( element );
+                return new PartReference( key, directive );
+            }
+            else
+            {
+                final String error = 
+                  "Context entry element is not recognized.";
+                throw new DecodingException( element, error );
+            }
         }
     }
     

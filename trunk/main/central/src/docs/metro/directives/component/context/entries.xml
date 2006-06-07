@@ -78,10 +78,10 @@
 
         <table>
           <tr>
-            <td><tt><a href="values.html">value</a></tt></td>
-            <td>The entry element may contain 0..n nested &lt;value&gt; directives.
-              A value directive allows in-line construction of operation parameters,
-              array entries, or constructor arguments.  Nested values may not be used in 
+            <td><tt><a href="values.html">param</a></tt></td>
+            <td>The entry element may contain 0..n nested &lt;param&gt; directives.
+              A param directive allows in-line construction of operation parameters,
+              array entries, or constructor arguments.  Nested params may not be used in 
               conjunction with the entry <tt>lookup</tt> or <tt>value</tt>
               attributes.</td>
           </tr>

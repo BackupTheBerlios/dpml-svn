@@ -615,6 +615,32 @@ class ComponentController
                         throw new ControllerException( error, ee );
                     }
                 }
+                else if( directive instanceof ComponentDirective )
+                {
+                    ClassLoader classloader = handler.getClassLoader();
+                    ComponentDirective componentDirective = (ComponentDirective) directive;
+                    Classpath classpath = new Classpath();
+                    String partition = handler.getPath();
+                    ComponentModel componentModel = 
+                      createComponentModel( classloader, classpath, partition, componentDirective );
+                    try
+                    {
+                        Component component = m_controller.createComponent( componentModel );
+                        return component.getProvider().getValue( false );
+                    }
+                    catch( Exception ee )
+                    {
+                        final String error = 
+                          "Unable to resolve context entry component directive ["
+                          + componentDirective
+                          + "] requested in component ["
+                          + handler.getPath()
+                          + "] under the context key ["
+                          + key
+                          + "].";
+                        throw new ControllerException( error, ee );
+                    }
+                }
                 else
                 {
                     final String error =

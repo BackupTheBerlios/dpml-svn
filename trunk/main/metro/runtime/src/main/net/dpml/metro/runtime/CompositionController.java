@@ -158,6 +158,11 @@ public class CompositionController implements Controller, Builder
     */
     public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
     {
+        if( null == classpath )
+        {
+            return anchor;
+        }
+        
         ClassLoader management = ComponentDirective.class.getClassLoader();
         
         ClassLoader composer = 
@@ -211,45 +216,6 @@ public class CompositionController implements Controller, Builder
             getLogger().debug( buffer.toString() );
         }
     }
-    
-   /**
-    * Instantiate a value.
-    * @param anchor the anchor classloader
-    * @param classpath the part classpath definition
-    * @param data the part deployment data
-    * @param args supplimentary arguments
-    * @return the instantiated service
-    * @exception Exception if a deployment error occurs
-    */
-    /*
-    public Object getInstance( 
-      ClassLoader anchor, Classpath classpath, Object data, Object[] args ) throws Exception
-    {
-        if( data instanceof ComponentDirective )
-        {
-            ComponentDirective directive = (ComponentDirective) data;
-            ComponentModel model = m_controller.createComponentModel( classpath, directive );
-            ClassLoader classloader = getClassLoader( anchor, classpath );
-            Component component = m_controller.createDefaultComponentHandler( classloader, model, true );
-            return component.getProvider().getValue( true );
-        }
-        else
-        {
-            final String datatype = data.getClass().getName();
-            final String error = 
-              "Datatype not recognized."
-              + "\nClass: " + datatype;
-            final String report = 
-              error
-              + "\n" 
-              + StandardClassLoader.toString( 
-                  ComponentDirective.class.getClassLoader(),
-                  data.getClass().getClassLoader() );
-            getLogger().error( report );
-            throw new IllegalArgumentException( error );
-        }
-    }
-    */
     
     //--------------------------------------------------------------------
     // Controller

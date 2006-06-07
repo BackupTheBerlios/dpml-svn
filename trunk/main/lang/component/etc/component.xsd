@@ -51,6 +51,7 @@
     <complexType name="ContextType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element ref="this:entry"/>
+        <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
       </choice>
     </complexType>
     

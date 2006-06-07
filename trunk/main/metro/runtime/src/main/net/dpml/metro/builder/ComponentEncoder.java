@@ -382,6 +382,11 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
             LookupDirective value = (LookupDirective) directive;
             writeLookupEntry( writer, key, value, pad );
         }
+        else if( directive instanceof ComponentDirective )
+        {
+            ComponentDirective value = (ComponentDirective) directive;
+            writeTaggedComponent( writer, value, key, pad );
+        }
         else
         {
             String classname = directive.getClass().getName();

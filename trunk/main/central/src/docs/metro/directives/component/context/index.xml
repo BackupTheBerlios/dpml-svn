@@ -35,6 +35,11 @@
               A entry directive allows the creation by (value or reference) of 
               a value associated with a context entry key.</td>
           </tr>
+          <tr>
+            <td><tt><a href="../index.html">component</a></tt></td>
+            <td>The entry element may also contain 0..n nested &lt;component&gt; directives
+              representing inline context entry solutions.</td>
+          </tr>
         </table>
 
       </subsection>
