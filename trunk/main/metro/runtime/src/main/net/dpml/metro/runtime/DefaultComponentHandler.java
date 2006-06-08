@@ -479,15 +479,22 @@ class DefaultComponentHandler extends UnicastEventSource
             throw new ControllerException( error, e );
         }
         
+        // ISSUE: the current implementation is commissioning parts at the level 
+        // of the component when in fact we should be commissioning (and demommissioning
+        // parts at the level of the provider (because a component implementation can
+        // modify the state of a given provider which means different providers from the 
+        // same component may have different state.
+        
         try
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
                 getLogger().debug( "activating" );
-                m_holder.getProvider();
+                Provider provider = m_holder.getProvider();
+                // provider.commission() ??? see above note
             }
             
-            m_parts.commission();
+            m_parts.commission(); // see above note
             m_active = true;
         }
         catch( RemoteException e )
