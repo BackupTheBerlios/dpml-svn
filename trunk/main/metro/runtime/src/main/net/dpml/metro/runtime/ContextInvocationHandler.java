@@ -22,6 +22,8 @@ import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import net.dpml.component.ControlException;
+
 import net.dpml.metro.ComponentContext;
 import net.dpml.metro.info.EntryDescriptor;
 
@@ -101,7 +103,8 @@ class ContextInvocationHandler implements InvocationHandler
             if( name.startsWith( "get" ) )
             {
                 String key = EntryDescriptor.getEntryKey( method );
-                Object value = handler.getContextValue( key );
+                Object value = getContextValue( key );
+                //Object value = handler.getContextValue( key );
                 if( null != value )
                 {
                     return value;
@@ -134,5 +137,10 @@ class ContextInvocationHandler implements InvocationHandler
             }
             throw new NoSuchMethodException( name );
         }
+    }
+    
+    Object getContextValue( String key ) throws ControlException
+    {
+        return m_handler.getComponentController().getContextValue( m_provider, key );
     }
 }

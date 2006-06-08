@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -71,19 +71,16 @@ class DefaultComponentModel extends UnicastEventSource
     private final ComponentDirective m_directive;
     private final ClassLoader m_classloader;
     private final Classpath m_classpath;
-    
-    private final List m_keys = new LinkedList();
-    private final Hashtable m_parts = new Hashtable();
     private final DefaultContextModel m_context;
     private final String m_path;
+    private final PartReference[] m_references;
+    private final Class m_class;
+    private final String m_classname;
     
-    private String m_classname;
     private ActivationPolicy m_activation;
     private LifestylePolicy m_lifestyle;
     private CollectionPolicy m_collection;
     
-    private Class m_class;
-
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
@@ -101,38 +98,15 @@ class DefaultComponentModel extends UnicastEventSource
         m_classname = m_directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
-
-        String name = m_directive.getName();
-        if( null == name )
-        {
-            m_path = partition + m_type.getInfo().getName();
-        }
-        else
-        {
-            m_path = partition + name;
-        }
-        
+        m_path = setupPath( partition );
         m_activation = m_directive.getActivationPolicy();
-        
-        LifestylePolicy lifestyle = m_directive.getLifestylePolicy();
-        if( null == lifestyle )
-        {
-            m_lifestyle = m_type.getInfo().getLifestylePolicy();
-        }
-        else
-        {
-            m_lifestyle = lifestyle;
-        }
-
+        m_lifestyle = setupLifestyle();
         m_collection = m_directive.getCollectionPolicy();
         ContextDirective context = m_directive.getContextDirective();
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
-        
-        final String base = m_path + PARTITION_SEPARATOR;
-        processParts( controller, m_classloader, m_type, m_parts, base );
-        processParts( controller, m_classloader, m_directive, m_parts, base );
+        m_references = buildPartReferences();
     }
-
+    
     public DefaultComponentModel( 
       Logger logger, ClassLoader anchor, ComponentController controller, Classpath classpath, 
       ComponentDirective directive, String partition ) 
@@ -143,74 +117,26 @@ class DefaultComponentModel extends UnicastEventSource
         m_classpath = classpath;
         m_controller = controller;
         m_directive = directive;
-
         m_classloader = m_controller.getClassLoader( anchor, classpath );
         m_classname = directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
-        
-        String name = directive.getName();
-        if( null == name )
-        {
-            m_path = partition + m_type.getInfo().getName();
-        }
-        else
-        {
-            m_path = partition + name;
-        }
-        
+        m_path = setupPath( partition );
         m_activation = directive.getActivationPolicy();
-        
-        LifestylePolicy lifestyle = directive.getLifestylePolicy();
-        if( null == lifestyle )
-        {
-            m_lifestyle = m_type.getInfo().getLifestylePolicy();
-        }
-        else
-        {
-            m_lifestyle = lifestyle;
-        }
-
+        m_lifestyle = setupLifestyle();
         m_collection = directive.getCollectionPolicy();
         ContextDirective context = directive.getContextDirective();
         m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
-        
-        final String base = m_path + PARTITION_SEPARATOR;
-        processParts( controller, m_classloader, m_type, m_parts, base );
-        processParts( controller, m_classloader, m_directive, m_parts, base );
+        m_references = buildPartReferences();
     }
     
-    private void processParts(
-      ComponentController controller, ClassLoader classloader, Composite composite, Map map, String base )
-      throws ControlException, RemoteException
+   /**
+    * Return the inital array of part references.
+    * @return the part reference array
+    */
+    public PartReference[] getPartReferences()
     {
-        PartReference[] references = composite.getPartReferences();
-        for( int i=0; i < references.length; i++ )
-        {
-            PartReference ref = references[i];
-            String key = ref.getKey();
-            Directive part = composite.getDirective( key );
-            if( part instanceof ComponentDirective )
-            {
-                Classpath classpath = new Classpath();
-                ComponentDirective component = (ComponentDirective) part;
-                ComponentModel model = 
-                  controller.createComponentModel( classloader, classpath, base, component );
-                if( !map.containsKey( key ) )
-                {
-                    m_keys.add( key );
-                }
-                map.put( key, model );
-            }
-            else
-            {
-                final String error = 
-                  "Foreign part [" 
-                  + part.getClass() 
-                  + "] not supported.";
-                throw new UnsupportedOperationException( error );
-            }
-        }
+        return m_references;
     }
     
     public Classpath getClasspath()
@@ -390,34 +316,7 @@ class DefaultComponentModel extends UnicastEventSource
             throw new IllegalStateException( error );
         }
     }
-    
-   /**
-    * Return the internal part keys.
-    * @return the component part keys
-    */
-    public String[] getPartKeys()
-    {
-        return (String[]) m_keys.toArray( new String[0] );
-        //return (String[]) m_parts.keySet().toArray( new String[0] );
-    }
-    
-   /**
-    * Return the component model of an internal part referenced by the supplied key.
-    * @return the internal part component model 
-    */
-    public ComponentModelManager getComponentManager( String key ) throws UnknownKeyException
-    {
-        ComponentModelManager model = (ComponentModelManager) m_parts.get( key );
-        if( null == model )
-        {
-            throw new UnknownKeyException( key );
-        }
-        else
-        {
-            return model;
-        }
-    }
-    
+     
    /**
     * Return the component logging categories.
     * @return the categories
@@ -440,15 +339,6 @@ class DefaultComponentModel extends UnicastEventSource
     // DefaultComponentModel
     // ------------------------------------------------------------------------
     
-   /**
-    * Return the internal component models.
-    * @return the internal component model array
-    */
-    ComponentModel[] getComponentModels()
-    {
-        return (ComponentModel[]) m_parts.values().toArray( new ComponentModel[0] );
-    }
-
     ClassLoader getClassLoader()
     {
         return m_classloader;
@@ -468,15 +358,62 @@ class DefaultComponentModel extends UnicastEventSource
     // internals
     // ------------------------------------------------------------------------
     
-    private String[] getPartKeys( Type type )
+    private String setupPath( String partition )
     {
-        PartReference[] references = m_type.getPartReferences();
-        String[] keys = new String[ references.length ];
-        for( int i=0; i<references.length; i++ )
+        String name = m_directive.getName();
+        if( null == name )
         {
-            keys[i] = references[i].getKey();
+            return partition + m_type.getInfo().getName();
         }
-        return keys;
+        else
+        {
+            return partition + name;
+        }
+    }
+
+    private LifestylePolicy setupLifestyle()
+    {
+        LifestylePolicy lifestyle = m_directive.getLifestylePolicy();
+        if( null == lifestyle )
+        {
+            return m_type.getInfo().getLifestylePolicy();
+        }
+        else
+        {
+            return lifestyle;
+        }
+    }
+
+    private PartReference[] buildPartReferences()
+    {
+        List list = new LinkedList();
+        Map map = new Hashtable();
+        populatePartReferences( list, map, m_type );
+        populatePartReferences( list, map, m_directive );
+        PartReference[] refs = new PartReference[ list.size() ];
+        String[] names = (String[]) list.toArray( new String[0] );
+        for( int i=0; i<names.length; i++ )
+        {
+            String name = names[i];
+            PartReference ref = (PartReference) map.get( name );
+            refs[ i ] = ref;
+        }
+        return refs;
+    }
+    
+    private void populatePartReferences( List names, Map map, Composite composite )
+    {
+        PartReference[] references = composite.getPartReferences();
+        for( int i=0; i < references.length; i++ )
+        {
+            PartReference ref = references[i];
+            String key = ref.getKey();
+            if( !names.contains( key ) )
+            {
+                names.add( key );
+            }
+            map.put( key, ref );
+        }
     }
 }
 

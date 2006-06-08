@@ -523,8 +523,10 @@ class ComponentController
         }
     }
     
-    Object getContextValue( DefaultComponentHandler handler, String key ) throws ControlException
+    Object getContextValue( DefaultProvider provider, String key ) throws ControlException
     {
+        DefaultComponentHandler handler = provider.getDefaultComponentHandler();
+        
         try
         {
             ComponentModel model = handler.getComponentModel();
@@ -600,7 +602,7 @@ class ComponentController
                     DefaultService service = loadService( handler, request );
                     try
                     {
-                        return executeLookup( handler, service );
+                        return executeLookup( provider, service );
                     }
                     catch( Exception ee )
                     {
@@ -666,14 +668,21 @@ class ComponentController
         }
     }
     
-    private Object executeLookup( DefaultComponentHandler handler, DefaultService service ) 
+    private Object executeLookup( DefaultProvider provider, DefaultService service ) 
       throws Exception
     {
+        // Provider parent = provider.getParentProvider();
+        
+        DefaultComponentHandler handler = provider.getDefaultComponentHandler();
         Component parent = handler.getParentHandler();
+        
         if( null != parent )
         {
             try
             {
+                //Provider p = parent.lookup( service );
+                //return p.getValue( false );
+                
                 Component component = parent.lookup( service );
                 return component.getProvider().getValue( false );
             }

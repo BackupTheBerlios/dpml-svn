@@ -29,6 +29,7 @@ import net.dpml.component.ControlException;
 import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.Service;
+import net.dpml.component.Directive;
 
 import net.dpml.job.CommissionerEvent;
 import net.dpml.job.CommissionerController;
@@ -36,13 +37,16 @@ import net.dpml.job.TimeoutException;
 import net.dpml.job.TimeoutError;
 import net.dpml.job.impl.DefaultCommissioner;
 
-import net.dpml.lang.Version;
+import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
+import net.dpml.lang.Version;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
 import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ComponentModel;
+import net.dpml.metro.info.PartReference;
+import net.dpml.metro.data.ComponentDirective;
 
 import net.dpml.util.Logger;
 
@@ -79,13 +83,17 @@ class DefaultPartsManager implements PartsManager
     private final Map m_handlers = new Hashtable();
     
     private boolean m_commissioned = false;
-        
+    
+    private final Map m_parts;
+    
+    private final String[] m_keys;
+    
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
 
    /**
-    * Create a new instance handler.
+    * Create a new parts manager.
     *
     * @param handler the component handler
     * @param logger the logging channel
@@ -98,27 +106,23 @@ class DefaultPartsManager implements PartsManager
         m_logger = logger;
         
         ClassLoader classloader = handler.getClassLoader();
-        ComponentModelManager model = handler.getComponentManager();
-        String[] keys = model.getPartKeys();
-        for( int i=0; i<keys.length; i++ )
+        ComponentModel model = handler.getComponentModel();
+        PartReference[] references = model.getPartReferences();
+        
+        m_keys = getKeys( references );
+        
+        String partition = model.getContextPath();
+        final String base = partition + Model.PARTITION_SEPARATOR;
+        m_parts = processParts( control, classloader, base, references );
+        for( int i=0; i<references.length; i++ )
         {
-            String key = keys[i];
+            PartReference reference = references[i];
+            String key = reference.getKey();
             try
             {
-                ComponentModelManager m = model.getComponentManager( key );
-                ComponentModel cm = (ComponentModel) m;
-                Component h = control.createDefaultComponentHandler( handler, classloader, cm, true );
-                m_handlers.put( key, h );
-            }
-            catch( UnknownKeyException e )
-            {
-                final String error = 
-                  "Invalid part key ["
-                  + key
-                  + "] in component ["
-                  + handler
-                  + "]";
-                throw new ControllerRuntimeException( error, e );
+                ComponentModel manager = (ComponentModel) m_parts.get( key );
+                Component component = control.createDefaultComponentHandler( handler, classloader, manager, true );
+                m_handlers.put( key, component );
             }
             catch( Exception e )
             {
@@ -148,18 +152,7 @@ class DefaultPartsManager implements PartsManager
     */
     public String[] getKeys()
     {
-        try
-        {
-            return m_handler.getComponentManager().getPartKeys();
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Remote IO error while attempting to get parts keys in component ["
-              + m_handler
-              + "]";
-            throw new ControllerRuntimeException( error, e );
-        }
+        return m_keys;
     }
     
    /**
@@ -367,16 +360,6 @@ class DefaultPartsManager implements PartsManager
                       "Ignoring exception raised during deactivation.";
                     getLogger().warn( message, e );
                 }
-                //try
-                //{
-                //    component.decommission();
-                //}
-                //catch( RemoteException e )
-                //{
-                //    final String message = 
-                //      "Ignoring remote exception raised during deactivation.";
-                //    getLogger().warn( message, e );
-                //}
             }
         }
         finally
@@ -393,6 +376,36 @@ class DefaultPartsManager implements PartsManager
     private Logger getLogger()
     {
         return m_logger;
+    }
+
+    private Map processParts(
+      ComponentController controller, ClassLoader classloader, String base, PartReference[] references )
+      throws ControlException, RemoteException
+    {
+        Map map = new Hashtable();
+        for( int i=0; i < references.length; i++ )
+        {
+            PartReference ref = references[i];
+            String key = ref.getKey();
+            Directive part = ref.getDirective();
+            if( part instanceof ComponentDirective )
+            {
+                Classpath classpath = new Classpath();
+                ComponentDirective component = (ComponentDirective) part;
+                ComponentModel model = 
+                  controller.createComponentModel( classloader, classpath, base, component );
+                map.put( key, model );
+            }
+            else
+            {
+                final String error = 
+                  "Foreign part [" 
+                  + part.getClass() 
+                  + "] not supported.";
+                throw new UnsupportedOperationException( error );
+            }
+        }
+        return map;
     }
 
    /**
@@ -548,5 +561,17 @@ class DefaultPartsManager implements PartsManager
                 return source.toString();
             }
         }
+    }
+    
+    private String[] getKeys( PartReference[] references )
+    {
+        String[] keys = new String[ references.length ];
+        for( int i=0; i < references.length; i++ )
+        {
+            PartReference ref = references[i];
+            String key = ref.getKey();
+            keys[i] = key;
+        }
+        return keys;
     }
 }

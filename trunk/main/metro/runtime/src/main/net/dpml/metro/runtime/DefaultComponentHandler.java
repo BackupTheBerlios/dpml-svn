@@ -629,6 +629,11 @@ class DefaultComponentHandler extends UnicastEventSource
     // DefaultComponentHandler
     //--------------------------------------------------------------------------
     
+    ComponentController getComponentController()
+    {
+        return m_controller;
+    }
+    
    /**
     * Return the internal parts manager.
     * @return the part manager
@@ -706,10 +711,10 @@ class DefaultComponentHandler extends UnicastEventSource
         }
     }
     
-    Object getContextValue( String key ) throws ControlException
-    {
-        return m_controller.getContextValue( this, key );
-    }
+    //Object getContextValue( String key ) throws ControlException
+    //{
+    //    return m_controller.getContextValue( this, key );
+    //}
 
     State getStateGraph()
     {

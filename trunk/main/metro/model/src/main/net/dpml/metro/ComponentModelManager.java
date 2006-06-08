@@ -45,7 +45,7 @@ public interface ComponentModelManager extends ComponentModel
     * @return the part keys
     * @exception RemoteException if a remote I/O error occurs
     */
-    String[] getPartKeys() throws RemoteException;
+    //String[] getPartKeys() throws RemoteException;
 
    /**
     * Return a subsidiary component manager.
@@ -55,8 +55,8 @@ public interface ComponentModelManager extends ComponentModel
     * @exception RemoteException if a remote I/O error occurs
     * @see #getPartKeys()
     */
-    ComponentModelManager getComponentManager( String key ) 
-      throws UnknownKeyException, RemoteException;
+    //ComponentModelManager getComponentManager( String key ) 
+    //  throws UnknownKeyException, RemoteException;
 
    /**
     * Override the assigned collection policy.

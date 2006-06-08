@@ -98,6 +98,8 @@ class DefaultProvider extends UnicastEventSource implements Provider
     */
     private boolean m_disposed = false;
 
+    //private final DefaultPartsManager m_parts;
+
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
@@ -126,6 +128,9 @@ class DefaultProvider extends UnicastEventSource implements Provider
         State graph = handler.getStateGraph();
         m_machine = new DefaultStateMachine( graph );
         m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );
+        
+        //m_parts = new DefaultPartsManager( control, handler, logger );
+        
         initialize();
     }
 

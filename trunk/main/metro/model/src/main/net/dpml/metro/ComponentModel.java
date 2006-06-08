@@ -24,6 +24,7 @@ import net.dpml.component.Model;
 
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
+import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.CategoryDirective;
 
 import net.dpml.lang.Classpath;
@@ -91,5 +92,12 @@ public interface ComponentModel extends Model
     * @exception RemoteException if a remote exception occurs
     */
     CategoryDirective[] getCategoryDirectives() throws  RemoteException;
+    
+   /**
+    * Return the default set of internal part directives.
+    * @return the internal part directive array
+    * @exception RemoteException if a remote exception occurs
+    */
+    PartReference[] getPartReferences() throws  RemoteException;
 }
 
