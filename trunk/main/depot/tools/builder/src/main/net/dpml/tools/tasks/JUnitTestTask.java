@@ -329,6 +329,25 @@ public class JUnitTestTask extends GenericTask
             junit.addConfiguredSysproperty( security );
         }
 
+        final File logProperties = new File( working, "logging.properties" );
+        if( logProperties.exists() )
+        {
+            final Environment.Variable log = new Environment.Variable();
+            log.setKey( "dpml.logging.config" );
+            try
+            {
+                log.setValue( logProperties.toURL().toString() );
+            }
+            catch( IOException e )
+            {
+                final String error = 
+                  "Unexpected file to url error."
+                  + "\nFile: " + logProperties;
+                throw new BuildException( error, e );
+            }
+            junit.addConfiguredSysproperty( log );
+        }
+
         final Environment.Variable endorsed = new Environment.Variable();
         endorsed.setKey( "java.endorsed.dirs" );
         endorsed.setValue( new File( Transit.DPML_SYSTEM, "lib/endorsed" ).getAbsolutePath() );
