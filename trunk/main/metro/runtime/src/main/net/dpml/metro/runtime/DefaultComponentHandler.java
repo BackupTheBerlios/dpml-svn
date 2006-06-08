@@ -660,7 +660,8 @@ class DefaultComponentHandler extends UnicastEventSource
         synchronized( getLock() )
         {
             getLogger().debug( "disposal" );
-            m_holder.dispose();
+            decommission();
+            //m_holder.dispose();
             if( m_flag )
             {
                 if( m_model instanceof Disposable )

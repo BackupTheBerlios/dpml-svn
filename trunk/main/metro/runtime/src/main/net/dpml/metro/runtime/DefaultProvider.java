@@ -308,11 +308,30 @@ class DefaultProvider extends UnicastEventSource implements Provider
             {
                 m_proxy = null;
             }
+            
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( 
+                  "instantiating [" 
+                  + m_handler.getImplementationClass().getName() 
+                  + "]" );
+            }
+            
             m_value = m_handler.createNewObject( this );
             m_tag = createTag( m_value );
-            getLogger().debug( "activating instance " + m_tag );
+            
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "instantiated " + m_tag );
+            }
+            
             m_machine.initialize( m_value );
             m_activated = true;
+            
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "activated " + m_tag );
+            }
         }
     }
     

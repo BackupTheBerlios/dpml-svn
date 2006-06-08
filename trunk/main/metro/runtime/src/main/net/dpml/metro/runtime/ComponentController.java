@@ -578,11 +578,11 @@ class ComponentController
                     catch( Exception ve )
                     {
                         final String error = 
-                          "Unexpect error while attempting to resolve a value from the context directive class ["
+                          "Unexpected error while attempting to resolve a value from a context directive ["
                           + directive.getClass().getName() 
-                          + "] assigned to context key ["
+                          + "] assigned to key ["
                           + key
-                          + "] in the component ["
+                          + "] in component ["
                           + handler.getPath()
                           + "].";
                         throw new ControllerException( error, ve );
@@ -644,7 +644,8 @@ class ComponentController
                 else
                 {
                     final String error =
-                      "Unsuppored context directive class: " + directive.getClass();
+                      "Unsuppored context directive class: " 
+                      + directive.getClass();
                     throw new ControllerException( error );
                 }
             }

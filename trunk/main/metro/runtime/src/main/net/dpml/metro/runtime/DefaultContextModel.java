@@ -106,7 +106,9 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
             catch( UnknownKeyException e )
             {
                 final String error = 
-                  "Component directive does not declare a directive for the key [" + key + "].";
+                  "Component does not declare a context entry directive for the key [" 
+                  + key 
+                  + "].";
                 throw new ModelException( CompositionController.CONTROLLER_URI, error, e );
             }
         }
