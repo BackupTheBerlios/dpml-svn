@@ -246,7 +246,16 @@ class DefaultComponentHandler extends UnicastEventSource
         
         m_parts = new DefaultPartsManager( control, this, logger );
         
-        getLogger().debug( "established " + lifestyle + " handler for [" + m_class.getName() + "]" );
+        if( getLogger().isDebugEnabled() )
+        {
+            String style = lifestyle.toString().toLowerCase();
+            getLogger().debug( 
+              "established " 
+              + style 
+              + " handler for [" 
+              + m_class.getName() 
+              + "]" );
+        }
     }
     
     //--------------------------------------------------------------------------
@@ -294,7 +303,6 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     public Provider getProvider() throws InvocationTargetException, ControlException
     {
-        getLogger().debug( "getProvider" );
         commission();
         return m_holder.getProvider();
     }
@@ -362,9 +370,7 @@ class DefaultComponentHandler extends UnicastEventSource
         if( getLogger().isDebugEnabled() )
         {
             getLogger().debug( 
-              "lookup  in [" 
-              + this 
-              + "] for [" 
+              "mediating lookup for [" 
               + service.getServiceClass().getName() 
               + "]." );
         }

@@ -310,7 +310,7 @@ class DefaultProvider extends UnicastEventSource implements Provider
             }
             m_value = m_handler.createNewObject( this );
             m_tag = createTag( m_value );
-            getLogger().debug( "activating instance" + m_tag );
+            getLogger().debug( "activating instance " + m_tag );
             m_machine.initialize( m_value );
             m_activated = true;
         }
