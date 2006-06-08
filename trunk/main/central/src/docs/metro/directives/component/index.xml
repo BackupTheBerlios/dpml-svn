@@ -37,6 +37,33 @@
             to the container).</td>
           </tr>
           <tr>
+            <td><tt>lifestyle</tt></td>
+            <td>The component lifestyle. Allowable values include  
+              <tt>singleton</tt>, <tt>thread</tt>, and <tt>transient</tt>.
+              A component declaring the <tt>singleton</tt> lifestyle may be 
+              shared across all consumers within the JVM (i.e. the potential 
+              for concurrent access will exist).  A component declaring 
+              the <tt>thread</tt> lifestyle policy may have a set of instances
+              corresponding to the number of threads requesting access. A 
+              component declaring the <tt>transient</tt> lifestyle will 
+              instantiated for each access request.  The default lifestyle 
+              policy is <tt>thread</tt> unless the component is associated
+              with an underlying type defintion in which case the type lifestyle
+              value will apply.</td>
+          </tr>
+          <tr>
+            <td><tt>collection</tt></td>
+            <td>The component garbage collection policy.  Allowable
+             values include <tt>weak</tt>, <tt>soft</tt> and <tt>hard</tt>.
+             A component type declaring a <tt>weak</tt> collection policy will 
+             be garbage collected at the discretion of the JVM.  A component
+             declaring a <tt>soft</tt> collection policy will be garbage 
+             collected in the event of memory contention.  A component 
+             declaring the <tt>hard</tt> collection policy will remain in 
+             memory for the lifetime of the JVM unless explicitly removed
+             via a management system or controlling application.</td>
+          </tr>
+          <tr>
             <td><tt>collection</tt></td>
             <td>Overrides the component garbage collection policy (optional).  Allowable
              values include <tt>WEAK</tt>, <tt>SOFT</tt> and <tt>HARD</tt>.

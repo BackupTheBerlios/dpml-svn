@@ -58,7 +58,7 @@
           </tr>
           <tr>
             <td><tt>threadsafe</tt></td>
-            <td>Declares the component implementation as threadsafe. Allo0wable
+            <td>Declares the component implementation as threadsafe. Allowable
               values are <tt>true</tt> or <tt>false</tt>.</td>
           </tr>
         </table>
