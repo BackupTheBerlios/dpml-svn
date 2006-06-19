@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -46,7 +46,7 @@ class PartsInvocationHandler implements InvocationHandler
    /**
     * The component.
     */
-    private final PartsManager m_manager;
+    private final DefaultProvider m_provider;
 
     //-------------------------------------------------------------------
     // constructor
@@ -57,9 +57,9 @@ class PartsInvocationHandler implements InvocationHandler
     *
     * @param manager the parts manager
     */
-    PartsInvocationHandler( PartsManager manager )
+    PartsInvocationHandler( DefaultProvider provider )
     {
-        m_manager = manager;
+        m_provider = provider;
     }
 
     //-------------------------------------------------------------------
@@ -78,6 +78,7 @@ class PartsInvocationHandler implements InvocationHandler
     */
     public Object invoke( final Object proxy, final Method method, final Object[] args ) throws Throwable
     {
+        PartsManager manager = m_provider.getPartsManager();
         final Class source = method.getDeclaringClass();
         if( Object.class == source )
         {
@@ -85,14 +86,14 @@ class PartsInvocationHandler implements InvocationHandler
         }
         else if( PartsManager.class == source )
         {
-            return method.invoke( m_manager, args );
+            return method.invoke( manager, args );
         }
         
         final int semantic = getPartSemantic( method );
         final String postfix = getPartPostfix( method );
         final String key = getPartKey( method, semantic, postfix );
         
-        final ComponentHandler handler = m_manager.getComponentHandler( key );
+        final ComponentHandler handler = manager.getComponentHandler( key );
         
         if( GET == semantic )
         {
@@ -341,6 +342,14 @@ class PartsInvocationHandler implements InvocationHandler
               + object.getClass().getName()
               + "] to a boolean value.";
             throw new IllegalArgumentException( error );
+        }
+    }
+    
+    protected void finalize() throws Throwable
+    {
+        if( m_provider.getLogger().isTraceEnabled() )
+        {
+            m_provider.getLogger().trace( "finalizing parts invocation handler" );
         }
     }
     

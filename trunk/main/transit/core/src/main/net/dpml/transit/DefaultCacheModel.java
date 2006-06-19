@@ -43,10 +43,12 @@ import net.dpml.transit.model.HostModel;
 import net.dpml.transit.model.CacheListener;
 import net.dpml.transit.model.CacheDirectoryChangeEvent;
 import net.dpml.transit.model.CacheEvent;
-import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.DuplicateKeyException;
 import net.dpml.lang.UnknownKeyException;
+
+import net.dpml.util.PropertyResolver;
+import net.dpml.util.EventQueue;
 
 /**
  * Default implementation of the cache model that maintains information 
@@ -84,10 +86,10 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
     * @param directive the cache configuration directive
     * @exception Exception if an error occurs
     */
-    public DefaultCacheModel( Logger logger, CacheDirective directive )
+    public DefaultCacheModel( EventQueue queue, Logger logger, CacheDirective directive )
       throws Exception
     {
-        super( logger );
+        super( queue, logger );
         
         if( null == directive )
         {
@@ -98,7 +100,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
         {
             Logger log = logger.getChildLogger( "layout" );
             LayoutDirective[] layouts = directive.getLayoutDirectives();
-            m_registry = new DefaultLayoutRegistryModel( log, layouts );
+            m_registry = new DefaultLayoutRegistryModel( queue, log, layouts );
             String layout = directive.getCacheLayout();
             m_layout = m_registry.getLayoutModel( layout );
         }
@@ -314,7 +316,8 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
             String id = directive.getID();
             Logger logger = getLogger().getChildLogger( id );
             LayoutRegistryModel registry = getLayoutRegistryModel();
-            HostModel model = new DefaultHostModel( logger, directive, registry );
+            EventQueue queue = getEventQueue();
+            HostModel model = new DefaultHostModel( queue, logger, directive, registry );
             addHostModel( model, notify );
         }
         catch( RemoteException e )
@@ -361,7 +364,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
     * Internal processing of an event.
     * @param event the event
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         if( event instanceof CacheEvent )
         {
@@ -375,7 +378,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
 
     private void processCacheEvent( CacheEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];
@@ -414,7 +417,7 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
 
     private void processCacheDirectoryChangeEvent( CacheDirectoryChangeEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];

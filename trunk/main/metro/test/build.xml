@@ -48,19 +48,6 @@
         <state name="terminated" terminal="true"/>
       </state>
     </c:type>
-    <c:type class="net.dpml.test.ObserverComponent" name="observer">
-      <state>
-        <trigger event="initialization">
-          <transition name="init" target="available"/>
-        </trigger>
-        <state name="available">
-          <trigger event="termination">
-            <transition name="terminate" target="../terminated"/>
-          </trigger>
-        </state>
-        <state name="terminated" terminal="true"/>
-      </state>
-    </c:type>
     <c:type class="net.dpml.test.SingletonComponent" name="example" threadsafe="true"/>
     <c:type class="net.dpml.test.ContextTestComponent" name="context" threadsafe="true"/>
 
@@ -68,13 +55,6 @@
 
     <c:component dest="target/test/example.part" test="true"
         type="net.dpml.test.ExampleComponent" name="example">
-      <context>
-        <entry key="color" method="RED"/>
-      </context>
-    </c:component>
-
-    <c:component dest="target/test/observer.part" test="true"
-        type="net.dpml.test.ObserverComponent">
       <context>
         <entry key="color" method="RED"/>
       </context>
@@ -91,7 +71,7 @@
       </context>
     </c:component>
 
-    <c:component dest="target/test/example-3.part" test="true"
+    <c:component dest="target/test/example-3.part" test="true" name="weak"
         type="net.dpml.test.SingletonComponent" lifestyle="SINGLETON" collection="WEAK">
       <context>
         <entry key="color" method="RED"/>

@@ -232,7 +232,7 @@ public final class Main //implements ShutdownHandler
             Transit transit = Transit.getInstance( model );
             setupMonitors( transit, (Adapter) logger );
             
-            Part part = Part.load( uri );
+            Part part = Part.load( uri, true );
             m_plugin = 
               part.instantiate( 
                 new Object[]

@@ -147,7 +147,7 @@ public final class Transit
             {
                 try
                 {
-                    Logger logger = new LoggingAdapter( "transit" );
+                    Logger logger = new LoggingAdapter( "dpml.transit" );
                     TransitModel model = DefaultTransitModel.getDefaultModel( logger );
                     return getInstance( model );
                 }

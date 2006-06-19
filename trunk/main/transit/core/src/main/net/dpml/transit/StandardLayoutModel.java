@@ -24,12 +24,14 @@ import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.lang.Value;
-import net.dpml.util.Logger;
 
 import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutListener;
 import net.dpml.transit.model.LayoutEvent;
 import net.dpml.transit.model.CodeBaseListener;
+
+import net.dpml.util.EventQueue;
+import net.dpml.util.Logger;
 
 /**
  * The StandardLayoutModel represents a standard layout included with the 
@@ -61,10 +63,10 @@ class StandardLayoutModel extends DefaultModel implements LayoutModel
     * @exception RemoteException if a remote exception occurs
     */
     public StandardLayoutModel( 
-      final Logger logger, final String id, final String title, final String classname )
+      final EventQueue queue, final Logger logger, final String id, final String title, final String classname )
       throws RemoteException
     {
-        super( logger );
+        super( queue, logger );
 
         m_id = id;
         m_title = title;
@@ -175,7 +177,7 @@ class StandardLayoutModel extends DefaultModel implements LayoutModel
     * Internal event handler.
     * @param event the event to handle
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         if( event instanceof LayoutEvent )
         {
@@ -185,7 +187,7 @@ class StandardLayoutModel extends DefaultModel implements LayoutModel
 
     private void processLayoutEvent( LayoutEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];

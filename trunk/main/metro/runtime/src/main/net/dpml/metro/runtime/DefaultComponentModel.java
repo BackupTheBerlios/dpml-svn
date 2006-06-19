@@ -51,6 +51,7 @@ import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ContextModelManager;
 
 import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 /**
  * Default implementation of a mutable component model.
@@ -76,48 +77,26 @@ class DefaultComponentModel extends UnicastEventSource
     private final PartReference[] m_references;
     private final Class m_class;
     private final String m_classname;
+    private final LifestylePolicy m_lifestyle;
+    private final CollectionPolicy m_collection;
     
     private ActivationPolicy m_activation;
-    private LifestylePolicy m_lifestyle;
-    private CollectionPolicy m_collection;
     
     // ------------------------------------------------------------------------
     // constructor
     // ------------------------------------------------------------------------
     
     public DefaultComponentModel( 
-      Logger logger, ComponentController controller, DefaultComposition composition, String partition ) 
-      throws ControlException, IOException, RemoteException
-    {
-        super( logger );
-        
-        m_classpath = composition.getClasspath();
-        m_controller = controller;
-        m_directive = composition.getComponentDirective();
-        m_classloader = composition.getClassLoader();
-        m_classname = m_directive.getClassname();
-        m_class = m_controller.loadComponentClass( m_classloader, m_classname );
-        m_type = m_controller.loadType( m_class );
-        m_path = setupPath( partition );
-        m_activation = m_directive.getActivationPolicy();
-        m_lifestyle = setupLifestyle();
-        m_collection = m_directive.getCollectionPolicy();
-        ContextDirective context = m_directive.getContextDirective();
-        m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
-        m_references = buildPartReferences();
-    }
-    
-    public DefaultComponentModel( 
-      Logger logger, ClassLoader anchor, ComponentController controller, Classpath classpath, 
+      EventQueue queue, Logger logger, ClassLoader classloader, Classpath classpath, ComponentController controller, 
       ComponentDirective directive, String partition ) 
       throws ControlException, IOException, RemoteException
     {
-        super( logger );
+        super( queue, logger );
         
         m_classpath = classpath;
         m_controller = controller;
         m_directive = directive;
-        m_classloader = m_controller.getClassLoader( anchor, classpath );
+        m_classloader = classloader;
         m_classname = directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
@@ -126,8 +105,22 @@ class DefaultComponentModel extends UnicastEventSource
         m_lifestyle = setupLifestyle();
         m_collection = directive.getCollectionPolicy();
         ContextDirective context = directive.getContextDirective();
-        m_context = new DefaultContextModel( this, logger, m_classloader, m_type, context );
+        m_context =
+          new DefaultContextModel( 
+            queue, 
+            this, logger, m_classloader, m_type, context );
         m_references = buildPartReferences();
+    }
+
+   /**
+    * Return the component thread-safe status.
+    *
+    * @return the threadsafe status
+    * @exception RemoteException if a remote exception occurs
+    */
+    public boolean isThreadSafe() throws RemoteException
+    {
+        return m_type.getInfo().isThreadSafe();
     }
     
    /**
@@ -144,9 +137,9 @@ class DefaultComponentModel extends UnicastEventSource
         return m_classpath;
     }
     
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
@@ -177,8 +170,12 @@ class DefaultComponentModel extends UnicastEventSource
     */
     public void addModelListener( ModelListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "adding component model listener [" + listener + "]" );
+        }
         super.addListener( listener );
-        m_context.addModelListener( listener );
+        //m_context.addModelListener( listener ); // ???? why not directly on context model ??
     }
     
    /**
@@ -187,8 +184,12 @@ class DefaultComponentModel extends UnicastEventSource
     */
     public void removeModelListener( ModelListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "removing component model listener [" + listener + "]" );
+        }
         super.removeListener( listener );
-        m_context.removeListener( listener );
+        //m_context.removeListener( listener ); // ???? why not directly on context model ??
     }
     
     // ------------------------------------------------------------------------
@@ -275,18 +276,6 @@ class DefaultComponentModel extends UnicastEventSource
     public CollectionPolicy getCollectionPolicy()
     {
         return m_collection;
-    }
-
-   /**
-    * Override the assigned collection policy.
-    * @param policy the collection policy value
-    */
-    public void setCollectionPolicy( CollectionPolicy policy )
-    {
-        CollectionPolicy old = m_collection;
-        m_collection = policy;
-        ModelEvent event = new ModelEvent( this, "collection.policy", old, policy );
-        enqueueEvent( event );
     }
 
    /**

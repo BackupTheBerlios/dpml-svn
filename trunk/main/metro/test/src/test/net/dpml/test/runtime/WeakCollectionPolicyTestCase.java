@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -60,6 +60,7 @@ public class WeakCollectionPolicyTestCase extends TestCase
         assertTrue( "is-active", component.isActive() );
         Provider one = component.getProvider();
         Provider two = component.getProvider();
+        
         int count = component.size();
         
         //

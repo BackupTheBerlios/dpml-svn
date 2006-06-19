@@ -274,7 +274,7 @@ public class PluginTask extends TransitTask
     
     private Part getPart( URI uri ) throws IOException
     {
-        return Part.load( uri );
+        return Part.load( uri, true );
     }
 
    /**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -105,7 +105,7 @@ public class ComponentModelTestCase extends TestCase
     */
     public void testLifestylePolicy() throws Exception
     {
-        assertEquals( "initial-lifestyle", LifestylePolicy.THREAD, m_model.getLifestylePolicy() );
+        assertEquals( "initial-lifestyle", LifestylePolicy.SYSTEM, m_model.getLifestylePolicy() );
     }
     
    /**

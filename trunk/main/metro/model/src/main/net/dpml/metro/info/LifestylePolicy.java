@@ -1,6 +1,5 @@
 /*
  * Copyright 2004-2006 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -47,10 +46,15 @@ public final class LifestylePolicy extends Enum
     public static final LifestylePolicy SINGLETON = new LifestylePolicy( "singleton" );
 
    /**
+    * Singleton lifestyle policy.
+    */
+    public static final LifestylePolicy SYSTEM = new LifestylePolicy( "system" );
+
+   /**
     * Array of static activation policy enumeration values.
     */
     private static final LifestylePolicy[] ENUM_VALUES = 
-      new LifestylePolicy[]{TRANSIENT, THREAD, SINGLETON};
+      new LifestylePolicy[]{TRANSIENT, THREAD, SINGLETON, SYSTEM};
 
    /**
     * Returns an array of activation enum values.
@@ -99,6 +103,10 @@ public final class LifestylePolicy extends Enum
         else if( value.equalsIgnoreCase( "singleton" ) )
         {
             return SINGLETON;
+        }
+        else if( value.equalsIgnoreCase( "system" ) )
+        {
+            return SYSTEM;
         }
         else
         {

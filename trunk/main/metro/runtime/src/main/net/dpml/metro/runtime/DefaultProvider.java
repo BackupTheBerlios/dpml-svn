@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -22,13 +22,22 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.util.EventObject;
 import java.util.EventListener;
 
 import net.dpml.component.Provider;
+import net.dpml.component.Component;
 import net.dpml.component.ControlException;
+import net.dpml.component.Service;
+import net.dpml.component.ServiceNotFoundException;
+import net.dpml.component.Disposable;
+import net.dpml.component.Status;
+
+import net.dpml.metro.PartsManager;
+import net.dpml.metro.ComponentHandler;
 
 import net.dpml.state.State;
 import net.dpml.state.StateEvent;
@@ -37,23 +46,24 @@ import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.UnknownOperationException;
 import net.dpml.state.impl.DefaultStateMachine;
 
+import net.dpml.lang.UnknownKeyException;
+
 import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 /**
- * The DefaultProvider class maintains the state of a client instance.  On creation
+ * The DefaultProvider class maintains the state of a single instance.  On creation
  * of a new DefaultProvider the implementation constructs a proxy based on the 
- * service clesses declared within the component type, establishes the instance, and
+ * service classes declared within the component type, establishes the instance, and
  * executes initialization based on the state graph associated with the 
  * object.  If a request is made by the container for the disposal of an instance of 
  * this class, the implementation will execute a formal termination sequence on the 
- * client instance using the state graph declarations.  Finally, if the client instance 
- * implements the Disposable interface - the implementation will invoke the dispose 
- * operation on the client instance.
+ * instance using the state graph declarations.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultProvider extends UnicastEventSource implements Provider
+class DefaultProvider extends UnicastEventSource implements Provider, InvocationHandler
 {
     //-------------------------------------------------------------------
     // state
@@ -69,36 +79,33 @@ class DefaultProvider extends UnicastEventSource implements Provider
     */
     private final DefaultStateMachine m_machine;
     
+   /**
+    * Internal parts of the component.
+    */
+    private final PartsManager m_parts;
+    
+   /**
+    * The proxied instance.
+    */
+    private final Object m_proxy;
+
+    //private final StateEventPropergator m_propergator;
+    
     //-------------------------------------------------------------------
     // mutable state
     //-------------------------------------------------------------------
     
+    private Status m_status = Status.INSTANTIATED;
+
    /**
     * The raw instance.
     */
     private Object m_value;
 
    /**
-    * The proxied instance.
-    */
-    private Object m_proxy;
-
-   /**
     * Tag used within logging messages.
     */
     private String m_tag;
-
-   /**
-    * The available state.
-    */
-    private boolean m_activated = false;
-    
-   /**
-    * The available state.
-    */
-    private boolean m_disposed = false;
-
-    //private final DefaultPartsManager m_parts;
 
     //-------------------------------------------------------------------
     // constructor
@@ -110,33 +117,93 @@ class DefaultProvider extends UnicastEventSource implements Provider
     * @param handler the component handler
     * @param logger the logging channel
     */
-    DefaultProvider( DefaultComponentHandler handler, Logger logger ) 
+    DefaultProvider( EventQueue queue, DefaultComponentHandler handler, Logger logger ) 
       throws RemoteException, ControlException, InvocationTargetException
     {
-        super( logger );
+        super( queue, logger );
         
         if( null == handler )
         {
             throw new NullPointerException( "handler" );
         }
-        if( null == logger )
-        {
-            throw new NullPointerException( "logger" );
-        }
         
         m_handler = handler;
-        State graph = handler.getStateGraph();
-        m_machine = new DefaultStateMachine( graph );
-        m_machine.addPropertyChangeListener( new StateEventPropergator( this ) );
         
-        //m_parts = new DefaultPartsManager( control, handler, logger );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "provider instantiation" );
+        }
         
-        initialize();
+        State graph = m_handler.getStateGraph();
+        m_machine = new DefaultStateMachine( queue, logger, graph );
+        //m_propergator = new StateEventPropergator();
+        //m_machine.addPropertyChangeListener( m_propergator );
+        m_parts = new DefaultPartsManager( this );
+        
+        ClassLoader classloader = m_handler.getClassLoader();
+        Class[] services = m_handler.getServiceClassArray();
+        if( allClassesAreInterfaces( services ) )
+        {
+            m_proxy = Proxy.newProxyInstance( classloader, services, this );
+        }
+        else
+        {
+            m_proxy = null;
+        }
     }
-
+    
+    void initialize()
+      throws RemoteException, ControlException, InvocationTargetException
+    {
+        synchronized( m_status )
+        {
+            m_status = Status.COMMISSIONING;
+            try
+            {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( 
+                      "instantiating [" 
+                      + m_handler.getImplementationClass().getName() 
+                      + "]" );
+                }
+                
+                m_parts.commission();
+                m_value = m_handler.getComponentController().createInstance( this );
+                m_tag = createTag( m_value );
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "instantiated " + m_tag );
+                }
+                
+                m_machine.initialize( m_value );
+                m_status = Status.AVAILABLE;
+                if( getLogger().isDebugEnabled() )
+                {
+                    getLogger().debug( "activated " + m_tag );
+                }
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "An error occured while attempting to initialize provider [" + this + "]";
+                throw new ControllerException( error, e );
+            }
+        }
+    }
+    
     //-------------------------------------------------------------------
     // Provider
     //-------------------------------------------------------------------
+    
+   /**
+    * Return the current status of the provider.
+    * @return the provider status
+    */
+    public Status getStatus()
+    {
+        return m_status;
+    }
     
    /**
     * Returns the current state of the instance.
@@ -153,7 +220,11 @@ class DefaultProvider extends UnicastEventSource implements Provider
     */
     public synchronized void addStateListener( StateListener listener )
     {
-        super.addListener( listener );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "adding state listener [" + listener + "] to " + m_tag );
+        }
+        m_machine.addStateListener( listener );
     }
 
    /**
@@ -162,9 +233,13 @@ class DefaultProvider extends UnicastEventSource implements Provider
     */
     public synchronized void removeStateListener( StateListener listener )
     {
-        super.removeListener( listener );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "removing state listener [" + listener + "] to " + m_tag );
+        }
+        m_machine.removeStateListener( listener );
     }
-   
+    
    /**
     * Return the runtime value associated with this instance.
     * @param isolate if TRUE the value returned is a proxy exposing the 
@@ -173,28 +248,48 @@ class DefaultProvider extends UnicastEventSource implements Provider
     */
     public Object getValue( boolean isolate )
     {
-        if( isDisposed() )
+        synchronized( m_status )
         {
-            throw new IllegalStateException( "disposed" );
-        }
-        if( !m_activated )
-        {
-            throw new IllegalStateException( "deactivated" );
-        }
-        if( isolate )
-        {
-            if( null != m_proxy )
+            if( Status.INSTANTIATED.equals( m_status ) )
             {
+                try
+                {
+                    initialize();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Initialization failure.";
+                    throw new ControllerRuntimeException( error, e );
+                }
+            }
+            checkAvailable();
+            if( isolate  && ( null != m_proxy ) )
+            {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "returning proxied service " + m_tag );
+                }
                 return m_proxy;
             }
             else
             {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "returning service instance " + m_tag );
+                }
                 return m_value;
             }
         }
-        else
+    }
+    
+    private void checkAvailable()
+    {
+        if( !Status.AVAILABLE.equals( m_status ) )
         {
-            return m_value;
+            final String error =
+              "Provider is not available (current status " + m_status.getName() + ")";
+            throw new IllegalStateException( error );
         }
     }
     
@@ -208,7 +303,12 @@ class DefaultProvider extends UnicastEventSource implements Provider
     public synchronized State apply( String key ) 
       throws UnknownTransitionException, InvocationTargetException
     {
-        return m_machine.apply( key, m_value );
+        Object value = getValue( false );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "applying state transition [" + key + "] to " + m_tag );
+        }
+        return m_machine.apply( key, value );
     }
     
    /**
@@ -223,7 +323,12 @@ class DefaultProvider extends UnicastEventSource implements Provider
     public synchronized Object exec( String name, Object[] args )
       throws UnknownOperationException, InvocationTargetException
     {
-        return m_machine.execute( name, m_value, args );
+        Object value = getValue( false );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "applying operation [" + name + "] to " + m_tag );
+        }
+        return m_machine.execute( name, value, args );
     }
     
    /**
@@ -238,19 +343,84 @@ class DefaultProvider extends UnicastEventSource implements Provider
     public Object invoke( String method, Object[] args ) 
       throws UnknownOperationException, InvocationTargetException, IllegalStateException
     {
-        return m_machine.invoke( m_value, method, args );
+        Object value = getValue( false );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "invoking method [" + method + "] to " + m_tag );
+        }
+        return m_machine.invoke( value, method, args );
+    }
+    
+
+   /**
+    * Return a handler capable of supporting the requested service.
+    * @param service the service definition
+    * @return a component matching the serivce definiton
+    * @exception ServiceNotFoundException if no component found
+    * @exception RemoteException if a remote exception occurs
+    */
+    public Provider lookup( Service service ) throws ServiceNotFoundException, RemoteException
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( 
+              "mediating lookup for [" 
+              + service.getServiceClass().getName() 
+              + "]" );
+        }
+        
+        // check if a child component can handle the request
+        
+        ComponentHandler[] components = m_parts.getComponentHandlers();
+        for( int i=0; i<components.length; i++ )
+        {
+            Component component = components[i];
+            if( component.isaCandidate( service ) )
+            {
+                try
+                {
+                    return component.getProvider();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Internal error while attempting to resolve provider."
+                      + "\nEnclosing Provider: " + this
+                      + "\nComponent: " + component;
+                    throw new ControllerRuntimeException( error, e );
+                }
+            }
+        }
+        
+        // delegate to the parent
+        
+        Provider parent = getParent();
+        if( null != parent )
+        {
+            return parent.lookup( service );
+        }
+        else
+        {
+            String classname = service.getServiceClass().getName();
+            throw new ServiceNotFoundException( CompositionController.CONTROLLER_URI, classname );
+        }
+    }
+    
+    public Provider getParent()
+    {
+        return m_handler.getParentProvider();
     }
     
     //--------------------------------------------------------------------------
     // EventProducer
     //--------------------------------------------------------------------------
 
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         if( event instanceof StateEvent )
         {
             StateEvent e = (StateEvent) event;
-            EventListener[] listeners = listeners();
+            EventListener[] listeners = getEventListeners();
             for( int i=0; i<listeners.length; i++ )
             {
                 EventListener listener = listeners[i];
@@ -283,61 +453,44 @@ class DefaultProvider extends UnicastEventSource implements Provider
     // Object
     //-------------------------------------------------------------------
 
-    public void finalize() throws Throwable
+    protected void finalize() throws Throwable
     {
-        getLogger().debug( "finalizing provider: " + this );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "initiating finalization in " + m_tag );
+        }
+        String tag = m_tag;
         dispose();
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "finalization completed in " + tag );
+        }
     }
     
     public String toString()
     {
-        return m_handler.getPath() + "#" + System.identityHashCode( m_value );
+        if( null != m_tag )
+        {
+            return m_handler.getPath() + "#" + m_tag;
+        }
+        else
+        {
+            return m_handler.getPath() + "#0";
+        }
+    }
+    
+    String getTag()
+    {
+        return m_tag;
     }
     
     //-------------------------------------------------------------------
     // implementation
     //-------------------------------------------------------------------
     
-    private void initialize() throws InvocationTargetException, ControlException
+    PartsManager getPartsManager()
     {
-        synchronized( getLock() )
-        {
-            ClassLoader classloader = m_handler.getClassLoader();
-            Class[] services = m_handler.getServiceClassArray();
-            if( allClassesAreInterfaces( services ) )
-            {
-                InvocationHandler invocationHandler = new InstanceInvocationHandler( this );
-                m_proxy = Proxy.newProxyInstance( classloader, services, invocationHandler );
-            }
-            else
-            {
-                m_proxy = null;
-            }
-            
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( 
-                  "instantiating [" 
-                  + m_handler.getImplementationClass().getName() 
-                  + "]" );
-            }
-            
-            m_value = m_handler.createNewObject( this );
-            m_tag = createTag( m_value );
-            
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "instantiated " + m_tag );
-            }
-            
-            m_machine.initialize( m_value );
-            m_activated = true;
-            
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "activated " + m_tag );
-            }
-        }
+        return m_parts;
     }
     
     private boolean allClassesAreInterfaces( Class[] classes )
@@ -353,41 +506,37 @@ class DefaultProvider extends UnicastEventSource implements Provider
         return true;
     } 
 
-    boolean isAvailable()
-    {
-        return m_activated;
-    }
-
     public void dispose()
     {
         synchronized( getLock() )
         {
-            if( m_disposed )
+            if( Status.DECOMMISSIONING.equals( m_status ) || Status.DISPOSED.equals( m_status ) )
             {
                 return;
             }
-            m_disposed = true;
-            getLogger().debug( m_tag + "instance disposal" );
-            deactivate();
-            m_machine.dispose();
-            super.dispose();
-        }
-    }
-    
-    private void deactivate()
-    {
-        if( !m_activated )
-        {
-            return;
-        }
-        
-        synchronized( getLock() )
-        {
-            getLogger().debug( m_tag + "deactivating instance" );
+            m_status = Status.DECOMMISSIONING;
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "initiating disposal of " + m_tag );
+            }
+            
             m_machine.terminate( m_value );
+            m_parts.decommission();
+            //m_machine.removePropertyChangeListener( m_propergator );
+            m_machine.dispose();
+            if( m_parts instanceof Disposable )
+            {
+                Disposable disposable = (Disposable) m_parts;
+                disposable.dispose();
+            }
+            super.dispose();
+            m_status = Status.DISPOSED;
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "instance disposal " + m_tag );
+            }
             m_tag = null;
             m_value = null;
-            m_activated = false;
         }
     }
     
@@ -396,17 +545,27 @@ class DefaultProvider extends UnicastEventSource implements Provider
         return m_handler;
     }
     
+    /*
     void addPropertyChangeListener( PropertyChangeListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "adding property change listener to " + m_tag );
+        }
         m_machine.addPropertyChangeListener( listener );
         m_handler.addPropertyChangeListener( listener );
     }
 
     void removePropertyChangeListener( PropertyChangeListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "removing property change listener from " + m_tag );
+        }
         m_machine.removePropertyChangeListener( listener );
         m_handler.removePropertyChangeListener( listener );
     }
+    */
     
     private String createTag( Object instance )
     {
@@ -420,30 +579,45 @@ class DefaultProvider extends UnicastEventSource implements Provider
    /**
     * State event propergator implementation.
     */
-    private final class StateEventPropergator implements PropertyChangeListener
+    //private final class StateEventPropergator implements PropertyChangeListener
+    //{
+    //   /**
+    //    * Handle a property change notification.
+    //    * @param event the property change event
+    //    */
+    //    public void propertyChange( PropertyChangeEvent event )
+    //    {
+    //        //
+    //        // fire a state change event to remote listeners
+    //        //
+    //        
+    //        State oldState = (State) event.getOldValue();
+    //        State newState = (State) event.getNewValue();
+    //        fireStateEvent( oldState, newState );
+    //    }
+    //}
+    
+    //private void fireStateEvent( State oldState, State newState )
+    //{
+    //    getLogger().debug( "state changing from: " + oldState + " to: " + newState + " in " + m_tag );
+    //    StateEvent event = new StateEvent( this, oldState, newState );
+    //    enqueueEvent( event );
+    //}
+    
+   /**
+    * Invoke the specified method on underlying object.
+    * This is called by the proxy object.
+    *
+    * @param proxy the proxy object
+    * @param method the method invoked on proxy object
+    * @param args the arguments supplied to method
+    * @return the return value of method
+    * @throws Throwable if an error occurs
+    */
+    public Object invoke( final Object proxy, final Method method, final Object[] args ) 
+      throws InvocationTargetException, IllegalAccessException
     {
-        private final DefaultProvider m_holder;
-        
-        private StateEventPropergator( DefaultProvider holder )
-        {
-            m_holder = holder;
-        }
-        
-       /**
-        * Handle a property change notification.
-        * @param event the property change event
-        */
-        public void propertyChange( PropertyChangeEvent event )
-        {
-            //
-            // fire a state change event to remote listeners
-            //
-            
-            State oldState = (State) event.getOldValue();
-            State newState = (State) event.getNewValue();
-            getLogger().debug( m_tag + " state changing from: " + oldState + " to: " + newState );
-            StateEvent stateEvent = new StateEvent( m_holder, oldState, newState );
-            m_holder.enqueueEvent( stateEvent );
-        }
+        checkAvailable();
+        return method.invoke( m_value, args );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -63,6 +63,6 @@ public interface ComponentModelManager extends ComponentModel
     * @param policy the collection policy value
     * @exception RemoteException if a remote I/O error occurs
     */
-    void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
+    //void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
 }
 

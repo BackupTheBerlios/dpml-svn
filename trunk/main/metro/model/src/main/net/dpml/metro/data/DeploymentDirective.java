@@ -1,5 +1,5 @@
 /* 
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -114,7 +114,7 @@ public abstract class DeploymentDirective extends Composite implements Comparabl
         }
         else
         {
-            m_name = null;
+            throw new NullPointerException( "name" );
         }
     }
 

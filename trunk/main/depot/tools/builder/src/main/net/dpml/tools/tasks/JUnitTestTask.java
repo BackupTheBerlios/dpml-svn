@@ -40,6 +40,7 @@ import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Commandline;
 
 /**
  * JUnit test execution.
@@ -123,6 +124,11 @@ public class JUnitTestTask extends GenericTask
     * default value
     */
     public static final String TEST_EXCLUDES_VALUE = "**/Abstract*.java, **/AllTest*.java";
+
+   /**
+    * the key for the exclude pattern for test cases
+    */
+    public static final String VERBOSE_KEY = "project.test.verbose";
 
     private File m_source;
     private String m_classPathRef;
@@ -265,6 +271,13 @@ public class JUnitTestTask extends GenericTask
         junit.setHaltonfailure(
           getBooleanProperty(
             HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
+            
+        String verbose = getContext().getProperty( "project.test.verbose" );
+        if( null != verbose )
+        {
+            Commandline.Argument arg = junit.createJvmarg();
+            arg.setValue( "-verbose:" + verbose );
+        }
             
         final File reports = getContext().getTargetReportsTestDirectory();
         mkDir( reports );

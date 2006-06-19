@@ -107,7 +107,7 @@ public class ComponentDecoder
     private ComponentDirective createComponentDirective( Element element ) throws DecodingException
     {
         String classname = buildComponentClassname( element );
-        String name = buildComponentName( element );
+        String name = buildComponentName( element, classname );
         ActivationPolicy activation = buildActivationPolicy( element );
         CollectionPolicy collection = buildCollectionPolicy( element );
         LifestylePolicy lifestyle = buildLifestylePolicy( element );
@@ -162,9 +162,25 @@ public class ComponentDecoder
         return CollectionPolicy.parse( policy );
     }
     
-    private String buildComponentName( Element element )
+    private String buildComponentName( Element element, String classname )
     {
-        return ElementHelper.getAttribute( element, "name" );
+        String name = ElementHelper.getAttribute( element, "name" );
+        if( null != name )
+        {
+            return name;
+        }
+        else
+        {
+            name = ElementHelper.getAttribute( element, "key" );
+            if( null != name )
+            {
+                return name;
+            }
+            else
+            {
+                return toName( classname );
+            }
+        }
     }
     
     private CategoriesDirective getNestedCategoriesDirective( Element root )
@@ -346,4 +362,24 @@ public class ComponentDecoder
         ComponentDirective directive = createComponentDirective( element );
         return new PartReference( key, directive );
     }
+
+   /**
+    * Internal utility to get the name of the class without the package name. Used
+    * when constructing a default component name.
+    * @param classname the fully qualified classname
+    * @return the short class name without the package name
+    */
+    private String toName( String classname )
+    {
+        int i = classname.lastIndexOf( "." );
+        if( i == -1 )
+        {
+            return classname.toLowerCase();
+        }
+        else
+        {
+            return classname.substring( i + 1, classname.length() ).toLowerCase();
+        }
+    }
+
 }

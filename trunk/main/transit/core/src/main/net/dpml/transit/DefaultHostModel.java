@@ -36,10 +36,12 @@ import net.dpml.transit.model.HostLayoutEvent;
 import net.dpml.transit.model.HostPriorityEvent;
 import net.dpml.transit.model.HostNameEvent;
 import net.dpml.transit.model.RequestIdentifier;
-import net.dpml.util.PropertyResolver;
 
 import net.dpml.lang.UnknownKeyException;
+
+import net.dpml.util.PropertyResolver;
 import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 /**
  * Default implementation of a host manager.
@@ -81,10 +83,10 @@ class DefaultHostModel extends DefaultModel implements HostModel, Comparable, Di
     * @exception MalformedURLException if the host base url path is malformed
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultHostModel( Logger logger, HostDirective directive, LayoutRegistryModel registry ) 
+    public DefaultHostModel( EventQueue queue, Logger logger, HostDirective directive, LayoutRegistryModel registry ) 
       throws RemoteException, UnknownKeyException, MalformedURLException
     {
-        super( logger );
+        super( queue, logger );
 
         m_registry = registry;
 
@@ -326,7 +328,7 @@ class DefaultHostModel extends DefaultModel implements HostModel, Comparable, Di
     * Internal event handler.
     * @param event the event to handle
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         if( event instanceof HostChangeEvent )
         {
@@ -425,7 +427,7 @@ class DefaultHostModel extends DefaultModel implements HostModel, Comparable, Di
     private HostListener[] getHostListeners()
     {
         ArrayList list = new ArrayList();
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];

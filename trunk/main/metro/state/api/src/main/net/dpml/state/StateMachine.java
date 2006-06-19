@@ -59,13 +59,25 @@ public interface StateMachine
     * Add a property change listener to the state machine.
     * @param listener the property change listener
     */
-    void addPropertyChangeListener( final PropertyChangeListener listener );
+    //void addPropertyChangeListener( final PropertyChangeListener listener );
     
    /**
     * Remove a property change listener from the state machine.
     * @param listener the property change listener
     */
-    void removePropertyChangeListener( final PropertyChangeListener listener );
+    //void removePropertyChangeListener( final PropertyChangeListener listener );
+    
+   /**
+    * Add a state change listener to the state machine.
+    * @param listener the state listener
+    */
+    void addStateListener( final StateListener listener );
+    
+   /**
+    * Remove a state listener from the state machine.
+    * @param listener the state listener
+    */
+    void removeStateListener( final StateListener listener );
 
    /**
     * Return the current state.

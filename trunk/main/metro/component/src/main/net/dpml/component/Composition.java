@@ -20,6 +20,7 @@ package net.dpml.component;
 
 import java.io.IOException;
 import java.net.URI;
+import java.lang.ref.WeakReference;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Info;
@@ -38,7 +39,7 @@ public abstract class Composition extends Part
     private final Directive m_directive;
     private final Controller m_controller;
     
-    private Model m_model;
+    private transient WeakReference m_model;
     
    /**
     * Creation of a new abstract composition instance.
@@ -110,22 +111,28 @@ public abstract class Composition extends Part
     */
     public Model getModel()
     {
-        if( null == m_model )
+        if( null != m_model )
         {
-            try
+            Model model = (Model) m_model.get();
+            if( null != model )
             {
-                m_model = m_controller.createModel( this );
-            }
-            catch( Throwable e )
-            {
-                URI uri = m_controller.getURI();
-                final String error = 
-                  "Unexpected error while attempting to create a component model."
-                  + "\nDirective: " + m_directive;
-                throw new ControlRuntimeException( uri, error, e );
+                return model;
             }
         }
-        return m_model;
+        try
+        {
+            Model model = m_controller.createModel( this );
+            m_model = new WeakReference( model );
+            return model;
+        }
+        catch( Throwable e )
+        {
+            URI uri = m_controller.getURI();
+            final String error = 
+              "Unexpected error while attempting to create a component model."
+              + "\nDirective: " + m_directive;
+            throw new ControlRuntimeException( uri, error, e );
+        }
     }
     
    /**

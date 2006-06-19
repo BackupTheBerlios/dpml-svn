@@ -27,6 +27,7 @@ import net.dpml.transit.model.LayoutModel;
 import net.dpml.transit.model.LayoutListener;
 import net.dpml.transit.model.LayoutEvent;
 
+import net.dpml.util.EventQueue;
 import net.dpml.util.Logger;
 
 /**
@@ -57,10 +58,10 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel, Di
     * @param directive the layout configuration
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultLayoutModel( final Logger logger, final LayoutDirective directive )
+    public DefaultLayoutModel( final EventQueue queue, final Logger logger, final LayoutDirective directive )
       throws RemoteException
     {
-        super( logger, directive );
+        super( queue, logger, directive );
 
         m_id = directive.getID();
         m_title = directive.getTitle();
@@ -135,7 +136,7 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel, Di
     * Internal event handler.
     * @param event the event to handle
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         if( event instanceof LayoutEvent )
         {
@@ -149,7 +150,7 @@ class DefaultLayoutModel extends DefaultCodeBaseModel implements LayoutModel, Di
 
     private void processLayoutEvent( LayoutEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener eventListener = listeners[i];

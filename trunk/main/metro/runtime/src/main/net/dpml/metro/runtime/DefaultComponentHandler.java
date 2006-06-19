@@ -1,5 +1,5 @@
 /* 
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -60,6 +60,7 @@ import net.dpml.metro.info.Priority;
 import net.dpml.state.State;
 
 import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 
 /**
@@ -113,7 +114,7 @@ class DefaultComponentHandler extends UnicastEventSource
     // immutable state
     //--------------------------------------------------------------------------
 
-    private final Logger m_logger;
+    private final Provider m_parent;
     private final ComponentController m_controller;
     private final ComponentModel m_model;
     private final State m_graph;
@@ -124,12 +125,10 @@ class DefaultComponentHandler extends UnicastEventSource
     private final String m_path;
     private final URI m_uri;
     private final Holder m_holder;
-    private final Component m_parent;
     private final PropertyChangeSupport m_support;
     private final Map m_cache = new Hashtable(); // context overloading entry/value cache
     private final Map m_map = new Hashtable(); // symbolic value map
-    private final DefaultPartsManager m_parts;
-    private final boolean m_flag;
+    private final boolean m_flag; // locally managed
     
     //--------------------------------------------------------------------------
     // mutable state
@@ -142,24 +141,30 @@ class DefaultComponentHandler extends UnicastEventSource
     //--------------------------------------------------------------------------
     
     DefaultComponentHandler( 
-      final Component parent, final ClassLoader classloader, final Logger logger, 
+      final EventQueue queue, 
+      final Provider parent, final ClassLoader classloader, final Logger logger, 
       final ComponentController control, final ComponentModel model, boolean flag )
       throws RemoteException, ControlException
     {
-        super( logger );
+        super( queue, logger );
         
         m_parent = parent;
+        
         m_classloader = classloader;
-        m_logger = logger;
         m_controller = control;
         m_model = model;
         m_path = model.getContextPath();
         m_flag = flag;
         
+        String classname = model.getImplementationClassName();
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "creating new component handler [" + m_path + "] for class [" + classname + "]" );
+        }
+        
         m_support = new PropertyChangeSupport( this );
         model.addModelListener( this );
         
-        String classname = model.getImplementationClassName();
         try
         {
             m_class = control.loadComponentClass( classloader, classname );
@@ -218,11 +223,12 @@ class DefaultComponentHandler extends UnicastEventSource
         m_map.put( "work", work.toString() );
         m_map.put( "temp", temp.toString() );
         m_map.put( "uri", m_uri.toASCIIString() );
-        
+
         LifestylePolicy lifestyle = model.getLifestylePolicy();
         if( lifestyle.equals( LifestylePolicy.SINGLETON ) )
         {
-            m_holder = new SingletonHolder();
+            CollectionPolicy collection = model.getCollectionPolicy();
+            m_holder = new SingletonHolder( collection );
         }
         else if( lifestyle.equals( LifestylePolicy.TRANSIENT ) )
         {
@@ -234,28 +240,36 @@ class DefaultComponentHandler extends UnicastEventSource
         }
         else
         {
-            final String error = 
-              "Unsuppported lifestyle policy: " + lifestyle;
-            throw new UnsupportedOperationException( error );
+            if( m_type.getInfo().isThreadSafe() )
+            {
+                CollectionPolicy collection = model.getCollectionPolicy();
+                m_holder = new SingletonHolder( collection );
+            }
+            else
+            {
+                m_holder = new ThreadHolder();
+            }
         }
-        
-        // At this point the component handler is fully established with respect to 
-        // its own logic as a simple component. Before completing initialization we 
-        // need to establish all of the component parts that are children of this 
-        // component.
-        
-        m_parts = new DefaultPartsManager( control, this, logger );
         
         if( getLogger().isDebugEnabled() )
         {
-            String style = lifestyle.toString().toLowerCase();
+            String lifestyleName = m_holder.getName();
             getLogger().debug( 
               "established " 
-              + style 
-              + " handler for [" 
-              + m_class.getName() 
+              + lifestyleName
+              + " lifestyle handler for [" 
+              + classname 
               + "]" );
         }
+    }
+
+   /**
+    * Return the logging channel assigned to the event source.
+    * @return the logging channel
+    */
+    Logger getLogger()
+    {
+        return super.getLogger();
     }
     
     //--------------------------------------------------------------------------
@@ -344,10 +358,6 @@ class DefaultComponentHandler extends UnicastEventSource
         return m_cache;
     }
     
-    //--------------------------------------------------------------------------
-    // Component
-    //--------------------------------------------------------------------------
-    
    /**
     * Return a mutible context map.
     *
@@ -357,48 +367,10 @@ class DefaultComponentHandler extends UnicastEventSource
     {
         return m_map;
     }
-    
-   /**
-    * Return a handler capable of supporting the requested service.
-    * @param service the service definition
-    * @return a component matching the serivce definiton
-    * @exception ServiceNotFoundException if no component found
-    * @exception RemoteException if a remote exception occurs
-    */
-    public Component lookup( Service service ) throws ServiceNotFoundException, RemoteException
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            getLogger().debug( 
-              "mediating lookup for [" 
-              + service.getServiceClass().getName() 
-              + "]." );
-        }
-        
-        // check if a child component can handle the request
-        
-        Component[] components = m_parts.getComponents();
-        for( int i=0; i<components.length; i++ )
-        {
-            Component component = components[i];
-            if( component.isaCandidate( service ) )
-            {
-                return component;
-            }
-        }
-        
-        // delegate to the parent
-        
-        if( m_parent != null )
-        {
-            return m_parent.lookup( service );
-        }
-        else
-        {
-            String classname = service.getServiceClass().getName();
-            throw new ServiceNotFoundException( CompositionController.CONTROLLER_URI, classname );
-        }
-    }
+
+    //--------------------------------------------------------------------------
+    // Component
+    //--------------------------------------------------------------------------
     
    /**
     * Return the number of instances currently under management.  If the component
@@ -423,6 +395,27 @@ class DefaultComponentHandler extends UnicastEventSource
     }
 
    /**
+    * Get the activation policy.  If the activation policy is STARTUP, an implementation
+    * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND
+    * an implementation shall defer activiation until an explicit request is received.  If 
+    * the policy if SYSTEM activation may occur at the discretion of an implementation.
+    *
+    * @return the activation policy
+    * @exception RemoteException if a remote exception occurs
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
+    */
+    public ActivationPolicy getActivationPolicy() throws RemoteException
+    {
+        return m_model.getActivationPolicy();
+    }
+    
+    //--------------------------------------------------------------------------
+    // Commissionable
+    //--------------------------------------------------------------------------
+    
+   /**
     * Activate the component handler.  If the component declares an activate on 
     * startup policy then a new instance will be created and activated.
     *
@@ -434,6 +427,11 @@ class DefaultComponentHandler extends UnicastEventSource
         if( isActive() )
         {
             return;
+        }
+
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "commissioning" );
         }
         
         // setup and subsidiary logging channels declared by the component type
@@ -479,22 +477,13 @@ class DefaultComponentHandler extends UnicastEventSource
             throw new ControllerException( error, e );
         }
         
-        // ISSUE: the current implementation is commissioning parts at the level 
-        // of the component when in fact we should be commissioning (and demommissioning
-        // parts at the level of the provider (because a component implementation can
-        // modify the state of a given provider which means different providers from the 
-        // same component may have different state.
-        
         try
         {
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
                 getLogger().debug( "activating" );
-                Provider provider = m_holder.getProvider();
-                // provider.commission() ??? see above note
+                m_holder.getProvider();
             }
-            
-            m_parts.commission(); // see above note
             m_active = true;
         }
         catch( RemoteException e )
@@ -533,23 +522,6 @@ class DefaultComponentHandler extends UnicastEventSource
     }
     
    /**
-    * Get the activation policy.  If the activation policy is STARTUP, an implementation
-    * a handler shall immidiately activation a runtime instance.  If the policy is on DEMAND
-    * an implementation shall defer activiation until an explicit request is received.  If 
-    * the policy if SYSTEM activation may occur at the discretion of an implementation.
-    *
-    * @return the activation policy
-    * @exception RemoteException if a remote exception occurs
-    * @see ActivationPolicy#SYSTEM
-    * @see ActivationPolicy#STARTUP
-    * @see ActivationPolicy#DEMAND
-    */
-    public ActivationPolicy getActivationPolicy() throws RemoteException
-    {
-        return m_model.getActivationPolicy();
-    }
-    
-   /**
     * Deactivate the component.
     */
     public synchronized void decommission()
@@ -559,32 +531,18 @@ class DefaultComponentHandler extends UnicastEventSource
             return;
         }
         
-        getLogger().debug( "decommissioning" );
-        
-        //
-        // dispose of all of the instances managed by this component
-        //
-        
-        m_holder.dispose();
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "decommissioning" );
+        }
         
         //
         // deactivate all of the subsidiary components
         //
         
-        m_parts.decommission();
-        
+        m_holder.decommission();
         m_active = false;
-
         getLogger().debug( "decommissioned" );
-    }
-    
-   /**
-    * Return the array of services provider by the handler.
-    * @return the service array
-    */
-    public Service[] getServices()
-    {
-        return m_services;
     }
     
    /**
@@ -620,7 +578,7 @@ class DefaultComponentHandler extends UnicastEventSource
     * Process the supplied event.
     * @param event the event object
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         // TODO
     }
@@ -629,18 +587,18 @@ class DefaultComponentHandler extends UnicastEventSource
     // DefaultComponentHandler
     //--------------------------------------------------------------------------
     
+   /**
+    * Return the array of services provider by the handler.
+    * @return the service array
+    */
+    public Service[] getServices()
+    {
+        return m_services;
+    }
+    
     ComponentController getComponentController()
     {
         return m_controller;
-    }
-    
-   /**
-    * Return the internal parts manager.
-    * @return the part manager
-    */
-    public PartsManager getPartsManager()
-    {
-        return m_parts;
     }
     
    /**
@@ -652,6 +610,10 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     void addPropertyChangeListener( PropertyChangeListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "adding property change listener: [" + listener + "]" );
+        }
         m_support.addPropertyChangeListener( listener );
     }
     
@@ -661,6 +623,10 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     void removePropertyChangeListener( PropertyChangeListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "removing property change listener: [" + listener + "]" );
+        }
         m_support.removePropertyChangeListener( listener );
     }
     
@@ -671,9 +637,22 @@ class DefaultComponentHandler extends UnicastEventSource
     {
         synchronized( getLock() )
         {
-            getLogger().debug( "disposal" );
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "initiating disposal" );
+            }
             decommission();
-            //m_holder.dispose();
+            try
+            {
+                m_model.removeModelListener( this );
+            }
+            catch( RemoteException e )
+            {
+                if( getLogger().isWarnEnabled() )
+                {
+                    getLogger().warn( "ignoring model listener removal remote error", e );
+                }
+            }
             if( m_flag )
             {
                 if( m_model instanceof Disposable )
@@ -683,39 +662,13 @@ class DefaultComponentHandler extends UnicastEventSource
                 }
             }
             super.dispose();
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "disposal complete" );
+            }
         }
     }
     
-   /**
-    * Return a subsidiary component.
-    * @param key the subsidiary component key
-    * @return the subsidiary component
-    * @exception UnknownKeyException if the key does not match 
-    *   any of the internal components managed by this component
-    */
-    Component getPartHandler( String key ) throws UnknownKeyException
-    {
-        ComponentHandler handler = m_parts.getComponentHandler( key );
-        if( handler instanceof Component )
-        {
-            return (Component) handler;
-        }
-        else
-        {
-            final String error = 
-              "Internal error. Component handler ["
-              + handler
-              + "] is not an instance of "
-              + Component.class.getName();
-            throw new ControllerRuntimeException( error );
-        }
-    }
-    
-    //Object getContextValue( String key ) throws ControlException
-    //{
-    //    return m_controller.getContextValue( this, key );
-    //}
-
     State getStateGraph()
     {
         return m_graph;
@@ -730,8 +683,8 @@ class DefaultComponentHandler extends UnicastEventSource
     {
         return m_classloader;
     }
-    
-    Component getParentHandler()
+        
+    Provider getParentProvider()
     {
         return m_parent;
     }
@@ -748,11 +701,6 @@ class DefaultComponentHandler extends UnicastEventSource
     String getPath()
     {
         return m_path;
-    }
-    
-    Object createNewObject( DefaultProvider provider ) throws ControlException, InvocationTargetException
-    {
-        return m_controller.createInstance( provider );
     }
     
     Class[] getServiceClassArray()
@@ -784,6 +732,14 @@ class DefaultComponentHandler extends UnicastEventSource
             return "component:" + getClass().getName();
         }
     }
+
+    protected void finalize() throws Throwable
+    {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "finalizing component handler" );
+        }
+    }
     
     //--------------------------------------------------------------------------
     // utilities
@@ -798,14 +754,19 @@ class DefaultComponentHandler extends UnicastEventSource
     private DefaultProvider createDefaultProvider() 
       throws InvocationTargetException, ControlException
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "creating new provider" );
+        }
         try
         {
-            return new DefaultProvider( this, getLogger() );
+            EventQueue queue = getEventQueue();
+            return new DefaultProvider( queue, this, getLogger() );
         }
         catch( RemoteException e )
         {
             final String error = 
-              "Unable to create instance holder due to a remote exception.";
+              "Unable to create provider due to a remote exception.";
             throw new ControllerException( error, e );
         }
     }
@@ -836,7 +797,7 @@ class DefaultComponentHandler extends UnicastEventSource
        /**
         * Dispose of the holder and all managed instances.
         */
-        void dispose()
+        void decommission()
         {
             if( isDisposed() )
             {
@@ -855,6 +816,12 @@ class DefaultComponentHandler extends UnicastEventSource
         {
             return m_disposed;
         }
+        
+       /**
+        * Return the holder lifestyle policy name.
+        * @return the policy value as a string
+        */
+        abstract String getName();
     }
     
    /**
@@ -865,13 +832,43 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     private class SingletonHolder extends Holder
     {
+        private final CollectionPolicy m_collection;
         private Reference m_reference;
         
        /**
         * Creation of a new singleton holder.
         */
-        SingletonHolder()
+        SingletonHolder( CollectionPolicy policy )
         {
+            if( policy.equals( CollectionPolicy.SYSTEM ) )
+            {
+                if( null == m_parent ) 
+                {
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "assigning hard (system) collection policy" );
+                    }
+                    m_collection = CollectionPolicy.HARD;
+                }
+                else
+                {
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "assigning soft (system) collection policy" );
+                    }
+                    m_collection = CollectionPolicy.SOFT;
+                }
+            }
+            else
+            {
+                if( getLogger().isDebugEnabled() )
+                {
+                    String name = policy.getName();
+                    getLogger().debug( "assigning " + name + " collection policy" );
+                }
+                m_collection = policy;
+            }
+
             m_reference = createReference( null );
         }
         
@@ -890,7 +887,7 @@ class DefaultComponentHandler extends UnicastEventSource
             }
         }
         
-        void dispose()
+        void decommission()
         {
             if( !isDisposed() )
             {
@@ -900,7 +897,7 @@ class DefaultComponentHandler extends UnicastEventSource
                     provider.dispose();
                 }
                 m_reference.clear();
-                super.dispose();
+                super.decommission();
             }
         }
         
@@ -915,6 +912,38 @@ class DefaultComponentHandler extends UnicastEventSource
                 return 0;
             }
         }
+        
+        String getName()
+        {
+            return "singleton";
+        }
+        
+       /**
+        * Constructs a reference that reflects the component cololection policy.
+        * @param object the initial reference value
+        * @return the reference
+        */
+        private Reference createReference( Object object )
+        {
+            if( m_collection.equals( CollectionPolicy.SOFT ) )
+            {
+                return new SoftReference( object );
+            }
+            else if( m_collection.equals( CollectionPolicy.WEAK ) )
+            {
+                return new WeakReference( object );
+            }
+            else if( m_collection.equals( CollectionPolicy.HARD ) )
+            {
+                return new HardReference( object );
+            }
+            else
+            {
+                final String error = 
+                  "Supplied collection policy is abstract: " + m_collection;
+                throw new IllegalArgumentException( error );
+            }
+        }
     }
     
    /**
@@ -924,38 +953,43 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     private class TransientHolder extends Holder
     {
-        private WeakHashMap m_instances = new WeakHashMap(); // transients
+        private final WeakHashMap m_providers = new WeakHashMap(); // transients
         
         DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
-            DefaultProvider instance = createDefaultProvider();
-            m_instances.put( instance, null );
-            return instance;
+            DefaultProvider provider = createDefaultProvider();
+            m_providers.put( provider, null );
+            return provider;
         }
         
-        void dispose()
+        void decommission()
         {
             if( !isDisposed() )
             {
-                DefaultProvider[] instances = getAllProviders();
-                for( int i=0; i<instances.length; i++ )
+                DefaultProvider[] providers = getAllProviders();
+                for( int i=0; i<providers.length; i++ )
                 {
-                    DefaultProvider instance = instances[i];
-                    m_instances.remove( instance );
-                    instance.dispose();
+                    DefaultProvider provider = providers[i];
+                    m_providers.remove( provider );
+                    provider.dispose();
                 }
-                super.dispose();
+                super.decommission();
             }
         }
         
         int getProviderCount()
         {
-            return m_instances.size();
+            return m_providers.size();
+        }
+        
+        String getName()
+        {
+            return "transient";
         }
         
         private DefaultProvider[] getAllProviders()
         {
-            return (DefaultProvider[]) m_instances.keySet().toArray( new DefaultProvider[0] );
+            return (DefaultProvider[]) m_providers.keySet().toArray( new DefaultProvider[0] );
         }
     }
 
@@ -966,25 +1000,30 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     private class ThreadHolder extends Holder
     {
-        private ThreadLocalHolder m_threadLocalHolder = new ThreadLocalHolder();
+        private final ThreadLocalHolder m_threadLocalHolder = new ThreadLocalHolder();
         
         DefaultProvider getProvider() throws ControlException, InvocationTargetException
         {
             return (DefaultProvider) m_threadLocalHolder.get();
         }
         
-        void dispose()
+        void decommission()
         {
             if( !isDisposed() )
             {
-                m_threadLocalHolder.dispose();
-                super.dispose();
+                m_threadLocalHolder.decommission();
+                super.decommission();
             }
         }
         
         int getProviderCount()
         {
             return m_threadLocalHolder.getProviderCount();
+        }
+
+        String getName()
+        {
+            return "per-thread";
         }
         
         private DefaultProvider[] getAllProviders()
@@ -998,98 +1037,44 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     private class ThreadLocalHolder extends ThreadLocal
     {
-        private WeakHashMap m_instances = new WeakHashMap(); // per thread instances
+        private final WeakHashMap m_providers = new WeakHashMap(); // per thread instances
         
         protected Object initialValue()
         {
             try
             {
-                DefaultProvider instance = createDefaultProvider();
-                m_instances.put( instance, null );
-                return instance;
+                DefaultProvider provider = createDefaultProvider();
+                m_providers.put( provider, null );
+                return provider;
             }
             catch( Exception e )
             {
                 final String error = 
                   "Per-thread lifestyle policy handler encountered an error "
-                  + "while attempting to establish instance.";
+                  + "while attempting to establish provider.";
                 throw new ControllerRuntimeException( error, e );
             }
         }
         
         int getProviderCount()
         {
-            return m_instances.size();
+            return m_providers.size();
         }
         
         DefaultProvider[] getAllProviders()
         {
-            return (DefaultProvider[]) m_instances.keySet().toArray( new DefaultProvider[0] );
+            return (DefaultProvider[]) m_providers.keySet().toArray( new DefaultProvider[0] );
         }
         
-        void dispose()
+        void decommission()
         {
-            DefaultProvider[] instances = getAllProviders();
-            for( int i=0; i<instances.length; i++ )
+            DefaultProvider[] providers = getAllProviders();
+            for( int i=0; i<providers.length; i++ )
             {
-                DefaultProvider instance = instances[i];
-                instance.dispose();
-                m_instances.remove( instance );
+                DefaultProvider provider = providers[i];
+                provider.dispose();
+                m_providers.remove( provider );
             }
-        }
-    }
-    
-   /**
-    * Constructs a reference that reflects the component cololection policy.
-    * @param object the initial reference value
-    * @return the reference
-    */
-    private Reference createReference( Object object )
-    {
-        //
-        // if this is a top-level component then set the collection policy
-        // to hard otherwise we'll loose the instance because nothing is 
-        // referencing it directly
-        //
-        
-        try
-        {
-            CollectionPolicy policy = m_model.getCollectionPolicy();
-            
-            //
-            // if an explicit collection policy is defined then apply it now
-            // otherwise use SOFT collection as the SYSTEM default
-            //
-            
-            if( policy.equals( CollectionPolicy.SOFT ) )
-            {
-                return new SoftReference( object );
-            }
-            else if( policy.equals( CollectionPolicy.WEAK ) )
-            {
-                return new WeakReference( object );
-            }
-            else if( policy.equals( CollectionPolicy.HARD ) )
-            {
-                return new HardReference( object );
-            }
-            else // SYSTEM
-            {
-                if( null == m_parent ) 
-                {
-                    return new HardReference( object );
-                }
-                else
-                {
-                    return new SoftReference( object );
-                }
-            }
-        }
-        catch( RemoteException e )
-        {
-            final String error = 
-              "Reference object creating failure due to a remote exception.";
-            throw new ControllerRuntimeException( error, e );
         }
     }
     
@@ -1098,8 +1083,8 @@ class DefaultComponentHandler extends UnicastEventSource
     */
     private static class HardReference extends SoftReference
     {
-        private Object m_referent;
-       
+        private final Object m_referent; // hard reference
+        
        /**
         * Creation of a new hard reference.
         * @param referent the referenced object

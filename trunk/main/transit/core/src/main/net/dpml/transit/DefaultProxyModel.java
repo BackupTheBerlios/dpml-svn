@@ -31,6 +31,7 @@ import net.dpml.transit.model.ProxyListener;
 import net.dpml.transit.model.ProxyEvent;
 import net.dpml.transit.model.RequestIdentifier;
 
+import net.dpml.util.EventQueue;
 import net.dpml.util.Logger;
 
 /**
@@ -61,10 +62,10 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     * @exception NullPointerException if the logging channel or directive arguments are null
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultProxyModel( Logger logger, ProxyDirective directive ) 
+    public DefaultProxyModel( EventQueue queue, Logger logger, ProxyDirective directive ) 
       throws NullPointerException, MalformedURLException, RemoteException
     {
-        super( logger );
+        super( queue, logger );
 
         if( null == directive )
         {
@@ -149,7 +150,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
 
     public void dispose()
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i<listeners.length; i++ )
         {
             EventListener listener = listeners[i];
@@ -161,7 +162,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
     * Internal event handler.
     * @param eventObject the event to handle
     */
-    protected void processEvent( EventObject eventObject )
+    public void processEvent( EventObject eventObject )
     {
         if( eventObject instanceof ProxyEvent )
         {
@@ -178,7 +179,7 @@ class DefaultProxyModel extends DefaultModel implements ProxyModel
 
     private void processProxyEvent( ProxyEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];

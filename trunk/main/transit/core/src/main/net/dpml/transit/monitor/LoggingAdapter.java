@@ -44,7 +44,7 @@ public class LoggingAdapter implements Adapter
    /**
     * The logging channel.
     */
-    private static final String CATEGORY = "transit";
+    private static final String CATEGORY = "";
 
     private static final PID ID = new PID();
 

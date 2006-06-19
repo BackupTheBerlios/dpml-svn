@@ -85,30 +85,6 @@ public class InfoDescriptorTestCase extends AbstractDescriptorTestCase
     }
     
    /**
-    * Test the threadsafe default lifestyle policy.
-    */
-    public void testThreadSafeLifestyle()
-    {
-        InfoDescriptor info = new InfoDescriptor(
-          m_name, m_classname, m_version, null, m_collection,
-          ThreadSafePolicy.TRUE, getProperties() );
-        LifestylePolicy lifestyle = info.getLifestylePolicy();
-        assertEquals( "default-threadsafe-lifestyle", LifestylePolicy.SINGLETON, lifestyle );
-    }
-    
-   /**
-    * Test the non-threadsafe default lifestyle policy.
-    */
-    public void testNonThreadSafeLifestyle()
-    {
-        InfoDescriptor info = new InfoDescriptor(
-          m_name, m_classname, m_version, null, m_collection,
-          ThreadSafePolicy.FALSE, getProperties() );
-        LifestylePolicy lifestyle = info.getLifestylePolicy();
-        assertEquals( "default-non-threadsafe-lifestyle", LifestylePolicy.THREAD, lifestyle );
-    }
-    
-   /**
     * Test the thread safe policy.
     */
     public void testThreadsafeCapable()

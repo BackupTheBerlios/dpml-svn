@@ -33,14 +33,14 @@ import net.dpml.job.Commissionable;
 public interface Component extends Remote, Commissionable
 {
    /**
-    * Return a handler capable of supporting the requested service.
-    * @param service the service descriptor
-    * @return a component matching the requested service
-    * @exception ServiceNotFoundException if no component could found
-    * @exception RemoteException if a remote I/O occurs
+    * Return a provider of an instance of the component.
+    * @return the instance provider
+    * @exception InvocationTargetException if a target invocation error occurs
+    * @exception ControlException if a controller related error occurs
+    * @exception RemoteException if a remote exception occurs
     */
-    Component lookup( Service service ) throws ServiceNotFoundException, RemoteException;
-    
+    Provider getProvider() throws ControlException, InvocationTargetException, RemoteException;
+
    /**
     * Return true if this handler is a candidate for the supplied service definition.
     * @param service the service descriptor
@@ -76,17 +76,6 @@ public interface Component extends Remote, Commissionable
     * @exception RemoteException if a remote exception occurs
     */
     int size() throws RemoteException;
-    
-   /**
-    * Return a reference to a instance of the component handled by the handler.
-    * @return the instance holder
-    * @exception InvocationTargetException if the component instantiation process 
-    *  is on demand and an target invocation error occurs
-    * @exception ControlException if the component could not be established due to a controller 
-    *  related error
-    * @exception RemoteException if a remote exception occurs
-    */
-    Provider getProvider() throws ControlException, InvocationTargetException, RemoteException;
     
 }
 

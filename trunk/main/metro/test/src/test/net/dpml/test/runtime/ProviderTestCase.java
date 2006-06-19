@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -31,10 +31,13 @@ import net.dpml.component.Component;
 import net.dpml.component.Provider;
 import net.dpml.state.State;
 import net.dpml.state.StateListener;
-import net.dpml.state.impl.DefaultStateListener;
+import net.dpml.state.StateEvent;
 
 import net.dpml.test.ColorManager;
 import net.dpml.test.ExampleComponent;
+
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
 
 /**
  * Test general behaviour of a Provider without consideration for lifestyle.
@@ -122,31 +125,6 @@ public class ProviderTestCase extends TestCase
     }
 
    /**
-    * Test invalid listener removal.
-    * @exception Exception if an error occurs
-    */
-    public void testUnknownListenerRemoval() throws Exception
-    {
-        Component component = CONTROLLER.createComponent( m_uri );
-        component.commission();
-        Provider instance = component.getProvider();
-        try
-        {
-            StateListener listener = new DefaultStateListener();
-            instance.removeStateListener( listener );
-            fail( "IllegalArgumentException was not thown" );
-        }
-        catch( IllegalArgumentException e )
-        {
-            // success
-        }
-        finally
-        {
-            component.decommission();
-        }
-    }
-    
-   /**
     * Test activation/deactivation cycle.
     * @exception Exception if an error occurs
     */
@@ -154,15 +132,6 @@ public class ProviderTestCase extends TestCase
     {
         Component component = CONTROLLER.createComponent( m_uri );
         DefaultStateListener listener = new DefaultStateListener();
-        listener.addPropertyChangeListener( 
-          new PropertyChangeListener()
-          {
-            public void propertyChange( PropertyChangeEvent event )
-            {
-                State oldState = (State) event.getOldValue();
-                State state = (State) event.getNewValue();
-            }
-          } );
         component.commission();
         assertTrue( "is-active", component.isActive() );
         Provider instance = component.getProvider();
@@ -213,6 +182,15 @@ public class ProviderTestCase extends TestCase
         finally
         {
             component.decommission();
+        }
+    }
+    
+    private class DefaultStateListener implements StateListener
+    {
+        private Logger m_logger = new DefaultLogger( "test" );
+        public void stateChanged( StateEvent event )
+        {
+            m_logger.info( "event: " + event );
         }
     }
 }

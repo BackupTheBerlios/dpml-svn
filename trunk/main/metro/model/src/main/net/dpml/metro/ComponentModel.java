@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -69,6 +69,14 @@ public interface ComponentModel extends Model
     */
     Classpath getClasspath() throws RemoteException;
     
+   /**
+    * Return the component thread-safe status.
+    *
+    * @return the threadsafe status
+    * @exception RemoteException if a remote exception occurs
+    */
+    boolean isThreadSafe() throws RemoteException;
+
    /**
     * Return the component lifestyle policy.
     *

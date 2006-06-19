@@ -42,7 +42,7 @@ import net.dpml.util.Logger;
 public final class DefaultComposition extends Composition
 {   
     private ComponentDirective m_directive;
-     
+    
    /**
     * Creation of a new composition diefinition.
     * @param logger the assigned logging channel

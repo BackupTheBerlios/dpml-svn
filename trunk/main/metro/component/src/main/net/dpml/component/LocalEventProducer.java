@@ -127,7 +127,6 @@ abstract class LocalEventProducer
         }
         synchronized( m_lock ) 
         {   
-            m_logger.debug( "adding context listener" );
             m_listeners.put( listener, null );
         }
         startEventDispatchThread( m_logger );
@@ -145,7 +144,6 @@ abstract class LocalEventProducer
         }
         synchronized( m_lock )
         {
-            m_logger.debug( "removing context listener" );
             m_listeners.remove( listener );
         }
     }

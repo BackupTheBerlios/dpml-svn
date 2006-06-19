@@ -65,12 +65,13 @@ public final class PartDecoder implements Decoder
     }
     
     private Map m_map = new Hashtable();
+    private Map m_builders = new Hashtable();
     
     private Logger m_logger;
     
     private PartDecoder()
     {
-        m_logger = new DefaultLogger();
+        m_logger = new DefaultLogger( "dpml.lang" );
     }
     
    /**
@@ -86,9 +87,17 @@ public final class PartDecoder implements Decoder
         {
             throw new NullPointerException( "uri" );
         }
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( "loading part [" + uri + "]" );
+        }
         String key = buildKey( uri );
         if( cache )
         {
+            if( getLogger().isDebugEnabled() )
+            {
+                getLogger().debug( "using cache key part [" + key + "]" );
+            }
             WeakReference ref = (WeakReference) m_map.get( key );
             if( null != ref )
             {
@@ -97,18 +106,17 @@ public final class PartDecoder implements Decoder
                 {
                     if( getLogger().isDebugEnabled() )
                     {
-                        getLogger().debug( "loading part [" + uri + "] from cache." );
+                        getLogger().debug( "located part in cache" );
                     }
                     return part;
                 }
             }
         }
+        
+        // cache based retrival was either not requested or no cache value present
+        
         try
         {
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "loading part [" + uri + "] from source." );
-            }
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
             Part value = decodePart( uri, root );
@@ -116,6 +124,12 @@ public final class PartDecoder implements Decoder
             {
                 WeakReference reference = new WeakReference( value );
                 m_map.put( key, reference );
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "caching part" 
+                      + "\n  URI: " + uri
+                      + "\n  Key: " + key ); 
+                }
             }
             return value;
         }
@@ -123,7 +137,7 @@ public final class PartDecoder implements Decoder
         {
             final String error =
               "An error while attempting to load a part."
-              + "\nURI: " + uri;
+              + "\n  URI: " + uri;
             IOException exception = new IOException( error );
             exception.initCause( e );
             throw exception;
@@ -210,6 +224,10 @@ public final class PartDecoder implements Decoder
             String name = info.getTypeName();
             if( "plugin".equals( name ) )
             {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "reading plugin definition" );
+                }
                 String classname = ElementHelper.getAttribute( strategy, "class" );
                 Element[] elements = ElementHelper.getChildren( strategy );
                 Value[] values = VALUE_DECODER.decodeValues( elements );
@@ -217,6 +235,10 @@ public final class PartDecoder implements Decoder
             }
             else if( "resource".equals( name ) )
             {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "reading resource definition" );
+                }
                 String urn = ElementHelper.getAttribute( strategy, "urn" );
                 String path = ElementHelper.getAttribute( strategy, "path" );
                 return new Resource( logger, information, classpath, urn, path );
@@ -236,10 +258,21 @@ public final class PartDecoder implements Decoder
         {
             // this is a foreign part
             
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "reading foreign part definition" );
+            }
             try
             {
                 URI uri = getDecoderURI( strategy );
                 Builder builder = loadForeignBuilder( uri );
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( 
+                      "loaded forign builder [" 
+                      + builder.getClass().getName() 
+                      + "]" );
+                }
                 return builder.build( information, classpath, strategy );
             }
             catch( Exception ioe )
@@ -297,9 +330,37 @@ public final class PartDecoder implements Decoder
         return m_logger;
     }
     
+   /**
+    * Load a forign part builder.  The implementation will attempt to resolve a 
+    * plugin defintion from the supplied uri, caching a reference to
+    * the builder, and returning the plugin instance as a builder instance.
+    *
+    * @param uri the part builder uri
+    * @see Builder
+    * @exception DecodingException if a part decoding error occurs
+    * @exception Exception if part loading error occurs
+    */
     private Builder loadForeignBuilder( URI uri ) throws DecodingException, Exception
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "loading builder [" + uri + "]" );
+        }
         Part part = loadPart( uri, true );
+        WeakReference ref = (WeakReference) m_builders.get( uri );
+        if( null != ref )
+        {
+            Builder builder = (Builder) ref.get();
+            if( null != builder )
+            {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "located builder in cache" );
+                }
+                return builder;
+            }
+        }
+        
         if( part instanceof Plugin )
         {
             Plugin plugin = (Plugin) part;
@@ -308,7 +369,14 @@ public final class PartDecoder implements Decoder
             Object object = plugin.instantiate( args );
             if( object instanceof Builder )
             {
-                return (Builder) object;
+                Builder builder = (Builder) object;
+                WeakReference reference = new WeakReference( builder );
+                m_builders.put( uri, reference );
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "added builder in cache" );
+                }
+                return builder;
             }
             else
             {

@@ -35,7 +35,9 @@ import net.dpml.transit.model.LayoutRegistryEvent;
 
 import net.dpml.lang.UnknownKeyException;
 import net.dpml.lang.DuplicateKeyException;
+
 import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 /**
  * Default implementation of a layout registry model that maitains 
@@ -64,26 +66,26 @@ class DefaultLayoutRegistryModel extends DefaultModel
     * @exception DuplicateKeyException if a duplicate layout is declared
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultLayoutRegistryModel( Logger logger, LayoutDirective[] layouts )
+    public DefaultLayoutRegistryModel( EventQueue queue, Logger logger, LayoutDirective[] layouts )
       throws DuplicateKeyException, RemoteException
     {
-        super( logger );
+        super( queue, logger );
         
         // add the standard layouts
         
         LayoutModel modern = 
           new StandardLayoutModel( 
-            logger.getChildLogger( "modern" ), 
+            queue, logger.getChildLogger( "modern" ), 
             "modern", "Modern", ModernLayout.class.getName() );
         addLayoutModel( modern, false );
         LayoutModel classic = 
           new StandardLayoutModel(   
-            logger.getChildLogger( "classic" ), 
+            queue, logger.getChildLogger( "classic" ), 
             "classic", "Classic", ClassicLayout.class.getName() );
         addLayoutModel( classic, false );
         LayoutModel eclipse = 
           new StandardLayoutModel( 
-            logger.getChildLogger( "eclipse" ), 
+            queue, logger.getChildLogger( "eclipse" ), 
             "eclipse", "Eclipse", EclipseLayout.class.getName() );
         addLayoutModel( eclipse, false );
         
@@ -221,7 +223,8 @@ class DefaultLayoutRegistryModel extends DefaultModel
         Logger logger = getLogger().getChildLogger( id );
         try
         {
-            LayoutModel model = new DefaultLayoutModel( logger, directive );
+            EventQueue queue = getEventQueue();
+            LayoutModel model = new DefaultLayoutModel( queue, logger, directive );
             addLayoutModel( model, notify );
         }
         catch( RemoteException e )
@@ -261,7 +264,7 @@ class DefaultLayoutRegistryModel extends DefaultModel
     * Internal event handler.
     * @param event the event to handle
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
         if( event instanceof LayoutRegistryEvent )
         {
@@ -271,7 +274,7 @@ class DefaultLayoutRegistryModel extends DefaultModel
 
     private void processLayoutRegistryEvent( LayoutRegistryEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];

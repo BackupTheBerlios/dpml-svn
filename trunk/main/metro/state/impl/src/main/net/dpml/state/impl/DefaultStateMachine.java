@@ -28,6 +28,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.WeakHashMap;
+import java.util.EventObject;
+import java.util.EventListener;
+import java.rmi.RemoteException;
 
 import net.dpml.state.State;
 import net.dpml.state.Transition;
@@ -40,6 +44,13 @@ import net.dpml.state.StateMachine;
 import net.dpml.state.UnknownOperationException;
 import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.IntegrityRuntimeException;
+import net.dpml.state.StateListener;
+import net.dpml.state.StateEvent;
+
+import net.dpml.util.Logger;
+import net.dpml.util.UnicastEventSource;
+import net.dpml.util.EventQueue;
+import net.dpml.util.EventHandler;
 
 /**
  * Default state-machine implementation.
@@ -47,7 +58,7 @@ import net.dpml.state.IntegrityRuntimeException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultStateMachine implements StateMachine
+public class DefaultStateMachine implements StateMachine, EventHandler
 {
    /**
     * Constant name used to reference a state change in a property event.
@@ -67,11 +78,19 @@ public class DefaultStateMachine implements StateMachine
     // state
     //-------------------------------------------------------------------------------
 
-    private final PropertyChangeSupport m_support;
+    //private final PropertyChangeSupport m_support;
     
     private State m_state;
     private boolean m_active = false;
     private boolean m_disposed = false;
+    
+    private final Object m_lock = new Object();
+
+    private final EventQueue m_queue;
+    
+    private final WeakHashMap m_listeners = new WeakHashMap();
+
+    private final Logger m_logger;
 
     //-------------------------------------------------------------------------------
     // constructor
@@ -81,32 +100,91 @@ public class DefaultStateMachine implements StateMachine
     * Creation of a new state machine using a state graph.
     * @param state the state graph
     */
-    public DefaultStateMachine( State state )
+    public DefaultStateMachine( EventQueue queue, Logger logger, State state ) throws RemoteException
     {
+        m_queue = queue;
+        m_logger = logger;
         m_state = state;
-        m_support = new PropertyChangeSupport( this );
     }
 
     //-------------------------------------------------------------------------------
     // StateMachine
     //-------------------------------------------------------------------------------
 
-   /**
-    * Add a property change listener to the state machine.
-    * @param listener the property change listener
-    */
-    public void addPropertyChangeListener( final PropertyChangeListener listener )
+    private Logger getLogger()
     {
-        m_support.addPropertyChangeListener( listener );
+        return m_logger;
     }
     
    /**
-    * Remove a property change listener from the state machine.
-    * @param listener the property change listener
+    * Add a state change listener to the state machine.
+    * @param listener the state listener
     */
-    public void removePropertyChangeListener( final PropertyChangeListener listener )
+    public void addStateListener( final StateListener listener )
     {
-        m_support.removePropertyChangeListener( listener );
+        if( null == listener )
+        {
+            throw new NullPointerException( "listener" );
+        }
+        checkDisposed();
+        synchronized( m_lock ) 
+        {
+            m_listeners.put( listener, null );
+        }
+    }
+    
+   /**
+    * Remove a state listener from the state machine.
+    * @param listener the state listener
+    */
+    public void removeStateListener( final StateListener listener )
+    {
+        if( null == listener )
+        {
+            throw new NullPointerException( "listener" );
+        }
+        checkDisposed();
+        synchronized( m_lock )
+        {
+            m_listeners.remove( listener );
+        }
+    }
+    
+    public EventListener[] getEventListeners()
+    {
+        return getStateListeners();
+    }
+    
+    private StateListener[] getStateListeners()
+    {
+        checkDisposed();
+        synchronized( m_lock )
+        {
+            return (StateListener[]) m_listeners.keySet().toArray( new StateListener[0] );
+        }
+    }
+    
+    public void processEvent( EventObject event )
+    {
+        StateListener[] listeners = getStateListeners();
+        for( int i=0; i < listeners.length; i++ )
+        {
+            StateListener listener = listeners[i];
+            if( event instanceof StateEvent )
+            {
+                try
+                {
+                    StateEvent e = (StateEvent) event;
+                    listener.stateChanged( e );
+                }
+                catch( Throwable e )
+                {
+                    final String error =
+                      "StateListener notification error.";
+                    getLogger().error( error, e );
+                }
+            }
+        }
     }
 
    /**
@@ -401,14 +479,17 @@ public class DefaultStateMachine implements StateMachine
     */
     public void dispose()
     {
+        synchronized( m_lock )
+        {
+            StateListener[] listeners = getStateListeners();
+            for( int i=0; i<listeners.length; i++ )
+            {
+                StateListener listener = listeners[i];
+                removeStateListener( listener );
+            }
+        }
         m_disposed = true;
         m_state = null;
-        PropertyChangeListener[] listeners = m_support.getPropertyChangeListeners();
-        for( int i=0; i<listeners.length; i++ )
-        {
-            PropertyChangeListener listener = listeners[i];
-            m_support.removePropertyChangeListener( listener );
-        }
     }
     
     //-------------------------------------------------------------------------------
@@ -480,6 +561,7 @@ public class DefaultStateMachine implements StateMachine
             throw new InvocationTargetException( e );
         }
     }
+    
     private State terminate( List list, Object object ) throws Exception
     {
         Action action = getTerminationAction();
@@ -580,10 +662,9 @@ public class DefaultStateMachine implements StateMachine
             {
                 final State oldState = m_state;
                 m_state = state;
-                final PropertyChangeEvent event = 
-                  new PropertyChangeEvent( 
-                    this, PROPERTY_NAME, oldState, state );
-                m_support.firePropertyChange( event );
+                
+                final StateEvent event = new StateEvent( this, oldState, state );
+                m_queue.enqueueEvent( event );
             }
         }
     }
@@ -920,4 +1001,5 @@ public class DefaultStateMachine implements StateMachine
             return new URI( path );
         }
     }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -45,12 +45,7 @@ class ContextInvocationHandler implements InvocationHandler
     * The component.
     */
     private final DefaultProvider m_provider;
-
-   /**
-    * The component.
-    */
-    private final DefaultComponentHandler m_handler;
-
+    
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
@@ -63,7 +58,6 @@ class ContextInvocationHandler implements InvocationHandler
     ContextInvocationHandler( DefaultProvider provider )
     {
         m_provider = provider;
-        m_handler = provider.getDefaultComponentHandler();
     }
 
     //-------------------------------------------------------------------
@@ -72,7 +66,7 @@ class ContextInvocationHandler implements InvocationHandler
 
     private DefaultComponentHandler getDefaultComponentHandler()
     {
-        return m_handler;
+        return m_provider.getDefaultComponentHandler();
     }
 
    /**
@@ -94,17 +88,16 @@ class ContextInvocationHandler implements InvocationHandler
         }
         else if( ComponentContext.class == source )
         {
-            return method.invoke( m_handler, args );
+            DefaultComponentHandler handler = getDefaultComponentHandler();
+            return method.invoke( handler, args );
         }
         else
         {
-            DefaultComponentHandler handler = getDefaultComponentHandler();
             String name = method.getName();
             if( name.startsWith( "get" ) )
             {
                 String key = EntryDescriptor.getEntryKey( method );
                 Object value = getContextValue( key );
-                //Object value = handler.getContextValue( key );
                 if( null != value )
                 {
                     return value;
@@ -120,6 +113,11 @@ class ContextInvocationHandler implements InvocationHandler
                     throw new IllegalStateException( error );
                 }
             }
+            else
+            {
+                throw new NoSuchMethodException( name );
+            }
+            /*
             if( ( null != args ) && ( args.length == 1 ) )
             {
                 if( "addPropertyChangeListener".equals( name ) )
@@ -135,12 +133,14 @@ class ContextInvocationHandler implements InvocationHandler
                     return null;
                 }
             }
-            throw new NoSuchMethodException( name );
+            */
         }
     }
     
     Object getContextValue( String key ) throws ControlException
     {
-        return m_handler.getComponentController().getContextValue( m_provider, key );
+        DefaultComponentHandler handler = getDefaultComponentHandler();
+        return handler.getComponentController().getContextValue( m_provider, key );
     }
+
 }

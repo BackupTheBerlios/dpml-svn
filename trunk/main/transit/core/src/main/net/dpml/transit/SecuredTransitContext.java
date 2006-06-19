@@ -237,15 +237,6 @@ public final class SecuredTransitContext
     }
     
    /**
-    * Return the Transit repository service.
-    * @return the repository service
-    */
-    //public Repository getRepository()
-    //{
-    //    return m_repository;
-    //}
-
-   /**
     * Return the cache handler.
     * @return the cache handler
     */
@@ -311,8 +302,6 @@ public final class SecuredTransitContext
     protected void initialize() throws IOException
     {
         m_linkManager = new ArtifactLinkManager();
-        //Logger logger = getLogger().getChildLogger( "cache" );
-        //m_repository = new StandardLoader( logger );  // this needs to be configured
         initializeCache();
     }
 

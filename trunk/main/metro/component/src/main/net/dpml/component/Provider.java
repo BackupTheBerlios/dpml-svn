@@ -27,6 +27,8 @@ import net.dpml.state.StateListener;
 import net.dpml.state.UnknownOperationException;
 import net.dpml.state.UnknownTransitionException;
 
+import net.dpml.job.Commissionable;
+
 /**
  * Provider holder.
  *
@@ -35,6 +37,28 @@ import net.dpml.state.UnknownTransitionException;
  */
 public interface Provider extends Remote
 {
+   /**
+    * Return a parent provider.
+    * @return the parent provider or null if this is a root provider
+    * @exception RemoteException if a remote I/O occurs
+    */
+    Provider getParent() throws RemoteException;
+    
+   /**
+    * Return the current status of the provider.
+    * @return the provider status
+    */
+    Status getStatus() throws RemoteException;
+    
+   /**
+    * Return a provider capable of supporting the requested service.
+    * @param service the service descriptor
+    * @return a component matching the requested service
+    * @exception ServiceNotFoundException if no component could found
+    * @exception RemoteException if a remote I/O occurs
+    */
+    Provider lookup( Service service ) throws ServiceNotFoundException, RemoteException;
+
    /**
     * Returns the current state of the control.
     * @return the current runtime state
@@ -102,4 +126,5 @@ public interface Provider extends Remote
     Object invoke( String method, Object[] args ) 
       throws UnknownOperationException, InvocationTargetException, 
       IllegalStateException, RemoteException;
+
 }

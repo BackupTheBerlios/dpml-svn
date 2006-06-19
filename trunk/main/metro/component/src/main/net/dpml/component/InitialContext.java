@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (c) 2005 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -254,11 +255,9 @@ public final class InitialContext extends LocalEventProducer
     */
     public void dispose()
     {
-        getInternalLogger().debug( "initiating context disposal" );
         ControllerDisposalEvent event = new ControllerDisposalEvent( this );
         enqueueEvent( event, false );
         super.dispose();
-        getInternalLogger().debug( "disposed" );
     }
 
     //----------------------------------------------------------------------------

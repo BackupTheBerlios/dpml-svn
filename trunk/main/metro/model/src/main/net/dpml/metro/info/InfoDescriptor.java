@@ -1,6 +1,5 @@
 /*
  * Copyright 2004 Stephen J. McConnell.
- * Copyright 1999-2004 The Apache Software Foundation
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -167,14 +166,7 @@ public final class InfoDescriptor extends Descriptor
         
         if( lifestyle == null )
         {
-            if( threadsafe == ThreadSafePolicy.TRUE )
-            {
-                m_lifestyle = LifestylePolicy.SINGLETON;
-            }
-            else
-            {
-                m_lifestyle = LifestylePolicy.THREAD;
-            }
+            m_lifestyle = LifestylePolicy.SYSTEM;
         }
         else
         {
@@ -297,6 +289,16 @@ public final class InfoDescriptor extends Descriptor
     public LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
+    }
+
+    /**
+     * Ruturn the thread-safe status.
+     *
+     * @return the thread-safe status
+     */
+    public boolean isThreadSafe()
+    {
+        return m_threadsafe.equals( ThreadSafePolicy.TRUE );
     }
 
     /**

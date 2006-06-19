@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -30,12 +30,7 @@ import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.Service;
 import net.dpml.component.Directive;
-
-import net.dpml.job.CommissionerEvent;
-import net.dpml.job.CommissionerController;
-import net.dpml.job.TimeoutException;
-import net.dpml.job.TimeoutError;
-import net.dpml.job.impl.DefaultCommissioner;
+import net.dpml.component.Disposable;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
@@ -51,101 +46,112 @@ import net.dpml.metro.data.ComponentDirective;
 import net.dpml.util.Logger;
 
 /**
- * Default implementation of the local Parts interface.
+ * Null implementation of the local Parts interface.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class DefaultPartsManager implements PartsManager
+class DefaultPartsManager implements PartsManager, Disposable
 {
-    //-------------------------------------------------------------------
-    // state
-    //-------------------------------------------------------------------
-
-   /**
-    * Internal handle to the component controller.
-    */
-    private final ComponentController m_control;
-    
-   /**
-    * The component handler.
-    */
-    private final DefaultComponentHandler m_handler;
-    
-   /**
-    * The logging channel.
-    */
-    private final Logger m_logger;
-    
-   /**
-    * The internal map of component handlers.
-    */
-    private final Map m_handlers = new Hashtable();
-    
-    private boolean m_commissioned = false;
-    
-    private final Map m_parts;
-    
+    private final DefaultProvider m_provider;
     private final String[] m_keys;
+    private final ComponentHandler[] m_components;
     
-    //-------------------------------------------------------------------
-    // constructor
-    //-------------------------------------------------------------------
-
-   /**
-    * Create a new parts manager.
-    *
-    * @param handler the component handler
-    * @param logger the logging channel
-    */
-    DefaultPartsManager( ComponentController control, DefaultComponentHandler handler, Logger logger ) 
-      throws ControlException, RemoteException
+    private boolean m_commissioned;
+    
+    DefaultPartsManager( DefaultProvider provider ) throws RemoteException
     {
-        m_control = control;
-        m_handler = handler;
-        m_logger = logger;
+        m_provider = provider;
         
+        DefaultComponentHandler handler = provider.getDefaultComponentHandler();
         ClassLoader classloader = handler.getClassLoader();
         ComponentModel model = handler.getComponentModel();
-        PartReference[] references = model.getPartReferences();
-        
-        m_keys = getKeys( references );
-        
         String partition = model.getContextPath();
         final String base = partition + Model.PARTITION_SEPARATOR;
-        m_parts = processParts( control, classloader, base, references );
-        for( int i=0; i<references.length; i++ )
+        PartReference[] references = model.getPartReferences();
+        m_keys = new String[ references.length ];
+        m_components = new ComponentHandler[ references.length ];
+        
+        if( references.length > 0 )
         {
-            PartReference reference = references[i];
-            String key = reference.getKey();
-            try
+            if( provider.getLogger().isDebugEnabled() )
             {
-                ComponentModel manager = (ComponentModel) m_parts.get( key );
-                Component component = control.createDefaultComponentHandler( handler, classloader, manager, true );
-                m_handlers.put( key, component );
+                provider.getLogger().debug( "building internal parts" );
             }
-            catch( Exception e )
+        }
+        
+        for( int i=0; i < references.length; i++ )
+        {
+            PartReference ref = references[i];
+            String key = ref.getKey();
+            m_keys[i] = key;
+            Directive part = ref.getDirective();
+            if( part instanceof ComponentDirective )
+            {
+                try
+                {
+                    Classpath classpath = new Classpath();
+                    ComponentDirective directive = (ComponentDirective) part;
+                    ComponentController controller = handler.getComponentController();
+                    ComponentModel manager = 
+                      controller.createComponentModel( classloader, classpath, base, directive );
+                    ComponentHandler component = 
+                      controller.createDefaultComponentHandler( m_provider, classloader, manager, true );
+                    m_components[i] = component;
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Internal error while attempting to create a subsidiary part ["
+                      + key
+                      + "] in ["
+                      + m_provider
+                      + "]";
+                    throw new ControllerRuntimeException( error, e );
+                }
+            }
+            else
             {
                 final String error = 
-                  "Internal error while attempting to create a subsidiary part ["
-                  + key
-                  + "] in component ["
-                  + handler
-                  + "]";
-                throw new ControllerRuntimeException( error, e );
+                  "Foreign part [" 
+                  + part.getClass() 
+                  + "] not supported.";
+                throw new UnsupportedOperationException( error );
             }
         }
     }
     
-    private ComponentModel getComponentModel()
+    //-------------------------------------------------------------------
+    // Disposable
+    //-------------------------------------------------------------------
+
+    public void dispose()
     {
-        return m_handler.getComponentModel();
+        decommission();
+        String[] keys = getKeys();
+        for( int i=keys.length-1; i>-1; i-- )
+        {
+            try
+            {
+                String key = keys[i];
+                ComponentHandler handler = getComponentHandler( key );
+                if( handler instanceof Disposable )
+                {
+                    Disposable disposable = (Disposable) handler;
+                    disposable.dispose();
+                }
+            }
+            catch( UnknownKeyException e )
+            {
+                e.printStackTrace(); // will not happen
+            }
+        }
     }
-    
+
     //-------------------------------------------------------------------
     // PartsManager
     //-------------------------------------------------------------------
-
+    
    /**
     * Return the array of keys used to identify internal parts.
     * @return the part key array
@@ -156,20 +162,22 @@ class DefaultPartsManager implements PartsManager
     }
     
    /**
+    * Return an array of all component handlers.
+    * @return the local component handler array
+    */  
+    public ComponentHandler[] getComponentHandlers()
+    {
+        return m_components;
+    }
+
+   /**
     * Return a component handler.
     * @param key the internal component key
-    * @return the local component handler
+    * @return the component handler
     */
     public synchronized Component getComponent( String key ) throws UnknownKeyException
     {
-        if( m_handlers.containsKey( key ) )
-        {
-            return (Component) m_handlers.get( key );
-        }
-        else
-        {
-            throw new UnknownKeyException( key );
-        }
+        return getComponentHandler( key );
     }
 
    /**
@@ -181,52 +189,26 @@ class DefaultPartsManager implements PartsManager
     {
         Service service = new DefaultService( clazz, Version.parse( "-1" ) );
         ArrayList list = new ArrayList();
-        Component[] components = getComponents();
+        ComponentHandler[] components = getComponentHandlers();
         for( int i=0; i<components.length; i++ )
         {
-            Component component = components[i];
-            if( component instanceof ComponentHandler )
+            ComponentHandler component = components[i];
+            try
             {
-                ComponentHandler handler = (ComponentHandler) component;
-                try
+                if( component.isaCandidate( service ) )
                 {
-                    if( handler.isaCandidate( service ) )
-                    {
-                        list.add( component );
-                    }
+                    list.add( component );
                 }
-                catch( RemoteException e )
-                {
-                    final String error = 
-                      "Unexpected remote exception raised during subsidiary component evaluation."
-                      + "\nEnclosing Component: " + m_handler;
-                    throw new ControllerRuntimeException( error, e );
-                }
+            }
+            catch( RemoteException e )
+            {
+                final String error = 
+                  "Unexpected remote exception raised during subsidiary component evaluation."
+                  + "\nProvider: " + m_provider;
+                throw new ControllerRuntimeException( error, e );
             }
         }
         return (ComponentHandler[]) list.toArray( new ComponentHandler[0] );
-    }
-    
-   /**
-    * Return the component model for the supplied component.
-    * @param component the component
-    * @return the component model
-    */
-    public Model getComponentModel( Component component )
-    {
-        if( component instanceof DefaultComponentHandler )
-        {
-            DefaultComponentHandler handler = (DefaultComponentHandler) component;
-            return handler.getComponentModel();
-        }
-        else
-        {
-            final String error = 
-              "Component ["
-              + component 
-              + "] is not castable to net.dpml.metro.runtime.DefaultComponentHandler.";
-            throw new IllegalArgumentException( error );
-        }
     }
     
    /**
@@ -236,18 +218,15 @@ class DefaultPartsManager implements PartsManager
     */
     public synchronized ComponentHandler getComponentHandler( String key ) throws UnknownKeyException
     {
-        if( null == key )
+        for( int i=0; i<m_keys.length; i++ )
         {
-            throw new NullPointerException( "key" );
+            String k = m_keys[i];
+            if( k.equals( key ) )
+            {
+                return m_components[i];
+            }
         }
-        if( m_handlers.containsKey( key ) )
-        {
-            return (ComponentHandler) m_handlers.get( key );
-        }
-        else
-        {
-            throw new UnknownKeyException( key );
-        }
+        throw new UnknownKeyException( key );
     }
     
    /**
@@ -270,59 +249,38 @@ class DefaultPartsManager implements PartsManager
     {
         if( m_commissioned )
         {
-            final String error = 
-              "Illegal attempt to commission a part manager that is already commissioned."
-              + "Component: " + m_handler;
-            throw new IllegalStateException( error );
+            return;
         }
-        
-        String label = m_handler.toString();
-        DefaultCommissioner queue = 
-          new DefaultCommissioner( label, true, new InternalCommissionerController( true ) );
-
-        ControlException exception = null;
         ArrayList list = new ArrayList();
-        Component[] components = getComponents();
+        ComponentHandler[] components = getComponentHandlers();
         if( components.length > 0 )
         {
-            getLogger().debug( "commissioning internal parts" );
+            m_provider.getLogger().debug( "commissioning internal parts" );
             for( int i=0; i<components.length; i++ )
             {
-                Component component = components[i];
+                ComponentHandler component = components[i];
                 try
                 {
                     if( component.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
                     {
-                        list.add( component );
-                        queue.add( component, 0 );
+                        component.commission();
                     }
                 }
                 catch( Throwable e )
                 {
                     final String error = 
                       "Error during the commission of the internal parts of a component."
-                      + "\nEnclosing Component: " + m_handler
-                      + "\nInternal Part: " + component;
-                    exception = new ControllerException( error, e );
-                    break;
+                      + "\nProvider: " + m_provider
+                      + "\nPart: " + component;
+                    throw new ControllerException( error, e );
                 }
             }
         }
-        
-        if( null != exception )
-        {
-            Component[] selection = (Component[]) list.toArray( new Component[0] );
-            decommission( selection );
-            throw exception;
-        }
-        else
-        {
-            m_commissioned = true;
-        }
+        m_commissioned = true;
     }
     
    /**
-    * Initiate deactivation of all internal parts.
+    * Initiate decommissioning of all internal parts.
     */
     public synchronized void decommission()
     {
@@ -330,248 +288,27 @@ class DefaultPartsManager implements PartsManager
         {
             return;
         }
-        
-        Component[] components = getComponents();
-        decommission( components );
-    }
-    
-   /**
-    * Initiate deactivation of all internal parts.
-    */
-    private void decommission( Component[] components )
-    {
-        String label = m_handler.toString();
-        DefaultCommissioner queue = 
-          new DefaultCommissioner( label, false, new InternalCommissionerController( false ) );
-
-        try
+        ComponentHandler[] components = getComponentHandlers();
+        if( components.length > 0 )
         {
-            int n = components.length -1;
-            for( int i=n; i>-1; i-- )
+            m_provider.getLogger().debug( "decommissioning internal parts in [" + m_provider + "]" );
+            for( int i=0; i<components.length; i++ )
             {
-                Component component = components[i];
+                ComponentHandler component = components[i];
                 try
                 {
-                    queue.add( component, 0 );
+                    component.decommission();
                 }
                 catch( Throwable e )
                 {
-                    final String message = 
-                      "Ignoring exception raised during deactivation.";
-                    getLogger().warn( message, e );
+                    final String error = 
+                      "Error during the decommission of the internal parts of a component."
+                      + "\nProvider: " + m_provider
+                      + "\nPart: " + component;
+                    m_provider.getLogger().warn( error, e );
                 }
             }
         }
-        finally
-        {
-            m_commissioned = false;
-        }
-    }
-
-    Component[] getComponents()
-    {
-        return (Component[]) m_handlers.values().toArray( new Component[0] );
-    }
-    
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
-
-    private Map processParts(
-      ComponentController controller, ClassLoader classloader, String base, PartReference[] references )
-      throws ControlException, RemoteException
-    {
-        Map map = new Hashtable();
-        for( int i=0; i < references.length; i++ )
-        {
-            PartReference ref = references[i];
-            String key = ref.getKey();
-            Directive part = ref.getDirective();
-            if( part instanceof ComponentDirective )
-            {
-                Classpath classpath = new Classpath();
-                ComponentDirective component = (ComponentDirective) part;
-                ComponentModel model = 
-                  controller.createComponentModel( classloader, classpath, base, component );
-                map.put( key, model );
-            }
-            else
-            {
-                final String error = 
-                  "Foreign part [" 
-                  + part.getClass() 
-                  + "] not supported.";
-                throw new UnsupportedOperationException( error );
-            }
-        }
-        return map;
-    }
-
-   /**
-    * Test controller.
-    */
-    public class InternalCommissionerController implements CommissionerController
-    {
-        private boolean m_fail;
-        
-        InternalCommissionerController( boolean fail )
-        {
-            m_fail = fail;
-        }
-        
-       /**
-        * Notification that a commissioning or decommissioning 
-        * process has commenced.
-        * @param event the commissioner event
-        */
-        public void started( CommissionerEvent event )
-        {
-            String message = 
-              getAction( event )
-              + "[" 
-              + getName( event ) 
-              + "]";
-            getLogger().debug( message );
-        }
-        
-       /**
-        * Notification that a commissioning or decommissioning 
-        * process has completed.
-        * @param event the commissioner event
-        */
-        public void completed( CommissionerEvent event )
-        {
-            String message = 
-              getAction( event )
-              + "[" 
-              + getName( event ) 
-              + "] completed in "
-              + event.getDuration() 
-              + " milliseconds";
-            getLogger().debug( message );
-        }
-    
-       /**
-        * Notification that a commissioning or decommissioning 
-        * process has been interrupted.
-        * @param event the commissioner event
-        * @exception TimeoutException thrown ofter logging event
-        */
-        public void interrupted( CommissionerEvent event ) throws TimeoutException
-        {
-            String message = 
-              getAction( event )
-              + "of [" 
-              + getName( event ) 
-              + "] interrupted after "
-              + event.getDuration() 
-              + " milliseconds";
-            getLogger().debug( message );
-            if( m_fail )
-            {
-                throw new TimeoutException( event.getDuration() );
-            }
-        }
-    
-       /**
-        * Notification that a commissioning or decommissioning 
-        * process has been terminated.
-        * @param event the commissioner event
-        * @exception TimeoutError thrown ofter logging event
-        */
-        public void terminated( CommissionerEvent event ) throws TimeoutError
-        {
-            String message = 
-              getAction( event )
-              + "of [" 
-              + getName( event ) 
-              + "] terminated after "
-              + event.getDuration() 
-              + " milliseconds";
-            getLogger().debug( message );
-            if( m_fail )
-            {
-                throw new TimeoutError( event.getDuration() );
-            }
-        }
-        
-       /**
-        * Notification that a commissioning or decommissioning 
-        * process failed.
-        * @param event the commissioner event
-        * @param cause the causal exception
-        * @exception InvocationTargetException throw after logging event
-        */
-        public void failed( CommissionerEvent event, Throwable cause ) throws InvocationTargetException
-        {
-            if( m_fail )
-            {
-                if( cause instanceof InvocationTargetException )
-                {
-                    throw (InvocationTargetException) cause;
-                }
-                else
-                {
-                    throw new InvocationTargetException( cause );
-                }
-            }
-            else
-            {
-                String message = 
-                  getAction( event )
-                  + "of [" 
-                  + event.getSource() 
-                  + "] failed due ["
-                  + cause.getClass().getName()
-                  + "]";
-                getLogger().error( message, cause );
-            }
-        }
-        
-        private String getAction( CommissionerEvent event )
-        {
-            if( event.isCommissioning() )
-            {
-                return "commissioning ";
-            }
-            else
-            {
-                return "decommissioning ";
-            }
-        }
-        
-        private String getName( CommissionerEvent event )
-        {
-            Object source = event.getSource();
-            if( source instanceof DefaultComponentHandler )
-            {
-                try
-                {
-                    DefaultComponentHandler handler = (DefaultComponentHandler) source;
-                    return handler.getComponentModel().getName();
-                }
-                catch( Exception e )
-                {
-                    return source.toString();
-                }
-            }
-            else
-            {
-                return source.toString();
-            }
-        }
-    }
-    
-    private String[] getKeys( PartReference[] references )
-    {
-        String[] keys = new String[ references.length ];
-        for( int i=0; i < references.length; i++ )
-        {
-            PartReference ref = references[i];
-            String key = ref.getKey();
-            keys[i] = key;
-        }
-        return keys;
+        m_commissioned = false;
     }
 }

@@ -75,7 +75,7 @@ public abstract class Part
     private final Logger m_logger;
     
    /**
-    * Load a part from an external XML source.
+    * Load a part from an external XML source with part caching.
     * @param uri the external part source
     * @return the resolved part
     * @exception IOException of an I/O error occurs
@@ -423,14 +423,15 @@ public abstract class Part
         {
             int id = System.identityHashCode( classloader );
             StringBuffer buffer = new StringBuffer();
-            buffer.append( "created classloader " );
-            buffer.append( m_info.getURI().toString() );
-            buffer.append( "#" + category.toString() );
-            buffer.append( " (" + id + ")" );
+            buffer.append( "created new " );
+            buffer.append( category.toString() );
+            buffer.append( " classloader" );
+            buffer.append( "\n  ID: " + id );
+            buffer.append( "\n  URI: " + m_info.getURI().toString() );
             ClassLoader parent = classloader.getParent();
             if( null != parent )
             {
-                buffer.append( " extends (" + System.identityHashCode( parent ) + ")" );
+                buffer.append( "\n  Extends: " + System.identityHashCode( parent ) );
             }
             if( classloader instanceof URLClassLoader )
             {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -42,6 +42,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 
 import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 /**
  * Default implementation of <tt>ContextModel</tt>.
@@ -83,11 +84,11 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
     * @exception RemoteException if a remote I/O error occurs
     */
     DefaultContextModel( 
-      DefaultComponentModel parent, Logger logger, ClassLoader classloader, 
+      EventQueue queue, DefaultComponentModel parent, Logger logger, ClassLoader classloader, 
       Type type, ContextDirective directive )
       throws ModelException, RemoteException
     {
-        super( logger );
+        super( queue, logger );
         
         m_parent = parent;
         m_directive = directive;
@@ -120,6 +121,10 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
     */
     public void addModelListener( ModelListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "adding context model listener [" + listener + "]" );
+        }
         super.addListener( listener );
     }
     
@@ -129,6 +134,10 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
     */
     public void removeModelListener( ModelListener listener )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "removing context model listener [" + listener + "]" );
+        }
         super.removeListener( listener );
     }
 
@@ -136,9 +145,9 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
     * Process a context model event.
     * @param event the event to process
     */
-    protected void processEvent( EventObject event )
+    public void processEvent( EventObject event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
@@ -280,6 +289,11 @@ class DefaultContextModel extends UnicastEventSource implements ContextModelMana
         if( null == entry )
         {
             throw new UnknownKeyException( key );
+        }
+        
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "setting new context entry [" + key + "]" );
         }
         
         Object old = m_contextTable.get( key );

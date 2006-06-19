@@ -24,10 +24,13 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="build" depends="standard.build">
+    <!--
     <rmic base="${project.target.classes.main.dir}" 
         classpathref="project.compile.path">
+      <include name="**/DefaultStateMachine.class"/>
       <include name="**/DefaultStateListener.class"/>
     </rmic>
+    -->
   </target>
 
 </project>

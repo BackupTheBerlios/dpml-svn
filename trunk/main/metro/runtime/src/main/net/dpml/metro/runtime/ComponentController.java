@@ -1,5 +1,5 @@
 /* 
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -32,6 +32,7 @@ import net.dpml.component.ControlException;
 import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.ServiceNotFoundException;
+import net.dpml.component.Provider;
 
 import net.dpml.lang.StandardClassLoader;
 import net.dpml.lang.Version;
@@ -51,6 +52,7 @@ import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
+import net.dpml.util.EventQueue;
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -107,15 +109,21 @@ class ComponentController
     * Creation of a new component model using a supplied composition datatstructure
     * from which the classloader and deplyment strategy can be resolved.
     * @param composition a composition datastructure
-    * @exception ControlException if an error occuts during model creation
+    * @exception ControlException if an error occurs during model creation
     */
     public ComponentModel createComponentModel( DefaultComposition composition ) throws ControlException
     {
-        String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
         try
         {
-            Logger logger = new DefaultLogger( partition );
-            return new DefaultComponentModel( logger, this, composition, partition );
+            String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
+            ClassLoader classloader = composition.getClassLoader();
+            Classpath classpath = composition.getClasspath();
+            ComponentDirective directive = composition.getComponentDirective();
+            String name = directive.getName();
+            String path = partition + name;
+            Logger logger = new DefaultLogger( path );
+            EventQueue queue = m_controller.getEventQueue();
+            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition );
         }
         catch( RemoteException e )
         {
@@ -150,7 +158,9 @@ class ComponentController
         try
         {
             Logger logger = new DefaultLogger( partition );
-            return new DefaultComponentModel( logger, anchor, this, classpath, directive, partition );
+            ClassLoader classloader = getClassLoader( anchor, classpath );
+            EventQueue queue = m_controller.getEventQueue();
+            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition );
         }
         catch( RemoteException e )
         {
@@ -188,7 +198,7 @@ class ComponentController
     * @return the runtime handler
     */
     DefaultComponentHandler createDefaultComponentHandler( 
-      Component parent, ClassLoader anchor, ComponentModel context, boolean flag ) 
+      Provider parent, ClassLoader anchor, ComponentModel context, boolean flag ) 
       throws ControlException
     {
         try
@@ -198,7 +208,8 @@ class ComponentController
             Logger logger = new DefaultLogger( path );
             Classpath classpath = context.getClasspath();
             ClassLoader classloader = resolveClassLoader( anchor, context );
-            return new DefaultComponentHandler( parent, classloader, logger, this, context, flag );
+            EventQueue queue = m_controller.getEventQueue();
+            return new DefaultComponentHandler( queue, parent, classloader, logger, this, context, flag );
         }
         catch( RemoteException e )
         {
@@ -249,8 +260,8 @@ class ComponentController
         // types:
         // 1. net.dpml.logging.Logger;
         // 2. java.util.logging.Logger;
-        // 4. #Context
-        // 5. #Parts
+        // 3. #Context
+        // 4. #Parts
         //
         
         for( int i=0; i<classes.length; i++ )
@@ -277,7 +288,7 @@ class ComponentController
             }
             else if( parts.isAssignableFrom( c ) )
             {
-                args[i] = createPartsInvocationHandler( handler, parts );
+                args[i] = createPartsInvocationHandler( provider, parts );
             }
             else
             {
@@ -473,13 +484,12 @@ class ComponentController
         }
     }
 
-    private Object createPartsInvocationHandler( DefaultComponentHandler handler, Class clazz ) 
+    private Object createPartsInvocationHandler( DefaultProvider provider, Class clazz ) 
       throws ControlException
     {
-        PartsManager manager = handler.getPartsManager();
         try
         {
-            InvocationHandler invocationHandler = new PartsInvocationHandler( manager );
+            InvocationHandler invocationHandler = new PartsInvocationHandler( provider );
             ClassLoader classloader = clazz.getClassLoader();
             return Proxy.newProxyInstance( classloader, new Class[]{clazz}, invocationHandler );
         }
@@ -540,7 +550,7 @@ class ComponentController
                 return map.get( key );
             }
             
-            // resolve using defaults
+            // resolve using entry directive
             
             EntryDescriptor descriptor = handler.getType().getContextDescriptor().getEntryDescriptor( key );
             Directive directive = context.getEntryDirective( key );
@@ -671,20 +681,13 @@ class ComponentController
     private Object executeLookup( DefaultProvider provider, DefaultService service ) 
       throws Exception
     {
-        // Provider parent = provider.getParentProvider();
-        
-        DefaultComponentHandler handler = provider.getDefaultComponentHandler();
-        Component parent = handler.getParentHandler();
-        
+        Provider parent = provider.getParent();
         if( null != parent )
         {
             try
             {
-                //Provider p = parent.lookup( service );
-                //return p.getValue( false );
-                
-                Component component = parent.lookup( service );
-                return component.getProvider().getValue( false );
+                Provider p = parent.lookup( service );
+                return p.getValue( false );
             }
             catch( RemoteException e )
             {

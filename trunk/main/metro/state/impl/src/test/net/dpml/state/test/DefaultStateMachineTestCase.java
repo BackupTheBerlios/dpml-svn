@@ -31,6 +31,10 @@ import net.dpml.state.Action;
 import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.impl.StateDecoder;
 
+import net.dpml.util.EventQueue;
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
+
 /**
  * Default state machine test-case.
  *
@@ -39,7 +43,9 @@ import net.dpml.state.impl.StateDecoder;
 public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
 {
     private State m_state;
+    private EventQueue m_queue;
     private DefaultStateMachine m_machine;
+    private Logger m_logger;
     
    /**
     * Testcase setup.
@@ -54,7 +60,9 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
         {
             StateDecoder builder = new StateDecoder();
             m_state = builder.loadState( example.toURI() );
-            m_machine = new DefaultStateMachine( m_state );
+            m_logger = new DefaultLogger( "test" );
+            m_queue = new EventQueue( m_logger );
+            m_machine = new DefaultStateMachine( m_queue, m_logger, m_state );
         }
         catch( Throwable e )
         {

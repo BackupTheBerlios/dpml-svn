@@ -49,6 +49,7 @@ import net.dpml.metro.builder.ComponentDecoder;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
+import net.dpml.util.EventQueue;
 
 import org.w3c.dom.Element;
 
@@ -79,9 +80,9 @@ public class CompositionController implements Controller, Builder
     private final Logger m_logger;
     private final ControllerContext m_context;
     private final ComponentController m_controller;
-    private final HashMap m_handlers = new HashMap(); // foreign controllers
     private final InternalControllerContextListener m_listener;
     private final String m_partition;
+    private final EventQueue m_events;
     
     //--------------------------------------------------------------------
     // mutable state
@@ -106,13 +107,44 @@ public class CompositionController implements Controller, Builder
         m_context = context;
         m_partition = context.getPartition();
         Logger root = new DefaultLogger( m_partition );
-        m_logger = root.getChildLogger( "control" );
-        m_listener = new InternalControllerContextListener( this );
+        m_logger = root.getChildLogger( "dpml.metro" );
+        m_listener = new InternalControllerContextListener();
         m_context.addControllerContextListener( m_listener );
-        m_logger.debug( "controller: " + CONTROLLER_URI );
         m_controller = new ComponentController( m_logger, this );
+        m_events = new EventQueue( m_logger );
         
-        startEventDispatchThread();
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( 
+              "loaded controller [" 
+              + getClass().getName() 
+              + "#"
+              + System.identityHashCode( this ) 
+              + "]" );
+        }
+    }
+    
+    EventQueue getEventQueue()
+    {
+        return m_events;
+    }
+    
+   /**
+    * Controller finalization.
+    * @exception Throwable if a finalization error occurs
+    */
+    protected void finalize() throws Throwable
+    {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( 
+              "finalizing controller [" 
+              + getClass().getName() 
+              + "#"
+              + System.identityHashCode( this ) 
+              + "]" );
+        }
+        dispose();
     }
     
     //--------------------------------------------------------------------
@@ -129,6 +161,12 @@ public class CompositionController implements Controller, Builder
     */
     public Part build( Info info, Classpath classpath, Element strategy ) throws IOException
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( 
+              "building strategy"
+              + "\n  URI: " + info.getURI() );
+        }
         ClassLoader context = Thread.currentThread().getContextClassLoader();
         try
         {
@@ -202,7 +240,8 @@ public class CompositionController implements Controller, Builder
             StringBuffer buffer = new StringBuffer();
             buffer.append( "created " );
             buffer.append( category.toString() );
-            buffer.append( " classloader: " + id );
+            buffer.append( " classloader" );
+            buffer.append( "\n  ID: " + id );
             if( classloader instanceof URLClassLoader )
             {
                 URLClassLoader loader = (URLClassLoader) classloader;
@@ -240,7 +279,13 @@ public class CompositionController implements Controller, Builder
     */
     public Model createModel( URI uri ) throws ControlException, IOException
     {
-        Part part = Part.load( uri );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( 
+              "creating new model from URI" 
+              + "\n  URI: " + uri );
+        }
+        Part part = Part.load( uri, false );
         if( part instanceof Composition )
         {
             Composition composition = (Composition) part;
@@ -266,6 +311,12 @@ public class CompositionController implements Controller, Builder
     */
     public Model createModel( Composition composition ) throws ControlException, IOException
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( 
+              "creating new model from part" 
+                + "\n  URI: " + composition.getInfo().getURI() );
+        }
         if( composition instanceof DefaultComposition )
         {
             DefaultComposition data = (DefaultComposition) composition;
@@ -289,7 +340,13 @@ public class CompositionController implements Controller, Builder
     */
     public Component createComponent( URI uri ) throws Exception
     {
-        Part part = Part.load( uri );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( 
+              "creating new component from URI"
+               + "\nURI: " + uri );
+        }
+        Part part = Part.load( uri, false );
         if( part instanceof DefaultComposition )
         {
             DefaultComposition composition = (DefaultComposition) part;
@@ -326,6 +383,17 @@ public class CompositionController implements Controller, Builder
     */
     private Component createComponent( Model model, boolean flag ) throws Exception
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            if( flag )
+            {
+                getLogger().trace( "creating new locally controlled component" );
+            }
+            else
+            {
+                getLogger().trace( "creating new managed component" );
+            }
+        }
         if( model instanceof ComponentModel )
         {
             ClassLoader anchor = Logger.class.getClassLoader();
@@ -376,9 +444,14 @@ public class CompositionController implements Controller, Builder
     
     void dispose()
     {
-        getLogger().debug( "initating controller disposal" );
-        m_context.removeControllerContextListener( m_listener );
-        m_dispatch.dispose();
+        if( !m_disposed )
+        { 
+            getLogger().debug( "initating shutdown" );
+            m_context.removeControllerContextListener( m_listener );
+            m_events.terminateDispatchThread();
+            m_disposed = true;
+            getLogger().debug( "shutdown complete" );
+        }
     }
     
     private static URI createStaticURI( String path )
@@ -405,155 +478,11 @@ public class CompositionController implements Controller, Builder
         }
     }
     
-    /**
-     * Queue of pending notification events.  When an event for which 
-     * there are one or more listeners occurs, it is placed on this queue 
-     * and the queue is notified.  A background thread waits on this queue 
-     * and delivers the events.  This decouples event delivery from 
-     * the application concern, greatly simplifying locking and reducing 
-     * opportunity for deadlock.
-     */
-    private static final List EVENT_QUEUE = new LinkedList();
-
-   /**
-    * Enqueue an event for delivery to registered
-    * listeners unless there are no registered
-    * listeners.
-    * @param event the event to enqueue
-    */
-    static void enqueueEvent( EventObject event )
-    {
-        synchronized( EVENT_QUEUE ) 
-        {
-            EVENT_QUEUE.add( event );
-            EVENT_QUEUE.notify();
-        }
-    }
-    
-    /**
-     * A single background thread ("the event notification thread") monitors
-     * the event queue and delivers events that are placed on the queue.
-     */
-    private static class EventDispatchThread extends Thread 
-    {
-        private final Logger m_logger;
-        
-        private boolean m_continue = true;
-        
-        EventDispatchThread( Logger logger )
-        {
-            m_logger = logger;
-            m_logger.debug( "starting event dispatch thread" );
-        }
-        
-        void dispose()
-        {
-            synchronized( EVENT_QUEUE )
-            {
-                m_logger.debug( "stopping event dispatch thread" );
-                m_continue = false;
-                EVENT_QUEUE.notify();
-            }
-        }
-        
-        public void run() 
-        {
-            while( m_continue ) 
-            {
-                // Wait on EVENT_QUEUE till an event is present
-                EventObject event = null;
-                synchronized( EVENT_QUEUE ) 
-                {
-                    try
-                    {
-                        while( EVENT_QUEUE.isEmpty() )
-                        {
-                            EVENT_QUEUE.wait();
-                        }
-                        Object object = EVENT_QUEUE.remove( 0 );
-                        try
-                        {
-                            event = (EventObject) object;
-                        }
-                        catch( ClassCastException cce )
-                        {
-                            final String error = 
-                              "Unexpected class cast exception while processing an event." 
-                              + "\nEvent: " + object;
-                            throw new IllegalStateException( error );
-                        }
-                    }
-                    catch( InterruptedException e )
-                    {
-                        return;
-                    }
-                }
-                
-                Object source = event.getSource();
-                if( source instanceof UnicastEventSource )
-                {
-                    UnicastEventSource producer = (UnicastEventSource) source;
-                    try
-                    {
-                        producer.processEvent( event );
-                    }
-                    catch( Throwable e )
-                    {
-                        final String error = 
-                          "Unexpected error while processing event."
-                          + "\nEvent: " + event
-                          + "\nSource: " + source;
-                        m_logger.warn( error, e );
-                    }
-                }
-                else
-                {
-                    final String error = 
-                      "Event source [" 
-                      + source.getClass().getName()
-                      + "] is not an instance of " + UnicastEventSource.class.getName();
-                    throw new IllegalStateException( error );
-                }
-            }
-            
-            m_logger.info( "Controller event queue terminating." );
-        }
-    }
-
-    private EventDispatchThread m_dispatch = null;
-
-    /**
-     * This method starts the event dispatch thread the first time it
-     * is called.  The event dispatch thread will be started only
-     * if someone registers a listener.
-     */
-    private synchronized void startEventDispatchThread()
-    {
-        if( m_dispatch == null )
-        {
-            Logger logger = getLogger().getChildLogger( "event" );
-            m_dispatch = new EventDispatchThread( logger );
-            m_dispatch.setDaemon( true );
-            m_dispatch.start();
-        }
-    }
-    
    /**
     * Controller context listener.
     */
     private class InternalControllerContextListener implements ControllerContextListener
     {
-        private final CompositionController m_controller;
-        
-       /**
-        * Creation of a new controller context listener.
-        * @param controller the controller to which change event actions are applied
-        */
-        InternalControllerContextListener( final CompositionController controller )
-        {
-            m_controller = controller;
-        }
-        
        /**
         * Notify the listener that the working directory has changed.
         *
@@ -578,7 +507,7 @@ public class CompositionController implements Controller, Builder
         */
         public void controllerDisposal( ControllerContextEvent event )
         {
-            m_controller.dispose();
+            dispose();
         }
     }
 }

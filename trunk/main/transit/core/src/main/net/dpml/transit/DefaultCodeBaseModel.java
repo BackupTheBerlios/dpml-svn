@@ -26,7 +26,6 @@ import java.util.EventListener;
 import net.dpml.lang.Value;
 import net.dpml.lang.ValueDirective;
 import net.dpml.lang.Construct;
-import net.dpml.util.Logger;
 
 import net.dpml.transit.info.CodeBaseDirective;
 import net.dpml.transit.model.CodeBaseModel;
@@ -34,6 +33,9 @@ import net.dpml.transit.model.CodeBaseListener;
 import net.dpml.transit.model.CodeBaseEvent;
 import net.dpml.transit.model.LocationEvent;
 import net.dpml.transit.model.ParametersEvent;
+
+import net.dpml.util.Logger;
+import net.dpml.util.EventQueue;
 
 /**
  * The abstract codebase is an implementation that monitors configuration changes 
@@ -63,10 +65,10 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     * @param directive the codebase storage directive
     * @exception RemoteException if a remote exception occurs
     */
-    public DefaultCodeBaseModel( Logger logger, CodeBaseDirective directive )
+    public DefaultCodeBaseModel( EventQueue queue, Logger logger, CodeBaseDirective directive )
       throws RemoteException
     {
-        super( logger );
+        super( queue, logger );
         if( null == directive )
         {
             throw new NullPointerException( "directive" );
@@ -136,7 +138,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
     * Internal event handler.
     * @param eventObject the event
     */
-    protected void processEvent( EventObject eventObject )
+    public void processEvent( EventObject eventObject )
     {
         if( eventObject instanceof CodeBaseEvent )
         {
@@ -153,7 +155,7 @@ abstract class DefaultCodeBaseModel extends DefaultModel implements CodeBaseMode
 
     private void processCodeBaseEvent( CodeBaseEvent event )
     {
-        EventListener[] listeners = super.listeners();
+        EventListener[] listeners = super.getEventListeners();
         for( int i=0; i < listeners.length; i++ )
         {
             EventListener listener = listeners[i];
