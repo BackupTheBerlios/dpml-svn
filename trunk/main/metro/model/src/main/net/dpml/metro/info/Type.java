@@ -22,8 +22,12 @@ import java.io.Serializable;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URL;
 
 import net.dpml.state.State;
+import net.dpml.state.StateDecoder;
+import net.dpml.state.StateBuilderRuntimeException;
 
 /**
  * This class contains the meta information about a particular
@@ -46,6 +50,8 @@ import net.dpml.state.State;
 public class Type extends Composite implements Serializable
 {
     static final long serialVersionUID = 1L;
+    
+    private static final StateDecoder STATE_DECODER = new StateDecoder();
     
     private final InfoDescriptor m_info;
     private final CategoryDescriptor[] m_categories;
@@ -309,7 +315,8 @@ public class Type extends Composite implements Serializable
             new ServiceDescriptor( subject.getName() )
           };
         final PartReference[] parts = new PartReference[0];
-        return new Type( info, loggers, context, services, parts, State.NULL_STATE );
+        State state = loadStateFromResource( subject );
+        return new Type( info, loggers, context, services, parts, state );
     }
     
     private static ContextDescriptor createContextDescriptor( Class subject ) 
@@ -460,5 +467,31 @@ public class Type extends Composite implements Serializable
             }
         }
         return null;
+    }
+
+    private static State loadStateFromResource( Class subject )
+    {
+        String resource = subject.getName().replace( '.', '/' ) + ".xgraph";
+        try
+        {
+            URL url = subject.getClassLoader().getResource( resource );
+            if( null == url )
+            {
+                return State.NULL_STATE;
+            }
+            else
+            {
+                URI uri = new URI( url.toString() );
+                return STATE_DECODER.loadState( uri );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Internal error while attempting to load component state graph resource [" 
+              + resource 
+              + "].";
+            throw new StateBuilderRuntimeException( error, e );
+        }
     }
 }
