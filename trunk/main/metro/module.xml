@@ -53,7 +53,7 @@
       </test>
     </dependencies>
   </project>
-
+  
   <project name="dpml-metro-component" basedir="component">
     <types>
       <type id="jar"/>

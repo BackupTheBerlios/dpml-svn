@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.state.impl;
+package net.dpml.state;
 
 import java.io.Serializable;
 

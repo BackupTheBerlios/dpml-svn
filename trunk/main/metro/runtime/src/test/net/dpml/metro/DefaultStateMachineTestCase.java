@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.state.test;
+package net.dpml.metro.runtime;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,8 +28,9 @@ import net.dpml.state.Operation;
 import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
 import net.dpml.state.Action;
-import net.dpml.state.impl.DefaultStateMachine;
 import net.dpml.state.impl.StateDecoder;
+
+import net.dpml.metro.runtime.DefaultStateMachine;
 
 import net.dpml.util.EventQueue;
 import net.dpml.util.Logger;
