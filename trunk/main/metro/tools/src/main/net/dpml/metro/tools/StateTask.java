@@ -25,7 +25,7 @@ import java.io.IOException;
 import net.dpml.tools.tasks.GenericTask;
 
 import net.dpml.state.State;
-import net.dpml.state.impl.StateEncoder;
+import net.dpml.state.StateEncoder;
 
 import org.apache.tools.ant.BuildException;
 

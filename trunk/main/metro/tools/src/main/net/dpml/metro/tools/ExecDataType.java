@@ -18,7 +18,7 @@
 
 package net.dpml.metro.tools;
 
-import net.dpml.state.impl.ExecAction;
+import net.dpml.state.ExecAction;
 
 /**
  * Exec an identified operation.

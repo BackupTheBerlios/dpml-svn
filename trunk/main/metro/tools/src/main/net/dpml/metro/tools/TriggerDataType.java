@@ -21,11 +21,11 @@ package net.dpml.metro.tools;
 import org.apache.tools.ant.BuildException;
 
 import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.impl.DefaultTrigger;
-import net.dpml.state.impl.DefaultTransition;
-import net.dpml.state.impl.DefaultOperation;
-import net.dpml.state.impl.ApplyAction;
-import net.dpml.state.impl.ExecAction;
+import net.dpml.state.DefaultTrigger;
+import net.dpml.state.DefaultTransition;
+import net.dpml.state.DefaultOperation;
+import net.dpml.state.ApplyAction;
+import net.dpml.state.ExecAction;
 
 /**
  * Utility datatype supporting a Transition instance construction.

@@ -33,8 +33,8 @@ import net.dpml.state.State;
 import net.dpml.state.Operation;
 import net.dpml.state.Interface;
 import net.dpml.state.Transition;
-import net.dpml.state.impl.StateDecoder;
-import net.dpml.state.impl.DefaultState;
+import net.dpml.state.StateDecoder;
+import net.dpml.state.DefaultState;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;

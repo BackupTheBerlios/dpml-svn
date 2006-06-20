@@ -28,9 +28,7 @@ import net.dpml.state.Operation;
 import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
 import net.dpml.state.Action;
-import net.dpml.state.impl.StateDecoder;
-
-import net.dpml.metro.runtime.DefaultStateMachine;
+import net.dpml.state.StateDecoder;
 
 import net.dpml.util.EventQueue;
 import net.dpml.util.Logger;
@@ -56,7 +54,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
     {
         String testPath = System.getProperty( "project.test.dir" );
         File test = new File( testPath );
-        File example = new File( test, "example.xgraph" );
+        File example = new File( test, "state/example.xgraph" );
         try
         {
             StateDecoder builder = new StateDecoder();

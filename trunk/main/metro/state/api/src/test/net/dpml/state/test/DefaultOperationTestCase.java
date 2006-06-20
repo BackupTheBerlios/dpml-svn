@@ -19,7 +19,7 @@
 package net.dpml.state.test;
 
 import net.dpml.state.Operation;
-import net.dpml.state.impl.DefaultOperation;
+import net.dpml.state.DefaultOperation;
 
 /**
  * DefaultOperationTestCase.

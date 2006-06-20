@@ -35,7 +35,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Descriptor;
 
 import net.dpml.state.State;
-import net.dpml.state.impl.StateEncoder;
+import net.dpml.state.StateEncoder;
 
 /**
  * Type builder.

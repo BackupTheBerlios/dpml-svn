@@ -21,8 +21,8 @@ package net.dpml.state.test;
 import net.dpml.state.Action;
 import net.dpml.state.Trigger;
 import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.impl.DefaultOperation;
-import net.dpml.state.impl.DefaultTrigger;
+import net.dpml.state.DefaultOperation;
+import net.dpml.state.DefaultTrigger;
 
 /**
  * Default trigger test-case.

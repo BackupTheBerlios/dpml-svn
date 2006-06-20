@@ -18,7 +18,7 @@
 
 package net.dpml.metro.tools;
 
-import net.dpml.state.impl.DefaultInterface;
+import net.dpml.state.DefaultInterface;
 
 import org.apache.tools.ant.BuildException;
 

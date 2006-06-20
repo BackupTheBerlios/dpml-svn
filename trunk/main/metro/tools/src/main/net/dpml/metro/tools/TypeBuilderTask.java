@@ -46,8 +46,8 @@ import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.info.ThreadSafePolicy;
 
 import net.dpml.state.State;
-import net.dpml.state.impl.DefaultState;
-import net.dpml.state.impl.StateDecoder;
+import net.dpml.state.DefaultState;
+import net.dpml.state.StateDecoder;
 
 import net.dpml.library.info.Scope;
 

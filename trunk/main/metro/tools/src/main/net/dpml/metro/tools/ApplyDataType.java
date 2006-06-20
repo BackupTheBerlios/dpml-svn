@@ -18,7 +18,7 @@
 
 package net.dpml.metro.tools;
 
-import net.dpml.state.impl.ApplyAction;
+import net.dpml.state.ApplyAction;
 
 /**
  * Apply an identified transition.

@@ -46,6 +46,8 @@ import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.IntegrityRuntimeException;
 import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
+import net.dpml.state.ExecAction;
+import net.dpml.state.ApplyAction;
 
 import net.dpml.util.Logger;
 import net.dpml.util.UnicastEventSource;

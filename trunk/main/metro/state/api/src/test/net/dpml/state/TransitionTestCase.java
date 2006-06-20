@@ -21,8 +21,6 @@ package net.dpml.state;
 import java.io.File;
 import java.net.URI;
 
-import net.dpml.state.impl.StateDecoder;
-
 import junit.framework.TestCase;
 
 /**

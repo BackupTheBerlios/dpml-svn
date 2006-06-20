@@ -44,7 +44,6 @@ import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
 import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.UnknownOperationException;
-import net.dpml.state.impl.DefaultStateMachine;
 
 import net.dpml.lang.UnknownKeyException;
 

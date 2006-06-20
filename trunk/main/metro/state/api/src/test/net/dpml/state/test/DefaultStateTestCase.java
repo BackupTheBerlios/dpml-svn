@@ -23,10 +23,10 @@ import net.dpml.state.Transition;
 import net.dpml.state.Operation;
 import net.dpml.state.Interface;
 import net.dpml.state.Trigger;
-import net.dpml.state.impl.DefaultOperation;
-import net.dpml.state.impl.DefaultInterface;
-import net.dpml.state.impl.DefaultTransition;
-import net.dpml.state.impl.DefaultState;
+import net.dpml.state.DefaultOperation;
+import net.dpml.state.DefaultInterface;
+import net.dpml.state.DefaultTransition;
+import net.dpml.state.DefaultState;
 
 /**
  * Default state test-case.
