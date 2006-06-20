@@ -263,9 +263,6 @@
         <package name="net.dpml.metro"/>
         <package name="net.dpml.metro.*"/>
         <package name="net.dpml.state"/>
-        <package name="net.dpml.state.*"/>
-        <package name="net.dpml.job"/>
-        <package name="net.dpml.job.*"/>
       </group>
       <group title="Station">
         <package name="net.dpml.station"/>
