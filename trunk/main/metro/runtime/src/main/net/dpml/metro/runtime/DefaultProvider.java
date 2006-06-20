@@ -544,29 +544,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
         return m_handler;
     }
     
-    /*
-    void addPropertyChangeListener( PropertyChangeListener listener )
-    {
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "adding property change listener to " + m_tag );
-        }
-        m_machine.addPropertyChangeListener( listener );
-        m_handler.addPropertyChangeListener( listener );
-    }
-
-    void removePropertyChangeListener( PropertyChangeListener listener )
-    {
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "removing property change listener from " + m_tag );
-        }
-        m_machine.removePropertyChangeListener( listener );
-        m_handler.removePropertyChangeListener( listener );
-    }
-    */
-    
-    private String createTag( Object instance )
+    static String createTag( Object instance )
     {
         String tag = 
           "[" 
@@ -574,35 +552,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
           + "               ";
         return tag.substring( 0, 10 ) + "] ";
     }
-
-   /**
-    * State event propergator implementation.
-    */
-    //private final class StateEventPropergator implements PropertyChangeListener
-    //{
-    //   /**
-    //    * Handle a property change notification.
-    //    * @param event the property change event
-    //    */
-    //    public void propertyChange( PropertyChangeEvent event )
-    //    {
-    //        //
-    //        // fire a state change event to remote listeners
-    //        //
-    //        
-    //        State oldState = (State) event.getOldValue();
-    //        State newState = (State) event.getNewValue();
-    //        fireStateEvent( oldState, newState );
-    //    }
-    //}
-    
-    //private void fireStateEvent( State oldState, State newState )
-    //{
-    //    getLogger().debug( "state changing from: " + oldState + " to: " + newState + " in " + m_tag );
-    //    StateEvent event = new StateEvent( this, oldState, newState );
-    //    enqueueEvent( event );
-    //}
-    
+        
    /**
     * Invoke the specified method on underlying object.
     * This is called by the proxy object.

@@ -79,8 +79,6 @@ public class DefaultStateMachine implements StateMachine, EventHandler
     //-------------------------------------------------------------------------------
     // state
     //-------------------------------------------------------------------------------
-
-    //private final PropertyChangeSupport m_support;
     
     private State m_state;
     private boolean m_active = false;
@@ -93,7 +91,7 @@ public class DefaultStateMachine implements StateMachine, EventHandler
     private final WeakHashMap m_listeners = new WeakHashMap();
 
     private final Logger m_logger;
-
+    
     //-------------------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------------------
@@ -159,7 +157,6 @@ public class DefaultStateMachine implements StateMachine, EventHandler
     
     private StateListener[] getStateListeners()
     {
-        checkDisposed();
         synchronized( m_lock )
         {
             return (StateListener[]) m_listeners.keySet().toArray( new StateListener[0] );
@@ -498,6 +495,11 @@ public class DefaultStateMachine implements StateMachine, EventHandler
     // implementation
     //-------------------------------------------------------------------------------
     
+    private String getTag( final Object object )
+    {
+        return DefaultProvider.createTag( object );
+    }
+    
     private State initialize( List list, Object object ) throws Exception
     {
         Action action = getInitializationAction();
@@ -617,7 +619,7 @@ public class DefaultStateMachine implements StateMachine, EventHandler
             {
                 execute( operation, object, new Object[0] ); // TODO: add resolved values as args
             }
-            setState( state );
+            setState( object, state );
             return state;
         }
     }
@@ -656,7 +658,7 @@ public class DefaultStateMachine implements StateMachine, EventHandler
         }
     }
     
-    private void setState( final State state )
+    private void setState( final Object object, final State state )
     {
         synchronized( m_state )
         {
@@ -664,6 +666,18 @@ public class DefaultStateMachine implements StateMachine, EventHandler
             {
                 final State oldState = m_state;
                 m_state = state;
+                
+                if( getLogger().isTraceEnabled() )
+                {
+                    String tag = getTag( object );
+                    getLogger().trace( 
+                      "transitioning from [" 
+                      + oldState 
+                      + "] to [" 
+                      + state
+                      + "] in " 
+                      + tag );
+                }
                 
                 final StateEvent event = new StateEvent( this, oldState, state );
                 m_queue.enqueueEvent( event );

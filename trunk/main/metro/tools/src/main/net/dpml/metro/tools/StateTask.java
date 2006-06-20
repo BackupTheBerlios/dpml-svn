@@ -40,6 +40,7 @@ public class StateTask extends GenericTask
     private static final StateEncoder STATE_ENCODER = new StateEncoder();
     
     private File m_output;
+    private String m_classname;
     private StateDataType m_data;
     
     StateDataType getData()
@@ -59,6 +60,16 @@ public class StateTask extends GenericTask
     public void setDest( File file )
     {
         m_output = file;
+    }
+
+   /**
+    * Override the class as the colocated destination.
+    *
+    * @param classname the classname of the target component.
+    */
+    public void setClass( String classname )
+    {
+        m_classname = classname;
     }
 
    /**
@@ -185,6 +196,13 @@ public class StateTask extends GenericTask
         if( null != m_output )
         {
             return m_output;
+        }
+        else if( null != m_classname )
+        {
+            File classes = getContext().getTargetClassesMainDirectory();
+            String path = m_classname.replace( '.', '/' );
+            String filename = path + ".xgraph";
+            return new File( classes, filename );
         }
         else
         {
