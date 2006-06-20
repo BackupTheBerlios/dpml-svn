@@ -65,7 +65,6 @@
       </runtime>
       <test>
         <include ref="ant/ant-junit"/>
-        <!--<include key="dpml-state-impl"/>-->
       </test>
     </dependencies>
     <filters>
@@ -93,8 +92,6 @@
         <include ref="dpml/util/dpml-logging-api" tag="public"/>
         <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
         <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
-        <!--<include ref="dpml/metro/dpml-job-impl"/>-->
-        <!--<include ref="dpml/metro/dpml-state-impl"/>-->
       </runtime>
       <test>
         <include ref="ant/ant-junit"/>
