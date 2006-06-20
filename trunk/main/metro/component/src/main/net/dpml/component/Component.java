@@ -22,8 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.dpml.job.Commissionable;
-
 /**
  * The Component represents a remote interface to a runtime component type.
  *

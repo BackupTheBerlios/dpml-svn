@@ -27,8 +27,6 @@ import net.dpml.state.StateListener;
 import net.dpml.state.UnknownOperationException;
 import net.dpml.state.UnknownTransitionException;
 
-import net.dpml.job.Commissionable;
-
 /**
  * Provider holder.
  *

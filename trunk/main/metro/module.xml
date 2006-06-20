@@ -21,6 +21,7 @@
     </filters>
   </project>
   
+  <!--
   <project name="dpml-job-api" basedir="job/api">
     <types>
       <type id="jar"/>
@@ -31,6 +32,7 @@
       </test>
     </dependencies>
   </project>
+  -->
 
   <project name="dpml-metro-component" basedir="component">
     <types>
@@ -39,7 +41,7 @@
     <dependencies>
       <runtime>
         <include key="dpml-metro-state" tag="public"/>
-        <include ref="dpml/metro/dpml-job-api" tag="public"/>
+        <!--<include ref="dpml/metro/dpml-job-api" tag="public"/>-->
         <include ref="dpml/transit/dpml-transit-main" tag="private"/>
       </runtime>
       <test>
