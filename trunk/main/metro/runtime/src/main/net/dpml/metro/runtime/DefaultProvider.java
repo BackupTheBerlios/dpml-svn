@@ -546,11 +546,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     
     static String createTag( Object instance )
     {
-        String tag = 
-          "[" 
-          + System.identityHashCode( instance ) 
-          + "               ";
-        return tag.substring( 0, 10 ) + "] ";
+        return "[" + System.identityHashCode( instance ) + "]";
     }
         
    /**
