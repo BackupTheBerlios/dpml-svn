@@ -165,7 +165,7 @@ public abstract class Composition extends Part
     public Object instantiate( Object[] args ) throws Exception
     {
         Component component = newComponent();
-        return component.getProvider().getValue( true );
+        return component.getProvider().getValue( false );
     }
     
    /**
