@@ -139,31 +139,9 @@ public class PartDataType extends Task implements PartReferenceBuilder
         URI uri = getURI();
         try
         {
-            //Logger logger = new AntAdapter( this );
-            //CompositionController controller = new CompositionController( logger );
-            //return controller.loadDirective( uri );
             ComponentDecoder decoder = new ComponentDecoder();
             return decoder.loadComponentDirective( uri );
         }
-        //catch( PartNotFoundException pnfe )
-        //{
-        //    final String error =
-        //      "Unable to include the part ["
-        //      + key 
-        //      + "] because part reference ["
-        //      + uri
-        //      + "] could not be found.";
-        //    throw new BuildException( error );
-        //}
-        //catch( DelegationException de )
-        //{
-        //    final String error =
-        //      "Delegation error while attempting to load part ["
-        //      + m_uri
-        //      + "] due to: " 
-        //      + de.getMessage();
-        //    throw new BuildException( error, de );
-        //}
         catch( IOException ioe )
         {
             final String error =
