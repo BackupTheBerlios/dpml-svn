@@ -646,32 +646,6 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     {
         if( null == m_state )
         {
-            try
-            {
-                Class c = subject.getClassLoader().loadClass( "net.dpml.activity.Startable" );
-                if( c.isAssignableFrom( subject ) )
-                {
-                    return loadStateFromResource( c );
-                }
-            }
-            catch( ClassNotFoundException e )
-            {
-                boolean ignorable = true;
-            }
-            
-            try
-            {
-                Class c = subject.getClassLoader().loadClass( "net.dpml.activity.Executable" );
-                if( c.isAssignableFrom( subject ) )
-                {
-                    return loadStateFromResource( c );
-                }
-            }
-            catch( ClassNotFoundException e )
-            {
-                boolean ignorable = true;
-            }
-            
             return new DefaultState( "" );
         }
         else
