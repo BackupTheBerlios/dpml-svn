@@ -269,7 +269,7 @@ public class StateDataType
     {
         if( null != m_uri )
         {
-            m_task.log( "importing state graph: " + m_uri );
+            m_task.log( "importing state graph: " + m_uri, Project.MSG_VERBOSE );
             try
             {
                 return STATE_DECODER.loadState( m_uri );
@@ -285,6 +285,7 @@ public class StateDataType
         }
         else if( null != m_classname )
         {
+            m_task.log( "loading state from resource: " + m_classname, Project.MSG_VERBOSE );
             try
             {
                 ClassLoader classloader = createClassLoader();
@@ -296,12 +297,12 @@ public class StateDataType
                 final String error = 
                   "Unable to load an embedded state xgraph from the resource: " 
                   + m_classname + ".xgraph";
-                throw new BuildException( error, e );
+                throw new BuildException( error, e, m_task.getLocation() );
             }
         }
         else
         {
-            m_task.log( "creating embedded state graph" );
+            m_task.log( "creating embedded state graph", Project.MSG_VERBOSE );
             String name = getStateName();
             Trigger[] triggers = getTriggers();
             Operation[] operations = getOperations();
@@ -406,7 +407,9 @@ public class StateDataType
             URL url = subject.getClassLoader().getResource( resource );
             if( null == url )
             {
-                return null;
+                final String error = 
+                  "The requested state graph resource [" + resource + "] does not exist.";
+                throw new BuildException( error, m_task.getLocation() );
             }
             else
             {
