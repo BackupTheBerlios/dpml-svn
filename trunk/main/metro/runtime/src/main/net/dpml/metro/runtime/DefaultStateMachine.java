@@ -615,6 +615,16 @@ public class DefaultStateMachine implements StateMachine, EventHandler
             String target = transition.getTargetName();
             State state = getState( context, target );
             Operation operation = transition.getOperation();
+            if( getLogger().isTraceEnabled() )
+            {
+                String name = transition.getName();
+                String tag = getTag( object );
+                getLogger().trace( 
+                  "applying transition [" 
+                  + name 
+                  + "] to " 
+                  + tag );
+            }
             if( null != operation )
             {
                 execute( operation, object, new Object[0] ); // TODO: add resolved values as args
@@ -634,6 +644,15 @@ public class DefaultStateMachine implements StateMachine, EventHandler
         if( "method".equals( scheme ) )
         {
             String methodName = handler.getSchemeSpecificPart();
+            if( getLogger().isTraceEnabled() )
+            {
+                String tag = getTag( object );
+                getLogger().trace( 
+                  "executing operation [" 
+                  + methodName 
+                  + "] on " 
+                  + tag );
+            }
             Statement statement = new Statement( object, methodName, new Object[0] );
             try
             {
