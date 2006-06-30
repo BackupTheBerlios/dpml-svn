@@ -172,13 +172,16 @@ if(cl==null) {
                 </p>
                 <source>
 // if we have --output option
-if(cl.hasOption("--output")) {
+if( cl.hasOption( "--output" ) )
+{
     // grab the path
-    String path = (String)cl.getValue("--output");
+    String path = (String) cl.getValue( "--output" );
+    
     // grab the format
-    boolean xml = cl.hasOption("--xml");
+    boolean xml = cl.hasOption( "--xml" );
+    
     // configure the application's output
-    configureOutput(path,xml);
+    configureOutput( path,xml );
 }
                 </source>
                 <p>
