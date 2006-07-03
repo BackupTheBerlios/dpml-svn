@@ -44,7 +44,7 @@ public class IncludeDirective extends AbstractDirective
    /**
     * URN resource reference mode constant.
     */
-    public static final Mode URN = Mode.URN;
+    public static final Mode URI = Mode.URI;
     
     private final Mode m_mode;
     private final String m_value;
@@ -179,7 +179,7 @@ public class IncludeDirective extends AbstractDirective
        /**
         * Include by urn definition.
         */
-        public static final Mode URN = new Mode( "urn" );
+        public static final Mode URI = new Mode( "uri" );
     
        /**
         * Internal constructor.
@@ -205,9 +205,9 @@ public class IncludeDirective extends AbstractDirective
             {
                 return REF;
             }
-            else if( value.equalsIgnoreCase( "urn" ) )
+            else if( value.equalsIgnoreCase( "uri" ) )
             {
-                return URN;
+                return URI;
             }
             else
             {

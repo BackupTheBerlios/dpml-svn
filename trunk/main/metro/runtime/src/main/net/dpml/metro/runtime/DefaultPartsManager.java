@@ -79,9 +79,9 @@ class DefaultPartsManager implements PartsManager, Disposable
         
         if( references.length > 0 )
         {
-            if( provider.getLogger().isDebugEnabled() )
+            if( provider.getLogger().isTraceEnabled() )
             {
-                provider.getLogger().debug( "building internal parts" );
+                provider.getLogger().trace( "building internal parts" );
             }
         }
         
@@ -127,7 +127,7 @@ class DefaultPartsManager implements PartsManager, Disposable
                     Classpath classpath = composition.getClasspath();
                     ComponentController controller = handler.getComponentController();
                     ComponentModel manager = 
-                      controller.createComponentModel( classloader, classpath, base, directive );
+                      controller.createComponentModel( classloader, classpath, base, directive, key );
                     ComponentHandler component = 
                       controller.createDefaultComponentHandler( m_provider, classloader, manager, true );
                     m_components[i] = component;
@@ -286,7 +286,10 @@ class DefaultPartsManager implements PartsManager, Disposable
         ComponentHandler[] components = getComponentHandlers();
         if( components.length > 0 )
         {
-            m_provider.getLogger().debug( "commissioning internal parts" );
+            if( m_provider.getLogger().isTraceEnabled() )
+            {
+                m_provider.getLogger().trace( "commissioning internal parts" );
+            }
             for( int i=0; i<components.length; i++ )
             {
                 ComponentHandler component = components[i];
@@ -322,7 +325,10 @@ class DefaultPartsManager implements PartsManager, Disposable
         ComponentHandler[] components = getComponentHandlers();
         if( components.length > 0 )
         {
-            m_provider.getLogger().debug( "decommissioning internal parts in [" + m_provider + "]" );
+            if( m_provider.getLogger().isTraceEnabled() )
+            {
+                m_provider.getLogger().trace( "decommissioning internal parts" );
+            }
             for( int i=0; i<components.length; i++ )
             {
                 ComponentHandler component = components[i];

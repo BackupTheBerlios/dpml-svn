@@ -36,7 +36,7 @@
 
   <project name="dpml-logging-api" basedir="logging">
     <types>
-      <type id="jar"/>
+      <type id="jar" alias="true"/>
     </types>
   </project>
   

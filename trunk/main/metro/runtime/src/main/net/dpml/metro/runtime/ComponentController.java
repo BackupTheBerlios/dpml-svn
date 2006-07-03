@@ -123,7 +123,7 @@ class ComponentController
             String path = partition + name;
             Logger logger = new DefaultLogger( path );
             EventQueue queue = m_controller.getEventQueue();
-            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition );
+            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition, name );
         }
         catch( RemoteException e )
         {
@@ -155,12 +155,28 @@ class ComponentController
       ClassLoader anchor, Classpath classpath, String partition, ComponentDirective directive ) 
       throws ControlException
     {
+        return createComponentModel( anchor, classpath, partition, directive, null );
+    }
+    
+   /**
+    * Create a new remotely manageable component model.
+    * @param key the component key
+    * @param anchor the parent classloader
+    * @param classpath the classpath definition
+    * @param partition the enclosing partition
+    * @param directive the component definition
+    * @return the managable component model
+    */
+    ComponentModel createComponentModel( 
+      ClassLoader anchor, Classpath classpath, String partition, ComponentDirective directive, String key ) 
+      throws ControlException
+    {
         try
         {
             Logger logger = new DefaultLogger( partition );
             ClassLoader classloader = getClassLoader( anchor, classpath );
             EventQueue queue = m_controller.getEventQueue();
-            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition );
+            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition, key );
         }
         catch( RemoteException e )
         {

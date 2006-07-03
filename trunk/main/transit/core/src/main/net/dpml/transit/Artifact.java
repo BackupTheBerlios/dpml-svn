@@ -36,8 +36,14 @@ import java.net.URL;
  */
 public final class Artifact implements Serializable, Comparable
 {
+    public static final String ARTIFACT = "artifact";
+    
+    public static final String LINK = "link";
+    
+    public static final String LOCAL = "local";
+    
     static final long serialVersionUID = 1L;
-
+    
     // ------------------------------------------------------------------------
     // static
     // ------------------------------------------------------------------------
@@ -130,7 +136,7 @@ public final class Artifact implements Serializable, Comparable
               "URI does not declare a scheme: " + uri;
             throw new UnsupportedSchemeException( error );
         }
-        if( !scheme.equals( "artifact" ) && !scheme.equals( "link" ) && !scheme.equals( "local" ) )
+        if( !scheme.equals( ARTIFACT ) && !scheme.equals( LINK ) && !scheme.equals( LOCAL ) )
         {
             final String error = 
               "URI contains a scheme that is not recognized: " + uri;
@@ -155,6 +161,26 @@ public final class Artifact implements Serializable, Comparable
     public static Artifact createArtifact( String group, String name, String version, String type )
         throws NullArgumentException
     {
+        return createArtifact( ARTIFACT, group, name, version, type );
+    }
+    
+    /**
+     * Creation of a new artifact instance using a supplied group, name,
+     * version and type arguments.
+     *
+     * @param scheme the artifact scheme
+     * @param group the artifact group identifier
+     * @param name the artifact name
+     * @param version the version
+     * @param type the type
+     * @return the new artifact
+     * @exception NullArgumentException if any of the <code>group</code>,
+     *            <code>name</code> or <code>type</code> arguments are
+     *            <code>null</code>.
+     */
+    public static Artifact createArtifact( String scheme, String group, String name, String version, String type )
+        throws NullArgumentException
+    {
         if( name == null )
         {
             throw new NullArgumentException( "name" );
@@ -163,7 +189,11 @@ public final class Artifact implements Serializable, Comparable
         {
             throw new NullArgumentException( "type" );
         }
-        String composite = buildComposite( group, name, version, type );
+        if( scheme == null )
+        {
+            throw new NullArgumentException( "scheme" );
+        }
+        String composite = buildComposite( scheme, group, name, version, type );
         try
         {
             URI uri = new URI( composite );
@@ -179,28 +209,28 @@ public final class Artifact implements Serializable, Comparable
         }
     }
     
-    private static String buildComposite( String group, String name, String version, String type )
+    private static String buildComposite( String scheme, String group, String name, String version, String type )
     {
         if( null == group )
         {
             if( null == version )
             {
-                return "artifact:" + type + ":" + name;
+                return scheme + ":" + type + ":" + name;
             }
             else
             {
-                return "artifact:" + type + ":" + name + "#" + version;
+                return scheme + ":" + type + ":" + name + "#" + version;
             }
         }
         else
         {
             if( null == version )
             {
-                return "artifact:" + type + ":" + group + "/" + name;
+                return scheme + ":" + type + ":" + group + "/" + name;
             }
             else
             {
-                return "artifact:" + type + ":" + group + "/" + name + "#" + version;
+                return scheme + ":" + type + ":" + group + "/" + name + "#" + version;
             }
         }
     }
@@ -235,17 +265,17 @@ public final class Artifact implements Serializable, Comparable
     public static boolean isRecognized( URI uri )
     {
         String scheme = uri.getScheme();
-        if( "artifact".equals( scheme ) )
+        if( ARTIFACT.equals( scheme ) )
         {
             return true;
         }
-        else if( "link".equals( scheme ) )
+        else if( LINK.equals( scheme ) )
         {
             return true;
         }
         else
         {
-            return "local".equals( scheme );
+            return LOCAL.equals( scheme );
         }
     }
 
@@ -434,15 +464,15 @@ public final class Artifact implements Serializable, Comparable
     public URL toURL()
     {
         String scheme = getScheme();
-        if( "artifact".equals( scheme ) )
+        if( ARTIFACT.equals( scheme ) )
         {
             return toURL( new net.dpml.transit.artifact.Handler() );
         }
-        else if( "link".equals( scheme ) )
+        else if( LINK.equals( scheme ) )
         {
             return toURL( new net.dpml.transit.link.Handler() );
         }
-        else if( "local".equals( scheme ) )
+        else if( LOCAL.equals( scheme ) )
         {
             return toURL( new net.dpml.transit.local.Handler() );
         }

@@ -82,13 +82,13 @@
              <td><tt>&lt;include ref="[group]/[name]"/&gt;</tt></td>
            </tr>
            <tr>
-             <td>urn</td>
+             <td>uri</td>
              <td>Establishes an annonomous reference using the artifact uri to establish
                 the group, name, version and type.</td>
            </tr>
            <tr>
              <td></td>
-             <td><tt>&lt;include urn="[artifact]"/&gt;</tt></td>
+             <td><tt>&lt;include uri="[artifact]"/&gt;</tt></td>
            </tr>
          </table>
 
@@ -113,7 +113,7 @@
        The following project definition uses a combination of all three include variants.
        Two dependencies (dpml-http-api and dpml-http-spi) use the short form local reference
        via the <tt>key</tt> attribute.  Five includes reference resources or projects via 
-       fully qualified names, and a further seven includes use the urn notion.
+       fully qualified names, and a further seven includes use the uri notion.
        </p>
 
 <source><![CDATA[
@@ -126,14 +126,14 @@
       <runtime>
         <include ref="dpml/metro/dpml-metro-model"/>
         <include ref="dpml/util/dpml-logging-api"/>
-        <include urn="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
-        <include urn="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
-        <include urn="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
-        <include urn="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
-        <include urn="artifact:jar:org/mortbay/jetty#20060213"/>
-        <include urn="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
-        <include urn="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
-        <include urn="artifact:jar:commons-el/commons-el#1.0"/>
+        <include uri="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
+        <include uri="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
+        <include uri="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
+        <include uri="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
+        <include uri="artifact:jar:org/mortbay/jetty#20060213"/>
+        <include uri="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
+        <include uri="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
+        <include uri="artifact:jar:commons-el/commons-el#1.0"/>
         <include ref="dpml/transit/dpml-transit-main"/>
       </runtime>
     </dependencies>

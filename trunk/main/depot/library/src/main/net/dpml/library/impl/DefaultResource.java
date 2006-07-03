@@ -206,17 +206,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
     }
     
-    //private Type[] buildTypes( TypeDirective[] directives )
-    //{
-    //    Type[] types = new Type[ directives.length ];
-    //    for( int i=0; i<directives.length; i++ )
-    //    {
-    //        TypeDirective directive = directives[i];
-    //        types[i] = new DefaultType( this, directive );
-    //    }
-    //    return types;
-    //}
-    
     //----------------------------------------------------------------------------
     // Resource
     //----------------------------------------------------------------------------
@@ -468,9 +457,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         String group = getGroupName();
         String name = getName();
         String version = getVersion();
+        String scheme = m_directive.getScheme();
+        
         try
         {
-            return Artifact.createArtifact( group, name, version, id );
+            return Artifact.createArtifact( scheme, group, name, version, id );
         }
         catch( Throwable e )
         {
@@ -745,7 +736,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                     String urn = artifact.toString();
                     IncludeDirective include = 
                       new IncludeDirective( 
-                        IncludeDirective.URN,
+                        IncludeDirective.URI,
                         category,
                         urn,
                         null );
@@ -953,7 +944,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         for( int i=0; i<includes.length; i++ )
         {
             IncludeDirective include = includes[i];
-            if( include.getMode().equals( IncludeDirective.URN ) )
+            if( include.getMode().equals( IncludeDirective.URI ) )
             {
                 try
                 {
@@ -1349,13 +1340,4 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
             return m_parent.getResourcePath();
         }
     }
-    
-   /**
-    * Return the logging channel.
-    * @return the logging channel
-    */
-    //protected Logger getLogger()
-    //{
-    //    return m_logger;
-    //}
 }

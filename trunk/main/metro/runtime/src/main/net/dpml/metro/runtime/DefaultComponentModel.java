@@ -88,7 +88,7 @@ class DefaultComponentModel extends UnicastEventSource
     
     public DefaultComponentModel( 
       EventQueue queue, Logger logger, ClassLoader classloader, Classpath classpath, ComponentController controller, 
-      ComponentDirective directive, String partition ) 
+      ComponentDirective directive, String partition, String name ) 
       throws ControlException, IOException, RemoteException
     {
         super( queue, logger );
@@ -100,7 +100,7 @@ class DefaultComponentModel extends UnicastEventSource
         m_classname = directive.getClassname();
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
-        m_path = setupPath( partition );
+        m_path = setupPath( partition, name );
         m_activation = directive.getActivationPolicy();
         m_lifestyle = setupLifestyle();
         m_collection = directive.getCollectionPolicy();
@@ -347,16 +347,29 @@ class DefaultComponentModel extends UnicastEventSource
     // internals
     // ------------------------------------------------------------------------
     
-    private String setupPath( String partition )
+    private String setupPath( final String partition, final String name )
     {
-        String name = m_directive.getName();
-        if( null == name )
+        String local = resolveName( name );
+        return partition + local;
+    }
+    
+    private String resolveName( final String name )
+    {
+        if( null != name )
         {
-            return partition + m_type.getInfo().getName();
+            return name;
         }
         else
         {
-            return partition + name;
+            String alt = m_directive.getName();
+            if( null == alt )
+            {
+                return m_type.getInfo().getName();
+            }
+            else
+            {
+                return alt;
+            }
         }
     }
 

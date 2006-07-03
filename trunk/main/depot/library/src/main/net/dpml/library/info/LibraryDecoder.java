@@ -178,8 +178,8 @@ public final class LibraryDecoder extends LibraryConstants
    /**
     * Construct a module directive relative to the supplied base directory 
     * using the supplied DOM element.
-    * @param base the basedire of the enclosing library or module
-    * @param element the element definting the module
+    * @param base the basedir of the enclosing library or module
+    * @param element the element defining the module
     */
     private ResourceDirective[] buildResourceDirectivesFromElement( 
       File base, Element element ) throws Exception
@@ -236,10 +236,6 @@ public final class LibraryDecoder extends LibraryConstants
             {
                 return buildResourceDirectiveFromElement( parent, root, basedir );
             }
-            //catch( DecodingException e )
-            //{
-            //    throw e;
-            //}
             catch( Throwable e )
             {
                 final String error = 
@@ -274,7 +270,6 @@ public final class LibraryDecoder extends LibraryConstants
         {
             try
             {
-                //String path = ElementHelper.getAttribute( element, "file" );
                 File file = new File( base, path );
                 File dir = file.getParentFile();
                 String spec = getRelativePath( base, dir );
@@ -476,15 +471,15 @@ public final class LibraryDecoder extends LibraryConstants
                 final String value = ElementHelper.getAttribute( element, "ref", null );
                 return new IncludeDirective( IncludeDirective.REF, category, value, properties );
             }
-            else if( element.hasAttribute( "urn" ) )
+            else if( element.hasAttribute( "uri" ) )
             {
-                final String value = ElementHelper.getAttribute( element, "urn", null );
-                return new IncludeDirective( IncludeDirective.URN, category, value, properties );
+                final String value = ElementHelper.getAttribute( element, "uri", null );
+                return new IncludeDirective( IncludeDirective.URI, category, value, properties );
             }
             else
             {
                 final String error = 
-                  "Include directive does not declare a 'urn', 'key' or 'ref' attribute.\n"
+                  "Include directive does not declare a 'uri', 'key' or 'ref' attribute.\n"
                   + element.toString();
                 throw new IllegalArgumentException( error );
             }

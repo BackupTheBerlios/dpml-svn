@@ -20,7 +20,7 @@
         </types>
         <dependencies>
           <runtime>
-            <include urn="artifact:jar:commons-collections/commons-collections#${cc.version}"/>
+            <include uri="artifact:jar:commons-collections/commons-collections#${cc.version}"/>
           </runtime>
         </dependencies>
       </project>

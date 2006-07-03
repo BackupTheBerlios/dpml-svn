@@ -330,9 +330,9 @@ public final class LibraryEncoder extends LibraryConstants
                         {
                             writer.write( " ref=\"" + value + "\"" );
                         }
-                        else if( Mode.URN.equals( mode ) )
+                        else if( Mode.URI.equals( mode ) )
                         {
-                            writer.write( " urn=\"" + value + "\"" );
+                            writer.write( " uri=\"" + value + "\"" );
                         }
                         
                         if( Scope.RUNTIME.equals( scope ) )

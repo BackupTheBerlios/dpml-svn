@@ -24,6 +24,8 @@ import java.util.Properties;
 
 import net.dpml.lang.Enum;
 
+import net.dpml.transit.Artifact;
+
 /**
  * The ResourceDirective class describes an available resource.
  *
@@ -47,6 +49,7 @@ public class ResourceDirective extends AbstractDirective
     */
     public static final Classifier ANONYMOUS = Classifier.ANONYMOUS;
     
+    private final String m_scheme;
     private final String m_name;
     private final String m_version;
     private final String m_basedir;
@@ -66,13 +69,9 @@ public class ResourceDirective extends AbstractDirective
     * @return the resource directive
     */
     public static ResourceDirective createAnonymousResource( 
-      String name, String version, String type, Properties properties )
+      String scheme, String name, String version, String type, Properties properties )
     {
-        return createResourceDirective(
-          name, version, Classifier.ANONYMOUS, null, 
-          null, new DataDirective[]{new TypeDirective( type )}, 
-          new DependencyDirective[0],
-          properties, null );
+        return new ResourceDirective( scheme, name, type, version, properties );
     }
 
    /**
@@ -132,6 +131,35 @@ public class ResourceDirective extends AbstractDirective
     }
 
    /**
+    * Creation of a new annonomous resource directive.
+    * @param scheme the resource schema (artifact or link)
+    * @param name the resource name
+    * @param version the resource version
+    * @param properties suppliementary properties
+    */
+    private ResourceDirective( 
+      String scheme, String name, String type, String version, Properties properties )
+    {
+        super( properties );
+        
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        
+        m_name = name;
+        m_types = new TypeDirective[]{new TypeDirective( type )};
+        m_data = m_types;
+        m_dependencies = new DependencyDirective[0];
+        m_classifier = Classifier.ANONYMOUS;
+        m_version = version;
+        m_basedir = ".";
+        m_info = new InfoDirective( null, null );
+        m_filters = new FilterDirective[0];
+        m_scheme = scheme;
+    }
+    
+   /**
     * Creation of a new resource directive.
     * @param name the resource name
     * @param version the resource version
@@ -172,6 +200,7 @@ public class ResourceDirective extends AbstractDirective
         m_version = version;
         m_basedir = basedir;
         m_classifier = classifier;
+        m_scheme = Artifact.ARTIFACT;
         
         if( null == info )
         {
@@ -267,6 +296,16 @@ public class ResourceDirective extends AbstractDirective
     public boolean isAnonymous()
     {
         return ANONYMOUS.equals( m_classifier );
+    }
+    
+   /**
+    * Return the scheme to use when declaring the published artifact (used
+    * in conjunction with anonymous resources.
+    * @return the scheme
+    */
+    public String getScheme()
+    {
+        return m_scheme;
     }
     
    /**

@@ -374,13 +374,14 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         
         Artifact artifact = Artifact.createArtifact( urn );
+        String scheme = artifact.getScheme();
         String group = artifact.getGroup();
         String name = artifact.getName();
         String version = artifact.getVersion();
         String type = artifact.getType();
         
         ResourceDirective resourceDirective = 
-          ResourceDirective.createAnonymousResource( name, version, type, properties );
+          ResourceDirective.createAnonymousResource( scheme, name, version, type, properties );
 
         ModuleDirective enclosing = null;
         String[] elements = group.split( "/", -1 );

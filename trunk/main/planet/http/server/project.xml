@@ -142,7 +142,7 @@
       <include key="dpml-http-app"/>
     </build>
     <runtime>
-      <include urn="artifact:jar:org/mortbay/jetty/servlet-api-2.5#${jetty.version}" tag="PUBLIC"/>
+      <include uri="artifact:jar:org/mortbay/jetty/servlet-api-2.5#${jetty.version}" tag="PUBLIC"/>
       <include key="dpml-http-impl"/>
     </runtime>
   </dependencies>

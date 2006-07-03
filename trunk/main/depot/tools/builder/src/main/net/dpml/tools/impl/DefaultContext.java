@@ -40,6 +40,7 @@ import net.dpml.tools.Context;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
+import net.dpml.transit.link.LinkManager;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
@@ -570,7 +571,7 @@ public final class DefaultContext implements Context
     * @param resources the resource to use in path construction
     * @return the path
     */
-    public Path createPath( Resource[] resources )
+    public Path createPath( Resource[] resources ) 
     {
         return createPath( resources, true, false );
     }
@@ -612,12 +613,40 @@ public final class DefaultContext implements Context
 
     private void addToPath( File cache, Path path, Artifact artifact, boolean resolve )
     {
-        String location = Transit.getInstance().getCacheLayout().resolvePath( artifact );
+        Artifact target = getTargetArtifact( artifact );
+        String location = Transit.getInstance().getCacheLayout().resolvePath( target );
         File file = new File( cache, location );
         path.createPathElement().setLocation( file );
+        
         if( resolve )
         {
             resolveArtifact( artifact );
+        }
+    }
+    
+    private Artifact getTargetArtifact( Artifact artifact )
+    {
+        String scheme = artifact.getScheme();
+        if( !Artifact.LINK.equals( scheme ) )
+        {
+            return artifact;
+        }
+        else
+        {
+            try
+            {
+                LinkManager manager = Transit.getInstance().getLinkManager();
+                URI uri = manager.getTargetURI( artifact.toURI() );
+                return Artifact.createArtifact( uri );
+            }
+            catch( IOException e )
+            {
+                final String error = 
+                  "Unable to resolve link artifact [" 
+                  + artifact
+                  + "].";
+                throw new BuildException( error, e );
+            }
         }
     }
     
