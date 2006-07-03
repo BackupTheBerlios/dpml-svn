@@ -18,6 +18,7 @@
 
 package net.dpml.component;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -37,7 +38,7 @@ public interface Component extends Remote, Commissionable
     * @exception ControlException if a controller related error occurs
     * @exception RemoteException if a remote exception occurs
     */
-    Provider getProvider() throws ControlException, InvocationTargetException, RemoteException;
+    Provider getProvider() throws IOException, InvocationTargetException;
 
    /**
     * Return true if this handler is a candidate for the supplied service definition.

@@ -19,6 +19,7 @@
 package net.dpml.metro.runtime;
 
 import java.io.File;
+import java.io.IOException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.lang.ref.Reference;
@@ -315,7 +316,7 @@ class DefaultComponentHandler extends UnicastEventSource
     *   or activation
     * @exception ControlException if a control related error occurs
     */
-    public Provider getProvider() throws InvocationTargetException, ControlException
+    public Provider getProvider() throws InvocationTargetException, IOException
     {
         commission();
         return m_holder.getProvider();
@@ -752,7 +753,7 @@ class DefaultComponentHandler extends UnicastEventSource
     * @exception InvocationTargetException if a error was raised by the external implementation
     */
     private DefaultProvider createDefaultProvider() 
-      throws InvocationTargetException, ControlException
+      throws InvocationTargetException, IOException
     {
         if( getLogger().isTraceEnabled() )
         {
@@ -786,7 +787,7 @@ class DefaultComponentHandler extends UnicastEventSource
         * @exception ControlException of a controller error occurs
         * @exception InvocationTargetException if a client implementation error occurs
         */
-        abstract DefaultProvider getProvider() throws ControlException, InvocationTargetException;
+        abstract DefaultProvider getProvider() throws IOException, InvocationTargetException;
        
        /**
         * Return the number of instances handled by the holder.
@@ -872,7 +873,7 @@ class DefaultComponentHandler extends UnicastEventSource
             m_reference = createReference( null );
         }
         
-        DefaultProvider getProvider() throws ControlException, InvocationTargetException
+        DefaultProvider getProvider() throws IOException, InvocationTargetException
         {
             DefaultProvider provider = (DefaultProvider) m_reference.get();
             if( null == provider )
@@ -955,7 +956,7 @@ class DefaultComponentHandler extends UnicastEventSource
     {
         private final WeakHashMap m_providers = new WeakHashMap(); // transients
         
-        DefaultProvider getProvider() throws ControlException, InvocationTargetException
+        DefaultProvider getProvider() throws IOException, InvocationTargetException
         {
             DefaultProvider provider = createDefaultProvider();
             m_providers.put( provider, null );
@@ -1002,7 +1003,7 @@ class DefaultComponentHandler extends UnicastEventSource
     {
         private final ThreadLocalHolder m_threadLocalHolder = new ThreadLocalHolder();
         
-        DefaultProvider getProvider() throws ControlException, InvocationTargetException
+        DefaultProvider getProvider() throws IOException, InvocationTargetException
         {
             return (DefaultProvider) m_threadLocalHolder.get();
         }

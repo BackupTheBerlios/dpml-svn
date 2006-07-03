@@ -18,6 +18,7 @@
 
 package net.dpml.metro.runtime;
 
+import java.io.IOException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationHandler;
@@ -117,7 +118,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     * @param logger the logging channel
     */
     DefaultProvider( EventQueue queue, DefaultComponentHandler handler, Logger logger ) 
-      throws RemoteException, ControlException, InvocationTargetException
+      throws InvocationTargetException, IOException
     {
         super( queue, logger );
         

@@ -18,6 +18,7 @@
 
 package net.dpml.component;
 
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -26,7 +27,7 @@ import java.net.URI;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ControlException extends Exception  
+public class ControlException extends IOException  
 {
    /**
     * Serial version identifier.
@@ -53,7 +54,8 @@ public class ControlException extends Exception
     */
     public ControlException( URI uri, String message, Throwable cause )
     {
-        super( message, cause );
+        super( message );
+        super.initCause( cause );
         m_uri = uri;
     }
 
