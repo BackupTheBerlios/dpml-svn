@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URI;
 
 import javax.xml.XMLConstants;
 
@@ -37,6 +38,8 @@ import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.ValueDirective;
+import net.dpml.metro.data.ImportDirective;
+
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
@@ -150,6 +153,24 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         writeAttributes( writer, directive, pad + "   " );
         writeBody( writer, directive, pad + "  " );
         writer.write( "\n" + pad + "</component>" );
+    }
+    
+   /** 
+    * Export a tagged import directive to an output stream as XML.
+    * @param writer the print writer
+    * @param directive the import directive
+    * @param key the key identifying the component
+    * @param pad character offset
+    * @exception IOException if an IO error occurs
+    */
+    public void writeTaggedImport( 
+      Writer writer, ImportDirective directive, String key, String pad ) throws IOException
+    {
+        URI uri = directive.getURI();
+        String spec = uri.toASCIIString();
+        writer.write( "\n" + pad + "<import xmlns=\"" + COMPONENT_SCHEMA_URN + "\"" );
+        writer.write( " key=\"" + key + "\"" );
+        writer.write( " uri=\"" + spec + "\"/>" );
     }
     
     void writeAttributes( 
@@ -427,6 +448,11 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         {
             ComponentDirective component = (ComponentDirective) directive;
             writeTaggedComponent( writer, component, key, pad );
+        }
+        else if( directive instanceof ImportDirective )
+        {
+            ImportDirective importDirective = (ImportDirective) directive;
+            writeTaggedImport( writer, importDirective, key, pad );
         }
         else
         {
