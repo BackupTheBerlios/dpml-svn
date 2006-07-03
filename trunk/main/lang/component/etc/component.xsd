@@ -51,23 +51,23 @@
     <complexType name="ContextType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element ref="this:entry"/>
-        <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
+        <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/> <!-- remove ? -->
       </choice>
     </complexType>
     
     <complexType name="EntryType">
       <complexContent>
-        <extension base="part:ValueType">
-          <attribute name="key" type="string" use="required"/>
-          <attribute name="lookup" type="string"/> <!-- yukk -->
+        <extension base="part:TaggedValueType">
+          <attribute name="lookup" type="string"/>
         </extension>
       </complexContent>
     </complexType>
     
     <complexType name="PartsType">
-      <sequence>
+      <choice minOccurs="0" maxOccurs="unbounded">
         <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
+        <element name="import" type="this:TaggedComponentImport" minOccurs="0" maxOccurs="unbounded"/>
+      </choice>
     </complexType>
     
     <complexType name="TaggedComponent">
@@ -76,6 +76,11 @@
           <attribute name="key" type="string" use="required"/>
         </extension>
       </complexContent>
+    </complexType>
+    
+    <complexType name="TaggedComponentImport">
+      <attribute name="key" type="string" use="required"/>
+      <attribute name="uri" type="anyURI" use="required"/>
     </complexType>
     
     <simpleType name="lifestyle">

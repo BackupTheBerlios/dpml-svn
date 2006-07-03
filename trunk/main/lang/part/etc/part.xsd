@@ -93,6 +93,14 @@
       <attribute name="method" type="string"/>
     </complexType>
 
+    <complexType name="TaggedValueType">
+      <complexContent>
+        <extension base="this:ValueType">
+          <attribute name="key" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
     <complexType name="codebase">
       <complexContent>
         <extension base="this:CodeBaseType">

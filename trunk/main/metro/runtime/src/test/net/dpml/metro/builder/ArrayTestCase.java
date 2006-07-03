@@ -32,11 +32,11 @@ import net.dpml.metro.data.ValueDirective;
 import junit.framework.TestCase;
 
 /**
- * Default state machine test-case.
+ * Default array argument in context.
  *
  * @author <a href="http://www.dpml.net">The Digital Product Meta Library</a>
  */
-public class PartsTestCase extends TestCase
+public class ArrayTestCase extends TestCase
 {
     private ComponentDecoder m_builder;
     

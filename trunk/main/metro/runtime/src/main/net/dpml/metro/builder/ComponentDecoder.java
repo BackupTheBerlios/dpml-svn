@@ -29,6 +29,8 @@ import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.data.LookupDirective;
+import net.dpml.metro.data.ImportDirective;
+
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.PartReference;
@@ -100,8 +102,19 @@ public class ComponentDecoder
         {
             throw new NullPointerException( "root" );
         }
-        
-        return createComponentDirective( root );
+        String tag = root.getTagName();
+        if( "component".equals( tag ) )
+        {
+            return createComponentDirective( root );
+        }
+        else
+        {
+            final String error = 
+              "Component directive element name [" 
+              + tag 
+              + "] is not recognized.";
+            throw new DecodingException( root, error );
+        }
     }
     
     private ComponentDirective createComponentDirective( Element element ) throws DecodingException
@@ -295,11 +308,11 @@ public class ComponentDecoder
                 ValueDirective directive = buildValueDirective( element );
                 return new PartReference( key, directive );
             }
-            else if( "component".equals( name ) )
-            {
-                ComponentDirective directive = createComponentDirective( element );
-                return new PartReference( key, directive );
-            }
+            //else if( "component".equals( name ) )
+            //{
+            //    ComponentDirective directive = buildComponent( element );
+            //    return new PartReference( key, directive );
+            //}
             else
             {
                 final String error = 
@@ -358,9 +371,39 @@ public class ComponentDecoder
     
     private PartReference createPartReference( Element element ) throws DecodingException
     {
+        String tag = element.getTagName();
         String key = ElementHelper.getAttribute( element, "key" );
-        ComponentDirective directive = createComponentDirective( element );
-        return new PartReference( key, directive );
+        if( "component".equals( tag ) )
+        {
+            ComponentDirective directive = buildComponent( element );
+            return new PartReference( key, directive );
+        }
+        else if( "import".equals( tag ) )
+        {
+            String spec = ElementHelper.getAttribute( element, "uri" );
+            try
+            {
+                URI uri = new URI( spec );
+                ImportDirective directive = new ImportDirective( uri );
+                return new PartReference( key, directive );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Internal error while attempting to construct import directive."
+                  + "\nImport URI: " + spec
+                  + "\nPart key: " + key;
+                throw new DecodingException( element, error );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Component part element name [" 
+              + tag 
+              + "] is not recognized.";
+            throw new DecodingException( element, error );
+        }
     }
 
    /**
