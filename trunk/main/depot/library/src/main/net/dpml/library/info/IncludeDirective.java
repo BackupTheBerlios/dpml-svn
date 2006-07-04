@@ -71,7 +71,7 @@ public class IncludeDirective extends AbstractDirective
         }
         if( null == category )
         {
-            m_category = Category.PRIVATE; // was PUBLIC
+            m_category = Category.UNDEFINED; // was PRIVATE
         }
         else
         {

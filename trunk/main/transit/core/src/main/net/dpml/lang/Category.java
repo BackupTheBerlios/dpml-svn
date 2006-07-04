@@ -28,6 +28,11 @@ public final class Category extends ValuedEnum
     static final long serialVersionUID = 1L;
 
    /**
+    * Undefined category.
+    */
+    public static final Category UNDEFINED = new Category( "undefined", -1 );
+
+   /**
     * System category.
     */
     public static final Category SYSTEM = new Category( "system", 0 );
@@ -48,11 +53,6 @@ public final class Category extends ValuedEnum
     public static final Category PRIVATE = new Category( "private", 3 );
 
    /**
-    * Implied category.
-    */
-    public static final Category IMPLICIT = new Category( "implicit", 3 );
-
-   /**
     * Array of scope enumeration values.
     */
     private static final Category[] ENUM_VALUES = 
@@ -61,8 +61,8 @@ public final class Category extends ValuedEnum
         SYSTEM, 
         PUBLIC, 
         PROTECTED, 
-        PRIVATE, 
-        IMPLICIT
+        PRIVATE,
+        UNDEFINED
       };
 
    /**
@@ -94,6 +94,42 @@ public final class Category extends ValuedEnum
     }
     
    /**
+    * Create a category by parsing the supplied value.
+    * @param value the category name
+    * @return the corresponding category
+    * @exception IllegalArgumentException if the value is not recognized
+    */
+    public static Category parse( int value ) throws IllegalArgumentException
+    {
+        if( SYSTEM.getValue() == value )
+        {
+            return SYSTEM;
+        }
+        else if( PUBLIC.getValue() == value )
+        {
+            return PUBLIC;
+        }
+        else if( PROTECTED.getValue() == value )
+        {
+            return PROTECTED;
+        }
+        else if( PRIVATE.getValue() == value )
+        {
+            return PRIVATE;
+        }
+        else if( UNDEFINED.getValue() == value )
+        {
+            return UNDEFINED;
+        }
+        else
+        {
+            final String error =
+              "Unrecognized category value [" + value + "]";
+            throw new IllegalArgumentException( error );
+        }
+    }
+    
+   /**
     * Create a category by parsing the supplied name.
     * @param value the category name
     * @return the corresponding category
@@ -117,9 +153,9 @@ public final class Category extends ValuedEnum
         {
             return PRIVATE;
         }
-        else if( value.equalsIgnoreCase( "implicit" ) )
+        else if( value.equalsIgnoreCase( "undefined" ) )
         {
-            return IMPLICIT;
+            return UNDEFINED;
         }
         else
         {

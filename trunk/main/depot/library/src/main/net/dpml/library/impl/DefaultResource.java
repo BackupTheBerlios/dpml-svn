@@ -956,7 +956,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
                 catch( URISyntaxException e )
                 {
                     final String error = 
-                      "Invalid urn value: " + include.getValue();
+                      "Invalid uri value: " + include.getValue();
                     throw new RuntimeException( error, e );
                 }
                 catch( InvalidNameException e )
@@ -1173,9 +1173,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
     {
         ArrayList list = new ArrayList();
         for( int i=0; i<category.getValue(); i++ )
-        {
+        {   
+            Category c = Category.parse( i );
             DefaultResource[] collection = 
-              getDefaultProviders( Scope.RUNTIME, true, Category.values()[i] );
+              getDefaultProviders( Scope.RUNTIME, true, c );
             for( int j=0; j<collection.length; j++ )
             {
                 list.add( collection[j] );

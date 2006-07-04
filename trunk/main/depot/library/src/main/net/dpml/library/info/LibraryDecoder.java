@@ -421,17 +421,19 @@ public final class LibraryDecoder extends LibraryConstants
     {
         String name = element.getTagName();
         Scope scope = Scope.parse( name );
-        IncludeDirective[] includes = buildIncludeDirectives( element );
         if( Scope.BUILD.equals( scope ) )
         {
+            IncludeDirective[] includes = buildIncludeDirectives( element, false );
             return new DependencyDirective( Scope.BUILD, includes );
         }
         else if( Scope.RUNTIME.equals( scope ) )
         {
+            IncludeDirective[] includes = buildIncludeDirectives( element, true );
             return new DependencyDirective( Scope.RUNTIME, includes );
         }
         else
         {
+            IncludeDirective[] includes = buildIncludeDirectives( element, false );
             return new DependencyDirective( Scope.TEST, includes );
         }
     }
@@ -439,28 +441,28 @@ public final class LibraryDecoder extends LibraryConstants
    /**
     * Build an array of include directives contained within the supplied enclosing element.
     * @param element the enclosing element
+    * @param flag if category processing is required
     * @return the array of includes
     */
-    private IncludeDirective[] buildIncludeDirectives( Element element ) throws DecodingException
+    private IncludeDirective[] buildIncludeDirectives( Element element, boolean flag ) throws DecodingException
     {
         Element[] children = ElementHelper.getChildren( element );
         IncludeDirective[] includes = new IncludeDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
-            includes[i] = buildIncludeDirective( child );
+            includes[i] = buildIncludeDirective( child, flag );
         }
         return includes;
     }
     
-    private IncludeDirective buildIncludeDirective( Element element ) throws DecodingException
+    private IncludeDirective buildIncludeDirective( Element element, boolean flag ) throws DecodingException
     {
         final String tag = element.getTagName();
         final Properties properties = buildProperties( element );
         if( INCLUDE_ELEMENT_NAME.equals( tag ) )
         {
-            final String tagValue = ElementHelper.getAttribute( element, "tag", "private" );
-            Category category = Category.parse( tagValue );
+            Category category = buildCategory( element, flag );
             if( element.hasAttribute( "key" ) )
             {
                 final String value = ElementHelper.getAttribute( element, "key", null );
@@ -493,6 +495,20 @@ public final class LibraryDecoder extends LibraryConstants
             throw new DecodingException( element, error );
         }
     }
+    
+    private Category buildCategory( Element element, boolean flag )
+    {
+        if( !flag ) 
+        {
+            return Category.UNDEFINED;
+        }
+        else
+        {
+            final String value = ElementHelper.getAttribute( element, "tag", "private" );
+            return Category.parse( value );
+        }
+    }
+    
     
     private ResourceDirective buildResourceDirective( File base, Element element )  throws Exception
     {

@@ -399,6 +399,10 @@ public class ResourceDirective extends AbstractDirective
             {
                 return false;
             }
+            else if( !equals( m_scheme, object.m_scheme ) )
+            {
+                return false;
+            }
             else if( !equals( m_version, object.m_version ) )
             {
                 return false;
@@ -434,6 +438,7 @@ public class ResourceDirective extends AbstractDirective
     {
         int hash = super.hashCode();
         hash ^= super.hashValue( m_name );
+        hash ^= super.hashValue( m_scheme );
         hash ^= super.hashValue( m_version );
         hash ^= super.hashValue( m_basedir );
         hash ^= super.hashValue( m_info );

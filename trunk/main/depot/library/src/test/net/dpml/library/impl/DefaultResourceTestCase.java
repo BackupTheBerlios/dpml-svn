@@ -351,6 +351,9 @@ public class DefaultResourceTestCase extends AbstractTestCase
         doClasspathChainTest( "dpml/metro/dpml-composition-runtime", 0, 2, 7, 3 );
         doClasspathChainTest( "dpml/tools/dpml-tools-ant", 4, 0, 0, 5 );
         doClasspathChainTest( "dpml/transit/dpml-transit-tools", 0, 0, 0, 3 );
+        //doClasspathChainTest( "dpml/metro/dpml-composition-runtime" );
+        //doClasspathChainTest( "dpml/tools/dpml-tools-ant" );
+        //doClasspathChainTest( "dpml/transit/dpml-transit-tools" );
     }
     
    /**
