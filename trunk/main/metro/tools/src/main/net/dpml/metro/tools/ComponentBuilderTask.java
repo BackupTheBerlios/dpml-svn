@@ -83,7 +83,7 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     private PartsDataType m_parts;
     private File m_output;
     private Type m_type;
-    //private ComponentDirective m_profile;
+    private URI m_extends;
     private boolean m_alias = false;
     
    /**
@@ -108,10 +108,10 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
     * Set the extends uri feature.
     * @param uri the uri from which the component extends
     */
-    //public void setExtends( URI uri )
-    //{
-    //    m_extends = uri;
-    //}
+    public void setExtends( URI uri )
+    {
+        m_extends = uri;
+    }
 
    /**
     * Set the embedded component flag.
@@ -372,13 +372,20 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         CategoriesDirective categories = getCategoriesDirective();
         ContextDirective context = getContextDirective( classloader, type );
         PartReference[] parts = getParts( classloader );
+        URI base = getBaseURI();
         
         //
         // return the component profile
         //
 
         return new ComponentDirective( 
-          id, activation, collection, lifestyle, classname, categories, context, parts );
+          id, activation, collection, lifestyle, classname, categories, 
+          context, parts, base );
+    }
+    
+    private URI getBaseURI()
+    {
+        return m_extends;
     }
 
     private Type loadType( ClassLoader classloader, String classname )
