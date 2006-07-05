@@ -198,6 +198,11 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         {
             writer.write( "\n" + pad + " activation=\"" + activation.getName() + "\"" );
         }
+        URI base = directive.getBaseDirective();
+        if( null != base )
+        {
+            writer.write( "\n" + pad + " extends=\"" + base.toASCIIString() + "\"" );
+        }
         writer.write( ">" );
     }
     

@@ -127,10 +127,34 @@ public class ComponentDecoder
         CategoriesDirective categories = getNestedCategoriesDirective( element );
         ContextDirective context = getNestedContextDirective( element );
         PartReference[] parts = getNestedParts( element );
+        URI base = getBaseURI( element );
         
         return new ComponentDirective( 
           name, activation, collection, lifestyle, classname, 
-          categories, context, parts );
+          categories, context, parts, base );
+    }
+    
+    private URI getBaseURI( Element element ) throws DecodingException
+    {
+        String base = ElementHelper.getAttribute( element, "extends" );
+        if( null == base )
+        {
+            return null;
+        }
+        else
+        {
+            try
+            {
+                return new URI( base );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unable to resolve the URI declared as under the 'extends' attribute."
+                  + "\n  URI: " + base;
+                throw new DecodingException( element, error );
+            }
+        }
     }
     
     private String buildComponentClassname( Element element ) throws DecodingException

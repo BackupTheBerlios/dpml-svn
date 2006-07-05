@@ -1,5 +1,5 @@
 /*
- * Copyright 2004 Stephen J. McConnell.
+ * Copyright 2004-2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,11 +18,15 @@
 
 package net.dpml.metro.data;
 
+import java.net.URI;
+
+import net.dpml.component.ActivationPolicy;
+import net.dpml.component.Directive;
+
+import net.dpml.metro.info.Composite;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
-import net.dpml.component.ActivationPolicy;
-import net.dpml.component.Directive;
 
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when
@@ -80,7 +84,7 @@ import net.dpml.component.Directive;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentDirective extends DeploymentDirective implements Directive
+public class ComponentDirective extends Composite implements Comparable, Directive
 {
     //--------------------------------------------------------------------------
     // static
@@ -90,6 +94,9 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
+
+    private static final CategoriesDirective EMPTY_CATEGORIES = 
+      new CategoriesDirective();
 
     //--------------------------------------------------------------------------
     // state
@@ -115,6 +122,27 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     */
     private final ContextDirective m_context;
 
+   /**
+    * The name of the component profile. This is an
+    * abstract name used during assembly.
+    */
+    private final String m_name;
+
+   /**
+    * The activation policy.
+    */
+    private final ActivationPolicy m_activation;
+
+   /**
+    * Logging category directives.
+    */
+    private final CategoriesDirective m_categories;
+
+   /**
+    * Base directive.
+    */
+    private final URI m_base;
+
     //--------------------------------------------------------------------------
     // constructors
     //--------------------------------------------------------------------------
@@ -131,27 +159,9 @@ public class ComponentDirective extends DeploymentDirective implements Directive
           name, 
           ActivationPolicy.SYSTEM, 
           CollectionPolicy.SYSTEM, 
-          LifestylePolicy.TRANSIENT,
+          LifestylePolicy.SYSTEM,
           classname, 
-          null, null, null );
-    }
-
-   /**
-    * Creation of a new deployment profile using a supplied template profile.
-    * @param name the name to assign to the created profile
-    * @param template the template deployment profile
-    */
-    public ComponentDirective( String name, ComponentDirective template )
-    {
-        this(
-          name,
-          template.getActivationPolicy(),
-          template.getCollectionPolicy(),
-          template.getLifestylePolicy(),
-          template.getClassname(),
-          template.getCategoriesDirective(),
-          template.getContextDirective(),
-          template.getPartReferences() );
+          null, null, null, null );
     }
 
    /**
@@ -164,6 +174,8 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     * @param categories logging categories
     * @param context context directive
     * @param parts the component internal parts
+    * @param base URI of the component super-definition
+    * @exception NullPointerException if the supplied name if null
     */
     public ComponentDirective(
            final String name,
@@ -173,10 +185,29 @@ public class ComponentDirective extends DeploymentDirective implements Directive
            final String classname,
            final CategoriesDirective categories,
            final ContextDirective context,
-           final PartReference[] parts )
+           final PartReference[] parts,
+           final URI base )
     {
-        super( name, activation, categories, parts );
-
+        super( parts );
+        
+        if( null == activation )
+        {
+            m_activation = ActivationPolicy.SYSTEM;
+        }
+        else
+        {
+            m_activation = activation;
+        }
+        
+        if( null == categories )
+        {
+            m_categories = EMPTY_CATEGORIES;
+        }
+        else
+        {
+            m_categories = categories;
+        }
+        
         if( null == classname )
         {
             m_classname = Object.class.getName();
@@ -197,12 +228,73 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         
         m_lifestyle = lifestyle;
         m_collection = collection;
+        m_base = base;
+        
+        if( null != name )
+        {
+            if( name.indexOf( " " ) > 0 || name.indexOf( "." ) > 0 || name.indexOf( "," ) > 0
+              || name.indexOf( "/" ) > 0 )
+            {
+                final String error = 
+                  "Directive name ["
+                  + name
+                  + "] contains an illegal character (' ', ',', '/', or '.')";
+                throw new IllegalArgumentException( error );
+            }
+            else if( name.length() == 0 )
+            {
+                final String error = 
+                  "Directive name [] is insufficient.";
+                throw new IllegalArgumentException( error );
+            }
+            else
+            {
+                m_name = name;
+            }
+        }
+        else
+        {
+            throw new NullPointerException( "name" );
+        }
     }
 
     //--------------------------------------------------------------------------
     // implementation
     //--------------------------------------------------------------------------
 
+    /**
+     * Return the profile name.
+     *
+     * @return the name of the component.
+     */
+    public String getName()
+    {
+        return m_name;
+    }
+
+    /**
+     * Return the logging categories for the profile.
+     *
+     * @return the categories
+     */
+    public CategoriesDirective getCategoriesDirective()
+    {
+        return m_categories;
+    }
+
+   /**
+    * Get the activation policy for the profile.
+    *
+    * @return the declared activation policy
+    * @see ActivationPolicy#SYSTEM
+    * @see ActivationPolicy#STARTUP
+    * @see ActivationPolicy#DEMAND
+    */
+    public ActivationPolicy getActivationPolicy()
+    {
+        return m_activation;
+    }
+    
    /**
     * Return the component type classname.
     *
@@ -245,6 +337,16 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     }
 
    /**
+    * Return the base directive uri.
+    *
+    * @return the uri of the base directive
+    */
+    public URI getBaseDirective()
+    {
+        return m_base;
+    }
+
+   /**
     * Returns a string representation of the profile.
     * @return a string representation
     */
@@ -253,6 +355,18 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         return "[" + getName() + "]";
     }
 
+   /**
+    * Compare this object with the supplied object.
+    * @param object the obvject to compare with
+    * @return the result
+    */
+    public int compareTo( Object object )
+    {
+        String name = this.toString();
+        String other = object.toString();
+        return name.compareTo( other );
+    }
+    
    /**
     * Test if the supplied object is equal to this object.
     * @param other the object to compare with this instance
@@ -273,19 +387,38 @@ public class ComponentDirective extends DeploymentDirective implements Directive
             return false;
         }
         ComponentDirective profile = (ComponentDirective) other;
-        if( !m_classname.equals( profile.getClassname() ) )
+        if( !m_name.equals( profile.getName() ) )
         {
             return false;
         }
-        if( !m_context.equals( profile.getContextDirective() ) )
+        else if( !m_activation.equals( profile.getActivationPolicy() ) )
         {
             return false;
         }
-        if( !equals( m_collection, profile.getCollectionPolicy() ) )
+        else if( !m_categories.equals( profile.getCategoriesDirective() ) )
         {
             return false;
         }
-        return equals( m_lifestyle, profile.getLifestylePolicy() );
+        else if( !m_classname.equals( profile.getClassname() ) )
+        {
+            return false;
+        }
+        else if( !m_context.equals( profile.getContextDirective() ) )
+        {
+            return false;
+        }
+        else if( !equals( m_collection, profile.getCollectionPolicy() ) )
+        {
+            return false;
+        }
+        else if( !equals( m_lifestyle, profile.getLifestylePolicy() ) )
+        {
+            return false;
+        }
+        else
+        {
+            return equals( m_base, profile.getBaseDirective() );
+        }
     }
 
    /**
@@ -295,6 +428,9 @@ public class ComponentDirective extends DeploymentDirective implements Directive
     public int hashCode()
     {
         int hash = super.hashCode();
+        hash ^= m_name.hashCode();
+        hash ^= m_activation.hashCode();
+        hash ^= m_categories.hashCode();
         hash ^= m_classname.hashCode();
         hash ^= m_context.hashCode();
         if( null != m_collection )
@@ -304,6 +440,10 @@ public class ComponentDirective extends DeploymentDirective implements Directive
         if( null != m_lifestyle )
         {
             hash ^= m_lifestyle.hashCode();
+        }
+        if( null != m_base )
+        {
+            hash ^= m_base.hashCode();
         }
         return hash;
     }

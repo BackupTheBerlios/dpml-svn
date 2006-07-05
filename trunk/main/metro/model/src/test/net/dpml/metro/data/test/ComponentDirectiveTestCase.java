@@ -18,6 +18,8 @@
 
 package net.dpml.metro.data.test;
 
+import java.net.URI;
+
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
@@ -46,6 +48,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     private ContextDirective m_context;
     private ComponentDirective m_directive;
     private PartReference[] m_parts;
+    private URI m_base;
     
    /**
     * Setup the test case.
@@ -68,10 +71,11 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
             }
           );
         m_parts = new PartReference[0];
+        m_base = new URI( "local:part:org/acme/widget" );
         m_directive = 
           new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
-            m_categories, m_context, m_parts );
+            m_categories, m_context, m_parts, m_base );
     }
     
    /**
@@ -102,7 +106,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, null );
+              m_categories, m_context, null, null );
             fail( "Did not throw an IllegalArgumentException for a '' name." ); 
         }
         catch( IllegalArgumentException e )
@@ -120,7 +124,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred.blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, null );
+              m_categories, m_context, null, null );
             fail( "Did not throw an IllegalArgumentException for a name with a period." ); 
         }
         catch( IllegalArgumentException e )
@@ -138,7 +142,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred,blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, null );
+              m_categories, m_context, null, null );
             fail( "Did not throw an IllegalArgumentException for a name with a comma." ); 
         }
         catch( IllegalArgumentException e )
@@ -156,7 +160,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
         {
             new ComponentDirective( 
               "fred/blogs", m_activation, m_collection, m_lifestyle, m_classname, 
-              m_categories, m_context, null );
+              m_categories, m_context, null, null );
             fail( "Did not throw an IllegalArgumentException for a name with a '/'." ); 
         }
         catch( IllegalArgumentException e )
@@ -196,7 +200,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     {
         ComponentDirective directive = new ComponentDirective( 
             m_name, m_activation, m_collection, null, m_classname, 
-            m_categories, m_context, m_parts );
+            m_categories, m_context, m_parts, null );
         LifestylePolicy lifestyle = directive.getLifestylePolicy();
         assertEquals( "null-lifestyle", null, lifestyle );
     }
@@ -207,6 +211,14 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     public void testClassname()
     {
         assertEquals( "classname", m_classname, m_directive.getClassname() );
+    }
+    
+   /**
+    * Test base accessor.
+    */
+    public void testBase()
+    {
+        assertEquals( "base", m_base, m_directive.getBaseDirective() );
     }
     
    /**
@@ -241,11 +253,11 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
           
         ComponentDirective a = new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
-            m_categories, m_context, m_parts );
+            m_categories, m_context, m_parts, m_base );
             
         ComponentDirective b = new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
-            m_categories, context, m_parts );
+            m_categories, context, m_parts, m_base );
         
         if( a.equals( b ) )
         {

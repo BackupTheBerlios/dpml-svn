@@ -23,11 +23,12 @@
             <element name="parts" type="this:PartsType" minOccurs="0" maxOccurs="1"/>
           </sequence>
           <attribute name="name" type="string"/>
-          <attribute name="type" type="string" use="required"/>
+          <attribute name="type" type="string"/>
           <attribute name="lifestyle" type="this:lifestyle"/>
           <attribute name="collection" type="this:collection"/>
           <attribute name="activation" type="this:activation"/>
           <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
+          <attribute name="extends" type="anyURI"/>
         </extension>
       </complexContent>
     </complexType>
