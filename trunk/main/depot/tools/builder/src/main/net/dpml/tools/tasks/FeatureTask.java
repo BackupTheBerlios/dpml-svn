@@ -18,14 +18,10 @@
 
 package net.dpml.tools.tasks;
 
-import java.io.File;
-
 import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Resource;
 import net.dpml.library.Feature;
 import net.dpml.library.Type;
-
-import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
