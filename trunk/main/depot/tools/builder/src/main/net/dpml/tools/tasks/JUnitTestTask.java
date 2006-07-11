@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import net.dpml.library.Feature;
 import net.dpml.library.Type;
 import net.dpml.library.Resource;
 import net.dpml.library.info.Scope;
