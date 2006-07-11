@@ -20,6 +20,8 @@ package net.dpml.lang;
 
 import java.io.IOException;
 
+import net.dpml.util.Resolver;
+
 import org.w3c.dom.Element;
 
 /**
@@ -38,5 +40,16 @@ public interface Builder
     * @return the part definition
     * @exception IOException if an I/O error occurs
     */
-    Part build( Info info, Classpath classpath, Element strategy ) throws IOException;
+    //Part build( Info info, Classpath classpath, Element strategy ) throws IOException;
+    
+   /**
+    * Construct a new part using a supplied value resolver.
+    * @param info the part information descriptor
+    * @param classpath the part classpath descriptor
+    * @param strategy the DOM element definining the deployment strategy
+    * @param resolver build time value resolver
+    * @return the part definition
+    * @exception IOException if an I/O error occurs
+    */
+    Part build( Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException;
 }

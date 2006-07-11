@@ -14,6 +14,10 @@
       <pre>link:xsd:dpml/lang/dpml-component#1.0</pre>
 
       <subsection name="Description">
+      
+        <p>
+        Definition of a part deployment strategy using the Metro component model.
+        </p>
 
       </subsection>
 
@@ -21,7 +25,9 @@
         <table>
           <tr>
             <td><tt>type</tt></td>
-            <td>Set the component type classname (required).</td>
+            <td>Set the component type classname (required unless a super-directive
+            is declared via the uri attribute). May not be used in conjunction with
+            the special <tt>uri</tt> attribute.</td>
           </tr>
           <tr>
             <td><tt>name</tt></td>
@@ -63,18 +69,6 @@
              memory for the lifetime of the JVM unless explicitly removed
              via a management system or controlling application.</td>
           </tr>
-          <tr>
-            <td><tt>collection</tt></td>
-            <td>Overrides the component garbage collection policy (optional).  Allowable
-             values include <tt>WEAK</tt>, <tt>SOFT</tt> and <tt>HARD</tt>.
-             A component declaring a <tt>WEAK</tt> collection policy will 
-             be garbage collected at the discretion of the JVM.  A component
-             declaring a <tt>SOFT</tt> collection policy will be garbage 
-             collected in the event of memory contention.  A component 
-             declaring the <tt>HARD</tt> collection policy will remain in 
-             memory for the lifetime of the JVM unless explicitly removed
-             via a management system or controlling application.</td>
-          </tr>
         </table>
 
       </subsection>
@@ -84,10 +78,15 @@
         <table>
           <tr>
             <td><tt>key</tt></td>
-            <td>Required only when declaring a nested component within a type.  
-              The key corresponds to the internal key that uniquely identifies the 
-              child component within the scope of the enclosing component type.
+            <td>Required only when declaring a nested component within a type or
+              parent component. The key corresponds to the internal key that uniquely 
+              identifies the child component within the scope of the enclosing entity.
             </td>
+          </tr>
+          <tr>
+            <td><tt>uri</tt></td>
+            <td>Optionally set the super-profile that the definition extends. May not
+            be used in conjunction with the <tt>type</tt> attribute.</td>
           </tr>
         </table>
 
@@ -123,7 +122,7 @@
           </tr>
           <tr>
             <td><tt><a href="parts.html">parts</a></tt></td>
-            <td>Declaration of the nested componets.</td>
+            <td>Declaration of the nested components.</td>
           </tr>
         </table>
 

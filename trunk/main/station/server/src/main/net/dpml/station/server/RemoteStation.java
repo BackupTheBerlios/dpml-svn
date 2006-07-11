@@ -316,22 +316,6 @@ public class RemoteStation extends UnicastRemoteObject implements Station, Manag
     }
     
    /**
-    * Process a log record.  The implementation
-    * prepends the log record message with the process id.  Subsequent processing
-    * of log records is subject to the logging configuration applied to the 
-    * JVM process in which the server is established.
-    *
-    * @param process the process id of the jvm initiating the log record
-    * @param record the log record
-    * @exception RemoteException is a remote exception occurs
-    */
-    //public void log( PID process, LogRecord record ) throws RemoteException
-    //{
-    //    m_loggingServer.log( process, record );
-    //}
-    
-    
-   /**
     * Return an application reference for the supplied key.
     * @param key the application key
     * @return the application

@@ -38,7 +38,6 @@ import net.dpml.component.Controller;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Disposable;
 import net.dpml.component.ControlException;
-import net.dpml.component.ServiceNotFoundException;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
 import net.dpml.component.Service;
@@ -46,11 +45,9 @@ import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
 
 import net.dpml.lang.Version;
-import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.info.Type;
@@ -483,7 +480,7 @@ class DefaultComponentHandler extends UnicastEventSource
             if( m_model.getActivationPolicy().equals( ActivationPolicy.STARTUP ) )
             {
                 getLogger().debug( "activating" );
-                m_holder.getProvider();
+                m_holder.getProvider().getValue( false );
             }
             m_active = true;
         }

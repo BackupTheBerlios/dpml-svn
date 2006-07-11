@@ -56,6 +56,7 @@ public final class Main //implements ShutdownHandler
 
     private Object m_plugin;
     private boolean m_debug = false;
+    private boolean m_trace = false;
     
    /**
     * Processes command line options to establish the command handler plugin to deploy.
@@ -90,35 +91,17 @@ public final class Main //implements ShutdownHandler
         // check for debug mode
         //
         
-        if( CLIHelper.isOptionPresent( args, "-debug" ) )
+        if( CLIHelper.isOptionPresent( args, "-trace" ) )
+        {
+            args = CLIHelper.consolidate( args, "-trace" );
+            System.setProperty( "dpml.trace", "true" );
+            m_trace = true;
+        }
+        else if( CLIHelper.isOptionPresent( args, "-debug" ) )
         {
             args = CLIHelper.consolidate( args, "-debug" );
             System.setProperty( "dpml.debug", "true" );
-        }
-        
-        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
-        {
             m_debug = true;
-        }
-        
-        if( null == System.getProperty( "dpml.logging.config" ) )
-        {
-            if( m_debug )
-            {
-                System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
-            }
-            else
-            {
-                System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/default" );
-            }
-        }
-        
-        if( m_debug )
-        {
-            for( int i=0; i<arguments.length; i++ )
-            {
-                getLogger().debug( "arg[" + i + "]: " + arguments[i] );
-            }
         }
         
         //
@@ -126,33 +109,64 @@ public final class Main //implements ShutdownHandler
         //
         
         Command command = getCommand( args );
-        if( Command.BUILD.equals( command ) )
-        {
-            handleBuild( args );
-        }
-        else if( Command.TRANSIT.equals( command ) )
-        {
-            handleTransit( args );
-        }
-        else if( Command.METRO.equals( command ) )
-        {
-            handleMetro( args );
-        }
-        else if( Command.STATION.equals( command ) )
+        if( Command.STATION.equals( command ) )
         {
             handleStation( args );
         }
         else
         {
-            final String error = 
-              "Missing application key '" + APPLICATION_KEY + "'.";
-            System.err.println( error );
-            System.exit( 1 );
+            if( null == System.getProperty( "dpml.logging.config" ) )
+            {
+                if( m_trace )
+                {
+                    System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/trace" );
+                }
+                else if( m_debug )
+                {
+                    System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/debug" );
+                }
+                else
+                {
+                    System.setProperty( "dpml.logging.config", "local:properties:dpml/transit/default" );
+                }
+            }
+        
+            if( m_debug || m_trace )
+            {
+                for( int i=0; i<arguments.length; i++ )
+                {
+                    getLogger().debug( "arg[" + i + "]: " + arguments[i] );
+                }
+            }
+            
+            if( Command.BUILD.equals( command ) )
+            {
+                handleBuild( args );
+            }
+            else if( Command.TRANSIT.equals( command ) )
+            {
+                handleTransit( args );
+            }
+            else if( Command.METRO.equals( command ) )
+            {
+                handleMetro( args );
+            }
+            else
+            {
+                final String error = 
+                  "Missing application key '" + APPLICATION_KEY + "'.";
+                System.err.println( error );
+                System.exit( 1 );
+            }
         }
     }
     
     private void handleBuild( String[] args )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "launching builder" );
+        }
         String name = "build";
         String spec = "@DEPOT-BUILDER-URI@";
         handlePlugin( name, spec, args, false );
@@ -160,6 +174,10 @@ public final class Main //implements ShutdownHandler
 
     private void handleMetro( String[] args )
     {
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "launching metro" );
+        }
         String name = "exec";
         String spec = "@DEPOT-EXEC-URI@";
         handlePlugin( name, spec, args, true );
@@ -177,6 +195,18 @@ public final class Main //implements ShutdownHandler
         new File( Transit.DPML_DATA, "logs/station" ).mkdirs();
         if( CLIHelper.isOptionPresent( args, "-server" ) )
         {
+            if( m_trace )
+            {
+                System.setProperty( "dpml.logging.level", "FINEST" );
+            }
+            else if( m_debug )
+            {
+                System.setProperty( "dpml.logging.level", "FINE" );
+            }
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "launching station in server mode" );
+            }
             String name = "station";
             args = CLIHelper.consolidate( args, "-server" );
             String spec = "@DEPOT-STATION-SERVER-URI@";
@@ -184,6 +214,10 @@ public final class Main //implements ShutdownHandler
         }
         else
         {
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "launching station in client mode" );
+            }
             String name = "station";
             String spec = "@DEPOT-STATION-URI@";
             handlePlugin( name, spec, args, false );

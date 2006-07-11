@@ -18,17 +18,10 @@
 
 package net.dpml.library.info;
 
-import java.io.File;
-
-import net.dpml.lang.Version;
-
 import net.dpml.library.Feature;
-import net.dpml.library.FeatureRuntimeException;
 import net.dpml.library.Resource;
 import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Type;
-
-import net.dpml.transit.Artifact;
 
 /**
  * Simple value filter.

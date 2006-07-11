@@ -302,7 +302,8 @@ public class Type extends Composite implements Serializable
    /**
     * Utility operation to construct a default type given a supplied class.
     * @param subject the component implementation class
-    * @return the defalt type descriptor for the class
+    * @return the type descriptor for the class
+    * @exception IntrospectionException if an introspection error occurs
     */
     public static Type createType( Class subject )
        throws IntrospectionException

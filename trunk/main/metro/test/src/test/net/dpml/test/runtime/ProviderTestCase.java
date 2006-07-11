@@ -18,8 +18,6 @@
 
 package net.dpml.test.runtime;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URI;
 import java.lang.reflect.Proxy;
@@ -29,7 +27,7 @@ import junit.framework.TestCase;
 import net.dpml.component.Controller;
 import net.dpml.component.Component;
 import net.dpml.component.Provider;
-import net.dpml.state.State;
+
 import net.dpml.state.StateListener;
 import net.dpml.state.StateEvent;
 
@@ -185,9 +183,17 @@ public class ProviderTestCase extends TestCase
         }
     }
     
+   /**
+    * State event listener.
+    */
     private class DefaultStateListener implements StateListener
     {
         private Logger m_logger = new DefaultLogger( "test" );
+       
+       /**
+        * Handle a state change notification.
+        * @param event the state change event
+        */
         public void stateChanged( StateEvent event )
         {
             m_logger.info( "event: " + event );

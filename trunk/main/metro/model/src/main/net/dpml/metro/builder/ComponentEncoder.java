@@ -38,7 +38,6 @@ import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.ValueDirective;
-import net.dpml.metro.data.ImportDirective;
 
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
@@ -109,7 +108,7 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
     {
         if( object instanceof ComponentDirective )
         {
-            writeTaggedComponent( writer, (ComponentDirective) object, null, pad );
+            writeTaggedComponent( writer, (ComponentDirective) object, null, pad, true );
         }
         else
         {
@@ -144,7 +143,26 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
     public void writeTaggedComponent( 
       Writer writer, ComponentDirective directive, String key, String pad ) throws IOException
     {
-        writer.write( "\n" + pad + "<component xmlns=\"" + COMPONENT_SCHEMA_URN + "\"" );
+        writeTaggedComponent( writer, directive, key, pad, true );
+    }
+    
+   /** 
+    * Export a tagged component directive to an output stream as XML.
+    * @param writer the print writer
+    * @param directive the component directive
+    * @param key the key identifying the component
+    * @param pad character offset
+    * @param flag true if the xml namespace should be included
+    * @exception IOException if an IO error occurs
+    */
+    public void writeTaggedComponent( 
+      Writer writer, ComponentDirective directive, String key, String pad, boolean flag ) throws IOException
+    {
+        writer.write( "\n" + pad + "<component" );
+        if( flag )
+        {
+            writer.write( " xmlns=\"" + COMPONENT_SCHEMA_URN + "\"" );
+        }
         if( null != key )
         {
             writer.write( " key=\"" + key + "\"" );
@@ -155,29 +173,19 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         writer.write( "\n" + pad + "</component>" );
     }
     
-   /** 
-    * Export a tagged import directive to an output stream as XML.
-    * @param writer the print writer
-    * @param directive the import directive
-    * @param key the key identifying the component
-    * @param pad character offset
-    * @exception IOException if an IO error occurs
-    */
-    public void writeTaggedImport( 
-      Writer writer, ImportDirective directive, String key, String pad ) throws IOException
-    {
-        URI uri = directive.getURI();
-        String spec = uri.toASCIIString();
-        writer.write( "\n" + pad + "<import xmlns=\"" + COMPONENT_SCHEMA_URN + "\"" );
-        writer.write( " key=\"" + key + "\"" );
-        writer.write( " uri=\"" + spec + "\"/>" );
-    }
-    
     void writeAttributes( 
       Writer writer, ComponentDirective directive, String pad ) throws IOException
     {
         String classname = directive.getClassname();
-        writer.write( " type=\"" + classname + "\"" );
+        if( null != classname )
+        {
+            writer.write( " type=\"" + classname + "\"" );
+        }
+        URI uri = directive.getBaseURI();
+        if( null != uri )
+        {
+            writer.write( " uri=\"" + uri.toASCIIString() + "\"" );
+        }
         String name = directive.getName();
         if( null != name )
         {
@@ -198,11 +206,6 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         {
             writer.write( "\n" + pad + " activation=\"" + activation.getName() + "\"" );
         }
-        URI base = directive.getBaseDirective();
-        if( null != base )
-        {
-            writer.write( "\n" + pad + " extends=\"" + base.toASCIIString() + "\"" );
-        }
         writer.write( ">" );
     }
     
@@ -214,12 +217,17 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         PartReference[] parts = directive.getPartReferences();
         writeCategoriesDirective( writer, categories, pad );
         writeContextDirective( writer, context, pad );
-        writeParts( writer, parts, pad );
+        writeParts( writer, parts, pad, false );
     }
     
     private void writeCategoriesDirective( 
       Writer writer, CategoriesDirective categories, String pad ) throws IOException
     {
+        if( null == categories )
+        {
+            return;
+        }
+        
         String name = categories.getName();
         Priority priority = categories.getPriority();
         String target = categories.getTarget();
@@ -318,6 +326,11 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
     private void writeContextDirective( 
       Writer writer, ContextDirective context, String pad ) throws IOException
     {
+        if( null == context )
+        {
+            return;
+        }
+        
         String classname = context.getClassname();
         PartReference[] parts = context.getDirectives();
         
@@ -348,11 +361,17 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
     * @param writer the writer
     * @param parts the part refernece array
     * @param pad the offset
+    * @param flag true if the xml namespace should be included
     * @exception IOException if an IO error occurs
     */
     protected void writeParts( 
-      Writer writer, PartReference[] parts, String pad ) throws IOException
+      Writer writer, PartReference[] parts, String pad, boolean flag ) throws IOException
     {
+        if( null == parts )
+        {
+            return;
+        }
+        
         if( parts.length == 0 )
         {
             return;
@@ -360,18 +379,18 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         else
         {
             writer.write( "\n" + pad + "<parts>" );
-            writePartReferences( writer, parts, pad + "  " );
+            writePartReferences( writer, parts, pad + "  ", flag );
             writer.write( "\n" + pad + "</parts>" );
         }
     }
     
     private void writePartReferences(
-      Writer writer, PartReference[] parts, String pad ) throws IOException
+      Writer writer, PartReference[] parts, String pad, boolean flag ) throws IOException
     {
         for( int i=0; i<parts.length; i++ )
         {
             PartReference ref = parts[i];
-            writePartReference( writer, ref, pad );
+            writePartReference( writer, ref, pad, flag );
         }
     }
     
@@ -408,11 +427,6 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
             LookupDirective value = (LookupDirective) directive;
             writeLookupEntry( writer, key, value, pad );
         }
-        else if( directive instanceof ComponentDirective )
-        {
-            ComponentDirective value = (ComponentDirective) directive;
-            writeTaggedComponent( writer, value, key, pad );
-        }
         else
         {
             String classname = directive.getClass().getName();
@@ -436,7 +450,7 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
     }
     
     private void writePartReference(
-      Writer writer, PartReference part, String pad ) throws IOException
+      Writer writer, PartReference part, String pad, boolean flag ) throws IOException
     {
         String key = part.getKey();
         if( null == key )
@@ -452,18 +466,13 @@ public class ComponentEncoder extends ComponentConstants implements Encoder
         if( directive instanceof ComponentDirective )
         {
             ComponentDirective component = (ComponentDirective) directive;
-            writeTaggedComponent( writer, component, key, pad );
-        }
-        else if( directive instanceof ImportDirective )
-        {
-            ImportDirective importDirective = (ImportDirective) directive;
-            writeTaggedImport( writer, importDirective, key, pad );
+            writeTaggedComponent( writer, component, key, pad, flag );
         }
         else
         {
             String classname = directive.getClass().getName();
             final String error = 
-              "Part reference class not recognized."
+              "Part reference directive class not recognized."
               + "\nClass: " + classname;
             throw new IllegalArgumentException( error );
         }

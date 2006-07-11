@@ -42,7 +42,7 @@ import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.builder.ComponentTypeDecoder;
-import net.dpml.metro.runtime.DefaultComposition;
+import net.dpml.metro.data.DefaultComposition;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Part;
@@ -400,8 +400,9 @@ public class ComponentBuilderTask extends PartTask implements PartReferenceBuild
         }
         try
         {
+            Resource resource = getResource();
             Class c = classloader.loadClass( classname );
-            return COMPONENT_TYPE_DECODER.loadType( c );
+            return COMPONENT_TYPE_DECODER.loadType( c, resource );
         }
         catch( Throwable e )
         {

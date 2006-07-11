@@ -20,11 +20,7 @@ package net.dpml.metro.runtime;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.ControlException;
@@ -33,25 +29,19 @@ import net.dpml.component.Model;
 import net.dpml.component.Service;
 import net.dpml.component.Directive;
 import net.dpml.component.Disposable;
-import net.dpml.component.Composition;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
-import net.dpml.lang.Part;
 import net.dpml.lang.Version;
 
 import net.dpml.metro.PartsManager;
 import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.data.ComponentDirective;
-import net.dpml.metro.data.ImportDirective;
-
-import net.dpml.util.Logger;
 
 /**
- * Null implementation of the local Parts interface.
+ * Internal parts manager.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -95,11 +85,11 @@ class DefaultPartsManager implements PartsManager, Disposable
             {
                 try
                 {
-                    Classpath classpath = new Classpath();
                     ComponentDirective directive = (ComponentDirective) part;
+                    Classpath classpath = resolveClasspath( directive );
                     ComponentController controller = handler.getComponentController();
                     ComponentModel manager = 
-                      controller.createComponentModel( classloader, classpath, base, directive );
+                      controller.createComponentModel( classloader, classpath, base, directive, key );
                     ComponentHandler component = 
                       controller.createDefaultComponentHandler( m_provider, classloader, manager, true );
                     m_components[i] = component;
@@ -113,32 +103,6 @@ class DefaultPartsManager implements PartsManager, Disposable
                       + m_provider
                       + "]";
                     throw new ControllerRuntimeException( error, e );
-                }
-            }
-            else if( part instanceof ImportDirective )
-            {
-                ImportDirective importDirective = (ImportDirective) part;
-                URI uri = importDirective.getURI();
-                Part p = Part.load( uri, false );
-                if( p instanceof Composition )
-                {
-                    Composition composition = (Composition) p;
-                    ComponentDirective directive = (ComponentDirective) composition.getDirective();
-                    Classpath classpath = composition.getClasspath();
-                    ComponentController controller = handler.getComponentController();
-                    ComponentModel manager = 
-                      controller.createComponentModel( classloader, classpath, base, directive, key );
-                    ComponentHandler component = 
-                      controller.createDefaultComponentHandler( m_provider, classloader, manager, true );
-                    m_components[i] = component;
-                }
-                else
-                {
-                    final String error = 
-                      "Part class [" 
-                      + part.getClass().getName() 
-                      + "] not recognized.";
-                    throw new ControllerException( error );
                 }
             }
             else
@@ -347,5 +311,18 @@ class DefaultPartsManager implements PartsManager, Disposable
             }
         }
         m_commissioned = false;
+    }
+
+    
+    private Classpath resolveClasspath( ComponentDirective directive )
+    {
+        if( null != directive.getBasePart() )
+        {
+            return directive.getBasePart().getClasspath();
+        }
+        else
+        {
+            return new Classpath();
+        }
     }
 }

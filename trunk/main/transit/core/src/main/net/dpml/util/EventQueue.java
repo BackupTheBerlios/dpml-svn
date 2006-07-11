@@ -18,18 +18,11 @@
 
 package net.dpml.util;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
-import java.util.EventListener;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import net.dpml.transit.monitor.LoggingAdapter;
-
-import net.dpml.util.Logger;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 

@@ -19,11 +19,8 @@
 package net.dpml.transit;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.EventObject;
 import java.util.EventListener;
-import java.util.List;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -54,6 +51,7 @@ public abstract class DefaultModel extends UnicastEventSource implements Disposa
 
    /**
     * Creation of a new model.
+    * @param queue the event queue
     * @param name the name used to construct a logging channel
     * @exception RemoteException if a remote exception occurs
     */
@@ -65,6 +63,7 @@ public abstract class DefaultModel extends UnicastEventSource implements Disposa
 
    /**
     * Creation of a new model.
+    * @param queue the event queue
     * @param logger the assigned logging channel
     * @exception NullPointerException if the supplied logging channel is null
     * @exception RemoteException if a remote exception occurs
@@ -79,6 +78,10 @@ public abstract class DefaultModel extends UnicastEventSource implements Disposa
     // DefaultModel
     // ------------------------------------------------------------------------
 
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return super.getLocalLogger();

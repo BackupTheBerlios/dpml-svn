@@ -20,10 +20,6 @@ package net.dpml.metro;
 
 import java.rmi.RemoteException;
 
-import net.dpml.metro.info.CollectionPolicy;
-
-import net.dpml.lang.UnknownKeyException;
-
 /**
  * The ComponentManager interface provides support for manipulatation of 
  * a local component model.
@@ -40,29 +36,5 @@ public interface ComponentModelManager extends ComponentModel
     */
     ContextModelManager getContextManager() throws RemoteException;
     
-   /**
-    * Return the set of subsidiary component model keys.
-    * @return the part keys
-    * @exception RemoteException if a remote I/O error occurs
-    */
-    //String[] getPartKeys() throws RemoteException;
-
-   /**
-    * Return a subsidiary component manager.
-    * @param key the component part key
-    * @return the component manager
-    * @exception UnknownKeyException if the key is not recognized
-    * @exception RemoteException if a remote I/O error occurs
-    * @see #getPartKeys()
-    */
-    //ComponentModelManager getComponentManager( String key ) 
-    //  throws UnknownKeyException, RemoteException;
-
-   /**
-    * Override the assigned collection policy.
-    * @param policy the collection policy value
-    * @exception RemoteException if a remote I/O error occurs
-    */
-    //void setCollectionPolicy( CollectionPolicy policy ) throws RemoteException;
 }
 

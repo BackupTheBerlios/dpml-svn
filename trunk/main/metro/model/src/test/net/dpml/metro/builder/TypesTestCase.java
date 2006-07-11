@@ -25,6 +25,9 @@ import net.dpml.metro.info.Type;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
 
+import net.dpml.util.Resolver;
+import net.dpml.util.SimpleResolver;
+
 import junit.framework.TestCase;
 
 /**
@@ -55,7 +58,8 @@ public class TypesTestCase extends TestCase
         File test = new File( testPath );
         File example = new File( test, "types/example-1.xml" );
         URI uri = example.toURI();
-        Type type = m_builder.loadType( uri );
+        Resolver resolver = new SimpleResolver();
+        Type type = m_builder.loadType( uri, resolver );
         ContextDescriptor context = type.getContextDescriptor();
         EntryDescriptor[] entries = context.getEntryDescriptors();
         if( entries.length != 1 )

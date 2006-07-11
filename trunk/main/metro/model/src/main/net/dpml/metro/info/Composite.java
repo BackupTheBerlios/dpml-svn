@@ -19,15 +19,18 @@
 package net.dpml.metro.info;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import net.dpml.component.Directive;
+
+import net.dpml.lang.AbstractDirective;
 
 /**
  * Abstract base class for composite entities.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class Composite implements Serializable
+public abstract class Composite extends AbstractDirective implements Serializable
 {
     static final long serialVersionUID = 1L;
     
@@ -86,7 +89,7 @@ public abstract class Composite implements Serializable
     */
     public boolean equals( Object other )
     {
-        if( null == other )
+        if( !super.equals( other ) )
         {
             return false;
         }
@@ -95,21 +98,7 @@ public abstract class Composite implements Serializable
             return false;
         }
         Composite t = (Composite) other;
-        if( m_parts.length != t.m_parts.length )
-        {
-            return false;
-        }
-        else
-        {
-            for( int i=0; i<m_parts.length; i++ )
-            {
-                if( !m_parts[i].equals( t.m_parts[i] ) )
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return Arrays.equals( m_parts, t.m_parts );
     }
 
    /**
@@ -119,29 +108,7 @@ public abstract class Composite implements Serializable
     public int hashCode()
     {
         int hash = getClass().hashCode();
-        for( int i = 0; i < m_parts.length; i++ )
-        {
-            hash ^= m_parts[i].hashCode();
-            hash = hash - 163611323;
-        }
+        hash ^= hashArray( m_parts );
         return hash;
-    }
-
-   /**
-    * Utility to compare two object for equality.
-    * @param a the first object
-    * @param b the second object
-    * @return true if the objects are equal
-    */
-    protected boolean equals( Object a, Object b )
-    {
-        if( null == a )
-        {
-            return ( null == b );
-        }
-        else
-        {
-            return a.equals( b );
-        }
     }
 }

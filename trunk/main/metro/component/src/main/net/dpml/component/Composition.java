@@ -34,7 +34,7 @@ import net.dpml.util.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class Composition extends Part
+public abstract class Composition extends Part implements Directive
 {
     private final Directive m_directive;
     private final Controller m_controller;
@@ -50,8 +50,9 @@ public abstract class Composition extends Part
     * @param directive the part deployment strategy directive
     * @exception IOException if an I/O error occurs
     */
-    public Composition( Logger logger, Info info, Classpath classpath, Controller controller, Directive directive )
-      throws IOException
+    public Composition( 
+      Logger logger, Info info, Classpath classpath, Controller controller, 
+      Directive directive ) throws IOException
     {
         super( logger, info, classpath );
         
@@ -61,6 +62,15 @@ public abstract class Composition extends Part
         }
         m_directive = directive;
         m_controller = controller;
+    }
+    
+   /**
+    * Return the assigned controller.
+    * @return the controller
+    */
+    public Controller getController()
+    {
+        return m_controller;
     }
 
    /**

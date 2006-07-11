@@ -23,13 +23,9 @@ import java.net.URI;
 
 import javax.xml.XMLConstants;
 
-import net.dpml.state.State;
-import net.dpml.state.Action;
 import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.StateBuilderRuntimeException;
 
 import net.dpml.util.DOM3DocumentBuilder;
-
 import net.dpml.util.ElementHelper;
 
 import org.w3c.dom.Document;

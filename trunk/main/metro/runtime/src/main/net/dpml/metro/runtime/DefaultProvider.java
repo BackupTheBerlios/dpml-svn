@@ -19,8 +19,6 @@
 package net.dpml.metro.runtime;
 
 import java.io.IOException;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,8 +43,6 @@ import net.dpml.state.StateEvent;
 import net.dpml.state.StateListener;
 import net.dpml.state.UnknownTransitionException;
 import net.dpml.state.UnknownOperationException;
-
-import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.util.Logger;
 import net.dpml.util.EventQueue;

@@ -18,6 +18,7 @@
 
 package net.dpml.metro.data;
 
+import java.io.IOException;
 import java.net.URI;
 
 import net.dpml.component.ActivationPolicy;
@@ -27,6 +28,10 @@ import net.dpml.metro.info.Composite;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
+
+//import net.dpml.metro.builder.ComponentDecoder;
+
+import net.dpml.lang.Part;
 
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when
@@ -97,7 +102,44 @@ public class ComponentDirective extends Composite implements Comparable, Directi
 
     private static final CategoriesDirective EMPTY_CATEGORIES = 
       new CategoriesDirective();
-
+      
+    //private static final ComponentDecoder DECODER = new ComponentDecoder();
+    
+    /*
+    private static PartReference[] mergePartReferences( 
+      PartReference[] parts, ComponentDirective directive )
+    {
+        if( null == directive )
+        {
+            return parts;
+        }
+        else if( null == parts )
+        {
+            return directive.getPartReferences();
+        }
+        else
+        {
+            Hashtable table = new Hashtable();
+            PartReference[] references = directive.getPartReferences();
+            for( int i=0; i<references.length; i++ )
+            {
+                PartReference ref = references[i];
+                String key = ref.getKey();
+                table.put( key, ref );
+            }
+            for( int i=0; i<parts.length; i++ )
+            {
+                PartReference ref = parts[i];
+                String key = ref.getKey();
+                table.put( key, ref );
+            }
+            PartReference[] refs = (PartReference[]) table.values().toArray( new PartReference[0] );
+            Arrays.sort( refs );
+            return refs;
+        }
+    }
+    */
+    
     //--------------------------------------------------------------------------
     // state
     //--------------------------------------------------------------------------
@@ -106,7 +148,7 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     * The collection policy override.
     */
     private final CollectionPolicy m_collection;
-
+    
    /**
     * The component lifestyle policy.
     */
@@ -139,9 +181,14 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     private final CategoriesDirective m_categories;
 
    /**
+    * Base directive uri.
+    */
+    private final URI m_uri;
+
+   /**
     * Base directive.
     */
-    private final URI m_base;
+    private final DefaultComposition m_base;
 
     //--------------------------------------------------------------------------
     // constructors
@@ -152,8 +199,9 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     *
     * @param name the name to assign to the component deployment scenario
     * @param classname the classname of the component type
+    * @exception IOException if an IO exception occurs
     */
-    public ComponentDirective( final String name, final String classname )
+    public ComponentDirective( final String name, final String classname ) throws IOException
     {
         this(
           name, 
@@ -174,8 +222,8 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     * @param categories logging categories
     * @param context context directive
     * @param parts the component internal parts
-    * @param base URI of the component super-definition
-    * @exception NullPointerException if the supplied name if null
+    * @param uri URI of the component super-definition
+    * @exception IOException if an IO exception occurs
     */
     public ComponentDirective(
            final String name,
@@ -186,13 +234,20 @@ public class ComponentDirective extends Composite implements Comparable, Directi
            final CategoriesDirective categories,
            final ContextDirective context,
            final PartReference[] parts,
-           final URI base )
+           final URI uri ) throws IOException
     {
         super( parts );
         
         if( null == activation )
         {
-            m_activation = ActivationPolicy.SYSTEM;
+            if( null != uri )
+            {
+                m_activation = null;
+            }
+            else
+            {
+                m_activation = ActivationPolicy.SYSTEM;
+            }
         }
         else
         {
@@ -201,7 +256,14 @@ public class ComponentDirective extends Composite implements Comparable, Directi
         
         if( null == categories )
         {
-            m_categories = EMPTY_CATEGORIES;
+            if( null != uri )
+            {
+                m_categories = null;
+            }
+            else
+            {
+                m_categories = EMPTY_CATEGORIES;
+            }
         }
         else
         {
@@ -210,54 +272,108 @@ public class ComponentDirective extends Composite implements Comparable, Directi
         
         if( null == classname )
         {
-            m_classname = Object.class.getName();
+            if( null != uri )
+            {
+                m_classname = null;
+            }
+            else
+            {
+                m_classname = Object.class.getName();
+            }
         }
         else
         {
             m_classname = classname;
         }
-
+        
         if( null == context )
         {
-            m_context = new ContextDirective( new PartReference[0] );
+            if( null != uri )
+            {
+                m_context = null;
+            }
+            else
+            {
+                m_context = new ContextDirective( new PartReference[0] );
+            }
         }
         else
         {
             m_context = context;
         }
         
-        m_lifestyle = lifestyle;
-        m_collection = collection;
-        m_base = base;
-        
-        if( null != name )
+        if( null == lifestyle )
         {
-            if( name.indexOf( " " ) > 0 || name.indexOf( "." ) > 0 || name.indexOf( "," ) > 0
-              || name.indexOf( "/" ) > 0 )
+            if( null != uri )
             {
-                final String error = 
-                  "Directive name ["
-                  + name
-                  + "] contains an illegal character (' ', ',', '/', or '.')";
-                throw new IllegalArgumentException( error );
-            }
-            else if( name.length() == 0 )
-            {
-                final String error = 
-                  "Directive name [] is insufficient.";
-                throw new IllegalArgumentException( error );
+                m_lifestyle = null;
             }
             else
             {
-                m_name = name;
+                m_lifestyle = LifestylePolicy.SYSTEM;
             }
         }
         else
         {
-            throw new NullPointerException( "name" );
+            m_lifestyle = lifestyle;
+        }
+
+        if( null == collection )
+        {
+            if( null != uri )
+            {
+                m_collection = null;
+            }
+            else
+            {
+                m_collection = CollectionPolicy.SYSTEM;
+            }
+        }
+        else
+        {
+            m_collection = collection;
+        }
+        
+        m_uri = uri;
+        
+        if( null != uri )
+        {
+            Part part = Part.load( uri );
+            if( part instanceof DefaultComposition )
+            {
+                m_base = (DefaultComposition) part;
+            }
+            else
+            {
+                final String error = 
+                  "Base part class is not recognized."
+                  + "\nClass: " + part.getClass().getName();
+                throw new IllegalStateException( error );
+            }
+        }
+        else
+        {
+            m_base = null;
+        }
+        
+        if( null == name )
+        {
+            if( null != uri )
+            {
+                m_name = null;
+            }
+            else
+            {
+                m_name = toName( m_classname );
+            }
+        }
+        else
+        {
+            validateName( name );
+            m_name = name;
         }
     }
-
+    
     //--------------------------------------------------------------------------
     // implementation
     //--------------------------------------------------------------------------
@@ -341,7 +457,34 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     *
     * @return the uri of the base directive
     */
-    public URI getBaseDirective()
+    public URI getBaseURI()
+    {
+        return m_uri;
+    }
+
+   /**
+    * Return the base directive.
+    *
+    * @return the base directive
+    */
+    public ComponentDirective getBaseDirective()
+    {
+        if( null == m_base )
+        {
+            return null;
+        }
+        else
+        {
+            return m_base.getComponentDirective();
+        }
+    }
+
+   /**
+    * Return the base part.
+    *
+    * @return the base part
+    */
+    public DefaultComposition getBasePart()
     {
         return m_base;
     }
@@ -352,12 +495,19 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     */
     public String toString()
     {
-        return "[" + getName() + "]";
+        if( null != m_name )
+        {
+            return "[" + getName() + "]";
+        }
+        else
+        {
+            return "[unknown]";
+        }
     }
 
    /**
     * Compare this object with the supplied object.
-    * @param object the obvject to compare with
+    * @param object the object to compare with
     * @return the result
     */
     public int compareTo( Object object )
@@ -374,10 +524,6 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     */
     public boolean equals( Object other )
     {
-        if( null == other )
-        {
-            return false;
-        }
         if( !super.equals( other ) )
         {
             return false;
@@ -387,23 +533,23 @@ public class ComponentDirective extends Composite implements Comparable, Directi
             return false;
         }
         ComponentDirective profile = (ComponentDirective) other;
-        if( !m_name.equals( profile.getName() ) )
+        if( !equals( m_name, profile.getName() ) )
         {
             return false;
         }
-        else if( !m_activation.equals( profile.getActivationPolicy() ) )
+        else if( !equals( m_activation, profile.getActivationPolicy() ) )
         {
             return false;
         }
-        else if( !m_categories.equals( profile.getCategoriesDirective() ) )
+        else if( !equals( m_categories, profile.getCategoriesDirective() ) )
         {
             return false;
         }
-        else if( !m_classname.equals( profile.getClassname() ) )
+        else if( !equals( m_classname, profile.getClassname() ) )
         {
             return false;
         }
-        else if( !m_context.equals( profile.getContextDirective() ) )
+        else if( !equals( m_context, profile.getContextDirective() ) )
         {
             return false;
         }
@@ -417,7 +563,7 @@ public class ComponentDirective extends Composite implements Comparable, Directi
         }
         else
         {
-            return equals( m_base, profile.getBaseDirective() );
+            return equals( m_uri, profile.getBaseURI() );
         }
     }
 
@@ -428,23 +574,52 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     public int hashCode()
     {
         int hash = super.hashCode();
-        hash ^= m_name.hashCode();
-        hash ^= m_activation.hashCode();
-        hash ^= m_categories.hashCode();
-        hash ^= m_classname.hashCode();
-        hash ^= m_context.hashCode();
-        if( null != m_collection )
-        {
-            hash ^= m_collection.hashCode();
-        }
-        if( null != m_lifestyle )
-        {
-            hash ^= m_lifestyle.hashCode();
-        }
-        if( null != m_base )
-        {
-            hash ^= m_base.hashCode();
-        }
+        hash ^= hashValue( m_name );
+        hash ^= hashValue( m_activation );
+        hash ^= hashValue( m_categories );
+        hash ^= hashValue( m_classname );
+        hash ^= hashValue( m_context );
+        hash ^= hashValue( m_collection );
+        hash ^= hashValue( m_lifestyle );
+        hash ^= hashValue( m_uri );
         return hash;
+    }
+
+   /**
+    * Internal utility to get the name of the class without the package name. Used
+    * when constructing a default component name.
+    * @param classname the fully qualified classname
+    * @return the short class name without the package name
+    */
+    private String toName( String classname )
+    {
+        int i = classname.lastIndexOf( "." );
+        if( i == -1 )
+        {
+            return classname.toLowerCase();
+        }
+        else
+        {
+            return classname.substring( i + 1, classname.length() ).toLowerCase();
+        }
+    }
+    
+    private void validateName( final String name )
+    {
+        if( name.indexOf( " " ) > 0 || name.indexOf( "." ) > 0 || name.indexOf( "," ) > 0
+          || name.indexOf( "/" ) > 0 )
+        {
+            final String error = 
+              "Directive name ["
+              + name
+              + "] contains an illegal character (' ', ',', '/', or '.')";
+            throw new IllegalArgumentException( error );
+        }
+        else if( name.length() == 0 )
+        {
+            final String error = 
+              "Directive name [] is insufficient.";
+            throw new IllegalArgumentException( error );
+        }
     }
 }

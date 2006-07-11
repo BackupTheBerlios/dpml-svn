@@ -177,10 +177,10 @@ public final class DecoderFactory
         * @return the resulting object
         * @exception IOException if an IO error occurs
         */
-        public Object decode( Element element ) throws IOException
+        public Object decode( Element element, Resolver resolver ) throws IOException
         {
             Decoder decoder = getDelegateDecoder();
-            return decoder.decode( element );
+            return decoder.decode( element, resolver );
         }
         
         private Decoder getDelegateDecoder()

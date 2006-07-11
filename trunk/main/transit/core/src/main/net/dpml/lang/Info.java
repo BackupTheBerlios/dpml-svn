@@ -19,7 +19,6 @@
 package net.dpml.lang;
 
 import java.net.URI;
-import java.io.Serializable;
 
 /**
  * Part info description.

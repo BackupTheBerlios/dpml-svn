@@ -18,22 +18,22 @@
 
 package net.dpml.util;
 
-import java.io.IOException;
-
-import org.w3c.dom.Element;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
- * Interface implemented by generic decoders.
+ * Interace implemented by a value (key, ref, and property) resolver.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface Decoder
+public interface Resolver
 {
-   /**
-    * Create an object using a supplied classloader and DOM element.
-    * @param element the DOM element
-    * @param resolver build-time value resolver
-    * @return the decoded object
-    * @exception IOException if an error occurs in the evaluation 
-    *   of the supplied element
-    */
-    Object decode( Element element, Resolver resolver ) throws IOException;
+    URI toURI( String ref ) throws URISyntaxException;
+    
+    String getProperty( String key );
+    
+    String getProperty( String key, String value );
+    
+    String resolve( String value );
 }

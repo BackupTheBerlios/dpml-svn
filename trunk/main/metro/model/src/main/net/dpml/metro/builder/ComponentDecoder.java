@@ -29,7 +29,6 @@ import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ValueDirective;
 import net.dpml.metro.data.LookupDirective;
-import net.dpml.metro.data.ImportDirective;
 
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
@@ -39,9 +38,11 @@ import net.dpml.metro.info.Priority;
 import net.dpml.lang.ValueDecoder;
 import net.dpml.lang.Value;
 
+import net.dpml.util.Resolver;
 import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.ElementHelper;
 import net.dpml.util.DecodingException;
+import net.dpml.util.SimpleResolver;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -62,7 +63,10 @@ public class ComponentDecoder
     private static final ValueDecoder VALUE_DECODER = new ValueDecoder();
     
    /**
-    * Construct a component directive using the supplied uri.
+    * Construct a component directive using the supplied uri. The uri
+    * must refer to an XML document containing a root component element
+    * (typically used in component data testcases).
+    *
     * @param uri the part uri
     * @return the component directive
     * @exception IOException if an error occurs during directive creation
@@ -77,7 +81,8 @@ public class ComponentDecoder
         {
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
-            return buildComponent( root );
+            Resolver resolver = new SimpleResolver();
+            return buildComponent( root, resolver );
         }
         catch( Throwable e )
         {
@@ -96,7 +101,7 @@ public class ComponentDecoder
     * @return the component directive
     * @exception DecodingException if an error occurs during directive creation
     */
-    public ComponentDirective buildComponent( Element root ) throws DecodingException
+    public ComponentDirective buildComponent( Element root, Resolver resolver ) throws DecodingException
     {
         if( null == root )
         {
@@ -105,7 +110,7 @@ public class ComponentDecoder
         String tag = root.getTagName();
         if( "component".equals( tag ) )
         {
-            return createComponentDirective( root );
+            return createComponentDirective( root, resolver );
         }
         else
         {
@@ -117,26 +122,55 @@ public class ComponentDecoder
         }
     }
     
-    private ComponentDirective createComponentDirective( Element element ) throws DecodingException
+    private ComponentDirective createComponentDirective( 
+      Element element, Resolver resolver ) throws DecodingException
     {
         String classname = buildComponentClassname( element );
-        String name = buildComponentName( element, classname );
+        String name = buildComponentName( element );
         ActivationPolicy activation = buildActivationPolicy( element );
         CollectionPolicy collection = buildCollectionPolicy( element );
         LifestylePolicy lifestyle = buildLifestylePolicy( element );
         CategoriesDirective categories = getNestedCategoriesDirective( element );
         ContextDirective context = getNestedContextDirective( element );
-        PartReference[] parts = getNestedParts( element );
-        URI base = getBaseURI( element );
+        PartReference[] parts = getNestedParts( element, resolver );
+        URI base = getBaseURI( element, resolver );
         
-        return new ComponentDirective( 
-          name, activation, collection, lifestyle, classname, 
-          categories, context, parts, base );
+        if( null == base )
+        {
+            if( null == classname )
+            {
+                final String error = 
+                  "Missing component type attribute.";
+                throw new DecodingException( element, error );
+            }
+        }
+        else
+        {
+            if( null != classname )
+            {
+                final String error = 
+                  "llegal attempt to override a base type in a supertype.";
+                throw new DecodingException( element, error );
+            }
+        }
+        
+        try
+        {
+            return new ComponentDirective( 
+              name, activation, collection, lifestyle, classname, 
+              categories, context, parts, base );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Component directive creation error.";
+            throw new DecodingException( element, error, e );
+        }
     }
     
-    private URI getBaseURI( Element element ) throws DecodingException
+    private URI getBaseURI( Element element, Resolver resolver ) throws DecodingException
     {
-        String base = ElementHelper.getAttribute( element, "extends" );
+        String base = ElementHelper.getAttribute( element, "uri" );
         if( null == base )
         {
             return null;
@@ -145,12 +179,12 @@ public class ComponentDecoder
         {
             try
             {
-                return new URI( base );
+                return resolver.toURI( base );
             }
             catch( Exception e )
             {
                 final String error = 
-                  "Unable to resolve the URI declared as under the 'extends' attribute."
+                  "Unable to resolve the URI declared as under the base 'uri' attribute."
                   + "\n  URI: " + base;
                 throw new DecodingException( element, error );
             }
@@ -159,24 +193,20 @@ public class ComponentDecoder
     
     private String buildComponentClassname( Element element ) throws DecodingException
     {
-        String classname = ElementHelper.getAttribute( element, "type" );
-        if( null == classname )
-        {
-            final String error =
-              "Missing component 'class' attribute.";
-            throw new DecodingException( element, error );
-        }
-        else
-        {
-            return classname;
-        }
+        return ElementHelper.getAttribute( element, "type" );
     }
     
     private ActivationPolicy buildActivationPolicy( Element element ) throws DecodingException
     {
-        String defaultValue = ActivationPolicy.SYSTEM.getName();
-        String policy = ElementHelper.getAttribute( element, "activation", defaultValue );
-        return ActivationPolicy.parse( policy );
+        String policy = ElementHelper.getAttribute( element, "activation" );
+        if( null == policy )
+        {
+            return null;
+        }
+        else
+        {
+            return ActivationPolicy.parse( policy );
+        }
     }
     
     private LifestylePolicy buildLifestylePolicy( Element element ) throws DecodingException
@@ -194,30 +224,20 @@ public class ComponentDecoder
     
     private CollectionPolicy buildCollectionPolicy( Element element ) throws DecodingException
     {
-        String defaultValue = CollectionPolicy.SYSTEM.getName();
-        String policy = ElementHelper.getAttribute( element, "collection", defaultValue );
-        return CollectionPolicy.parse( policy );
-    }
-    
-    private String buildComponentName( Element element, String classname )
-    {
-        String name = ElementHelper.getAttribute( element, "name" );
-        if( null != name )
-        {
-            return name;
+        String policy = ElementHelper.getAttribute( element, "collection" );
+        if( null != policy )
+        { 
+            return CollectionPolicy.parse( policy );
         }
         else
         {
-            name = ElementHelper.getAttribute( element, "key" );
-            if( null != name )
-            {
-                return name;
-            }
-            else
-            {
-                return toName( classname );
-            }
+            return null;
         }
+    }
+    
+    private String buildComponentName( Element element )
+    {
+        return ElementHelper.getAttribute( element, "name" );
     }
     
     private CategoriesDirective getNestedCategoriesDirective( Element root )
@@ -368,7 +388,7 @@ public class ComponentDecoder
         }
     }
     
-    private PartReference[] getNestedParts( Element root ) throws DecodingException
+    private PartReference[] getNestedParts( Element root, Resolver resolver ) throws DecodingException
     {
         Element parts = ElementHelper.getChild( root, "parts" );
         if( null == parts )
@@ -377,48 +397,31 @@ public class ComponentDecoder
         }
         else
         {
-            return createParts( parts );
+            return createParts( parts, resolver );
         }
     }
     
-    private PartReference[] createParts( Element element ) throws DecodingException
+    private PartReference[] createParts( Element element, Resolver resolver ) throws DecodingException
     {
         Element[] children = ElementHelper.getChildren( element );
         PartReference[] parts = new PartReference[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element elem = children[i];
-            parts[i] = createPartReference( elem );
+            parts[i] = createPartReference( elem, resolver );
         }
         return parts;
     }
     
-    private PartReference createPartReference( Element element ) throws DecodingException
+    private PartReference createPartReference( Element element, Resolver resolver ) throws DecodingException
     {
         String tag = element.getTagName();
         String key = ElementHelper.getAttribute( element, "key" );
+        int priority = getPriority( element );
         if( "component".equals( tag ) )
         {
-            ComponentDirective directive = buildComponent( element );
-            return new PartReference( key, directive );
-        }
-        else if( "import".equals( tag ) )
-        {
-            String spec = ElementHelper.getAttribute( element, "uri" );
-            try
-            {
-                URI uri = new URI( spec );
-                ImportDirective directive = new ImportDirective( uri );
-                return new PartReference( key, directive );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Internal error while attempting to construct import directive."
-                  + "\nImport URI: " + spec
-                  + "\nPart key: " + key;
-                throw new DecodingException( element, error );
-            }
+            ComponentDirective directive = buildComponent( element, resolver );
+            return new PartReference( key, directive, priority );
         }
         else
         {
@@ -429,7 +432,22 @@ public class ComponentDecoder
             throw new DecodingException( element, error );
         }
     }
-
+    
+    private int getPriority( Element element ) throws DecodingException
+    {
+        String priority = ElementHelper.getAttribute( element, "priority", "0" );
+        try
+        {
+            return Integer.parseInt( priority );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Unable to parse priority value.";
+            throw new DecodingException( element, error, e );
+        }
+    }
+    
    /**
     * Internal utility to get the name of the class without the package name. Used
     * when constructing a default component name.

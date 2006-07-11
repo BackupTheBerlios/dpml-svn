@@ -31,6 +31,8 @@ import net.dpml.util.DOM3DocumentBuilder;
 
 import net.dpml.util.DecodingException;
 import net.dpml.util.Decoder;
+import net.dpml.util.Resolver;
+import net.dpml.util.SimpleResolver;
 
 import net.dpml.lang.ValueDirective;
 import net.dpml.util.ElementHelper;
@@ -60,7 +62,8 @@ public final class RegistryBuilder implements Decoder
     {
         Document document = DOCUMENT_BUILDER.parse( uri );
         Element root = document.getDocumentElement();
-        return decode( root );
+        Resolver resolver = new SimpleResolver();
+        return decode( root , resolver );
     }
     
    /**
@@ -69,16 +72,16 @@ public final class RegistryBuilder implements Decoder
     * @return the registry descriptor
     * @exception DecodingException if a decoding error occurs
     */
-    public Object decode( Element element ) throws DecodingException
+    public Object decode( Element element, Resolver resolver ) throws DecodingException
     {
         String tag = element.getTagName();
         if( "application".equals( tag ) )
         {
-            return buildApplicationDescriptor( element );
+            return buildApplicationDescriptor( element, resolver );
         }
         else if( "registry".equals( tag ) )
         {
-            return buildRegistryDescriptor( element );
+            return buildRegistryDescriptor( element, resolver );
         }
         else
         {
@@ -88,7 +91,8 @@ public final class RegistryBuilder implements Decoder
         }
     }
     
-    private RegistryDescriptor buildRegistryDescriptor( Element element ) throws DecodingException
+    private RegistryDescriptor buildRegistryDescriptor( 
+      Element element, Resolver resolver ) throws DecodingException
     {
         Element[] elements = ElementHelper.getChildren( element );
         Entry[] entries = new Entry[ elements.length ];
@@ -102,13 +106,14 @@ public final class RegistryBuilder implements Decoder
                   "Missing 'key' attribute in application element.";
                 throw new DecodingException( elem, error );
             }
-            ApplicationDescriptor descriptor = buildApplicationDescriptor( elem );
+            ApplicationDescriptor descriptor = buildApplicationDescriptor( elem, resolver );
             entries[i] = new Entry( key, descriptor );
         }
         return new RegistryDescriptor( entries );
     }
     
-    private ApplicationDescriptor buildApplicationDescriptor( Element element ) throws DecodingException
+    private ApplicationDescriptor buildApplicationDescriptor( 
+      Element element, Resolver resolver ) throws DecodingException
     {
         String title = ElementHelper.getAttribute( element, "title" );
         StartupPolicy policy = buildStartupPolicy( element );

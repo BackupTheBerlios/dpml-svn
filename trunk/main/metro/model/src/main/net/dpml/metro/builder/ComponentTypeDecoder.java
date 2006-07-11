@@ -47,6 +47,7 @@ import net.dpml.state.DefaultState;
 import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.DecodingException;
 import net.dpml.util.ElementHelper;
+import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
@@ -69,10 +70,12 @@ public final class ComponentTypeDecoder
    /**
     * Load a type.
     * @param subject the component implementation class
+    * @param resolver build-time value resolver
     * @return the component type descriptor
     * @exception IOException if an error occurs reading the type definition
+    * @exception IntrospectionException if an introspection error occurs
     */
-    public Type loadType( Class subject ) throws IOException, IntrospectionException
+    public Type loadType( Class subject, Resolver resolver ) throws IOException, IntrospectionException
     {
         String classname = subject.getName();
         String path = classname.replace( '.', '/' );
@@ -88,7 +91,7 @@ public final class ComponentTypeDecoder
             try
             {
                 URI uri = new URI( url.toString() );
-                return loadType( uri );
+                return loadType( uri, resolver );
             }
             catch( URISyntaxException e )
             {
@@ -108,13 +111,13 @@ public final class ComponentTypeDecoder
     * @return the component type descriptor
     * @exception IOException if an error occurs reading the type definition
     */
-    public Type loadType( URI uri ) throws IOException
+    public Type loadType( URI uri, Resolver resolver ) throws IOException
     {
         try
         {
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
-            return buildType( root );
+            return buildType( root, resolver );
         }
         catch( Throwable e )
         {
@@ -127,14 +130,14 @@ public final class ComponentTypeDecoder
         }
     }
     
-    private Type buildType( Element root ) throws Exception
+    private Type buildType( Element root, Resolver resolver ) throws Exception
     {
         InfoDescriptor info = buildNestedInfoDescriptor( root );
         ServiceDescriptor[] services = buildNestedServices( root );
         ContextDescriptor context = buildNestedContext( root );
         CategoryDescriptor[] categories = buildNestedCategories( root );
         State state = buildNestedState( root );
-        PartReference[] parts = buildNestedParts( root );
+        PartReference[] parts = buildNestedParts( root, resolver );
         return new Type( info, categories, context, services, parts, state );
     }
     
@@ -263,7 +266,7 @@ public final class ComponentTypeDecoder
         }
     }
     
-    private PartReference[] buildNestedParts( Element root ) throws Exception
+    private PartReference[] buildNestedParts( Element root, Resolver resolver ) throws Exception
     {
         Element element = ElementHelper.getChild( root, "parts" );
         if( null == element )
@@ -283,17 +286,17 @@ public final class ComponentTypeDecoder
                 for( int i=0; i<children.length; i++ )
                 {
                     Element child = children[i];
-                    refs[i] = buildPartReference( child );
+                    refs[i] = buildPartReference( child, resolver );
                 }
                 return refs;
             }
         }
     }
     
-    private PartReference buildPartReference( Element element ) throws Exception
+    private PartReference buildPartReference( Element element, Resolver resolver ) throws Exception
     {
         String key = ElementHelper.getAttribute( element, "key" );
-        ComponentDirective definition = COMPONENT_DECODER.buildComponent( element );
+        ComponentDirective definition = COMPONENT_DECODER.buildComponent( element, resolver );
         return new PartReference( key, definition );
     }
     

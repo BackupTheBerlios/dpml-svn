@@ -223,7 +223,7 @@ public class ComponentTypeEncoder
     
     private void writeTypeParts( Writer writer, PartReference[] parts, String pad ) throws IOException
     {
-        COMPONENT_ENCODER.writeParts( writer, parts, pad );
+        COMPONENT_ENCODER.writeParts( writer, parts, pad, true );
     }
     
     private void writeAttributes( Writer writer, Descriptor descriptor, String pad ) throws IOException

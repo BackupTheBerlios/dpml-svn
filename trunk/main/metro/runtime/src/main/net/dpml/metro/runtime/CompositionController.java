@@ -22,10 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
-import java.util.EventObject;
-import java.util.LinkedList;
-import java.util.List;
 
 import net.dpml.component.Controller;
 import net.dpml.component.ControlException;
@@ -45,11 +41,13 @@ import net.dpml.lang.Classpath;
 
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.data.DefaultComposition;
 import net.dpml.metro.builder.ComponentDecoder;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 import net.dpml.util.EventQueue;
+import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;
 
@@ -159,7 +157,8 @@ public class CompositionController implements Controller, Builder
     * @return the part definition
     * @exception IOException if an I/O error occurs
     */
-    public Part build( Info info, Classpath classpath, Element strategy ) throws IOException
+    public Part build( 
+      Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException
     {
         if( getLogger().isTraceEnabled() )
         {
@@ -173,7 +172,7 @@ public class CompositionController implements Controller, Builder
             ClassLoader anchor = Component.class.getClassLoader();
             Thread.currentThread().setContextClassLoader( anchor );
             ComponentDecoder decoder = new ComponentDecoder();
-            ComponentDirective directive = decoder.buildComponent( strategy );
+            ComponentDirective directive = decoder.buildComponent( strategy, resolver );
             Logger logger = getLogger();
             return new DefaultComposition( logger, info, classpath, this, directive );
         }

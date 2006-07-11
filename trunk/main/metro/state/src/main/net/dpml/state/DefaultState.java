@@ -21,13 +21,6 @@ package net.dpml.state;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import net.dpml.state.State;
-import net.dpml.state.Transition;
-import net.dpml.state.Interface;
-import net.dpml.state.Operation;
-import net.dpml.state.Trigger;
-import net.dpml.state.Action;
-
 /**
  * Default implementation of an application state descriptor.
  * 

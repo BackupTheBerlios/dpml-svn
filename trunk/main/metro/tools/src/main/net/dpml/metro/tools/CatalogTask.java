@@ -42,6 +42,9 @@ import net.dpml.metro.builder.ComponentTypeDecoder;
 
 import net.dpml.transit.Transit;
 
+import net.dpml.util.Resolver;
+import net.dpml.util.SimpleResolver;
+
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -742,7 +745,8 @@ public class CatalogTask extends Task
         try
         {
             URI uri = source.toURI();
-            Type type = COMPONENT_TYPE_DECODER.loadType( uri );
+            Resolver resolver = new SimpleResolver();
+            Type type = COMPONENT_TYPE_DECODER.loadType( uri, resolver );
             createTypePage( htmls, type );
         }
         catch( Exception e )

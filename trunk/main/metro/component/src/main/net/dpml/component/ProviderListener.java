@@ -18,8 +18,6 @@
 
 package net.dpml.component;
 
-import java.util.EventListener;
-
 import net.dpml.state.StateListener;
 
 /**

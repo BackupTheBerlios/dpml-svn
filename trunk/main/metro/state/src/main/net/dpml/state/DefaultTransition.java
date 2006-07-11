@@ -20,9 +20,6 @@ package net.dpml.state;
 
 import java.io.Serializable;
 
-import net.dpml.state.State;
-import net.dpml.state.Transition;
-import net.dpml.state.Operation;
 
 /**
  * Default implemention of a state transition descriptor.

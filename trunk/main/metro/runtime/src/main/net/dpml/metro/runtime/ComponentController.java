@@ -29,7 +29,6 @@ import java.util.Map;
 
 import net.dpml.component.Directive;
 import net.dpml.component.ControlException;
-import net.dpml.component.Component;
 import net.dpml.component.Model;
 import net.dpml.component.ServiceNotFoundException;
 import net.dpml.component.Provider;
@@ -45,6 +44,7 @@ import net.dpml.metro.info.EntryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.data.LookupDirective;
 import net.dpml.metro.data.ComponentDirective;
+import net.dpml.metro.data.DefaultComposition;
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ContextModel;
 import net.dpml.metro.PartsManager;
@@ -53,6 +53,8 @@ import net.dpml.metro.builder.ComponentTypeDecoder;
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 import net.dpml.util.EventQueue;
+import net.dpml.util.Resolver;
+import net.dpml.util.SimpleResolver;
 
 /**
  * The ComponentController class is a controller of a component instance.
@@ -123,7 +125,8 @@ class ComponentController
             String path = partition + name;
             Logger logger = new DefaultLogger( path );
             EventQueue queue = m_controller.getEventQueue();
-            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition, name );
+            return new DefaultComponentModel( 
+              queue, logger, classloader, classpath, this, directive, partition, name );
         }
         catch( RemoteException e )
         {
@@ -149,15 +152,18 @@ class ComponentController
     * @param classpath the classpath definition
     * @param partition the enclosing partition
     * @param directive the component definition
+    * @param key the component key
     * @return the managable component model
     */
+    /*
     ComponentModel createComponentModel( 
-      ClassLoader anchor, Classpath classpath, String partition, ComponentDirective directive ) 
+      ClassLoader anchor, Classpath classpath, String partition, 
+      ComponentDirective directive, String key ) 
       throws ControlException
     {
         return createComponentModel( anchor, classpath, partition, directive, null );
     }
-    
+    */
    /**
     * Create a new remotely manageable component model.
     * @param key the component key
@@ -176,7 +182,8 @@ class ComponentController
             Logger logger = new DefaultLogger( partition );
             ClassLoader classloader = getClassLoader( anchor, classpath );
             EventQueue queue = m_controller.getEventQueue();
-            return new DefaultComponentModel( queue, logger, classloader, classpath, this, directive, partition, key );
+            return new DefaultComponentModel( 
+              queue, logger, classloader, classpath, this, directive, partition, key );
         }
         catch( RemoteException e )
         {
@@ -355,7 +362,8 @@ class ComponentController
     {
         try
         {
-            return BUILDER.loadType( subject );
+            Resolver resolver = new SimpleResolver();
+            return BUILDER.loadType( subject, resolver );
         }
         catch( Throwable e )
         {
@@ -635,32 +643,6 @@ class ComponentController
                         final String error = 
                           "Unable to resolve a service provider for the class ["
                           + request.getClassname()
-                          + "] requested in component ["
-                          + handler.getPath()
-                          + "] under the context key ["
-                          + key
-                          + "].";
-                        throw new ControllerException( error, ee );
-                    }
-                }
-                else if( directive instanceof ComponentDirective )
-                {
-                    ClassLoader classloader = handler.getClassLoader();
-                    ComponentDirective componentDirective = (ComponentDirective) directive;
-                    Classpath classpath = new Classpath();
-                    String partition = handler.getPath();
-                    ComponentModel componentModel = 
-                      createComponentModel( classloader, classpath, partition, componentDirective );
-                    try
-                    {
-                        Component component = m_controller.createComponent( componentModel );
-                        return component.getProvider().getValue( false );
-                    }
-                    catch( Exception ee )
-                    {
-                        final String error = 
-                          "Unable to resolve context entry component directive ["
-                          + componentDirective
                           + "] requested in component ["
                           + handler.getPath()
                           + "] under the context key ["

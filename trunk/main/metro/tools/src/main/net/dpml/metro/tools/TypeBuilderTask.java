@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.dpml.metro.builder.ComponentTypeEncoder;
+
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.InfoDescriptor;

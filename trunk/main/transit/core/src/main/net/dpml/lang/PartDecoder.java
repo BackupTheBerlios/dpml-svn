@@ -20,6 +20,7 @@ package net.dpml.lang;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Hashtable;
 import java.lang.ref.WeakReference;
@@ -33,6 +34,9 @@ import net.dpml.util.DOM3DocumentBuilder;
 import net.dpml.util.Decoder;
 import net.dpml.util.DecoderFactory;
 import net.dpml.util.DecodingException;
+import net.dpml.util.Resolver;
+import net.dpml.util.SimpleResolver;
+import net.dpml.util.PropertyResolver;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -113,13 +117,14 @@ public final class PartDecoder implements Decoder
             }
         }
         
-        // cache based retrival was either not requested or no cache value present
+        // cache based retrival was disabled or no cache value present
         
         try
         {
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
-            Part value = decodePart( uri, root );
+            Resolver resolver = new SimpleResolver();
+            Part value = decodePart( uri, root, resolver );
             if( cache )
             {
                 WeakReference reference = new WeakReference( value );
@@ -167,22 +172,24 @@ public final class PartDecoder implements Decoder
    /**
     * Resolve a object from a DOM element.
     * @param element the dom element
+    * @param resolver build-time value resolver
     * @return the resolved object
     * @exception IOException if an error occurs during element evaluation
     */
-    public Object decode( Element element ) throws IOException
+    public Object decode( Element element, Resolver resolver ) throws IOException
     {
-        return decodePart( null, element );
+        return decodePart( null, element, resolver );
     }
     
    /**
     * Resolve a part from a DOM element.
     * @param uri the part uri
     * @param element element part definition
-    * @return the resoplved part datastructure
+    * @param resolver build-time value resolver
+    * @return the resolved part datastructure
     * @exception IOException if an error occurs during element evaluation
     */
-    public Part decodePart( URI uri, Element element ) throws IOException
+    public Part decodePart( URI uri, Element element, Resolver resolver ) throws IOException
     {
         TypeInfo info = element.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
@@ -192,7 +199,7 @@ public final class PartDecoder implements Decoder
             Info information = getInfo( uri, element );
             Classpath classpath = getClasspath( element );
             Element strategy = getStrategyElement( element );
-            return build( information, classpath, strategy );
+            return build( information, classpath, strategy, resolver );
         }
         else
         {
@@ -209,10 +216,13 @@ public final class PartDecoder implements Decoder
     * @param information the part info definition
     * @param classpath the part classpath definition
     * @param strategy part deployment strategy definition
+    * @param resolver build-time value resolver
     * @return the resolved part
     * @exception IOException if an error occurs during element evaluation
     */
-    public Part build( Info information, Classpath classpath, Element strategy ) throws IOException
+    public Part build( 
+      Info information, Classpath classpath, Element strategy, Resolver resolver ) 
+      throws IOException
     {
         TypeInfo info = strategy.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
@@ -260,7 +270,7 @@ public final class PartDecoder implements Decoder
             
             if( getLogger().isTraceEnabled() )
             {
-                getLogger().trace( "reading foreign part definition" );
+                getLogger().trace( "loading foreign part definition" );
             }
             try
             {
@@ -269,21 +279,21 @@ public final class PartDecoder implements Decoder
                 if( getLogger().isTraceEnabled() )
                 {
                     getLogger().trace( 
-                      "loaded forign builder [" 
+                      "loaded foreign builder [" 
                       + builder.getClass().getName() 
                       + "]" );
                 }
-                return builder.build( information, classpath, strategy );
+                return builder.build( information, classpath, strategy, resolver );
             }
             catch( Exception ioe )
             {
                 final String error = 
-                  "Internal error while attempting to load foreign part builder.";
+                  "Internal error while attempting to load foreign part.";
                 throw new DecodingException( strategy, error, ioe );
             }
         }
     }
-
+    
    /**
     * Resolve the element decoder uri.
     *

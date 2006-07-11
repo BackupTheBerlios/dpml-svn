@@ -21,8 +21,6 @@ import net.dpml.util.PropertyResolver;
 
 import org.mortbay.jetty.handler.RequestLogHandler;
 import org.mortbay.jetty.NCSARequestLog;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.RequestLog;
 
 /** 
  * Wrapper for the Jetty NCSA request logger.

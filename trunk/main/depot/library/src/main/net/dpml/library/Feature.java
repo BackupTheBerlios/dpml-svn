@@ -151,6 +151,7 @@ public final class Feature extends Enum
    /**
     * Return the value of a feature.
     * @param resource the target resource
+    * @param feature the feature
     * @return the resolved value
     */
     public static String resolve( Resource resource, Feature feature ) 
@@ -161,6 +162,7 @@ public final class Feature extends Enum
    /**
     * Return the value of a feature.
     * @param resource the target resource
+    * @param feature the feature
     * @param type the selected type
     * @return the resolved value
     */
@@ -172,6 +174,7 @@ public final class Feature extends Enum
    /**
     * Return the value of a feature.
     * @param resource the target resource
+    * @param feature the feature
     * @param type the selected type
     * @param alias flag indicated that alias based uri resolution is requested
     * @return the resolved value

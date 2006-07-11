@@ -24,28 +24,25 @@ import java.util.Hashtable;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.Map;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Arrays;
 
-import net.dpml.component.Directive;
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.ControlException;
 import net.dpml.component.ModelListener;
 import net.dpml.component.ModelEvent;
 
 import net.dpml.lang.Classpath;
-import net.dpml.lang.UnknownKeyException;
 
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
 import net.dpml.metro.data.CategoryDirective;
+
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
-import net.dpml.metro.info.Composite;
-import net.dpml.metro.ComponentModel;
+
 import net.dpml.metro.ContextModel;
 import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.ContextModelManager;
@@ -87,8 +84,8 @@ class DefaultComponentModel extends UnicastEventSource
     // ------------------------------------------------------------------------
     
     public DefaultComponentModel( 
-      EventQueue queue, Logger logger, ClassLoader classloader, Classpath classpath, ComponentController controller, 
-      ComponentDirective directive, String partition, String name ) 
+      EventQueue queue, Logger logger, ClassLoader classloader, Classpath classpath, 
+      ComponentController controller, ComponentDirective directive, String partition, String name ) 
       throws ControlException, IOException, RemoteException
     {
         super( queue, logger );
@@ -97,19 +94,160 @@ class DefaultComponentModel extends UnicastEventSource
         m_controller = controller;
         m_directive = directive;
         m_classloader = classloader;
-        m_classname = directive.getClassname();
+        m_classname = getClassname( directive );
         m_class = m_controller.loadComponentClass( m_classloader, m_classname );
         m_type = m_controller.loadType( m_class );
         m_path = setupPath( partition, name );
-        m_activation = directive.getActivationPolicy();
-        m_lifestyle = setupLifestyle();
-        m_collection = directive.getCollectionPolicy();
-        ContextDirective context = directive.getContextDirective();
+        m_activation = getActivationPolicy( directive );
+        m_lifestyle = getLifestylePolicy( directive );
+        m_collection = getCollectionPolicy( directive );
+        ContextDirective context = getContextDirective( directive );
         m_context =
           new DefaultContextModel( 
             queue, 
             this, logger, m_classloader, m_type, context );
-        m_references = buildPartReferences();
+        m_references = getPartReferences( directive );
+    }
+    
+    private String getClassname( ComponentDirective directive )
+    {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        else
+        {
+            ComponentDirective base = directive.getBaseDirective();
+            if( null == base )
+            {
+                return directive.getClassname();
+            }
+            else
+            {
+                return getClassname( base );
+            }
+        }
+    }
+
+    private ActivationPolicy getActivationPolicy( ComponentDirective directive )
+    {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        if( null != directive.getActivationPolicy() )
+        {
+            return directive.getActivationPolicy();
+        }
+        else
+        {
+            ComponentDirective base = directive.getBaseDirective();
+            return getActivationPolicy( base );
+        }
+    }
+
+    private CollectionPolicy getCollectionPolicy( ComponentDirective directive )
+    {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        if( null != directive.getCollectionPolicy() )
+        {
+            return directive.getCollectionPolicy();
+        }
+        else
+        {
+            ComponentDirective base = directive.getBaseDirective();
+            return getCollectionPolicy( base );
+        }
+    }
+
+    private ContextDirective getContextDirective( ComponentDirective directive )
+    {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        if( null != directive.getContextDirective() )
+        {
+            return directive.getContextDirective();
+        }
+        else
+        {
+            ComponentDirective base = directive.getBaseDirective();
+            return getContextDirective( base );
+        }
+    }
+
+    private LifestylePolicy getLifestylePolicy( ComponentDirective directive )
+    {
+        if( null == directive )
+        {
+            throw new NullPointerException( "directive" );
+        }
+        if( null != directive.getLifestylePolicy() )
+        {
+            return directive.getLifestylePolicy();
+        }
+        else
+        {
+            ComponentDirective base = directive.getBaseDirective();
+            if( null != base )
+            {
+                return getLifestylePolicy( base );
+            }
+            else
+            {
+                return m_type.getInfo().getLifestylePolicy();
+            }
+        }
+    }
+
+    private PartReference[] getPartReferences( ComponentDirective directive )
+    {
+        Map map = new Hashtable();
+        populatePartReferences( map, directive );
+        PartReference[] refs = (PartReference[]) map.values().toArray( new PartReference[0] );
+        Arrays.sort( refs );
+        return refs;
+    }
+    
+    private void populatePartReferences( Map map, ComponentDirective directive )
+    {
+        PartReference[] references = directive.getPartReferences();
+        for( int i=0; i < references.length; i++ )
+        {
+            PartReference ref = references[i];
+            String key = ref.getKey();
+            if( !map.containsKey( key ) )
+            {
+                map.put( key, ref );
+            }
+        }
+        ComponentDirective parent = directive.getBaseDirective();
+        if( null != parent )
+        {
+            populatePartReferences( map, parent );
+        }
+        else
+        {
+            populateTypeReferences( map );
+        }
+    }
+
+    private void populateTypeReferences( Map map )
+    {
+        PartReference[] typeRefs = m_type.getPartReferences();
+        for( int i=0; i < typeRefs.length; i++ )
+        {
+            PartReference ref = typeRefs[i];
+            String key = ref.getKey();
+            if( !map.containsKey( key ) )
+            {
+                map.put( key, ref );
+            }
+        }
     }
 
    /**
@@ -373,49 +511,5 @@ class DefaultComponentModel extends UnicastEventSource
         }
     }
 
-    private LifestylePolicy setupLifestyle()
-    {
-        LifestylePolicy lifestyle = m_directive.getLifestylePolicy();
-        if( null == lifestyle )
-        {
-            return m_type.getInfo().getLifestylePolicy();
-        }
-        else
-        {
-            return lifestyle;
-        }
-    }
-
-    private PartReference[] buildPartReferences()
-    {
-        List list = new LinkedList();
-        Map map = new Hashtable();
-        populatePartReferences( list, map, m_type );
-        populatePartReferences( list, map, m_directive );
-        PartReference[] refs = new PartReference[ list.size() ];
-        String[] names = (String[]) list.toArray( new String[0] );
-        for( int i=0; i<names.length; i++ )
-        {
-            String name = names[i];
-            PartReference ref = (PartReference) map.get( name );
-            refs[ i ] = ref;
-        }
-        return refs;
-    }
-    
-    private void populatePartReferences( List names, Map map, Composite composite )
-    {
-        PartReference[] references = composite.getPartReferences();
-        for( int i=0; i < references.length; i++ )
-        {
-            PartReference ref = references[i];
-            String key = ref.getKey();
-            if( !names.contains( key ) )
-            {
-                names.add( key );
-            }
-            map.put( key, ref );
-        }
-    }
 }
 

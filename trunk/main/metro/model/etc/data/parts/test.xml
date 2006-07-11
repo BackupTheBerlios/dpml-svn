@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<component xmlns="@COMPONENT-XSD-URI@" name="widget" type="acme.Widget">
-  <parts>
-    <import key="test" uri="artifact:part:org/acme/acme-Widget#1.2.3"/>
-  </parts>
-</component>
-

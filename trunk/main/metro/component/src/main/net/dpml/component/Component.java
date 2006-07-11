@@ -35,8 +35,8 @@ public interface Component extends Remote, Commissionable
     * Return a provider of an instance of the component.
     * @return the instance provider
     * @exception InvocationTargetException if a target invocation error occurs
-    * @exception ControlException if a controller related error occurs
-    * @exception RemoteException if a remote exception occurs
+    * @exception IOException if a IO error occurs
+    * @exception InvocationTargetException if a component invocation error occurs
     */
     Provider getProvider() throws IOException, InvocationTargetException;
 

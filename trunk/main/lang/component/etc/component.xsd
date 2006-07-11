@@ -28,7 +28,7 @@
           <attribute name="collection" type="this:collection"/>
           <attribute name="activation" type="this:activation"/>
           <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
-          <attribute name="extends" type="anyURI"/>
+          <attribute name="uri" type="anyURI"/>
         </extension>
       </complexContent>
     </complexType>
@@ -67,7 +67,6 @@
     <complexType name="PartsType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
-        <element name="import" type="this:TaggedComponentImport" minOccurs="0" maxOccurs="unbounded"/>
       </choice>
     </complexType>
     
@@ -75,6 +74,7 @@
       <complexContent>
         <extension base="this:component">
           <attribute name="key" type="string" use="required"/>
+          <attribute name="priority" type="integer" default="0"/>
         </extension>
       </complexContent>
     </complexType>

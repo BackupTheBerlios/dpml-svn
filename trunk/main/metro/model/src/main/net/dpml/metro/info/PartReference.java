@@ -29,7 +29,7 @@ import net.dpml.component.Directive;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PartReference implements Serializable
+public class PartReference implements Serializable, Comparable
 {
    /**
     * Serial version identifier.
@@ -47,12 +47,29 @@ public class PartReference implements Serializable
     private final Directive m_directive;
 
     /**
+     * The reference priority.
+     */
+    private final int m_priority;
+
+    /**
      * Creation of a new part reference.
      *
      * @param key the key identifying this part within the scope of its container
      * @param directive the directive
      */
     public PartReference( final String key, Directive directive )
+    {
+        this( key, directive, 0 );
+    }
+    
+    /**
+     * Creation of a new part reference.
+     *
+     * @param key the key identifying this part within the scope of its container
+     * @param directive the directive
+     * @param priority the relative priority
+     */
+    public PartReference( final String key, Directive directive, int priority )
     {
         if( null == key )
         {
@@ -64,6 +81,7 @@ public class PartReference implements Serializable
         }
         m_key = key;
         m_directive = directive;
+        m_priority = priority;
     }
 
     /**
@@ -84,6 +102,40 @@ public class PartReference implements Serializable
         return m_directive;
     }
 
+    /**
+     * Return the priority value.
+     * @return the priority ranking of this reference 
+     */
+    public int getPriority()
+    {
+        return m_priority;
+    }
+    
+   /**
+    * Compare this object with the supplied object.
+    * @param other the object to compare with
+    * @return the result
+    */
+    public int compareTo( Object other )
+    {
+        if( null == other )
+        {
+            throw new NullPointerException( "other" );
+        }
+        else if( other instanceof PartReference )
+        {
+            PartReference ref = (PartReference) other;
+            Integer p1 = new Integer( m_priority );
+            Integer p2 = new Integer( ref.m_priority );
+            return p1.compareTo( p2 );
+        }
+        else
+        {
+            String suspect = other.getClass().getName();
+            throw new IllegalArgumentException( suspect );
+        }
+    }
+    
    /**
     * Test if the supplied object is equal to this object.
     * @param other the object to compare with this instance
@@ -108,9 +160,13 @@ public class PartReference implements Serializable
                 {
                     return false;
                 }
+                else if( !m_directive.equals( reference.m_directive ) )
+                {
+                    return false;
+                }
                 else
                 {
-                    return m_directive.equals( reference.m_directive );
+                    return m_priority == reference.m_priority;
                 }
             }
         }
@@ -124,6 +180,7 @@ public class PartReference implements Serializable
     {
         int hash = m_key.hashCode();
         hash ^= m_directive.hashCode();
+        hash ^= m_priority;
         return hash;
     }
     

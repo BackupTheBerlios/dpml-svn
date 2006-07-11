@@ -18,7 +18,6 @@
 
 package net.dpml.metro.runtime;
 
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 

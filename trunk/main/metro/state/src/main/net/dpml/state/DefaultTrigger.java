@@ -20,10 +20,6 @@ package net.dpml.state;
 
 import java.io.Serializable;
 
-import net.dpml.state.Trigger;
-import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.Action;
-
 /**
  * Default implementation of trigger.
  * 

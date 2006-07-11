@@ -20,8 +20,6 @@ package net.dpml.state;
 
 import java.io.Serializable;
 
-import net.dpml.state.Interface;
-
 /**
  * Default implementation of an operation.
  *

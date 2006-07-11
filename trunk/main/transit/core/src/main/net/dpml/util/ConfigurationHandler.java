@@ -125,13 +125,13 @@ public class ConfigurationHandler
     
     private String getDefaultLevel()
     {
-        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
-        {
-            return "FINE";
-        }
-        else
-        {
+        //if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        //{
+        //    return "FINE";
+        //}
+        //else
+        //{
             return System.getProperty( "dpml.logging.level", "INFO" ).toUpperCase();
-        }
+        //}
     }    
 }

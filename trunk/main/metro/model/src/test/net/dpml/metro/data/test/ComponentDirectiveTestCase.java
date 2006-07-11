@@ -71,7 +71,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
             }
           );
         m_parts = new PartReference[0];
-        m_base = new URI( "local:part:org/acme/widget" );
+        m_base = null;
         m_directive = 
           new ComponentDirective( 
             m_name, m_activation, m_collection, m_lifestyle, m_classname, 
@@ -99,8 +99,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     
    /**
     * Test "" name.
+    * @exception Exception if an error occurs.
     */
-    public void testInsufficientName()
+    public void testInsufficientName() throws Exception
     {
         try
         {
@@ -117,8 +118,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     
    /**
     * Test "." in name.
+    * @exception Exception if an error occurs.
     */
-    public void testIllegalPeriodInName()
+    public void testIllegalPeriodInName() throws Exception
     {
         try
         {
@@ -135,8 +137,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     
    /**
     * Test "," in name.
+    * @exception Exception if an error occurs.
     */
-    public void testIllegalCommaInName()
+    public void testIllegalCommaInName() throws Exception
     {
         try
         {
@@ -153,8 +156,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     
    /**
     * Test "/" in name.
+    * @exception Exception if an error occurs.
     */
-    public void testIllegalFowardSlashInName()
+    public void testIllegalFowardSlashInName() throws Exception
     {
         try
         {
@@ -194,15 +198,16 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     }
     
    /**
-    * Test null lifestyle policy returns null.
+    * Test null lifestyle policy returns SYSTEM.
+    * @exception Exception if an error occurs.
     */
-    public void testNullLifestylePolicy()
+    public void testNullLifestylePolicy() throws Exception
     {
         ComponentDirective directive = new ComponentDirective( 
             m_name, m_activation, m_collection, null, m_classname, 
             m_categories, m_context, m_parts, null );
         LifestylePolicy lifestyle = directive.getLifestylePolicy();
-        assertEquals( "null-lifestyle", null, lifestyle );
+        assertEquals( "null-lifestyle", LifestylePolicy.SYSTEM, lifestyle );
     }
     
    /**
@@ -218,7 +223,7 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     */
     public void testBase()
     {
-        assertEquals( "base", m_base, m_directive.getBaseDirective() );
+        assertEquals( "base", m_base, m_directive.getBaseURI() );
     }
     
    /**
@@ -239,8 +244,9 @@ public class ComponentDirectiveTestCase extends AbstractEncodingTestCase
     
    /**
     * Test equality.
+    * @exception Exception if an error occurs.
     */
-    public void testEquality()
+    public void testEquality() throws Exception
     {
         ContextDirective context = 
           new ContextDirective( 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package net.dpml.metro.runtime;
+package net.dpml.metro.data;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -27,7 +27,6 @@ import net.dpml.component.Composition;
 import net.dpml.lang.Classpath;
 import net.dpml.lang.Info;
 
-import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.builder.ComponentEncoder;
 
 import net.dpml.util.Logger;

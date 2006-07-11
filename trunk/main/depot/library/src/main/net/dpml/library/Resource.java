@@ -24,7 +24,10 @@ import net.dpml.library.info.Scope;
 import net.dpml.library.info.ResourceDirective.Classifier;
 
 import net.dpml.transit.Artifact;
+
 import net.dpml.lang.Category;
+
+import net.dpml.util.Resolver;
 
 /**
  * The Resource interface describes infomation about a published resource.
@@ -32,7 +35,7 @@ import net.dpml.lang.Category;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Resource extends Dictionary
+public interface Resource extends Dictionary, Resolver
 {
    /**
     * Return the singleton library.

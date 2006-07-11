@@ -18,6 +18,8 @@
 
 package net.dpml.state;
 
+import net.dpml.lang.Enum;
+
 /**
  * Interface describing a condition within which an action may be invoked.
  *

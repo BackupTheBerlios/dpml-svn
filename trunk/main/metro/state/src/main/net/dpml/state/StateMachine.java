@@ -18,7 +18,6 @@
 
 package net.dpml.state;
 
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 
 /**

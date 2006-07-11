@@ -462,11 +462,15 @@ public class StationPlugin implements Disposable
         list.add( "-server" );
         list.add( "" + port );
         
-        list.add( "-Ddpml.logging.config=local:properties:dpml/station/logging" );
+        list.add( "-Ddpml.logging.config=local:properties:dpml/station/server" );
         list.add( "-Ddpml.subprocess=true" );
-        if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        if( "true".equals( System.getProperty( "dpml.trace" ) ) )
         {
-            list.add( "-Ddpml.debug=true" );
+            list.add( "-trace" );
+        }
+        else if( "true".equals( System.getProperty( "dpml.debug" ) ) )
+        {
+            list.add( "-debug" );
         }
         Set propertyValue = line.getProperties();
         Iterator iterator = propertyValue.iterator();

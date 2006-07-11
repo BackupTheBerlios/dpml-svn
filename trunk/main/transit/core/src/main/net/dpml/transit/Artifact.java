@@ -36,10 +36,19 @@ import java.net.URL;
  */
 public final class Artifact implements Serializable, Comparable
 {
+   /**
+    * Constant scheme name for the artifact protocol.
+    */
     public static final String ARTIFACT = "artifact";
     
+   /**
+    * Constant scheme name for the link protocol.
+    */
     public static final String LINK = "link";
     
+   /**
+    * Constant scheme name for the local protocol.
+    */
     public static final String LOCAL = "local";
     
     static final long serialVersionUID = 1L;
@@ -136,12 +145,12 @@ public final class Artifact implements Serializable, Comparable
               "URI does not declare a scheme: " + uri;
             throw new UnsupportedSchemeException( error );
         }
-        if( !scheme.equals( ARTIFACT ) && !scheme.equals( LINK ) && !scheme.equals( LOCAL ) )
-        {
-            final String error = 
-              "URI contains a scheme that is not recognized: " + uri;
-            throw new UnsupportedSchemeException( error );
-        }
+        //if( !scheme.equals( ARTIFACT ) && !scheme.equals( LINK ) && !scheme.equals( LOCAL ) )
+        //{
+        //    final String error = 
+        //      "URI contains a scheme that is not recognized: " + uri;
+        //    throw new UnsupportedSchemeException( error );
+        //}
         return new Artifact( uri );
     }
 
@@ -250,6 +259,10 @@ public final class Artifact implements Serializable, Comparable
             return artifact.toURL();
         }
         catch( UnsupportedSchemeException e )
+        {
+            return uri.toURL();
+        }
+        catch( IllegalArgumentException e )
         {
             return uri.toURL();
         }
@@ -454,6 +467,17 @@ public final class Artifact implements Serializable, Comparable
         {
             return ver;
         }
+    }
+
+   /**
+    * Test if the artifact scheme is recognized.  Specificially
+    * the test validates that the artifact scheme corresponding to 
+    * 'artifact', link', or 'local'.
+    * @return true if the uri scheme is recognized
+    */
+    public boolean isRecognized()
+    {
+        return isRecognized( m_uri );
     }
 
     /**

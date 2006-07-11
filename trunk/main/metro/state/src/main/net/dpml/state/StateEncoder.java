@@ -25,13 +25,7 @@ import java.io.OutputStreamWriter;
 
 import javax.xml.XMLConstants;
 
-import net.dpml.state.State;
-import net.dpml.state.Action;
 import net.dpml.state.Trigger.TriggerEvent;
-import net.dpml.state.Trigger;
-import net.dpml.state.Transition;
-import net.dpml.state.Operation;
-import net.dpml.state.Interface;
 
 /**
  * Construct a state graph.

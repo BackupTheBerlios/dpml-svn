@@ -30,7 +30,15 @@ import java.util.EventListener;
  */
 public interface EventHandler
 {
+   /**
+    * Return the associated event listeners.
+    * @return the event listeners
+    */
     EventListener[] getEventListeners();
     
+   /**
+    * Process the supplied event.
+    * @param event the event to be processed
+    */
     void processEvent( EventObject event );
 }

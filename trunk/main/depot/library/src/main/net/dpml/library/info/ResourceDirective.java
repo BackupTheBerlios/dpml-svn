@@ -62,6 +62,7 @@ public class ResourceDirective extends AbstractDirective
     
    /**
     * Creation of a new anonymous resource directive.
+    * @param scheme the schema name
     * @param name the resource name
     * @param version the resource version
     * @param type the resource type

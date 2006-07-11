@@ -20,9 +20,6 @@ package net.dpml.metro.runtime;
 
 import java.beans.Expression;
 import java.beans.Statement;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -50,7 +47,6 @@ import net.dpml.state.ExecAction;
 import net.dpml.state.ApplyAction;
 
 import net.dpml.util.Logger;
-import net.dpml.util.UnicastEventSource;
 import net.dpml.util.EventQueue;
 import net.dpml.util.EventHandler;
 
@@ -98,7 +94,10 @@ public class DefaultStateMachine implements StateMachine, EventHandler
 
    /**
     * Creation of a new state machine using a state graph.
+    * @param queue the event queue
+    * @param logger the logging channel
     * @param state the state graph
+    * @exception RemoteException if RMI exception occurs
     */
     public DefaultStateMachine( EventQueue queue, Logger logger, State state ) throws RemoteException
     {
@@ -111,11 +110,6 @@ public class DefaultStateMachine implements StateMachine, EventHandler
     // StateMachine
     //-------------------------------------------------------------------------------
 
-    private Logger getLogger()
-    {
-        return m_logger;
-    }
-    
    /**
     * Add a state change listener to the state machine.
     * @param listener the state listener
@@ -150,6 +144,10 @@ public class DefaultStateMachine implements StateMachine, EventHandler
         }
     }
     
+   /**
+    * Return the assigned state event listeners.
+    * @return the event listeners
+    */
     public EventListener[] getEventListeners()
     {
         return getStateListeners();
@@ -163,6 +161,10 @@ public class DefaultStateMachine implements StateMachine, EventHandler
         }
     }
     
+   /**
+    * Process the supplied event.
+    * @param event the event to process
+    */
     public void processEvent( EventObject event )
     {
         StateListener[] listeners = getStateListeners();
@@ -1037,4 +1039,9 @@ public class DefaultStateMachine implements StateMachine, EventHandler
         }
     }
 
+    private Logger getLogger()
+    {
+        return m_logger;
+    }
+    
 }

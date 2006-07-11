@@ -24,10 +24,6 @@ import java.rmi.NoSuchObjectException;
 import java.util.EventObject;
 import java.util.EventListener;
 import java.util.WeakHashMap;
-import java.util.List;
-import java.util.LinkedList;
-
-import net.dpml.util.Logger;
 
 /**
  * A abstract base class that established an event queue and handles event dispatch 

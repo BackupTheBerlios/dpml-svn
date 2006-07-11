@@ -20,6 +20,7 @@ package net.dpml.library.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import net.dpml.library.Module;
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 import net.dpml.library.Data;
+import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.info.InfoDirective;
 import net.dpml.library.info.TypeDirective;
 import net.dpml.library.info.ResourceDirective;
@@ -55,13 +57,16 @@ import net.dpml.library.info.Scope;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
+import net.dpml.util.Resolver;
+
+
 /**
  * Implementation of a resource.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class DefaultResource extends DefaultDictionary implements Resource, Comparable
+public class DefaultResource extends DefaultDictionary implements Resource, Resolver, Comparable
 {
    /**
     * Timestamp.
@@ -514,6 +519,70 @@ public class DefaultResource extends DefaultDictionary implements Resource, Comp
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Resolver
+    //----------------------------------------------------------------------------
+
+   /**
+    * Utility function supporting resolution of uris containing 'resource' or 
+    * 'alias' schemes.  If the supplied uri schem is 'resource' or 'alias' the 
+    * reference is resolved to a artifact type, group and name from which a 
+    * resource is resolved and the uri returned.  If the scheme is resource
+    * the usri of the resource is returned. If the scheme is 'alias' a 
+    * linkn alias is returned.  If the scheme is not 'resource' or 'alias' 
+    * the argument will be evaluated as a normal transit artifact uri 
+    * specification.
+    * 
+    * @param ref the uri argument
+    * @return the uri value
+    */
+    public URI toURI( String ref ) throws URISyntaxException
+    {
+        Artifact spec = Artifact.createArtifact( ref );
+        if( spec.isRecognized() )
+        {
+            return spec.toURI();
+        }
+        else if( ref.startsWith( "resource:" ) || ref.startsWith( "alias:" ) )
+        {
+            String type = spec.getType();
+            String group = spec.getGroup();
+            String name = spec.getName();
+            String path = group + "/" + name;
+            Library library = getLibrary();
+            try
+            {
+                Resource resource = library.getResource( path );
+                if( ref.startsWith( "resource:" ) )
+                {
+                    Artifact artifact = resource.getArtifact( type );
+                    return artifact.toURI();
+                }
+                else
+                {
+                    Artifact artifact = resource.getLinkArtifact( type );
+                    return artifact.toURI();
+                }
+            }
+            catch( ResourceNotFoundException e )
+            {
+                final String error = 
+                  "Unresolvable resource reference: " + path;
+                IllegalArgumentException iae = new IllegalArgumentException( error );
+                iae.initCause( e );
+                throw iae;
+            }
+        }
+        else
+        {
+            return spec.toURI();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // implementation
+    //----------------------------------------------------------------------------
+
     Map getFilterMap()
     {
         return m_filters;

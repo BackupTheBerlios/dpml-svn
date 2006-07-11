@@ -45,6 +45,7 @@ public interface Provider extends Remote
    /**
     * Return the current status of the provider.
     * @return the provider status
+    * @exception RemoteException if a remote I/O occurs
     */
     Status getStatus() throws RemoteException;
     

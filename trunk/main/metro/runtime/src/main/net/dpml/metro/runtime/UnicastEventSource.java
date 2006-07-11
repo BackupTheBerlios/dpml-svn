@@ -19,14 +19,6 @@
 package net.dpml.metro.runtime;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.NoSuchObjectException;
-import java.lang.ref.WeakReference;
-import java.util.EventObject;
-import java.util.EventListener;
-import java.util.WeakHashMap;
-import java.util.List;
-import java.util.LinkedList;
 
 import net.dpml.component.Disposable;
 

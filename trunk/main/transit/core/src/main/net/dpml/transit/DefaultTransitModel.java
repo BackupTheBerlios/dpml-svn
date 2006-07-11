@@ -190,7 +190,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     * model, layout registry model, cache model, and repository codebase 
     * model using the supplied configuration.
     *
-    * @param logger the assigned loging channel
+    * @param queue the event queue 
+    * @param logger the assigned logging channel
     * @param directive the transit configuration
     * @exception NullPointerException if the logger or directive arguments are null
     * @exception RemoteException if a remote exception occurs

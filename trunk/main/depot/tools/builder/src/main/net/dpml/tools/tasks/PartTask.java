@@ -194,15 +194,14 @@ public class PartTask extends GenericTask
             Info info = getInfo( resource );
             Classpath classpath = getClasspath( resource );
             Type type = resource.getType( TYPE );
-            
             Element element = type.getElement();
             PartDecoder decoder = PartDecoder.getInstance();
-            return decoder.build( info, classpath, element );
+            return decoder.build( info, classpath, element, resource );
         }
         catch( Throwable e )
         {
             final String error = 
-              "Internal error while attempting to build an external part defintion."
+              "Internal error while attempting to build an external part definition."
               + "\nResource: " + resource;
             throw new BuildException( error, e, getLocation() );
         }
