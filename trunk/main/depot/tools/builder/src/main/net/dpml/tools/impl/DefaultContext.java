@@ -176,6 +176,7 @@ public final class DefaultContext implements Context
         {
             return;
         }
+        
         final Path compileSrcPath = new Path( m_project );
         File srcMain = getTargetBuildMainDirectory();
         compileSrcPath.createPathElement().setLocation( srcMain );
