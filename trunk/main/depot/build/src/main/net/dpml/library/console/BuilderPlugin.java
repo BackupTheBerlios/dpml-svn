@@ -350,7 +350,7 @@ public class BuilderPlugin
     private void listModule( Module module ) throws Exception
     {
         print( "Listing module [" + module.getResourcePath() + "]\n"  );
-        listModule( "  ", module, 0 );
+        listResource( "  ", module, 0 );
         print( "" );
     }
     
@@ -373,6 +373,7 @@ public class BuilderPlugin
         print( "" );
     }
     
+    /*
     private void listModule( String pad, Module module, int n ) throws Exception
     {
         if( n > 0 )
@@ -419,6 +420,7 @@ public class BuilderPlugin
             }
         }
     }
+    */
     
     private void listResource( String pad, Resource resource, int n ) throws Exception
     {
@@ -443,31 +445,35 @@ public class BuilderPlugin
                 print( p + types[i].getID() );
             }
         }
-        Resource[] resources = resource.getProviders( Scope.BUILD, true, true );
+
+        Resource[] resources = resource.getProviders( Scope.BUILD, false, true );
         if( resources.length > 0 )
         {
             print( pad + "build phase providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                print( p + resources[i] );
+                Resource res = resources[i];
+                print( p + res );
             }
         }
-        resources = resource.getProviders( Scope.RUNTIME, true, true );
+        resources = resource.getProviders( Scope.RUNTIME, false, true );
         if( resources.length > 0 )
         {
             print( pad + "runtime providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                print( p + resources[i] );
+                Resource res = resources[i];
+                print( p + res );
             }
         }
-        resources = resource.getProviders( Scope.TEST, true, true );
+        resources = resource.getProviders( Scope.TEST, false, true );
         if( resources.length > 0 )
         {
             print( pad + "test providers: (" + resources.length + ")" );
             for( int i=0; i<resources.length; i++ )
             {
-                print( p + resources[i] );
+                Resource res = resources[i];
+                print( p + res );
             }
         }
     }

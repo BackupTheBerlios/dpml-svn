@@ -374,7 +374,6 @@ public class ResourceDirective extends AbstractDirective
     */
     public DependencyDirective getDependencyDirective( Scope scope )
     {
-        ArrayList list = new ArrayList();
         for( int i=0; i<m_dependencies.length; i++ )
         {
             DependencyDirective directive = m_dependencies[i];

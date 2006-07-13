@@ -255,7 +255,7 @@ public class DefaultResourceTestCase extends AbstractTestCase
         Resource[] test = resource.getAggregatedProviders( Scope.TEST, true, false );
         assertEquals( "build", 0, build.length );
         assertEquals( "runtime", 12, runtime.length );
-        assertEquals( "test", 12, test.length );
+        assertEquals( "test", 16, test.length );
     }
 
    /**

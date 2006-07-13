@@ -68,20 +68,9 @@ public class AnonymousTestCase extends AbstractTestCase
     public void testExpandedAnonymousModuleProviders() throws Exception
     {
         Module module = (Module) getLibrary().getResource( "demo" );
-        Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, true, false );
+        boolean expanded = true;
+        boolean sorted = false;
+        Resource[] providers = module.getAggregatedProviders( Scope.RUNTIME, expanded, sorted );
         assertEquals( "expanded-providers", 2, providers.length );
-        boolean test = false;
-        for( int i=0; i<providers.length; i++ )
-        {
-            Resource provider = providers[i];
-            if( provider.getResourcePath().equals( "commons-collections/commons-collections" ) )
-            {
-                test = true;
-            }
-        }
-        if( !test )
-        {
-            fail( "Missing commons-collection dynamic dependency." );
-        }
     }
 }

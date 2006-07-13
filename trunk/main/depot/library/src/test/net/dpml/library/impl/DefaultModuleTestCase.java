@@ -122,8 +122,8 @@ public class DefaultModuleTestCase extends AbstractTestCase
         try
         {
             String path = "dpml";
-            doProviderTest( path, false, 9, 0, 0 ); 
-            doProviderTest( path, true, 39, 39, 39 );
+            doProviderTest( path, false, 0, 9, 0 );
+            doProviderTest( path, true, 0, 39, 0 );
         }
         catch( Exception e )
         {
@@ -132,13 +132,15 @@ public class DefaultModuleTestCase extends AbstractTestCase
         try
         {
             String path = "dpml/transit";
-            doProviderTest( path, false, 4, 0, 0 );
-            doProviderTest( path, true, 8, 4, 6 );
+            doProviderTest( path, false, 0, 4, 0 );
+            doProviderTest( path, true, 0, 8, 0 );
         }
         catch( Exception e )
         {
             throw e;
         }
+        /* issue
+        */
         /*try
         {
             String path = "dpml/metro";

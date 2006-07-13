@@ -146,7 +146,7 @@ abstract class AbstractTestCase extends TestCase
         else
         {
             System.out.println( "PATH: " + path + " " + expand + ", " + sort 
-              + "(" 
+              + " (" 
               + buildProviders.length + ", " 
               + runtimeProviders.length 
               + ", " + testProviders.length 

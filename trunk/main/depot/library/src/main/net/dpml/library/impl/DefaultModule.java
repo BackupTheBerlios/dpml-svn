@@ -66,7 +66,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param library the library
     * @param directive the library directive from which common properties are established
     */
-    DefaultModule( DefaultLibrary library, AbstractDirective directive ) 
+    DefaultModule( final DefaultLibrary library, final AbstractDirective directive ) 
     {
         super( library, directive );
         
@@ -81,7 +81,8 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param module the parent module
     * @param directive the library directive from which common properties are established
     */
-    DefaultModule( DefaultLibrary library, DefaultModule module, ModuleDirective directive ) 
+    DefaultModule( 
+      final DefaultLibrary library, final DefaultModule module, final ModuleDirective directive ) 
       throws DuplicateKeyException
     {
         super( library, module, directive );
@@ -101,7 +102,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param directive the resource directive to add to the module
     * @throws DuplicateKeyException if a resource name is already bound
     */
-    DefaultResource addResource( ResourceDirective directive ) throws DuplicateKeyException
+    DefaultResource addResource( final ResourceDirective directive ) throws DuplicateKeyException
     {
         if( null == directive )
         {
@@ -116,8 +117,6 @@ public final class DefaultModule extends DefaultResource implements Module
                 if( directive instanceof ModuleDirective )
                 {
                     DefaultModule module = (DefaultModule) m_map.get( key );
-                    
-                    // update properties?
                     
                     // check basedir values
                     
@@ -229,7 +228,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @return the resource array
     * @exception ResourceNotFoundException if the resource does not exist
     */
-    public Resource getResource( String ref ) throws ResourceNotFoundException
+    public Resource getResource( final String ref ) throws ResourceNotFoundException
     {
         try
         {
@@ -260,7 +259,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @return the module array
     * @exception ModuleNotFoundException if the module does not exist
     */
-    public Module getModule( String ref ) throws ModuleNotFoundException
+    public Module getModule( final String ref ) throws ModuleNotFoundException
     {
         try
         {
@@ -296,7 +295,7 @@ public final class DefaultModule extends DefaultResource implements Module
     *   otherwise the array will be sorted alphanumerically
     * @return an array of resources matching the selection criteria
     */
-    public Resource[] select( String criteria, boolean local, boolean sort )
+    public Resource[] select( final String criteria, final boolean local, final boolean sort )
     {
         DefaultResource[] resources = selectDefaultResources( local, criteria );
         if( sort )
@@ -317,7 +316,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @return a resource with a matching basedir
     * @exception ResourceNotFoundException if resource match  relative to the supplied base
     */
-    public Resource locate( File base ) throws ResourceNotFoundException
+    public Resource locate( final File base ) throws ResourceNotFoundException
     {
         DefaultResource[] resources = selectDefaultResources( true, "**/*" );
         for( int i=0; i<resources.length; i++ )
@@ -372,7 +371,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param directive the directive to wrap
     * @return a top-level module directive containing the wrapped resource
     */
-    private ModuleDirective createWrappedDirective( ResourceDirective directive )
+    private ModuleDirective createWrappedDirective( final ResourceDirective directive )
     {
         String name = getName();
         DefaultModule parent = getDefaultParent();
@@ -393,7 +392,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @return the resource directive
     * @exception IllegalArgumentException if the module is not a top-level module
     */
-    ResourceDirective exportResource( DefaultModule module ) throws IllegalArgumentException
+    ResourceDirective exportResource( final DefaultModule module ) throws IllegalArgumentException
     {
         DefaultResource[] resources = getDefaultResources();
         ResourceDirective[] directives = new ResourceDirective[ resources.length ];
@@ -425,37 +424,26 @@ public final class DefaultModule extends DefaultResource implements Module
    */
     public String toString()
     {
-        return "module:" + getResourcePath();
+        return toString( "module" );
     }
     
     //----------------------------------------------------------------------------
     // DefaultResource (overriding)
     //----------------------------------------------------------------------------
 
-    DefaultResource[] getLocalDefaultProviders( Scope scope, Category category )
+    DefaultResource[] getLocalDefaultProviders( final Scope scope, final Category category )
     {
-        if( Scope.BUILD.equals( scope ) )
+        DefaultResource[] local = super.getLocalDefaultProviders( scope, category );
+        if( Scope.RUNTIME.equals( scope ) )
         {
             ArrayList stack = new ArrayList();
-            DefaultResource[] local = super.getLocalDefaultProviders( scope, category );
             for( int i=0; i<local.length; i++ )
             {
                 DefaultResource resource = local[i];
                 stack.add( resource );
             }
-            return getLocalDefaultProviders( stack, true );
-        }
-        else
-        {
-            return super.getLocalDefaultProviders( scope, category );
-        }
-    }
-    
-    DefaultResource[] getLocalDefaultProviders( List stack, boolean flag )
-    {
-        DefaultResource[] resources = getDefaultResources();
-        if( flag )
-        {
+            
+            DefaultResource[] resources = getDefaultResources();
             for( int i=0; i<resources.length; i++ )
             {
                 DefaultResource resource = resources[i];
@@ -464,14 +452,25 @@ public final class DefaultModule extends DefaultResource implements Module
                     stack.add( resource );
                 }
             }
+            
+            return expandLocalDefaultProviders( stack );
         }
+        else
+        {
+            return local;
+        }
+    }
+    
+    DefaultResource[] expandLocalDefaultProviders( final List stack )
+    {
+        DefaultResource[] resources = getDefaultResources();
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
             if( resource instanceof DefaultModule )
             {
                 DefaultModule module = (DefaultModule) resource;
-                DefaultResource[] providers = module.getLocalDefaultProviders( stack, false );
+                DefaultResource[] providers = module.expandLocalDefaultProviders( stack );
                 for( int j=0; j<providers.length; j++ )
                 {
                     DefaultResource r = providers[j];
@@ -491,7 +490,7 @@ public final class DefaultModule extends DefaultResource implements Module
         return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
     }
     
-    private void getParentModules( List stack, DefaultResource[] resources )
+    private void getParentModules( final List stack, final DefaultResource[] resources )
     {
         for( int i=0; i<resources.length; i++ )
         {
@@ -506,16 +505,18 @@ public final class DefaultModule extends DefaultResource implements Module
             }
         }
     }
-    
+
     void sortDefaultResource( 
-      List visited, List stack, Scope scope, DefaultResource[] resources )
+      final List visited, final List stack, final Scope scope, final DefaultResource[] resources )
     {
         if( visited.contains( this ) )
         {
             return;
         }
+        
         visited.add( this );
-        DefaultModule[] providers = getProviderModules( scope );
+        DefaultResource[] providers = 
+          getAggregatedDefaultProviders( scope, false, false );
         for( int i=0; i<providers.length; i++ )
         {
             DefaultResource provider = providers[i];
@@ -524,16 +525,21 @@ public final class DefaultModule extends DefaultResource implements Module
                 provider.sortDefaultResource( visited, stack, scope, resources );
             }
         }
-        DefaultResource[] children = getDefaultResources();
-        for( int i=0; i<children.length; i++ )
+
+        DefaultModule[] modules = getProviderModules( scope );
+        for( int i=0; i<modules.length; i++ )
         {
-            DefaultResource child = children[i];
-            if( isaMember( resources, child ) )
+            DefaultResource module = modules[i];
+            if( isaMember( resources, module ) )
             {
-                child.sortDefaultResource( visited, stack, scope, resources );
+                module.sortDefaultResource( visited, stack, scope, resources );
             }
         }
-        stack.add( this );
+        
+        if( !stack.contains( this ) )
+        {
+            stack.add( this );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -554,7 +560,7 @@ public final class DefaultModule extends DefaultResource implements Module
         return (DefaultResource[]) m_map.values().toArray( new DefaultResource[0] );
     }
     
-    DefaultResource getDefaultResource( String ref )
+    DefaultResource getDefaultResource( final String ref )
     {
         if( null == ref )
         {
@@ -589,7 +595,7 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
     
-    DefaultModule getDefaultModule( String ref )
+    DefaultModule getDefaultModule( final String ref )
     {
         if( null == ref )
         {
@@ -662,7 +668,7 @@ public final class DefaultModule extends DefaultResource implements Module
         return getAllDefaultModules( true, false );
     }
     
-    DefaultModule[] getAllDefaultModules( boolean sort, boolean self )
+    DefaultModule[] getAllDefaultModules( final boolean sort, final boolean self )
     {
         if( sort )
         {
@@ -688,7 +694,7 @@ public final class DefaultModule extends DefaultResource implements Module
     }
     
     private void collectChildModules( 
-      List visited, List stack, DefaultModule module )
+      final List visited, final List stack, final DefaultModule module )
     {
         if( visited.contains( module ) )
         {
@@ -707,12 +713,12 @@ public final class DefaultModule extends DefaultResource implements Module
     // Selection logic
     //----------------------------------------------------------------------------
         
-    DefaultResource[] selectDefaultResources( String spec )
+    DefaultResource[] selectDefaultResources( final String spec )
     {
         return selectDefaultResources( false, spec );
     }
     
-    DefaultResource[] selectDefaultResources( boolean local, String spec )
+    DefaultResource[] selectDefaultResources( final boolean local, final String spec )
     {
         DefaultResource[] resources = doSelectDefaultResources( false, spec );
         if( local )
@@ -725,7 +731,7 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
     
-    DefaultResource[] doSelectDefaultResources( boolean wild, String spec )
+    DefaultResource[] doSelectDefaultResources( final boolean wild, final String spec )
     {
         String[] tokens = spec.split( "/" );
         if( tokens.length == 0 )
@@ -779,7 +785,7 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
 
-    DefaultModule[] selectDefaultModules( String token )
+    DefaultModule[] selectDefaultModules( final String token )
     {
         if( "**".equals( token ) )
         {
@@ -803,7 +809,7 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
     
-    private DefaultResource[] selectUsingPattern( DefaultResource[] resources, Pattern pattern )
+    private DefaultResource[] selectUsingPattern( final DefaultResource[] resources, final Pattern pattern )
     {
         ArrayList list = new ArrayList();
         for( int i=0; i<resources.length; i++ )
@@ -820,13 +826,13 @@ public final class DefaultModule extends DefaultResource implements Module
         return (DefaultResource[]) list.toArray( new DefaultResource[0] );
     }
     
-    private String getRemainderOfSelection( String spec, String delimiter, String token )
+    private String getRemainderOfSelection( final String spec, final String delimiter, final String token )
     {
         int n = token.length() + delimiter.length();
         return spec.substring( n );
     }
     
-    private void aggregate( List list, DefaultResource[] resources )
+    private void aggregate( final List list, final DefaultResource[] resources )
     {
         for( int i=0; i<resources.length; i++ )
         {
@@ -834,7 +840,7 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
     
-    private Pattern createSelectionPattern( String token )
+    private Pattern createSelectionPattern( final String token )
     {
         StringBuffer buffer = new StringBuffer();
         boolean wildcard = ( token.indexOf( "*" ) > -1 );
@@ -868,7 +874,7 @@ public final class DefaultModule extends DefaultResource implements Module
     // Module sorting
     //----------------------------------------------------------------------------
 
-    private DefaultModule[] sortDefaultModules( DefaultModule[] modules )
+    private DefaultModule[] sortDefaultModules( final DefaultModule[] modules )
     {
         Scope scope = Scope.TEST;
         ArrayList visited = new ArrayList();
@@ -876,7 +882,6 @@ public final class DefaultModule extends DefaultResource implements Module
         for( int i=0; i<modules.length; i++ )
         {
             DefaultModule module = modules[i];
-            //processDefaultModule( visited, stack, module, modules );
             module.sortDefaultResource( visited, stack, scope, modules );
         }
         return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
@@ -889,7 +894,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * this module, and (c) module referenced by any resources contained within 
     * this or any subsidiary module.
     */
-    private DefaultModule[] getProviderModules( Scope scope )
+    private DefaultModule[] getProviderModules( final Scope scope )
     {
         ArrayList visited = new ArrayList();
         ArrayList stack = new ArrayList();
@@ -897,14 +902,16 @@ public final class DefaultModule extends DefaultResource implements Module
         return (DefaultModule[]) stack.toArray( new DefaultModule[0] );
     }
     
-    private void processModuleDependencies( List visited, List stack, Scope scope, DefaultResource resource ) 
+    private void processModuleDependencies( 
+      final List visited, final List stack, final Scope scope, final DefaultResource resource ) 
     {
         if( visited.contains( resource ) )
         {
             return;
         }
+        
         visited.add( resource );
-        final boolean expansion = true;
+        final boolean expansion = false;
         final boolean filtering = false;
         
         Classifier classifier = resource.getClassifier();
@@ -943,7 +950,7 @@ public final class DefaultModule extends DefaultResource implements Module
         }
     }
 
-    private DefaultResource[] filterProjects( DefaultResource[] resources )
+    private DefaultResource[] filterProjects( final DefaultResource[] resources )
     {
         ArrayList list = new ArrayList();
         for( int i=0; i<resources.length; i++ )

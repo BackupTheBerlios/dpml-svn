@@ -94,7 +94,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param library the reference library
     * @param directive the directive
     */
-    DefaultResource( DefaultLibrary library, AbstractDirective directive )
+    DefaultResource( final DefaultLibrary library, final AbstractDirective directive )
     {
         super( null, directive );
         
@@ -115,7 +115,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param module the parent module
     * @param directive the resource directive
     */
-    DefaultResource( DefaultLibrary library, DefaultModule module, ResourceDirective directive ) 
+    DefaultResource( 
+      final DefaultLibrary library, final DefaultModule module, final ResourceDirective directive ) 
     {
         super( module, directive );
         if( null == directive )
@@ -340,7 +341,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param type the type id
     * @return TRUE if this resource produces an artifact of the supplied type
     */
-    public boolean isa( String type )
+    public boolean isa( final String type )
     {
         for( int i=0; i<m_types.length; i++ )
         {
@@ -361,7 +362,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @exception IllegalArgumentException if the id value does not match
     * a type produced by the resource.
     */
-    public Type getType( String id ) throws IllegalArgumentException
+    public Type getType( final String id ) throws IllegalArgumentException
     {
         for( int i=0; i<m_types.length; i++ )
         {
@@ -385,7 +386,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param id the resource type id
     * @return the link artifact
     */
-    public Artifact getLinkArtifact( String id )
+    public Artifact getLinkArtifact( final String id )
     {
         if( null == m_directive )
         {
@@ -446,7 +447,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param id the resource type identifier
     * @return the artifact
     */
-    public Artifact getArtifact( String id )
+    public Artifact getArtifact( final String id )
     {
         if( null == m_directive )
         {
@@ -536,7 +537,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param ref the uri argument
     * @return the uri value
     */
-    public URI toURI( String ref ) throws URISyntaxException
+    public URI toURI( final String ref ) throws URISyntaxException
     {
         Artifact spec = Artifact.createArtifact( ref );
         if( spec.isRecognized() )
@@ -600,7 +601,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param sort if true the array will sorted relative to dependencies
     * @return the resource providers
     */
-    public Resource[] getProviders( Scope scope, boolean expand, boolean sort )
+    public Resource[] getProviders( final Scope scope, final boolean expand, final boolean sort )
     {
         return getDefaultProviders( scope, expand, sort );
     }
@@ -617,7 +618,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param sort if true the array will sorted relative to dependencies
     * @return the resource providers
     */
-    public Resource[] getAggregatedProviders( Scope scope, boolean expand, boolean sort )
+    public Resource[] getAggregatedProviders( final Scope scope, final boolean expand, final boolean sort )
     {
         return getAggregatedDefaultProviders( scope, expand, sort, false );
     }
@@ -631,11 +632,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param scope the aggregation scope
     * @return the scoped resource chain
     */
-    public Resource[] getClasspathProviders( Scope scope )
+    public Resource[] getClasspathProviders( final Scope scope )
     {
-        boolean expanded = true;
-        boolean sorted = true;
-        boolean filtered = true;
+        final boolean expanded = true;
+        final boolean sorted = true;
+        final boolean filtered = true;
         return getAggregatedDefaultProviders( scope, expanded, sorted, filtered );
     }
 
@@ -651,7 +652,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param category the classloader category
     * @return the category scoped resource chain
     */
-    public Resource[] getClasspathProviders( Category category )
+    public Resource[] getClasspathProviders( final Category category )
     {
         DefaultResource[] resources = getClasspathDefaultProviders( category );
         return sortDefaultResources( resources, Scope.RUNTIME );
@@ -665,7 +666,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param sort if true the array is sorted relative to depenency relationships
     * @return the array of consumer projects
     */
-    public Resource[] getConsumers( boolean expand, boolean sort )
+    public Resource[] getConsumers( final boolean expand, final boolean sort )
     {
         return getDefaultConsumers( expand, sort );
     }
@@ -684,7 +685,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param id the artifact type
     * @return the filename
     */
-    public String getLayoutPath( String id )
+    public String getLayoutPath( final String id )
     {
         Artifact artifact = getArtifact( id );
         return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
@@ -695,7 +696,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param module the enclosing module
     * @return the resource directive
     */
-    ResourceDirective exportResource( DefaultModule module )
+    ResourceDirective exportResource( final DefaultModule module )
     {
         if( null == m_directive )
         {
@@ -716,7 +717,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
           info, exportedTypes, dependencies, properties, null );
     }
     
-    TypeDirective[] createExportedTypes( TypeDirective[] types )
+    TypeDirective[] createExportedTypes( final TypeDirective[] types )
     {
         TypeDirective[] export = new TypeDirective[ types.length ]; 
         for( int i=0; i<export.length; i++ )
@@ -729,7 +730,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         return export;
     }
     
-    private DependencyDirective[] createDeps( DefaultModule module )
+    private DependencyDirective[] createDeps( final DefaultModule module )
     {
         ArrayList list = new ArrayList();
         createIncludeDirectives( module, list, Category.SYSTEM );
@@ -750,7 +751,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    boolean isaDescendant( DefaultModule module )
+    boolean isaDescendant( final DefaultModule module )
     {
         if( module == this )
         {
@@ -773,7 +774,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
 
-    private void createIncludeDirectives( DefaultModule module, List list, Category category )
+    private void createIncludeDirectives(
+      final DefaultModule module, final List list, final Category category )
     {
         DefaultResource[] providers = 
           getDefaultProviders( Scope.RUNTIME, true, category );
@@ -835,7 +837,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         return toString( "resource" );
     }
     
-    private String toString( String type )
+    String toString( final String type )
     {
         return type + ":" + getResourcePath() + "#" + getVersion();
     }
@@ -845,7 +847,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param other the other object
     * @return the comparitive index
     */
-    public int compareTo( Object other )
+    public int compareTo( final Object other )
     {
         if( other instanceof DefaultResource )
         {
@@ -902,7 +904,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
     
     DefaultResource[] getAggregatedDefaultProviders( 
-      Scope scope, boolean expanded, boolean sort, boolean filtered )
+      final Scope scope, final boolean expanded, final boolean sort, final boolean filtered )
     {
         DefaultResource[] resources = 
           getAggregatedDefaultProviders( scope, expanded, filtered );
@@ -917,48 +919,65 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    DefaultResource[] getAggregatedDefaultProviders( Scope scope, boolean expanded, boolean filtered )
+    DefaultResource[] getAggregatedDefaultProviders( 
+      final Scope scope, final boolean expanded, final boolean filtered )
     {
         ArrayList list = new ArrayList();
         if( !filtered )
         {
-            aggregateProviders( list, Scope.BUILD, expanded, filtered );
+            aggregateProviders( list, Scope.BUILD );
         }
         if( scope.isGreaterThan( Scope.BUILD ) )
         {
-            aggregateProviders( list, Scope.RUNTIME, expanded, filtered );
+            aggregateProviders( list, Scope.RUNTIME );
         }
         if( scope.isGreaterThan( Scope.RUNTIME ) )
         {
-            aggregateProviders( list, Scope.TEST, expanded, filtered );
+            aggregateProviders( list, Scope.TEST );
         }
-        return (DefaultResource[]) list.toArray( new DefaultResource[0] ); 
+        DefaultResource[] result = (DefaultResource[]) list.toArray( new DefaultResource[0] );
+        if( expanded )
+        {
+            List visited = new ArrayList();
+            List stack = new ArrayList();
+            for( int i=0; i<result.length; i++ )
+            {
+                DefaultResource resource = result[i];
+                processDefaultResource( visited, stack, scope, true, resource );
+            }
+            result = (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+        }
+        if( filtered )
+        {
+            List stack = new ArrayList();
+            for( int i=0; i<result.length; i++ )
+            {
+                DefaultResource resource = result[i];
+                if( resource.isa( "jar" ) )
+                {
+                    stack.add( resource );
+                }
+            }
+            result = (DefaultResource[]) stack.toArray( new DefaultResource[0] );
+        }
+        return result;
     }
 
-    private void aggregateProviders( List list, Scope scope, boolean expanded, boolean filter )
+    private void aggregateProviders( final List list, final Scope scope )
     {
-        DefaultResource[] resources = getDefaultProviders( scope, expanded, null );
+        DefaultResource[] resources = getDefaultProviders( scope, false, null );
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
-            if( !filter )
+            if( !list.contains( resource ) )
             {
-                if( !list.contains( resource ) )
-                {
-                    list.add( resource );
-                }
-            }
-            else if( resource.isa( "jar" ) )
-            {
-                if( !list.contains( resource ) )
-                {
-                    list.add( resource );
-                }
+                list.add( resource );
             }
         }
     }
     
-    DefaultResource[] getDefaultProviders( Scope scope, boolean expanded, boolean sort ) 
+    DefaultResource[] getDefaultProviders( 
+      final Scope scope, final boolean expanded, final boolean sort ) 
     {
         DefaultResource[] resources = getDefaultProviders( scope, expanded, null );
         if( sort )
@@ -972,7 +991,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    DefaultResource[] getDefaultProviders( Scope scope, boolean expand, Category category )
+    DefaultResource[] getDefaultProviders( 
+      final Scope scope, final boolean expand, final Category category )
     {
         ArrayList visited = new ArrayList();
         ArrayList stack = new ArrayList();
@@ -989,20 +1009,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                 stack.add( provider );
             }
         }
-        if( expand && ( this instanceof DefaultModule ) )
-        {
-            DefaultModule module = (DefaultModule) this;
-            DefaultResource[] children = module.getDefaultResources();
-            for( int i=0; i<children.length; i++ )
-            {
-                DefaultResource child = children[i];
-                processDefaultResource( visited, stack, scope, false, child );
-            }
-        }
         return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
     }
     
-    DefaultResource[] getLocalDefaultProviders( Scope scope, Category category ) 
+    DefaultResource[] getLocalDefaultProviders( final Scope scope, final Category category ) 
     {
         if( null == m_directive )
         {
@@ -1089,7 +1099,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         return resources;
     }
     
-    private IncludeDirective[] getLocalIncludes( Scope scope, Category category )
+    private IncludeDirective[] getLocalIncludes( final Scope scope, final Category category )
     {
         DependencyDirective dependency = m_directive.getDependencyDirective( scope );
         if( null == category )
@@ -1103,7 +1113,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
     
     private void processDefaultResource( 
-      List visited, List stack, Scope scope, boolean expand, DefaultResource resource )
+      final List visited, final List stack, final Scope scope, final boolean expand, 
+      final DefaultResource resource )
     {
         if( visited.contains( resource ) )
         {
@@ -1112,7 +1123,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         else
         {
             visited.add( resource );
-            DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, expand, false );
+            DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, false );
             for( int i=0; i<providers.length; i++ )
             {
                 processDefaultResource( visited, stack, scope, expand, providers[i] );
@@ -1121,7 +1132,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    private String getIncludeReference( IncludeDirective directive )
+    private String getIncludeReference( final IncludeDirective directive )
     {
         if( null == m_parent )
         {
@@ -1153,7 +1164,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     // consumer concerns
     //----------------------------------------------------------------------------
     
-    boolean isaConsumer( DefaultResource resource )
+    boolean isaConsumer( final DefaultResource resource )
     {
         DefaultResource[] resources = getAggregatedDefaultProviders( Scope.TEST, false, false );
         for( int i=0; i<resources.length; i++ )
@@ -1167,7 +1178,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         return false;
     }
     
-    DefaultResource[] getDefaultConsumers( boolean expand, boolean sort )
+    DefaultResource[] getDefaultConsumers( final boolean expand, final boolean sort )
     {
         DefaultResource[] consumers = getDefaultConsumers( expand );
         if( sort )
@@ -1180,7 +1191,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    DefaultResource[] getDefaultConsumers( boolean expand )
+    DefaultResource[] getDefaultConsumers( final boolean expand )
     {
         if( !expand )
         {
@@ -1210,7 +1221,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    void processConsumer( List visited, List stack, DefaultResource consumer )
+    void processConsumer( final List visited, final List stack, final DefaultResource consumer )
     {
         if( visited.contains( consumer ) )
         {
@@ -1238,7 +1249,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * @param category the runtime classloader category
     * @return the array of resources the define a classloader for the category
     */
-    private DefaultResource[] getClasspathDefaultProviders( Category category )
+    private DefaultResource[] getClasspathDefaultProviders( final Category category )
     {
         ArrayList list = new ArrayList();
         for( int i=0; i<category.getValue(); i++ )
@@ -1270,12 +1281,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     // sorting relative to dependencies
     //----------------------------------------------------------------------------
     
-    DefaultResource[] sortDefaultResources( DefaultResource[] resources )
+    DefaultResource[] sortDefaultResources( final DefaultResource[] resources )
     {
         return sortDefaultResources( resources, Scope.TEST );
     }
     
-    DefaultResource[] sortDefaultResources( DefaultResource[] resources, Scope scope )
+    DefaultResource[] sortDefaultResources( final DefaultResource[] resources, final Scope scope )
     {
         ArrayList visited = new ArrayList();
         ArrayList stack = new ArrayList();
@@ -1288,7 +1299,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
     
     void sortDefaultResource( 
-      List visited, List stack, Scope scope, DefaultResource[] resources )
+      final List visited, final List stack, final Scope scope, final DefaultResource[] resources )
     {
         if( visited.contains( this ) )
         {
@@ -1314,7 +1325,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    boolean isaMember( DefaultResource[] resources, DefaultResource resource )
+    boolean isaMember( final DefaultResource[] resources, final DefaultResource resource )
     {
         for( int i=0; i<resources.length; i++ )
         {
@@ -1383,7 +1394,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         return m_library.getRootDirectory();
     }
     
-    File getCanonicalFile( File file )
+    File getCanonicalFile( final File file )
     {
         try
         {
