@@ -70,6 +70,7 @@ public class BuilderPlugin
     private final Map m_map = new Hashtable();
     
     private boolean m_verbose;
+    private boolean m_expand = false;
     
     // ------------------------------------------------------------------------
     // constructors
@@ -119,6 +120,7 @@ public class BuilderPlugin
                 
                 if( line.hasOption( LIST_OPTION ) )
                 {
+                    m_expand = line.hasOption( EXPAND_OPTION );
                     Resource[] resources = getTargetSelection( line );
                     if( resources.length == 0 )
                     {
@@ -446,7 +448,7 @@ public class BuilderPlugin
             }
         }
 
-        Resource[] resources = resource.getProviders( Scope.BUILD, false, true );
+        Resource[] resources = resource.getProviders( Scope.BUILD, m_expand, true );
         if( resources.length > 0 )
         {
             print( pad + "build phase providers: (" + resources.length + ")" );
@@ -456,7 +458,8 @@ public class BuilderPlugin
                 print( p + res );
             }
         }
-        resources = resource.getProviders( Scope.RUNTIME, false, true );
+        resources = resource.getProviders( Scope.RUNTIME, m_expand, true );
+        //resources = resource.getClasspathProviders( Scope.RUNTIME );
         if( resources.length > 0 )
         {
             print( pad + "runtime providers: (" + resources.length + ")" );
@@ -466,7 +469,8 @@ public class BuilderPlugin
                 print( p + res );
             }
         }
-        resources = resource.getProviders( Scope.TEST, false, true );
+        resources = resource.getProviders( Scope.TEST, m_expand, true );
+        //resources = resource.getClasspathProviders( Scope.TEST );
         if( resources.length > 0 )
         {
             print( pad + "test providers: (" + resources.length + ")" );
@@ -583,6 +587,14 @@ public class BuilderPlugin
               .create() )
           .create();
     
+    private static final Option EXPAND_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "expand" )
+          .withShortName( "e" )
+          .withDescription( "Expand dependencies." )
+          .withRequired( false )
+          .create();
+    
     private static final Option CONSUMERS_OPTION = 
         OPTION_BUILDER
           .withShortName( "consumers" )
@@ -629,6 +641,7 @@ public class BuilderPlugin
       GROUP_BUILDER
         .withMinimum( 0 )
         .withOption( LIST_OPTION )
+        .withOption( EXPAND_OPTION )
         .withOption( CONSUMERS_OPTION )
         .create();
     

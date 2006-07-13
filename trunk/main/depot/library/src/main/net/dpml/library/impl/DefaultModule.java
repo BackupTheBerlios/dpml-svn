@@ -434,7 +434,17 @@ public final class DefaultModule extends DefaultResource implements Module
     DefaultResource[] getLocalDefaultProviders( final Scope scope, final Category category )
     {
         DefaultResource[] local = super.getLocalDefaultProviders( scope, category );
-        if( Scope.RUNTIME.equals( scope ) )
+        if( Scope.BUILD.equals( scope ) )
+        {
+            ArrayList stack = new ArrayList();
+            for( int i=0; i<local.length; i++ )
+            {
+                DefaultResource resource = local[i];
+                stack.add( resource );
+            }
+            return expandLocalDefaultProviders( stack );
+        }
+        else if( Scope.RUNTIME.equals( scope ) )
         {
             ArrayList stack = new ArrayList();
             for( int i=0; i<local.length; i++ )
@@ -452,8 +462,7 @@ public final class DefaultModule extends DefaultResource implements Module
                     stack.add( resource );
                 }
             }
-            
-            return expandLocalDefaultProviders( stack );
+            return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
         }
         else
         {
@@ -470,13 +479,18 @@ public final class DefaultModule extends DefaultResource implements Module
             if( resource instanceof DefaultModule )
             {
                 DefaultModule module = (DefaultModule) resource;
-                DefaultResource[] providers = module.expandLocalDefaultProviders( stack );
-                for( int j=0; j<providers.length; j++ )
+                String path = module.getResourcePath();
+                if( !path.startsWith( getResourcePath() ) )
+                //if( !getResourcePath().startsWith( path ) )
                 {
-                    DefaultResource r = providers[j];
-                    if( !stack.contains( r ) )
+                    DefaultResource[] providers = module.expandLocalDefaultProviders( stack );
+                    for( int j=0; j<providers.length; j++ )
                     {
-                        stack.add( r );
+                        DefaultResource r = providers[j];
+                        if( !stack.contains( r ) )
+                        {
+                            stack.add( r );
+                        }
                     }
                 }
             }
@@ -498,9 +512,14 @@ public final class DefaultModule extends DefaultResource implements Module
             if( !resource.isAnonymous() )
             {
                 DefaultModule parent = resource.getDefaultParent();
-                if( !stack.contains( parent ) && !this.equals( parent ) )
+                if( null != parent )
                 {
-                    stack.add( parent );
+                    String path = parent.getResourcePath();
+                    if( !getResourcePath().startsWith( path ) && !stack.contains( parent ) )
+                    if( !path.startsWith( getResourcePath() ) && !stack.contains( parent ) )
+                    {
+                        stack.add( parent );
+                    }
                 }
             }
         }

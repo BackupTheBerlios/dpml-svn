@@ -199,8 +199,10 @@ public class DefaultResourceTestCase extends AbstractTestCase
         try
         {
             String path = "dpml/metro/dpml-composition-runtime";
-            doProviderTest( path, false, 0, 6, 0 );
-            doProviderTest( path, true, 0, 12, 0 );
+            //doProviderTest( path, false, 0, 6, 0 );
+            //doProviderTest( path, true, 0, 12, 0 );
+            doProviderTest( path, false );
+            doProviderTest( path, true );
         }
         catch( Exception e )
         {
@@ -209,8 +211,10 @@ public class DefaultResourceTestCase extends AbstractTestCase
         try
         {
             String path = "dpml/transit/dpml-transit-tools";
-            doProviderTest( path, false, 0, 2, 1 );
-            doProviderTest( path, true, 0, 3, 4 );
+            //doProviderTest( path, false, 0, 2, 1 );
+            //doProviderTest( path, true, 0, 3, 4 );
+            doProviderTest( path, false );
+            doProviderTest( path, true );
         }
         catch( Exception e )
         {
@@ -219,8 +223,10 @@ public class DefaultResourceTestCase extends AbstractTestCase
         try
         {
             String path = "dpml/metro/dpml-component-model";
-            doProviderTest( path, false, 0, 4, 4 );
-            doProviderTest( path, true, 0, 5, 11 );
+            //doProviderTest( path, false, 0, 4, 4 );
+            //doProviderTest( path, true, 0, 5, 11 );
+            doProviderTest( path, false );
+            doProviderTest( path, true );
         }
         catch( Exception e )
         {

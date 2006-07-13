@@ -634,10 +634,17 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     */
     public Resource[] getClasspathProviders( final Scope scope )
     {
-        final boolean expanded = true;
-        final boolean sorted = true;
-        final boolean filtered = true;
-        return getAggregatedDefaultProviders( scope, expanded, sorted, filtered );
+        DefaultResource[] result = getAggregatedDefaultProviders( scope, true, true, true );
+        List stack = new ArrayList();
+        for( int i=0; i<result.length; i++ )
+        {
+            DefaultResource resource = result[i];
+            if( resource.isa( "jar" ) )
+            {
+                stack.add( resource );
+            }
+        }
+        return (DefaultResource[]) stack.toArray( new DefaultResource[0] );
     }
 
    /**
@@ -904,10 +911,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
     
     DefaultResource[] getAggregatedDefaultProviders( 
-      final Scope scope, final boolean expanded, final boolean sort, final boolean filtered )
+      final Scope scope, final boolean expanded, final boolean sort, final boolean flag )
     {
         DefaultResource[] resources = 
-          getAggregatedDefaultProviders( scope, expanded, filtered );
+          getAggregatedDefaultProviders( scope, expanded, flag );
         if( sort )
         {
             return sortDefaultResources( resources, scope );
@@ -920,10 +927,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
     
     DefaultResource[] getAggregatedDefaultProviders( 
-      final Scope scope, final boolean expanded, final boolean filtered )
+      final Scope scope, final boolean expanded, final boolean flag )
     {
         ArrayList list = new ArrayList();
-        if( !filtered )
+        if( !flag )
         {
             aggregateProviders( list, Scope.BUILD );
         }
@@ -943,20 +950,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
             for( int i=0; i<result.length; i++ )
             {
                 DefaultResource resource = result[i];
-                processDefaultResource( visited, stack, scope, true, resource );
-            }
-            result = (DefaultResource[]) stack.toArray( new DefaultResource[0] );
-        }
-        if( filtered )
-        {
-            List stack = new ArrayList();
-            for( int i=0; i<result.length; i++ )
-            {
-                DefaultResource resource = result[i];
-                if( resource.isa( "jar" ) )
-                {
-                    stack.add( resource );
-                }
+                expandDefaultResource( visited, stack, scope, resource );
             }
             result = (DefaultResource[]) stack.toArray( new DefaultResource[0] );
         }
@@ -1002,9 +996,9 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
             DefaultResource provider = providers[i];
             if( expand )
             {
-                processDefaultResource( visited, stack, scope, false, provider );
+                expandDefaultResource( visited, stack, scope, provider );
             }
-            else
+            else if( !stack.contains( provider ) )
             {
                 stack.add( provider );
             }
@@ -1112,9 +1106,8 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    private void processDefaultResource( 
-      final List visited, final List stack, final Scope scope, final boolean expand, 
-      final DefaultResource resource )
+    private void expandDefaultResource( 
+      final List visited, final List stack, final Scope scope, final DefaultResource resource )
     {
         if( visited.contains( resource ) )
         {
@@ -1123,10 +1116,12 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         else
         {
             visited.add( resource );
-            DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, false );
+            boolean flag = !scope.equals( Scope.BUILD );
+            DefaultResource[] providers = resource.getAggregatedDefaultProviders( scope, false, flag );
             for( int i=0; i<providers.length; i++ )
             {
-                processDefaultResource( visited, stack, scope, expand, providers[i] );
+                DefaultResource provider = providers[i];
+                expandDefaultResource( visited, stack, scope, provider );
             }
             stack.add( resource );
         }
@@ -1268,9 +1263,9 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
-            if( !list.contains( resource ) )
+            if( resource.isa( "jar" ) && !list.contains( resource ) )
             {
-                stack.add( resources[i] );
+                stack.add( resource );
             }
         }
         
