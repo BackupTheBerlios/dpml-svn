@@ -20,7 +20,7 @@
         <element name="modules" type="this:ModulesType" minOccurs="0" maxOccurs="1"/>
       </all>
     </complexType>
-
+    
     <complexType name="ImportsType">
       <sequence>
         <element name="import" type="this:URIImportType" minOccurs="0" maxOccurs="unbounded"/>
