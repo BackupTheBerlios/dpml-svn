@@ -48,7 +48,6 @@ import net.dpml.lang.Version;
 
 import net.dpml.metro.ComponentModel;
 import net.dpml.metro.ComponentHandler;
-import net.dpml.metro.ComponentModelManager;
 import net.dpml.metro.data.CategoryDirective;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.LifestylePolicy;
@@ -326,24 +325,6 @@ class DefaultComponentHandler extends UnicastEventSource
     public ComponentModel getComponentModel()
     {
         return m_model;
-    }
-    
-   /**
-    * Return the component model assiged to the handler.
-    * @return the component model
-    */
-    public ComponentModelManager getComponentManager()
-    {
-        if( m_model instanceof ComponentModelManager )
-        {
-            return (ComponentModelManager) m_model;
-        }
-        else
-        {
-            final String error = 
-              "Cannot cast component model to the manager interface.";
-            throw new IllegalStateException( error );
-        }
     }
     
    /**
