@@ -33,6 +33,9 @@ import net.dpml.component.ModelEvent;
 
 import net.dpml.lang.Classpath;
 
+import net.dpml.metro.ComponentModel;
+import net.dpml.metro.ContextModel;
+
 import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.data.ContextDirective;
 import net.dpml.metro.data.CategoriesDirective;
@@ -43,12 +46,8 @@ import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.PartReference;
 
-import net.dpml.metro.ContextModel;
-import net.dpml.metro.ComponentModelManager;
-import net.dpml.metro.ContextModelManager;
-
-import net.dpml.util.Logger;
 import net.dpml.util.EventQueue;
+import net.dpml.util.Logger;
 
 /**
  * Default implementation of a mutable component model.
@@ -57,7 +56,7 @@ import net.dpml.util.EventQueue;
  * @version @PROJECT-VERSION@
  */
 class DefaultComponentModel extends UnicastEventSource 
-  implements ComponentModelManager
+  implements ComponentModel
 {
     // ------------------------------------------------------------------------
     // state
@@ -426,24 +425,6 @@ class DefaultComponentModel extends UnicastEventSource
         return m_context;
     }
     
-   /**
-    * Return the context manager.
-    * @return the context manager
-    */
-    public ContextModelManager getContextManager()
-    {
-        if( m_context instanceof ContextModelManager )
-        {
-            return (ContextModelManager) m_context;
-        }
-        else
-        {
-            final String error = 
-              "Cannot cast context model to the manager interface.";
-            throw new IllegalStateException( error );
-        }
-    }
-     
    /**
     * Return the component logging categories.
     * @return the categories
