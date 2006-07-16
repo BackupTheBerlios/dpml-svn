@@ -515,7 +515,6 @@ public final class DefaultModule extends DefaultResource implements Module
                 if( null != parent )
                 {
                     String path = parent.getResourcePath();
-                    if( !getResourcePath().startsWith( path ) && !stack.contains( parent ) )
                     if( !path.startsWith( getResourcePath() ) && !stack.contains( parent ) )
                     {
                         stack.add( parent );
