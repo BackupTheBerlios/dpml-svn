@@ -69,6 +69,7 @@ public final class RegistryBuilder implements Decoder
    /**
     * Decode a registry descriptior from a DOM element.
     * @param element the element representing the root registry
+    * @param resolver build-time uri resolver
     * @return the registry descriptor
     * @exception DecodingException if a decoding error occurs
     */
