@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<library xmlns="@MODULE-XSD-URI@">
+<index xmlns="@MODULE-XSD-URI@">
 
   <imports>
     <import uri="link:xml:abc/def/import-1#1.0"/>
     <import uri="foo:bar"/>
   </imports>
   
-</library>
+</index>

@@ -22,17 +22,17 @@
       properties.
       </p>
 
-      <subsection name="library.xml">
+      <subsection name="index.xml">
 
         <p>
-        The library file is maintained in a file named <tt>library.xml</tt>. 
+        The index file is maintained in a file named <tt>index.xml</tt>. 
         The file is located by searching up the directory hierachy from the 
         current working directory to the root of the file system until the
-        library source is located.  
+        indexsource is located.  
         </p>
 
         <p>
-        A library source file contains the declaration of project modules. 
+        A index file contains the declaration of project modules. 
         In turn, modules contain declarations of available resources (such
         as dependent jar files), projects, and subsidiary modules.
         </p>
@@ -67,7 +67,7 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<library xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+<index xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
 
   <imports>
@@ -133,16 +133,16 @@
 
   </modules>
 
-</library>
+</index>
 
 ]]></source>
 
         <p>
-        The above library directive contains a collection of global properties and
+        The above index contains a collection of global properties and
         top-level modules.  Collectively this information is sufficient to execute a 
         complete preparation, compilation, packaging, testing, and installation of the 
         project and modules defined within the library.  This
-        level of automation is achived through (a) support from the library for 
+        level of automation is achived through (a) support from the index for 
         project relationship information, dependencies, properties and produced type
         declarations, combined with (b) a plugin build implementation.
         </p>

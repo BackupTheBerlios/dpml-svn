@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<library xmlns="@MODULE-XSD-URI@" 
+<index xmlns="@MODULE-XSD-URI@" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <modules>
@@ -78,5 +78,5 @@
   </project>
   -->
 
-</library>
+</index>
 

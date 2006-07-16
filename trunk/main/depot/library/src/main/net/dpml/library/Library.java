@@ -28,6 +28,8 @@ import java.io.File;
  */
 public interface Library
 {
+    public static final String INDEX_FILENAME = "index.xml";
+    
    /**
     * Utility operation to sort a collection of resources.
     * @param resources the resources to sort

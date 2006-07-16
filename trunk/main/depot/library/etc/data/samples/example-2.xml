@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<library xmlns="@MODULE-XSD-URI@">
+<index xmlns="@MODULE-XSD-URI@">
 
   <properties>
     <property name="foo" value="bar"/>
     <property name="ping" value="pong"/>
   </properties>
   
-</library>
+</index>

@@ -64,8 +64,8 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     }
     
    /**
-    * Creation of a new library.  The definition of the library will 
-    * be resolved by search up the file system for a file named library.xml.
+    * Creation of a new library.  The definition of the indexwill 
+    * be resolved by search up the file system for a file named index.xml.
     * @param logger the assigned logging channel
     * @exception Exception if an error occurs during defintion loading
     */
@@ -77,7 +77,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
    /**
     * Creation of a new library.
     * @param logger the assigned logging channel
-    * @param source the library source defintion
+    * @param source the index source defintion
     * @exception Exception if an error occurs during defintion loading
     */
     public DefaultLibrary( Logger logger, File source ) throws Exception
@@ -486,7 +486,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         }
         else
         {
-            File file = new File( dir, "library.xml" );
+            File file = new File( dir, INDEX_FILENAME );
             if( file.isFile() && file.exists() )
             {
                 return file;
@@ -500,6 +500,6 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
                 }
             }
         }
-        throw new FileNotFoundException( "library.xml" );
+        throw new FileNotFoundException( "index.xml" );
     }
 }

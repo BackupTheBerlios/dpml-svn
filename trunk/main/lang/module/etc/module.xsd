@@ -5,7 +5,7 @@
             targetNamespace="@PROJECT-XSD-SPEC-URI@"
             elementFormDefault="qualified">
     
-    <element name="library" type="this:LibraryType"/>
+    <element name="index" type="this:IndexType"/>
     <element name="module" type="this:ModuleType"/>
     <element name="project" type="this:ProjectType"/>
     <element name="resource" type="this:ResourceType"/>
@@ -13,7 +13,7 @@
     <element name="typedef" type="this:AbstractType"/>
     <element name="type" type="this:GenericType" substitutionGroup="this:typedef"/>
     
-    <complexType name="LibraryType">
+    <complexType name="IndexType">
       <all>
         <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
         <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>

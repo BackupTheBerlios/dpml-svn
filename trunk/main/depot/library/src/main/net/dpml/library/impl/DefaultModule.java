@@ -64,7 +64,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * resource references.
     * @param logger the assigned logging channel
     * @param library the library
-    * @param directive the library directive from which common properties are established
+    * @param directive the directive from which common properties are established
     */
     DefaultModule( final DefaultLibrary library, final AbstractDirective directive ) 
     {
@@ -79,7 +79,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param logger the assigned logging channel
     * @param library the library
     * @param module the parent module
-    * @param directive the library directive from which common properties are established
+    * @param directive the directive from which common properties are established
     */
     DefaultModule( 
       final DefaultLibrary library, final DefaultModule module, final ModuleDirective directive ) 

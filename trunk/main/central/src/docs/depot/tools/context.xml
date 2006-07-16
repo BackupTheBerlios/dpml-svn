@@ -30,15 +30,15 @@
         </tr>
         <tr> 
           <td>properties</td>
-          <td>Property values resolved relative the library. If the property name
+          <td>Property values resolved relative the index file. If the property name
             is declared within the current Ant project then property value will be 
             returned, otherwise the property value will be resolved relative to 
-            the library project definition. 
+            the library definition.
           </td>
         </tr>
         <tr> 
           <td>paths</td>
-          <td>The context provides utilitiy operations to resolve RUNTIME and TEST 
+          <td>The context provides utility operations to resolve RUNTIME and TEST 
             Path objects suitable for use with classic ant tasks such as javac, rmic, 
             junit, etc.
           </td>
@@ -53,7 +53,7 @@
         <tr> 
           <td>library</td>
           <td>
-            The context object provides support for access to the central library 
+            The context object provides support for access to the central library
             thereby enabling access to the features and characteristics of other 
             projects and resource.
           </td>

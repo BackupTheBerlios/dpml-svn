@@ -18,7 +18,7 @@
       </p>
       
       <p>
-      An <tt>&lt;import&gt;</tt> directive instructs the library to include an 
+      An <tt>&lt;import&gt;</tt> directive instructs the indexto include an 
       external module definition into the library.  Importing a module enables 
       projects and resources declared within modules to reference resources as
       <tt>&lt;dependencies&gt;</tt> via <tt>&lt;include&gt;</tt> elements.

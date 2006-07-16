@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<library xmlns="@MODULE-XSD-URI@">
+<index xmlns="@MODULE-XSD-URI@">
 
   <modules>
     <module name="org">
@@ -15,4 +15,4 @@
     </module>
   </modules>
 
-</library>
+</index>

@@ -30,10 +30,10 @@
       <pre>@UTIL-CLI-URI@</pre>
 
       <p>
-        The CLI library provides an API for processing command line interfaces.
+        The CLI indexprovides an API for processing command line interfaces.
       </p>
       <p>
-        The implementation is based on the Jakarta Commons CLI2 library written 
+        The implementation is based on the Jakarta Commons CLI2 indexwritten 
         by John Keyes and Rob Oxspring.
       </p>
       <p>

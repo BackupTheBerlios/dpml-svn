@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<library xmlns="@MODULE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<index xmlns="@MODULE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <properties>
-    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-builder"/>
+    <property name="project.builder.uri" value="link:part:dpml/tools/dpml-tools-builder"/>
     <property name="project.standard.template" value="local:template:dpml/tools/standard"/>
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
@@ -16,4 +16,4 @@
     <module file="ant/module.xml"/>
   </modules>
 
-</library>
+</index>

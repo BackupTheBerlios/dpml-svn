@@ -374,55 +374,7 @@ public class BuilderPlugin
         print( "" );
     }
     
-    /*
-    private void listModule( String pad, Module module, int n ) throws Exception
-    {
-        if( n > 0 )
-        {
-            String label = getLabel( n );
-            print( "\n" + label + module );
-        }
-        else
-        {
-            print( "\n" + module );
-        }
-        print( "" );
-        print( pad + "version: " + module.getVersion() );
-        print( pad + "basedir: " + module.getBaseDir() );
-        
-        String p = pad + "  ";
-        Resource[] providers = module.getAggregatedProviders( Scope.TEST, false, true );
-        Resource[] resources = module.getResources();
-        List list = Arrays.asList( resources );
-        ArrayList stack = new ArrayList();
-        for( int i=0; i<providers.length; i++ )
-        {
-            Resource provider = providers[i];
-            if( !list.contains( provider ) )
-            {
-                stack.add( provider );
-            }
-        }
-        providers = (Resource[]) stack.toArray( new Resource[0] );
-        if( providers.length > 0 )
-        {
-            print( pad + "imports: (" + providers.length + ")"  );
-            for( int i=0; i<providers.length; i++ )
-            {
-                print( p + providers[i] );
-            }
-        }
-        if( resources.length > 0 )
-        {
-            print( pad + "resources: (" + resources.length + ")" );
-            for( int i=0; i<resources.length; i++ )
-            {
-                print( p + resources[i] );
-            }
-        }
-    }
-    */
-    
+
     private void listResource( String pad, Resource resource, int n ) throws Exception
     {
         if( n > 0 )
@@ -458,7 +410,6 @@ public class BuilderPlugin
             }
         }
         resources = resource.getProviders( Scope.RUNTIME, m_expand, true );
-        //resources = resource.getClasspathProviders( Scope.RUNTIME );
         if( resources.length > 0 )
         {
             print( pad + "runtime providers: (" + resources.length + ")" );
@@ -469,7 +420,6 @@ public class BuilderPlugin
             }
         }
         resources = resource.getProviders( Scope.TEST, m_expand, true );
-        //resources = resource.getClasspathProviders( Scope.TEST );
         if( resources.length > 0 )
         {
             print( pad + "test providers: (" + resources.length + ")" );

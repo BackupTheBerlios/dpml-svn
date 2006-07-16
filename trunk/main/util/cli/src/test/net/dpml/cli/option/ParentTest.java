@@ -86,7 +86,7 @@ public class ParentTest extends AbstractParentTestCase
         final Argument argument = ArgumentTest.buildPathArgument(  );
 
         return new DefaultOption( "-", "--", false, "--lib",
-            "Specifies library search path", null, null, false, argument, null,
+            "Specifies indexsearch path", null, null, false, argument, null,
             'l' );
     }
 
@@ -447,7 +447,7 @@ public class ParentTest extends AbstractParentTestCase
     public void testGetDescription(  )
     {
         final Option option = buildLibParent(  );
-        assertEquals( "Specifies library search path", option.getDescription(  ) );
+        assertEquals( "Specifies indexsearch path", option.getDescription(  ) );
     }
 
     /* (non-Javadoc)
