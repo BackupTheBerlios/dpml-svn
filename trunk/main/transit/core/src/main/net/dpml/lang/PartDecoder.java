@@ -20,7 +20,6 @@ package net.dpml.lang;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Hashtable;
 import java.lang.ref.WeakReference;
@@ -36,7 +35,6 @@ import net.dpml.util.DecoderFactory;
 import net.dpml.util.DecodingException;
 import net.dpml.util.Resolver;
 import net.dpml.util.SimpleResolver;
-import net.dpml.util.PropertyResolver;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
