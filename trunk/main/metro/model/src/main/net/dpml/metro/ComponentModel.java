@@ -107,5 +107,6 @@ public interface ComponentModel extends Model
     * @exception RemoteException if a remote exception occurs
     */
     PartReference[] getPartReferences() throws  RemoteException;
+
 }
 
