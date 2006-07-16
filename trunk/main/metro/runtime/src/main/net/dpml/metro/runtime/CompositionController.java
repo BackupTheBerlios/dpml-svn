@@ -154,6 +154,7 @@ public class CompositionController implements Controller, Builder
     * @param info the part info definition
     * @param classpath the part classpath definition
     * @param strategy the DOM element definining the deplyment streategy
+    * @param resolver build-time uri resolver
     * @return the part definition
     * @exception IOException if an I/O error occurs
     */
