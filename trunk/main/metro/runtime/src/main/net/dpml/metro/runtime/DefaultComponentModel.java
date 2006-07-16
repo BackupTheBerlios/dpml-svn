@@ -229,24 +229,6 @@ class DefaultComponentModel extends UnicastEventSource
         {
             populatePartReferences( map, parent );
         }
-        else
-        {
-            populateTypeReferences( map );
-        }
-    }
-
-    private void populateTypeReferences( Map map )
-    {
-        PartReference[] typeRefs = m_type.getPartReferences();
-        for( int i=0; i < typeRefs.length; i++ )
-        {
-            PartReference ref = typeRefs[i];
-            String key = ref.getKey();
-            if( !map.containsKey( key ) )
-            {
-                map.put( key, ref );
-            }
-        }
     }
 
    /**

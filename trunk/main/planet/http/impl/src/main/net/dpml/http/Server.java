@@ -83,7 +83,7 @@ public class Server extends org.mortbay.jetty.Server
         *
         * @return the configured handler collection.
         */
-        HandlerCollection getHandlerCollection();
+        HandlerCollection getHandlers();
     }
     
     private final Logger m_logger;
@@ -139,7 +139,7 @@ public class Server extends org.mortbay.jetty.Server
         
         addConnectors( parts );
         addUserRealms( parts );
-        HandlerCollection collection = parts.getHandlerCollection();
+        HandlerCollection collection = parts.getHandlers();
         setHandler( collection );
         
         // notify completion of server establishment

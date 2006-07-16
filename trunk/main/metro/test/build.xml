@@ -109,24 +109,8 @@
 
     <types xmlns="dpml:metro">
       <type class="net.dpml.test.composite.ChildComponent" name="child"/>
-      <type class="net.dpml.test.composite.CompositeComponent" name="parent">
-        <parts>
-          <component type="net.dpml.test.composite.ChildComponent" key="child">
-            <context>
-              <entry key="color" method="BLUE"/>
-            </context>
-          </component>
-        </parts>
-      </type>
-      <type class="net.dpml.test.composite.PartsComponent" name="parent">
-        <parts>
-          <component type="net.dpml.test.composite.ChildComponent" key="child">
-            <context>
-              <entry key="color" method="BLUE"/>
-            </context>
-          </component>
-        </parts>
-      </type>
+      <type class="net.dpml.test.composite.CompositeComponent" name="parent"/>
+      <type class="net.dpml.test.composite.PartsComponent" name="parent"/>
     </types>
 
     <c:component dest="target/test/composite.part" test="true" 
@@ -134,6 +118,13 @@
       <context>
         <entry key="color" method="RED"/>
       </context>
+      <parts>
+        <component type="net.dpml.test.composite.ChildComponent" key="child">
+          <context>
+            <entry key="color" method="BLUE"/>
+          </context>
+        </component>
+      </parts>
     </c:component>
 
     <c:component dest="target/test/parts.part" test="true" 
@@ -141,6 +132,13 @@
       <context>
         <entry key="color" method="RED"/>
       </context>
+      <parts>
+        <component type="net.dpml.test.composite.ChildComponent" key="child">
+          <context>
+            <entry key="color" method="BLUE"/>
+          </context>
+        </component>
+      </parts>
     </c:component>
 
     <!-- create the lifecycle managed component -->
@@ -169,8 +167,7 @@
     </c:type>
 
     <c:component dest="target/test/lifecycle.part" test="true" 
-        type="net.dpml.test.lifecycle.StartableComponent" collection="HARD">
-    </c:component>
+        type="net.dpml.test.lifecycle.StartableComponent" collection="HARD"/>
 
     <!-- categories component -->
 
@@ -204,24 +201,24 @@
     <c:types>
       <type name="server" class="net.dpml.test.app.DefaultServer" lifestyle="singleton"/>
       <type name="listener" class="net.dpml.test.app.DefaultListener" lifestyle="singleton"/>
-      <type name="demo" class="net.dpml.test.app.Demo" lifestyle="singleton">
-        <parts>
-          <component key="server" type="net.dpml.test.app.DefaultServer" >
-            <context>
-              <entry key="port" value="1010"/>
-            </context>
-          </component>
-          <component key="listener" type="net.dpml.test.app.DefaultListener" >
-            <context>
-              <entry key="server" lookup="net.dpml.test.app.Server"/>
-            </context>
-          </component>
-        </parts>
-      </type>
+      <type name="demo" class="net.dpml.test.app.Demo" lifestyle="singleton"/>
     </c:types>
 
     <c:component type="net.dpml.test.app.Demo" 
-      dest="target/test/application.part" test="true" collection="hard"/>
+      dest="target/test/application.part" test="true" collection="hard">
+      <parts>
+        <component key="server" type="net.dpml.test.app.DefaultServer" >
+          <context>
+            <entry key="port" value="1010"/>
+          </context>
+        </component>
+        <component key="listener" type="net.dpml.test.app.DefaultListener" >
+          <context>
+            <entry key="server" lookup="net.dpml.test.app.Server"/>
+          </context>
+        </component>
+      </parts>
+    </c:component>
 
     <!-- operations test -->
 

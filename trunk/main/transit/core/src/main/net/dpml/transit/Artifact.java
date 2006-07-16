@@ -260,11 +260,26 @@ public final class Artifact implements Serializable, Comparable
         }
         catch( UnsupportedSchemeException e )
         {
-            return uri.toURL();
         }
         catch( IllegalArgumentException e )
         {
+        }
+        
+        try
+        {
             return uri.toURL();
+        }
+        catch( MalformedURLException mue )
+        {
+            throw mue;
+        }
+        catch( Throwable t )
+        {
+            final String error = 
+              "Unexpected error while attempting to convert a uri to a url."
+              + "\n  URI: " 
+              + uri;
+            throw new TransitRuntimeException( error, t );
         }
     }
 

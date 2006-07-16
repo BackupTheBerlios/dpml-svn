@@ -65,8 +65,6 @@ public final class ComponentTypeDecoder
     
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = new DOM3DocumentBuilder();
     
-    private static final ComponentDecoder COMPONENT_DECODER = new ComponentDecoder();
-    
    /**
     * Load a type.
     * @param subject the component implementation class
@@ -138,8 +136,7 @@ public final class ComponentTypeDecoder
         ContextDescriptor context = buildNestedContext( root );
         CategoryDescriptor[] categories = buildNestedCategories( root );
         State state = buildNestedState( root );
-        PartReference[] parts = buildNestedParts( root, resolver );
-        return new Type( info, categories, context, services, parts, state );
+        return new Type( info, categories, context, services, state );
     }
     
     private InfoDescriptor buildNestedInfoDescriptor( Element root ) throws DecodingException
@@ -253,9 +250,6 @@ public final class ComponentTypeDecoder
     
     private State buildNestedState( Element root )
     {
-        // ISSUE: selection does not support namespace resolution
-        // and will fail with something like <acme:state>
-        
         Element element = ElementHelper.getChild( root, "state" );
         if( null == element )
         {
@@ -266,41 +260,7 @@ public final class ComponentTypeDecoder
             return STATE_DECODER.buildStateGraph( element );
         }
     }
-    
-    private PartReference[] buildNestedParts( Element root, Resolver resolver ) throws Exception
-    {
-        Element element = ElementHelper.getChild( root, "parts" );
-        if( null == element )
-        {
-            return new PartReference[0];
-        }
-        else
-        {
-            Element[] children = ElementHelper.getChildren( element );
-            if( children.length == 0 )
-            {
-                return new PartReference[0];
-            }
-            else
-            {
-                PartReference[] refs = new PartReference[ children.length ];
-                for( int i=0; i<children.length; i++ )
-                {
-                    Element child = children[i];
-                    refs[i] = buildPartReference( child, resolver );
-                }
-                return refs;
-            }
-        }
-    }
-    
-    private PartReference buildPartReference( Element element, Resolver resolver ) throws Exception
-    {
-        String key = ElementHelper.getAttribute( element, "key" );
-        ComponentDirective definition = COMPONENT_DECODER.buildComponent( element, resolver );
-        return new PartReference( key, definition );
-    }
-    
+
     private Properties buildNestedProperties( Element element )
     {
         Element[] entries = ElementHelper.getChildren( element, "property" );

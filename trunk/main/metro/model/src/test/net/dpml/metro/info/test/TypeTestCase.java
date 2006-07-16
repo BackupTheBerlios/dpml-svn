@@ -52,7 +52,6 @@ public class TypeTestCase extends AbstractEncodingTestCase
     private CategoryDescriptor[] m_loggers;
     private ContextDescriptor m_context;
     private ServiceDescriptor[] m_services;
-    private PartReference[] m_parts;
     private ServiceDescriptor m_reference;
     private String m_key;
     private State m_graph;
@@ -71,7 +70,6 @@ public class TypeTestCase extends AbstractEncodingTestCase
           };
         m_context = new ContextDescriptor( new EntryDescriptor[0] );
         m_services = new ServiceDescriptor[]{m_reference};
-        m_parts = new PartReference[0];
         m_graph = State.NULL_STATE;
     }
     
@@ -82,7 +80,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         checkArray( m_loggers, type.getCategoryDescriptors() );
         assertTrue( type.isaCategory( m_loggers[0].getName() ) );
         assertTrue( !type.isaCategory( "fake name" ) );
@@ -95,7 +93,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         assertEquals( m_context, type.getContextDescriptor() );
     }
 
@@ -106,7 +104,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         assertEquals( m_info, type.getInfo() );
     }
 
@@ -117,7 +115,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         assertEquals( m_graph, type.getStateGraph() );
     }
 
@@ -131,7 +129,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
         services[1] = new ServiceDescriptor( "Gizmo" );
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, services, m_parts, m_graph );
+            m_info, m_loggers, m_context, services, m_graph );
         checkArray( services, type.getServiceDescriptors() );
     }
 
@@ -145,7 +143,6 @@ public class TypeTestCase extends AbstractEncodingTestCase
         assertEquals( m_services[0], type.getServiceDescriptor( m_reference ) );
         assertEquals( m_services[0], type.getServiceDescriptor( m_services[0].getClassname() ) );
         checkArray( m_services, type.getServiceDescriptors() );
-        checkArray( m_parts, type.getPartReferences() );
         assertTrue( type.isaCategory( m_loggers[0].getName() ) );
         assertTrue( !type.isaCategory( "fake name" ) );
     }
@@ -166,7 +163,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         checkType( type );
     }
 
@@ -179,7 +176,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type( 
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         checkType( type );
         File file = new File( "test.out" );
         ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( file ) );
@@ -208,7 +205,7 @@ public class TypeTestCase extends AbstractEncodingTestCase
     {
         Type type = 
           new Type(
-            m_info, m_loggers, m_context, m_services, m_parts, m_graph );
+            m_info, m_loggers, m_context, m_services, m_graph );
         executeEncodingTest( type, "type.xml" );
     }
 }

@@ -8,6 +8,13 @@
         lifestyle="singleton" 
         collection="hard">
       <parts>
+        <component key="threadPool" 
+            type="net.dpml.http.BoundedThreadPool" collection="hard" activation="demand">
+          <context>
+            <entry key="min" value="10"/>
+            <entry key="max" value="100"/>
+          </context>
+        </component>
         <!--
         Add a select channel connector to 8080.
         -->
@@ -50,7 +57,7 @@
         <!--
         Add handler collection.
         -->
-        <component key="handlerCollection" type="net.dpml.http.HandlerCollection" 
+        <component key="handlers" type="net.dpml.http.HandlerCollection" 
             lifestyle="singleton"
             collection="hard">
             

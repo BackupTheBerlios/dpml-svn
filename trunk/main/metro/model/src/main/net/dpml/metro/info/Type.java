@@ -25,6 +25,8 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 
+import net.dpml.lang.AbstractDirective;
+
 import net.dpml.state.State;
 import net.dpml.state.StateDecoder;
 import net.dpml.state.StateBuilderRuntimeException;
@@ -47,7 +49,7 @@ import net.dpml.state.StateBuilderRuntimeException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Type extends Composite implements Serializable
+public class Type extends AbstractDirective implements Serializable
 {
     static final long serialVersionUID = 1L;
     
@@ -70,17 +72,15 @@ public class Type extends Composite implements Serializable
     *   and context entry key and value classnames
     * @param services a set of service descriptors that detail the service that
     *   this component type is capable of supplying
-    * @param parts an array of part descriptors
     * @param graph the state graph
     * @exception NullPointerException if the info, loggers, state, or context is null
     */
     public Type( 
       final InfoDescriptor info, final CategoryDescriptor[] loggers,
-      final ContextDescriptor context, final ServiceDescriptor[] services,
-      final PartReference[] parts, State graph )
+      final ContextDescriptor context, final ServiceDescriptor[] services, final State graph )
       throws NullPointerException 
     {
-        super( parts );
+        //super( parts );
         
         if( null == info )
         {
@@ -315,9 +315,8 @@ public class Type extends Composite implements Serializable
           new ServiceDescriptor[]{
             new ServiceDescriptor( subject.getName() )
           };
-        final PartReference[] parts = new PartReference[0];
         State state = loadStateFromResource( subject );
-        return new Type( info, loggers, context, services, parts, state );
+        return new Type( info, loggers, context, services, state );
     }
     
     private static ContextDescriptor createContextDescriptor( Class subject ) 

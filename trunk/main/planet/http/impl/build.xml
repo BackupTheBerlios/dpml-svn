@@ -109,15 +109,6 @@
           </transition>
         </state>
       </state>
-      <parts>
-        <component key="threadPool" 
-            type="net.dpml.http.BoundedThreadPool" collection="hard" activation="DEMAND">
-          <context>
-            <entry key="min" value="10"/>
-            <entry key="max" value="100"/>
-          </context>
-        </component>
-      </parts>
     </type>
 
     <catalog xmlns="metro" title="Test Catalog">

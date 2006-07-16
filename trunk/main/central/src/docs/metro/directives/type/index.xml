@@ -20,7 +20,6 @@
         supplimentary information about a Java class.  This information
         includes details about the assumtions that the class makes concerning
         context information, it's capabilities with respect to thread-safety, 
-        internal parts of the component, and other infromation including 
         garbage collection policy, lifestyle, and lifecycle.
         </p>
         
@@ -58,15 +57,6 @@
           <tr>
             <td><a href="state/index.html"><tt>state</tt></a></td>
             <td>Definition of a component lifecycle expressed as a state transition graph.</td>
-          </tr>
-          <tr>
-            <td><a href="parts/index.html"><tt>parts</tt></a></td>
-            <td>Definition of the internal parts (nested components)
-                within this component type. The <tt>parts</tt> element allows 
-                for the structural composition of components as <i>part-of</i> 
-                an enclosing component type.  Enclosed components can be viewed
-                as a private internal implementation strategy of the type.
-            </td>
           </tr>
         </table>
 
@@ -119,32 +109,6 @@
       </transition>
     </state>
   </state>
-
-  <parts>
-    <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-        key="requestLog"
-        class="net.dpml.http.NCSARequestLog"
-        name="requestLog"
-        collection="hard"
-        activation="demand">
-      <context>
-        <entry key="filename" class="java.lang.String" value="${dpml.data}/logs/http/request.log"/>
-        <entry key="append" class="boolean" value="true"/>
-        <entry key="extended" class="boolean" value="true"/>
-      </context>
-    </component>
-    <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-        key="threadPool"
-        class="net.dpml.http.BoundedThreadPool"
-        name="threadPool"
-        collection="hard"
-        activation="demand">
-      <context>
-        <entry key="min" class="int" value="10"/>
-        <entry key="max" class="int" value="100"/>
-      </context>
-    </component>
-  </parts>
   
 </type>
 ]]></source>

@@ -139,8 +139,8 @@ xmlSetup
 dpmlModule
 dpmlPart
 dpmlState
-dpmlComponent
 dpmlType
+dpmlComponent
 transitMain
 transitTools
 dpmlLibrary

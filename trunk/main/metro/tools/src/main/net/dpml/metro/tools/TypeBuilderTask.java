@@ -82,7 +82,6 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
     private LifestylePolicy m_lifestyle;
     private CollectionPolicy m_collection;
     private ThreadSafePolicy m_threadsafe = ThreadSafePolicy.UNKNOWN;
-    private PartsDataType m_parts;
     private StateDataType m_state;
     private ServicesDataType m_services;
     private CategoriesDescriptorDataType m_categories;
@@ -143,25 +142,6 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         m_lifestyle = LifestylePolicy.parse( value );
     }
 
-   /**
-    * Create a new part datatype.
-    * @return a new part datatype
-    */
-    public PartsDataType createParts()
-    {
-        if( m_parts == null )
-        {
-            m_parts = new PartsDataType( this );
-            return m_parts;
-        }
-        else
-        {
-             final String error =
-              "Illegal attempt to create a duplicate parts element.";
-             throw new BuildException( error, getLocation() );
-        }
-    }
-    
    /**
     * Create a new services datatype.
     * @return a new services datatype
@@ -278,9 +258,8 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         ServiceDescriptor[] services = createServiceDescriptors( subject );
         CategoryDescriptor[] categories = createCategoryDescriptors();
         ContextDescriptor context = createContextDescriptor( subject );
-        PartReference[] parts = getPartReferences( subject.getClassLoader() );
         State graph = getStateGraph( subject );
-        return new Type( info, categories, context, services, parts, graph );
+        return new Type( info, categories, context, services, graph );
     }
 
     private File getReportDestination( File dir, Type type )
@@ -523,28 +502,6 @@ public class TypeBuilderTask extends GenericTask implements TypeBuilder
         else
         {
             return new ServiceDescriptor( classname );
-        }
-    }
-
-    private PartReference[] getPartReferences( ClassLoader classloader ) 
-      throws IntrospectionException, IOException
-    {
-        if( null != m_parts )
-        {
-            try
-            {
-                return m_parts.getParts( classloader, null );
-            }
-            catch( ClassNotFoundException cnfe )
-            {
-                final String error = 
-                  "Unable to load a class referenced by a nested part within a component type.";
-                throw new BuildException( error, cnfe );
-            }
-        }
-        else
-        {
-            return new PartReference[0];
         }
     }
 

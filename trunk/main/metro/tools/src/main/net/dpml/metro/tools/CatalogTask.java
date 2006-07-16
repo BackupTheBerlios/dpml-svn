@@ -622,13 +622,6 @@ public class CatalogTask extends Task
                 writer.write( "\n    </table>" );
             }
             
-            //
-            // write out links to embedded types
-            //
-            
-            PartReference[] parts = type.getPartReferences();
-            writePartReferences( writer, type, parts, offset );
-            
             writer.write( "\n  </body>" );
             writer.write( "\n</html>" );
             writer.close();
@@ -679,48 +672,6 @@ public class CatalogTask extends Task
                 {
                     writer.write( "<tr class=\"odd\"><td>" + service + "</td></tr>" );
                 }
-                flag = !flag;
-            }
-            writer.write( "\n    </table>" );
-        }
-    }
-
-    private void writePartReferences( FileWriter writer, Type type, PartReference[] parts, String offset )
-      throws IOException
-    {
-        boolean flag = true;
-        if( parts.length > 0 )
-        {
-            writer.write( "\n    <p class=\"category\">Embedded Components</p>" );
-            writer.write( "\n    <table width=\"100%\">" );
-            for( int j=0; j < parts.length; j++ )
-            {
-                PartReference ref = parts[j];
-                String key = ref.getKey();
-                Directive directive = type.getDirective( key );
-
-                if( flag )
-                {
-                    writer.write( "<tr class=\"p-even\">" );
-                }
-                else
-                {
-                    writer.write( "<tr class=\"p-odd\">" );
-                }
-                writer.write( "<td>" + key + "</td>" );
-                String pname = directive.getClass().getName();
-                if( pname.equals( ComponentDirective.class.getName() ) )
-                {
-                    ComponentDirective component = (ComponentDirective) directive;
-                    String tname = component.getClassname();
-                    String tpath = tname.replace( '.', '/' ).concat( ".html" );
-                    writer.write( "<td><a href=\"" + offset + "/" + tpath + "\">" + tname + "</a></td>" );
-                }
-                else
-                {
-                    writer.write( "<td>" + directive.getClass().getName() + "</td>" );
-                }
-                writer.write( "</tr>" );
                 flag = !flag;
             }
             writer.write( "\n    </table>" );

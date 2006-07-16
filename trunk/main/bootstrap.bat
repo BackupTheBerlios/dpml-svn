@@ -21,9 +21,9 @@ CALL :dpml-part
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-state
 IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-component
-IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-type
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-component
 IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
 IF ERRORLEVEL 1 GOTO :exit

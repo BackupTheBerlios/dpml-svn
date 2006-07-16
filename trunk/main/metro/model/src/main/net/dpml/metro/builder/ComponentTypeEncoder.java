@@ -49,13 +49,9 @@ public class ComponentTypeEncoder
       "<?xml version=\"1.0\"?>";
     
     private static final String PART_SCHEMA_URN = "@PART-XSD-URI@";
-    private static final String COMPONENT_SCHEMA_URN = "@COMPONENT-XSD-URI@";
     private static final String TYPE_SCHEMA_URN = "@TYPE-XSD-URI@";
-    
     private static final StateEncoder STATE_GRAPH_ENCODER = new StateEncoder();
-    
-    static final ComponentEncoder COMPONENT_ENCODER = new ComponentEncoder();
-    
+        
     private static final String HEADER = 
       "<type xmlns=\"" 
       + TYPE_SCHEMA_URN 
@@ -66,8 +62,6 @@ public class ComponentTypeEncoder
       + PART_SCHEMA_URN
       + "\"\n    xmlns:type=\"" 
       + TYPE_SCHEMA_URN
-      + "\"\n    xmlns:component=\"" 
-      + COMPONENT_SCHEMA_URN
       + "\">";
 
     private static final String FOOTER = "</type>";
@@ -100,7 +94,6 @@ public class ComponentTypeEncoder
         writeTypeContext( writer, type.getContextDescriptor(), pad );
         writeTypeCategories( writer, type.getCategoryDescriptors(), pad );
         writeTypeState( writer, type.getStateGraph(), pad );
-        writeTypeParts( writer, type.getPartReferences(), pad );
     }
     
     private void writeTypeInfo( Writer writer, InfoDescriptor info, String pad ) throws IOException
@@ -219,11 +212,6 @@ public class ComponentTypeEncoder
     {
         STATE_GRAPH_ENCODER.writeState( writer, state, pad );
         writer.write( "\n" );
-    }
-    
-    private void writeTypeParts( Writer writer, PartReference[] parts, String pad ) throws IOException
-    {
-        COMPONENT_ENCODER.writeParts( writer, parts, pad, true );
     }
     
     private void writeAttributes( Writer writer, Descriptor descriptor, String pad ) throws IOException
