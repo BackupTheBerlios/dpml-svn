@@ -22,6 +22,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.metro.info.EntryDescriptor;
+import net.dpml.metro.info.PartReference;
+
 import net.dpml.component.Directive;
 
 import net.dpml.lang.UnknownKeyException;
@@ -68,4 +70,14 @@ public interface ContextModel extends Remote
     * @exception RemoteException if a remote exception occurs
     */
     void validate() throws ValidationException, RemoteException;
+
+   /**
+    * Set a context entry directive value.
+    * @param key the context entry key
+    * @param directive the context entry directive
+    * @exception UnknownKeyException if the key is unknown
+    * @exception RemoteException if a remote I/O error occurs
+    */
+    void setEntryDirective( String key, Directive directive ) 
+      throws UnknownKeyException, RemoteException;
 }
