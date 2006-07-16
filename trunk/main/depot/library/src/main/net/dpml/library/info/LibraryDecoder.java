@@ -268,12 +268,12 @@ public final class LibraryDecoder extends LibraryConstants
         final String path = ElementHelper.getAttribute( element, "file" );
         if( null != path )
         {
+            File file = new File( base, path );
+            File dir = file.getParentFile();
+            String spec = getRelativePath( base, dir );
+            File source = file.getCanonicalFile();
             try
             {
-                File file = new File( base, path );
-                File dir = file.getParentFile();
-                String spec = getRelativePath( base, dir );
-                File source = file.getCanonicalFile();
                 if( !source.exists() )
                 {
                     final String error = 
@@ -296,7 +296,9 @@ public final class LibraryDecoder extends LibraryConstants
             catch( Throwable e )
             {
                 final String error = 
-                  "Internal error while attempting to resolve a import directive.";
+                  "Internal error while attempting to resolve a import directive."
+                  + "\n  Path: " + path
+                  + "\n  File: " + source;
                 throw new DecodingException( element, error, e );
             }
         }
