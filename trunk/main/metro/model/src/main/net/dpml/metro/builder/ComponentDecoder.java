@@ -98,6 +98,7 @@ public class ComponentDecoder
    /**
     * Construct a component directive using the supplied DOM element.
     * @param root the element representing the component directive definition
+    * @param resolver build-time uri resolver
     * @return the component directive
     * @exception DecodingException if an error occurs during directive creation
     */
