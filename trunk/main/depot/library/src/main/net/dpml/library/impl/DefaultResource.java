@@ -536,6 +536,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     * 
     * @param ref the uri argument
     * @return the uri value
+    * @exception URISyntaxException if an error occurs during uri creation
     */
     public URI toURI( final String ref ) throws URISyntaxException
     {
