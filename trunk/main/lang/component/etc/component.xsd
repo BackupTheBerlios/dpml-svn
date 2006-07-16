@@ -3,10 +3,12 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:part="@PART-XSD-LINK-URI@"
             xmlns:this="@PROJECT-XSD-LINK-URI@"
+            xmlns:type="@TYPE-XSD-URI@"
             targetNamespace="@PROJECT-XSD-LINK-URI@"
             elementFormDefault="qualified">
     
     <import namespace="@PART-XSD-LINK-URI@" schemaLocation="@PART-XSD-LINK-URI@"/>
+    <import namespace="@TYPE-XSD-URI@" schemaLocation="@TYPE-XSD-URI@"/>
 
     <element name="component" type="this:component" substitutionGroup="part:strategy"/>
     <element name="category" type="this:CategoryType"/>
@@ -24,8 +26,8 @@
           </sequence>
           <attribute name="name" type="string"/>
           <attribute name="type" type="string"/>
-          <attribute name="lifestyle" type="this:lifestyle"/>
-          <attribute name="collection" type="this:collection"/>
+          <attribute name="lifestyle" type="type:lifestyle"/>
+          <attribute name="collection" type="type:collection"/>
           <attribute name="activation" type="this:activation"/>
           <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
           <attribute name="uri" type="anyURI"/>
@@ -35,7 +37,7 @@
     
     <complexType name="CategoryType">
       <attribute name="name" type="string"/>
-      <attribute name="priority" type="this:priority"/>
+      <attribute name="priority" type="type:priority"/>
       <attribute name="target" type="string"/>
     </complexType>
     
@@ -52,7 +54,6 @@
     <complexType name="ContextType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element ref="this:entry"/>
-        <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/> <!-- remove ? -->
       </choice>
     </complexType>
     
@@ -79,29 +80,6 @@
       </complexContent>
     </complexType>
     
-    <complexType name="TaggedComponentImport">
-      <attribute name="key" type="string" use="required"/>
-      <attribute name="uri" type="anyURI" use="required"/>
-    </complexType>
-    
-    <simpleType name="lifestyle">
-      <restriction base="string">
-        <enumeration value="singleton"/>
-        <enumeration value="thread"/>
-        <enumeration value="transient"/>
-        <enumeration value="system"/>
-      </restriction>
-    </simpleType>
-    
-    <simpleType name="collection">
-      <restriction base="string">
-        <enumeration value="hard"/>
-        <enumeration value="soft"/>
-        <enumeration value="weak"/>
-        <enumeration value="system"/>
-      </restriction>
-    </simpleType>
-    
     <simpleType name="activation">
       <restriction base="string">
         <enumeration value="demand"/>
@@ -109,14 +87,5 @@
         <enumeration value="system"/>
       </restriction>
     </simpleType>
-    
-    <simpleType name="priority">
-      <restriction base="string">
-        <enumeration value="debug"/>
-        <enumeration value="info"/>
-        <enumeration value="warn"/>
-        <enumeration value="error"/>
-      </restriction>
-    </simpleType>
-    
+        
 </schema>

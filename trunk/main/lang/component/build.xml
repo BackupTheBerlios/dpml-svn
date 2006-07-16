@@ -30,6 +30,7 @@
   <target name="init" depends="bootstrap.init">
     <property name="xsd.uri" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
     <filter token="PART-XSD-LINK-URI" value="link:xsd:dpml/lang/dpml-part#1.0"/>
+    <filter token="TYPE-XSD-URI" value="link:xsd:dpml/lang/dpml-type#1.0"/>
     <filter token="MODULE-XSD-URI" value="artifact:xsd:dpml/lang/dpml-module#1.0"/>
     <filter token="PROJECT-XSD-URI" value="${xsd.uri}"/>
     <filter token="PROJECT-XSD-LINK-URI" 

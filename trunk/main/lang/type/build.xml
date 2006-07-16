@@ -33,7 +33,6 @@
     <filter token="PROJECT-XSD-URI" value="${xsd.link.uri}"/>
     <filter token="PART-XSD-URI" value="link:xsd:dpml/lang/dpml-part#1.0"/>
     <filter token="STATE-XSD-URI" value="link:xsd:dpml/lang/dpml-state#1.0"/>
-    <filter token="COMPONENT-XSD-URI" value="link:xsd:dpml/lang/dpml-component#1.0"/>
   </target>
 
   <target name="package" depends="bootstrap.package">
