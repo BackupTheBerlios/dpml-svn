@@ -18,9 +18,9 @@
     <filter token="JUNIT-VERSION" value="${junit.version}"/>
     <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-URI" 
-        value="artifact:plugin:${project.group}/dpml-depot-checkstyle#${project.version}"/>
+        value="artifact:part:${project.group}/dpml-depot-checkstyle#${project.version}"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-LINK-URI" 
-        value="link:plugin:${project.group}/dpml-depot-checkstyle"/>
+        value="link:part:${project.group}/dpml-depot-checkstyle"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">
