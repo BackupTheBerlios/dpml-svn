@@ -108,6 +108,7 @@ public final class ComponentTypeDecoder
    /**
     * Load a type.
     * @param uri the component type source uri
+    * @param resolver build-time uri resolver
     * @return the component type descriptor
     * @exception IOException if an error occurs reading the type definition
     */
