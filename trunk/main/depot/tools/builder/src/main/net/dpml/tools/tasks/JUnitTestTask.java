@@ -197,81 +197,73 @@ public class JUnitTestTask extends GenericTask
             throw new BuildException( error, getLocation() );
         }
     }
-
+    
    /**
     * Task execution.
     * @exception BuildException if a build error occurs.
     */
     public void execute() throws BuildException
     {
-        final Project project = getProject();
-        final String enabled = project.getProperty( TEST_ENABLED_KEY );
-        if( ( null != enabled ) && enabled.equals( "false" ) )
+        if( !isTestingEnabled() )
         {
             return;
         }
-        Context context = getContext();
+        
+        final Context context = getContext();
+        final Project project = getProject();
         final File src = context.getTargetBuildTestDirectory();
         if( src.exists() )
         {
             final File working = context.getTargetTestDirectory();
             final Path classpath = getClasspath();
             executeUnitTests( src, classpath, working );
-        }
-        final String error = project.getProperty( ERROR_KEY );
-        if( null != error )
-        {
-            final String message =
-                "One or more unit test errors occured.";
-            if( getHaltOnErrorProperty() )
+            final String error = project.getProperty( ERROR_KEY );
+            if( null != error )
             {
+                final String message =
+                    "One or more unit test errors occured.";
+                if( getHaltOnErrorProperty() )
+                {
                     fail( message );
+                }
             }
-        }
-        final String failure = project.getProperty( FAILURE_KEY );
-        if( null != failure )
-        {
-            final String message =
-                "One or more unit test failures occured.";
-            if( getHaltOnFailureProperty() )
+            final String failure = project.getProperty( FAILURE_KEY );
+            if( null != failure )
             {
-                fail( message );
+                final String message =
+                    "One or more unit test failures occured.";
+                if( getHaltOnFailureProperty() )
+                {
+                    fail( message );
+                }
             }
         }
     }
-
+    
     private void executeUnitTests( final File src, final Path classpath, File working )
     {
         final Project project = getProject();
         log( "Test classpath: " + classpath, Project.MSG_VERBOSE );
-
-        final FileSet fileset = new FileSet();
-        fileset.setDir( src );
-        final String includes = getTestIncludes();
-        final String excludes = getTestExcludes();
-        createIncludes( fileset, includes );
-        createExcludes( fileset, excludes );
-        log( "Test filters: includes=" + includes + ", excludes=" + excludes, Project.MSG_VERBOSE );
-
-        final JUnitTask junit = (JUnitTask) getProject().createTask( "junit" );
+        final FileSet fileset = createFileSet( src );
+        final JUnitTask junit = (JUnitTask) project.createTask( "junit" );
+        junit.setErrorProperty( ERROR_KEY );
+        junit.setFailureProperty( FAILURE_KEY );
+        junit.setTaskName( getTaskName() );
         junit.init();
         
-        final JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
-        summary.setValue( "on" );
+        final JUnitTask.SummaryAttribute summary = getSummaryAttribute();
         junit.setPrintsummary( summary );
+        
         junit.setShowOutput( true );
         junit.setTempdir( working );
         junit.setReloading( true );
         junit.setFiltertrace( true );
         junit.createClasspath().add( classpath );
-        junit.setHaltonerror(
-          getBooleanProperty(
-            HALT_ON_ERROR_KEY, HALT_ON_ERROR_VALUE ) );
-        junit.setHaltonfailure(
-          getBooleanProperty(
-            HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE ) );
+        junit.setHaltonerror( getHaltOnError() );
+        junit.setHaltonfailure( getHaltOnFailure() );
             
-        String verbose = getContext().getProperty( "project.test.verbose" );
+        Context context = getContext();
+        String verbose = getVerboseArgument();
         if( null != verbose )
         {
             Commandline.Argument arg = junit.createJvmarg();
@@ -285,18 +277,12 @@ public class JUnitTestTask extends GenericTask
         batch.addFileSet( fileset );
         batch.setTodir( reports );
 
-        final FormatterElement plainFormatter = new FormatterElement();
-        final FormatterElement.TypeAttribute plain = new FormatterElement.TypeAttribute();
-        plain.setValue( "plain" );
-        plainFormatter.setType( plain );
-        junit.addFormatter( plainFormatter );
-
-        final FormatterElement xmlFormatter = new FormatterElement();
-        final FormatterElement.TypeAttribute xml = new FormatterElement.TypeAttribute();
-        xml.setValue( "xml" );
-        xmlFormatter.setType( xml );
-        junit.addFormatter( xmlFormatter );
-
+        final FormatterElement plain = newConfiguredFormatter( "plain" );
+        junit.addFormatter( plain );
+        
+        final FormatterElement xml = newConfiguredFormatter( "xml" );
+        junit.addFormatter( xml );
+        
         final Environment.Variable work = new Environment.Variable();
         work.setKey( WORK_DIR_KEY );
         work.setValue( working.toString() );
@@ -306,7 +292,7 @@ public class JUnitTestTask extends GenericTask
         testBaseDir.setKey( "project.test.dir" );
         testBaseDir.setValue( working.toString() );
         junit.addConfiguredSysproperty( testBaseDir );
-
+        
         final Environment.Variable targetDir = new Environment.Variable();
         targetDir.setKey( "project.target.dir" );
         targetDir.setValue( getContext().getTargetDirectory().toString() );
@@ -370,6 +356,45 @@ public class JUnitTestTask extends GenericTask
         logging.setValue( "net.dpml.util.ConfigurationHandler" );
         junit.addConfiguredSysproperty( logging );
         
+        configureDeliverableSysProperties( junit );
+        configureForExecution( junit );
+        junit.execute();
+    }
+    
+    private void configureForExecution( JUnitTask task )
+    {
+        if( getForkProperty() )
+        {
+            task.setFork( true );
+            Project project = getProject();
+            task.setDir( project.getBaseDir() );
+            JUnitTask.ForkMode mode = getForkMode();
+            if( null == mode )
+            {
+                log( "Executing forked test." );
+            }
+            else
+            {
+                log( "Executing forked test with mode: '" + mode + "'." );
+                task.setForkMode( mode );
+            }
+            String mx = getContext().getProperty( MX_KEY );
+            if( null != mx )
+            {
+                task.setMaxmemory( mx );
+            }
+        }
+        else
+        {
+            log( "executing in local jvm" );
+            JUnitTask.ForkMode mode = new JUnitTask.ForkMode( "once" );
+            task.setForkMode( mode );
+            task.setFork( false );
+        }
+    }
+    
+    private void configureDeliverableSysProperties( JUnitTask task )
+    {
         try
         {
             Context context = getContext();
@@ -384,52 +409,53 @@ public class JUnitTestTask extends GenericTask
                 final Environment.Variable variable = new Environment.Variable();
                 variable.setKey( "project.deliverable." + id + ".filename" );
                 variable.setValue( path );
-                junit.addConfiguredSysproperty( variable );
+                task.addConfiguredSysproperty( variable );
             }
         }
         catch( IOException ioe )
         {
             final String error = 
               "Unexpected IO error while building deliverable filename properties.";
-            throw new BuildException( error, ioe );
+            throw new BuildException( error, ioe, getLocation() );
         }
-        
-        junit.setErrorProperty( ERROR_KEY );
-        junit.setFailureProperty( FAILURE_KEY );
-        junit.setTaskName( getTaskName() );
-        if( getForkProperty() )
+    }
+
+    private FileSet createFileSet( File src )
+    {
+        final FileSet fileset = new FileSet();
+        fileset.setDir( src );
+        addIncludes( fileset );
+        addExcludes( fileset );
+        return fileset;
+    }
+
+    private void addIncludes( FileSet set )
+    {
+        String pattern = getTestIncludes();
+        log( "Test includes=" + pattern, Project.MSG_VERBOSE );
+        StringTokenizer tokenizer = new StringTokenizer( pattern, ", ", false );
+        while( tokenizer.hasMoreTokens() )
         {
-            junit.setFork( true );
-            junit.setDir( project.getBaseDir() );
-            JUnitTask.ForkMode mode = getForkMode();
-            if( null == mode )
-            {
-                log( "Executing forked test." );
-            }
-            else
-            {
-                log( "Executing forked test with mode: '" + mode + "'." );
-                junit.setForkMode( mode );
-            }
-            String mx = getContext().getProperty( MX_KEY );
-            if( null != mx )
-            {
-                junit.setMaxmemory( mx );
-            }
+            String item = tokenizer.nextToken();
+            set.createInclude().setName( item );
         }
-        else
+    }
+
+    private void addExcludes( FileSet set )
+    {
+        String pattern = getTestExcludes();
+        log( "Test excludes=" + pattern, Project.MSG_VERBOSE );
+        StringTokenizer tokenizer = new StringTokenizer( pattern, ", ", false );
+        while( tokenizer.hasMoreTokens() )
         {
-            log( "executing in local jvm" );
-            JUnitTask.ForkMode mode = new JUnitTask.ForkMode( "once" );
-            junit.setForkMode( mode );
-            junit.setFork( false );
+            String item = tokenizer.nextToken();
+            set.createExclude().setName( item );
         }
-        junit.execute();
     }
 
     private String getTestIncludes()
     {
-        String includes = getProject().getProperty( TEST_INCLUDES_KEY );
+        String includes = getContext().getProperty( TEST_INCLUDES_KEY );
         if( null != includes )
         {
             return includes;
@@ -442,7 +468,7 @@ public class JUnitTestTask extends GenericTask
 
     private String getTestExcludes()
     {
-        String excludes = getProject().getProperty( TEST_EXCLUDES_KEY );
+        String excludes = getContext().getProperty( TEST_EXCLUDES_KEY );
         if( null != excludes )
         {
             return excludes;
@@ -453,29 +479,9 @@ public class JUnitTestTask extends GenericTask
         }
     }
 
-    private void createIncludes( FileSet set, String pattern )
-    {
-        StringTokenizer tokenizer = new StringTokenizer( pattern, ", ", false );
-        while( tokenizer.hasMoreTokens() )
-        {
-            String item = tokenizer.nextToken();
-            set.createInclude().setName( item );
-        }
-    }
-
-    private void createExcludes( FileSet set, String pattern )
-    {
-        StringTokenizer tokenizer = new StringTokenizer( pattern, ", ", false );
-        while( tokenizer.hasMoreTokens() )
-        {
-            String item = tokenizer.nextToken();
-            set.createExclude().setName( item );
-        }
-    }
-
     private String getCachePath()
     {
-        final String value = getProject().getProperty( CACHE_PATH_KEY );
+        final String value = getContext().getProperty( CACHE_PATH_KEY );
         if( null != value )
         {
             return value;
@@ -509,7 +515,7 @@ public class JUnitTestTask extends GenericTask
 
     private JUnitTask.ForkMode getForkMode()
     {
-        final String value = getProject().getProperty( TEST_FORK_MODE_KEY );
+        final String value = getContext().getProperty( TEST_FORK_MODE_KEY );
         if( null == value )
         {
             return null;
@@ -522,7 +528,7 @@ public class JUnitTestTask extends GenericTask
 
     private boolean getBooleanProperty( final String key, final boolean fallback )
     {
-        final String value = getProject().getProperty( key );
+        final String value = getContext().getProperty( key );
         if( null == value )
         {
             return fallback;
@@ -541,6 +547,47 @@ public class JUnitTestTask extends GenericTask
         exit.execute();
     }
 
+    private boolean isTestingEnabled()
+    {
+        final String enabled = getContext().getProperty( TEST_ENABLED_KEY, "true" );
+        return "true".equals( enabled );
+    }
+
+    private JUnitTask.SummaryAttribute getSummaryAttribute()
+    {
+        final Project project = getProject();
+        final JUnitTask.SummaryAttribute summary = new JUnitTask.SummaryAttribute();
+        summary.setValue( "on" );
+        return summary;
+    }
+    
+    private boolean getHaltOnError()
+    {
+        return getBooleanProperty(
+            HALT_ON_ERROR_KEY, HALT_ON_ERROR_VALUE );
+    }
+    
+    private boolean getHaltOnFailure()
+    {
+        return getBooleanProperty(
+            HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE );
+    }
+    
+    private String getVerboseArgument()
+    {
+        Context context = getContext();
+        return context.getProperty( "project.test.verbose" );
+    }
+    
+    private FormatterElement newConfiguredFormatter( String type )
+    {
+        final FormatterElement formatter = new FormatterElement();
+        final FormatterElement.TypeAttribute attribute = new FormatterElement.TypeAttribute();
+        attribute.setValue( type );
+        formatter.setType( attribute );
+        return formatter;
+    }
+    
     private static final String ERROR_KEY = "project.test.error";
     private static final String FAILURE_KEY = "project.test.failure";
 

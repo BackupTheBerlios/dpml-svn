@@ -76,14 +76,120 @@ public class Dump extends HttpServlet
         request.setAttribute( "Dump", this );
         getServletContext().setAttribute( "Dump", this );
         getServletContext().log( "dump " + request.getRequestURI() );
-
+        
         // Force a content length response
         String length = request.getParameter( "length" );
         if( ( length != null ) && ( length.length() > 0 ) )
         {
             response.setContentLength( Integer.parseInt( length ) );
         }
-
+        
+        handleDataDump( request, response );
+        String info = handleException( request, response );
+        handleRedirect( request, response );
+        
+        // handle an error
+        String error= request.getParameter( "error" );
+        if( error != null && error.length() > 0 )
+        {
+            response.getOutputStream().println( "THIS SHOULD NOT BE SEEN!" );
+            response.sendError( Integer.parseInt( error ) );
+            response.getOutputStream().println( "THIS SHOULD NOT BE SEEN!" );
+            return;
+        }
+        
+        String buffer= request.getParameter( "buffer" );
+        if( buffer != null && buffer.length() > 0 )
+        {
+            response.setBufferSize( Integer.parseInt( buffer ) );
+        }
+        
+        request.setCharacterEncoding( "UTF-8" );
+        response.setContentType( "text/html" );
+        
+        if( info != null && info.indexOf( "Locale/" ) >= 0 )
+        {
+            try
+            {
+                String localeName = info.substring( info.indexOf( "Locale/" ) + 7 );
+                Field f = java.util.Locale.class.getField( localeName );
+                response.setLocale( (Locale) f.get( null ) );
+            }
+            catch( Exception e )
+            {
+                e.printStackTrace();
+                response.setLocale( Locale.getDefault() );
+            }
+        }
+        
+        String cn = request.getParameter( "cookie" );
+        String cv =request.getParameter( "value" );
+        String v =request.getParameter( "version" );
+        if( cn!=null && cv!=null )
+        {
+            Cookie cookie = new Cookie( cn, cv );
+            cookie.setComment( "Cookie from dump servlet" );
+            if( v!=null )
+            {
+                cookie.setMaxAge( 300 );
+                cookie.setPath( "/" );
+                cookie.setVersion( Integer.parseInt( v ) );
+            }
+            response.addCookie( cookie );
+        }
+        
+        String pi = request.getPathInfo();
+        if( pi != null && pi.startsWith( "/ex" ) )
+        {
+            OutputStream out = response.getOutputStream();
+            out.write( "</H1>This text should be reset</H1>".getBytes() );
+            if( "/ex0".equals( pi ) )
+            {
+                throw new ServletException( "test ex0", new Throwable() );
+            }
+            if( "/ex1".equals( pi ) )
+            {
+                throw new IOException( "test ex1" );
+            }
+            if( "/ex2".equals( pi ) )
+            {
+                throw new UnavailableException( "test ex2" );
+            }
+            throw new RuntimeException( "test" );
+        }
+        
+        PrintWriter pout = null;
+        try
+        {
+            pout = response.getWriter();
+        }
+        catch( IllegalStateException e )
+        {
+            pout = new PrintWriter( response.getOutputStream() );
+        }
+        writeDumpContent( request, response, pout );
+        pout.close();
+        
+        if( pi != null )
+        {
+            if( "/ex4".equals( pi ) )
+            {
+                throw new ServletException( "test ex4", new Throwable() );
+            }
+            if( "/ex5".equals( pi ) )
+            {
+                throw new IOException( "test ex5" );
+            }
+            if( "/ex6".equals( pi ) )
+            {
+                throw new UnavailableException( "test ex6" );
+            }
+        }
+    }
+    
+    private void handleDataDump( HttpServletRequest request, HttpServletResponse response )
+      throws IOException
+    {
         // Handle a dump of data
         String data = request.getParameter( "data" );
         String block = request.getParameter( "block" );
@@ -122,7 +228,11 @@ public class Dump extends HttpServlet
             }
             return;
         }
-        
+    }
+    
+    private String handleException( HttpServletRequest request, HttpServletResponse response )
+      throws ServletException
+    {
         // handle an exception
         String info = request.getPathInfo();
         if( info != null && info.endsWith( "Exception" ) )
@@ -136,7 +246,15 @@ public class Dump extends HttpServlet
                 throw new ServletException( th );
             }
         }
-        
+        else
+        {
+            return info;
+        }
+    }
+    
+    private void handleRedirect( HttpServletRequest request, HttpServletResponse response )
+      throws IOException
+    {
         // handle an redirect
         String redirect = request.getParameter( "redirect" );
         if( redirect != null && redirect.length() > 0 )
@@ -146,91 +264,28 @@ public class Dump extends HttpServlet
             response.getOutputStream().println( "THIS SHOULD NOT BE SEEN!" );
             return;
         }
-
-        // handle an error
-        String error= request.getParameter( "error" );
-        if( error != null && error.length() > 0 )
-        {
-            response.getOutputStream().println( "THIS SHOULD NOT BE SEEN!" );
-            response.sendError( Integer.parseInt( error ) );
-            response.getOutputStream().println( "THIS SHOULD NOT BE SEEN!" );
-            return;
-        }
-
-        String buffer= request.getParameter( "buffer" );
-        if( buffer != null && buffer.length() > 0 )
-        {
-            response.setBufferSize( Integer.parseInt( buffer ) );
-        }
-        
-        request.setCharacterEncoding( "UTF-8" );
-        response.setContentType( "text/html" );
-
-        if( info != null && info.indexOf( "Locale/" ) >= 0 )
-        {
-            try
-            {
-                String localeName = info.substring( info.indexOf( "Locale/" ) + 7 );
-                Field f = java.util.Locale.class.getField( localeName );
-                response.setLocale( (Locale) f.get( null ) );
-            }
-            catch( Exception e )
-            {
-                e.printStackTrace();
-                response.setLocale( Locale.getDefault() );
-            }
-        }
-
-        String cn = request.getParameter( "cookie" );
-        String cv =request.getParameter( "value" );
-        String v =request.getParameter( "version" );
-        if( cn!=null && cv!=null )
-        {
-            Cookie cookie = new Cookie( cn, cv );
-            cookie.setComment( "Cookie from dump servlet" );
-            if( v!=null )
-            {
-                cookie.setMaxAge( 300 );
-                cookie.setPath( "/" );
-                cookie.setVersion( Integer.parseInt( v ) );
-            }
-            response.addCookie( cookie );
-        }
-
-        String pi = request.getPathInfo();
-        if( pi != null && pi.startsWith( "/ex" ) )
-        {
-            OutputStream out = response.getOutputStream();
-            out.write( "</H1>This text should be reset</H1>".getBytes() );
-            if( "/ex0".equals( pi ) )
-            {
-                throw new ServletException( "test ex0", new Throwable() );
-            }
-            if( "/ex1".equals( pi ) )
-            {
-                throw new IOException( "test ex1" );
-            }
-            if( "/ex2".equals( pi ) )
-            {
-                throw new UnavailableException( "test ex2" );
-            }
-            throw new RuntimeException( "test" );
-        }
-        
-        PrintWriter pout = null;
-        
-        try
-        {
-            pout = response.getWriter();
-        }
-        catch( IllegalStateException e )
-        {
-            pout = new PrintWriter( response.getOutputStream() );
-        }
-        
+    }
+    
+    
+    private void writeDumpContent( 
+      HttpServletRequest request, HttpServletResponse response, PrintWriter pout )
+    {
         try
         {
             pout.write( "<html>\n<body>\n" );
+            writeBasicContent( request, response, pout );
+            pout.write( "</body>\n</html>\n" );
+        }
+        catch( Exception e )
+        {
+            getServletContext().log( "dump", e );
+        }
+    }
+    
+    private void writeBasicContent( HttpServletRequest request, HttpServletResponse response, PrintWriter pout )
+    {
+        try
+        {
             pout.write( "<h1>Dump Servlet</h1>\n" );
             pout.write( "<table>" );
             pout.write( "<tr>\n" );
@@ -311,7 +366,17 @@ public class Dump extends HttpServlet
             pout.write( "</tr><tr>\n" );
             pout.write( "<th align=\"right\">getLocale:&nbsp;</th>" );
             pout.write( "<td>" + request.getLocale() + "</td>" );
-            
+        }
+        catch( Exception e )
+        {
+            getServletContext().log( "dump", e );
+        }
+    }
+    
+    private void writeExtendedContent( HttpServletRequest request, HttpServletResponse response, PrintWriter pout )
+    {
+        try
+        {
             Enumeration locales= request.getLocales();
             while( locales.hasMoreElements() )
             {
@@ -320,7 +385,6 @@ public class Dump extends HttpServlet
                 pout.write( "<td>" + locales.nextElement() + "</td>" );
             }
             pout.write( "</tr><tr>\n" );
-            
             pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Other HTTP Headers:</big></th>" );
             Enumeration h= request.getHeaderNames();
             String name;
@@ -337,7 +401,6 @@ public class Dump extends HttpServlet
                     pout.write( "<td>" + hv + "</td>" );
                 }
             }
-
             pout.write( "</tr><tr>\n" );
             pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Request Parameters:</big></th>" );
             h = request.getParameterNames();
@@ -364,18 +427,8 @@ public class Dump extends HttpServlet
                     }
                 }
             }
-
             pout.write( "</tr><tr>\n" );
-            pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Cookies:</big></th>" );
-            Cookie[] cookies = request.getCookies();
-            for( int i=0; cookies!=null && i<cookies.length; i++ )
-            {
-                Cookie cookie = cookies[i];
-                pout.write( "</tr><tr>\n" );
-                pout.write( "<th align=\"right\">" + cookie.getName() + ":&nbsp;</th>" );
-                pout.write( "<td>" + cookie.getValue() + "</td>" );
-            }
-            
+            writeCookies( request, response, pout );
             pout.write( "</tr><tr>\n" );
             pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Request Attributes:</big></th>" );
             Enumeration a = request.getAttributeNames();
@@ -386,7 +439,6 @@ public class Dump extends HttpServlet
                 pout.write( "<th align=\"right\">" + name + ":&nbsp;</th>" );
                 pout.write( "<td>" + "<pre>" + toString( request.getAttribute( name ) ) + "</pre>"+"</td>" );
             }
-            
             pout.write( "</tr><tr>\n" );
             pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Servlet InitParameters:</big></th>" );
             a = getInitParameterNames();
@@ -397,7 +449,6 @@ public class Dump extends HttpServlet
                 pout.write( "<th align=\"right\">" + name + ":&nbsp;</th>" );
                 pout.write( "<td>"+"<pre>" + toString( getInitParameter( name ) ) + "</pre>"+"</td>" );
             }
-
             pout.write( "</tr><tr>\n" );
             pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Context InitParameters:</big></th>" );
             a = getServletContext().getInitParameterNames();
@@ -408,7 +459,6 @@ public class Dump extends HttpServlet
                 pout.write( "<th align=\"right\">" + name + ":&nbsp;</th>" );
                 pout.write( "<td>" + "<pre>" + toString( getServletContext().getInitParameter( name ) ) + "</pre>" + "</td>" );
             }
-
             pout.write( "</tr><tr>\n" );
             pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Context Attributes:</big></th>" );
             a = getServletContext().getAttributeNames();
@@ -419,8 +469,6 @@ public class Dump extends HttpServlet
                 pout.write( "<th align=\"right\">" + name + ":&nbsp;</th>" );
                 pout.write( "<td>"+"<pre>" + toString( getServletContext().getAttribute( name ) ) + "</pre>" + "</td>" );
             }
-
-
             String res= request.getParameter( "resource" );
             if( res != null && res.length() > 0 )
             {
@@ -450,85 +498,103 @@ public class Dump extends HttpServlet
                     pout.write( "<td>" + "" + e + "</td>" );
                 }
             }
-            
             pout.write( "</tr></table>\n" );
-
-            pout.write( "<h2>Request Wrappers</h2>\n" );
-            ServletRequest rw = request;
-            int w=0;
-            while( rw != null )
-            {
-                pout.write( ( w++ ) + ": " + rw.getClass().getName() + "<br/>" );
-                if( rw instanceof HttpServletRequestWrapper )
-                {
-                    rw = ( (HttpServletRequestWrapper) rw ).getRequest();
-                }
-                else if( rw  instanceof ServletRequestWrapper )
-                {
-                    rw = ( (ServletRequestWrapper) rw ).getRequest();
-                }
-                else
-                {
-                    rw=null;
-                }
-            }
-            
+            writeRequestWrappers( request, response, pout );
             pout.write( "<br/>" );
-            pout.write( "<h2>International Characters</h2>" );
-            pout.write( "Directly encoced:  Dürst<br/>" );
-            pout.write( "HTML reference: D&uuml;rst<br/>" );
-            pout.write( "Decimal (252) 8859-1: D&#252;rst<br/>" );
-            pout.write( "Hex (xFC) 8859-1: D&#xFC;rst<br/>" );
-            pout.write( "Javascript unicode (00FC) : <script language='javascript'>document.write(\"D\u00FCrst\" );</script><br/>" );
+            writeInternationalCharacter( pout );
             pout.write( "<br/>" );
-            pout.write( "<h2>Form to generate GET content</h2>" );
-            pout.write( "<form method=\"GET\" action=\"" + response.encodeURL( getURI( request ) ) + "\">" );
-            pout.write( "TextField: <input type=\"text\" name=\"TextField\" value=\"value\"/><br/>\n" );
-            pout.write( "<input type=\"submit\" name=\"Action\" value=\"Submit\">" );
-            pout.write( "</form>" );
-
+            writeGetForm( request, response, pout );
             pout.write( "<br/>" );
-            pout.write( "<h2>Form to generate POST content</h2>" );
-            pout.write( "<form method=\"POST\" action=\"" + response.encodeURL( getURI( request ) ) + "\">" );
-            pout.write( "TextField: <input type=\"text\" name=\"TextField\" value=\"value\"/><br/>\n" );
-            pout.write( "Select: <select multiple name=\"Select\">\n" );
-            pout.write( "<option>ValueA</option>" );
-            pout.write( "<option>ValueB1,ValueB2</option>" );
-            pout.write( "<option>ValueC</option>" );
-            pout.write( "</select><br/>" );
-            pout.write( "<input type=\"submit\" name=\"Action\" value=\"Submit\"><br/>" );
-            pout.write( "</form>" );
-
-            pout.write( "<h2>Form to get Resource</h2>" );
-            pout.write( "<form method=\"POST\" action=\"" + response.encodeURL( getURI( request ) ) + "\">" );
-            pout.write( "resource: <input type=\"text\" name=\"resource\" /><br/>\n" );
-            pout.write( "<input type=\"submit\" name=\"Action\" value=\"getResource\">" );
-            pout.write( "</form>\n" );
-            
-            pout.write( "</body>\n</html>\n" );
+            writePostForm( request, response, pout );
+            pout.write( "<br/>" );
+            writeResourceForm( request, response, pout );
         }
         catch( Exception e )
         {
             getServletContext().log( "dump", e );
         }
-        
-        pout.close();
-        
-        if( pi != null )
+    }
+    
+    private void writeCookies( HttpServletRequest request, HttpServletResponse response, PrintWriter pout )
+      throws IOException
+    {
+        pout.write( "<th align=\"left\" colspan=\"2\"><big><br/>Cookies:</big></th>" );
+        Cookie[] cookies = request.getCookies();
+        for( int i=0; cookies!=null && i<cookies.length; i++ )
         {
-            if( "/ex4".equals( pi ) )
+            Cookie cookie = cookies[i];
+            pout.write( "</tr><tr>\n" );
+            pout.write( "<th align=\"right\">" + cookie.getName() + ":&nbsp;</th>" );
+            pout.write( "<td>" + cookie.getValue() + "</td>" );
+        }
+    }
+    
+    private void writeRequestWrappers( HttpServletRequest request, HttpServletResponse response, PrintWriter pout ) throws IOException
+    {
+        pout.write( "<h2>Request Wrappers</h2>\n" );
+        ServletRequest rw = request;
+        int w=0;
+        while( rw != null )
+        {
+            pout.write( ( w++ ) + ": " + rw.getClass().getName() + "<br/>" );
+            if( rw instanceof HttpServletRequestWrapper )
             {
-                throw new ServletException( "test ex4", new Throwable() );
+                rw = ( (HttpServletRequestWrapper) rw ).getRequest();
             }
-            if( "/ex5".equals( pi ) )
+            else if( rw  instanceof ServletRequestWrapper )
             {
-                throw new IOException( "test ex5" );
+                rw = ( (ServletRequestWrapper) rw ).getRequest();
             }
-            if( "/ex6".equals( pi ) )
+            else
             {
-                throw new UnavailableException( "test ex6" );
+                rw=null;
             }
         }
+    }
+    
+    private void writeInternationalCharacter( PrintWriter pout ) throws IOException
+    {
+        pout.write( "<h2>International Characters</h2>" );
+        pout.write( "Directly encoced:  Dürst<br/>" );
+        pout.write( "HTML reference: D&uuml;rst<br/>" );
+        pout.write( "Decimal (252) 8859-1: D&#252;rst<br/>" );
+        pout.write( "Hex (xFC) 8859-1: D&#xFC;rst<br/>" );
+        pout.write( "Javascript unicode (00FC) : <script language='javascript'>document.write(\"D\u00FCrst\" );</script><br/>" );
+    }
+
+    private void writeGetForm( 
+      HttpServletRequest request, HttpServletResponse response, PrintWriter pout ) throws IOException
+    {
+        pout.write( "<h2>Form to generate GET content</h2>" );
+        pout.write( "<form method=\"GET\" action=\"" + response.encodeURL( getURI( request ) ) + "\">" );
+        pout.write( "TextField: <input type=\"text\" name=\"TextField\" value=\"value\"/><br/>\n" );
+        pout.write( "<input type=\"submit\" name=\"Action\" value=\"Submit\">" );
+        pout.write( "</form>" );
+    }
+    
+    private void writePostForm( 
+      HttpServletRequest request, HttpServletResponse response, PrintWriter pout ) throws IOException
+    {
+        pout.write( "<h2>Form to generate POST content</h2>" );
+        pout.write( "<form method=\"POST\" action=\"" + response.encodeURL( getURI( request ) ) + "\">" );
+        pout.write( "TextField: <input type=\"text\" name=\"TextField\" value=\"value\"/><br/>\n" );
+        pout.write( "Select: <select multiple name=\"Select\">\n" );
+        pout.write( "<option>ValueA</option>" );
+        pout.write( "<option>ValueB1,ValueB2</option>" );
+        pout.write( "<option>ValueC</option>" );
+        pout.write( "</select><br/>" );
+        pout.write( "<input type=\"submit\" name=\"Action\" value=\"Submit\"><br/>" );
+        pout.write( "</form>" );
+    }
+    
+    private void writeResourceForm( 
+      HttpServletRequest request, HttpServletResponse response, PrintWriter pout ) throws IOException
+    {
+        pout.write( "<h2>Form to get Resource</h2>" );
+        pout.write( "<form method=\"POST\" action=\"" + response.encodeURL( getURI( request ) ) + "\">" );
+        pout.write( "resource: <input type=\"text\" name=\"resource\" /><br/>\n" );
+        pout.write( "<input type=\"submit\" name=\"Action\" value=\"getResource\">" );
+        pout.write( "</form>\n" );
     }
 
    /**
