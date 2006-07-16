@@ -25,16 +25,13 @@
       <subsection name="index.xml">
 
         <p>
-        The index file is maintained in a file named <tt>index.xml</tt>. 
-        The file is located by searching up the directory hierachy from the 
-        current working directory to the root of the file system until the
-        indexsource is located.  
-        </p>
-
-        <p>
-        A index file contains the declaration of project modules. 
-        In turn, modules contain declarations of available resources (such
-        as dependent jar files), projects, and subsidiary modules.
+        The persistent state of the library is maintained in a file named 
+        <tt>index.xml</tt>. The index file is located by searching up the 
+        directory hierachy from the current working directory to the root 
+        of the file system until the index file is located. The file contains 
+        the declaration of project modules which in turn contain declarations 
+        of available resources (such as dependent jar files), projects, and 
+        subsidiary modules.
         </p>
         
       </subsection>

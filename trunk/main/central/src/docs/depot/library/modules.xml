@@ -129,13 +129,13 @@
 
       <p>
       The following example demonstrates the declaration of a single module 
-      directly within a library.  The module declares the name 'demo' and 
+      directly within an nindex.xml file.  The module declares the name 'demo' and 
       base directory corresponding to the same directory that the index is 
       located within.  The module contains a single project named 'example'.
       </p>
 
 <source><![CDATA[
-<library>
+<index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
   <properties>
     <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-builder"/>
@@ -158,7 +158,7 @@
     </module>
   </modules>
 
-</library>
+</index>
 
 ]]></source>
 
