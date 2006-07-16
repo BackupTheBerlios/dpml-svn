@@ -38,15 +38,5 @@ public interface ComponentContext
     * @exception RemoteException if a remote I/O error occurs
     */
     Controller getController() throws RemoteException;
-    
-   /**
-    * Create a nested component handler.
-    * @param anchor the anchor classloader
-    * @param uri the component part definition
-    * @return the component handler
-    * @exception Exception if an error occurs during component loading or establishment
-    */
-    //ComponentHandler createComponentHandler( 
-    //  ClassLoader anchor, URI uri ) throws Exception;
 }
 
