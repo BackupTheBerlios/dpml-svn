@@ -42,12 +42,5 @@ public interface ComponentHandler extends Component, ComponentContext
     */
     Map getContextMap() throws RemoteException;
     
-   /**
-    * Return the manager for the assigned component model.
-    * @return the component model manager
-    * @exception RemoteException if a remote I/O error occurs
-    */
-    ComponentModelManager getComponentManager() throws RemoteException;
-    
 }
 
