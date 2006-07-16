@@ -71,10 +71,15 @@ public final class Feature extends Enum
     public static final Feature FILENAME = new Feature( "filename" );
 
    /**
+    * Project basedir.
+    */
+    public static final Feature BASEDIR = new Feature( "basedir" );
+
+   /**
     * Array of scope enumeration values.
     */
     private static final Feature[] ENUM_VALUES = 
-      new Feature[]{NAME, GROUP, VERSION, URI, SPEC, PATH, FILENAME};
+      new Feature[]{NAME, GROUP, VERSION, URI, SPEC, PATH, FILENAME, BASEDIR};
 
    /**
     * Returns an array of activation enum values.
@@ -139,6 +144,10 @@ public final class Feature extends Enum
         else if( value.equalsIgnoreCase( "filename" ) )
         {
             return FILENAME;
+        }
+        else if( value.equalsIgnoreCase( "basedir" ) )
+        {
+            return BASEDIR;
         }
         else
         {
@@ -266,6 +275,27 @@ public final class Feature extends Enum
             }
             String id = type.getID();
             return resource.getLayoutPath( id );
+        }
+        else if( feature.equals( Feature.BASEDIR ) )
+        {
+            File base = resource.getBaseDir();
+            if( null == base )
+            {
+                throw new IllegalArgumentException( "basedir" );
+            }
+            else
+            {
+                try
+                {
+                    return base.getCanonicalPath();
+                }
+                catch( Exception e )
+                {
+                    final String error = 
+                      "Unexpected error while resolving project basedir [" + base + "].";
+                    throw new FeatureRuntimeException( error, e );
+                }
+            }
         }
         else
         {

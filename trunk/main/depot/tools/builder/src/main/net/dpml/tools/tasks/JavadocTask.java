@@ -38,7 +38,7 @@ import org.apache.tools.ant.types.Path;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class JavadocTask extends GenericTask
+public class JavadocTask extends ResourceTask
 {
     //-----------------------------------------------------------------------
     // static
