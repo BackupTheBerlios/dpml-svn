@@ -147,8 +147,8 @@ public class HelloImpl
         <table>
           <tr>
             <td><img src="/images/info.gif"/></td>
-            <td><i>See also <a href="http://www.osm.net/training/resources/plugins.html">
-               OSM Tutorial on Plugin Management</a>.</i>
+            <td><i>See also <a href="../tutorials/plugins.html">
+               Tutorial on Plugin Management</a>.</i>
             </td>
           </tr>
         </table>

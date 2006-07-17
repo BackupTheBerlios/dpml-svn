@@ -34,7 +34,6 @@ import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.ThreadSafePolicy;
 import net.dpml.metro.info.Type;
-import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.info.Priority;
 
