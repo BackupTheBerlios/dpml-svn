@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Task</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Type Descriptors and Deployment Directives">
+
+      <subsection name="Component as a Part Strategy">
+
+        <p>
+        The transit part XML-schema specification provides support for 
+        the declaration of specialized deployment strategies.  The DPML 
+        component schema is defined as a specialization of the part strategy.
+        As such, a <a href="component/index.html">component directive</a> 
+        may be used within the scope of an enclosing 
+        <a href="/transit/parts/index.html">part</a>.
+        </p>
+
+        <p>The following example demonstrates the definition of a part 
+          using a component directive as the part deployment strategy.</p>
+      
+<source><![CDATA[<?xml version="1.0"?>
+
+<part xmlns="link:xsd:dpml/lang/dpml-part#1.0">
+
+  <info/>
+
+  <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" type="org.acme.Widget"/>
+
+  <classpath>
+    <private>
+      <uri>artifact:jar:acme/widget/acme-widget#1.2.3</uri>
+    </private>
+  </classpath>
+
+</part>]]></source>
+
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>

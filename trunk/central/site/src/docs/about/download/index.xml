@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Downloads</title>
+    <description>Information about binary downloads of the DPML component management platform.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties> 
+
+  <body>
+
+    <section name="Binary Distributions">
+
+      <subsection name="Description">
+
+        <p>
+        The DPML Platform distribution includes:
+        </p>
+
+        <ul>
+          <li>Transit resource management </li>
+          <li>Depot build system</li>
+          <li>Metro component management runtime</li>
+          <li>Station application server</li>
+        </ul>
+
+      </subsection>
+
+      <subsection name="Build @VERSION@">
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
+                dpml-sdk-win32-@VERSION@.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+                dpml-sdk-win32-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
+                dpml-sdk-linux-@VERSION@.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Technical Note">
+
+        <p>
+        XSD schema reference have been update to use symbolic links in favour
+        of direct artifact references. XSD namespace references are now declared
+        in the form <tt>link:xsd:dpml/lang/dpml-module#1.0</tt> (which in-turn references
+        an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

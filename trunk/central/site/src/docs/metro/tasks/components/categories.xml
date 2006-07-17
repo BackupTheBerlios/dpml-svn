@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Categories Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Categories">
+
+      <subsection name="Description">
+
+        <p>
+        0..n <tt>&lt;category&gt;</tt> elements may be declared within an 
+        enclosing <tt>&lt;categories&gt;</tt> element.
+        </p>
+
+      </subsection>
+
+      <subsection name="Category Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The category name (required).</td>
+          </tr>
+          <tr>
+            <td><tt>priority</tt></td>
+            <td>An optional logging channel priority value. Allowable values 
+              include <tt>DEBUG</tt>, <tt>INFO</tt>, <tt>WARN</tt>, and 
+              <tt>ERROR</tt>.</td>
+          </tr>
+          <tr>
+            <td><tt>target</tt></td>
+            <td>An optional logging channel target.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Example">
+
+      <p>
+      the following component directive is asserting that the two subsidiary 
+      logging channels (<tt>alpha</tt> and <tt>beta</tt>) shall be established 
+      with the respective priorities of <tt>WARN</tt> and <tt>ERROR</tt>.
+      </p>
+
+<pre><![CDATA[
+<component xmlns="dpml:metro" dest="target/test/categories.part" test="true" activation="true"
+    type="net.dpml.test.categories.CategoriesComponent" collection="hard">
+  <categories>
+    <category name="alpha" priority="warn"/>
+    <category name="beta" priority="error"/>
+  </categories>
+<component>
+]]></pre>
+
+    </section>
+
+    <section name="Technical Notes">
+      
+      <p>
+      Overriding of category settings via metro comandline settings is not 
+      supported at this time.  While the commandline handler does pass a 
+      categories configuration uri to the ComponentAdapter, the adapter 
+      does not currently support this feature.  A second issue relates to
+      non-assignment of logging category targets within the runtime 
+      DefaultComponentHandler.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
