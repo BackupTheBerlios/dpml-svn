@@ -6,6 +6,127 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <target name="prepare" depends="standard.prepare">
+  
+    <x:property name="components.dir" feature="basedir" ref="dpmlx/tutorials/components"/>
+    
+    <property name="hello.src.dir" location="${components.dir}/hello"/>
+    <property name="local.hello.docs.dir" location="target/docs/metro/tutorials/hello"/>
+    <mkdir dir="${local.hello.docs.dir}"/>
+    <copy toDir="${local.hello.docs.dir}" flatten="true">
+      <fileset dir="${hello.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+
+    <property name="context.src.dir" location="${components.dir}/context"/>
+    <property name="local.context.docs.dir" location="target/docs/metro/tutorials/context"/>
+    <mkdir dir="${local.context.docs.dir}"/>
+    <copy toDir="${local.context.docs.dir}" flatten="true">
+      <fileset dir="${context.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="examples.src.dir" location="${components.dir}/examples"/>
+    <property name="local.examples.docs.dir" location="target/docs/metro/tutorials/examples"/>
+    <mkdir dir="${local.examples.docs.dir}"/>
+    <copy toDir="${local.examples.docs.dir}" flatten="true">
+      <fileset dir="${examples.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="parts.src.dir" location="${components.dir}/parts"/>
+    <property name="local.parts.docs.dir" location="target/docs/metro/tutorials/parts"/>
+    <mkdir dir="${local.parts.docs.dir}"/>
+    <copy toDir="${local.parts.docs.dir}" flatten="true">
+      <fileset dir="${parts.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="lookup.src.dir" location="${components.dir}/lookup"/>
+    <property name="local.lookup.docs.dir" location="target/docs/metro/tutorials/lookup"/>
+    <mkdir dir="${local.lookup.docs.dir}"/>
+    <copy toDir="${local.lookup.docs.dir}" flatten="true">
+      <fileset dir="${lookup.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="lifestyle.src.dir" location="${components.dir}/lifestyle"/>
+    <property name="local.lifestyle.docs.dir" location="target/docs/metro/tutorials/lifestyle"/>
+    <mkdir dir="${local.lifestyle.docs.dir}"/>
+    <copy toDir="${local.lifestyle.docs.dir}" flatten="true">
+      <fileset dir="${lifestyle.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="transient.src.dir" location="${components.dir}/transient"/>
+    <property name="local.transient.docs.dir" location="target/docs/metro/tutorials/transient"/>
+    <mkdir dir="${local.transient.docs.dir}"/>
+    <copy toDir="${local.transient.docs.dir}" flatten="true">
+      <fileset dir="${transient.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="thread.src.dir" location="${components.dir}/thread"/>
+    <property name="local.thread.docs.dir" location="target/docs/metro/tutorials/thread"/>
+    <mkdir dir="${local.thread.docs.dir}"/>
+    <copy toDir="${local.thread.docs.dir}" flatten="true">
+      <fileset dir="${thread.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="singleton.src.dir" location="${components.dir}/singleton"/>
+    <property name="local.singleton.docs.dir" location="target/docs/metro/tutorials/singleton"/>
+    <mkdir dir="${local.singleton.docs.dir}"/>
+    <copy toDir="${local.singleton.docs.dir}" flatten="true">
+      <fileset dir="${singleton.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="state.src.dir" location="${components.dir}/state"/>
+    <property name="local.state.docs.dir" location="target/docs/metro/tutorials/state"/>
+    <mkdir dir="${local.state.docs.dir}"/>
+    <copy toDir="${local.state.docs.dir}" flatten="true">
+      <fileset dir="${state.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="type.src.dir" location="${components.dir}/type"/>
+    <property name="local.type.docs.dir" location="target/docs/metro/tutorials/type"/>
+    <mkdir dir="${local.type.docs.dir}"/>
+    <copy toDir="${local.type.docs.dir}" flatten="true">
+      <fileset dir="${type.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="import.src.dir" location="${components.dir}/import"/>
+    <property name="local.import.docs.dir" location="target/docs/metro/tutorials/import"/>
+    <mkdir dir="${local.import.docs.dir}"/>
+    <copy toDir="${local.import.docs.dir}" flatten="true">
+      <fileset dir="${import.src.dir}/api/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${import.src.dir}/clock/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${import.src.dir}/demo/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+  </target>
+  
+  
   <target name="build" depends="standard.build,docs,javadoc"/>
 
   <target name="docs" depends="prepare">

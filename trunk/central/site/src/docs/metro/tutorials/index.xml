@@ -135,10 +135,10 @@
       <subsection name="Related Links">
         
         <ul>
-          <li><a href="../resources/plugins.html">Transit Plugin Tutorial</a></li>
-          <li><a href="http://www.dpml.net/metro">Metro Component Management System</a></li>
-          <li><a href="http://www.dpml.net/metro/concepts/ioc.html">IOC Overview</a></li>
-          <li><a href="http://www.dpml.net/metro/concepts/context.html">Context Awareness</a></li>
+          <li><a href="../../transit/tutorials/plugins.html">Transit Plugin Tutorial</a></li>
+          <li><a href="../index.html">Metro Component Management System</a></li>
+          <li><a href="../concepts/ioc.html">IOC Overview</a></li>
+          <li><a href="../concepts/context.html">Context Awareness</a></li>
         </ul>
         
       </subsection>
