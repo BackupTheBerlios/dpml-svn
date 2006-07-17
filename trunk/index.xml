@@ -8,7 +8,7 @@
 
   <modules>
 
-    <module name="dpml" basedir=".">
+    <module name="dpml" basedir="main">
     
       <properties>
         <property name="project.publisher.name" value="Digital Product Meta Library"/>
