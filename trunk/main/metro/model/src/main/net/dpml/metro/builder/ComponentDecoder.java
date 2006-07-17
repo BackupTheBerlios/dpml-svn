@@ -185,9 +185,9 @@ public class ComponentDecoder
             catch( Exception e )
             {
                 final String error = 
-                  "Unable to resolve the URI declared as under the base 'uri' attribute."
-                  + "\n  URI: " + base;
-                throw new DecodingException( element, error );
+                  "Error resolving 'uri' attribute value: " 
+                  + base;
+                throw new DecodingException( element, error, e );
             }
         }
     }
