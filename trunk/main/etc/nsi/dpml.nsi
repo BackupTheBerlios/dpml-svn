@@ -85,7 +85,7 @@
   LangString DESC_SecShare  ${LANG_ENGLISH} "Installs Shared Libraries"
   LangString DESC_SecPlatform ${LANG_ENGLISH} "Installs Transit Resource Management, Depot Build Management, Metro Runtime and the Station Application Controller"
   LangString DESC_SecStation  ${LANG_ENGLISH} "Installs Station SCM"
-  LangString DESC_SecDoc      ${LANG_ENGLISH} "Installs Platform and API Documentation"
+;  LangString DESC_SecDoc      ${LANG_ENGLISH} "Installs Platform and API Documentation"
 
 ;--------------------------------
 ;Installer Sections
@@ -149,14 +149,14 @@ Section "share" SecShare
   File /r ..\bundle\share\local\*
 SectionEND
 
-Section "docs" SecDoc
-  SetOutPath $INSTDIR\share\docs
-  File /r ..\bundle\share\docs\*
-  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Home (local).lnk" "$INSTDIR\share\docs\index.html"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Platform API.lnk" "$INSTDIR\share\docs\api\dpml\@PROJECT-VERSION@\index.html"
-  !insertmacro MUI_STARTMENU_WRITE_END
-SectionEND
+;Section "docs" SecDoc
+;  SetOutPath $INSTDIR\share\docs
+;  File /r ..\bundle\share\docs\*
+;  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+;    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Home (local).lnk" "$INSTDIR\share\docs\index.html"
+;    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Platform API.lnk" "$INSTDIR\share\docs\api\dpml\@PROJECT-VERSION@\index.html"
+;  !insertmacro MUI_STARTMENU_WRITE_END
+;SectionEND
 
 Section "station scm" SecStation
   Exec "$INSTDIR\share\bin\scm\wrapper.exe -i $INSTDIR\share\bin\scm\conf\wrapper.conf"
