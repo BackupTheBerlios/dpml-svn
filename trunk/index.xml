@@ -65,8 +65,8 @@
     </module>
     
     <module name="dpmlx">
-      <module file="central/module.xml"/>
       <module file="central/tutorials/components/module.xml"/>
+      <module file="central/module.xml"/>
     </module>
     
   </modules>

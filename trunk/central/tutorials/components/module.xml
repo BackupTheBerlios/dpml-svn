@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module xmlns="link:xsd:dpml/lang/dpml-module#1.0" name="tutorials/components" basedir=".">
 
+  <dependencies>
+    <build>
+      <include ref="dpml"/>
+    </build>
+  </dependencies>
+
   <!-- a minimal component -->
   
   <project name="acme-demo-hello" basedir="hello">
