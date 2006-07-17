@@ -17,7 +17,7 @@
   limitations under the License.
 -->
 
-<project name="dpml" default="install" basedir="."
+<project name="dpml" default="install"
     xmlns:transit="antlib:net.dpml.transit"
     xmlns:x="dpml:depot"
     xmlns:c="dpml:metro">
