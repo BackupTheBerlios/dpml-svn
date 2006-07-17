@@ -79,8 +79,8 @@
             <td>The proxy setting configuration.</td>
           </tr>
           <tr>
-            <td><tt><a href="hosts.html">hosts</a></tt></td>
-            <td>A colection of remote host definitions.</td>
+            <td><tt><a href="hosts/index.html">hosts</a></tt></td>
+            <td>A collection of remote host definitions.</td>
           </tr>
         </table>
 
