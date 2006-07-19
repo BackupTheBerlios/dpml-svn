@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module xmlns="link:xsd:dpml/lang/dpml-module#1.0" name="tooling">
 
-  <dependencies>
-    <build>
-      <include ref="dpml"/>
-    </build>
-  </dependencies>
-  
   <module name="simple" basedir="simple">
   
     <project name="simple-build" basedir="build"/>
@@ -39,6 +33,12 @@
     
     <module name="build" basedir="build">
 
+      <dependencies>
+        <build>
+          <include ref="dpml"/>
+        </build>
+      </dependencies>
+    
       <project name="widget" basedir="widget"/>
   
       <project name="gizmo" basedir="gizmo">
