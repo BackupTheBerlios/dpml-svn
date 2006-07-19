@@ -6,6 +6,8 @@
     <property name="project.standard.template" value="local:template:dpml/tools/standard"/>
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
+  
+  <project name="demo" basedir="."/>
 
   <module file="junit/module.xml"/>
   <module file="commons-cli/module.xml"/>

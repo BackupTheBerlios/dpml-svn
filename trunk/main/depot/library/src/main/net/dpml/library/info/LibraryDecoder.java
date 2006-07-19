@@ -169,50 +169,15 @@ public final class LibraryDecoder extends LibraryConstants
             {
                 imports = buildImportDirectives( child );
             }
-            else if( MODULE_ELEMENT_NAME.equals( tag ) )
+            else
             {
                 ResourceDirective resource = buildResourceDirectiveFromElement( base, child, null );
                 list.add( resource );
-                //resources = expandModulesElement( base, child );
-            }
-            else
-            {
-                final String error = 
-                  "Illegal element name [" + tag + "] within 'library' element.";
-                throw new IllegalArgumentException( error );
             }
         }
         ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
         return new LibraryDirective( imports, resources, properties );
     }
-    
-   /**
-    * Construct a module directive relative to the supplied base directory 
-    * using the supplied DOM element.
-    * @param base the basedir of the enclosing library or module
-    * @param element the element defining the module
-    */
-    /*
-    private ResourceDirective[] expandModulesElement( 
-      File base, Element element ) throws Exception
-    {
-        String tag = element.getTagName();
-        if( !"modules".equals( element.getTagName() ) )
-        {
-            final String error = 
-              "Unsupported library element name [" + tag + "].";
-            throw new IllegalArgumentException( error );
-        }
-        Element[] children = ElementHelper.getChildren( element );
-        ResourceDirective[] resources = new ResourceDirective[ children.length ];
-        for( int i=0; i<children.length; i++ )
-        {
-            Element child = children[i];
-            resources[i] = buildResourceDirectiveFromElement( base, child, null );
-        }
-        return resources;
-    }
-    */
     
    /**
     * Build a resource using an XML element.
@@ -294,9 +259,7 @@ public final class LibraryDecoder extends LibraryConstants
             final String name = ElementHelper.getAttribute( element, "name" );
             
             final String version = ElementHelper.getAttribute( element, "version" );
-            String spec = ElementHelper.getAttribute( element, "basedir", null );
-            
-            String basedir = spec;
+            String basedir = ElementHelper.getAttribute( element, "basedir", null );
             if( path != null )
             {
                 if( basedir == null )
@@ -314,11 +277,7 @@ public final class LibraryDecoder extends LibraryConstants
                 classifier = Classifier.LOCAL;
                 if( null == basedir )
                 {
-                    final String error = 
-                      "Missing basedir attribute on project [" 
-                      + name
-                      + "].";
-                    throw new DecodingException( element, error );
+                    basedir = ".";
                 }
             }
             else if( MODULE_ELEMENT_NAME.equals( tag ) )

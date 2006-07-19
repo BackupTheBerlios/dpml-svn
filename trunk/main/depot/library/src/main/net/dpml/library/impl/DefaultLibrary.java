@@ -139,28 +139,28 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
         
         // create the top-level modules
         
-        ArrayList moduleDirectives = new ArrayList();
+        ArrayList primaryDirectives = new ArrayList();
         ResourceDirective[] directives = m_directive.getResourceDirectives();
         for( int i=0; i<directives.length; i++ )
         {
             ResourceDirective directive = directives[i];
-            if( directive instanceof ModuleDirective )
-            {
-                ModuleDirective md = (ModuleDirective) directive;
-                moduleDirectives.add( md );
-            }
-            else
-            {
-                final String error = 
-                  "No support in place for non-module top-level resources.";
-                throw new IllegalArgumentException( error );
-            }
+            //if( directive instanceof ModuleDirective )
+            //{
+                //ModuleDirective md = (ModuleDirective) directive;
+                primaryDirectives.add( directive );
+            //}
+            //else
+            //{
+            //    final String error = 
+            //      "No support in place for non-module top-level resources.";
+            //    throw new IllegalArgumentException( error );
+            //}
         }
-        ModuleDirective[] values = (ModuleDirective[]) moduleDirectives.toArray( new ModuleDirective[0] );
+        ResourceDirective[] values = (ResourceDirective[]) primaryDirectives.toArray( new ResourceDirective[0] );
         for( int i=0; i<values.length; i++ )
         {
-            ModuleDirective md = values[i];
-            m_module.addResource( md );
+            ResourceDirective d = values[i];
+            m_module.addResource( d );
         }
     }
     

@@ -224,7 +224,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
     public void testSelectChildren() throws Exception
     {
         Resource[] resources = getLibrary().select( "*", true );
-        assertEquals( "top-level-child-count", 6, resources.length );
+        assertEquals( "top-level-child-count", 7, resources.length );
     }
     
    /**
@@ -254,7 +254,7 @@ public class DefaultModuleTestCase extends AbstractTestCase
     public void testSelectAll() throws Exception
     {
         Resource[] resources = getLibrary().select( "**/*", false );
-        assertEquals( "'**/*'-selection", 44, resources.length );
+        assertEquals( "'**/*'-selection", 41, resources.length );
     }
     
    /**

@@ -765,7 +765,7 @@ public final class DefaultModule extends DefaultResource implements Module
             }
             else if( "*".equals( token ) )
             {
-                if( wild )
+                if( wild && !m_root )
                 {
                     DefaultResource[] resources = getDefaultResources();
                     DefaultResource[] result = new DefaultResource[ resources.length + 1 ];
@@ -797,6 +797,11 @@ public final class DefaultModule extends DefaultResource implements Module
             {
                 DefaultModule module = modules[i];
                 DefaultResource[] selection = module.doSelectDefaultResources( wildcard, remainder );
+                aggregate( list, selection );
+            }
+            if( wildcard )
+            {
+                DefaultResource[] selection = doSelectDefaultResources( wildcard, remainder );
                 aggregate( list, selection );
             }
             return (DefaultResource[]) list.toArray( new DefaultResource[0] );
@@ -854,7 +859,11 @@ public final class DefaultModule extends DefaultResource implements Module
     {
         for( int i=0; i<resources.length; i++ )
         {
-            list.add( resources[i] );
+            DefaultResource resource = resources[i];
+            if( !list.contains( resource ) )
+            {
+                list.add( resources[i] );
+            }
         }
     }
     

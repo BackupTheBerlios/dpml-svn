@@ -6,9 +6,9 @@
             elementFormDefault="qualified">
     
     <element name="index" type="this:IndexType"/>
-    <element name="module" type="this:ModuleType"/>
-    <element name="project" type="this:ProjectType"/>
     <element name="resource" type="this:ResourceType"/>
+    <element name="project" type="this:ProjectType" substitutionGroup="this:resource"/>
+    <element name="module" type="this:ModuleType" substitutionGroup="this:resource"/>
     <element name="property" type="this:PropertyType"/>
     <element name="typedef" type="this:AbstractType"/>
     <element name="type" type="this:GenericType" substitutionGroup="this:typedef"/>
@@ -17,7 +17,7 @@
       <sequence>
         <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
         <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
-        <element name="module" type="this:ModuleType" minOccurs="0" maxOccurs="unbounded"/>
+        <element ref="this:resource" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
     </complexType>
     
