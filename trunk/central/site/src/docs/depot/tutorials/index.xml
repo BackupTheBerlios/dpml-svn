@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Component Development Strategies</title>
+  </properties>
+
+  <body>
+
+    <section name="Development Tooling Tutorial">
+
+      <p>
+      The development tooling tutorial is focused on the the overall management
+      of project and module defintions and the role that these defintions play
+      in the managmement of multi-project builds.  
+      </p>
+ 
+      <subsection name="Tutorial Index">
+
+        <table>
+          <tr>
+            <td width="15%"><a href="simple/index.html">Getting Started</a></td>
+            <td width="60%">
+               collection of tutorials dealing with the declaration of an initial project
+               and the usage of common functionality related to property and filter declarations
+               (including the usage of symbolic references).
+            </td>
+            <td/>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

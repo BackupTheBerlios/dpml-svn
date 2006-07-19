@@ -7,7 +7,23 @@
   <transit:import uri="local:template:dpml/tools/standard"/>
 
   <target name="prepare" depends="standard.prepare">
-  
+
+    <!-- tooling tutorial build content -->
+
+    <!--
+    <x:property name="tooling.dir" feature="basedir" ref="dpmlx/tutorials/tooling"/>
+    <property name="simple.build.dir" location="${tooling.dir}/simple"/>
+    <property name="local.simple.build.docs.dir" location="target/docs/depot/tutorials/simple/build"/>
+    <mkdir dir="${local.simple.build.docs.dir}"/>
+    <copy toDir="${local.simple.build.docs.dir}" flatten="true">
+      <fileset dir="${simple.build.dir}">
+        <include name="*.*"/>
+      </fileset>
+    </copy>
+    -->
+    
+    <!-- component tutorial build content -->
+    
     <x:property name="components.dir" feature="basedir" ref="dpmlx/tutorials/components"/>
     
     <property name="hello.src.dir" location="${components.dir}/hello"/>
