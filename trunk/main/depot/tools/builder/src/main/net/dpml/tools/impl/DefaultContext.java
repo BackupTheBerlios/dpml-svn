@@ -33,6 +33,7 @@ import net.dpml.library.Resource;
 import net.dpml.library.Type;
 import net.dpml.library.Filter;
 import net.dpml.library.impl.DefaultLibrary;
+import net.dpml.library.ResourceNotFoundException;
 
 import net.dpml.tools.info.ListenerDirective;
 
@@ -668,24 +669,11 @@ public final class DefaultContext implements Context
         }
     }
 
-    private static Resource newResource( File basedir )
+    private static Resource newResource( File basedir ) throws Exception
     {
-        try
-        {
-            Logger logger = new DefaultLogger();
-            DefaultLibrary library = new DefaultLibrary( logger );
-            return library.locate( basedir.getCanonicalFile() );
-        }
-        catch( BuildException e )
-        {
-            throw e;
-        }
-        catch( Exception ioe )
-        {
-            final String error = 
-              "Unexpected error while attempting to construct project context.";
-            throw new RuntimeException( error, ioe );
-        }
+        Logger logger = new DefaultLogger();
+        DefaultLibrary library = new DefaultLibrary( logger );
+        return library.locate( basedir.getCanonicalFile() );
     }
 
     private static String flatternDependencies( String[] deps )

@@ -20,11 +20,13 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
+
 import net.dpml.tools.Context;
 import net.dpml.tools.impl.DefaultContext;
 
 import net.dpml.library.Library;
 import net.dpml.library.Resource;
+import net.dpml.library.ResourceNotFoundException;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -146,24 +148,22 @@ public class GenericTask extends Task
             try
             {
                 return new DefaultContext( project );
-                //Resource resource = context.getResource();
-                //String name = resource.getName();
-                //String version = resource.getVersion();
-                //project.log( "\n-------------------------------------------------------------------------" );
-                //project.log( name + "#" + version );
-                //project.log( "-------------------------------------------------------------------------" );
-                //project.addReference( "project.context", context );
-                //return context;
+            }
+            catch( ResourceNotFoundException e )
+            {
+                final String message = e.getMessage();
+                final String error = "Resource not found: " + message;
+                throw new BuildException( error, e, getLocation() );
             }
             catch( BuildException e )
             {
                 throw e;
             }
-            catch( Exception ioe )
+            catch( Exception e )
             {
                 final String error = 
                   "Unexpected error while attempting to construct project context.";
-                throw new RuntimeException( error, ioe );
+                throw new RuntimeException( error, e );
             }
         }
     }
