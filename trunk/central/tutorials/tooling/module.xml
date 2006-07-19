@@ -33,6 +33,20 @@
       </filters>
     </project>
     
+    <module name="dependencies" basedir="dependencies">
+
+      <project name="widget" basedir="widget"/>
+  
+      <project name="gizmo" basedir="gizmo">
+        <dependencies>
+          <build>
+            <include key="widget"/>
+          </build>
+        </dependencies>
+      </project>
+    
+    </module>
+    
   </module>
   
 </module>
