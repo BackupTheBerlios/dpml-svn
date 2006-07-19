@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="demo" default="build">
+
+  <target name="build">
+    <echo message="Executing the simple project build."/>
+  </target>
+  
+</project>

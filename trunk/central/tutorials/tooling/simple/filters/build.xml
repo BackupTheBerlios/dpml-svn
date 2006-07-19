@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="demo" default="build">
+
+  <target name="init">
+    <property name="src" location="${basedir}/src"/>
+    <property name="target" location="${basedir}/target"/>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete dir="${target}"/>
+  </target>
+
+  <target name="build" depends="init,clean">
+    <echo message="${message}"/>
+    <mkdir dir="${target}"/>
+    <copy file="${src}/DEMO.TXT" toFile="${target}/RESULT.TXT" filtering="true"/>
+  </target>
+  
+</project>
