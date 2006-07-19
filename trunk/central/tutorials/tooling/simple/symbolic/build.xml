@@ -10,4 +10,6 @@
     <echo message="${message}"/>
   </target>
 
+  <target name="install" depends="build"/>
+
 </project>

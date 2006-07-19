@@ -10,4 +10,6 @@
     <echo message="Executing WIDGET build"/>
   </target>
   
+  <target name="install" depends="build"/>
+  
 </project>

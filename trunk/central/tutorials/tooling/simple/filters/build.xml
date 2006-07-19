@@ -17,4 +17,6 @@
     <copy file="${src}/DEMO.TXT" toFile="${target}/RESULT.TXT" filtering="true"/>
   </target>
   
+  <target name="install" depends="build"/>
+  
 </project>

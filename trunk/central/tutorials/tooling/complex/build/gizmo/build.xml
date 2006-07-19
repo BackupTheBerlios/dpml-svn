@@ -9,5 +9,7 @@
   <target name="build">
     <echo message="Executing GIZMO build"/>
   </target>
+
+  <target name="install" depends="build"/>
   
 </project>
