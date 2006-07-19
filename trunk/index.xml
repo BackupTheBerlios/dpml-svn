@@ -6,69 +6,44 @@
     <import uri="link:module:ant"/>
   </imports>
 
-  <modules>
-
-    <module name="dpml" basedir="main">
+  <properties>
+    <property name="project.publisher.name" value="Digital Product Meta Library"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+    <property name="project.javadoc.linksource" value="true"/>
+  </properties>
+  
+  <module name="dpml" basedir="main">
+    <types>
+      <type id="module" alias="true"/>
+    </types>
+    <filters>
+      <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+      <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      <feature token="PROJECT-VERSION" id="version"/> 
+    </filters>
+    <module file="lang/module.xml"/>
+    <module file="transit/module.xml"/>
+    <module file="util/module.xml"/>
+    <module file="depot/module.xml"/>
+    <module file="metro/module.xml"/>
+    <module file="station/module.xml"/>
+    <module file="planet/module.xml"/>
+  </module>
     
-      <properties>
-        <property name="project.publisher.name" value="Digital Product Meta Library"/>
-        <property name="project.specification.vendor" value="${project.publisher.name}"/>
-        <property name="project.implementation.vendor" value="${project.publisher.name}"/>
-        <property name="project.implementation.vendor-id" value="net.dpml"/>
-        <property name="project.publisher.url" value="http://www.dpml.net"/>
-        <property name="project.resource.host" value="http://repository.dpml.net"/>
-        <property name="project.api.host" value="http://api.dpml.net"/>
-        <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
-        <property name="project.javadoc.linksource" value="true"/>
-      </properties>
-      
-      <types>
-        <type id="module" alias="true"/>
-      </types>
-      
-      <filters>
-        <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
-        <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
-        <feature token="PROJECT-VERSION" id="version"/> 
-      </filters>
-
-      <module file="lang/module.xml"/>
-      <module file="transit/module.xml"/>
-      <module file="util/module.xml"/>
-      <module file="depot/module.xml"/>
-      <module file="metro/module.xml"/>
-      <module file="station/module.xml"/>
-      <module file="planet/module.xml"/>
-      
-      <!--
-      <project name="central" basedir="central">
-        <filters>
-          <feature token="VERSION" id="version"/>
-          <feature token="ANT-JAR-VERSION" ref="ant/ant" id="version"/>
-          <feature token="ANT-JAR-URI" ref="ant/ant" id="uri" type="jar" />
-          <feature token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" id="uri" type="jar" />
-          <feature token="TRANSIT-MODULE-VERSION" ref="dpml/transit" id="version"/>
-          <feature token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" id="uri" type="jar" />
-          <feature token="DEPOT-MODULE-VERSION" ref="dpml/depot" id="version" />
-          <feature token="DEPOT-CONSOLE-URI" ref="dpml/depot/dpml-depot-console" id="uri" type="jar" />
-          <feature token="DEPOT-TOOLS-ANT-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part" />
-          <feature token="DEPOT-TOOLS-LIBRARY-URI" ref="dpml/depot/dpml-library" id="uri" type="jar"/>
-          <feature token="METRO-RUNTIME-URI" ref="dpml/metro/dpml-metro-runtime" id="uri" type="part"/>
-          <feature token="METRO-TOOLS-URI"  ref="dpml/metro/dpml-metro-tools" id="uri" type="part"/>
-          <feature token="UTIL-CLI-URI" ref="dpml/util/dpml-util-cli" id="uri" type="jar" />
-          <feature token="UTIL-I18N-URI" ref="dpml/util/dpml-util-i18n" id="uri" type="jar"/>
-          <feature token="UTIL-LOGGING-API-URI" ref="dpml/util/dpml-logging-api" id="uri" type="jar"/>
-        </filters>
-      </project>
-      -->
-      
-    </module>
-    
-    <module name="dpmlx">
-      <module file="central/tutorials/components/module.xml"/>
-      <module file="central/module.xml"/>
-    </module>
-    
-  </modules>
-
+  <module name="dpmlx">
+    <filters>
+      <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+      <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      <feature token="PROJECT-VERSION" id="version"/> 
+    </filters>
+    <module file="central/tutorials/components/module.xml"/>
+    <module file="central/module.xml"/>
+  </module>
+  
 </index>
