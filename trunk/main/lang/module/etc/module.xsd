@@ -14,11 +14,11 @@
     <element name="type" type="this:GenericType" substitutionGroup="this:typedef"/>
     
     <complexType name="IndexType">
-      <all>
+      <sequence>
         <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
         <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
-        <element name="modules" type="this:ModulesType" minOccurs="0" maxOccurs="1"/>
-      </all>
+        <element name="module" type="this:ModuleType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
     </complexType>
     
     <complexType name="ImportsType">

@@ -3,20 +3,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="@PART-XSD-URI@">
 
-  <modules>
     <module name="acme-1">
       <info/>
     </module>
+    
     <module name="acme-2">
       <info>
         <description/>
       </info>
     </module>
+    
     <module name="acme-3">
       <info title="Widget">
         <description/>
       </info>
     </module>
+    
     <module name="acme-4">
       <info title="Widget">
         <description>
@@ -24,6 +26,7 @@
         </description>
       </info>
     </module>
+    
     <module name="acme-5">
       <info>
         <description>
@@ -31,6 +34,5 @@
         </description>
       </info>
     </module>
-  </modules>
 
 </index>

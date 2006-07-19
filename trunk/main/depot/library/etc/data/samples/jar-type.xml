@@ -3,7 +3,6 @@
 <index xmlns="@MODULE-XSD-URI@" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <modules>
     <module name="acme">
       <project name="widget" basedir=".">
         <types>
@@ -23,60 +22,6 @@
         </types>
       </project>
     </module>
-  </modules>
   
-  <!--
-  <project name="widget" basedir=".">
-    <data src="classic" work="target">
-      <process xsi:type="normalization">
-        <copy from="classic:src.main" to="target:build.main">
-          <selection>
-            <include name="**/*"/>
-          </selection>
-          <filtered>
-            <include name="**/*.java"/>
-            <include name="**/*.x*"/>
-            <include name="**/*.properties"/>
-            <include name="**/*.html"/>
-          </filtered>
-        </copy>
-        <copy from="classic:src.test" to="target:build.test">
-        
-        </copy>
-        <copy from="classic:etc.main" to="target:build.main"/>
-        <copy from="classic:etc.test" to="target:build.test"/>
-        <copy from="classic:etc.data" to="target:test"/>
-      </process>
-      <process xsi:type="compilation">
-        <compile src="build.main" dest="compile.main"
-      </process>
-       
-      <process xsi:type="selection" id="compile-main">
-        <include name="**/*.java"/>
-      </process>
-      <type xsi:type="jar" compress="false" index="false" depends="compile-main">
-        <src>
-          <include name="batman"/>
-          <exclude name="robin"/>
-        </src>
-        <rmic>
-          <include name="red"/>
-          <include name="white"/>
-          <include name="blue"/>
-          <exclude name="pink"/>
-          <exclude name="magenta"/>
-        </rmic>
-      </type>
-      <process xsi:type="selection" id="prepare-test">
-        <fileset dir="
-        <include name="**/*.java"/>
-      </process>
-      <process xsi:type="selection" id="compile-test">
-        <include name="**/*.java"/>
-      </process>
-    </data>
-  </project>
-  -->
-
 </index>
 

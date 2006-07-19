@@ -6,7 +6,6 @@
     <import uri="link:module:ant"/>
   </imports>
 
-  <modules>
     <module name="acme" basedir=".">
       <properties>
         <property name="fred" value="wilma"/>
@@ -14,6 +13,5 @@
         <property name="widget" value="gizmo"/>
       </properties>
     </module>
-  </modules>
 
 </index>

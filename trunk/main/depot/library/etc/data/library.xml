@@ -7,13 +7,11 @@
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
-  <modules>
-    <module file="junit/module.xml"/>
-    <module file="commons-cli/module.xml"/>
-    <module file="xstream/module.xml"/>
-    <module file="jgoodies/module.xml"/>
-    <module file="dpml/module.xml"/>
-    <module file="ant/module.xml"/>
-  </modules>
+  <module file="junit/module.xml"/>
+  <module file="commons-cli/module.xml"/>
+  <module file="xstream/module.xml"/>
+  <module file="jgoodies/module.xml"/>
+  <module file="dpml/module.xml"/>
+  <module file="ant/module.xml"/>
 
 </index>

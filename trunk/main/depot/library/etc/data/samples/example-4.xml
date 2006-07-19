@@ -6,12 +6,12 @@
     <import uri="link:module:ant"/>
   </imports>
 
-  <modules>
     <module name="acme" basedir=".">
       <module name="widget"/>
     </module>
+    
     <module name="foo"/>
+    
     <module name="bar"/>
-  </modules>
 
 </index>

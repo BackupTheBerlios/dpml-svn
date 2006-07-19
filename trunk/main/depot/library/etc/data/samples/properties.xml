@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <index xmlns="@MODULE-XSD-URI@">
 
-  <modules>
     <module name="org">
       <properties>
         <property name="ping" value="pong"/>
@@ -13,6 +12,5 @@
         </properties>
       </module>
     </module>
-  </modules>
 
 </index>

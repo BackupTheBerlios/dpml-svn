@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -153,7 +154,8 @@ public final class LibraryDecoder extends LibraryConstants
         
         Properties properties = null;
         ImportDirective[] imports = new ImportDirective[0];
-        ResourceDirective[] resources = new ResourceDirective[0];
+        List list = new ArrayList();
+        //ResourceDirective[] resources = new ResourceDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -167,9 +169,11 @@ public final class LibraryDecoder extends LibraryConstants
             {
                 imports = buildImportDirectives( child );
             }
-            else if( MODULES_ELEMENT_NAME.equals( tag ) )
+            else if( MODULE_ELEMENT_NAME.equals( tag ) )
             {
-                resources = expandModulesElement( base, child );
+                ResourceDirective resource = buildResourceDirectiveFromElement( base, child, null );
+                list.add( resource );
+                //resources = expandModulesElement( base, child );
             }
             else
             {
@@ -178,6 +182,7 @@ public final class LibraryDecoder extends LibraryConstants
                 throw new IllegalArgumentException( error );
             }
         }
+        ResourceDirective[] resources = (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
         return new LibraryDirective( imports, resources, properties );
     }
     
@@ -187,6 +192,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @param base the basedir of the enclosing library or module
     * @param element the element defining the module
     */
+    /*
     private ResourceDirective[] expandModulesElement( 
       File base, Element element ) throws Exception
     {
@@ -206,6 +212,7 @@ public final class LibraryDecoder extends LibraryConstants
         }
         return resources;
     }
+    */
     
    /**
     * Build a resource using an XML element.

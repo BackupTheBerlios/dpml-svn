@@ -6,8 +6,6 @@
     <import uri="link:module:ant"/>
   </imports>
 
-  <modules>
     <module file="widget.xml"/>
-  </modules>
 
 </index>

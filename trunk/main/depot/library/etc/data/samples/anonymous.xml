@@ -7,7 +7,6 @@
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
-  <modules>
     <module name="demo" basedir=".">
     
       <properties>
@@ -27,6 +26,4 @@
       
     </module>
     
-  </modules>
-
 </index>

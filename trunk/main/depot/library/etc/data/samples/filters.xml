@@ -3,7 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="@PART-XSD-URI@">
 
-  <modules>
     <module name="acme">
       <filters>
         <filter token="PUBLISHER" value="ACME"/>
@@ -15,6 +14,5 @@
         </filters>
       </project>
     </module>
-  </modules>
 
 </index>

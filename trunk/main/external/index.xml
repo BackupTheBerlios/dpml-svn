@@ -2,8 +2,6 @@
 <index xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 
-  <modules>
-
     <module name="junit" version="3.8.1" basedir="junit">
 
       <properties>
@@ -105,6 +103,4 @@
 
     </module>
     
-  </modules>
-
 </index>

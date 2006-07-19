@@ -2,7 +2,6 @@
 <index xmlns="@MODULE-XSD-URI@" 
     xmlns:part="@PART-XSD-URI@">
 
-  <modules>
     <module name="acme">
       <resource name="widget">
         <types>
@@ -14,6 +13,7 @@
         </types>
       </resource>
     </module>
+    
     <module name="acme">
       <resource name="gizmo">
         <types>
@@ -21,6 +21,5 @@
         </types>
       </resource>
     </module>
-  </modules>
-
+    
 </index>
