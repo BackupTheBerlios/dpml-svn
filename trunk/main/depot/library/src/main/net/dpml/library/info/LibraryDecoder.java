@@ -119,6 +119,12 @@ public final class LibraryDecoder extends LibraryConstants
         }
     }
     
+   /**
+    * Resolve the root DOM element of the supplied file.
+    * @param source the source XML file
+    * @return the root element
+    * @exception IOException if an io error occurs
+    */
     private Element getRootElement( File source ) throws IOException
     {
         File file = source.getCanonicalFile();
@@ -127,7 +133,7 @@ public final class LibraryDecoder extends LibraryConstants
     }
     
    /**
-    * Build a module using an XML element.
+    * Build a library directive using an XML element.
     * @param base the base directory
     * @param element the module element
     * @return the library directive
@@ -163,7 +169,7 @@ public final class LibraryDecoder extends LibraryConstants
             }
             else if( MODULES_ELEMENT_NAME.equals( tag ) )
             {
-                resources = buildResourceDirectivesFromElement( base, child );
+                resources = expandModulesElement( base, child );
             }
             else
             {
@@ -181,7 +187,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @param base the basedir of the enclosing library or module
     * @param element the element defining the module
     */
-    private ResourceDirective[] buildResourceDirectivesFromElement( 
+    private ResourceDirective[] expandModulesElement( 
       File base, Element element ) throws Exception
     {
         String tag = element.getTagName();
@@ -192,7 +198,7 @@ public final class LibraryDecoder extends LibraryConstants
             throw new IllegalArgumentException( error );
         }
         Element[] children = ElementHelper.getChildren( element );
-        ResourceDirective[] resources = new ModuleDirective[ children.length ];
+        ResourceDirective[] resources = new ResourceDirective[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element child = children[i];
@@ -201,59 +207,6 @@ public final class LibraryDecoder extends LibraryConstants
         return resources;
     }
     
-   /**
-    * Build a resource directive from an XML file.
-    * @param source the XML source
-    * @param path the relative path
-    * @return the resource directive
-    * @exception IOException if an IO exception occurs
-    */
-    public ResourceDirective buildResourceDirectiveFromFile( File source, String path ) throws IOException
-    {        
-        if( null == source )
-        {
-            throw new NullPointerException( "source" );
-        }
-        if( !source.exists() )
-        {
-            throw new FileNotFoundException( source.toString() );
-        }
-        if( source.isDirectory() )
-        {
-            final String error = 
-              "File ["
-              + source 
-              + "] references a directory.";
-            throw new IllegalArgumentException( error );
-        }
-        final File parent = source.getParentFile();
-        final String basedir = path;
-        final Element root = getRootElement( source );
-        final String tag = root.getTagName();
-        if( "module".equals( tag ) || "project".equals( tag ) || "resource".equals( tag ) )
-        {
-            try
-            {
-                return buildResourceDirectiveFromElement( parent, root, basedir );
-            }
-            catch( Throwable e )
-            {
-                final String error = 
-                  "An error occured while attempting to build a resource from a local source [ "
-                  + source
-                  + "] from the path [" 
-                  + path 
-                  + "].";
-                throw new DecodingException( root, error, e );
-            }
-        }
-        else
-        {
-            throw new IllegalArgumentException( tag );
-        }
-    }
-
-        
    /**
     * Build a resource using an XML element.
     * @param base the base directory
@@ -268,25 +221,38 @@ public final class LibraryDecoder extends LibraryConstants
         final String path = ElementHelper.getAttribute( element, "file" );
         if( null != path )
         {
-            File file = new File( base, path );
-            File dir = file.getParentFile();
-            String spec = getRelativePath( base, dir );
-            File source = file.getCanonicalFile();
             try
             {
+                File file = new File( base, path );
+                File source = file.getCanonicalFile();
                 if( !source.exists() )
                 {
                     final String error = 
-                      "Cannot include "
-                      + elementName
-                      + " from the file ["
-                      + source
-                      + "] because the file does not exist.";
+                      "Local file does not exist."
+                      + "\n  base: " + base
+                      + "\n  path: " + path
+                      + "\n  source: " + source;
+                    throw new DecodingException( element, error ); 
+                }
+                else if( source.isDirectory() )
+                {
+                    final String error = 
+                      "Local file references a directory."
+                      + "\n  base: " + base
+                      + "\n  path: " + path
+                      + "\n  source: " + source;
                     throw new DecodingException( element, error ); 
                 }
                 else
                 {
-                    return buildResourceDirectiveFromFile( source, spec );
+                    final File parent = source.getParentFile();
+                    final Element root = getRootElement( source );
+                    String basedir = getRelativePath( base, parent );
+                    if( null != offset )
+                    {
+                        basedir = offset + "/" + basedir;
+                    }
+                    return buildResourceDirectiveFromElement( base, root, basedir );
                 }
             }
             catch( DecodingException e )
@@ -296,15 +262,156 @@ public final class LibraryDecoder extends LibraryConstants
             catch( Throwable e )
             {
                 final String error = 
-                  "Internal error while attempting to resolve a import directive."
-                  + "\n  Path: " + path
-                  + "\n  File: " + source;
+                  "Internal error while attempting to resolve a import directive.";
                 throw new DecodingException( element, error, e );
             }
         }
         else
         {
             return buildResourceDirective( base, element, offset );
+        }
+    }
+    
+    private ResourceDirective buildResourceDirective( File base, Element element )  throws Exception
+    {
+        return buildResourceDirective( base, element, null );
+    }
+    
+    private ResourceDirective buildResourceDirective( File base, Element element, String path ) throws Exception
+    {
+        Classifier classifier = null;
+        final String tag = element.getTagName();
+        if( RESOURCE_ELEMENT_NAME.equals( tag ) || PROJECT_ELEMENT_NAME.equals( tag ) 
+          || MODULE_ELEMENT_NAME.equals( tag ) )
+        {
+            final String name = ElementHelper.getAttribute( element, "name" );
+            
+            final String version = ElementHelper.getAttribute( element, "version" );
+            String spec = ElementHelper.getAttribute( element, "basedir", null );
+            
+            String basedir = spec;
+            if( path != null )
+            {
+                if( basedir == null )
+                {
+                    basedir = path;
+                }
+                else
+                {
+                    basedir = path + "/" + basedir;
+                }
+            }
+            
+            if( PROJECT_ELEMENT_NAME.equals( tag ) )
+            {
+                classifier = Classifier.LOCAL;
+                if( null == basedir )
+                {
+                    final String error = 
+                      "Missing basedir attribute on project [" 
+                      + name
+                      + "].";
+                    throw new DecodingException( element, error );
+                }
+            }
+            else if( MODULE_ELEMENT_NAME.equals( tag ) )
+            {
+                if( null != basedir )
+                {
+                    classifier = Classifier.LOCAL;
+                }
+                else
+                {
+                    classifier = Classifier.EXTERNAL;
+                }
+            }
+            else
+            {
+                classifier = Classifier.EXTERNAL;
+            }
+            
+            final InfoDirective info = 
+              buildInfoDirective( 
+                ElementHelper.getChild( element, "info" ) );
+            
+            final DataDirective[] data = 
+              buildDataTypes( 
+                ElementHelper.getChild( element, "types" ) );
+            
+            final DependencyDirective[] dependencies = 
+              buildDependencyDirectives( 
+                ElementHelper.getChild( element, "dependencies" ) );
+                
+            final FilterDirective[] filters = 
+              buildFilterDirectives( 
+                ElementHelper.getChild( element, "filters" ) );
+            
+            final Properties properties = 
+              buildProperties( 
+                ElementHelper.getChild( element, "properties" ) );
+            
+            if( MODULE_ELEMENT_NAME.equals( tag ) )
+            {
+                File anchor = getAnchorDirectory( base, basedir );
+                ArrayList list = new ArrayList();
+                Element[] children = ElementHelper.getChildren( element );
+                for( int i=0; i<children.length; i++ )
+                {
+                    Element child = children[i];
+                    final String t = child.getTagName();
+                    
+                    if( RESOURCE_ELEMENT_NAME.equals( t ) 
+                      || PROJECT_ELEMENT_NAME.equals( t ) 
+                      || MODULE_ELEMENT_NAME.equals( t ) )
+                    {
+                        ResourceDirective directive = 
+                          buildResourceDirectiveFromElement( anchor, child, null );
+                        list.add( directive );
+                    }
+                }
+                
+                ResourceDirective[] resources = 
+                  (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
+                return ModuleDirective.createModuleDirective( 
+                  name, version, classifier, basedir, info, data, dependencies, 
+                  properties, filters, resources );
+            }
+            else
+            {
+                return ResourceDirective.createResourceDirective( 
+                  name, version, classifier, basedir, info, data, dependencies, 
+                  properties, filters );
+            }
+        }
+        else
+        {
+            final String error = 
+              "Invalid element name [" 
+              + tag
+              + "].";
+            throw new DecodingException( element, error );
+        }
+    }
+    
+    private File getAnchorDirectory( File base, String path ) throws IOException
+    {
+        if( null == base )
+        {
+            return null;
+        }
+        if( !base.exists() )
+        {
+            final String error = 
+              "Base directory [" + base + "] does not exist.";
+            throw new IllegalArgumentException( error );
+        }
+        if( null == path )
+        {
+            return base;
+        }
+        else
+        {
+            return new File( base, path ).getCanonicalFile();
         }
     }
     
@@ -508,124 +615,6 @@ public final class LibraryDecoder extends LibraryConstants
         {
             final String value = ElementHelper.getAttribute( element, "tag", "private" );
             return Category.parse( value );
-        }
-    }
-    
-    
-    private ResourceDirective buildResourceDirective( File base, Element element )  throws Exception
-    {
-        return buildResourceDirective( base, element, null );
-    }
-    
-    private ResourceDirective buildResourceDirective( File base, Element element, String path ) throws Exception
-    {
-        Classifier classifier = null;
-        final String tag = element.getTagName();
-        if( RESOURCE_ELEMENT_NAME.equals( tag ) || PROJECT_ELEMENT_NAME.equals( tag ) 
-          || MODULE_ELEMENT_NAME.equals( tag ) )
-        {
-            final String name = ElementHelper.getAttribute( element, "name", null );
-            final String version = ElementHelper.getAttribute( element, "version", null );
-            String basedir = ElementHelper.getAttribute( element, "basedir", null );
-            if( path != null )
-            {
-                if( basedir == null )
-                {
-                    basedir = path;
-                }
-                else
-                {
-                    basedir = path + "/" + basedir;
-                }
-            }
-            
-            if( PROJECT_ELEMENT_NAME.equals( tag ) )
-            {
-                classifier = Classifier.LOCAL;
-                if( null == basedir )
-                {
-                    final String error = 
-                      "Missing basedir attribute on project [" 
-                      + name
-                      + "].";
-                    throw new DecodingException( element, error );
-                }
-            }
-            else if( MODULE_ELEMENT_NAME.equals( tag ) )
-            {
-                if( null != basedir )
-                {
-                    classifier = Classifier.LOCAL;
-                }
-                else
-                {
-                    classifier = Classifier.EXTERNAL;
-                }
-            }
-            else
-            {
-                classifier = Classifier.EXTERNAL;
-            }
-            
-            final InfoDirective info = 
-              buildInfoDirective( 
-                ElementHelper.getChild( element, "info" ) );
-            
-            final DataDirective[] data = 
-              buildDataTypes( 
-                ElementHelper.getChild( element, "types" ) );
-            
-            final DependencyDirective[] dependencies = 
-              buildDependencyDirectives( 
-                ElementHelper.getChild( element, "dependencies" ) );
-                
-            final FilterDirective[] filters = 
-              buildFilterDirectives( 
-                ElementHelper.getChild( element, "filters" ) );
-            
-            final Properties properties = 
-              buildProperties( 
-                ElementHelper.getChild( element, "properties" ) );
-            
-            if( MODULE_ELEMENT_NAME.equals( tag ) )
-            {
-                ArrayList list = new ArrayList();
-                Element[] children = ElementHelper.getChildren( element );
-                for( int i=0; i<children.length; i++ )
-                {
-                    Element child = children[i];
-                    final String t = child.getTagName();
-                    
-                    if( RESOURCE_ELEMENT_NAME.equals( t ) 
-                      || PROJECT_ELEMENT_NAME.equals( t ) 
-                      || MODULE_ELEMENT_NAME.equals( t ) )
-                    {
-                        ResourceDirective directive = 
-                          buildResourceDirectiveFromElement( base, child, null );
-                        list.add( directive );
-                    }
-                }
-                
-                ResourceDirective[] resources = 
-                  (ResourceDirective[]) list.toArray( new ResourceDirective[0] );
-                return ModuleDirective.createModuleDirective( 
-                  name, version, classifier, basedir, info, data, dependencies, 
-                  properties, filters, resources );
-            }
-            else
-            {
-                return ResourceDirective.createResourceDirective( 
-                  name, version, classifier, basedir, info, data, dependencies, 
-                  properties, filters );
-            }
-        }
-        else
-        {
-            final String error = 
-              "Invalid element name [" 
-              + tag
-              + "].";
-            throw new DecodingException( element, error );
         }
     }
     
