@@ -42,7 +42,7 @@
       <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
       <feature token="PROJECT-VERSION" id="version"/> 
     </filters>
-    <module file="central/tutorials/components/module.xml"/>
+    <module file="central/tutorials/module.xml"/>
     <module file="central/module.xml"/>
   </module>
   

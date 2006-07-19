@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module xmlns="link:xsd:dpml/lang/dpml-module#1.0" name="tutorials">
+
+  <dependencies>
+    <build>
+      <include ref="dpml"/>
+    </build>
+  </dependencies>
+  
+  <module file="tooling/module.xml"/>
+  <module file="components/module.xml"/>
+  
+  
+</module>
