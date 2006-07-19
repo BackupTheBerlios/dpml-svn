@@ -91,7 +91,10 @@ public class PrepareTask extends GenericTask
         //
         
         String filters = context.getProperty( SRC_FILTERED_INCLUDES_KEY, SRC_FILTERED_INCLUDES_VALUE );
-        mkDir( context.getTargetDirectory() );
+        if( resource.getTypes().length > 0 )
+        {
+            mkDir( context.getTargetDirectory() );
+        }
         if( context.getSrcMainDirectory().exists() )
         {
             log( "preparing 'main' src.", Project.MSG_VERBOSE );

@@ -2,6 +2,10 @@
 
 <project name="demo" default="build">
 
+  <target name="clean">
+    <!-- nothing to do -->
+  </target>
+
   <target name="build">
     <echo message="Executing the simple project build."/>
   </target>
