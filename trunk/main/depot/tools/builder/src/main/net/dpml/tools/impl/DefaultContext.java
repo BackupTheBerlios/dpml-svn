@@ -91,7 +91,13 @@ public final class DefaultContext implements Context
         
         Library library = resource.getLibrary();
         project.addReference( "project.timestamp", new Date() );
-        project.setBaseDir( resource.getBaseDir() );
+        
+        File basedir = resource.getBaseDir();
+        if( !basedir.equals( project.getBaseDir() ) )
+        {
+            project.setBaseDir( resource.getBaseDir() );
+        }
+        
         project.addReference( "project.context", this );
         
         String[] names = resource.getPropertyNames();
@@ -99,12 +105,13 @@ public final class DefaultContext implements Context
         {
             String name = names[i];
             String value = resource.getProperty( name );
-            project.setProperty( name, value );
+            setProperty( name, value );
         }
-        project.setProperty( "project.name", resource.getName() );
-        project.setProperty( "project.version", resource.getVersion() );
-        project.setProperty( "project.resource.path", resource.getResourcePath() );
-        project.setProperty( "project.basedir", resource.getBaseDir().toString() );
+        
+        setProperty( "project.name", resource.getName() );
+        setProperty( "project.version", resource.getVersion() );
+        setProperty( "project.resource.path", resource.getResourcePath() );
+        setProperty( "project.basedir", resource.getBaseDir().toString() );
         
         Filter[] filters = resource.getFilters();
         for( int i=0; i<filters.length; i++ )
@@ -124,11 +131,11 @@ public final class DefaultContext implements Context
             }
         }
         
-        project.setNewProperty( "project.nl", "\n" );
-        project.setNewProperty( 
+        setProperty( "project.nl", "\n" );
+        setProperty( 
           "project.line", 
           "---------------------------------------------------------------------------\n" );
-        project.setNewProperty( 
+        setProperty( 
           "project.info", 
           "---------------------------------------------------------------------------\n"
           + resource.getResourcePath()
@@ -136,22 +143,22 @@ public final class DefaultContext implements Context
           + resource.getVersion()
           + "\n---------------------------------------------------------------------------" );
         
-        project.setNewProperty( "project.src.dir", getSrcDirectory().toString() );
-        project.setNewProperty( "project.src.main.dir", getSrcMainDirectory().toString() );
-        project.setNewProperty( "project.src.test.dir", getSrcTestDirectory().toString() );
-        project.setNewProperty( "project.etc.dir", getEtcDirectory().toString() );
-        project.setNewProperty( "project.etc.main.dir", getEtcMainDirectory().toString() );
-        project.setNewProperty( "project.etc.test.dir", getEtcTestDirectory().toString() );
-        project.setNewProperty( "project.etc.data.dir", getEtcDataDirectory().toString() );
+        setProperty( "project.src.dir", getSrcDirectory().toString() );
+        setProperty( "project.src.main.dir", getSrcMainDirectory().toString() );
+        setProperty( "project.src.test.dir", getSrcTestDirectory().toString() );
+        setProperty( "project.etc.dir", getEtcDirectory().toString() );
+        setProperty( "project.etc.main.dir", getEtcMainDirectory().toString() );
+        setProperty( "project.etc.test.dir", getEtcTestDirectory().toString() );
+        setProperty( "project.etc.data.dir", getEtcDataDirectory().toString() );
         
-        project.setNewProperty( "project.target.dir", getTargetDirectory().toString() );
-        project.setNewProperty( "project.target.build.main.dir", getTargetBuildMainDirectory().toString() );
-        project.setNewProperty( "project.target.build.test.dir", getTargetBuildTestDirectory().toString() );
-        project.setNewProperty( "project.target.classes.main.dir", getTargetClassesMainDirectory().toString() );
-        project.setNewProperty( "project.target.classes.test.dir", getTargetClassesTestDirectory().toString() );
-        project.setNewProperty( "project.target.deliverables.dir", getTargetDeliverablesDirectory().toString() );
-        project.setNewProperty( "project.target.test.dir", getTargetTestDirectory().toString() );
-        project.setNewProperty( "project.target.reports.dir", getTargetReportsDirectory().toString() );
+        setProperty( "project.target.dir", getTargetDirectory().toString() );
+        setProperty( "project.target.build.main.dir", getTargetBuildMainDirectory().toString() );
+        setProperty( "project.target.build.test.dir", getTargetBuildTestDirectory().toString() );
+        setProperty( "project.target.classes.main.dir", getTargetClassesMainDirectory().toString() );
+        setProperty( "project.target.classes.test.dir", getTargetClassesTestDirectory().toString() );
+        setProperty( "project.target.deliverables.dir", getTargetDeliverablesDirectory().toString() );
+        setProperty( "project.target.test.dir", getTargetTestDirectory().toString() );
+        setProperty( "project.target.reports.dir", getTargetReportsDirectory().toString() );
         
         // add listeners declared in the builder configuration
         
@@ -164,6 +171,20 @@ public final class DefaultContext implements Context
             project.addBuildListener( buildListener );
             BuildEvent event = new BuildEvent( project );
             buildListener.buildStarted( event );
+        }
+    }
+    
+    private void setProperty( String key, String value )
+    {
+        Project project = getProject();
+        String v = project.getProperty( key );
+        if( null == v )
+        {
+            project.setProperty( key, value ); 
+        }
+        else if( !value.equals( v ) )
+        {
+            project.setProperty( key, value );
         }
     }
     
