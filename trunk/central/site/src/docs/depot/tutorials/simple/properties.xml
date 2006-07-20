@@ -67,7 +67,7 @@
       <subsection name="Building the project ..">
       
         <pre>
-$ cd central\tutorials\tooling\simple\properties
+$ cd tutorials\tooling\simple\properties
 $ build
 
 -------------------------------------------------------------------------

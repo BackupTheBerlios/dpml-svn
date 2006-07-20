@@ -120,7 +120,7 @@ Listing project: gizmo
 project:gizmo#SNAPSHOT
 
   version: SNAPSHOT
-  basedir: D:\dpml\central\tutorials\tooling\complex\build\gizmo
+  basedir: D:\dpml\tutorials\tooling\complex\build\gizmo
   build phase providers: (1)
     project:widget#SNAPSHOT</pre>
     

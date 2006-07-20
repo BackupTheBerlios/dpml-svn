@@ -51,17 +51,17 @@ demo#SNAPSHOT
 init:
 
 prepare:
-[x:prepare] Created dir: D:\dpml\central\tutorials\tooling\simple\automation\target
-[x:prepare] Created dir: D:\dpml\central\tutorials\tooling\simple\automation\target\build\main
-[x:prepare] Copying 1 file to D:\dpml\central\tutorials\tooling\simple\automation\target\build\main
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\simple\automation\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\simple\automation\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\central\tooling\simple\automation\target\build\main
 
 build:
-    [javac] Created dir: D:\dpml\central\tutorials\tooling\simple\automation\target\classes\main
-    [javac] Compiling 1 source file to D:\dpml\central\tutorials\tooling\simple\automation\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\simple\automation\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\simple\automation\target\classes\main
 
 package:
-      [jar] Created dir: D:\dpml\central\tutorials\tooling\simple\automation\target\deliverables\jars
-      [jar] Building jar: D:\dpml\central\tutorials\tooling\simple\automation\target\deliverables\jars\demo-SNAPSHOT.jar
+      [jar] Created dir: D:\dpml\tutorials\tooling\simple\automation\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\simple\automation\target\deliverables\jars\demo-SNAPSHOT.jar
       [jar] Creating md5 checksum
 
 test:
@@ -81,12 +81,12 @@ Total time: 3 seconds
         In the above example we have demonstrated an ability to completely automate the 
         production of a jar file simply through the use of a template build file and 
         a project codebase that follows a standard layout convention.  In this case we
-        are using a template provided by the Depot project (which is used to build the 
-        majority of DPML projects) - however - the inclusion of a template is a basic 
+        are using a template provided by the Depot system (which is used to build the 
+        majority of DPML projects). The inclusion of a template is a basic 
         Ant capability and you could easily write alternative templates based on 
-        pure ant or your own custom tasks.  Generally speaking when you increase the level 
-        of build automation you typically reduce build related errors and maintenance 
-        overheads.
+        pure ant or your own custom tasks.  Generally speaking when you increase the  
+        level of build automation you typically reduce build related errors and more
+        importantly you reduce the overall build maintenance overhead.
         </p>
         
       </subsection>

@@ -88,7 +88,7 @@
       <subsection name="Building the project ..">
       
         <pre>
-$ cd central\tutorials\tooling\simple\filters
+$ cd tutorials\tooling\simple\filters
 $ build
 
 -------------------------------------------------------------------------
@@ -100,8 +100,8 @@ init:
 clean:
 
 build:
-    [mkdir] Created dir: D:\dpml\central\tutorials\tooling\simple\filters\target
-     [copy] Copying 1 file to D:\dpml\central\tutorials\tooling\simple\filters\target
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\filters\target
+     [copy] Copying 1 file to D:\dpml\tutorials\tooling\simple\filters\target
      [echo]
      [echo] The message is Hello for mcconnell in New York.
 

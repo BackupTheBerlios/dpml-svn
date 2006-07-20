@@ -78,7 +78,7 @@
         </p>
         
         <pre>
-$ cd central\tutorials\tooling\simple\build
+$ cd tutorials\tooling\simple\build
 $ build
 
 -------------------------------------------------------------------------

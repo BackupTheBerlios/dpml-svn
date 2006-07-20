@@ -67,7 +67,7 @@
   &lt;project name="demo" basedir="."&gt;
     &lt;properties&gt;
       &lt;property name="location" value="New York"/&gt;
-      &lt;property name="message" value="Hello for ${user.name} in ${location}"/&gt;
+      &lt;property name="message" value="Hello from ${user.name} in ${location}"/&gt;
     &lt;/properties&gt;
     <font color="darkred">&lt;types&gt;
       &lt;type id="jar"/&gt;
@@ -140,7 +140,7 @@
       <subsection name="Building the project ..">
       
         <pre>
-$ cd central\tutorials\tooling\simple\types
+$ cd tutorials\tooling\simple\types
 $ build
 
 -------------------------------------------------------------------------
@@ -148,14 +148,14 @@ demo#SNAPSHOT
 -------------------------------------------------------------------------
 
 build:
-    [mkdir] Created dir: D:\dpml\central\tutorials\tooling\simple\types\target\build\main
-     [copy] Copying 1 file to D:\dpml\central\tutorials\tooling\simple\types\target\build\main
-    [mkdir] Created dir: D:\dpml\central\tutorials\tooling\simple\types\target\classes\main
-    [javac] Compiling 1 source file to D:\dpml\central\tutorials\tooling\simple\types\target\classes\main
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\types\target\build\main
+     [copy] Copying 1 file to D:\dpml\tutorials\tooling\simple\types\target\build\main
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\types\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\simple\types\target\classes\main
 
 package:
-    [mkdir] Created dir: D:\dpml\central\tutorials\tooling\simple\types\target\deliverables\jars
-      [jar] Building jar: D:\dpml\central\tutorials\tooling\simple\types\target\deliverables\jars\demo-SNAPSHOT.jar
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\types\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\simple\types\target\deliverables\jars\demo-SNAPSHOT.jar
 
 install:
     [mkdir] Created dir: D:\system\dpml\data\cache\jars
