@@ -256,8 +256,23 @@ public interface Context
     * @param id the artifact type
     * @return the filename
     */
-    String getLayoutPath( String id );
+    String getLayoutFilename( String id );
    
+   /**
+    * Return the directory path representing the module structure and type
+    * using the layout strategy employed by the cache.
+    * @param id the artifact type
+    * @return the path from the root of the cache to the directory containing the artifact
+    */
+    String getLayoutBase( String id );
+    
+   /**
+    * Return the full path to an artifact using the layout employed by the cache.
+    * @param id the artifact type
+    * @return the full path including base path and filename
+    */
+    String getLayoutPath( String id );
+    
    /**
     * Utility operation to construct a new classpath path instance.
     * @param scope the build scope

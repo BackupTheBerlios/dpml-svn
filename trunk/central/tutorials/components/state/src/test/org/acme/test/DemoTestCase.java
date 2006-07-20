@@ -50,7 +50,7 @@ public class DemoTestCase extends TestCase
     
     private URI getPartURI() throws Exception
     {
-        String path = System.getProperty( "project.deliverable.part.filename" );
+        String path = System.getProperty( "project.deliverable.part.path" );
         File file = new File( path );
         return file.toURI();
     }

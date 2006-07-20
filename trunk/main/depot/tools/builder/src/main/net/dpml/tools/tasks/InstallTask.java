@@ -76,7 +76,7 @@ public class InstallTask extends GenericTask
             //
 
             String id = type.getID();
-            String filename = getContext().getLayoutPath( id );
+            String filename = getContext().getLayoutFilename( id );
             File group = new File( deliverables, id + "s" );
             File target = new File( group, filename );
             if( !target.exists() && !id.equalsIgnoreCase( "null" ) )

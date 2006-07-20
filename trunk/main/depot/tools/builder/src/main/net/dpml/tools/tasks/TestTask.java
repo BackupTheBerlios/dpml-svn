@@ -74,7 +74,7 @@ public class TestTask extends GenericTask
         Project project = context.getProject();
         File deliverables = context.getTargetDeliverablesDirectory();
         File jars = new File( deliverables, "jars" );
-        String filename = context.getLayoutPath( "jar" );
+        String filename = context.getLayoutFilename( "jar" );
         return new File( jars, filename );
     }
 }

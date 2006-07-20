@@ -8,10 +8,136 @@
 
   <body>
 
-    <section name="Using Global Filters">
+    <section name="Global Filters">
+    
+      <p>
+      Filters are used to replace tokens in source code with assigned values
+      and are applied during copy operations when filtering is enabled. This
+      tutorial demonstrates this feature by extending our project definition
+      to include such a filter specification.
+      </p>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        Any number of filters can be declared within an enclosing <tt>filters</tt> 
+        element.  The <tt>filters</tt>  element may be declared within a project 
+        or module defintion.  In the following example we are declaring a single 
+        filter inside the project defintion which declares a filter token of 
+        <tt>MESSAGE</tt> and a substition value equal to the expansion of the 
+        <tt>${message}</tt> property value.  As such, any copy operation declared 
+        in the build file that has filtering enabled will result in the substitution 
+        of the toke <tt>@MESSAGE@</tt> with the assigned value.
+        </p>
+        
+<source>
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
 
+  &lt;project name="demo" basedir="."&gt;
+    &lt;properties&gt;
+      &lt;property name="location" value="New York"/&gt;
+      &lt;property name="message" value="Hello for ${user.name} in ${location}"/&gt;
+    &lt;/properties&gt;
+    <font color="darkred">&lt;filters&gt;
+      &lt;filter token="MESSAGE" value="${message}"/&gt;
+    &lt;/filters&gt;</font>
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</source>
+      
+      </subsection>
+      
+      <subsection name="build.xml">
+      
+        <p>
+        To demonstrate the above we have updated the build file to 
+        copy a file named src/DEMO.TXT to target/RESULT.TXT.  The DEMO.TXT
+        file contains the <tt>@MESSAGE@</tt> token and the resulting
+        RESULT.TXT file should contain the expanded value.  The build
+        target validates this by loading the result file and echoing its
+        contents.
+        </p>
+        
+<source>
+&lt;project name="demo" default="install">
+
+  <font color="darkred">&lt;target name="init"&gt;
+    &lt;property name="src" location="${basedir}/src"/&gt;
+    &lt;property name="target" location="${basedir}/target"/&gt;
+  &lt;/target&gt;
+
+  &lt;target name="clean" depends="init"&gt;
+    &lt;delete dir="${target}"/&gt;
+  &lt;/target&gt;
+
+  &lt;target name="build" depends="init,clean"&gt;
+    &lt;mkdir dir="${target}"/&gt;
+    &lt;copy file="${src}/DEMO.TXT" toFile="${target}/RESULT.TXT" filtering="true"/&gt;
+    &lt;loadfile srcFile="${target}/RESULT.TXT" property="result"/&gt;
+    &lt;echo message="${result}"/&gt;
+  &lt;/target&gt;</font>
+
+  &lt;target name="install" depends="build"/&gt;
+
+&lt;/project&gt;
+</source>
+      
+      </subsection>
+      
+      <subsection name="Building the project ..">
+      
+        <pre>
+$ cd central\tutorials\tooling\simple\filters
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+init:
+
+clean:
+
+build:
+    [mkdir] Created dir: D:\dpml\central\tutorials\tooling\simple\filters\target
+     [copy] Copying 1 file to D:\dpml\central\tutorials\tooling\simple\filters\target
+     [echo]
+     [echo] The message is Hello for mcconnell in New York.
+
+install:
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+$
+        </pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        Property and filter declarations demonstrated here deal with resonably simple
+        value assignments (either direct values or values resolved by dereferencing 
+        symbolic values). However - when dealing with large numbers of projects you
+        will frequently need to reference features of another project in the declaration
+        of a local property of feature value.  Before addressing this subject we need 
+        to introduce multiple projects and the support that Depot provides in build
+        sequencing.
+        </p>
+        
+        <p>
+        The <a href="../complex/index.html">next totorial</a> introduces the subject
+        of multi-project build sequencing.
+        </p>
+        
+      </subsection>
+      
+      
     </section>
 
   </body>
+  
 </document>
 

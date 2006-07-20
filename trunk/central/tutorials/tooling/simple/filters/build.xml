@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="demo" default="build">
+<project name="demo" default="install">
 
   <target name="init">
     <property name="src" location="${basedir}/src"/>

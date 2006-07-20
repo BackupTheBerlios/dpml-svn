@@ -161,11 +161,6 @@ public final class SecuredTransitContext
     */
     private Logger m_logger;
 
-   /**
-    * The repository service provider.
-    */
-    //private Repository m_repository;
-    
     private ProxyController m_proxyController;
     
     private DisposalController m_disposalController;

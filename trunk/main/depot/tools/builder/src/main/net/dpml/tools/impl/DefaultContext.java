@@ -42,6 +42,8 @@ import net.dpml.tools.Context;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.link.LinkManager;
+import net.dpml.transit.Layout;
+import net.dpml.transit.ClassicLayout;
 
 import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
@@ -53,13 +55,15 @@ import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.types.Path;
 
 /**
- * Default implmentation of a project context.
+ * Default implementation of a project context.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public final class DefaultContext implements Context
 {
+    private static final Layout CLASSIC_LAYOUT = new ClassicLayout();
+    
     private final Project m_project;
     private final Resource m_resource;
     
@@ -113,6 +117,10 @@ public final class DefaultContext implements Context
         setProperty( "project.resource.path", resource.getResourcePath() );
         setProperty( "project.basedir", resource.getBaseDir().toString() );
         
+        File cache = Transit.getInstance().getCacheDirectory();
+        String cachePath = cache.getCanonicalPath();
+        setProperty( "project.cache", cachePath );
+        
         Filter[] filters = resource.getFilters();
         for( int i=0; i<filters.length; i++ )
         {
@@ -135,14 +143,14 @@ public final class DefaultContext implements Context
         setProperty( "project.nl", "\n" );
         setProperty( 
           "project.line", 
-          "---------------------------------------------------------------------------\n" );
+          "---------------------------------------------------------------------------\n", false );
         setProperty( 
           "project.info", 
           "---------------------------------------------------------------------------\n"
           + resource.getResourcePath()
           + "#"
           + resource.getVersion()
-          + "\n---------------------------------------------------------------------------" );
+          + "\n---------------------------------------------------------------------------", false );
         
         setProperty( "project.src.dir", getSrcDirectory().toString() );
         setProperty( "project.src.main.dir", getSrcMainDirectory().toString() );
@@ -161,6 +169,10 @@ public final class DefaultContext implements Context
         setProperty( "project.target.test.dir", getTargetTestDirectory().toString() );
         setProperty( "project.target.reports.dir", getTargetReportsDirectory().toString() );
         
+        // add properties dealing with produced types
+        
+        addProductionProperties();
+        
         // add listeners declared in the builder configuration
         
         ListenerDirective[] listeners = StandardBuilder.CONFIGURATION.getListenerDirectives();
@@ -175,16 +187,49 @@ public final class DefaultContext implements Context
         }
     }
     
+    private void addProductionProperties() throws IOException
+    {
+        Resource resource = getResource();
+        Type[] types = resource.getTypes();
+        for( int i=0; i<types.length; i++ )
+        {
+            Type type = types[i];
+            String id = type.getID();
+            File file = getTargetDeliverable( id );
+            String path = file.getCanonicalPath();
+            setProperty( "project.deliverable." + id + ".path", path );
+            File dir = file.getParentFile();
+            String spec = dir.getCanonicalPath();
+            setProperty( "project.deliverable." + id + ".dir", spec );
+            String base = getLayoutBase( id );
+            setProperty( "project.cache." + id + ".dir", base );
+            String address = getLayoutPath( id );
+            setProperty( "project.cache." + id + ".path", address );
+        }
+    }
+
     private void setProperty( String key, String value )
+    {
+        setProperty( key, value, true );
+    }
+    private void setProperty( String key, String value, boolean verbose )
     {
         Project project = getProject();
         String v = project.getProperty( key );
         if( null == v )
         {
+            if( verbose )
+            {
+                project.log( "setting property [" + key + "] to [" + value + "]", Project.MSG_VERBOSE );
+            }
             project.setProperty( key, value ); 
         }
         else if( !value.equals( v ) )
         {
+            if( verbose )
+            {
+                project.log( "updating property [" + key + "] to [" + value + "]", Project.MSG_VERBOSE );
+            }
             project.setProperty( key, value );
         }
     }
@@ -211,7 +256,7 @@ public final class DefaultContext implements Context
         {
             File deliverables = getTargetDeliverablesDirectory();
             File jars = new File( deliverables, "jars" );
-            String filename = getLayoutPath( "jar" );
+            String filename = getLayoutFilename( "jar" );
             File jar = new File( jars, filename );
             m_test.createPathElement().setLocation( jar );
         }
@@ -542,7 +587,8 @@ public final class DefaultContext implements Context
     */
     public File getTargetDeliverable( String type )
     {
-        String path = getLayoutPath( type );
+        Artifact artifact = m_resource.getArtifact( type );
+        String path = CLASSIC_LAYOUT.resolveFilename( artifact );
         String types = type + "s";
         File root = new File( getTargetDeliverablesDirectory(), types );
         return new File( root, path );
@@ -564,10 +610,33 @@ public final class DefaultContext implements Context
     * @param id the artifact type
     * @return the filename
     */
-    public String getLayoutPath( String id )
+    public String getLayoutFilename( String id )
     {
         Artifact artifact = m_resource.getArtifact( id );
         return Transit.getInstance().getCacheLayout().resolveFilename( artifact );
+    }
+
+   /**
+    * Return the directory path representing the module structure and type
+    * using the layout strategy employed by the cache.
+    * @param id the artifact type
+    * @return the path from the root of the cache to the directory containing the artifact
+    */
+    public String getLayoutBase( String id )
+    {
+        Artifact artifact = m_resource.getArtifact( id );
+        return Transit.getInstance().getCacheLayout().resolveBase( artifact );
+    }
+    
+   /**
+    * Return the full path to an artifact using the layout employed by the cache.
+    * @param id the artifact type
+    * @return the full path including base path and filename
+    */
+    public String getLayoutPath( String id )
+    {
+        Artifact artifact = m_resource.getArtifact( id );
+        return Transit.getInstance().getCacheLayout().resolvePath( artifact );
     }
     
    /**

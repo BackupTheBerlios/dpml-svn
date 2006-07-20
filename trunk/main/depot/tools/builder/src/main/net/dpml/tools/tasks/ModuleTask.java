@@ -60,7 +60,7 @@ public class ModuleTask extends GenericTask
     {
         Project project = getProject();
         final Context context = getContext();
-        final String path = context.getLayoutPath( "module" );
+        final String path = context.getLayoutFilename( "module" );
         final File deliverables = context.getTargetDeliverablesDirectory();
         final File modules = new File( deliverables, "modules" );
         final File module = new File( modules, path );

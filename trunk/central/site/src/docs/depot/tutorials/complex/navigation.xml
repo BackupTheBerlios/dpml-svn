@@ -20,17 +20,12 @@
 
 <project>
 
- <title>Depot Tutorials</title>
+ <title>Magic Training Programme</title>
 
  <body>
 
     <menu>
-      <item name="General Properties" href="properties.html"/>
-      <item name="Symbolic References" href="symbolic.html"/>
-      <item name="Global Filters" href="filters.html"/>
-      <item name="Type Production" href="types.html"/>
-      <item name="Build Automation" href="automation.html"/>
-      <item name="Alias Declarations" href="alias.html"/>
+      <item name="Runtime Dependencies" href="runtime.html"/>
     </menu>
 
  </body>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Development Tooling</title>
+  </properties>
+
+  <body>
+
+    <section name="Multi-Project Build Sequencing">
+    
+      <p>
+      An important aspect of Depot is the support for transitive 
+      dependency management.  Dependencies between project are maintained 
+      relative to the following scopes:
+      </p>
+      
+      <table>
+        <tr>
+          <td>build</td>
+          <td>
+            Declaration of one or build sequence dependencies. When
+            a project declares a build scoped dependency on another 
+            project - Depot will ensure that the dependee project is
+            built before the dependee project.
+          </td>
+        </tr>
+        <tr>
+          <td>runtime</td>
+          <td>
+            Declaration of one or runtime dependencies. Runtime dependencies
+            are used by Depot to construct classloader chains resulting in
+            the potential automation of several common build requirements 
+            (such as source code compilation). Runtime dependencies are 
+            fully transitive in that the runtime dependencies of a project
+            are constructed by expanding the runtime dependencies of any
+            projects declared as runtime dependencies, and any runtime 
+            dependencies of the dependee projects (etc., etc.).
+          </td>
+        </tr>
+        <tr>
+          <td>test</td>
+          <td>
+            Declaration of one or test dependencies. Test scoped dependencies
+            are used to suppliment transitive runtime dependencies and are typically
+            applied to the automation of test-cases.  An import aspect of 
+            of test scope dependencies is the abiluity to separate test concerns from
+            runtime concerns - ensuring that runtime meta-data is not poluted with
+            test related information.
+          </td>
+        </tr>
+      </table>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        Our index file has been updated to declare two projects named widget and gizmo
+        and we have relocated our index file to a directory above the respective 
+        project basedirs.  The <tt>gizmo</tt> project is declaring a build-time dependency
+        on the <tt>widget</tt> project which simply ensures that <tt>widget</tt> will be 
+        built before <tt>gizmo</tt>.  Basedir values for both projects are declared as 
+        immidiate subdirectories relative to the location of the index.xml file.
+        </p>
+        
+<source>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+
+  <font color="darkred">&lt;project name="widget" basedir="widget"/&gt;
+  
+  &lt;project name="gizmo" basedir="gizmo"&gt;
+    &lt;dependencies>
+      &lt;build>
+        &lt;include key="widget"/&gt;
+      &lt;/build&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;</font>
+
+&lt;/index&gt;
+</source>
+      
+      </subsection>
+      
+      <subsection name="Listing project sequence">
+      
+        <p>
+        Before building our projects we will take a moment to look at the build
+        tools <tt>-list</tt> option.
+        </p>
+        
+        <pre>$ cd central\tutorials\tooling\complex\build</pre>
+        
+        <p>
+        The following command list all project below our current directory
+        in proper build sequence:
+        </p>
+        
+        <pre>
+$ build -list
+Selection: [2]
+
+  [1]   project:widget#SNAPSHOT
+  [2]   project:gizmo#SNAPSHOT
+</pre>
+
+      </subsection>
+      
+      <subsection name="Listing project details">
+      
+        <p>
+        We can also list information about a specific project as shown in the following
+        example where we are requesting a detailing listing of the gizmo project.
+        </p>
+        
+        <pre>
+$ build -list -select gizmo
+Listing project: gizmo
+
+project:gizmo#SNAPSHOT
+
+  version: SNAPSHOT
+  basedir: D:\dpml\central\tutorials\tooling\complex\build\gizmo
+  build phase providers: (1)
+    project:widget#SNAPSHOT</pre>
+    
+        <p>
+        Just for reference - the above command can be simplified to:
+        </p>
+
+<pre>$ build -l -s gizmo</pre>
+
+      </subsection>
+      
+      <subsection name="Addition build options">
+
+        <p>For additional information on the build tool command options
+          the <tt>-help</tt> option is always available.
+        </p>
+        
+<pre>$ build -help</pre>
+
+      </subsection>
+      
+      <subsection name="Building the projects ..">
+      
+        <p>
+        In the following example the <tt>build</tt> command is invoked
+        in the parent directory to the widget and gizmo projects.  As such
+        the build tool will evaluate all projects declared in the index and 
+        establish a build selection that includes all projects with a basedir
+        that is equal to or deeper that our current directory.  This selction
+        is then sorted in terms of build-time dependencies resulting in widget
+        appearing before gizmo.  The build tool then initiates the build of 
+        each project.  If there is a failure of an indivial build then the 
+        multi-project build sequence will fail.
+        </p>
+        
+        <pre>
+$ build
+[2788 ] [INFO   ] (depot.build): Initiating build sequence: (2)
+
+  (1)   widget
+  (2)   gizmo
+
+
+-------------------------------------------------------------------------
+widget#SNAPSHOT
+-------------------------------------------------------------------------
+
+build:
+     [echo] Executing WIDGET build
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+-------------------------------------------------------------------------
+gizmo#SNAPSHOT
+-------------------------------------------------------------------------
+
+build:
+     [echo] Executing GIZMO build
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+        </pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        This tutorial has introduced the subject of build-scoped dependencies
+        and how these dependencyt declarations impact build sequencing.  In practice
+        you will not generally need build-time dependency declarations - instead it
+        is much more common to see runtime dependencies linking projects together, and 
+        its within runtime depedencies that we can do things like automatic classpath
+        construction.  The <a href="runtime.html">following tutorial</a> focuses on
+        runtime dependencies and demonstrates how an API defined in one project can be 
+        automatically included in the classpath of a dependent project.
+        </p>        
+
+      </subsection>
+      
+    </section>
+
+  </body>
+</document>
+

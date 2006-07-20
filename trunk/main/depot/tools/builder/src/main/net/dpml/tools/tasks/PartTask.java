@@ -173,7 +173,7 @@ public class PartTask extends GenericTask
         else
         {
             Context context = getContext();
-            final String path = context.getLayoutPath( TYPE );
+            final String path = context.getLayoutFilename( TYPE );
             final File deliverables = context.getTargetDeliverablesDirectory();
             final File parts = new File( deliverables, TYPE + "s" );
             final File file = new File( parts, path );

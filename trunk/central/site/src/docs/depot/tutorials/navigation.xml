@@ -26,6 +26,9 @@
 
     <menu>
       <item name="Getting Started" href="simple/index.html"/>
+      <item name="Multiproject Builds" href="complex/index.html"/>
+      <item name="Using Modules" href="modules/index.html"/>
+      <item name="Versioned Builds" href="versioned.html"/>
     </menu>
 
  </body>

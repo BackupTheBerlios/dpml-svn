@@ -80,19 +80,31 @@ public class JUnitTestTask extends GenericTask
     public static final String FORK_KEY = "project.test.fork";
 
    /**
-    * Constant test halt-on-error key.
-    */
-    public static final String HALT_ON_ERROR_KEY = "project.test.halt-on-error";
-
-   /**
     * Constant test fork mode key.
     */
     public static final String TEST_FORK_MODE_KEY = "project.test.fork.mode";
 
    /**
-    * Constant test halt-on-failure key.
+    * Constant test halt-on-error key (default is false).
+    */
+    public static final String HALT_ON_ERROR_KEY = "project.test.halt-on-error";
+
+   /**
+    * Constant test halt-on-failure key (default is false).
     */
     public static final String HALT_ON_FAILURE_KEY = "project.test.halt-on-failure";
+
+   /**
+    * Constant test abort on error key - if true (the default) the build will fail
+    * if a test error occurs.
+    */
+    public static final String ABORT_ON_ERROR_KEY = "project.test.exit-on-error";
+
+   /**
+    * Constant test abort on failure key - if true (the default) the build will fail
+    * if a test failure occurs.
+    */
+    public static final String ABORT_ON_FAILURE_KEY = "project.test.exit-on-failure";
 
    /**
     * Constant cache path key.
@@ -128,6 +140,15 @@ public class JUnitTestTask extends GenericTask
     * the key for the exclude pattern for test cases
     */
     public static final String VERBOSE_KEY = "project.test.verbose";
+
+    private static final String ERROR_KEY = "project.test.error";
+    private static final String FAILURE_KEY = "project.test.failure";
+    private static final String TEST_SRC_VALUE = "test";
+    private static final String TEST_ENV_VALUE = "env";
+    private static final boolean DEBUG_VALUE = true;
+    private static final boolean FORK_VALUE = true;
+    private static final boolean HALT_ON_ERROR_VALUE = false;
+    private static final boolean HALT_ON_FAILURE_VALUE = false;
 
     private File m_source;
     private String m_classPathRef;
@@ -216,24 +237,27 @@ public class JUnitTestTask extends GenericTask
         {
             final File working = context.getTargetTestDirectory();
             final Path classpath = getClasspath();
+            
             executeUnitTests( src, classpath, working );
-            final String error = project.getProperty( ERROR_KEY );
-            if( null != error )
+            
+            if( getBooleanProperty( ABORT_ON_ERROR_KEY, true ) )
             {
-                final String message =
-                    "One or more unit test errors occured.";
-                if( getHaltOnErrorProperty() )
+                final String error = project.getProperty( ERROR_KEY );
+                if( null != error )
                 {
+                    final String message =
+                        "One or more unit test errors occured.";
                     fail( message );
                 }
             }
-            final String failure = project.getProperty( FAILURE_KEY );
-            if( null != failure )
+            
+            if( getBooleanProperty( ABORT_ON_FAILURE_KEY, true ) )
             {
-                final String message =
-                    "One or more unit test failures occured.";
-                if( getHaltOnFailureProperty() )
+                final String failure = project.getProperty( FAILURE_KEY );
+                if( null != failure )
                 {
+                    final String message =
+                        "One or more unit test failures occured.";
                     fail( message );
                 }
             }
@@ -246,10 +270,7 @@ public class JUnitTestTask extends GenericTask
         log( "Test classpath: " + classpath, Project.MSG_VERBOSE );
         final FileSet fileset = createFileSet( src );
         final JUnitTask junit = (JUnitTask) project.createTask( "junit" );
-        junit.setErrorProperty( ERROR_KEY );
-        junit.setFailureProperty( FAILURE_KEY );
         junit.setTaskName( getTaskName() );
-        junit.init();
         
         final JUnitTask.SummaryAttribute summary = getSummaryAttribute();
         junit.setPrintsummary( summary );
@@ -259,9 +280,7 @@ public class JUnitTestTask extends GenericTask
         junit.setReloading( true );
         junit.setFiltertrace( true );
         junit.createClasspath().add( classpath );
-        junit.setHaltonerror( getHaltOnError() );
-        junit.setHaltonfailure( getHaltOnFailure() );
-            
+        
         Context context = getContext();
         String verbose = getVerboseArgument();
         if( null != verbose )
@@ -358,6 +377,21 @@ public class JUnitTestTask extends GenericTask
         
         configureDeliverableSysProperties( junit );
         configureForExecution( junit );
+        
+        junit.setErrorProperty( ERROR_KEY );
+        junit.setFailureProperty( FAILURE_KEY );
+        final boolean haltOnErrorPolicy = getHaltOnErrorPolicy();
+        if( haltOnErrorPolicy )
+        {
+            junit.setHaltonerror( true );
+        }
+        final boolean haltOnFailurePolicy = getHaltOnFailurePolicy();
+        if( haltOnFailurePolicy )
+        {
+            junit.setHaltonfailure( true );
+        }
+        
+        junit.init();
         junit.execute();
     }
     
@@ -407,7 +441,7 @@ public class JUnitTestTask extends GenericTask
                 File file = context.getTargetDeliverable( id );
                 String path = file.getCanonicalPath();
                 final Environment.Variable variable = new Environment.Variable();
-                variable.setKey( "project.deliverable." + id + ".filename" );
+                variable.setKey( "project.deliverable." + id + ".path" );
                 variable.setValue( path );
                 task.addConfiguredSysproperty( variable );
             }
@@ -498,16 +532,6 @@ public class JUnitTestTask extends GenericTask
         return getBooleanProperty( DEBUG_KEY, DEBUG_VALUE );
     }
 
-    private boolean getHaltOnErrorProperty()
-    {
-        return getBooleanProperty( HALT_ON_ERROR_KEY, HALT_ON_ERROR_VALUE );
-    }
-
-    private boolean getHaltOnFailureProperty()
-    {
-        return getBooleanProperty( HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE );
-    }
-
     private boolean getForkProperty()
     {
         return getBooleanProperty( FORK_KEY, FORK_VALUE );
@@ -561,13 +585,13 @@ public class JUnitTestTask extends GenericTask
         return summary;
     }
     
-    private boolean getHaltOnError()
+    private boolean getHaltOnErrorPolicy()
     {
         return getBooleanProperty(
             HALT_ON_ERROR_KEY, HALT_ON_ERROR_VALUE );
     }
     
-    private boolean getHaltOnFailure()
+    private boolean getHaltOnFailurePolicy()
     {
         return getBooleanProperty(
             HALT_ON_FAILURE_KEY, HALT_ON_FAILURE_VALUE );
@@ -588,14 +612,4 @@ public class JUnitTestTask extends GenericTask
         return formatter;
     }
     
-    private static final String ERROR_KEY = "project.test.error";
-    private static final String FAILURE_KEY = "project.test.failure";
-
-    private static final String TEST_SRC_VALUE = "test";
-    private static final String TEST_ENV_VALUE = "env";
-    private static final boolean DEBUG_VALUE = true;
-    private static final boolean FORK_VALUE = true;
-    private static final boolean HALT_ON_ERROR_VALUE = true;
-    private static final boolean HALT_ON_FAILURE_VALUE = true;
-
 }
