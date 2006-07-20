@@ -12,9 +12,10 @@
   </target>
 
   <target name="build" depends="init,clean">
-    <echo message="${message}"/>
     <mkdir dir="${target}"/>
     <copy file="${src}/DEMO.TXT" toFile="${target}/RESULT.TXT" filtering="true"/>
+    <loadfile srcFile="${target}/RESULT.TXT" property="result"/>
+    <echo message="${result}"/>
   </target>
   
   <target name="install" depends="build"/>

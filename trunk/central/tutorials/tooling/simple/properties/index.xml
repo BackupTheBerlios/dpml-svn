@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
-  <project name="demo">
+  <project name="demo" basedir=".">
     <properties>
       <property name="message" value="Hello"/>
     </properties>
