@@ -121,7 +121,8 @@ public final class DefaultContext implements Context
             try
             {
                 String value = filter.getValue( resource );
-                project.getGlobalFilterSet().addFilter( token, value );
+                String resolved = resource.resolve( value );
+                project.getGlobalFilterSet().addFilter( token, resolved );
             }
             catch( Exception e )
             {
