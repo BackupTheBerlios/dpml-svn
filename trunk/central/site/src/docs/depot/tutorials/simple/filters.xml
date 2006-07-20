@@ -30,7 +30,8 @@
         of the toke <tt>@MESSAGE@</tt> with the assigned value.
         </p>
         
-<source>
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
 
   &lt;project name="demo" basedir="."&gt;
@@ -44,7 +45,7 @@
   &lt;/project&gt;
 
 &lt;/index&gt;
-</source>
+</pre>
       
       </subsection>
       
@@ -59,7 +60,7 @@
         contents.
         </p>
         
-<source>
+<pre>
 &lt;project name="demo" default="install">
 
   <font color="darkred">&lt;target name="init"&gt;
@@ -81,7 +82,7 @@
   &lt;target name="install" depends="build"/&gt;
 
 &lt;/project&gt;
-</source>
+</pre>
       
       </subsection>
       

@@ -29,14 +29,14 @@
         directory containing the index file.
         </p>
         
-<source><![CDATA[
+<pre><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
   <project name="demo" basedir="."/>
 
 </index>
-]]></source>
+]]></pre>
       
       </subsection>
       
@@ -49,8 +49,7 @@
         will be used in subsequent tutorials).
         </p>
         
-<source><![CDATA[
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<pre><![CDATA[
 <project name="demo" default="install">
 
   <target name="clean">
@@ -64,7 +63,7 @@
   <target name="install" depends="build"/>
   
 </project>
-]]></source>
+]]></pre>
       
       </subsection>
       

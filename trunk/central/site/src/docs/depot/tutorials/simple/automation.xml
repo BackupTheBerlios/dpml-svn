@@ -27,14 +27,14 @@
         the following:
         </p>
         
-<source>
+<pre>
 &lt;project name="demo" default="install"
     xmlns:transit="antlib:net.dpml.transit"&gt;
 
   <font color="darkred">&lt;transit:import uri="local:template:dpml/tools/standard"/&gt;</font>
 
 &lt;/project&gt;
-</source>
+</pre>
       
       </subsection>
       

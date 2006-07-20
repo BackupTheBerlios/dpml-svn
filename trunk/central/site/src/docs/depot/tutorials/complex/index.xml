@@ -63,7 +63,7 @@
         immidiate subdirectories relative to the location of the index.xml file.
         </p>
         
-<source>
+<pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
@@ -78,7 +78,7 @@
   &lt;/project&gt;</font>
 
 &lt;/index&gt;
-</source>
+</pre>
       
       </subsection>
       

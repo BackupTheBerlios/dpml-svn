@@ -61,7 +61,8 @@
         file names and locations.
         </p>
         
-<source>
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
 
   &lt;project name="demo" basedir="."&gt;
@@ -78,7 +79,7 @@
   &lt;/project&gt;
 
 &lt;/index&gt;
-</source>
+</pre>
       
       </subsection>
       
@@ -91,7 +92,7 @@
         a jar file.
         </p>
         
-<source>
+<pre>
 &lt;project name="demo" default="install"&gt;
 
   &lt;target name="clean"&gt;
@@ -133,7 +134,7 @@
   &lt;/target&gt;
 
 &lt;/project&gt;
-</source>
+</pre>
       
       </subsection>
       

@@ -25,7 +25,8 @@
         project defintion which we will reference in our build file.
         </p>
         
-<source>
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
 
   &lt;project name="demo" basedir="."&gt;
@@ -35,7 +36,7 @@
   &lt;/project&gt;
 
 &lt;/index&gt;
-</source>
+</pre>
       
       </subsection>
       
@@ -46,7 +47,7 @@
         defined property value in an echo statement.
         </p>
         
-<source>
+<pre>
 &lt;project name="demo" default="install">
 
   &lt;target name="clean"&gt;
@@ -60,7 +61,7 @@
   &lt;target name="install" depends="build"/&gt;
 
 &lt;/project&gt;
-</source>
+</pre>
       
       </subsection>
       
