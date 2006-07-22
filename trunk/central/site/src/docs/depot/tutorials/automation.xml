@@ -41,7 +41,7 @@
       <subsection name="Building the project ..">
       
         <pre>
-$ cd central\tutorials\tooling\simple\automation
+$ cd central\tutorials\tooling\automation
 $ build
 
 -------------------------------------------------------------------------
@@ -51,17 +51,17 @@ demo#SNAPSHOT
 init:
 
 prepare:
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\simple\automation\target
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\simple\automation\target\build\main
-[x:prepare] Copying 1 file to D:\dpml\central\tooling\simple\automation\target\build\main
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\automation\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\automation\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\central\tooling\automation\target\build\main
 
 build:
-    [javac] Created dir: D:\dpml\tutorials\tooling\simple\automation\target\classes\main
-    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\simple\automation\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\automation\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\automation\target\classes\main
 
 package:
-      [jar] Created dir: D:\dpml\tutorials\tooling\simple\automation\target\deliverables\jars
-      [jar] Building jar: D:\dpml\tutorials\tooling\simple\automation\target\deliverables\jars\demo-SNAPSHOT.jar
+      [jar] Created dir: D:\dpml\tutorials\tooling\automation\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\automation\target\deliverables\jars\demo-SNAPSHOT.jar
       [jar] Creating md5 checksum
 
 test:

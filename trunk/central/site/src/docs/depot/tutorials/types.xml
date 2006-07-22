@@ -149,14 +149,14 @@ demo#SNAPSHOT
 -------------------------------------------------------------------------
 
 build:
-    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\types\target\build\main
-     [copy] Copying 1 file to D:\dpml\tutorials\tooling\simple\types\target\build\main
-    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\types\target\classes\main
-    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\simple\types\target\classes\main
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\types\target\build\main
+     [copy] Copying 1 file to D:\dpml\tutorials\tooling\types\target\build\main
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\types\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\types\target\classes\main
 
 package:
-    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\types\target\deliverables\jars
-      [jar] Building jar: D:\dpml\tutorials\tooling\simple\types\target\deliverables\jars\demo-SNAPSHOT.jar
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\types\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\types\target\deliverables\jars\demo-SNAPSHOT.jar
 
 install:
     [mkdir] Created dir: D:\system\dpml\data\cache\jars

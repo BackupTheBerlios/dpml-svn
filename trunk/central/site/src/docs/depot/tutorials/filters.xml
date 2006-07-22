@@ -89,7 +89,7 @@
       <subsection name="Building the project ..">
       
         <pre>
-$ cd tutorials\tooling\simple\filters
+$ cd tutorials\tooling\filters
 $ build
 
 -------------------------------------------------------------------------
@@ -101,10 +101,10 @@ init:
 clean:
 
 build:
-    [mkdir] Created dir: D:\dpml\tutorials\tooling\simple\filters\target
-     [copy] Copying 1 file to D:\dpml\tutorials\tooling\simple\filters\target
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\filters\target
+     [copy] Copying 1 file to D:\dpml\tutorials\tooling\filters\target
      [echo]
-     [echo] The message is Hello for mcconnell in New York.
+     [echo] The message is Hello from mcconnell in New York.
 
 install:
 
@@ -129,8 +129,8 @@ $
         </p>
         
         <p>
-        The <a href="../complex/index.html">next totorial</a> introduces the subject
-        of multi-project build sequencing.
+        The <a href="types.html">next totorial</a> introduces type production 
+        declarations in a project definition.
         </p>
         
       </subsection>

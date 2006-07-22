@@ -74,7 +74,7 @@
         </p>
 
 <pre>
-$ cd tutorials\tooling\simple\import
+$ cd tutorials\tooling\import
 $ build -list -expand
 
 Listing project: demo
@@ -82,7 +82,7 @@ Listing project: demo
 project:demo#SNAPSHOT
 
   version: SNAPSHOT
-  basedir: D:\dpml\tutorials\tooling\simple\import
+  basedir: D:\dpml\tutorials\tooling\import
   types: (1)
     jar
   test providers: (6)

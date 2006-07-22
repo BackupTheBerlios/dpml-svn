@@ -194,11 +194,15 @@ Total time: 0 seconds
         and how these dependencyt declarations impact build sequencing.  In practice
         you will not generally need build-time dependency declarations - instead it
         is much more common to see runtime dependencies linking projects together, and 
-        its within runtime depedencies that we can do things like automatic classpath
-        construction.  The <a href="runtime.html">following tutorial</a> focuses on
-        runtime dependencies and demonstrates how an API defined in one project can be 
-        automatically included in the classpath of a dependent project.
-        </p>        
+        its within runtime depedencies that we can do things like automatic classloader 
+        chain construction.
+        </p>
+        
+        <p>
+        The <a href="modules.html">following tutorial</a> introduces the use of modules
+        as a mechanisms through which we can improve resource name management and 
+        reduce the potential for naming conflicts.
+        </p>
 
       </subsection>
       

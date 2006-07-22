@@ -44,7 +44,7 @@
       <subsection name="Building the project ..">
       
         <pre>
-$ cd tutorials\tooling\simple\properties
+$ cd tutorials\tooling\symbolic
 $ build
 
 -------------------------------------------------------------------------

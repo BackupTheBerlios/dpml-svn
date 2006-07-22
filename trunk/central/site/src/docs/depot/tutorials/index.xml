@@ -8,6 +8,132 @@
 
   <body>
 
+    <section name="Setting up an Index">
+    
+      <p>
+      The Depot build system centralizes information about projects in 
+      an index file.  This tutorial demonstrates the declaration of a single 
+      project and serves as a starting point for the introduction of 
+      properties and filters. 
+      </p>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        The following index file declares a single project named 'demo'.
+        The basedir of the project is the directory containing the project 
+        build content and is the path that the Depot tool uses to locate
+        the project's build.xml file.  Basedir values are resolved relative to
+        the basedir of the enclosing entity - in this case the <tt>&lt;index&gt;</tt>
+        is the enclosing entity so the basedir is resolved relative to the 
+        directory containing the index file.
+        </p>
+        
+<pre><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+
+  <project name="demo" basedir="."/>
+
+</index>
+]]></pre>
+      
+      </subsection>
+      
+      <subsection name="build.xml">
+      
+        <p>
+        The following Ant build file simply logs a message to confirm
+        that it is building.  It contains a couple of empty targets
+        (clean and install) which are added simply for consistency (but
+        will be used in subsequent tutorials).
+        </p>
+        
+<pre><![CDATA[
+<project name="demo" default="install">
+
+  <target name="clean">
+    <!-- nothing to do -->
+  </target>
+
+  <target name="build">
+    <echo message="Executing the simple project build."/>
+  </target>
+  
+  <target name="install" depends="build"/>
+  
+</project>
+]]></pre>
+      
+      </subsection>
+      
+      <subsection name="Building the project ..">
+      
+        <p>
+        Assuming that you have the build file and the index file in a 
+        directory and Depot is installed - you should be able to start 
+        the build proces using Depot's <tt>build</tt> command as shown 
+        below:
+        </p>
+        
+        <pre>
+$ cd tutorials\tooling\simple
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+build:
+     [echo] Executing the simple project build.
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+$
+        </pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        When we invoked the build command as shown above - the build tool
+        located the index.xml file (by searching from the current directory 
+        up the directory tree until the file was found) and located the 
+        demo project by matching the current directory with directory resolved
+        from the project <tt>basedir</tt> attribute. Once the project defintion
+        is located Depot constructs an internal defintion containing information
+        about the project name, group, version, properties, filters, 
+        dependency information, and information about resources that will be 
+        produced by the build process.
+        </p>
+        
+        <p>
+        The following totorials cover a broad spectrum of Depot features and 
+        capabilities.
+        </p>
+        
+        <ul>
+          <li><a href="properties.html">Adding general properties.</a></li>
+          <li><a href="symbolic.html">Using symbolic references.</a></li>
+          <li><a href="filters.html">Declaring global filters.</a></li>
+          <li><a href="types.html">Examines the impact of type production statements.</a></li>
+          <li><a href="automation.html">Build automation using the Depot Antlib.</a></li>
+          <li><a href="alias.html">Alias creation and usage.</a></li>
+          <li><a href="unit.html">Automating unit-tests.</a></li>
+          <li><a href="imports.html">Using module imports.</a></li>
+          <li><a href="complex.html">Multiproject builds.</a></li>
+          <li><a href="modules.html">Working with modules.</a></li>
+          <li><a href="export.html">Exporting module defintions.</a></li>
+          <li><a href="versioned.html">Versioned Build.</a></li>
+        </ul>
+        
+      </subsection>
+      
+    </section>
+
+    <!--
     <section name="Development Tooling Tutorial">
 
       <p>
@@ -116,7 +242,8 @@
       </subsection>
 
     </section>
-
+    -->
+    
   </body>
 </document>
 
