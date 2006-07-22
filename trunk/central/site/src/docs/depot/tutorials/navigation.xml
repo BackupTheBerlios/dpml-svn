@@ -25,9 +25,18 @@
  <body>
 
     <menu>
-      <item name="Getting Started" href="simple/index.html"/>
-      <item name="Multiproject Builds" href="complex/index.html"/>
-      <item name="Using Modules" href="modules/index.html"/>
+      <item name="Getting Started" href="simple.html"/>
+      <item name="General Properties" href="properties.html"/>
+      <item name="Symbolic References" href="symbolic.html"/>
+      <item name="Global Filters" href="filters.html"/>
+      <item name="Type Production" href="types.html"/>
+      <item name="Build Automation" href="automation.html"/>
+      <item name="Alias Declarations" href="alias.html"/>
+      <item name="Unit Testing" href="unit.html"/>
+      <item name="Module Imports" href="imports.html"/>
+      <item name="Multiproject Builds" href="complex.html"/>
+      <item name="Working with Modules" href="modules.html"/>
+      <item name="Exporting Modules" href="export.html"/>
       <item name="Versioned Builds" href="versioned.html"/>
     </menu>
 
