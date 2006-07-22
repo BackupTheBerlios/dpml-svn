@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module xmlns="link:xsd:dpml/lang/dpml-module#1.0" name="tooling">
-
-  <module name="simple" basedir="simple">
   
-    <project name="simple-build" basedir="build"/>
+    <project name="simple" basedir="simple"/>
 
-    <project name="simple-properties" basedir="properties">
+    <project name="properties" basedir="properties">
       <properties>
         <property name="message" value="Hello"/>
       </properties>
     </project>
     
-
-    <project name="simple-symbolic-properties" basedir="symbolic">
+    <project name="symbolic-properties" basedir="symbolic">
       <properties>
         <property name="message" value="Hello for ${user.name}"/>
       </properties>
     </project>
     
-    <project name="simple-filters" basedir="filters">
+    <project name="filters" basedir="filters">
       <properties>
         <property name="message" value="Hello for ${user.name}"/>
       </properties>
@@ -26,31 +23,5 @@
         <filter token="MESSAGE" value="${message} from ${user.name}."/>
       </filters>
     </project>
-    
-  </module>
-  
-  <module name="complex" basedir="complex">
-    
-    <module name="build" basedir="build">
-
-      <dependencies>
-        <build>
-          <include ref="dpml"/>
-        </build>
-      </dependencies>
-    
-      <project name="widget" basedir="widget"/>
-  
-      <project name="gizmo" basedir="gizmo">
-        <dependencies>
-          <build>
-            <include key="widget"/>
-          </build>
-        </dependencies>
-      </project>
-    
-    </module>
-    
-  </module>
     
 </module>
