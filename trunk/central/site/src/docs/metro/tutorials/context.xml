@@ -149,7 +149,8 @@ public class Demo
         Modifications markup shows changes from our initial component definition.
         </i></p>
 
-<pre>
+<pre>&lt;index ..... &gt;
+
   &lt;project name="acme-demo-context" basedir="context"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
@@ -171,7 +172,10 @@ public class Demo
       &lt;/test&gt;
     &lt;/dependencies&gt;
   &lt;/project&gt;
-</pre>
+  
+  ...
+  
+&lt;/index&gt;</pre>
 
       </subsection>
 

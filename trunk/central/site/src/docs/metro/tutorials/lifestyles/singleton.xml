@@ -45,7 +45,8 @@
       
       <subsection name="Deployment Solution">
         
-<pre>
+<pre>&lt;index ..... &gt;
+
   &lt;project name="acme-singleton-demo" basedir="singleton"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
@@ -68,7 +69,10 @@
       &lt;/test&gt;
     &lt;/dependencies&gt;
   &lt;/project&gt;
-</pre>
+  
+  ...
+  
+&lt;/index&gt;</pre>
         
       </subsection>
       

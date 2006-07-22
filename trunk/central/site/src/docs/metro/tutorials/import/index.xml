@@ -36,13 +36,17 @@
         exist at a lower level in the classloader heirachy).
         </p>
         
-            <pre><![CDATA[
+<pre>&lt;index ..... &gt;<![CDATA[
+
   <project name="acme-clock-api" basedir="api">
     <types>
       <type id="jar"/>
     </types>
-  </project>
-            ]]></pre>
+  </project>]]>
+  
+  ...
+  
+&lt;/index&gt;</pre>
 
         <p>
         The <tt>acme-clock-impl</tt> project contains a clock 
@@ -55,7 +59,8 @@
         artifact uris).
         </p>
         
-        <pre><![CDATA[
+<pre>&lt;index ..... &gt;<![CDATA[
+
   <project name="acme-clock-impl" basedir="clock">
     <types>
       <type id="jar"/>
@@ -67,8 +72,11 @@
         <include key="acme-clock-api"/>
       </runtime>
     </dependencies>
-  </project>
-        ]]></pre>
+  </project>]]>
+  
+  ...
+  
+&lt;/index&gt;</pre>
 
         <p>
         The <tt>acme-clock-demo</tt> project is an example of a 
@@ -92,7 +100,8 @@
         demo components classloader.
         </p>
         
-        <pre><![CDATA[
+<pre><![CDATA[<index ... >
+
   <project name="acme-clock-demo" basedir="demo">
     <types>
       <type id="jar"/>
@@ -120,9 +129,12 @@
         <include ref="dpml/transit/dpml-transit-main"/>
       </test>
     </dependencies>
-  </project>
-        ]]></pre>
-      
+  </project> 
+  
+  ...
+  
+</index>]]></pre>
+
       </subsection>
             
       <subsection name="Summary">

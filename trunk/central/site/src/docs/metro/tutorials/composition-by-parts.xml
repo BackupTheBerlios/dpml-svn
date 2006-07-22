@@ -52,7 +52,8 @@
         of a <tt>&lt;context&gt;</tt> element.
         </p>
         
-<pre>
+<pre>&lt;index ..... &gt;
+
   &lt;project name="acme-demo-parts" basedir="parts"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
@@ -75,7 +76,10 @@
       &lt;/test&gt;
     &lt;/dependencies&gt;
   &lt;/project&gt;
-</pre>
+  
+  ...
+  
+&lt;/index&gt;</pre>
 
       </subsection>
       

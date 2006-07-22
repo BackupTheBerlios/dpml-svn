@@ -56,12 +56,14 @@
       
         <p>
         The creation of a new component defintion is basically the same as the procedure
-        used to creation a plugin.  In the following Depot project definition we are declaring 
-        a new project with pablication of a jar and part artifacts.  The significant difference
+        used to create a plugin.  In the following Depot project definition we are declaring 
+        a new project with publication of a jar and a part artifact.  The significant difference
         from a regular plugin is the usage of a custom part strategy.
         </p>
         
 <source>
+&lt;index ..... &gt;
+
   &lt;project name="acme-demo-hello" basedir="hello"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
@@ -76,6 +78,10 @@
       &lt;/test&gt;
     &lt;/dependencies&gt;
   &lt;/project&gt;
+  
+  ...
+  
+&lt;/index&gt;
 </source>
 
         <p>
@@ -119,7 +125,7 @@
       
         <p>
         In this example the Demo implementation class contains nothing significant - 
-        however, the important point of this initial tutorial is the association of
+        however, the important point of this tutorial is the association of
         a different runtime handler for the class within our part definition.
         </p>
         
@@ -136,7 +142,6 @@
         
         <ul>
           <li><a href="../../transit/tutorials/plugins.html">Transit Plugin Tutorial</a></li>
-          <li><a href="../index.html">Metro Component Management System</a></li>
           <li><a href="../concepts/ioc.html">IOC Overview</a></li>
           <li><a href="../concepts/context.html">Context Awareness</a></li>
         </ul>

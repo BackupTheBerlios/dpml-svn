@@ -58,7 +58,8 @@
         <i>project definition:</i>:
         </p>
         
-<pre>
+<pre>&lt;index ..... &gt;
+
   &lt;project name="acme-thread-demo" basedir="thread"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
@@ -81,7 +82,10 @@
       &lt;/test&gt;
     &lt;/dependencies&gt;
   &lt;/project&gt;
-</pre>
+  
+  ...
+  
+&lt;/index&gt;</pre>
         
       </subsection>
       
