@@ -31,6 +31,8 @@
       <item name="Type Production" href="types.html"/>
       <item name="Build Automation" href="automation.html"/>
       <item name="Alias Declarations" href="alias.html"/>
+      <item name="Unit Testing" href="unit.html"/>
+      <item name="Module Imports" href="imports.html"/>
     </menu>
 
  </body>
