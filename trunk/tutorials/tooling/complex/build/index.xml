@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
-  <project name="widget" basedir="widget"/>
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+    <import uri="link:module:dpml"/>
+  </imports>
+
+  <project name="clock-api" basedir="api">
+    <types>
+      <type id="jar"/>
+    </types>
+  </project>
   
-  <project name="gizmo" basedir="gizmo">
+  <project name="clock-impl" basedir="impl">
+    <types>
+      <type id="jar"/>
+    </types>
     <dependencies>
-      <build>
-        <include key="widget"/>
-      </build>
+      <runtime>
+        <include key="clock-api"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </test>
     </dependencies>
   </project>
 
