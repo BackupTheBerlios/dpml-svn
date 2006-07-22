@@ -81,10 +81,73 @@
         <tt>target/deliverables/modules/acme-SNAPSHOT.module</tt> file.
         </p>
 
-<source><![CDATA[
-<?xml version="1.0" encoding="ISO-8859-1"?>
-]]></source>
+<source><font color="blue"><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="org/acme" version="SNAPSHOT"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
+  <types>
+    <type id="module" version="1.0"/>
+  </types>
+
+  <resource name="clock-api" version="SNAPSHOT">
+    <types>
+      <type id="jar"/>
+    </types>
+  </resource>
+
+  <resource name="clock-impl" version="SNAPSHOT">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="org/acme/clock-api"/>
+      </runtime>
+    </dependencies>
+  </resource>
+
+</module>]]></font></source>
+
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        This tutorial has demonstrated the creation of a module artifact. During module
+        generation our project defintions have been converted to simple resource defintions
+        (involving the elimination of non-runtime concerns such as basedir, build and test 
+        dependencies, etc.).  The remaining information is suitable for full transitive dependency
+        evaluation by third parties (and associated model/name mapping to artifact uris). In the
+        same way that we included the Ant module via an include staement - third-parties can 
+        now include the above information using something like:
+        </p>
+        
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+
+  &lt;imports&gt;
+    <font color="blue">&lt;import uri="link:module:org/acme#1.0"/&gt;</font>
+  &lt;/imports&gt;
+
+  <font color="gray">...</font>
+    
+&lt;/index&gt;
+</pre>
+
+      </subsection>
+      
+      <subsection name="However ...">
+        
+        <p>
+        The above module definition is not really ready for publication - after all
+        it contains several references to <tt>SNAPSHOT</tt> versions (and we don't 
+        want to publish anything referrencing a generalized <tt>SNAPSHOT</tt> version).
+        The <a href="versioned.html">next tutorial</a> takes us through the process
+        of generating a version build with artifacts suitable for publication into 
+        a shared repository.
+        </p>
+      
       </subsection>
       
     </section>

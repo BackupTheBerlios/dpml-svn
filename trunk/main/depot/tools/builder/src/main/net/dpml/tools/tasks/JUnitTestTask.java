@@ -397,6 +397,22 @@ public class JUnitTestTask extends GenericTask
             junit.addConfiguredSysproperty( log );
         }
         
+        String formatter = getResource().getProperty( "java.util.logging.config.class" );
+        if( null != formatter )
+        {
+            final Environment.Variable logging = new Environment.Variable();
+            logging.setKey( "java.util.logging.config.class" );
+            if( "dpml".equals( formatter ) )
+            {
+                logging.setValue( "net.dpml.util.ConfigurationHandler" );
+            }
+            else
+            {
+                logging.setValue( formatter );
+            }
+            junit.addConfiguredSysproperty( logging );
+        }
+        
         final Environment.Variable endorsed = new Environment.Variable();
         endorsed.setKey( "java.endorsed.dirs" );
         endorsed.setValue( new File( Transit.DPML_SYSTEM, "lib/endorsed" ).getAbsolutePath() );

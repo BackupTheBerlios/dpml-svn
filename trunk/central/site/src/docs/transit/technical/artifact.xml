@@ -21,6 +21,7 @@
 
 <document>
   <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
     <author email="niclas@hedhman.org">Niclas Hedhman</author>
     <title>DPML Transit Artifact Protocol</title>
   </properties>
@@ -38,19 +39,6 @@
         just by providing DPML Transit in the classpath and setting one or
         two system properties.
       </p>
-
-      <subsection name="Tutorial">
-
-        <table>
-          <tr>
-            <td><img src="/images/info.gif"/></td>
-            <td><i>See <a href="http://www.osm.net/training/resources/artifacts.html">
-               OSM Tutorial on Transit Artifacts</a>.</i>
-            </td>
-          </tr>
-        </table>
-
-      </subsection>
 
       <subsection name="Specification">
         <p>

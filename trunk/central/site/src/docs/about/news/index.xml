@@ -113,7 +113,10 @@
 
         <p>
         The first binary distribution of the DPML Platform Freight Train version 
-        was release as a snapshot build on the 24 of December.  A follow-up distribution was released earlier today closing some minor issues with the 20051224 build.  In parallel <a href="http://www.osm.net">OSM</a> tutorials on the Transit and Depot system were brought in-line with the latest 20051228 build.
+        was release as a snapshot build on the 24 of December.  A follow-up 
+        distribution was released earlier today closing some minor issues with 
+        the 20051224 build.  In parallel tutorials on the Transit and Depot system 
+        were brought in-line with the latest 20051228 build.
         </p>
 
         <p>
@@ -233,8 +236,7 @@
         <p>
         A milestone release 20050726 has been prepared with final version of 
         Transit and Magic and development versions of Depot and Metro. A 
-        <a href="http://www.osm.net/download/index.html">binary
-        distribution</a> of of Depot is available (which includes Transit)
+        binary distribution of of Depot is available (which includes Transit)
         and built-in support for Magic and Metro installs.
         </p>
       </subsection>
@@ -243,7 +245,7 @@
         <p>
         <a href="http://www.ibiblio.org">Ibiblio</a> extends it ongoing support 
         for the DPML infrastructure with the addition of virtual hosting for the 
-        <a href="http://www.osm.net">OSM</a> training content and related resources.
+        training content and related resources.
         </p>
       </subsection>
 

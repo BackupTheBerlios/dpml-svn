@@ -47,7 +47,7 @@ public final class LibraryEncoder extends LibraryConstants
     * to a generic type declaration.  The resulting XML file is suitable for 
     * publication and usage by external projects.
     *
-    * @param module the moudle directive to externalize
+    * @param module the module directive to externalize
     * @param output the output stream
     * @exception IOException if an error occurs during module externalization
     */
@@ -74,11 +74,7 @@ public final class LibraryEncoder extends LibraryConstants
             writer.write( 
               "\n    xmlns=\"" 
               + MODULE_XSD_URI
-              + "\""
-              + "\n    xmlns:xsi=\"" 
-              + XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI
               + "\">" );
-            
             
             String basedir = module.getBasedir();
             InfoDirective info = module.getInfoDirective();

@@ -19,6 +19,9 @@
   </properties>
   
   <module name="dpml" basedir="main">
+    <properties>
+      <property name="java.util.logging.config.class" value="dpml"/>
+    </properties>
     <types>
       <type id="module" alias="true"/>
     </types>

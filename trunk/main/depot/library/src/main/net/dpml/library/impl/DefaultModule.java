@@ -359,8 +359,10 @@ public final class DefaultModule extends DefaultResource implements Module
             // exporting the nested module
             //
             
-            ModuleDirective directive = (ModuleDirective) exportResource( this );
-            return parent.createWrappedDirective( directive );
+            String path = getResourcePath();
+            return exportModule( this, path );
+            //ModuleDirective directive = (ModuleDirective) exportResource( this );
+            //return parent.createWrappedDirective( directive );
         }
     }
     
@@ -371,6 +373,7 @@ public final class DefaultModule extends DefaultResource implements Module
     * @param directive the directive to wrap
     * @return a top-level module directive containing the wrapped resource
     */
+    /*
     private ModuleDirective createWrappedDirective( final ResourceDirective directive )
     {
         String name = getName();
@@ -385,6 +388,7 @@ public final class DefaultModule extends DefaultResource implements Module
             return parent.createWrappedDirective( module );
         }
     }
+    */
     
    /**
     * Return a directive suitable for publication as an external description.
@@ -394,6 +398,18 @@ public final class DefaultModule extends DefaultResource implements Module
     */
     ResourceDirective exportResource( final DefaultModule module ) throws IllegalArgumentException
     {
+        String name = getName();
+        return exportModule( module, name );
+    }
+    
+   /**
+    * Return a directive suitable for publication as an external description.
+    * @param module the enclosing module
+    * @return the resource directive
+    * @exception IllegalArgumentException if the module is not a top-level module
+    */
+    ModuleDirective exportModule( final DefaultModule module, final String name ) throws IllegalArgumentException
+    {
         DefaultResource[] resources = getDefaultResources();
         ResourceDirective[] directives = new ResourceDirective[ resources.length ];
         for( int i=0; i<directives.length; i++ )
@@ -401,7 +417,6 @@ public final class DefaultModule extends DefaultResource implements Module
             DefaultResource resource = resources[i];
             directives[i] = resource.exportResource( module );
         }
-        String name = getName();
         String version = getVersion();
         String basedir = null;
         InfoDirective info = m_directive.getInfoDirective();

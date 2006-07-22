@@ -30,131 +30,151 @@
         commandline option.
         </p>
 
-<pre>
-$ build -version 1.0.0 clean install
-</pre>
+<pre>$ build -version 1.0.0
+[1940 ] [INFO   ] (depot.build): Initiating build sequence: (3)
 
-<source><![CDATA[
-C:\dev\osm\trunk\tutorial\tooling\104>build clean install -version 1.0.0
-[1276 ] [INFO   ] (depot.build): Initiating build sequence: (3)
-
-  (1)   acme/acme-client
-  (2)   acme/acme-system
-  (3)   acme
+  (1)   org/acme/clock-api
+  (2)   org/acme/clock-impl
+  (3)   org/acme
 
 
 -------------------------------------------------------------------------
-acme/acme-client#1.0.0
+org/acme/clock-api#1.0.0
 -------------------------------------------------------------------------
-
-init:
-
-clean:
-   [delete] Deleting directory C:\dev\osm\trunk\tutorial\tooling\104\client\target
 
 init:
 
 prepare:
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\client\target
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\client\target\build\main
-[x:prepare] Copying 1 file to C:\dev\osm\trunk\tutorial\tooling\104\client\target\build\main
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\export\api\target\build\main
 
 build:
-    [javac] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\client\target\classes\main
-    [javac] Compiling 1 source file to C:\dev\osm\trunk\tutorial\tooling\104\client\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\export\api\target\classes\main
 
 package:
-      [jar] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\client\target\deliverables\jars
-      [jar] Building jar: C:\dev\osm\trunk\tutorial\tooling\104\client\target\deliverables\jars\acme-client-1.0.0.jar
+      [jar] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\complex\export\api\target\deliverables\jars\clock-api-1.0.0.jar
       [jar] Creating md5 checksum
 
 test:
 
 install:
-[x:install] Copying 2 files to C:\dpml\data\cache\acme
+[x:install] Copying 2 files to D:\system\dpml\data\cache\org\acme
 
 BUILD SUCCESSFUL
 Total time: 3 seconds
 
 -------------------------------------------------------------------------
-acme/acme-system#1.0.0
+org/acme/clock-impl#1.0.0
 -------------------------------------------------------------------------
 
 init:
 
-clean:
-   [delete] Deleting directory C:\dev\osm\trunk\tutorial\tooling\104\system\target
-
-init:
-
 prepare:
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\build\main
-[x:prepare] Copying 1 file to C:\dev\osm\trunk\tutorial\tooling\104\system\target\build\main
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\build\test
-[x:prepare] Copying 1 file to C:\dev\osm\trunk\tutorial\tooling\104\system\target\build\test
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\test
-
-standard.build:
-    [javac] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\classes\main
-    [javac] Compiling 1 source file to C:\dev\osm\trunk\tutorial\tooling\104\system\target\classes\main
-    [javac] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\classes\test
-    [javac] Compiling 1 source file to C:\dev\osm\trunk\tutorial\tooling\104\system\target\classes\test
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\export\impl\target\build\main
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\build\test
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\export\impl\target\build\test
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\test
 
 build:
-     [rmic] RMI Compiling 1 class to C:\dev\osm\trunk\tutorial\tooling\104\system\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\export\impl\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\classes\test
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\export\impl\target\classes\test
 
 package:
-      [jar] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\deliverables\jars
-      [jar] Building jar: C:\dev\osm\trunk\tutorial\tooling\104\system\target\deliverables\jars\acme-system-1.0.0.jar
+      [jar] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\complex\export\impl\target\deliverables\jars\clock-impl-1.0.0.jar
       [jar] Creating md5 checksum
 
 test:
-    [junit] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\system\target\reports\test
-    [junit] executing in local jvm
-    [junit] Running acme.impl.test.DefaultWidgetTestCase
-I'm a plain old red widget named acme-system.
-I'm a blue widget named acme-system
-    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.031 sec
+    [junit] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\reports\test
+    [junit] Executing forked test.
+    [junit] Running org.acme.impl.test.DemoTestCase
+    [junit] [37920] [INFO   ] (test): 0:27 AM, CST
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.203 sec
 
 install:
-[x:install] Copying 2 files to C:\dpml\data\cache\acme
+[x:install] Copying 2 files to D:\system\dpml\data\cache\org\acme
 
 BUILD SUCCESSFUL
-Total time: 3 seconds
+Total time: 2 seconds
 
 -------------------------------------------------------------------------
-acme#1.0.0
+org/acme#1.0.0
 -------------------------------------------------------------------------
-
-init:
-
-clean:
-   [delete] Deleting directory C:\dev\osm\trunk\tutorial\tooling\104\target
 
 init:
 
 prepare:
-[x:prepare] Created dir: C:\dev\osm\trunk\tutorial\tooling\104\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\target
 
 build:
 
 package:
-   [module] Exporting module to: C:\dev\osm\trunk\tutorial\tooling\104\target\deliverables\modules\acme-1.0.0.module
+   [module] Exporting module to: D:\dpml\tutorials\tooling\complex\export\target\deliverables\modules\acme-1.0.0.module
 
 test:
 
 install:
-[x:install] acme.module.link
-[x:install] artifact:module:acme#1.0.0
-[x:install] Copying 2 files to C:\dpml\data\cache
+[x:install] acme-1.0.module.link
+[x:install] artifact:module:org/acme#1.0.0
+[x:install] Copying 2 files to D:\system\dpml\data\cache\org
 
 BUILD SUCCESSFUL
 Total time: 1 second
-]]></source>
+
+$</pre>
+
+      </subsection>
+      
+      <subsection name="The Generated Module">
+
+<source><font color="blue"><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="org/acme" version="1.0.0"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+
+  <types>
+    <type id="module" version="1.0"/>
+  </types>
+
+  <resource name="clock-api" version="1.0.0">
+    <types>
+      <type id="jar"/>
+    </types>
+  </resource>
+
+  <resource name="clock-impl" version="1.0.0">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="org/acme/clock-api"/>
+      </runtime>
+    </dependencies>
+  </resource>
+
+</module>]]></font></source>
 
       </subsection>
     
+      <subsection name="Summary">
+
+        <p>
+        The above sequence demonstrates the impact of the <tt>-version</tt> option 
+        in terms of resource naming and the corresponding meta-data (such as module
+        information) that is generated by the build process.  All of the resources
+        (jars, module files, etc.) are now suitable for publication into a public
+        (or shared) repository.
+        </p>
+        
+      </subsection>
+      
     </section>
 
   </body>
