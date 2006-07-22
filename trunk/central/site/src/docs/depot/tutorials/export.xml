@@ -30,26 +30,42 @@
 
 <pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
-  
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+
+  &lt;imports&gt;
+    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
+  &lt;/imports&gt;
+
   &lt;module name="org/acme" basedir="."&gt;
   
     <font color="darkred">&lt;types&gt;
       &lt;type id="module" version="1.0"&gt;
     &lt;/types&gt;</font>
   
-    &lt;project name="widget" basedir="widget"/&gt;
+    &lt;project name="clock-api" basedir="api"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+      &lt;/types&gt;
+    &lt;/project&gt;
   
-    &lt;project name="gizmo" basedir="gizmo"&gt;
-      &lt;dependencies>
-        &lt;build>
-          &lt;include key="widget"/&gt;
-        &lt;/build&gt;
+    &lt;project name="clock-impl" basedir="impl"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+      &lt;/types&gt;
+      &lt;dependencies&gt;
+        &lt;runtime&gt;
+          &lt;include key="clock-api"/&gt;
+        &lt;/runtime&gt;
+        &lt;test&gt;
+          &lt;include ref="ant/ant-junit"/&gt;
+          &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+        &lt;/test&gt;
       &lt;/dependencies&gt;
     &lt;/project&gt;
-    
-  <font color="darkred">&lt;/module&gt;</font>
 
+  &lt;/module&gt;
+  
 &lt;/index&gt;
 </pre>
 
@@ -67,36 +83,7 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="org"
-    xmlns="link:xsd:dpml/lang/dpml-module#1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-  <module name="acme" version="SNAPSHOT">
-
-    <types>
-      <type id="module" version="1.0"/>
-    </types>
-
-    <resource name="widget" version="SNAPSHOT">
-    </resource>
-
-    <resource name="gizmo" version="SNAPSHOT">
-    </resource>
-
-  </module>
-
-</module>
 ]]></source>
-
-        <p>
-        Something imprant to note is that the above listing includes our two 
-        projects <tt>widget</tt> and <tt>gizmo</tt> together with the enclosing
-        module.  In effect a module that declares a basedir is considered as a 
-        buildable project.  Sometime it is convinient to handle application level
-        packaging and installer creation concerns at the level of a module build, 
-        but more interesting is the potential for exporting a module definition 
-        for use by third-parties.
-        </p>
 
       </subsection>
       

@@ -20,6 +20,10 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.util.Enumeration;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import net.dpml.library.Type;
@@ -347,6 +351,33 @@ public class JUnitTestTask extends GenericTask
             junit.addConfiguredSysproperty( security );
         }
 
+        File base = project.getBaseDir();
+        final File properties = new File( base, "test.properties" );
+        if( properties.exists() )
+        {
+            Properties props = new Properties();
+            try
+            {
+                InputStream input = new FileInputStream( properties );
+                props.load( input );
+                Enumeration enum = props.propertyNames();
+                while( enum.hasMoreElements() )
+                {
+                    String name = (String) enum.nextElement();
+                    final Environment.Variable v = new Environment.Variable();
+                    v.setKey( name );
+                    v.setValue( props.getProperty( name ) );
+                    junit.addConfiguredSysproperty( v );
+                }
+            }
+            catch( IOException ioe )
+            {
+                final String error = 
+                  "Unexpected IO error while reading " + properties.toString();
+                throw new BuildException( error, ioe, getLocation() );
+            }
+        }
+
         final File logProperties = new File( working, "logging.properties" );
         if( logProperties.exists() )
         {
@@ -364,11 +395,6 @@ public class JUnitTestTask extends GenericTask
                 throw new BuildException( error, e );
             }
             junit.addConfiguredSysproperty( log );
-            
-            final Environment.Variable logging = new Environment.Variable();
-            logging.setKey( "java.util.logging.config.class" );
-            logging.setValue( "net.dpml.util.ConfigurationHandler" );
-            junit.addConfiguredSysproperty( logging );
         }
         
         final Environment.Variable endorsed = new Environment.Variable();

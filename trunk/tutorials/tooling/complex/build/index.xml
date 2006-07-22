@@ -2,7 +2,6 @@
 <index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
 
   <imports>
-    <import uri="link:module:junit"/>
     <import uri="link:module:ant"/>
     <import uri="link:module:dpml"/>
   </imports>
