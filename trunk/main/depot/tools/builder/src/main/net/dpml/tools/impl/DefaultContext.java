@@ -212,6 +212,7 @@ public final class DefaultContext implements Context
     {
         setProperty( key, value, true );
     }
+    
     private void setProperty( String key, String value, boolean verbose )
     {
         Project project = getProject();

@@ -279,6 +279,7 @@ public class JUnitTestTask extends GenericTask
         junit.setTempdir( working );
         junit.setReloading( true );
         junit.setFiltertrace( true );
+        
         junit.createClasspath().add( classpath );
         
         Context context = getContext();
@@ -363,17 +364,17 @@ public class JUnitTestTask extends GenericTask
                 throw new BuildException( error, e );
             }
             junit.addConfiguredSysproperty( log );
+            
+            final Environment.Variable logging = new Environment.Variable();
+            logging.setKey( "java.util.logging.config.class" );
+            logging.setValue( "net.dpml.util.ConfigurationHandler" );
+            junit.addConfiguredSysproperty( logging );
         }
-
+        
         final Environment.Variable endorsed = new Environment.Variable();
         endorsed.setKey( "java.endorsed.dirs" );
         endorsed.setValue( new File( Transit.DPML_SYSTEM, "lib/endorsed" ).getAbsolutePath() );
         junit.addConfiguredSysproperty( endorsed );
-
-        final Environment.Variable logging = new Environment.Variable();
-        logging.setKey( "java.util.logging.config.class" );
-        logging.setValue( "net.dpml.util.ConfigurationHandler" );
-        junit.addConfiguredSysproperty( logging );
         
         configureDeliverableSysProperties( junit );
         configureForExecution( junit );
