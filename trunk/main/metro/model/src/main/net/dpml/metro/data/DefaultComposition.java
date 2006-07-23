@@ -55,7 +55,7 @@ public final class DefaultComposition extends Composition
       Logger logger, Info info, Classpath classpath, Controller controller, ComponentDirective directive )
       throws IOException
     {
-        super( logger, info, classpath, controller, directive );
+        super( logger, info, classpath, controller, directive, directive.getName() );
         
         m_directive = directive;
     }
@@ -80,7 +80,7 @@ public final class DefaultComposition extends Composition
         ComponentEncoder encoder = new ComponentEncoder();
         encoder.writeComponent( writer, m_directive, pad );
     }
-
+    
    /**
     * Return true if this object is equal to the supplied object.
     * @param other the object to evaluate

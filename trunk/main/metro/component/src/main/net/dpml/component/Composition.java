@@ -48,13 +48,14 @@ public abstract class Composition extends Part implements Directive
     * @param classpath the part classpath definition
     * @param controller the part controller
     * @param directive the part deployment strategy directive
+    * @param label debug label
     * @exception IOException if an I/O error occurs
     */
     public Composition( 
       Logger logger, Info info, Classpath classpath, Controller controller, 
-      Directive directive ) throws IOException
+      Directive directive, String label ) throws IOException
     {
-        super( logger, info, classpath );
+        super( logger, info, classpath, label );
         
         if( null == directive )
         {

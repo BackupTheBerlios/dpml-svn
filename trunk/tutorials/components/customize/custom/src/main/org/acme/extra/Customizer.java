@@ -16,30 +16,23 @@
  * limitations under the License.
  */
 
-package net.dpml.lang;
-
-import java.io.IOException;
-
-import net.dpml.util.Resolver;
-
-import org.w3c.dom.Element;
+package org.acme.extra;
 
 /**
- * Interace implemented by part strategy builders.
- *
+ * An example of a class used to resolve a customize context value in 
+ * an overriden component part.
+ * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Builder
+public class Customizer
 {
    /**
-    * Construct a new part using a supplied value resolver.
-    * @param info the part information descriptor
-    * @param classpath the part classpath descriptor
-    * @param strategy the DOM element definining the deployment strategy
-    * @param resolver build time value resolver
-    * @return the part definition
-    * @exception IOException if an I/O error occurs
+    * Static method that returns a customized format value.
+    * @return the customized format value
     */
-    Part build( Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException;
+    public static String getCustomFormat()
+    {
+        return "h:mm";
+    }
 }

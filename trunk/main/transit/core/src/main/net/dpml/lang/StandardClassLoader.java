@@ -26,6 +26,8 @@ import java.net.URLClassLoader;
 
 import net.dpml.transit.Artifact;
 
+import net.dpml.util.Logger;
+
 /**
  * A named classloader.
  *
@@ -42,14 +44,14 @@ public class StandardClassLoader extends URLClassLoader
     * Internal utility class to build a classloader.  If the supplied url
     * sequence is zero length the parent classloader is returned directly.
     *
-    * @param uri the uri identifying the classloader source part
+    * @param name the name identifying the classloader
     * @param category the category that this classloader is handling
     * @param parent the parent classloader
     * @param uris the uris to assign as classloader content
     * @return the classloader
     * @exception IOException if an I/O error occurs
     */
-    public static ClassLoader buildClassLoader( URI uri, Category category, ClassLoader parent, URI[] uris )
+    public static ClassLoader buildClassLoader( Logger logger, String name, Category category, ClassLoader parent, URI[] uris )
       throws IOException
     {
         URL[] urls = toURLs( uris  );
@@ -72,12 +74,15 @@ public class StandardClassLoader extends URLClassLoader
         }
         else
         {
-            return new StandardClassLoader( uri, category, qualified, parent );
+            ClassLoader loader =
+               new StandardClassLoader( name, category, qualified, parent );
+            classloaderConstructed( logger, name, category, loader );
+            return loader;
         }
     }
 
    /**
-    * Convert a sequncence of URIs to URLs.
+    * Convert a sequence of URIs to URLs.
     * @param uris the uris to convert
     * @return the corresponding urls
     * @exception IOException of a transformation error occurs
@@ -139,7 +144,7 @@ public class StandardClassLoader extends URLClassLoader
     //--------------------------------------------------------------------
     
     private final Category m_category;
-    private final URI m_plugin;
+    private final String m_name;
 
     //--------------------------------------------------------------------
     // constructor
@@ -147,16 +152,16 @@ public class StandardClassLoader extends URLClassLoader
 
    /**
     * Creation of a new classloader.
-    * @param plugin uri identifying the plugin
+    * @param name a name identifying the plugin
     * @param category the classloader category identifier
     * @param urls an array of urls to add to the classloader
     * @param parent the parent classloader
     */
-    public StandardClassLoader( URI plugin, Category category, URL[] urls, ClassLoader parent )
+    public StandardClassLoader( String name, Category category, URL[] urls, ClassLoader parent )
     {
         super( urls, parent );
         m_category = category;
-        m_plugin = plugin;
+        m_name = name;
     }
 
     //--------------------------------------------------------------------
@@ -170,15 +175,6 @@ public class StandardClassLoader extends URLClassLoader
     public Category getCategory()
     {
         return m_category;
-    }
-
-   /**
-    * Return the plugin uri identifier
-    * @return the plugin uri
-    */
-    public URI getPluginURI()
-    {
-        return m_plugin;
     }
 
    /**
@@ -294,10 +290,10 @@ public class StandardClassLoader extends URLClassLoader
             {
                 listClasspath( buffer, parent );
             }
-
-            if( null != m_plugin )
+            
+            if( null != m_name )
             {
-                label = label.concat( "\nGroup: " + m_plugin + " " + cl.getCategory() );
+                label = label.concat( "\nLabel: " + m_name + " " + cl.getCategory() );
             }
             else
             {
@@ -445,11 +441,13 @@ public class StandardClassLoader extends URLClassLoader
         if( classloader instanceof StandardClassLoader )
         {
             StandardClassLoader loader = (StandardClassLoader) classloader;
-            buffer.append( " " + loader.m_category );
-            URI uri = loader.getPluginURI();
-            if( null != uri )
+            if( null != loader.m_name )
             {
-                buffer.append( "\nURI: " + uri );
+                buffer.append( "\nLabel: " + loader.m_name + " " + loader.m_category );
+            }
+            else
+            {
+                buffer.append( "\nCategory: " + loader.m_category );
             }
         }
         if( classloader instanceof URLClassLoader )
@@ -457,6 +455,50 @@ public class StandardClassLoader extends URLClassLoader
             URLClassLoader urlcl = (URLClassLoader) classloader;
             buffer.append( "\n" );
             appendEntries( buffer, urlcl );
+        }
+    }
+    
+   /**
+    * Handle notification of the creation of a new classloader.
+    * @param label the classloader label
+    * @param category the classloader category
+    * @param classloader the new classloader to report
+    */
+    protected static void classloaderConstructed( Logger logger, String label, Category category, ClassLoader classloader )
+    {
+        if( logger.isTraceEnabled() )
+        {
+            int id = System.identityHashCode( classloader );
+            StringBuffer buffer = new StringBuffer();
+            buffer.append( "new " );
+            buffer.append( category.toString() );
+            buffer.append( " classloader for " + label );
+             buffer.append( "\n           id: " + id );
+            ClassLoader parent = classloader.getParent();
+            if( null != parent )
+            {
+                int pid = System.identityHashCode( parent );
+                buffer.append( "\n      extends: " + pid );
+            }
+            if( classloader instanceof URLClassLoader )
+            {
+                URLClassLoader loader = (URLClassLoader) classloader;
+                URL[] urls = loader.getURLs();
+                if( urls.length == 1 )
+                {
+                    buffer.append( "\n     contains: 1 entry" );
+                }
+                else
+                {
+                    buffer.append( "\n     contains: " + urls.length + " entries" );
+                }
+                for( int i=0; i < urls.length; i++ )
+                {
+                    URL url = urls[i];
+                    buffer.append( "\n         [" + (i+1) + "] " + url.toString() );
+                }
+            }
+            logger.trace( buffer.toString() );
         }
     }
 }

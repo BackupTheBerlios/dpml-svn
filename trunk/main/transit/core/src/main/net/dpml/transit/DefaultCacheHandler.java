@@ -121,9 +121,9 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
             throw new TransitException( error, e );
         }
 
-        if( getLogger().isDebugEnabled() )
+        if( getLogger().isTraceEnabled() )
         {
-            getLogger().debug( "cache initialization" );
+            getLogger().trace( "cache initialization" );
         }
 
         //
@@ -135,9 +135,9 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         //
 
         HostModel[] hosts = model.getHostModels();
-        if( getLogger().isDebugEnabled() )
+        if( getLogger().isTraceEnabled() )
         {
-            getLogger().debug( "host count: " + hosts.length );
+            getLogger().trace( "host count: " + hosts.length );
         }
         for( int i=0; i < hosts.length; i++ )
         {
@@ -154,9 +154,9 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         File cache = model.getCacheDirectory();
         setLocalCacheDirectory( cache );
 
-        if( getLogger().isDebugEnabled() )
+        if( getLogger().isTraceEnabled() )
         {
-            getLogger().debug( "bootstrap initialization complete" );
+            getLogger().trace( "bootstrap initialization complete" );
         }
     }
 
@@ -309,14 +309,14 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
     */
     public void initialize() throws IOException
     {
-        if( getLogger().isDebugEnabled() )
+        if( getLogger().isTraceEnabled() )
         {
-            getLogger().debug( "secondary initialization phase" );
+            getLogger().trace( "secondary initialization phase" );
         }
         m_model.addCacheListener( this );
-        if( getLogger().isDebugEnabled() )
+        if( getLogger().isTraceEnabled() )
         {
-            getLogger().debug( "cache subsystem established" );
+            getLogger().trace( "cache subsystem established" );
         }
     }
 
@@ -331,20 +331,23 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
             throw new NullArgumentException( "file" );
         }
         File cache = file;
-        if( null == m_cacheDir )
+        if( getLogger().isTraceEnabled() )
         {
-             final String message =
-               "Setting cache to: "
-               + cache;
-             getLogger().debug( message );
-        }
-        else
-        {
-            final String message =
-              "Changing cache:"
-              + "\nOld: " + m_cacheDir
-              + "\nNew: " + cache;
-             getLogger().debug( message );
+            if( null == m_cacheDir )
+            {
+                 final String message =
+                   "Setting cache to: "
+                   + cache;
+                 getLogger().trace( message );
+            }
+            else
+            {
+                final String message =
+                  "Changing cache:"
+                  + "\nOld: " + m_cacheDir
+                  + "\nNew: " + cache;
+                 getLogger().trace( message );
+            }
         }
         if( !cache.isAbsolute() )
         {
@@ -720,14 +723,14 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
 
     private ResourceHost createDefaultResourceHost( HostModel model ) throws IOException
     {
-        if( getLogger().isDebugEnabled() )
+        if( getLogger().isTraceEnabled() )
         {
             final String message =
               "Creating host ["
               + model.getID()
               + "] on " 
               + model.getBaseURL();
-            getLogger().debug( message );
+            getLogger().trace( message );
         }
         try
         {

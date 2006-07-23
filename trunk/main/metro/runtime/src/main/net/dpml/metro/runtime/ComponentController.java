@@ -102,9 +102,9 @@ class ComponentController
     * @param classpath the part classpath definition
     * @exception IOException if an IO error occurs during classpath evaluation
     */
-    public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
+    public ClassLoader getClassLoader( String name, ClassLoader anchor, Classpath classpath ) throws IOException
     {
-        return getCompositionController().getClassLoader( anchor, classpath );
+        return getCompositionController().getClassLoader( name, anchor, classpath );
     }
 
    /**
@@ -141,7 +141,7 @@ class ComponentController
             throw new ControllerException( error, e );
         }
     }
-
+    
     //--------------------------------------------------------------------------
     // ComponentController
     //--------------------------------------------------------------------------
@@ -162,7 +162,8 @@ class ComponentController
         try
         {
             Logger logger = new DefaultLogger( partition );
-            ClassLoader classloader = getClassLoader( anchor, classpath );
+            String path = partition + "/" + key;
+            ClassLoader classloader = getClassLoader( path, anchor, classpath );
             EventQueue queue = m_controller.getEventQueue();
             return new DefaultComponentModel( 
               queue, logger, classloader, classpath, this, directive, partition, key );
@@ -184,37 +185,37 @@ class ComponentController
    /**
     * Create a new top-level runtime handler using a supplied anchor classloader and context.
     * @param classloader the anchor classloader
-    * @param context the managed context
+    * @param model the component model
     * @param flag TRUE if this is a managed model
     * @return the runtime handler
     */
     DefaultComponentHandler createDefaultComponentHandler( 
-      ClassLoader classloader, ComponentModel context, boolean flag ) throws ControlException
+      ClassLoader classloader, ComponentModel model, boolean flag ) throws ControlException
     {
-        return createDefaultComponentHandler( null, classloader, context, flag );
+        return createDefaultComponentHandler( null, classloader, model, flag );
     }
     
    /**
     * Create a new runtime handler using a supplied parent, anchor and context.
     * @param parent the parent handler
     * @param anchor the anchor classloader
-    * @param context the managed context
+    * @param model the component model
     * @param flag TRUE if the supplied model is managed by the handler
     * @return the runtime handler
     */
     DefaultComponentHandler createDefaultComponentHandler( 
-      Provider parent, ClassLoader anchor, ComponentModel context, boolean flag ) 
+      Provider parent, ClassLoader anchor, ComponentModel model, boolean flag ) 
       throws ControlException
     {
         try
         {
-            final String name = context.getName();
-            final String path = context.getContextPath();
+            final String name = model.getName();
+            final String path = model.getContextPath();
             Logger logger = new DefaultLogger( path );
-            Classpath classpath = context.getClasspath();
-            ClassLoader classloader = resolveClassLoader( anchor, context );
+            Classpath classpath = model.getClasspath();
+            ClassLoader classloader = resolveClassLoader( anchor, model );
             EventQueue queue = m_controller.getEventQueue();
-            return new DefaultComponentHandler( queue, parent, classloader, logger, this, context, flag );
+            return new DefaultComponentHandler( queue, parent, classloader, logger, this, model, flag );
         }
         catch( RemoteException e )
         {
@@ -244,9 +245,10 @@ class ComponentController
         }
         else
         {
-            getLogger().debug( "building new classloader (remote mode) for " + model.getContextPath() );
+            String path = model.getContextPath();
+            getLogger().debug( "building new classloader (remote mode) for " + path );
             Classpath classpath = model.getClasspath();
-            return getClassLoader( anchor, classpath );
+            return getClassLoader( path, anchor, classpath );
         }
     }
     

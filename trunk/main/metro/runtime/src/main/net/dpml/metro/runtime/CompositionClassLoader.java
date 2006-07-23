@@ -30,6 +30,7 @@ import net.dpml.lang.StandardClassLoader;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.UnsupportedSchemeException;
 
+import net.dpml.util.Logger;
 
 /**
  * A named classloader.
@@ -49,12 +50,13 @@ class CompositionClassLoader extends StandardClassLoader
     // constructor
     //--------------------------------------------------------------------
 
-    public CompositionClassLoader( 
-      URI uri, Category category, ClassLoader management, ClassLoader client )
+    public CompositionClassLoader( Logger logger, String label, Category category, ClassLoader management, ClassLoader client )
     {
-        super( uri, category, new URL[0], client );
+        super( label, category, new URL[0], client );
 
         m_base = management;
+        
+        classloaderConstructed( logger, label, category, this );
     }
 
     //--------------------------------------------------------------------
@@ -85,6 +87,15 @@ class CompositionClassLoader extends StandardClassLoader
         }
     }
 
+    //--------------------------------------------------------------------
+    // impl
+    //--------------------------------------------------------------------
+    
+    ClassLoader getInterceptionClassLoader()
+    {
+        return m_base;
+    }
+    
     //--------------------------------------------------------------------
     // static utilities
     //--------------------------------------------------------------------
@@ -164,6 +175,36 @@ class CompositionClassLoader extends StandardClassLoader
         else
         {
             return true;
+        }
+    }
+
+   /**
+    * Handle notification of the creation of a new classloader.
+    * @param label the classloader label
+    * @param category the classloader category
+    * @param classloader the new classloader to report
+    */
+    private static void classloaderConstructed( 
+      Logger logger, String label, Category category, CompositionClassLoader classloader )
+    {
+        if( logger.isTraceEnabled() )
+        {
+            int id = System.identityHashCode( classloader );
+            StringBuffer buffer = new StringBuffer();
+            buffer.append( "created new " );
+            buffer.append( category.toString() );
+            buffer.append( " interception classloader for " + label );
+            buffer.append( "\n           id: " + id );
+            ClassLoader interceptor = classloader.getInterceptionClassLoader();
+            int iid = System.identityHashCode( interceptor );
+            buffer.append( "\n  interceptor: " + iid );
+            ClassLoader parent = classloader.getParent();
+            if( null != parent )
+            {
+                int pid = System.identityHashCode( parent );
+                buffer.append( "\n      extends: " + pid );
+            }
+            logger.trace( buffer.toString() );
         }
     }
 }

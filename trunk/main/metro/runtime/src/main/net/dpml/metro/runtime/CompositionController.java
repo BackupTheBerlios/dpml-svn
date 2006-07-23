@@ -18,6 +18,7 @@
 
 package net.dpml.metro.runtime;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -68,6 +69,8 @@ public class CompositionController implements Controller, Builder
     * Static URI of this controller.
     */
     public static final URI CONTROLLER_URI = createStaticURI( "@PART-HANDLER-URI@" );
+    
+    private static final String BASEPATH = setupBasePathSpec();
     
     static final URI ROOT_URI = createStaticURI( "metro:/" );
 
@@ -163,9 +166,8 @@ public class CompositionController implements Controller, Builder
     {
         if( getLogger().isTraceEnabled() )
         {
-            getLogger().trace( 
-              "building strategy"
-              + "\n  URI: " + info.getURI() );
+            String path = getPartSpec( info.getURI() );
+            getLogger().trace( "new composition: " + path );
         }
         ClassLoader context = Thread.currentThread().getContextClassLoader();
         try
@@ -194,36 +196,32 @@ public class CompositionController implements Controller, Builder
     * @return the new classloader
     * @exception IOException if an IO error occurs during classpath evaluation
     */
-    public ClassLoader getClassLoader( ClassLoader anchor, Classpath classpath ) throws IOException
+    public ClassLoader getClassLoader( String name, ClassLoader anchor, Classpath classpath ) throws IOException
     {
         if( null == classpath )
         {
             return anchor;
         }
         
-        ClassLoader management = ComponentDirective.class.getClassLoader();
+        ClassLoader base = anchor;
+        Logger logger = getLogger();
         
-        ClassLoader composer = 
-          new CompositionClassLoader( null, Category.PROTECTED, management, anchor );
+        try
+        {
+            base.loadClass( ComponentDirective.class.getName() );
+        }
+        catch( ClassNotFoundException e )
+        {
+            ClassLoader management = ComponentDirective.class.getClassLoader();
+            base = new CompositionClassLoader( logger, name, Category.PROTECTED, management, anchor );
+        }
         
         URI[] apis = classpath.getDependencies( Category.PUBLIC );
-        ClassLoader api = StandardClassLoader.buildClassLoader( null, Category.PUBLIC, composer, apis );
-        if( api != composer )
-        {
-            classloaderConstructed( Category.PUBLIC, api );
-        }
+        ClassLoader api = StandardClassLoader.buildClassLoader( logger, name, Category.PUBLIC, base, apis );
         URI[] spis = classpath.getDependencies( Category.PROTECTED );
-        ClassLoader spi = StandardClassLoader.buildClassLoader( null, Category.PROTECTED, api, spis );
-        if( spi != api )
-        {
-            classloaderConstructed( Category.PROTECTED, spi );
-        }
+        ClassLoader spi = StandardClassLoader.buildClassLoader( logger, name, Category.PROTECTED, api, spis );
         URI[] imps = classpath.getDependencies( Category.PRIVATE );
-        ClassLoader impl = StandardClassLoader.buildClassLoader( null, Category.PRIVATE, spi, imps );
-        if( impl != spi )
-        {
-            classloaderConstructed( Category.PRIVATE, impl );
-        }
+        ClassLoader impl = StandardClassLoader.buildClassLoader( logger, name, Category.PRIVATE, spi, imps );
         return impl;
     }
 
@@ -232,7 +230,7 @@ public class CompositionController implements Controller, Builder
     * @param category the classloader category (public, protected or private)
     * @param classloader the new classloader 
     */
-    public void classloaderConstructed( Category category, ClassLoader classloader )
+    public void classloaderConstructed( String name, Category category, ClassLoader classloader )
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -240,8 +238,21 @@ public class CompositionController implements Controller, Builder
             StringBuffer buffer = new StringBuffer();
             buffer.append( "created " );
             buffer.append( category.toString() );
-            buffer.append( " classloader" );
+            buffer.append( " classloader for " + name );
             buffer.append( "\n  ID: " + id );
+            if( classloader instanceof CompositionClassLoader )
+            {
+                CompositionClassLoader loader = (CompositionClassLoader) classloader;
+                ClassLoader interceptor = loader.getInterceptionClassLoader();
+                int pid = System.identityHashCode( interceptor );
+                buffer.append( "\n  interceptor: " + pid );
+            }
+            ClassLoader parent = classloader.getParent();
+            if( null != parent )
+            {
+                int pid = System.identityHashCode( parent );
+                buffer.append( "\n  extends: " + pid );
+            }
             if( classloader instanceof URLClassLoader )
             {
                 URLClassLoader loader = (URLClassLoader) classloader;
@@ -399,7 +410,8 @@ public class CompositionController implements Controller, Builder
             ClassLoader anchor = Logger.class.getClassLoader();
             ComponentModel componentModel = (ComponentModel) model;
             Classpath classpath = componentModel.getClasspath();
-            ClassLoader classloader = getClassLoader( anchor, classpath );
+            String name = componentModel.getName();
+            ClassLoader classloader = getClassLoader( name, anchor, classpath );
             return m_controller.createDefaultComponentHandler( classloader, componentModel, flag );
         }
         else
@@ -508,6 +520,35 @@ public class CompositionController implements Controller, Builder
         public void controllerDisposal( ControllerContextEvent event )
         {
             dispose();
+        }
+    }
+    
+    static String setupBasePathSpec()
+    {
+        try
+        {
+            String path = System.getProperty( "user.dir" );
+            File file = new File( path );
+            URI uri = file.toURI();
+            URL url = file.toURL();
+            return url.toString();
+        }
+        catch( Exception e )
+        {   
+            return e.toString();
+        }
+    }
+    
+    private static String getPartSpec( URI uri )
+    {
+        String path = uri.toASCIIString();
+        if( path.startsWith( BASEPATH ) )
+        {
+            return "./" + path.substring( BASEPATH.length() );
+        }
+        else
+        {
+            return path;
         }
     }
 }

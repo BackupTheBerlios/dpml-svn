@@ -310,13 +310,7 @@ public class PartTask extends GenericTask
     protected Context getContext( Project project )
     {
         Context context = (Context) project.getReference( "project.context" );
-        if( null == context )
-        {
-            final String error = 
-              "Missing project context reference.";
-            throw new BuildException( error );
-        }
-        context.getPath( Scope.TEST ); // triggers path initialization
+        context.init();
         return context;
     }
 }

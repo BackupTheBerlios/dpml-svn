@@ -68,7 +68,7 @@
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
-    <info title="Metro Container Runtime">
+    <info title="Metro Runtime">
       <description>
       DPML Component management platform runtime container.
       </description>

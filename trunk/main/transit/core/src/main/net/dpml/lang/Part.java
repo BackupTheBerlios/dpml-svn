@@ -102,9 +102,23 @@ public abstract class Part
     * @param logger the logging channel
     * @param info the info descriptor
     * @param classpath the part classpath definition
+    * @param label debug label
     * @exception IOException if an I/O error occurs
     */
     public Part( Logger logger, Info info, Classpath classpath ) throws IOException
+    {
+        this( logger, info, classpath, null );
+    }
+    
+   /**
+    * Creation of a new part datastructure.
+    * @param logger the logging channel
+    * @param info the info descriptor
+    * @param classpath the part classpath definition
+    * @param label debug label
+    * @exception IOException if an I/O error occurs
+    */
+    public Part( Logger logger, Info info, Classpath classpath, String label ) throws IOException
     {
         super();
         if( null == info )
@@ -118,7 +132,7 @@ public abstract class Part
         m_logger = logger;
         m_info = info;
         m_classpath = classpath;
-        m_classloader = buildClassLoader();
+        m_classloader = buildClassLoader( label );
     }
     
    /**
@@ -339,16 +353,33 @@ public abstract class Part
         return m_logger;
     }
     
-    private ClassLoader buildClassLoader() throws IOException
+    private ClassLoader buildClassLoader( String label ) throws IOException
     {
         ClassLoader base = getAnchorClassLoader();
         Classpath classpath = getClasspath();
-        return newClassLoader( base, classpath );
+        String tag = getLabel( label );
+        return newClassLoader( base, classpath, tag );
     }
     
-    private ClassLoader newClassLoader( ClassLoader base, Classpath classpath ) throws IOException
+    private String getLabel( String label )
     {
-        URI uri = getInfo().getURI();
+        if( null != label )
+        {
+            return label;
+        }
+        if( null != getInfo().getTitle() )
+        {
+            return getInfo().getTitle();
+        }
+        else
+        {
+            return PartDecoder.getPartSpec( getInfo().getURI() );
+        }
+    }
+    
+    private ClassLoader newClassLoader( ClassLoader base, Classpath classpath, String label ) throws IOException
+    {
+        Logger logger = getLogger();
         URI[] uris = classpath.getDependencies( Category.SYSTEM );
         if( uris.length > 0 )
         {
@@ -356,24 +387,11 @@ public abstract class Part
         }
         
         URI[] apis = classpath.getDependencies( Category.PUBLIC );
-        ClassLoader api = StandardClassLoader.buildClassLoader( uri, Category.PUBLIC, base, apis );
-        if( api != base )
-        {
-            classloaderConstructed( Category.PUBLIC, api );
-        }
+        ClassLoader api = StandardClassLoader.buildClassLoader( logger, label, Category.PUBLIC, base, apis );
         URI[] spis = classpath.getDependencies( Category.PROTECTED );
-        ClassLoader spi = StandardClassLoader.buildClassLoader( uri, Category.PROTECTED, api, spis );
-        if( spi != api )
-        {
-            classloaderConstructed( Category.PROTECTED, spi );
-        }
+        ClassLoader spi = StandardClassLoader.buildClassLoader( logger, label, Category.PROTECTED, api, spis );
         URI[] imps = classpath.getDependencies( Category.PRIVATE );
-        ClassLoader impl = StandardClassLoader.buildClassLoader( uri, Category.PRIVATE, spi, imps );
-        if( impl != spi )
-        {
-            classloaderConstructed( Category.PRIVATE, impl );
-        }
-        return impl;
+        return StandardClassLoader.buildClassLoader( logger, label, Category.PRIVATE, spi, imps );
     }
     
     private ClassLoader getAnchorClassLoader()
@@ -414,10 +432,12 @@ public abstract class Part
 
    /**
     * Handle notification of the creation of a new classloader.
+    * @param label the classloader label
     * @param category the classloader category
     * @param classloader the new classloader to report
     */
-    private void classloaderConstructed( Category category, ClassLoader classloader )
+    /*
+    private void classloaderConstructed( String label, Category category, ClassLoader classloader )
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -427,7 +447,7 @@ public abstract class Part
             buffer.append( category.toString() );
             buffer.append( " classloader" );
             buffer.append( "\n  ID: " + id );
-            buffer.append( "\n  URI: " + m_info.getURI().toString() );
+            buffer.append( "\n  Label: " + label + " " + category );
             ClassLoader parent = classloader.getParent();
             if( null != parent )
             {
@@ -446,7 +466,8 @@ public abstract class Part
             getLogger().debug( buffer.toString() );
         }
     }
-
+    */
+    
    /**
     * Handle notification of system classloader expansion.
     * @param uris the array of uris added to the system classloader

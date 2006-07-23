@@ -18,8 +18,10 @@
 
 package net.dpml.lang;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.Map;
 import java.util.Hashtable;
 import java.lang.ref.WeakReference;
@@ -57,6 +59,8 @@ public final class PartDecoder implements Decoder
     
     private static final PartDecoder DECODER = new PartDecoder();
     
+    private static final String BASEPATH = setupBasePathSpec();
+    
    /**
     * Get the singleton instance of the part decoder.
     * @return the decoder instance.
@@ -91,15 +95,26 @@ public final class PartDecoder implements Decoder
         }
         if( getLogger().isDebugEnabled() )
         {
-            getLogger().debug( "loading part [" + uri + "]" );
+            String path = getPartSpec( uri );
+            if( getLogger().isTraceEnabled() )
+            {
+                if( cache )
+                {
+                    getLogger().trace( "loading part (cache enabled): " + path );
+                }
+                else
+                {
+                    getLogger().trace( "loading part (cache disabled): " + path );
+                }
+            }
+            else
+            {
+                getLogger().debug( "loading part: " + path );
+            }
         }
         String key = buildKey( uri );
         if( cache )
         {
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "using cache key part [" + key + "]" );
-            }
             WeakReference ref = (WeakReference) m_map.get( key );
             if( null != ref )
             {
@@ -115,7 +130,7 @@ public final class PartDecoder implements Decoder
             }
         }
         
-        // cache based retrival was disabled or no cache value present
+        // cache based retrieval was disabled or no cache value present
         
         try
         {
@@ -130,8 +145,8 @@ public final class PartDecoder implements Decoder
                 if( getLogger().isTraceEnabled() )
                 {
                     getLogger().trace( "caching part" 
-                      + "\n  URI: " + uri
-                      + "\n  Key: " + key ); 
+                      + "\n  uri: " + uri
+                      + "\n  key: " + key ); 
                 }
             }
             return value;
@@ -140,7 +155,7 @@ public final class PartDecoder implements Decoder
         {
             final String error =
               "An error while attempting to load a part."
-              + "\n  URI: " + uri;
+              + "\n  uri: " + uri;
             IOException exception = new IOException( error );
             exception.initCause( e );
             throw exception;
@@ -152,6 +167,13 @@ public final class PartDecoder implements Decoder
         ClassLoader classloader = getAnchorClassLoader();
         int n = System.identityHashCode( classloader );
         return "" + n + "#" + getRealURI( uri ).toASCIIString();
+    }
+    
+    private String getID()
+    {
+        ClassLoader classloader = getAnchorClassLoader();
+        int n = System.identityHashCode( classloader );
+        return "" + n;
     }
     
     private URI getRealURI( URI uri ) throws IOException
@@ -222,6 +244,7 @@ public final class PartDecoder implements Decoder
       Info information, Classpath classpath, Element strategy, Resolver resolver ) 
       throws IOException
     {
+        ClassLoader anchor = getAnchorClassLoader();
         TypeInfo info = strategy.getSchemaTypeInfo();
         String namespace = info.getTypeNamespace();
         if( PART_XSD_URI.equals( namespace ) )
@@ -239,7 +262,12 @@ public final class PartDecoder implements Decoder
                 String classname = ElementHelper.getAttribute( strategy, "class" );
                 Element[] elements = ElementHelper.getChildren( strategy );
                 Value[] values = VALUE_DECODER.decodeValues( elements );
-                return new Plugin( logger, information, classpath, classname, values );
+                Part part = new Plugin( logger, information, classpath, classname, values );
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "loaded plugin definition" );
+                }
+                return part;
             }
             else if( "resource".equals( name ) )
             {
@@ -249,7 +277,12 @@ public final class PartDecoder implements Decoder
                 }
                 String urn = ElementHelper.getAttribute( strategy, "urn" );
                 String path = ElementHelper.getAttribute( strategy, "path" );
-                return new Resource( logger, information, classpath, urn, path );
+                Part part = new Resource( logger, information, classpath, urn, path );
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "loaded resource definition" );
+                }
+                return part;
             }
             else
             {
@@ -266,18 +299,18 @@ public final class PartDecoder implements Decoder
         {
             // this is a foreign part
             
-            if( getLogger().isTraceEnabled() )
-            {
-                getLogger().trace( "loading foreign part definition" );
-            }
             try
             {
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "loading foreign builder" );
+                }
                 URI uri = getDecoderURI( strategy );
                 Builder builder = loadForeignBuilder( uri );
                 if( getLogger().isTraceEnabled() )
                 {
                     getLogger().trace( 
-                      "loaded foreign builder [" 
+                      "using builder [" 
                       + builder.getClass().getName() 
                       + "]" );
                 }
@@ -288,6 +321,10 @@ public final class PartDecoder implements Decoder
                 final String error = 
                   "Internal error while attempting to load foreign part.";
                 throw new DecodingException( strategy, error, ioe );
+            }
+            finally
+            {
+                Thread.currentThread().setContextClassLoader( anchor );
             }
         }
     }
@@ -350,11 +387,6 @@ public final class PartDecoder implements Decoder
     */
     private Builder loadForeignBuilder( URI uri ) throws DecodingException, Exception
     {
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "loading builder [" + uri + "]" );
-        }
-        Part part = loadPart( uri, true );
         WeakReference ref = (WeakReference) m_builders.get( uri );
         if( null != ref )
         {
@@ -363,48 +395,45 @@ public final class PartDecoder implements Decoder
             {
                 if( getLogger().isTraceEnabled() )
                 {
-                    getLogger().trace( "located builder in cache" );
-                }
-                return builder;
-            }
-        }
-        
-        if( part instanceof Plugin )
-        {
-            Plugin plugin = (Plugin) part;
-            Logger logger = getLogger();
-            Object[] args = new Object[]{logger};
-            Object object = plugin.instantiate( args );
-            if( object instanceof Builder )
-            {
-                Builder builder = (Builder) object;
-                WeakReference reference = new WeakReference( builder );
-                m_builders.put( uri, reference );
-                if( getLogger().isTraceEnabled() )
-                {
-                    getLogger().trace( "added builder in cache" );
+                    getLogger().trace( "located builder [" + uri + "]" );
                 }
                 return builder;
             }
             else
             {
-                final String error = 
-                  "Plugin does not implement the "
-                  + Builder.class.getName()
-                  + " interface."
-                  + "\nURI: " + uri 
-                  + "\nClass: " + object.getClass().getName();
-                throw new PartException( error );
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "reloading builder [" + uri + "]" );
+                }
             }
         }
         else
         {
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "loading builder [" + uri + "]" );
+            }
+        }
+        
+        Part part = loadPart( uri, true );
+        Logger logger = getLogger();
+        Object[] args = new Object[]{logger};
+        Object object = part.instantiate( args );
+        if( object instanceof Builder )
+        {
+            Builder builder = (Builder) object;
+            WeakReference reference = new WeakReference( builder );
+            m_builders.put( uri, reference );
+            return builder;
+        }
+        else
+        {
             final String error = 
-              "Cannot resolve an instance from a part that is not derived from "
-              + Plugin.class.getName()
-              + "."
+              "Plugin does not implement the "
+              + Builder.class.getName()
+              + " interface."
               + "\nURI: " + uri 
-              + "\nPart Type: " + part.getClass().getName();
+              + "\nClass: " + object.getClass().getName();
             throw new PartException( error );
         }
     }
@@ -427,7 +456,7 @@ public final class PartDecoder implements Decoder
     private Info getInfo( URI uri, Element root )
     {
         Element element = ElementHelper.getChild( root, "info" );
-        String title = ElementHelper.getAttribute( element, "title", "Unknown" );
+        String title = ElementHelper.getAttribute( element, "title" );
         Element descriptionElement = ElementHelper.getChild( element, "description" );
         String description = ElementHelper.getValue( descriptionElement );
         return new Info( uri, title, description );
@@ -501,4 +530,32 @@ public final class PartDecoder implements Decoder
         }
     }
     
+    private static String setupBasePathSpec()
+    {
+        try
+        {
+            String path = System.getProperty( "user.dir" );
+            File file = new File( path );
+            URI uri = file.toURI();
+            URL url = file.toURL();
+            return url.toString();
+        }
+        catch( Exception e )
+        {   
+            return e.toString();
+        }
+    }
+    
+    static String getPartSpec( URI uri )
+    {
+        String path = uri.toASCIIString();
+        if( path.startsWith( BASEPATH ) )
+        {
+            return "./" + path.substring( BASEPATH.length() );
+        }
+        else
+        {
+            return path;
+        }
+    }
 }

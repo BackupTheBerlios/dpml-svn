@@ -122,7 +122,12 @@ class DefaultCacheModel extends DefaultModel implements CacheModel
             cache = new File( anchor, resolved );
             cache.mkdirs();
         }
-        logger.debug( "setting cache: " + cache ); 
+        
+        if( logger.isDebugEnabled() )
+        {
+            logger.debug( "setting cache: " + cache );
+        }
+        
         m_cache = cache;
 
         // setup the standard local respository host

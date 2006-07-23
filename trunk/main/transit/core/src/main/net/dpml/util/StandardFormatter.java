@@ -96,7 +96,7 @@ public class StandardFormatter extends Formatter
         buffer.append( record.getLevel().getLocalizedName() );
         buffer.append( "        " );
         String tag = buffer.toString();
-        return tag.substring( 0, LEVEL_HEADER_WEIDTH ) + "] ";
+        return tag.substring( 0, LEVEL_HEADER_WIDTH ) + "] ";
     }
 
     private String getProcessHeader( LogRecord record )
@@ -119,6 +119,6 @@ public class StandardFormatter extends Formatter
         return tag.substring( 0, PROCESS_HEADER_WIDTH ) + "] ";
     }
 
-    private static final int LEVEL_HEADER_WEIDTH = 8;
+    private static final int LEVEL_HEADER_WIDTH = 8;
     private static final int PROCESS_HEADER_WIDTH = 6;
 }

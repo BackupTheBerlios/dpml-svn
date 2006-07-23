@@ -38,13 +38,14 @@ public final class SystemClassLoader extends StandardClassLoader
     private final ClassLoader m_parent;
     
    /**
-    * Creation of a new Depot classloader.
+    * Creation of a new system classloader.
     *
     * @param parent the parent classloader
     */
     public SystemClassLoader( ClassLoader parent )
     {
-        super( SYSTEM_URI, Category.SYSTEM, new URL[0], parent );
+        super( "system", Category.SYSTEM, new URL[0], parent );
+        
         m_parent = parent;
         
         if( "true".equals( System.getProperty( "dpml.transit.include.tools" ) ) )
@@ -92,19 +93,5 @@ public final class SystemClassLoader extends StandardClassLoader
             }
         }
     }
-    
-    private static final URI createSystemLabel()
-    {
-        try
-        {
-           return new URI( "transit:system" );
-        }
-        catch( Exception e )
-        {
-            return null;
-        }
-    }
-    
-    private static final URI SYSTEM_URI = createSystemLabel();
 }
 

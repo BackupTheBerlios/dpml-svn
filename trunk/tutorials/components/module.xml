@@ -330,10 +330,11 @@
   <!-- customization demo -->
 
   <project name="acme-simple-clock" basedir="customize/clock">
+    <info title="Simple Clock"/>
     <types>
       <type id="jar"/>
       <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-           type="org.acme.clock.SimpleClock">
+           type="org.acme.clock.SimpleClock" name="clock">
         <context>
           <entry key="format" value="K:mm a, z"/>
         </context>
@@ -351,11 +352,13 @@
   </project>
 
   <project name="acme-custom-clock" basedir="customize/custom">
+    <info title="Custom Clock"/>
     <types>
+      <type id="jar"/>
       <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-            uri="resource:part:dpmlx/tutorials/components/acme-simple-clock">
+            uri="resource:part:dpmlx/tutorials/components/acme-simple-clock" name="custom">
         <context>
-          <entry key="format" value="h:mm a"/>
+          <entry key="format" class="org.acme.extra.Customizer" method="getCustomFormat"/>
         </context>
       </component>
     </types>
