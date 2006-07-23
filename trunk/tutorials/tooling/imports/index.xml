@@ -3,6 +3,7 @@
 
   <imports>
     <import uri="link:module:ant"/>
+    <import uri="link:module:dpml"/>
   </imports>
   
   <project name="demo" basedir=".">
@@ -16,6 +17,7 @@
     <dependencies>
       <test>
         <include ref="ant/ant-junit"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
       </test>
     </dependencies>
     <filters>

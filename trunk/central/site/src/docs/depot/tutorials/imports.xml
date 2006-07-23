@@ -28,7 +28,10 @@
         a single resource reference to <tt>ant/ant-junit</tt>.  When Depot
         resolves the transitive dependencies it will take into account the 
         dependencies declared by the <tt>ant/ant-junit</tt> resource resulting
-        in a reliable and complete dependency set.
+        in a reliable and complete dependency set.  We have also include the 
+        dpml module in the includes directive (mainly because the Transit 
+        core package includes a better log formatter than the default 
+        provided in the JDK).
         </p>
         
 <pre>
@@ -37,6 +40,7 @@
 
   <font color="darkred">&lt;imports&gt;
     &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
   &lt;/imports&gt;</font>
 
   &lt;project name="demo" basedir="."&gt;
@@ -49,7 +53,8 @@
     &lt;/types&gt;
     &lt;dependencies&gt;
       &lt;test&gt;
-        <font color="darkred">&lt;include ref="ant/ant-unit"/&gt;</font>
+        <font color="darkred">&lt;include ref="ant/ant-unit"/&gt;
+        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;</font>
       &lt;/test&gt;
     &lt;/dependencies&gt;
     &lt;filters&gt;
@@ -92,14 +97,14 @@ project:demo#SNAPSHOT
     resource:ant/ant#1.6.5
     resource:junit/junit#3.8.1
     resource:ant/ant-junit#1.6.5
-</pre>
+    resource:dpml/transit/dpml-transit-main#SNAPSHOT</pre>
 
       </subsection>
 
       <subsection name="Summary">
       
         <p>
-        This tutorial has presented the benefits arrising from the usage of 
+        This tutorial has presented the benefits arising from the usage of 
         modules - and in-effect, leveraging dependency information from external 
         projects.
         </p>
