@@ -46,7 +46,7 @@ import org.apache.tools.ant.BuildException;
 import org.w3c.dom.Element;
 
 /**
- * Execute all plugins relative to the current build phase.
+ * Creation of an part definition in XML.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@

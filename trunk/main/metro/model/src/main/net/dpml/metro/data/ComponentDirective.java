@@ -20,18 +20,17 @@ package net.dpml.metro.data;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 
 import net.dpml.component.ActivationPolicy;
 import net.dpml.component.Directive;
 
-import net.dpml.metro.info.Composite;
 import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.CollectionPolicy;
 
-//import net.dpml.metro.builder.ComponentDecoder;
-
 import net.dpml.lang.Part;
+import net.dpml.lang.AbstractDirective;
 
 /**
  * Definition of the criteria for an explicit component profile.  A profile, when
@@ -89,7 +88,7 @@ import net.dpml.lang.Part;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ComponentDirective extends Composite implements Comparable, Directive
+public class ComponentDirective extends AbstractDirective  implements Comparable, Directive
 {
     //--------------------------------------------------------------------------
     // static
@@ -102,43 +101,6 @@ public class ComponentDirective extends Composite implements Comparable, Directi
 
     private static final CategoriesDirective EMPTY_CATEGORIES = 
       new CategoriesDirective();
-      
-    //private static final ComponentDecoder DECODER = new ComponentDecoder();
-    
-    /*
-    private static PartReference[] mergePartReferences( 
-      PartReference[] parts, ComponentDirective directive )
-    {
-        if( null == directive )
-        {
-            return parts;
-        }
-        else if( null == parts )
-        {
-            return directive.getPartReferences();
-        }
-        else
-        {
-            Hashtable table = new Hashtable();
-            PartReference[] references = directive.getPartReferences();
-            for( int i=0; i<references.length; i++ )
-            {
-                PartReference ref = references[i];
-                String key = ref.getKey();
-                table.put( key, ref );
-            }
-            for( int i=0; i<parts.length; i++ )
-            {
-                PartReference ref = parts[i];
-                String key = ref.getKey();
-                table.put( key, ref );
-            }
-            PartReference[] refs = (PartReference[]) table.values().toArray( new PartReference[0] );
-            Arrays.sort( refs );
-            return refs;
-        }
-    }
-    */
     
     //--------------------------------------------------------------------------
     // state
@@ -190,6 +152,11 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     */
     private final DefaultComposition m_base;
 
+   /**
+    * Internal parts.
+    */
+    private final PartReference[] m_parts;
+
     //--------------------------------------------------------------------------
     // constructors
     //--------------------------------------------------------------------------
@@ -236,8 +203,6 @@ public class ComponentDirective extends Composite implements Comparable, Directi
            final PartReference[] parts,
            final URI uri ) throws IOException
     {
-        super( parts );
-        
         if( null == activation )
         {
             if( null != uri )
@@ -334,8 +299,16 @@ public class ComponentDirective extends Composite implements Comparable, Directi
             m_collection = collection;
         }
         
-        m_uri = uri;
+        if( null == parts )
+        {
+            m_parts = new PartReference[0];
+        }
+        else
+        {
+            m_parts = parts;
+        }
         
+        m_uri = uri;
         if( null != uri )
         {
             Part part = Part.load( uri );
@@ -377,6 +350,35 @@ public class ComponentDirective extends Composite implements Comparable, Directi
     //--------------------------------------------------------------------------
     // implementation
     //--------------------------------------------------------------------------
+
+    /**
+     * Returns the parts declared by this component type.
+     *
+     * @return the part descriptors
+     */
+    public PartReference[] getPartReferences()
+    {
+        return m_parts;
+    }
+
+    /**
+     * Retrieve an identified directive.
+     *
+     * @param key the directive key
+     * @return the directive or null if the directive key is unknown
+     */
+    public Directive getDirective( final String key )
+    {
+        for ( int i = 0; i < m_parts.length; i++ )
+        {
+            PartReference reference = m_parts[i];
+            if( reference.getKey().equals( key ) )
+            {
+                return reference.getDirective();
+            }
+        }
+        return null;
+    }
 
     /**
      * Return the profile name.
@@ -561,6 +563,10 @@ public class ComponentDirective extends Composite implements Comparable, Directi
         {
             return false;
         }
+        else if( !Arrays.equals( m_parts, profile.getPartReferences() ) )
+        {
+            return false;
+        }
         else
         {
             return equals( m_uri, profile.getBaseURI() );
@@ -582,6 +588,7 @@ public class ComponentDirective extends Composite implements Comparable, Directi
         hash ^= hashValue( m_collection );
         hash ^= hashValue( m_lifestyle );
         hash ^= hashValue( m_uri );
+        hash ^= hashArray( m_parts );
         return hash;
     }
 

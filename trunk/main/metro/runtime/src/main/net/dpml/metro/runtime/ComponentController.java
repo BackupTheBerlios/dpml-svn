@@ -148,24 +148,6 @@ class ComponentController
 
    /**
     * Create a new remotely manageable component model.
-    * @param anchor the parent classloader
-    * @param classpath the classpath definition
-    * @param partition the enclosing partition
-    * @param directive the component definition
-    * @param key the component key
-    * @return the managable component model
-    */
-    /*
-    ComponentModel createComponentModel( 
-      ClassLoader anchor, Classpath classpath, String partition, 
-      ComponentDirective directive, String key ) 
-      throws ControlException
-    {
-        return createComponentModel( anchor, classpath, partition, directive, null );
-    }
-    */
-   /**
-    * Create a new remotely manageable component model.
     * @param key the component key
     * @param anchor the parent classloader
     * @param classpath the classpath definition

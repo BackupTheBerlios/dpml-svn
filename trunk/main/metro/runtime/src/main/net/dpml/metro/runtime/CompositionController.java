@@ -150,7 +150,7 @@ public class CompositionController implements Controller, Builder
     //--------------------------------------------------------------------
     
    /**
-    * Construct the deployment infomation for a part definition.
+    * Construct the deployment information from a part definition.
     * @param info the part info definition
     * @param classpath the part classpath definition
     * @param strategy the DOM element definining the deplyment streategy
