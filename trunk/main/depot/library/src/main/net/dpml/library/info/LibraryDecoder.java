@@ -596,7 +596,7 @@ public final class LibraryDecoder extends LibraryConstants
             Element child = ElementHelper.getChild( element, "description" );
             if( null == child )
             {
-                return null;
+                return new InfoDirective( title, null );
             }
             else
             {
