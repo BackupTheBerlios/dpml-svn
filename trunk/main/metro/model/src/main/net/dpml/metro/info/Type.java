@@ -80,8 +80,6 @@ public class Type extends AbstractDirective implements Serializable
       final ContextDescriptor context, final ServiceDescriptor[] services, final State graph )
       throws NullPointerException 
     {
-        //super( parts );
-        
         if( null == info )
         {
             throw new NullPointerException( "info" );
