@@ -162,7 +162,7 @@ class ComponentController
         try
         {
             Logger logger = new DefaultLogger( partition );
-            String path = partition + "/" + key;
+            String path = partition + key;
             ClassLoader classloader = getClassLoader( path, anchor, classpath );
             EventQueue queue = m_controller.getEventQueue();
             return new DefaultComponentModel( 
