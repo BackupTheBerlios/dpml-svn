@@ -205,14 +205,15 @@ public class CompositionController implements Controller, Builder
         
         ClassLoader base = anchor;
         Logger logger = getLogger();
+        Class root = ComponentDirective.class.getName();
         
         try
         {
-            base.loadClass( ComponentDirective.class.getName() );
+            base.loadClass( root );
         }
         catch( ClassNotFoundException e )
         {
-            ClassLoader management = ComponentDirective.class.getClassLoader();
+            ClassLoader management = root.getClassLoader();
             base = new CompositionClassLoader( logger, name, Category.PROTECTED, management, anchor );
         }
         
