@@ -81,6 +81,12 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         try
         {
             TransitDirective directive = new TransitDirective( null, new CacheDirective() );
+            if( logger.isTraceEnabled() )
+            {
+                ClassLoader system = ClassLoader.getSystemClassLoader();
+                int id = System.identityHashCode( system );
+                logger.trace( "system classloader id: " + id );
+            }
             return new DefaultTransitModel( EVENT_QUEUE, logger, directive );
         }
         catch( Exception e )
@@ -131,6 +137,12 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     public static DefaultTransitModel getDefaultModel( Logger logger ) throws Exception
     {
         String path = System.getProperty( PROFILE_KEY );
+        if( logger.isTraceEnabled() )
+        {
+            ClassLoader system = ClassLoader.getSystemClassLoader();
+            int id = System.identityHashCode( system );
+            logger.trace( "system classloader id: " + id );
+        }
         if( null != path )
         {
             URL url = Artifact.createArtifact( path ).toURL();
