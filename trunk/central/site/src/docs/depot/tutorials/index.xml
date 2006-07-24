@@ -126,123 +126,12 @@ $
           <li><a href="complex.html">Multiproject builds.</a></li>
           <li><a href="modules.html">Working with modules.</a></li>
           <li><a href="export.html">Exporting module defintions.</a></li>
-          <li><a href="versioned.html">Versioned Build.</a></li>
+          <li><a href="plugins.html">Working with runtime metadata via plugins.</a></li>
         </ul>
         
       </subsection>
       
     </section>
-
-    <!--
-    <section name="Development Tooling Tutorial">
-
-      <p>
-      The development tooling tutorial is focused on the the overall management
-      of project and module defintions and the role that these defintions play
-      in the managmement of multi-project builds.  
-      </p>
- 
-      <subsection name="Tutorial Index">
-
-        <table>
-          <tr>
-            <td width="15%"><a href="simple.html">Getting Started</a></td>
-            <td width="60%">
-               Introduces the <tt>index.xml</tt> file.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="properties.html">Definining Properties</a></td>
-            <td width="60%">
-               Examples of project level property declarations.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="symbolic.html">Symbolic References</a></td>
-            <td width="60%">
-               Demonstrates the usage of symbolic refernces to system and project-level properties.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="filters.html">Global Filters</a></td>
-            <td width="60%">
-               Examples of the declaration and application of a simple filter.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="types.html">Type Production</a></td>
-            <td width="60%">
-               Examines the impact of type production statements within a project.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="automation.html">Build Automation</a></td>
-            <td width="60%">
-               Introduces the Depot build template and the potential for build automation.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="alias.html">Alias Declarations</a></td>
-            <td width="60%">
-               Demonstrates version and non-version symbolic alias creation and usage.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="unit.html">Unit Testing</a></td>
-            <td width="60%">
-               Example of the addition of a testcase and the related concerns of test-scoped dependnecies.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="imports.html">Using Module Imports</a></td>
-            <td width="60%">
-               Demonstrates improvements in transitive dependency information through the use of module imports
-               and resource references.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="complex.html">Multiproject Builds</a></td>
-            <td width="60%">
-               An example of a multi-project scenario.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="modules.html">Working with Modules</a></td>
-            <td width="60%">
-               Improving resource naming using module declarations.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="export.html">Exporting Module Defintions</a></td>
-            <td width="60%">
-               Module artifact export and use by third-party projects.
-            </td>
-            <td/>
-          </tr>
-          <tr>
-            <td width="15%"><a href="versioned.html">Versioned Builds</a></td>
-            <td width="60%">
-               Demonstration of a version build.
-            </td>
-            <td/>
-          </tr>
-        </table>
-
-      </subsection>
-
-    </section>
-    -->
     
   </body>
 </document>
