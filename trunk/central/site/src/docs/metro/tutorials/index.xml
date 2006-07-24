@@ -143,11 +143,10 @@
         <ul>
           <li><a href="../../transit/tutorials/plugins.html">Transit Plugin Tutorial</a></li>
           <li><a href="../concepts/ioc.html">IOC Overview</a></li>
-          <li><a href="../concepts/context.html">Context Awareness</a></li>
         </ul>
         
       </subsection>
-
+      
     </section>
 
   </body>
