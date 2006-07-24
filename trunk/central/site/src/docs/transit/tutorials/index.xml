@@ -25,13 +25,13 @@
 
         <table>
           <tr>
-            <td width="15%"><a href="overview.html">Introduction</a></td>
+            <td width="15%"><a href="overview.html">Resource Management</a></td>
             <td>
               Overview of the Transit system and it's role in resource management.
             </td>
           </tr>
           <tr>
-            <td><a href="artifacts.html">Artifacts</a></td>
+            <td><a href="artifacts.html">The Artifact Protocol</a></td>
             <td>
               Artifacts creation and usage.
             </td>
