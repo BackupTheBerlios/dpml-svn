@@ -102,9 +102,6 @@ $</pre>
         packaging and installer creation concerns at the level of a module build, 
         but more interesting is the potential for exporting a module definition 
         for use by third-parties.
-        </p>
-        
-        <p>
         Our <a href="export.html">next tutorial</a> presents an example of the creation
         of a module artifact suitable for use by third-party projects that want to reference
         our content.
