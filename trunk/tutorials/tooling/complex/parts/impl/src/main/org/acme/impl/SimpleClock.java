@@ -34,42 +34,11 @@ import org.acme.Clock;
 public class SimpleClock implements Clock
 {
     //------------------------------------------------------------------
-    // static
-    //------------------------------------------------------------------
-    
-    private static final String DEFAULT_PATTERN = "K:mm a, z";
-    private static final Locale DEFAULT_LOCALE = Locale.getDefault();
-    
-    //------------------------------------------------------------------
-    // criteria
-    //------------------------------------------------------------------
-    
-    
-   /**
-    * Declaration of the context information required by the implementation.
-    */
-    public interface Context
-    {
-       /**
-        * Return the optional date format as a string.  
-        * @param format the default value
-        * @return the date format value
-        */
-        public String getFormat( final String format );
-        
-       /**
-        * Return the operational locale.  
-        * @param locale the default value
-        * @return the locale
-        */
-        public Locale getLocale( final Locale locale );
-    }
-    
-    //------------------------------------------------------------------
     // state
     //------------------------------------------------------------------
     
-    private final Context m_context; 
+    private final String m_format; 
+    private final Locale m_locale; 
     
     //------------------------------------------------------------------
     // constructor
@@ -79,9 +48,10 @@ public class SimpleClock implements Clock
     * Creation of a new instance.
     * @param context the initial configuration
     */
-    public SimpleClock( final Context context )
+    public SimpleClock( final String format, final Locale locale )
     {
-        m_context = context;
+        m_format = format;
+        m_locale = locale;
     }
     
     //------------------------------------------------------------------
@@ -95,18 +65,8 @@ public class SimpleClock implements Clock
     public String getTimestamp()
     {
         Date date = new Date();
-        DateFormat formatter = getDateFormatter();
+        DateFormat formatter =  new SimpleDateFormat( m_format, m_locale );
         return formatter.format( date );
     }
     
-    //------------------------------------------------------------------
-    // implementation
-    //------------------------------------------------------------------
-    
-    private DateFormat getDateFormatter()
-    {
-        String format = m_context.getFormat( DEFAULT_PATTERN );
-        Locale locale = m_context.getLocale( DEFAULT_LOCALE );
-        return new SimpleDateFormat( format, locale );
-    }
 }
