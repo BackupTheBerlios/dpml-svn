@@ -191,9 +191,9 @@ class CompositionClassLoader extends StandardClassLoader
         {
             int id = System.identityHashCode( classloader );
             StringBuffer buffer = new StringBuffer();
-            buffer.append( "created new " );
+            buffer.append( "new " );
             buffer.append( category.toString() );
-            buffer.append( " interception classloader for " + label );
+            buffer.append( " INTERCEPTION classloader for " + label );
             buffer.append( "\n           id: " + id );
             ClassLoader interceptor = classloader.getInterceptionClassLoader();
             int iid = System.identityHashCode( interceptor );
