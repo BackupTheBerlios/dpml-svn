@@ -25,9 +25,10 @@
  <body>
 
     <menu>
-      <item name="Introduction" href="overview.html"/>
-      <item name="Artifacts" href="artifacts.html"/>
-      <item name="Plugins" href="plugins.html"/>
+      <item name="Introduction" href="index.html"/>
+      <item name="Resource Management" href="overview.html"/>
+      <item name="Artifact Protocol" href="artifacts.html"/>
+      <item name="Working with Plugins" href="plugins.html"/>
       <item name="Repositories" href="repositories.html"/>
     </menu>
 
