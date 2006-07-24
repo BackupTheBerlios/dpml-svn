@@ -28,7 +28,8 @@
       <item name="Introduction" href="index.html"/>
       <item name="Resource Management" href="overview.html"/>
       <item name="Artifact Protocol" href="artifacts.html"/>
-      <item name="Working with Plugins" href="plugins.html"/>
+      <item name="Local Protocol" href="local.html"/>
+      <!--<item name="Working with Plugins" href="plugins.html"/>-->
       <item name="Repositories" href="repositories.html"/>
     </menu>
 
