@@ -238,10 +238,7 @@ Total time: 2 seconds</pre>
         and how these dependency declarations impact build sequencing and classpath
         construction.  In addition the tutorial has demonstrated multi-project build 
         sequencing (covering information listing and build execution).
-        </p>
-        
-        <p>
-        The <a href="modules.html">following tutorial</a> introduces the use of modules
+        The <a href="modules.html">next tutorial</a> introduces the use of modules
         as a mechanisms through which we can improve resource name management and 
         reduce the potential for naming conflicts.
         </p>
