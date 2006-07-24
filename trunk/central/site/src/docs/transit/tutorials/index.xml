@@ -37,13 +37,13 @@
             </td>
           </tr>
           <tr>
-            <td><a href="plugins.html">Plugins</a></td>
+            <td><a href="local.html">The Local Protocol</a></td>
             <td>
-              Classloader construction using plugins and the Transit services.
+              Accessing local preferences and configuration data.
             </td>
           </tr>
           <tr>
-            <td><a href="repositories.html">Repositories</a></td>
+            <td><a href="repositories.html">Repository Mangement</a></td>
             <td>
               Creating your own repository.
             </td>
