@@ -42,7 +42,7 @@
     <mkdir dir="${share.docs}"/>
   </target>
   
-  <target name="package" depends="standard.package"/> <!-- removed javadoc, junit-report and checkstyle -->
+  <target name="package" depends="standard.package"/>
 
   <target name="install" depends="standard.install,zip,tar,nsis">
     <copy todir="${dpml.data}">

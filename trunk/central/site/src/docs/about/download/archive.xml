@@ -24,9 +24,13 @@
         </p>
         
         <ul>
+          <li>Depot and Metro tutorials.</li>
+          <li>Super-component support in component defintion.</li>
+          <li>Moved main library defintion to <tt>index.xml</tt> and corresponding
+              <tt>&lt;index&gt;</tt> top-level element.</li>
           <li>Updated project/module/resource <tt>info</tt> element to be equivalent
               to the info element declared under the <tt>plugin</tt> schema.</li>
-          <li>Documentation improvements inclouding information about type versions
+          <li>Documentation improvements including information about type versions
               and alias references.</li>
           <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
               XML instances.</li>
@@ -35,7 +39,7 @@
           <li>Removal of redundant declaration in component and type XSD.</li>
           <li>Updated Type class to support dynamic introspection of context inner interfaces
               allowing component creation without an explicit .type resource).</li>
-          <li>Consolidated duplicate code dealing with freature resolution.</li>
+          <li>Consolidated duplicate code dealing with feature resolution.</li>
         </ul>
         
         <table>
@@ -71,12 +75,23 @@
               <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
               MD5</a>
             </td>
-          </tr>  
+          </tr>
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-docs-@VERSION@.zip">
+                dpml-sdk-docs-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
         </table>
 
         <p>
         Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog/index.html">Catalog</a> reports are available.
+        <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> and <a href="http://www.dpml.net/reports/@VERSION@/catalog">Catalog</a> reports are available.
         </p>
 
       </subsection>
