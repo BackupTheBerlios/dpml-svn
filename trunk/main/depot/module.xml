@@ -88,7 +88,7 @@
     </dependencies>
   </resource>
 
-  <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
+  <project name="dpml-depot-checkstyle" basedir="plugins/checkstyle">
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
@@ -109,7 +109,7 @@
     </dependencies>
   </project>
 
-  <project name="dpml-depot-convert" basedir="tools/convert">
+  <project name="dpml-depot-convert" basedir="plugins/convert">
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
