@@ -796,7 +796,14 @@ public class CatalogTask extends Task
 
     private File getWorkingDirectory()
     {
-        return m_work;
+        if( null == m_destination )
+        {
+            return m_work;
+        }
+        else
+        {
+            return m_destination;
+        }
     }
 
     private File[] getTypes()
@@ -811,11 +818,11 @@ public class CatalogTask extends Task
         {
             ArrayList list = new ArrayList();
             Project project = getProject();
-            File basedir = project.getBaseDir();
             FileSet[] filesets = (FileSet[]) m_filesets.toArray( new FileSet[0] );
             for( int i=0; i < filesets.length; i++ )
             {
                 FileSet fileset = filesets[i];
+                File basedir = fileset.getDir( project );
                 DirectoryScanner ds = fileset.getDirectoryScanner( project );
                 String[] files = ds.getIncludedFiles();
                 for( int j=0; j < files.length; j++ )

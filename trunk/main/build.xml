@@ -42,15 +42,6 @@
     <mkdir dir="${share.docs}"/>
   </target>
   
-  <target name="build" depends="standard.build">
-    <x:plugin uri="link:part:dpml/metro/dpml-metro-tools"/>
-    <c:catalog title="DPML Catalog">
-      <fileset dir="${basedir}">
-        <include name="**/target/classes/main/**/*.type"/>
-      </fileset>
-    </c:catalog>
-  </target>
-
   <target name="package" depends="standard.package"/> <!-- removed javadoc, junit-report and checkstyle -->
 
   <target name="install" depends="standard.install,zip,tar,nsis">
@@ -238,67 +229,6 @@
       <fileset dir="station/exec/target/bin"/>
     </copy>
   </target>
-
-  <!--
-  <target name="javadoc" depends="prepare">
-    <x:javadoc title="DPML Component Management Platform" access="protected">
-      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
-      <link href="http://api.dpml.net/javax/servlet/2.5"/>
-      <link href="http://api.dpml.net/jetty/20060213"/>
-      <group title="Library">
-        <package name="net.dpml.library"/>
-        <package name="net.dpml.library.*"/>
-      </group>
-      <group title="Depot">
-        <package name="net.dpml.depot"/>
-        <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.tools"/>
-        <package name="net.dpml.tools.*"/>
-      </group>
-      <group title="Transit">
-        <package name="net.dpml.lang"/>
-        <package name="net.dpml.transit"/>
-        <package name="net.dpml.transit.*"/>
-        <package name="net.dpml.util"/>
-      </group>
-      <group title="Metro">
-        <package name="net.dpml.component"/>
-        <package name="net.dpml.metro"/>
-        <package name="net.dpml.metro.*"/>
-        <package name="net.dpml.state"/>
-      </group>
-      <group title="Station">
-        <package name="net.dpml.station"/>
-        <package name="net.dpml.station.*"/>
-      </group>
-      <group title="Planet">
-        <package name="net.dpml.http"/>
-        <package name="net.dpml.http.*"/>
-      </group>
-      <group title="Util">
-        <package name="net.dpml.cli"/>
-        <package name="net.dpml.cli.*"/>
-        <package name="net.dpml.i18n"/>
-        <package name="net.dpml.i18n.*"/>
-        <package name="net.dpml.logging"/>
-        <package name="net.dpml.logging.*"/>
-      </group>
-    </x:javadoc>
-  </target>
-  -->
-  
-  <!--
-  <target name="junit-report" depends="build">
-    <property name="junit.html" location="${project.target.reports.dir}/junit"/>
-    <mkdir dir="${junit.html}"/>
-    <junitreport todir="${junit.html}">
-      <fileset dir=".">
-        <include name="**/target/reports/test/TEST-*.xml"/>
-      </fileset>
-      <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/dpml/tools/xsls"/>
-    </junitreport>
-  </target>
-  -->
 
   <target name="checkstyle" depends="prepare">
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>

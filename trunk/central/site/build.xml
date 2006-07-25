@@ -2,9 +2,14 @@
 
 <project name="dpml-central" default="install" basedir="." 
     xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:depot" >
+    xmlns:x="dpml:depot" 
+    xmlns:c="dpml:metro">
 
   <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:property name="dpml.module.version" ref="dpml" feature="version"/>
+  </target>
 
   <target name="prepare" depends="standard.prepare">
 
@@ -165,14 +170,29 @@
   </target>
   
   
-  <target name="build" depends="standard.build,docs,javadoc"/>
+  <target name="build" depends="standard.build,docs,javadoc,catalog"/>
+
+  <target name="catalog" depends="init">
+    <property name="catalog.path" location="${basedir}/target/docs/reports/${dpml.module.version}/catalog"/>
+    <mkdir dir="${catalog.path}"/>
+    <x:plugin uri="link:part:dpml/metro/dpml-metro-tools"/>
+    <c:catalog title="DPML Catalog" dest="${catalog.path}">
+      <fileset dir="${basedir}/../../main">
+        <include name="**/target/classes/main/**/*.type"/>
+        <exclude name="**/test/**/*.*"/>
+      </fileset>
+    </c:catalog>
+  </target>
 
   <target name="docs" depends="prepare">
     <x:docs dest="${dpml.data}/docs"/>
   </target>
   
-  <target name="javadoc" depends="prepare">
-    <x:javadoc title="DPML Component Management Platform" access="protected" ref="dpml">
+  <target name="javadoc" depends="init">
+    <property name="api.path" location="${basedir}/target/docs/api/dpml/${dpml.module.version}"/>
+    <mkdir dir="${api.path}"/>
+    <x:javadoc title="DPML Component Management Platform" access="protected" ref="dpml"
+         dest="${api.path}">
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://api.dpml.net/javax/servlet/2.5"/>
       <link href="http://api.dpml.net/jetty/20060213"/>
@@ -217,11 +237,11 @@
     </x:javadoc>
   </target>
   
-  <target name="junit-report" depends="prepare">
-    <property name="junit.html" location="${project.target.reports.dir}/junit"/>
+  <target name="junit-report" depends="init">
+    <property name="junit.html" location="${basedir}/target/docs/reports/${dpml.module.version}/junit"/>
     <mkdir dir="${junit.html}"/>
     <junitreport todir="${junit.html}">
-      <fileset dir="../../main">
+      <fileset dir="${basedir}/../../main">
         <include name="**/target/reports/test/TEST-*.xml"/>
       </fileset>
       <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/dpml/tools/xsls"/>

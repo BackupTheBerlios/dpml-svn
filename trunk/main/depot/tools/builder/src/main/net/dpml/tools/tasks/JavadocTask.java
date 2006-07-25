@@ -65,6 +65,7 @@ public class JavadocTask extends ResourceTask
     private List m_groups = new ArrayList();
     private File m_overview;
     private AccessType m_access;
+    private File m_dest;
 
     //-----------------------------------------------------------------------
     // JavadocTask
@@ -98,6 +99,15 @@ public class JavadocTask extends ResourceTask
     public void setOverview( final File overview )
     {
         m_overview = overview;
+    }
+
+   /**
+    * Override the default destination.
+    * @param dir the destination directory
+    */
+    public void setDest( final File dir )
+    {
+        m_dest = dir;
     }
 
    /**
@@ -145,7 +155,7 @@ public class JavadocTask extends ResourceTask
 
         log( "Generating javadoc for project: " + resource, Project.MSG_VERBOSE );
 
-        File api = getContext().getTargetReportsJavadocDirectory();
+        File api = getDestination();
         mkDir( api );
 
         //
@@ -156,6 +166,18 @@ public class JavadocTask extends ResourceTask
         Resource[] providers = resource.getClasspathProviders( Scope.RUNTIME );
         final Path classpath = getContext().createPath( providers, true, true );
         process( resource, classpath, api );
+    }
+    
+    private File getDestination()
+    {
+        if( null == m_dest )
+        {
+            return getContext().getTargetReportsJavadocDirectory();
+        }
+        else
+        {
+            return m_dest;
+        }
     }
 
     //-----------------------------------------------------------------------
