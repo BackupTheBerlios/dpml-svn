@@ -213,7 +213,7 @@ public final class LibraryEncoder extends LibraryConstants
     private void writeInfo( 
       Writer writer, InfoDirective info, String lead ) throws IOException
     {
-        writer.write( "\n" + lead + "<info" );
+        writer.write( lead + "<info" );
         if( null != info.getTitle() )
         {
             writer.write( " title=\"" + info.getTitle() + "\"" );
@@ -225,12 +225,12 @@ public final class LibraryEncoder extends LibraryConstants
             writer.write( "\n" + lead + "  <description>" );
             writer.write( "\n" + lead + "  " + description );
             writer.write( "\n" + lead + "  </description>" );
+            writer.write( "\n" + lead + "</info>" );
         }
         else
         {
             writer.write( "/>" );
         }
-        writer.write( "\n" + lead + "</info>" );
     }
     
     private void writeProperties( 
