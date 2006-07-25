@@ -23,8 +23,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 import javax.xml.XMLConstants;
 

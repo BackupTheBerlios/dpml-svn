@@ -18,8 +18,6 @@
 
 package org.acme.clock;
 
-import java.util.Date;
-
 /**
  * Clock interface.
  * 
@@ -28,5 +26,9 @@ import java.util.Date;
  */
 public interface Clock
 {
+   /**
+    * Return the current time.
+    * @return the current time
+    */
     String getTimestamp();
 }

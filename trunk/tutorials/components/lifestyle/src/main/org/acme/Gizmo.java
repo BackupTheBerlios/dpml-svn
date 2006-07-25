@@ -18,8 +18,6 @@
 
 package org.acme;
 
-import java.awt.Color;
-
 /**
  * A test component.
  * 

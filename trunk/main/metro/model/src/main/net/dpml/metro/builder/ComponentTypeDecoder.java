@@ -27,14 +27,12 @@ import java.beans.IntrospectionException;
 
 import net.dpml.lang.Version;
 
-import net.dpml.metro.data.ComponentDirective;
 import net.dpml.metro.info.Type;
 import net.dpml.metro.info.InfoDescriptor;
 import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.CollectionPolicy;
 import net.dpml.metro.info.LifestylePolicy;
 import net.dpml.metro.info.ThreadSafePolicy;

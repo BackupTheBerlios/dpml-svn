@@ -46,7 +46,8 @@ public class SimpleClock implements Clock
     
    /**
     * Creation of a new instance.
-    * @param context the initial configuration
+    * @param format the format to use for timestamps
+    * @param locale the assigned locale
     */
     public SimpleClock( final String format, final Locale locale )
     {

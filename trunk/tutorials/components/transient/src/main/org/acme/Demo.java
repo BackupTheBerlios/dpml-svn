@@ -63,6 +63,7 @@ public class Demo
     * internal parts.
     * @param logger the logging channel
     * @param context the deployment context
+    * @param parts the internal parts
     */
     public Demo( final Logger logger, final Context context, Parts parts )
     {
@@ -73,7 +74,11 @@ public class Demo
             if( logger.isLoggable( Level.INFO ) )
             {
                 int id = System.identityHashCode( gizmo );
-                logger.info( " gizmo [" + (i+1) + "] " + id );
+                logger.info( 
+                  " gizmo [" 
+                  + ( i+1 ) 
+                  + "] " 
+                  + id );
             }
         }
     }

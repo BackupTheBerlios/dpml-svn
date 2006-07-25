@@ -25,8 +25,12 @@ package org.acme.extra;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Customizer
+public final class Customizer
 {
+    private Customizer()
+    {
+    }
+    
    /**
     * Static method that returns a customized format value.
     * @return the customized format value

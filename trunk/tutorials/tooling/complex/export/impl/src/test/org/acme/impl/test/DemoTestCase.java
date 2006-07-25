@@ -19,7 +19,6 @@
 package org.acme.impl.test;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 import junit.framework.TestCase;
 
@@ -40,7 +39,7 @@ public class DemoTestCase extends TestCase
     */
     public void testTheClock() throws Exception
     {
-        SimpleClock clock = new SimpleClock();
+        Clock clock = new SimpleClock();
         String timestamp = clock.getTimestamp();
         Logger logger = Logger.getLogger( "test" );
         logger.info( timestamp );

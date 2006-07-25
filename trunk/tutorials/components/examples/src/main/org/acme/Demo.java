@@ -57,7 +57,6 @@ public class Demo
         
        /**
         * Return a constructed color.
-        * @param color another color value
         * @return the color value 
         */
         Color getAnotherColor();
@@ -226,6 +225,7 @@ public class Demo
     * Creation of a new object using a supplied logging channel.
     * @param logger the logging channel
     * @param context the deployment context
+    * @exception Exception if an error occurs
     */
     public Demo( final Logger logger, final Context context ) throws Exception
     {

@@ -19,11 +19,9 @@
 package org.acme.impl.test;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 import junit.framework.TestCase;
 
-import org.acme.Clock;
 import org.acme.impl.SimpleClock;
 
 /**

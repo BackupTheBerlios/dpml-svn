@@ -18,7 +18,6 @@
 
 package net.dpml.tools.tasks;
 
-import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Resource;
 import net.dpml.library.Feature;
 import net.dpml.library.Type;

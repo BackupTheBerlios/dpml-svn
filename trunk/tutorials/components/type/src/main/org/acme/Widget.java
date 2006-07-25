@@ -26,5 +26,8 @@ package org.acme;
  */
 public interface Widget
 {
+   /**
+    * Do something.
+    */
     void doSomething();
 }

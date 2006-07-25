@@ -34,13 +34,11 @@ import net.dpml.lang.PartDecoder;
 
 import net.dpml.library.Type;
 import net.dpml.library.Resource;
-import net.dpml.library.info.Scope;
 
 import net.dpml.transit.Artifact;
 
 import net.dpml.tools.Context;
 
-import net.dpml.util.Logger;
 import net.dpml.util.DefaultLogger;
 
 import org.apache.tools.ant.Project;

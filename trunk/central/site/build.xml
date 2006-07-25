@@ -150,6 +150,18 @@
       </fileset>
     </copy>
     
+    <property name="customize.src.dir" location="${components.dir}/customize"/>
+    <property name="customize.import.docs.dir" location="target/docs/metro/tutorials/customize"/>
+    <mkdir dir="${customize.import.docs.dir}"/>
+    <copy toDir="${customize.import.docs.dir}" flatten="true">
+      <fileset dir="${customize.src.dir}/clock/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${customize.src.dir}/custom/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
   </target>
   
   
@@ -226,6 +238,7 @@
     <checkstyle>
       <formatter type="xml" toFile="${checkstyle.data}"/>
       <fileset dir="../../main">
+        <include name="**/target/build/main/**/*.java"/>
         <include name="**/target/build/test/**/*.java"/>
       </fileset>
     </checkstyle>

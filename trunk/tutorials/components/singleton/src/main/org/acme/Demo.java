@@ -73,6 +73,8 @@ public class Demo
     * internal parts.
     * @param logger the logging channel
     * @param context the deployment context
+    * @param parts the internal parts
+    * @exception Exception if an error occurs
     */
     public Demo( final Logger logger, final Context context, Parts parts ) throws Exception
     {
@@ -89,8 +91,14 @@ public class Demo
         }
     }
     
+   /**
+    * Internal thread uses to simulate multi-thread access.
+    */
     private class Accessor extends Thread
-    {        
+    {   
+       /**
+        * Run the thread.
+        */
         public void run()
         {
             int n = m_context.getAccessCount();
@@ -98,7 +106,15 @@ public class Demo
             for( int i=0; i<n; i++ )
             {
                 int id = System.identityHashCode( gizmo );
-                m_logger.info( " gizmo (" + this + ") [" + id + "]" );
+                if( m_logger.isLoggable( Level.INFO ) )
+                {
+                    m_logger.info( 
+                      " gizmo (" 
+                      + this 
+                      + ") [" 
+                      + id 
+                      + "]" );
+                }
             }
         }
     }

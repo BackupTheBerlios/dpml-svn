@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLClassLoader;
 
 import net.dpml.component.Controller;
 import net.dpml.component.ControlException;
@@ -144,6 +143,7 @@ public class CompositionController implements Controller, Builder
     
    /**
     * Construct the deployment information from a part definition.
+    * @param logger the logging channel
     * @param info the part info definition
     * @param classpath the part classpath definition
     * @param strategy the DOM element definining the deplyment streategy
@@ -175,6 +175,7 @@ public class CompositionController implements Controller, Builder
     
    /**
     * Build a classloader stack.
+    * @param name the name to assign to the classloader
     * @param anchor the anchor classloader to server as the classloader chain root
     * @param classpath the part classpath definition
     * @return the new classloader
@@ -362,28 +363,11 @@ public class CompositionController implements Controller, Builder
     */
     private Component createComponent( Model model, boolean flag ) throws Exception
     {
-        if( getLogger().isTraceEnabled() )
-        {
-            if( flag )
-            {
-                getLogger().trace( "creating new locally controlled component" );
-            }
-            else
-            {
-                getLogger().trace( "creating new remotelly controlled component" );
-            }
-        }
         if( model instanceof ComponentModel )
         {
             ClassLoader anchor = Logger.class.getClassLoader();
             ComponentModel componentModel = (ComponentModel) model;
             return m_controller.createDefaultComponentHandler( anchor, componentModel, flag );
-            
-            //ClassLoader anchor = Logger.class.getClassLoader();
-            //Classpath classpath = componentModel.getClasspath();
-            //String name = componentModel.getName();
-            //ClassLoader classloader = getClassLoader( name, anchor, classpath );
-            //return m_controller.createDefaultComponentHandler( classloader, componentModel, flag );
         }
         else
         {

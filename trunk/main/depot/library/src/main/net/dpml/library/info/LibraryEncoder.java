@@ -24,8 +24,6 @@ import java.io.Writer;
 import java.io.OutputStreamWriter;
 import java.util.Properties;
 
-import javax.xml.XMLConstants;
-
 import net.dpml.lang.Category;
 import net.dpml.lang.Version;
 

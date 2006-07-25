@@ -31,7 +31,6 @@ import net.dpml.metro.info.ContextDescriptor;
 import net.dpml.metro.info.CategoryDescriptor;
 import net.dpml.metro.info.ServiceDescriptor;
 import net.dpml.metro.info.EntryDescriptor;
-import net.dpml.metro.info.PartReference;
 import net.dpml.metro.info.Descriptor;
 
 import net.dpml.state.State;

@@ -44,18 +44,36 @@ public class Demo implements Widget
         m_logger = logger;
     }
     
+   /**
+    * Startup the component.
+    */
     public void start()
     {
-        m_logger.info( "startup" );
+        if( m_logger.isLoggable( Level.INFO ) )
+        {
+            m_logger.info( "startup" );
+        }
     }
     
+   /**
+    * Shutdown the component.
+    */
     public void stop()
     {
-        m_logger.info( "shutdown" );
+        if( m_logger.isLoggable( Level.INFO ) )
+        {
+            m_logger.info( "shutdown" );
+        }
     }
     
+   /**
+    * Do something.
+    */
     public void doSomething()
     {
-        m_logger.info( "doing stuff" );
+        if( m_logger.isLoggable( Level.INFO ) )
+        {
+            m_logger.info( "doing stuff" );
+        }
     }
 }

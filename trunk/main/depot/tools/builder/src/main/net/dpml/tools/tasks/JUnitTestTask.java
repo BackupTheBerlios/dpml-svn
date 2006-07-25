@@ -351,33 +351,8 @@ public class JUnitTestTask extends GenericTask
             junit.addConfiguredSysproperty( security );
         }
 
-        File base = project.getBaseDir();
-        final File properties = new File( base, "test.properties" );
-        if( properties.exists() )
-        {
-            Properties props = new Properties();
-            try
-            {
-                InputStream input = new FileInputStream( properties );
-                props.load( input );
-                Enumeration enum = props.propertyNames();
-                while( enum.hasMoreElements() )
-                {
-                    String name = (String) enum.nextElement();
-                    final Environment.Variable v = new Environment.Variable();
-                    v.setKey( name );
-                    v.setValue( props.getProperty( name ) );
-                    junit.addConfiguredSysproperty( v );
-                }
-            }
-            catch( IOException ioe )
-            {
-                final String error = 
-                  "Unexpected IO error while reading " + properties.toString();
-                throw new BuildException( error, ioe, getLocation() );
-            }
-        }
-
+        setupTestProperties( junit, project );
+        
         final File logProperties = new File( working, "logging.properties" );
         if( logProperties.exists() )
         {
@@ -436,6 +411,36 @@ public class JUnitTestTask extends GenericTask
         
         junit.init();
         junit.execute();
+    }
+    
+    private void setupTestProperties( JUnitTask junit, Project project )
+    {
+        File base = project.getBaseDir();
+        final File properties = new File( base, "test.properties" );
+        if( properties.exists() )
+        {
+            Properties props = new Properties();
+            try
+            {
+                InputStream input = new FileInputStream( properties );
+                props.load( input );
+                Enumeration enum = props.propertyNames();
+                while( enum.hasMoreElements() )
+                {
+                    String name = (String) enum.nextElement();
+                    final Environment.Variable v = new Environment.Variable();
+                    v.setKey( name );
+                    v.setValue( props.getProperty( name ) );
+                    junit.addConfiguredSysproperty( v );
+                }
+            }
+            catch( IOException ioe )
+            {
+                final String error = 
+                  "Unexpected IO error while reading " + properties.toString();
+                throw new BuildException( error, ioe, getLocation() );
+            }
+        }
     }
     
     private void configureForExecution( JUnitTask task )

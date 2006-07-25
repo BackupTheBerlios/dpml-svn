@@ -58,7 +58,6 @@ public class Widget
     
    /**
     * Creation of a new object using a supplied logging channel.
-    * @param logger the logging channel
     * @param context the deployment context
     */
     public Widget( final Context context )

@@ -56,7 +56,7 @@ public class Demo
    /**
     * Creation of a new object using a supplied logging channel.
     * @param logger the logging channel
-    * @param context the deployment context
+    * @param parts the internal parts handler
     */
     public Demo( final Logger logger, final Parts parts )
     {

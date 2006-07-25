@@ -20,13 +20,10 @@ package net.dpml.tools.tasks;
 
 import net.dpml.library.ResourceNotFoundException;
 import net.dpml.library.Resource;
-import net.dpml.library.Feature;
-import net.dpml.library.Type;
 
 import net.dpml.tools.Context;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 
 /**
  * Locate a named feature of the a project or resource.

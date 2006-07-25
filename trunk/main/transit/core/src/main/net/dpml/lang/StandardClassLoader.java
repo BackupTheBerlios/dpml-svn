@@ -44,6 +44,7 @@ public class StandardClassLoader extends URLClassLoader
     * Internal utility class to build a classloader.  If the supplied url
     * sequence is zero length the parent classloader is returned directly.
     *
+    * @param logger the logging channel
     * @param name the name identifying the classloader
     * @param category the category that this classloader is handling
     * @param parent the parent classloader
@@ -462,11 +463,12 @@ public class StandardClassLoader extends URLClassLoader
     
    /**
     * Handle notification of the creation of a new classloader.
+    * @param logger the logging channel
     * @param label the classloader label
     * @param category the classloader category
     * @param classloader the new classloader to report
     */
-    protected static void classloaderConstructed( Logger logger, String label, Category category, ClassLoader classloader )
+    private static void classloaderConstructed( Logger logger, String label, Category category, ClassLoader classloader )
     {
         if( logger.isTraceEnabled() )
         {
@@ -480,7 +482,9 @@ public class StandardClassLoader extends URLClassLoader
             if( null != parent )
             {
                 int pid = System.identityHashCode( parent );
-                buffer.append( "\n      extends: " + pid );
+                buffer.append( 
+                  "\n      extends: " 
+                  + pid );
             }
             if( classloader instanceof URLClassLoader )
             {
@@ -488,16 +492,24 @@ public class StandardClassLoader extends URLClassLoader
                 URL[] urls = loader.getURLs();
                 if( urls.length == 1 )
                 {
-                    buffer.append( "\n     contains: 1 entry" );
+                    buffer.append( 
+                      "\n     contains: 1 entry" );
                 }
                 else
                 {
-                    buffer.append( "\n     contains: " + urls.length + " entries" );
+                    buffer.append( 
+                      "\n     contains: " 
+                      + urls.length 
+                      + " entries" );
                 }
                 for( int i=0; i < urls.length; i++ )
                 {
                     URL url = urls[i];
-                    buffer.append( "\n         [" + (i+1) + "] " + url.toString() );
+                    buffer.append( 
+                      "\n         [" 
+                      + ( i+1 ) 
+                      + "] " 
+                      + url.toString() );
                 }
             }
             logger.trace( buffer.toString() );

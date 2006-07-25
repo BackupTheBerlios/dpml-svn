@@ -19,7 +19,6 @@
 package org.acme;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  * A minimal component.
@@ -73,6 +72,8 @@ public class Demo
     * internal parts.
     * @param logger the logging channel
     * @param context the deployment context
+    * @param parts the internal parts
+    * @exception Exception if an error occurs
     */
     public Demo( final Logger logger, final Context context, Parts parts ) throws Exception
     {
@@ -89,8 +90,14 @@ public class Demo
         }
     }
     
+   /**
+    * Internal thread uses to simulate multi-thread access.
+    */
     private class Accessor extends Thread
     {        
+       /**
+        * Run the thread.
+        */
         public void run()
         {
             int n = m_context.getAccessCount();

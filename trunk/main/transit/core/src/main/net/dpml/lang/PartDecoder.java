@@ -233,6 +233,7 @@ public final class PartDecoder implements Decoder
     
    /**
     * Resolve a part plugin or resource strategy.
+    * @param logger the logging channel
     * @param information the part info definition
     * @param classpath the part classpath definition
     * @param strategy part deployment strategy definition

@@ -327,13 +327,13 @@
     </dependencies>
   </project>
   
-  <!-- customization demo -->
+  <!-- customization demo: simple clock -->
 
   <project name="acme-simple-clock" basedir="customize/clock">
     <info title="Simple Clock"/>
     <types>
       <type id="jar"/>
-      <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" alias="true"
            type="org.acme.clock.SimpleClock" name="clock">
         <context>
           <entry key="format" value="K:mm a, z"/>
@@ -357,9 +357,9 @@
     <info title="Extended Clock"/>
     <types>
       <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-           uri="resource:part:dpmlx/tutorials/components/acme-simple-clock" name="extension">
+           uri="link:part:dpmlx/tutorials/components/acme-simple-clock" name="clock">
         <context>
-          <entry key="format" value="K:mm a, z"/>
+          <entry key="format" value="K:mm a"/>
         </context>
       </component>
     </types>
@@ -380,7 +380,7 @@
     <types>
       <type id="jar"/>
       <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-            uri="resource:part:dpmlx/tutorials/components/acme-simple-clock" name="custom">
+            uri="link:part:dpmlx/tutorials/components/acme-simple-clock" name="clock">
         <context>
           <entry key="format" class="org.acme.extra.Customizer" method="getCustomFormat"/>
         </context>

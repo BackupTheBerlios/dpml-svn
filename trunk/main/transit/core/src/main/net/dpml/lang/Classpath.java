@@ -19,7 +19,6 @@
 package net.dpml.lang;
 
 import java.net.URI;
-import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -50,16 +49,19 @@ public final class Classpath extends AbstractDirective
    /**
     * Creation of a new classpath definition.
     * @param base the base classpath from which this classpath is derived
-    * @param extension the extended classpath defintion
+    * @param extension the extended classpath definition
     */
     public Classpath( final Classpath base, final Classpath extension )
     {
-        this( base, extension.m_system, extension.m_public, extension.m_protected,extension.m_private );
-        //m_base = base;
-        //m_system = extension.m_system;
-        //m_public = extension.m_public;
-        //m_protected = extension.m_protected;
-        //m_private = extension.m_private;
+        if( null == extension )
+        {
+            throw new NullPointerException( "extension" );
+        }
+        m_base = base;
+        m_system = extension.m_system;
+        m_public = extension.m_public;
+        m_protected = extension.m_protected;
+        m_private = extension.m_private;
     }
     
    /**
@@ -72,11 +74,12 @@ public final class Classpath extends AbstractDirective
     public Classpath( 
       URI[] systemUris, URI[] publicUris, URI[] protectedUris, URI[] privateUris )
     {
-        this( null, systemUris, publicUris,protectedUris, privateUris );
+        this( null, systemUris, publicUris, protectedUris, privateUris );
     }
     
    /**
     * Creation of a new classpath definition.
+    * @param base super classpath (may be null)
     * @param systemUris an array of uris representing the system classpath extensions
     * @param publicUris an array of uris representing the public classpath entries
     * @param protectedUris an array of uris representing protected classpath entries

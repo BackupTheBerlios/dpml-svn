@@ -239,14 +239,16 @@ class ComponentController
     {
         if( model instanceof DefaultComponentModel )
         {
-            getLogger().debug( "using model classloader (local mode) for " + model.getContextPath() );
             DefaultComponentModel impl = (DefaultComponentModel) model;
             return impl.getClassLoader();
         }
         else
         {
             String path = model.getContextPath();
-            getLogger().debug( "building new classloader (remote mode) for " + path );
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "building new classloader (remote mode) for " + path );
+            }
             Classpath classpath = model.getClasspath();
             return getClassLoader( path, anchor, classpath );
         }

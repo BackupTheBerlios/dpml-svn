@@ -28,6 +28,9 @@ import java.io.File;
  */
 public interface Library
 {
+   /**
+    * Index filename.
+    */
     public static final String INDEX_FILENAME = "index.xml";
     
    /**

@@ -33,7 +33,6 @@ import net.dpml.library.Resource;
 import net.dpml.library.Type;
 import net.dpml.library.Filter;
 import net.dpml.library.impl.DefaultLibrary;
-import net.dpml.library.ResourceNotFoundException;
 
 import net.dpml.tools.info.ListenerDirective;
 
