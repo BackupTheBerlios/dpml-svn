@@ -2,12 +2,18 @@
 <module name="lang" xmlns="link:xsd:dpml/lang/dpml-module#1.0">
    
   <resource name="dpml-module">
+    <info title="DPML Library XSD Schema">
+      <description>Formal XML specification of the index, module, project and resource elements.</description>
+    </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>
   </resource>
 
   <resource name="dpml-part">
+    <info title="DPML Part XSD Schema">
+      <description>Formal XML specification of a part deployment unit.</description>
+    </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>
@@ -19,12 +25,18 @@
   </resource>
 
   <resource name="dpml-state">
+    <info title="DPML State XSD Schema">
+      <description>Formal XML specification of a state transition model.</description>
+    </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>
   </resource>
    
   <resource name="dpml-component">
+    <info title="DPML State XSD Schema">
+      <description>Formal XML specification of the Metro component descriptors and deployment directives.</description>
+    </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>
@@ -37,6 +49,9 @@
   </resource>
 
   <resource name="dpml-type">
+    <info title="DPML Type XSD Schema">
+      <description>Formal XML specification of the Metro component type descriptors.</description>
+    </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>

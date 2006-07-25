@@ -10,6 +10,9 @@
   </dependencies>
 
   <project name="dpml-util-i18n" basedir="i18n">
+    <info title="DPML I18N Utility">
+      <description>Internationalization utility.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>
@@ -21,6 +24,9 @@
   </project>
    
   <project name="dpml-util-cli" basedir="cli">
+    <info title="DPML CLI Utility">
+      <description>Commandline handling utility.</description>
+    </info>
     <properties>
       <property name="project.test.fork" value="true"/>
     </properties>
@@ -35,6 +41,9 @@
   </project>
 
   <project name="dpml-logging-api" basedir="logging">
+    <info title="DPML Logging Utility">
+      <description>Logging API Wrapper.</description>
+    </info>
     <types>
       <type id="jar" alias="true"/>
     </types>

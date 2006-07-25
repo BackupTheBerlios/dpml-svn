@@ -9,6 +9,9 @@
   </properties>
 
   <project name="dpml-transit-console" basedir="console">
+    <info title="DPML Transit Console">
+      <description>Transit preferences commandline handler.</description>
+    </info>
     <types>
       <type id="jar"/>
       <part:plugin
@@ -26,12 +29,18 @@
   </project>
 
   <resource name="dpml-transit-main" basedir="core">
+    <info title="DPML Transit Resource Management">
+      <description>Transit resource management system.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>
   </resource>
    
   <resource name="dpml-transit-tools" basedir="tools">
+    <info title="DPML Transit Antlib">
+      <description>Transit tools for the Ant build system.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>

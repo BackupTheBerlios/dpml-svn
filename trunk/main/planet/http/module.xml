@@ -8,6 +8,9 @@
   </properties>
 
   <project name="dpml-http-impl" basedir="impl">
+    <info title="DPML HTTP Component Types">
+      <description>Metro-based wrapped to the Jetty HTTP server.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>

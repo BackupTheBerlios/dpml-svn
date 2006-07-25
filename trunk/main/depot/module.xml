@@ -5,6 +5,9 @@
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
   
   <resource name="dpml-library" basedir="library">
+    <info title="DPML Project Management Library">
+      <description>Module, project and resource management system.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>
@@ -19,6 +22,9 @@
   </resource>
 
   <project name="dpml-library-build" basedir="build">
+    <info title="DPML Depot Build Tool">
+      <description>Multi-project build automation tool.</description>
+    </info>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
@@ -39,6 +45,9 @@
   </project>
    
   <project name="dpml-depot-console" basedir="core">
+    <info title="DPML Console">
+      <description>Internal subsystem application handler.</description>
+    </info>
     <properties>
       <property name="depot.short.filename" value="${project.name}.jar"/>
       <property name="transit.short.filename" value="dpml-transit-main.jar"/>
@@ -72,6 +81,9 @@
   </project>
 
   <resource name="dpml-tools-builder" basedir="tools">
+    <info title="DPML Depot Toolkit">
+      <description>Antlib supporting Depot-based build automation.</description>
+    </info>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
@@ -89,6 +101,9 @@
   </resource>
 
   <project name="dpml-depot-checkstyle" basedir="plugins/checkstyle">
+    <info title="DPML Checkstyle Plugin">
+      <description>Checkstyle plugin for Depot.</description>
+    </info>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
@@ -110,6 +125,9 @@
   </project>
 
   <project name="dpml-depot-convert" basedir="plugins/convert">
+    <info title="DPML Java to HTML Converter">
+      <description>Checkstyle plugin for Depot.</description>
+    </info>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>

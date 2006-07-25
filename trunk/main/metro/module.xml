@@ -5,6 +5,9 @@
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
 
   <project name="dpml-metro-state" basedir="state">
+    <info title="DPML State Management Model">
+      <description>State/transition model for lifecycle manaement.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>
@@ -22,6 +25,9 @@
   </project>
   
   <project name="dpml-metro-component" basedir="component">
+    <info title="DPML Metro Component API">
+      <description>Interfaces defining the Metro component model.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>
@@ -43,6 +49,9 @@
   </project>
   
   <project name="dpml-metro-model" basedir="model">
+    <info title="DPML Metro Component SPI">
+      <description>Interfaces defining the Metro datastructures.</description>
+    </info>
     <types>
       <type id="jar"/>
     </types>
@@ -68,9 +77,9 @@
   </project>
    
   <project name="dpml-metro-runtime" basedir="runtime">
-    <info title="Metro Runtime">
+    <info title="DPML Metro Runtime">
       <description>
-      DPML Component management platform runtime container.
+      Metro component management platform runtime container.
       </description>
     </info>
     <types>
@@ -102,7 +111,7 @@
     <info title="DPML Metro Tools">
       <description>
       DPML extensions supporting the Ant build system for component 
-      type and deployment data management
+      type and deployment data management.
       </description>
     </info>
     <types>
@@ -126,6 +135,7 @@
   </project>
 
   <project name="dpml-metro-test" basedir="test">
+    <info title="Internal Test Package"/>
     <properties>
       <property name="project.javadoc.exclude" value="true"/>
     </properties>
