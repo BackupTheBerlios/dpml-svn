@@ -144,15 +144,6 @@ public class HelloImpl
           then the Classloader in question is not created.
         </p>
 
-        <table>
-          <tr>
-            <td><img src="/images/info.gif"/></td>
-            <td><i>See also <a href="../tutorials/plugins.html">
-               Tutorial on Plugin Management</a>.</i>
-            </td>
-          </tr>
-        </table>
-
     </section>
 
   </body>

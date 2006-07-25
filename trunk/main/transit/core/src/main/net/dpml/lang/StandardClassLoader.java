@@ -280,7 +280,9 @@ public class StandardClassLoader extends URLClassLoader
         String label = 
           "\nClassLoader: " 
           + classloader.getClass().getName() 
-          + " (" + System.identityHashCode( classloader ) + ")";
+          + " (" 
+          + System.identityHashCode( classloader ) 
+          + ")";
 
         if( classloader instanceof StandardClassLoader )
         {

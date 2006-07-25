@@ -104,7 +104,6 @@ public abstract class Part
     * @param logger the logging channel
     * @param info the info descriptor
     * @param classpath the part classpath definition
-    * @param label debug label
     * @exception IOException if an I/O error occurs
     */
     public Part( Logger logger, Info info, Classpath classpath ) throws IOException
