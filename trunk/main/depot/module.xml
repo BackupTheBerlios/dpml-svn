@@ -71,7 +71,7 @@
     </filters>
   </project>
 
-  <resource name="dpml-tools-builder" basedir="tools/builder">
+  <resource name="dpml-tools-builder" basedir="tools">
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>

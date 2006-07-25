@@ -4,7 +4,7 @@
     xmlns:transit="antlib:net.dpml.transit">
 
   <property file="${basedir}/build.properties"/>
-  <property file="../../../bootstrap.properties"/>
+  <property file="../../bootstrap.properties"/>
   <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">

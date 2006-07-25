@@ -106,7 +106,7 @@ POPD
 GOTO :EOF
 
 :depot-ant-builder
-PUSHD depot\tools\builder
+PUSHD depot\tools
 CALL :build clean install
 POPD
 GOTO :EOF

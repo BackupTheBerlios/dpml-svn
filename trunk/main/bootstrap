@@ -100,9 +100,9 @@ dpmlLibrary()
 
 depotAntBuilder()
 {
-    cd depot/tools/builder
+    cd depot/tools
     build clean install
-    cd ../../..
+    cd ../..
 }
 
 externalModules()
