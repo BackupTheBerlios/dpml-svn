@@ -20,6 +20,7 @@ package org.acme.impl.test;
 
 import java.io.File;
 import java.net.URI;
+import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
@@ -44,7 +45,10 @@ public class DemoTestCase extends TestCase
         URI uri = getPartURI();
         Part part = Part.load( uri );
         Clock clock = (Clock) part.getContent();
-        System.out.println( clock.getTimestamp() );
+        String timestamp = clock.getTimestamp();
+        
+        Logger logger = Logger.getLogger( "test" );
+        logger.info( clock.getTimestamp() );
     }
     
     private URI getPartURI() throws Exception

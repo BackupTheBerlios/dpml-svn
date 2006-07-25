@@ -118,11 +118,11 @@ class ComponentController
         try
         {
             String partition = m_controller.getPartition() + Model.PARTITION_SEPARATOR;
-            ClassLoader classloader = composition.getClassLoader();
-            Classpath classpath = composition.getClasspath();
             ComponentDirective directive = composition.getComponentDirective();
             String name = directive.getName();
             String path = partition + name;
+            Classpath classpath = composition.getClasspath();
+            ClassLoader classloader = getClassLoader( path, ComponentModel.class.getClassLoader(), classpath );
             Logger logger = new DefaultLogger( path );
             EventQueue queue = m_controller.getEventQueue();
             return new DefaultComponentModel( 

@@ -7,7 +7,7 @@
     <import uri="link:module:dpml"/>
   </imports>
 
-  <module name="org/acme/parts" basedir=".">
+  <module name="org/acme/plugin" basedir=".">
   
     <project name="clock-api" basedir="api">
       <types>

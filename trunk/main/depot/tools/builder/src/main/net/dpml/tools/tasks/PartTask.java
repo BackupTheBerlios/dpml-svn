@@ -40,6 +40,9 @@ import net.dpml.transit.Artifact;
 
 import net.dpml.tools.Context;
 
+import net.dpml.util.Logger;
+import net.dpml.util.DefaultLogger;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 
@@ -196,7 +199,8 @@ public class PartTask extends GenericTask
             Type type = resource.getType( TYPE );
             Element element = type.getElement();
             PartDecoder decoder = PartDecoder.getInstance();
-            return decoder.build( info, classpath, element, resource );
+            DefaultLogger logger = new DefaultLogger( getTaskName() );
+            return decoder.build( logger, info, classpath, element, resource );
         }
         catch( Throwable e )
         {

@@ -20,6 +20,8 @@ package org.acme.demo;
 
 import org.acme.Clock;
 
+import net.dpml.lang.StandardClassLoader;
+
 import net.dpml.logging.Logger;
 
 /**
@@ -40,16 +42,44 @@ public class Demo
     }
     
     //------------------------------------------------------------------
+    // state
+    //------------------------------------------------------------------
+    
+    private final Logger m_logger;
+    private final Parts m_parts;
+    
+    //------------------------------------------------------------------
     // constructor
     //------------------------------------------------------------------
     
     public Demo( final Logger logger, final Parts parts )
     {
+        m_logger = logger;
+        m_parts = parts;
         Clock clock = parts.getClock();
         logger.info( 
           clock.getTimestamp() 
           + " (from " + clock.getClass().getName() 
           + ")"
         );
+        list();
+    }
+    
+    public void list()
+    {
+        m_logger.info( "A #############" );
+        ClassLoader classloader = getClass().getClassLoader();
+        if( classloader instanceof StandardClassLoader )
+        {
+            StandardClassLoader loader = (StandardClassLoader) classloader;
+            m_logger.info( loader.toString( true ) );
+        }
+        else
+        {
+            m_logger.info( classloader.toString() );
+        }
+        m_logger.info( "B #############" );
+        m_parts.getClock().list();
+        m_logger.info( "C #############" );
     }
 }

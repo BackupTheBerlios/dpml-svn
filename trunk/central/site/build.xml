@@ -10,6 +10,16 @@
 
     <!-- tooling tutorial build content -->
 
+    <x:property name="tooling.dir" feature="basedir" ref="dpmlx/tutorials/tooling"/>
+    <property name="plugin.src.dir" location="${tooling.dir}/complex/plugin"/>
+    <property name="local.plugin.docs.dir" location="target/docs/depot/tutorials/plugin"/>
+    <mkdir dir="${local.plugin.docs.dir}"/>
+    <copy toDir="${local.plugin.docs.dir}" flatten="true">
+      <fileset dir="${plugin.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
     <!--
     <x:property name="tooling.dir" feature="basedir" ref="dpmlx/tutorials/tooling"/>
     <property name="simple.build.dir" location="${tooling.dir}/simple"/>

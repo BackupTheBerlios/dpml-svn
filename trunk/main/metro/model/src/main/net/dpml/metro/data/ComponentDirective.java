@@ -311,7 +311,7 @@ public class ComponentDirective extends AbstractDirective  implements Comparable
         m_uri = uri;
         if( null != uri )
         {
-            Part part = Part.load( uri );
+            Part part = Part.load( uri, false );
             if( part instanceof DefaultComposition )
             {
                 m_base = (DefaultComposition) part;

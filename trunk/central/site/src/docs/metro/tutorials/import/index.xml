@@ -17,7 +17,7 @@
         jar files and deployment definitions. The demonstration uses three projects 
         involving an API, an implementation of that API, and a demo component and  
         associated testcase.  The API is used by both the implementation and the demo and 
-        the implementation is plugged into our demo component at runtime. Appart from
+        the implementation is plugged into our demo component at runtime. Apart from
         the direct demonstration of different combination techniques used in component 
         construction, the tutorial details the impact on classloader chain construction.
         </p>
@@ -29,11 +29,11 @@
         <p>
         The clock API is defined in a separate project so that we can reuse the
         service interface <a href="Clock.java.html">Clock</a> in our 
-        demo and implementation projects.  The separation of the API into a separate
-        jar file ensures that the jar file can exist at a level in a classloader
-        heirachy appropriate for its role as a shared contract (as destint from 
-        an jar file containing an private implementation which would typically 
-        exist at a lower level in the classloader heirachy).
+        demo and implementation projects.  The separation of the API ensures 
+        that the jar file can exist at a level in a classloader heirachy appropriate 
+        for its role as a shared contract (as destinct from a jar file containing an 
+        private implementation which would typically exist at a lower level in the 
+        classloader heirachy).
         </p>
         
 <pre>&lt;index ..... &gt;<![CDATA[
@@ -51,7 +51,7 @@
         <p>
         The <tt>acme-clock-impl</tt> project contains a clock 
         implementation <a href="SimpleClock.java.html">SimpleClock</a> 
-        together with deployment information (as a part artifact).  
+        together with deployment information (as a component-based part artifact).  
         The project definition includes a runtime dependency on the 
         <tt>acme-clock-api</tt> API project and as such, the runtime 
         classloader chain definition for the implementation will include
@@ -84,14 +84,14 @@
         as an internal part and uses the implementation through
         the service API. In the following project definition we have 
         included the clock implementation deployment data by referencing the 
-        external data as a component <tt>uri</tt> argument (as such we are 
-        defining a new component type that extends from the base component
-        referenced by the uri value) and we are overriding the context 
-        format argument with a new value.
+        component <tt>uri</tt> argument (as such we are 
+        defining a new component type that extends the base component
+        referenced by the uri value) enabling the possibility to ovderride the context 
+        arguments with new values.
         In addition we have declared a build time dependency 
         on the <tt>acme-clock-impl</tt> (just to ensure that it is build 
         before or demo project is built). It is important to note that
-        a build time dependency only concerns build secuencing and does not
+        a build time dependency only concerns build sequencing and does not
         impact our runtime dependency model.  In fact, during runtime the 
         demo component is established and the clock implementation is created
         within a classloader that is a child of the enclosing demo component
@@ -140,6 +140,7 @@
       <subsection name="Summary">
       
         <p>
+        
         </p>
 
       </subsection>

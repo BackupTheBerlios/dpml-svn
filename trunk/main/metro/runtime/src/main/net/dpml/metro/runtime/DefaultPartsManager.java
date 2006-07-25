@@ -81,6 +81,10 @@ class DefaultPartsManager implements PartsManager, Disposable
             String key = ref.getKey();
             m_keys[i] = key;
             Directive part = ref.getDirective();
+            if( provider.getLogger().isTraceEnabled() )
+            {
+                provider.getLogger().trace( "building part: " + key );
+            }
             if( part instanceof ComponentDirective )
             {
                 try

@@ -42,6 +42,8 @@ public final class DefaultComposition extends Composition
 {   
     private ComponentDirective m_directive;
     
+    private final Classpath m_classpath;
+    
    /**
     * Creation of a new composition diefinition.
     * @param logger the assigned logging channel
@@ -58,6 +60,19 @@ public final class DefaultComposition extends Composition
         super( logger, info, classpath, controller, directive, directive.getName() );
         
         m_directive = directive;
+        
+        if( null != m_directive.getBaseDirective() )
+        {
+            // override the classpath defintion with a extended definition
+            
+            DefaultComposition composition = m_directive.getBasePart();
+            Classpath base = composition.getClasspath();
+            m_classpath = new Classpath( base, classpath );
+        }
+        else
+        {
+            m_classpath = null;
+        }
     }
     
    /**
@@ -69,6 +84,23 @@ public final class DefaultComposition extends Composition
         return m_directive;
     }
     
+   /**
+    * Get the part classpath definition.
+    *
+    * @return the classpath definition
+    */
+    public Classpath getClasspath()
+    {
+        if( null != m_classpath )
+        {
+            return m_classpath;
+        }
+        else
+        {
+            return super.getClasspath();
+        }
+    }
+
    /**
     * Encode the deployment directive to XML.
     * @param writer the output stream writer

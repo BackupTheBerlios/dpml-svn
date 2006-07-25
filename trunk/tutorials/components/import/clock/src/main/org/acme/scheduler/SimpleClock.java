@@ -23,6 +23,9 @@ import java.util.Locale;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import net.dpml.lang.StandardClassLoader;
+import net.dpml.util.Logger;
+
 import org.acme.Clock;
 
 /**
@@ -69,6 +72,7 @@ public class SimpleClock implements Clock
     //------------------------------------------------------------------
     
     private final Context m_context; 
+    private final Logger m_logger; 
     
     //------------------------------------------------------------------
     // constructor
@@ -78,8 +82,9 @@ public class SimpleClock implements Clock
     * Creation of a new instance.
     * @param context the initial configuration
     */
-    public SimpleClock( final Context context )
+    public SimpleClock( final Logger logger, final Context context )
     {
+        m_logger = logger;
         m_context = context;
     }
     
@@ -96,6 +101,20 @@ public class SimpleClock implements Clock
         Date date = new Date();
         DateFormat formatter = getDateFormatter();
         return formatter.format( date );
+    }
+    
+    public void list()
+    {
+        ClassLoader classloader = getClass().getClassLoader();
+        if( classloader instanceof StandardClassLoader )
+        {
+            StandardClassLoader loader = (StandardClassLoader) classloader;
+            m_logger.info( loader.toString( true ) );
+        }
+        else
+        {
+            m_logger.info( classloader.toString() );
+        }
     }
     
     private DateFormat getDateFormatter()

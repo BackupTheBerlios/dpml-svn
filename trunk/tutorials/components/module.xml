@@ -351,6 +351,30 @@
     </dependencies>
   </project>
 
+  <!-- extension demo -->
+
+  <project name="acme-extended-clock" basedir="customize/extension">
+    <info title="Extended Clock"/>
+    <types>
+      <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+           uri="resource:part:dpmlx/tutorials/components/acme-simple-clock" name="extension">
+        <context>
+          <entry key="format" value="K:mm a, z"/>
+        </context>
+      </component>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="acme-simple-clock"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </test>
+    </dependencies>
+  </project>
+
+
   <project name="acme-custom-clock" basedir="customize/custom">
     <info title="Custom Clock"/>
     <types>
@@ -388,11 +412,12 @@
     <types>
       <type id="jar"/>
       <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
-           type="org.acme.scheduler.SimpleClock"/>
+           type="org.acme.scheduler.SimpleClock" name="simple"/>
     </types>
     <dependencies>
       <runtime>
         <include key="acme-clock-api"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
       </runtime>
     </dependencies>
   </project>
@@ -401,7 +426,7 @@
     <types>
       <type id="jar"/>
       <component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
-           type="org.acme.demo.Demo">
+           type="org.acme.demo.Demo" name="demo">
         <parts>
           <component key="clock" uri="resource:part:dpmlx/tutorials/components/acme-clock-impl">
             <context>
@@ -418,12 +443,24 @@
       <runtime>
         <include key="acme-clock-api"/>
         <include ref="dpml/util/dpml-logging-api"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
       </runtime>
       <test>
         <include ref="ant/ant-junit"/>
-        <include ref="dpml/transit/dpml-transit-main"/>
       </test>
     </dependencies>
+  </project>
+  
+  <project name="acme-clock-test" basedir="import/test">
+    <dependencies>
+      <test>
+        <include ref="dpml/transit/dpml-transit-main"/>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature ref="dpmlx/tutorials/components/acme-clock-demo" token="PART" id="uri" type="part"/> 
+    </filters>
   </project>
   
 </module>

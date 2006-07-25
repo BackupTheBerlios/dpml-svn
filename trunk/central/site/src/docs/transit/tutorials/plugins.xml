@@ -46,50 +46,6 @@
 
       </subsection>
 
-      <subsection name="A sample part resource">
-
-        <p>
-        The following file is an example of a part resource.  The 
-        example is a development version of the part resource used to mount the 
-        runtime controller that executes within the Metro component management 
-        platform.
-        </p>
-
-        <source><![CDATA[<?xml version="1.0"?>
-<part xmlns="link:xsd:dpml/lang/dpml-part#1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-  <info title="Metro Container Runtime">
-    <description>DPML Component management platform runtime container.</description>
-  </info>
-
-  <strategy xsi:type="plugin" class="net.dpml.metro.runtime.CompositionController">
-    <param class="net.dpml.component.InitialContext"/>
-  </strategy>
-
-  <classpath>
-    <public>
-      <uri>artifact:jar:dpml/util/dpml-logging-api#1.0.0-RC8</uri>
-    </public>
-    <protected>
-      <uri>artifact:jar:dpml/metro/dpml-state-api#1.0.0-RC8</uri>
-      <uri>artifact:jar:dpml/metro/dpml-job-api#1.0.0-RC8</uri>
-      <uri>artifact:jar:dpml/transit/dpml-transit-main#1.0.0-RC8</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-component#1.0.0-RC8</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-model#1.0.0-RC8</uri>
-    </protected>
-    <private>
-      <uri>artifact:jar:dpml/metro/dpml-job-impl#1.0.0-RC8</uri>
-      <uri>artifact:jar:dpml/metro/dpml-state-impl#1.0.0-RC8</uri>
-      <uri>artifact:jar:dpml/metro/dpml-metro-runtime#1.0.0-RC8</uri>
-    </private>
-  </classpath>
-
-</part>
-]]></source>
-
-      </subsection>
-
       <subsection name="Part Creation">
 
         <p>
@@ -99,12 +55,19 @@
         was developed from the ground up to provided full transitive 
         dependency management across build, runtime and test scopes. Using the 
         Depot project model the job of creating a plugin definition is reduced down 
-        to type production declaration within a project definition.
+        to type production declaration within a Depot project definition.
         </p>
+        
+        <p><i>An example Depot project defintion ...</i></p>
 
 <pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+
+  ...
+  
   &lt;project name="dpml-metro-runtime" basedir="runtime"&gt;
-    &lt;info title="Metro Container Runtime"&gt;
+    &lt;info title="Metro Runtime"&gt;
       &lt;description&gt;
       DPML Component management platform runtime container.
       &lt;/description&gt;
@@ -117,26 +80,60 @@
       &lt;include ref="dpml/util/dpml-logging-api" tag="public"/&gt;
       &lt;include key="dpml-metro-component" tag="protected"/&gt;
       &lt;include key="dpml-metro-model" tag="protected"/&gt;
-      &lt;include ref="dpml/util/dpml-job-impl"/&gt;
-      &lt;include key="dpml-state-impl"/&gt;
     &lt;/dependencies&gt;
     &lt;dependencies scope="test"&gt;
       &lt;include ref="ant/ant-junit"/&gt;
     &lt;/dependencies&gt;
   &lt;/project&gt;
+   
+  ...
+  
+&lt;/index&gt;
 </pre>
 
         <p>
-        Observations concerning the above project definition with respect to 
-        part datastructure creation:
+        The following part description is generated automatically by the Depot build system
+        based on the above project definition based on the following rules:
         </p>
         
         <ul>
           <li>The <tt>info</tt> element is mapped directory to a part info declaration.</li>
-          <li>The <tt>part</tt> type element is mapped to a part deployment <tt>strategy</tt> 
+          <li>The <tt>part:plugin</tt> element is mapped to a part deployment <tt>strategy</tt> 
               definition.</li>
-          <li>All runtime dependencies are fully expanded relative to respective runtime scope</li>
+          <li>All runtime dependencies are fully expanded.</li>
         </ul>
+        
+        <source><![CDATA[<?xml version="1.0"?>
+
+<part xmlns="link:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <info title="Metro Runtime">
+    <description>DPML Component management platform runtime container.</description>
+  </info>
+
+  <strategy xsi:type="plugin" class="net.dpml.metro.runtime.CompositionController">
+    <param class="net.dpml.component.InitialContext"/>
+  </strategy>
+
+  <classpath>
+    <public>
+      <uri>artifact:jar:dpml/util/dpml-logging-api#SNAPSHOT</uri>
+    </public>
+    <protected>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-state#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-component#SNAPSHOT</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-model#SNAPSHOT</uri>
+    </protected>
+    <private>
+      <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
+    </private>
+  </classpath>
+
+</part>
+
+]]></source>
 
       </subsection>
 
@@ -152,14 +149,14 @@
 
         <p>
         The following example demonstrates the creation of a plugin sub-system 
-        using Transit.
+        using Transit to establish a client instance.
         </p>
 
         <source>
   URI uri = new URI( "@METRO-RUNTIME-URI@" );
   Part part = Part.load( uri );
   Logger logger = getLogger();
-  m_handler = (ContentHandler) part.instantiate( new Object[]{ logger } );
+  Object instance = part.instantiate( new Object[]{ logger } );
         </source>
 
         <p>

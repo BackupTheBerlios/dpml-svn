@@ -32,24 +32,11 @@ import org.apache.tools.ant.Project;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public abstract class FeatureTask extends GenericTask
+public abstract class FeatureTask extends ResourceTask
 {
-    private String m_key;
-    private String m_ref;
     private String m_feature;
     private String m_type; // optional - used to select type when resolving uris
     private boolean m_alias = false; // used when resolving uris
-
-   /**
-    * Set the key of the target project or resource description from which features will be 
-    * resolved from.  If not declared the key defaults to the current defintion.
-    *
-    * @param key the resource key
-    */
-    public void setKey( final String key )
-    {
-        m_key = key;
-    }
 
    /**
     * Set filename resolution switch. If true the filename feature will
@@ -60,18 +47,6 @@ public abstract class FeatureTask extends GenericTask
     public void setAlias( final boolean flag )
     {
         m_alias = flag;
-    }
-
-
-   /**
-    * Set the ref of the target project or resource description from which features will be 
-    * resolved from.
-    *
-    * @param ref the resource reference
-    */
-    public void setRef( final String ref )
-    {
-        m_ref = ref;
     }
 
    /**
@@ -117,8 +92,7 @@ public abstract class FeatureTask extends GenericTask
             log( "Processing feature: " + m_feature, Project.MSG_VERBOSE );
         }
         
-        String ref = getRef();
-        Resource resource = getResource( ref );
+        Resource resource = getResource();
         Feature feature = Feature.parse( m_feature );
         if( null == m_type )
         {
@@ -128,40 +102,6 @@ public abstract class FeatureTask extends GenericTask
         {
             Type type = resource.getType( m_type );
             return Feature.resolve( resource, feature, type, m_alias );
-        }
-    }
-    
-    private String getRef()
-    {
-        if( null != m_ref )
-        {
-            return m_ref;
-        }
-        else if( null != m_key )
-        {
-            return getResource().getParent().getResourcePath() + "/" + m_key;
-        }
-        else
-        {
-            return getResource().getResourcePath();
-        }
-    }
-
-    private Resource getResource( String ref )
-    {
-        try
-        {
-            return getContext().getLibrary().getResource( ref );
-        }
-        catch( ResourceNotFoundException e )
-        {
-            final String error = 
-              "Feature reference ["
-              + ref
-              + "] in the project [" 
-              + getResource()
-              + "] is unknown.";
-            throw new BuildException( error, e );
         }
     }
 }

@@ -29,4 +29,6 @@ import java.util.Date;
 public interface Clock
 {
     String getTimestamp();
+    
+    void list();
 }

@@ -20,6 +20,7 @@ package net.dpml.lang;
 
 import java.io.IOException;
 
+import net.dpml.util.Logger;
 import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;
@@ -34,6 +35,7 @@ public interface Builder
 {
    /**
     * Construct a new part using a supplied value resolver.
+    * @param logger the logging channel
     * @param info the part information descriptor
     * @param classpath the part classpath descriptor
     * @param strategy the DOM element definining the deployment strategy
@@ -41,5 +43,5 @@ public interface Builder
     * @return the part definition
     * @exception IOException if an I/O error occurs
     */
-    Part build( Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException;
+    Part build( Logger logger, Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException;
 }

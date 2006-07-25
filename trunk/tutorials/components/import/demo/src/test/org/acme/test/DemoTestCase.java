@@ -25,8 +25,6 @@ import junit.framework.TestCase;
 
 import net.dpml.lang.Part;
 
-import org.acme.demo.Demo;
-
 /**
  * Deployment of the demo component.
  *
@@ -43,7 +41,7 @@ public class DemoTestCase extends TestCase
     {
         URI uri = getPartURI();
         Part part = Part.load( uri );
-        Demo demo = (Demo) part.getContent();
+        part.getContent();
     }
     
     private URI getPartURI() throws Exception

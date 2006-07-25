@@ -113,16 +113,6 @@ public class CompositionController implements Controller, Builder
         m_context.addControllerContextListener( m_listener );
         m_controller = new ComponentController( m_logger, this );
         m_events = new EventQueue( m_logger );
-        
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( 
-              "loaded controller [" 
-              + getClass().getName() 
-              + "#"
-              + System.identityHashCode( this ) 
-              + "]" );
-        }
     }
     
     EventQueue getEventQueue()
@@ -162,13 +152,8 @@ public class CompositionController implements Controller, Builder
     * @exception IOException if an I/O error occurs
     */
     public Part build( 
-      Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException
+      Logger logger, Info info, Classpath classpath, Element strategy, Resolver resolver ) throws IOException
     {
-        if( getLogger().isTraceEnabled() )
-        {
-            String path = getPartSpec( info.getURI() );
-            getLogger().trace( "new composition: " + path );
-        }
         ClassLoader context = Thread.currentThread().getContextClassLoader();
         try
         {
@@ -176,7 +161,6 @@ public class CompositionController implements Controller, Builder
             Thread.currentThread().setContextClassLoader( anchor );
             ComponentDecoder decoder = new ComponentDecoder();
             ComponentDirective directive = decoder.buildComponent( strategy, resolver );
-            Logger logger = getLogger();
             return new DefaultComposition( logger, info, classpath, this, directive );
         }
         finally
@@ -198,18 +182,43 @@ public class CompositionController implements Controller, Builder
     */
     public ClassLoader getClassLoader( String name, ClassLoader anchor, Classpath classpath ) throws IOException
     {
-        if( null == classpath )
+        return getClassLoader( name, anchor, classpath, true );
+    }
+    
+   /**
+    * Build a classloader stack.
+    * @param anchor the anchor classloader to server as the classloader chain root
+    * @param classpath the part classpath definition
+    * @return the new classloader
+    * @exception IOException if an IO error occurs during classpath evaluation
+    */
+    private ClassLoader getClassLoader( String name, ClassLoader anchor, Classpath classpath, boolean expand ) throws IOException
+    {
+        Logger logger = getLogger();
+        
+        if( expand )
         {
-            return anchor;
+            Classpath cp = classpath.getBaseClasspath();
+            if( null != cp )
+            {
+                ClassLoader cl = getClassLoader( name + " (super)", anchor, cp );
+                return getClassLoader( name, cl, classpath, false );
+            }
         }
         
+        Class root = ComponentDirective.class;
+        String classname = root.getName();
         ClassLoader base = anchor;
-        Logger logger = getLogger();
-        Class root = ComponentDirective.class.getName();
+        
+        if( null == classpath )
+        {
+            ClassLoader management = root.getClassLoader();
+            return new CompositionClassLoader( logger, name, Category.PROTECTED, management, anchor );
+        }
         
         try
         {
-            base.loadClass( root );
+            anchor.loadClass( classname );
         }
         catch( ClassNotFoundException e )
         {
@@ -224,48 +233,6 @@ public class CompositionController implements Controller, Builder
         URI[] imps = classpath.getDependencies( Category.PRIVATE );
         ClassLoader impl = StandardClassLoader.buildClassLoader( logger, name, Category.PRIVATE, spi, imps );
         return impl;
-    }
-
-   /**
-    * Handle notification of the creation of a new classloader.
-    * @param category the classloader category (public, protected or private)
-    * @param classloader the new classloader 
-    */
-    public void classloaderConstructed( String name, Category category, ClassLoader classloader )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            int id = System.identityHashCode( classloader );
-            StringBuffer buffer = new StringBuffer();
-            buffer.append( "created " );
-            buffer.append( category.toString() );
-            buffer.append( " classloader for " + name );
-            buffer.append( "\n  ID: " + id );
-            if( classloader instanceof CompositionClassLoader )
-            {
-                CompositionClassLoader loader = (CompositionClassLoader) classloader;
-                ClassLoader interceptor = loader.getInterceptionClassLoader();
-                int pid = System.identityHashCode( interceptor );
-                buffer.append( "\n  interceptor: " + pid );
-            }
-            ClassLoader parent = classloader.getParent();
-            if( null != parent )
-            {
-                int pid = System.identityHashCode( parent );
-                buffer.append( "\n  extends: " + pid );
-            }
-            if( classloader instanceof URLClassLoader )
-            {
-                URLClassLoader loader = (URLClassLoader) classloader;
-                URL[] urls = loader.getURLs();
-                for( int i=0; i < urls.length; i++ )
-                {
-                    URL url = urls[i];
-                    buffer.append( "\n  [" + i + "] " + url.toString() );
-                }
-            }
-            getLogger().debug( buffer.toString() );
-        }
     }
     
     //--------------------------------------------------------------------
@@ -403,17 +370,20 @@ public class CompositionController implements Controller, Builder
             }
             else
             {
-                getLogger().trace( "creating new managed component" );
+                getLogger().trace( "creating new remotelly controlled component" );
             }
         }
         if( model instanceof ComponentModel )
         {
             ClassLoader anchor = Logger.class.getClassLoader();
             ComponentModel componentModel = (ComponentModel) model;
-            Classpath classpath = componentModel.getClasspath();
-            String name = componentModel.getName();
-            ClassLoader classloader = getClassLoader( name, anchor, classpath );
-            return m_controller.createDefaultComponentHandler( classloader, componentModel, flag );
+            return m_controller.createDefaultComponentHandler( anchor, componentModel, flag );
+            
+            //ClassLoader anchor = Logger.class.getClassLoader();
+            //Classpath classpath = componentModel.getClasspath();
+            //String name = componentModel.getName();
+            //ClassLoader classloader = getClassLoader( name, anchor, classpath );
+            //return m_controller.createDefaultComponentHandler( classloader, componentModel, flag );
         }
         else
         {

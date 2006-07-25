@@ -219,7 +219,7 @@ public final class PartDecoder implements Decoder
             Info information = getInfo( uri, element );
             Classpath classpath = getClasspath( element );
             Element strategy = getStrategyElement( element );
-            return build( information, classpath, strategy, resolver );
+            return build( m_logger, information, classpath, strategy, resolver );
         }
         else
         {
@@ -241,7 +241,7 @@ public final class PartDecoder implements Decoder
     * @exception IOException if an error occurs during element evaluation
     */
     public Part build( 
-      Info information, Classpath classpath, Element strategy, Resolver resolver ) 
+      Logger logger, Info information, Classpath classpath, Element strategy, Resolver resolver ) 
       throws IOException
     {
         ClassLoader anchor = getAnchorClassLoader();
@@ -251,36 +251,35 @@ public final class PartDecoder implements Decoder
         {
             // this is either a plugin or a resource
             
-            Logger logger = getLogger();
             String name = info.getTypeName();
             if( "plugin".equals( name ) )
             {
-                if( getLogger().isTraceEnabled() )
+                if( logger.isTraceEnabled() )
                 {
-                    getLogger().trace( "reading plugin definition" );
+                    logger.trace( "reading plugin definition" );
                 }
                 String classname = ElementHelper.getAttribute( strategy, "class" );
                 Element[] elements = ElementHelper.getChildren( strategy );
                 Value[] values = VALUE_DECODER.decodeValues( elements );
                 Part part = new Plugin( logger, information, classpath, classname, values );
-                if( getLogger().isTraceEnabled() )
+                if( logger.isTraceEnabled() )
                 {
-                    getLogger().trace( "loaded plugin definition" );
+                    logger.trace( "loaded plugin definition" );
                 }
                 return part;
             }
             else if( "resource".equals( name ) )
             {
-                if( getLogger().isTraceEnabled() )
+                if( logger.isTraceEnabled() )
                 {
-                    getLogger().trace( "reading resource definition" );
+                    logger.trace( "reading resource definition" );
                 }
                 String urn = ElementHelper.getAttribute( strategy, "urn" );
                 String path = ElementHelper.getAttribute( strategy, "path" );
                 Part part = new Resource( logger, information, classpath, urn, path );
-                if( getLogger().isTraceEnabled() )
+                if( logger.isTraceEnabled() )
                 {
-                    getLogger().trace( "loaded resource definition" );
+                    logger.trace( "loaded resource definition" );
                 }
                 return part;
             }
@@ -301,20 +300,24 @@ public final class PartDecoder implements Decoder
             
             try
             {
-                if( getLogger().isTraceEnabled() )
-                {
-                    getLogger().trace( "loading foreign builder" );
-                }
                 URI uri = getDecoderURI( strategy );
                 Builder builder = loadForeignBuilder( uri );
-                if( getLogger().isTraceEnabled() )
+                if( logger.isTraceEnabled() )
                 {
-                    getLogger().trace( 
+                    logger.trace( 
                       "using builder [" 
                       + builder.getClass().getName() 
                       + "]" );
                 }
-                return builder.build( information, classpath, strategy, resolver );
+                Part part = builder.build( logger, information, classpath, strategy, resolver );
+                if( logger.isTraceEnabled() )
+                {
+                    logger.trace( 
+                      "loaded part ["  
+                      + part.getClass().getName() 
+                      + "]" );
+                }
+                return part;
             }
             catch( Exception ioe )
             {

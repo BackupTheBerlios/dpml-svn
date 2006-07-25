@@ -71,8 +71,10 @@ public abstract class Part
 
     private final Info m_info;
     private final Classpath m_classpath;
-    private final ClassLoader m_classloader;
     private final Logger m_logger;
+    
+    private transient ClassLoader m_classloader;
+    private transient String m_label;
     
    /**
     * Load a part from an external XML source with part caching.
@@ -132,7 +134,7 @@ public abstract class Part
         m_logger = logger;
         m_info = info;
         m_classpath = classpath;
-        m_classloader = buildClassLoader( label );
+        m_label = label;
     }
     
    /**
@@ -341,6 +343,10 @@ public abstract class Part
     */
     public ClassLoader getClassLoader()
     {
+        if( null == m_classloader )
+        {
+            m_classloader = setupClassLoader();
+        }
         return m_classloader;
     }
 
@@ -351,6 +357,20 @@ public abstract class Part
     protected Logger getLogger()
     {
         return m_logger;
+    }
+    
+    private ClassLoader setupClassLoader()
+    {
+        try
+        {
+            return buildClassLoader( m_label );
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Classloader build error.";
+            throw new PartError( error, e );
+        }
     }
     
     private ClassLoader buildClassLoader( String label ) throws IOException
@@ -379,7 +399,23 @@ public abstract class Part
     
     private ClassLoader newClassLoader( ClassLoader base, Classpath classpath, String label ) throws IOException
     {
+        return newClassLoader( base, classpath, label, true );
+    }
+    
+    private ClassLoader newClassLoader( ClassLoader base, Classpath classpath, String label, boolean expand ) throws IOException
+    {
         Logger logger = getLogger();
+        
+        if( expand )
+        {
+            Classpath cp = classpath.getBaseClasspath();
+            if( null != cp )
+            {
+                ClassLoader cl = newClassLoader( base, cp, label + " (super)" );
+                return newClassLoader( cl, classpath, label, false );
+            }
+        }
+        
         URI[] uris = classpath.getDependencies( Category.SYSTEM );
         if( uris.length > 0 )
         {
@@ -428,45 +464,6 @@ public abstract class Part
             }
         }
     }
-
-
-   /**
-    * Handle notification of the creation of a new classloader.
-    * @param label the classloader label
-    * @param category the classloader category
-    * @param classloader the new classloader to report
-    */
-    /*
-    private void classloaderConstructed( String label, Category category, ClassLoader classloader )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            int id = System.identityHashCode( classloader );
-            StringBuffer buffer = new StringBuffer();
-            buffer.append( "created new " );
-            buffer.append( category.toString() );
-            buffer.append( " classloader" );
-            buffer.append( "\n  ID: " + id );
-            buffer.append( "\n  Label: " + label + " " + category );
-            ClassLoader parent = classloader.getParent();
-            if( null != parent )
-            {
-                buffer.append( "\n  Extends: " + System.identityHashCode( parent ) );
-            }
-            if( classloader instanceof URLClassLoader )
-            {
-                URLClassLoader loader = (URLClassLoader) classloader;
-                URL[] urls = loader.getURLs();
-                for( int i=0; i < urls.length; i++ )
-                {
-                    URL url = urls[i];
-                    buffer.append( "\n  [" + i + "] " + url.toString() );
-                }
-            }
-            getLogger().debug( buffer.toString() );
-        }
-    }
-    */
     
    /**
     * Handle notification of system classloader expansion.

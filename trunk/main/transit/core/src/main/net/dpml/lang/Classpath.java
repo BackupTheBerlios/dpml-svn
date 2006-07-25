@@ -29,7 +29,7 @@ import java.util.Arrays;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class Classpath implements Serializable
+public final class Classpath extends AbstractDirective
 {
     private static final URI[] EMPTY = new URI[0];
     
@@ -37,6 +37,7 @@ public final class Classpath implements Serializable
     private final URI[] m_public;
     private final URI[] m_protected;
     private final URI[] m_private;
+    private final Classpath m_base;
     
    /**
     * Creation of a empty classpath definition.
@@ -44,6 +45,21 @@ public final class Classpath implements Serializable
     public Classpath()
     {
         this( EMPTY, EMPTY, EMPTY, EMPTY );
+    }
+    
+   /**
+    * Creation of a new classpath definition.
+    * @param base the base classpath from which this classpath is derived
+    * @param extension the extended classpath defintion
+    */
+    public Classpath( final Classpath base, final Classpath extension )
+    {
+        this( base, extension.m_system, extension.m_public, extension.m_protected,extension.m_private );
+        //m_base = base;
+        //m_system = extension.m_system;
+        //m_public = extension.m_public;
+        //m_protected = extension.m_protected;
+        //m_private = extension.m_private;
     }
     
    /**
@@ -56,6 +72,20 @@ public final class Classpath implements Serializable
     public Classpath( 
       URI[] systemUris, URI[] publicUris, URI[] protectedUris, URI[] privateUris )
     {
+        this( null, systemUris, publicUris,protectedUris, privateUris );
+    }
+    
+   /**
+    * Creation of a new classpath definition.
+    * @param systemUris an array of uris representing the system classpath extensions
+    * @param publicUris an array of uris representing the public classpath entries
+    * @param protectedUris an array of uris representing protected classpath entries
+    * @param privateUris an array of uris representing private classpath entries
+    */
+    public Classpath( 
+      Classpath base, URI[] systemUris, URI[] publicUris, URI[] protectedUris, URI[] privateUris )
+    {
+        m_base = base;
         if( null == systemUris )
         {
             m_system = EMPTY_URIS;
@@ -91,6 +121,15 @@ public final class Classpath implements Serializable
         {
             m_private = privateUris;
         }
+    }
+    
+   /**
+    * Return the base classpath.
+    * @return the base classpath that this classpath extends (possibly null)
+    */
+    public Classpath getBaseClasspath()
+    {
+        return m_base;
     }
     
    /**
@@ -136,6 +175,10 @@ public final class Classpath implements Serializable
         if( other instanceof Classpath )
         {
             Classpath classpath = (Classpath) other;
+            //if( equals( m_base, classpath.m_base ) )
+            //{
+            //    return false;
+            //}
             if( !Arrays.equals( m_system, classpath.getDependencies( Category.SYSTEM ) ) )
             {
                 return false;
@@ -184,26 +227,6 @@ public final class Classpath implements Serializable
           + ", " + m_protected.length 
           + ", " + m_private.length
           + "]";
-    }
-    
-   /**
-    * Utility to hash an array.
-    * @param array the array
-    * @return the hash value
-    */
-    protected int hashArray( Object[] array )
-    {
-        if( null == array )
-        {
-            return 0;
-        }
-        int hash = 0;
-        for( int i=0; i<array.length; i++ )
-        {
-            Object object = array[i];
-            hash ^= object.hashCode();
-        }
-        return hash;
     }
     
     private static final URI[] EMPTY_URIS = new URI[0];
