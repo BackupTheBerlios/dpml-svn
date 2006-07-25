@@ -293,7 +293,7 @@ public class StandardClassLoader extends URLClassLoader
             
             if( null != m_name )
             {
-                label = label.concat( "\nLabel: " + m_name + " " + cl.getCategory() );
+                label = label.concat( "\nLabel: " + cl.m_name + " " + cl.getCategory() );
             }
             else
             {
