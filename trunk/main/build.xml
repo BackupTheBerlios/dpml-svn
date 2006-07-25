@@ -184,10 +184,10 @@
     <property name="prefs.tools" location="${prefs}/dpml/tools"/>
     <mkdir dir="${prefs.tools}"/>
     <copy todir="${prefs.tools}" filtering="false">
-      <fileset dir="depot/tools/builder/target/prefs">
+      <fileset dir="depot/tools/target/prefs">
         <include name="**/*"/>
       </fileset>
-      <fileset dir="depot/tools/checkstyle/target/prefs">
+      <fileset dir="depot/plugins/checkstyle/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
