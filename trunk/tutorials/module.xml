@@ -6,10 +6,21 @@
       <include ref="dpml"/>
     </build>
   </dependencies>
-  
-  <!--
-  <module file="tooling/module.xml"/>
-  <module file="components/module.xml"/>
-  -->
-  
+
+  <module name="tooling" basedir="tooling">
+    <dependencies>
+      <build>
+        <include ref="dpml"/>
+      </build>
+    </dependencies>
+  </module>
+    
+  <module name="components" basedir="components">
+    <dependencies>
+      <build>
+        <include key="tooling"/>
+      </build>
+    </dependencies>
+  </module>
+    
 </module>
