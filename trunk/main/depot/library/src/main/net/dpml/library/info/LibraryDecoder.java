@@ -155,7 +155,6 @@ public final class LibraryDecoder extends LibraryConstants
         Properties properties = null;
         ImportDirective[] imports = new ImportDirective[0];
         List list = new ArrayList();
-        //ResourceDirective[] resources = new ResourceDirective[0];
         Element[] children = ElementHelper.getChildren( element );
         for( int i=0; i<children.length; i++ )
         {
@@ -257,9 +256,8 @@ public final class LibraryDecoder extends LibraryConstants
           || MODULE_ELEMENT_NAME.equals( tag ) )
         {
             final String name = ElementHelper.getAttribute( element, "name" );
-            
             final String version = ElementHelper.getAttribute( element, "version" );
-            String basedir = ElementHelper.getAttribute( element, "basedir", null );
+            String basedir = ElementHelper.getAttribute( element, "basedir" );
             if( path != null )
             {
                 if( basedir == null )

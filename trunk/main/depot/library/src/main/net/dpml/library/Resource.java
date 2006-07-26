@@ -56,6 +56,12 @@ public interface Resource extends Dictionary, Resolver
     String getVersion();
     
    /**
+    * Return the statutory resource version.
+    * @return the version
+    */
+    String getStatutoryVersion();
+    
+   /**
     * Return the fully qualified path to the resource.
     * @return the path
     */

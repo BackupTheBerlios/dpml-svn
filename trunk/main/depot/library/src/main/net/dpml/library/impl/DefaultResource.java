@@ -260,25 +260,52 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         {
             return getStandardVersion();
         }
-        String version = m_directive.getVersion();
         if( ResourceDirective.ANONYMOUS.equals( getClassifier() ) )
         {
-            return version;
+            return m_directive.getVersion();
         }
-        if( null == version )
+        else
         {
-            if( null != m_parent ) 
+            String version = getStatutoryVersion();
+            if( null != version )
             {
-                return m_parent.getVersion();
+                return version;
             }
             else
             {
                 return getStandardVersion();
             }
         }
+    }
+    
+   /**
+    * Return the declard resource version.
+    * @return the statutory version
+    */
+    public String getStatutoryVersion()
+    {
+        if( null == m_directive )
+        {
+            return null;
+        }
         else
         {
-            return version;
+            String version = m_directive.getVersion();
+            if( null != version )
+            {
+                return version;
+            }
+            else
+            {
+                if( null != m_parent )
+                {
+                    return m_parent.getStatutoryVersion();
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
     
@@ -1340,6 +1367,36 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
 
     private String getStandardVersion()
     {
+        String value = getBuildSignature();
+        if( value.equals( SNAPSHOT ) )
+        {
+            return value;
+        }
+        else
+        {
+            boolean flag = getBooleanProperty( "project.version-prefix.enabled", false );
+            if( flag )
+            {
+                Version decimal = getDecimalVersion();
+                return decimal.toString() + "-" + value;
+            }
+            else
+            { 
+                return value;
+            }
+        }
+    }
+    
+    private Version getDecimalVersion()
+    {
+        int major = getMajorVersion();
+        int minor = getMinorVersion();
+        int micro = getMicroVersion();
+        return new Version( major, minor, micro );
+    }
+    
+    private String getBuildSignature()
+    {
         String system = System.getProperty( "build.signature", SNAPSHOT );
         String value = getProperty( "build.signature", system );
         if( value.equals( "project.timestamp" ) )
@@ -1351,7 +1408,22 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
             return value;
         }
     }
-
+    
+    private int getMajorVersion()
+    {
+        return getIntegerProperty( "project.major.version", 0 );
+    }
+    
+    private int getMinorVersion()
+    {
+        return getIntegerProperty( "project.minor.version", 0 );
+    }
+    
+    private int getMicroVersion()
+    {
+        return getIntegerProperty( "project.micro.version", 0 );
+    }
+    
    /**
     * Return the UTC YYMMDD.HHMMSSS signature of a date.
     * @return the UTC date-stamp signature

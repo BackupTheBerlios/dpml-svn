@@ -116,6 +116,48 @@ public class DefaultDictionary implements Dictionary
     }
     
    /**
+    * Return an integer property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value as an integer
+    * @exception NumberFormatException if underlying property value 
+    *    cannot be resolved to an integer
+    */
+    public int getIntegerProperty( String key, int value )
+    {
+        String result = m_properties.getProperty( key );
+        if( null == result )
+        {
+            return value;
+        }
+        else
+        {
+            String literal = resolve( result );
+            return Integer.parseInt( literal );
+        }
+    }
+    
+   /**
+    * Return an boolean property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value as an boolean
+    * @exception NumberFormatException if underlying property value 
+    *    cannot be resolved to an integer
+    */
+    public boolean getBooleanProperty( String key, boolean value )
+    {
+        String result = m_properties.getProperty( key );
+        if( null != result )
+        {
+            return Boolean.valueOf( result ).booleanValue();
+        }
+        else
+        {
+            return value;
+        }
+    }
+   /**
     * Evaluate and expand any symbolic references in the supplied value.
     * @param value the value to resolve
     * @return the resolved value
