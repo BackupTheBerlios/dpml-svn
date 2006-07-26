@@ -361,34 +361,8 @@ public final class DefaultModule extends DefaultResource implements Module
             
             String path = getResourcePath();
             return exportModule( this, path );
-            //ModuleDirective directive = (ModuleDirective) exportResource( this );
-            //return parent.createWrappedDirective( directive );
         }
     }
-    
-   /**
-    * When exporting a sub-module we need to wrap the submodule in module 
-    * directives of the enclosing modules.  This method handles this recusive 
-    * wrapping function.
-    * @param directive the directive to wrap
-    * @return a top-level module directive containing the wrapped resource
-    */
-    /*
-    private ModuleDirective createWrappedDirective( final ResourceDirective directive )
-    {
-        String name = getName();
-        DefaultModule parent = getDefaultParent();
-        if( null == parent )
-        {
-            return new ModuleDirective( name, directive );
-        }
-        else
-        {
-            ModuleDirective module = new ModuleDirective( name, directive );
-            return parent.createWrappedDirective( module );
-        }
-    }
-    */
     
    /**
     * Return a directive suitable for publication as an external description.
