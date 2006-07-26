@@ -158,14 +158,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         String filename = m_directive.getBasedir();
         if( null != filename )
         {
-            File file = new File( filename );
+            String spec = resolve( filename );
+            File file = new File( spec );
             if( file.isAbsolute() )
             {
                 m_basedir = getCanonicalFile( file );
             }
             else
             {
-                File basedir = new File( anchor, filename );
+                File basedir = new File( anchor, spec );
                 m_basedir = getCanonicalFile( basedir );
                 setProperty( "basedir", m_basedir.toString() );
             }
