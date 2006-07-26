@@ -68,6 +68,17 @@
               MD5</a>
             </td>
           </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-docs-@VERSION@.zip">
+                dpml-sdk-docs-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
         </table>
 
       </subsection>
