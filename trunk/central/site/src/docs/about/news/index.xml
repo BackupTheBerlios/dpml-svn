@@ -27,10 +27,10 @@
 
             <td>
             Transit is a resource management system that lets you work with 
-            uri instead of urls - where uris include artifact:[group]/[name]#[version]
+            uris instead of urls - where uris include artifact:[group]/[name]#[version]
             (for cached based retrieval of versioned resources backed by local and/or
-            remote repositories), link:[group]/[name]#[version] which provides something
-            similar to a symlink, and local:[group]/[name]#[version] for retrieval of 
+            remote repositories), link:[group]/[name]#[version] which provides an 
+            equivalent concept to a symlink, and local:[group]/[name]#[version] for retrieval of 
             local preferences.  Above the resource management layer is a plugin 
             management system that combines 'deployment data' and 'classloader chain' 
             information into XML files that can be used by the system to automatically
@@ -44,8 +44,8 @@
             <td><b><i>Depot</i></b></td>
 
             <td>
-            The Depot library provides a framework for the &lt;resource&gt; declarations (e.g. 
-            jar file, XML files, etc.), &lt;project&gt; declarations, and &lt;module&gt; declarations.
+            The Depot library provides a framework for &lt;resource&gt; (e.g. 
+            jar file, XML files, etc.), &lt;project&gt;, and &lt;module&gt; declarations.
             Modules identify a namespace for a group of resource and/or projects.
             Projects identify a working base directory. Projects can declare scoped dependencies 
             covering BUILD, TEST and RUNTIME phases.  Runtime phases can be further 
