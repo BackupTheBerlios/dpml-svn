@@ -7,8 +7,9 @@
     </build>
   </dependencies>
   
+  <!--
   <module file="tooling/module.xml"/>
   <module file="components/module.xml"/>
-  
+  -->
   
 </module>

@@ -28,6 +28,7 @@
     </copy>
     <copy toDir="${dpml.data}/dist">
       <fileset dir="${basedir}/target/dist">
+        <include name="${docs.filename}"/>
         <include name="${docs.filename}.*"/>
       </fileset>
     </copy>

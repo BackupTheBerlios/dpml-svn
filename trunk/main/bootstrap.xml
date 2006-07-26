@@ -177,7 +177,7 @@
   <property name="target.deliverables.dir" location="${target.dir}/deliverables"/>
   <property name="target.deliverables.jars.dir" location="${target.deliverables.dir}/jars"/>
 
-  <target name="setupReleasePrefix" if="signature.declared">
+  <target name="setupReleasePrefix" if="decimal.declared">
     <property name="project.prefix" value="${build.decimal}-"/>
   </target>
 
