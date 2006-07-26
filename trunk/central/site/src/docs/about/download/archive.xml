@@ -25,6 +25,7 @@
         
         <ul>
           <li>Depot and Metro tutorials.</li>
+          <li>Added decimal version prefix support.</li>
           <li>Super-component support in component defintion.</li>
           <li>Moved main library defintion to <tt>index.xml</tt> and corresponding
               <tt>&lt;index&gt;</tt> top-level element.</li>
