@@ -27,142 +27,94 @@
         </p>
         <p>
         We can override this using the <tt>-version</tt> 
-        commandline option.
+        commandline option. In the following example we are requesting a listing of
+        the in-scope projects together with the version cli option.  The resulting
+        list is the list of projects that would be build if we dropped to list option.
         </p>
 
-<pre>$ build -version 1.0.0
-[1940 ] [INFO   ] (depot.build): Initiating build sequence: (3)
+<pre>$ build -list -version <font color="darkred">ABC</font>
 
-  (1)   org/acme/clock-api
-  (2)   org/acme/clock-impl
-  (3)   org/acme
+Selection: [3]
 
-
--------------------------------------------------------------------------
-org/acme/clock-api#1.0.0
--------------------------------------------------------------------------
-
-init:
-
-prepare:
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target\build\main
-[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\export\api\target\build\main
-
-build:
-    [javac] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target\classes\main
-    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\export\api\target\classes\main
-
-package:
-      [jar] Created dir: D:\dpml\tutorials\tooling\complex\export\api\target\deliverables\jars
-      [jar] Building jar: D:\dpml\tutorials\tooling\complex\export\api\target\deliverables\jars\clock-api-1.0.0.jar
-      [jar] Creating md5 checksum
-
-test:
-
-install:
-[x:install] Copying 2 files to D:\system\dpml\data\cache\org\acme
-
-BUILD SUCCESSFUL
-Total time: 3 seconds
-
--------------------------------------------------------------------------
-org/acme/clock-impl#1.0.0
--------------------------------------------------------------------------
-
-init:
-
-prepare:
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\build\main
-[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\export\impl\target\build\main
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\build\test
-[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\export\impl\target\build\test
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\test
-
-build:
-    [javac] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\classes\main
-    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\export\impl\target\classes\main
-    [javac] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\classes\test
-    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\export\impl\target\classes\test
-
-package:
-      [jar] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\deliverables\jars
-      [jar] Building jar: D:\dpml\tutorials\tooling\complex\export\impl\target\deliverables\jars\clock-impl-1.0.0.jar
-      [jar] Creating md5 checksum
-
-test:
-    [junit] Created dir: D:\dpml\tutorials\tooling\complex\export\impl\target\reports\test
-    [junit] Executing forked test.
-    [junit] Running org.acme.impl.test.DemoTestCase
-    [junit] [37920] [INFO   ] (test): 0:27 AM, CST
-    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.203 sec
-
-install:
-[x:install] Copying 2 files to D:\system\dpml\data\cache\org\acme
-
-BUILD SUCCESSFUL
-Total time: 2 seconds
-
--------------------------------------------------------------------------
-org/acme#1.0.0
--------------------------------------------------------------------------
-
-init:
-
-prepare:
-[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\export\target
-
-build:
-
-package:
-   [module] Exporting module to: D:\dpml\tutorials\tooling\complex\export\target\deliverables\modules\acme-1.0.0.module
-
-test:
-
-install:
-[x:install] acme-1.0.module.link
-[x:install] artifact:module:org/acme#1.0.0
-[x:install] Copying 2 files to D:\system\dpml\data\cache\org
-
-BUILD SUCCESSFUL
-Total time: 1 second
+  [1]   project:org/acme/plugin/clock-api#<font color="blue">ABC</font>
+  [2]   project:org/acme/plugin/clock-impl<font color="blue">#ABC</font>
+  [3]   module:org/acme/plugin#<font color="blue">ABC</font>
 
 $</pre>
 
       </subsection>
       
-      <subsection name="The Generated Module">
-
-<source><font color="blue"><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="org/acme" version="1.0.0"
-    xmlns="link:xsd:dpml/lang/dpml-module#1.0">
-
-  <types>
-    <type id="module" version="1.0"/>
-  </types>
-
-  <resource name="clock-api" version="1.0.0">
-    <types>
-      <type id="jar"/>
-    </types>
-  </resource>
-
-  <resource name="clock-impl" version="1.0.0">
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <runtime>
-        <include ref="org/acme/clock-api"/>
-      </runtime>
-    </dependencies>
-  </resource>
-
-</module>]]></font></source>
-
+      <subsection name="Adding a Decimal Prefix">
+      
+        <p>
+        A generalized version applies to a complete module is sometimes not sufficient
+        to properly describe the desired results of a multi-p[roject build in terms of 
+        version naming requirements.  For example, by applying the generic <tt>-version</tt>
+        cli option we are stating that all resources defined withing the module (without an 
+        explicit version declaration) shall be produced with version XYZ.  A more realistic 
+        scenario is that your top-level index versioning strategy could reflect a public 
+        XML specification whereas internal project version could reflect API based version 
+        evolution.  In these scenarios it is useful to include a specification prefix - for
+        example the version identifier "1.0.0-RC3" could be expressed as a decimal prefix
+        of "1.0.0" and a version suffix of "RC3".  Depot enables this strategy through the 
+        following properties:
+        </p>
+        
+        <table>
+          <tr>
+            <td>project.version-prefix.enabled</td>
+            <td>If true then the version value generated for a given project 
+                will be derived from the values of the major, minor and micro 
+                project version attributes described below.</td>
+          </tr>
+          <tr>
+            <td>project.major.version</td>
+            <td>The major version prefix value (must be an integer).</td>
+          </tr>
+          <tr>
+            <td>project.minor.version</td>
+            <td>The minor version prefix value (must be an integer).</td>
+          </tr>
+          <tr>
+            <td>project.micro.version</td>
+            <td>The minor version prefix value (must be an integer). Typically
+            used to represent a sequential publication value.</td>
+          </tr>
+        </table>
+        
+        <p>
+        In version prefixing is enabled (typicically via a high-level module property
+        defintion) and major, minor and micro versions are assigned within respective modules
+        and projects (reflecting respective development lifecycles), then the resulting version
+        assigned to a project artifacts will correspond to the the following convention:
+        </p>
+        
+        <pre>[major].[minor].[micro]-[cli-supplied-version-argument]</pre>
+        
+        <p>
+        The DPML project artifacts use the following convention:
+        </p>
+        
+        <table>
+          <tr>
+            <td>major</td>
+            <td>All resources sharing the same major version are deemed as backward 
+                compatible.</td>
+          </tr>
+          <tr>
+            <td>minor</td>
+            <td>A minor version represents a functional extension or enhancement
+                that is compatible within the context of the major version identifier.</td>
+          </tr>
+          <tr>
+            <td>micro</td>
+            <td>A micro version represents a sequential release identifier relative 
+                to the <tt>[major].[minor]</tt> namespace.</td>
+          </tr>
+        </table>
+        
       </subsection>
-    
+      
       <subsection name="Summary">
 
         <p>

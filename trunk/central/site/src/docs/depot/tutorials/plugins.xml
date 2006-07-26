@@ -157,11 +157,13 @@ String timestamp = clock.getTimestamp();</pre>
         
         <p>
         However, the plugin strategy demonstrated above is for all intensive purposes 
-        a relatively primite model in that it does not address real-world semantic issues 
+        a relatively primitive model in that it does not address real-world semantic issues 
         such as lifecycle or lifestyle management, composition, thread-safety, 
-        remote management, or collection policies.  Our <a href="../../metro/tutorials/index.html">
-        next collection of tutorials</a> takes you into another semantic dimension with the 
-        introduction of an alternative deployment strategy based on the Metro Component Model.
+        remote management, or collection policies.  The <a href="../../metro/tutorials/index.html">
+        Metro Tutorials</a> takes you into another semantic dimension with the 
+        introduction of an alternative deployment strategy based on the Metro Component Model
+        whereas <a href="versioned.html">our last tutorial in the Depot collection</a> wraps-up
+        with project versions management techniques.
         </p>
         
       </subsection>
