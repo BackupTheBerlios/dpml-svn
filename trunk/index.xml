@@ -19,17 +19,25 @@
   </properties>
   
   <module name="dpml" basedir="main">
+  
     <properties>
       <property name="java.util.logging.config.class" value="dpml"/>
+      <property name="project.version-prefix.enabled" value="true"/>
+      <property name="project.major.version" value="1"/>
+      <property name="project.minor.version" value="0"/>
+      <property name="project.micro.version" value="0"/>
     </properties>
+    
     <types>
       <type id="module" alias="true"/>
     </types>
+    
     <filters>
       <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
       <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
       <feature token="PROJECT-VERSION" id="version"/> 
     </filters>
+    
     <module file="lang/module.xml"/>
     <module file="transit/module.xml"/>
     <module file="util/module.xml"/>
@@ -37,6 +45,7 @@
     <module file="metro/module.xml"/>
     <module file="station/module.xml"/>
     <module file="planet/module.xml"/>
+    
   </module>
     
   <module name="dpmlx">
