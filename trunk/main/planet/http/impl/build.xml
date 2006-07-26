@@ -111,12 +111,6 @@
       </state>
     </type>
 
-    <catalog xmlns="metro" title="Test Catalog">
-      <fileset dir="${basedir}">
-        <include name="**/target/classes/main/**/*.type"/>
-      </fileset>
-    </catalog>
-
   </target>
 
 </project>
