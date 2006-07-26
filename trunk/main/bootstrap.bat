@@ -7,8 +7,18 @@ REM Utility to execute the bootsrap build.  Bootstrapping involves the creation 
 REM the transit main protocol handler, transit antlib, the tools index and 
 REM ant plugin, and the console CLI handler.
 REM
+REM Usage:
+REM ------
+REM bootstrap 1.0.0 1234
+REM
+REM or
+REM
+REM bootstrap
+REM
 
-set ID=%1
+
+set SPEC=%1
+set ID=%2
 CALL :antlib-cleanup
 IF ERRORLEVEL 1 GOTO :exit
 CALL :xml-setup
@@ -134,15 +144,18 @@ POPD
 GOTO :EOF
 
 :build
-IF "%ID%" == "" set ID=SNAPSHOT
-set BUILD_ID=-Dbuild.signature=%ID%
+SET SPEC_ID=""
+IF "%ID%" == "" SET ID=SNAPSHOT
+SET BUILD_ID=-Dbuild.signature=%ID%
+IF NOT "%SPEC%" == "" SET SPEC_ID=-Dbuild.decimal=%SPEC%
 ECHO ### START BUILD ###
 @echo on
-cd
+CD
 @echo off
-ECHO building project with release ID [%BUILD_ID%]
-CALL ant %BUILD_ID% %*
-set BUILD_ID=""
+ECHO building project with [%SPEC_ID%] and [%BUILD_ID%]
+CALL ant %SPEC_ID% %BUILD_ID% %*
+SET SPEC_ID=""
+SET BUILD_ID=""
 goto :EOF
 
 

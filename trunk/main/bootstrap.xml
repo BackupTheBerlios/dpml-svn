@@ -146,6 +146,10 @@
     <isset property="build.signature"/>
   </condition>
 
+  <condition property="decimal.declared" value="true">
+    <isset property="build.decimal"/>
+  </condition>
+
   <property name="src" value="src"/>
   <property name="src.main" value="main"/>
   <property name="src.main.dir" value="${src}/${src.main}"/>
@@ -173,8 +177,13 @@
   <property name="target.deliverables.dir" location="${target.dir}/deliverables"/>
   <property name="target.deliverables.jars.dir" location="${target.deliverables.dir}/jars"/>
 
-  <target name="setupReleaseFilename" if="signature.declared">
-    <property name="project.version" value="${build.signature}"/>
+  <target name="setupReleasePrefix" if="signature.declared">
+    <property name="project.prefix" value="${build.decimal}-"/>
+  </target>
+
+  <target name="setupReleaseFilename" depends="setupReleasePrefix" if="signature.declared">
+    <property name="project.prefix" value=""/>
+    <property name="project.version" value="${project.prefix}${build.signature}"/>
   </target>
 
   <target name="init" depends="setup,setupReleaseFilename">

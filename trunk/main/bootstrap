@@ -6,9 +6,9 @@
 #
 # $ bootstrap
 #
-# Versioned builds can be invoked using the following command (where '123' is the version to build):
+# Versioned builds can be invoked using the following command (where '1.0.0' is the prefix and '123' is the version postfix):
 # 
-# $ bootstrap 123
+# $ bootstrap 1.0.0 123
 #
 
 build()
@@ -20,8 +20,13 @@ build()
       else
         BUILD_ID=""
       fi
-      echo "building project with release ID [$ID]"
-      ant $BUILD_ID "$@"
+      if [ -n "$SPEC" ] ; then
+        SPEC_ID="-Dbuild.decimal=$SPEC"
+      else
+        SPEC_ID=""
+      fi
+      echo "building project with with spec [$SPEC] and release ID [$ID]"
+      ant $SPEC_ID $BUILD_ID "$@"
       STATUS="$?"
     done
     if [ "$STATUS" == 0 ] ; then
@@ -134,6 +139,7 @@ depotCore()
 }
 
 ID=$1
+SPEC=$2
 antlibCleanup
 xmlSetup
 dpmlModule
