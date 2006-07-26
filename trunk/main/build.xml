@@ -60,7 +60,7 @@
   <target name="replication" depends="prepare">
     <property name="share.local" location="${share}/local"/>
     <x:replicate self="true" toDir="${share.local}" layout="modern"/>
-    <x:replicate self="true" toDir="${share.local}" layout="modern" ref="junit" verbose="true"/>
+    <x:replicate self="true" toDir="${share.local}" layout="modern" ref="junit"/>
     <x:replicate self="true" toDir="${share.local}" layout="modern" ref="ant"/>
   </target>
 
