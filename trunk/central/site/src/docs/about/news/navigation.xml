@@ -24,6 +24,7 @@
 
   <body>
     <menu>
+      <item name="Archive" href="archive.html"/>
     </menu>
   </body>
 
