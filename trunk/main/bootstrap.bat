@@ -4,10 +4,8 @@ REM bootstrap.bat
 REM -------------
 REM
 REM Utility to execute the bootsrap build.  Bootstrapping involves the creation of 
-REM the transit main protocol handler, transit antlib, the tools indexand 
-REM ant plugin, and the console CLI handler.  Following the bootstrap build, the 
-REM procedure invokes the installation of resources into ${dpml.home) using the 
-REM depot/console./install.xml ant build.
+REM the transit main protocol handler, transit antlib, the tools index and 
+REM ant plugin, and the console CLI handler.
 REM
 
 set ID=%1
