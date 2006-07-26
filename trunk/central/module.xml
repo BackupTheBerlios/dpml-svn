@@ -14,7 +14,7 @@
       </build>
     </dependencies>
     <filters>
-      <feature token="VERSION" id="version"/>
+      <feature token="VERSION" id="version" ref="dpml"/>
       <feature token="ANT-JAR-VERSION" ref="ant/ant" id="version"/>
       <feature token="ANT-JAR-URI" ref="ant/ant" id="uri" type="jar" />
       <feature token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" id="uri" type="jar" />
