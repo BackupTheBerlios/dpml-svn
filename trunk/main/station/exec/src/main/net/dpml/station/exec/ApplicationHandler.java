@@ -80,18 +80,18 @@ public class ApplicationHandler
     * The following command list help about the <tt>metro</tt> commandline handler:
     * <pre>$ metro help
 Usage:
-metro [exec <uri> help]
+metro [-uri <uri> | -help]
 options
-  exec <uri>               Execute deployment of an application codebase.
+  -uri <uri>               Execute deployment of an application codebase.
     -key -port
       -key (-k) <key>      Station callback application key.
       -port (-p) <port>    Override default RMI registry port selection.
-  help                     Print command help.
+  -help                    Print command help.
     * </pre>
     * A typical example of a commandline and resulting log of an application launch 
     * using <tt>metro</tt> is show below:
     * <pre>
-$ metro exec link:part:dpml/planet/http/dpml-http-demo
+$ metro -uri link:part:dpml/planet/http/dpml-http-demo
 [2236 ] [INFO   ] (demo): Starting
 [2236 ] [INFO   ] (org.mortbay.http.HttpServer): Version Jetty/5.1.x
 [2236 ] [INFO   ] (org.mortbay.util.Container): Started net.dpml.http.impl.HttpServerImpl@6355dc

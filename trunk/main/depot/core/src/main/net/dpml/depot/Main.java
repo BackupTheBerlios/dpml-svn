@@ -88,7 +88,7 @@ public final class Main //implements ShutdownHandler
         String[] args = processSystemProperties( arguments );
 
         //
-        // check for debug mode
+        // check for debug and trace cli options
         //
         
         if( CLIHelper.isOptionPresent( args, "-trace" ) )
@@ -97,7 +97,8 @@ public final class Main //implements ShutdownHandler
             System.setProperty( "dpml.trace", "true" );
             m_trace = true;
         }
-        else if( CLIHelper.isOptionPresent( args, "-debug" ) )
+        
+        if( CLIHelper.isOptionPresent( args, "-debug" ) )
         {
             args = CLIHelper.consolidate( args, "-debug" );
             System.setProperty( "dpml.debug", "true" );

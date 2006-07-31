@@ -8,7 +8,7 @@
 -Ddpml.depot.application=dpml.metro
 -Djava.protocol.handler.pkgs=net.dpml.transit
 -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi
--Ddpml.logging.config=local:properties:dpml/transit/default
+#-Ddpml.logging.config=local:properties:dpml/transit/default
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4.0
 janel.classpath.jars.dir=${env.DPML_HOME}\share\lib

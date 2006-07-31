@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 
-METRO_JVM_OPTS="-Ddpml.depot.application=dpml.metro -Ddpml.logging.config=local:properties:dpml/transit/default"
+METRO_JVM_OPTS="-Ddpml.depot.application=dpml.metro"
 
 if [ "$DEPOT_JVM_OPTS" = "" ] ; then
     DEPOT_JVM_OPTS=$METRO_JVM_OPTS
