@@ -78,6 +78,11 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     */
     public static final String SNAPSHOT = "SNAPSHOT";
     
+   /**
+    * Constant RELEASE symbol.
+    */
+    public static final String RELEASE = "RELEASE";
+    
     private final DefaultLibrary m_library;
     private final ResourceDirective m_directive;
     private final DefaultModule m_parent;
@@ -307,6 +312,30 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                     return null;
                 }
             }
+        }
+    }
+
+   /**
+    * Return the decimal version.  If version prefixing is enabled
+    * via the <tt>project.version-prefix.enabled</tt> property then the value
+    * returned will be derived from the project major, minor and micro version
+    * properties, otherwise a null value will be returned.
+    *
+    * @return the version
+    */
+    public Version getDecimalVersion()
+    {
+        boolean flag = getBooleanProperty( "project.version-prefix.enabled", false );
+        if( flag )
+        {
+            int major = getMajorVersion();
+            int minor = getMinorVersion();
+            int micro = getMicroVersion();
+            return new Version( major, minor, micro );
+        }
+        else
+        {
+            return null;
         }
     }
     
@@ -1375,11 +1404,18 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
         else
         {
-            boolean flag = getBooleanProperty( "project.version-prefix.enabled", false );
-            if( flag )
+            Version decimal = getDecimalVersion();
+            if( null != decimal )
             {
-                Version decimal = getDecimalVersion();
-                return decimal.toString() + "-" + value;
+                boolean flag = getBooleanProperty( "project.version-postfix.enabled", true );
+                if( flag )
+                {
+                    return decimal.toString() + "-" + value;
+                }
+                else
+                {
+                    return decimal.toString();
+                }
             }
             else
             { 
@@ -1388,19 +1424,15 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         }
     }
     
-    private Version getDecimalVersion()
-    {
-        int major = getMajorVersion();
-        int minor = getMinorVersion();
-        int micro = getMicroVersion();
-        return new Version( major, minor, micro );
-    }
-    
     private String getBuildSignature()
     {
-        String system = System.getProperty( "build.signature", SNAPSHOT );
+        String system = System.getProperty( "build.signature", null );
         String value = getProperty( "build.signature", system );
-        if( value.equals( "project.timestamp" ) )
+        if( null == value )
+        {
+            return SNAPSHOT;
+        }
+        else if( value.equals( "project.timestamp" ) )
         {
             return TIMESTAMP;
         }

@@ -20,6 +20,8 @@ package net.dpml.tools.tasks;
 
 import java.io.File;
 
+import net.dpml.lang.Version;
+
 import net.dpml.library.Resource;
 import net.dpml.library.Type;
 
@@ -27,6 +29,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 import org.apache.tools.ant.taskdefs.ManifestException;
+import org.apache.tools.ant.taskdefs.Copy;
 
 /**
  * Execute all plugins relative to the current build phase.
@@ -125,36 +128,59 @@ public class JarTask extends GenericTask
         {
             return;
         }
-        File jar = getDestination();
-        boolean modified = createJarFile( source, jar );
-        if( modified )
-        {
-            checksum( jar );
-            asc( jar );
-        }
+        File jar  = createJarFile( source );
+        checksum( jar );
+        asc( jar );
     }
     
-    private boolean createJarFile( final File classes, final File jarFile )
-    {
-        final File dir = jarFile.getParentFile();
-        mkDir( dir );
-
-        long modified = -1;
-        if( jarFile.exists() )
-        {
-            modified = jarFile.lastModified();
-        }
-
+    private File createJarFile( final File classes )
+    {   
+        final File temp = getTempFile();
+        
         final Jar jar = (Jar) getProject().createTask( "jar" );
         jar.setTaskName( getTaskName() );
-        jar.setDestFile( jarFile );
+        jar.setDestFile( temp );
         jar.setBasedir( classes );
         jar.setIndex( true );
         addManifest( jar );
         jar.init();
         jar.execute();
+        
+        File dest = getDestination();
+        final File dir = dest.getParentFile();
+        mkDir( dir );
 
-        return jarFile.lastModified() > modified;
+        final Copy copy = (Copy) getProject().createTask( "copy" );
+        copy.setTaskName( getTaskName() );
+        copy.setFile( temp );
+        copy.setTofile( dest );
+        copy.init();
+        copy.execute();
+        
+        return dest;
+    }
+    
+    private File getTempFile()
+    {
+        final File target = getContext().getTargetDirectory();
+        final String path = getTempFilename();
+        return new File( target, path );
+    }
+    
+    private String getTempFilename()
+    {
+        Resource resource = getResource();
+        String name = resource.getName();
+        Version version = resource.getDecimalVersion();
+        if( null != version )
+        {
+            return name + "-" + version.toString() + ".jar";
+        }
+        else
+        {
+            String spec = resource.getVersion();
+            return name + "-" + spec + ".jar";
+        }
     }
     
     private Type getType()
@@ -217,8 +243,12 @@ public class JarTask extends GenericTask
                 addAttribute( main, "Implementation-Vendor-Id", implementationVendorID );
             }
 
-            final String implementationVersion = resource.getVersion();
-            addAttribute( main, "Implementation-Version", implementationVersion );
+            final Version spec = resource.getDecimalVersion();
+            if( null != spec )
+            {
+                String implementationVersion = spec.toString();
+                addAttribute( main, "Implementation-Version", implementationVersion );
+            }
 
             jar.addConfiguredManifest( manifest );
         }

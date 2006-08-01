@@ -26,6 +26,7 @@ import net.dpml.library.info.ResourceDirective.Classifier;
 import net.dpml.transit.Artifact;
 
 import net.dpml.lang.Category;
+import net.dpml.lang.Version;
 
 import net.dpml.util.Resolver;
 
@@ -60,6 +61,12 @@ public interface Resource extends Dictionary, Resolver
     * @return the version
     */
     String getStatutoryVersion();
+    
+   /**
+    * Return the decimal version.
+    * @return the version
+    */
+    Version getDecimalVersion();
     
    /**
     * Return the fully qualified path to the resource.

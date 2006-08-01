@@ -17,8 +17,8 @@ REM bootstrap
 REM
 
 
-set SPEC=%1
-set ID=%2
+set ARG_ONE=%1
+set ARG_TWO=%2
 CALL :antlib-cleanup
 IF ERRORLEVEL 1 GOTO :exit
 CALL :xml-setup
@@ -144,10 +144,26 @@ POPD
 GOTO :EOF
 
 :build
+
+REM if %ARG_TWO% is undefined then %SPEC_ID% is undefined and %BUILD_ID% is %ARG_ONE%
+
 SET SPEC_ID=""
-IF "%ID%" == "" SET ID=SNAPSHOT
-SET BUILD_ID=-Dbuild.signature=%ID%
-IF NOT "%SPEC%" == "" SET SPEC_ID=-Dbuild.decimal=%SPEC%
+SET BUILD_ID=""
+
+IF NOT "%ARG_TWO%" == "" GOTO SETUP_WITH_TWO_ARGS
+IF "%ARG_TWO%" == "" GOTO SETUP_WITH_ONE_ARGS
+
+:SETUP_WITH_ONE_ARGS
+SET BUILD_ID=-Dbuild.signature=%ARG_ONE%
+GOTO EXECUTE
+
+:SETUP_WITH_TWO_ARGS
+SET SPEC_ID=-Dbuild.decimal=%ARG_ONE%
+SET BUILD_ID=-Dbuild.signature=%ARG_TWO%
+GOTO EXECUTE
+
+
+:EXECUTE
 ECHO ### START BUILD ###
 @echo on
 CD

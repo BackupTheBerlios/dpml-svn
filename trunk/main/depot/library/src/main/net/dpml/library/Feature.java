@@ -51,6 +51,11 @@ public final class Feature extends Enum
     public static final Feature VERSION = new Feature( "version" );
 
    /**
+    * Resource decimal version.
+    */
+    public static final Feature DECIMAL = new Feature( "decimal" );
+
+   /**
     * Resource version.
     */
     public static final Feature URI = new Feature( "uri" );
@@ -79,7 +84,7 @@ public final class Feature extends Enum
     * Array of scope enumeration values.
     */
     private static final Feature[] ENUM_VALUES = 
-      new Feature[]{NAME, GROUP, VERSION, URI, SPEC, PATH, FILENAME, BASEDIR};
+      new Feature[]{NAME, GROUP, VERSION, DECIMAL, URI, SPEC, PATH, FILENAME, BASEDIR};
 
    /**
     * Returns an array of activation enum values.
@@ -128,6 +133,10 @@ public final class Feature extends Enum
         else if( value.equalsIgnoreCase( "version" ) )
         {
             return VERSION;
+        }
+        else if( value.equalsIgnoreCase( "decimal" ) )
+        {
+            return DECIMAL;
         }
         else if( value.equalsIgnoreCase( "uri" ) )
         {
@@ -220,6 +229,18 @@ public final class Feature extends Enum
             else
             {
                 return version;
+            }
+        }
+        else if( feature.equals( Feature.DECIMAL ) )
+        {
+            Version version = resource.getDecimalVersion();
+            if( null == version )
+            {
+                return "";
+            }
+            else
+            {
+                return version.toString();
             }
         }
         else if( feature.equals( Feature.URI ) )
