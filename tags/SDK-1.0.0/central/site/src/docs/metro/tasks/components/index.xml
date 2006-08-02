@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Task</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Task">
+
+      <subsection name="Description">
+
+        <p>
+        The component task automates the creation of component deployment
+        meta data.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>type</tt></td>
+            <td>Set the component type classname (required).</td>
+          </tr>
+          <tr>
+            <td><tt>key</tt></td>
+            <td>Required only when declaring a nested component within a type.  
+              The key corresponds to the internal key that uniquely identifies the 
+              child component within the scope of the enclosing component type.
+            </td>
+          </tr>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Optional overriding of the component profile name.  If not supplied
+             the component profile name will default to the name of the underlying 
+             component type.</td>
+          </tr>
+          <tr>
+            <td><tt>activation</tt></td>
+            <td>Set the auto-activation policy (optional).  The default value is SYSTEM.  
+            Possible values include STARTUP (triggers activation on startup), DEMAND 
+            (activation trigger on demand) and SYSTEM (activation decesions are delagated 
+            to the container).</td>
+          </tr>
+          <tr>
+            <td><tt>collection</tt></td>
+            <td>Overrides the component garbage collection policy (optional).  Allowable
+             values include <tt>WEAK</tt>, <tt>SOFT</tt> and <tt>HARD</tt>.
+             A component declaring a <tt>WEAK</tt> collection policy will 
+             be garbage collected at the discretion of the JVM.  A component
+             declaring a <tt>SOFT</tt> collection policy will be garbage 
+             collected in the event of memory contention.  A component 
+             declaring the <tt>HARD</tt> collection policy will remain in 
+             memory for the lifetime of the JVM unless explicitly removed
+             via a management system or controlling application.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Special Test Attributes">
+
+        <table>
+          <tr>
+            <td><tt>test</tt></td>
+            <td>The test attribute internally switches the implementation to 
+              generate a local file reference for the project jar file when 
+              constructing the component classloader defintion.  This enables
+              the deployment of the component type in a unit test prior to 
+              the publication of the project jar file.  Used only in conjunction 
+              with top-level component declarations. Typically used in conjunction
+              with the <tt>dest</tt> attribute.</td>
+          </tr>
+          <tr>
+            <td><tt>dest</tt></td>
+            <td>Normally the <tt>component</tt> will construct an artifact
+             under the project <tt>target/deliverables/parts</tt> directory. When 
+             generating deployment descriptors for local testing the <tt>dest</tt> 
+             enables the nomination of a local destination filename. Setting
+             <tt>dest</tt> to any value will disable production of a deliverable artifact.
+             Normally used in conjuction with the <tt>test</tt> attribute.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="categories.html">categories</a></tt></td>
+            <td>The categories element may contain 0..n logging &lt;category&gt; directives.
+              A category directive allows manipulation of logging channel priorities and 
+              targets.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="configuration.html">configuration</a></tt></td>
+            <td>Declaration of a default configuration instance.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="parameters.html">parameters</a></tt></td>
+            <td>Declaration of a default parameters instance.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="context/index.html">context</a></tt></td>
+            <td>Declaration of the component initial context state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="parts.html">parts</a></tt></td>
+            <td>Declaration of the nested componets.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Examples">
+
+      <subsection name="Simple Example">
+
+        <p>
+           Example of the creation of a test component directive using the 
+           <tt>test</tt> attribute in conjunction with the <tt>dest</tt>
+           attribute.  The example includes the declaration of lazy activation
+           and HARD collection policy.  The nested context definition asserts
+           an initial value for the <tt>color</tt> context entry to the Color 
+           <tt>RED</tt>.
+        </p>
+
+<pre><![CDATA[
+<component xmlns="dpml:metro" dest="target/test/composite.part" test="true" activation="false"
+   type="net.dpml.test.composite.CompositeComponent" name="composite" collection="hard">
+  <context>
+    <entry key="color" method="RED"/>
+  </context>
+</component>
+]]></pre>
+
+        </subsection>
+
+    </section>
+
+  </body>
+
+</document>

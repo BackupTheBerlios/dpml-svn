@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Components</title>
+  </properties> 
+
+  <body>
+
+    <section name="Components">
+
+      <p>
+      A <tt>Component</tt> is a remotely reachable object that is established using a data 
+      <tt><a href="models/index.html">Model</a></tt>. 
+      Component and model implementations are established via a <tt>Controller</tt>. 
+      A controller is selected based on meta-data included in a stand-alone <tt>part</tt>
+      datastructure.  All components implement the common
+      <a href="/api/dpml/@VERSION@/net/dpml/component/Component.html">Component</a>
+      interface dealing with:
+      </p>
+
+      <ul>
+        <li>activation: handles assembly of the component</li>
+        <li>lookup: used for resolving potential service providers during assembly</li>
+        <li>provider: access to runtime service providers</li>
+      </ul>
+
+      <subsection name="DefaultComponentHandler">
+
+        <p>
+        The <tt>net.dpml.metro.runtime.DefaultComponentHandler</tt> class is the reference implementation
+        of the <tt>Component</tt> interface.  It is created by the <tt>CompositionController</tt> 
+        using either an implicit or explicit remotely accessible <tt>ComponentModel</tt> that 
+        aggregates information about a component <tt>type</tt> and deployment solution.
+        </p>
+
+        <p>
+        Following the separation of model and control concerns, the <tt>DefaultComponentHandler</tt> has 
+        as associated class controller to which a majority of functional concerns are delegated.
+        This internal controller deals with the establishment of the lifestyle handler taking into 
+        account lifestyle and collection policies declared under the <tt>ComponentModel</tt>.  
+        The <tt>DefaultComponentHandler</tt> maintains a map of objects implementing the 
+        <tt>net.dpml.lang.Instance</tt> interface.  This map representes the collection of 
+        runtime service providers bound to the type/directive combination. 
+        </p>
+
+        <p>
+        Creation of a new <tt>Component</tt> is managed exclusively by the top-level
+        <a href="../controller/index.html">controller</a>.  An new component may be created
+        via a reference to a network accessible part, or alternatively via a reference to a 
+        remote component model. An example of a management system leveraging model-based 
+        creation is the DPML <a href="../../station/index.html">Station</a> wherein 
+        configuration data is established relative to the component type, deployment 
+        profile, and subsequent modified by the Station CLI.
+        </p>
+
+        <p>
+        The actual implementation class that is established is a function of the controller
+        declared in a part definition.  This mechanism enables the concurrent deployment of 
+        different back-end controller implementations.  This in-turn enables the potential 
+        deployment of components associated with not-yet-created controller implementations.   
+        Inversely, an existing controller can incorproate components based on legacy 
+        implementations.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Principal Interfaces">
+
+        <p>Principal interfaces used in the component model include:</p>
+
+        <table>
+          <tr>
+            <td>Component</td>
+            <td>
+              A remotely accessible view of a component.  The Component interface
+              exposes information about the component activation policy, access to 
+              instance handlers (the Provider) and general operations supporting
+              component assembly.
+            </td>
+          </tr>
+          <tr>
+            <td>Provider</td>
+            <td>
+              A remotely accessible view of a managed component instance. The 
+              <tt>Provider</tt> is in effect an component instance with associated
+              deployment state,  A given component instance may have 0..n provider 
+              instances associated with it (controller by the associated component 
+              lifestyle policy).
+            </td>
+          </tr>
+        </table>
+        
+        <p>
+        Component implementation acting in the capacity of a container (a component
+        with one or more internal parts) can aquire access to privilaged management
+        interfaces enabling fine grain control of a composition.  These management 
+        interface include:
+        </p>
+
+        <table>
+          <tr>
+            <td>PartsManager</td>
+            <td>
+              The PartsManager interface is a local interface accessible to 
+              component implementations that are acting in the role of a container
+              (i.e. a component managing a collection of subsidiary components. Using
+              the parts manager a component implementation can directly access 
+              internal components as <tt>ComponentHandler</tt> instances.  The 
+              <tt>PartsManager</tt> may be declared as a component implementation 
+              constructor argument.
+            </td>
+          </tr>
+          <tr>
+            <td>ComponentHandler</td>
+            <td>
+              The ComponentHandler interface provides a set of operations that 
+              enable local management of the component context, configuration and 
+              related policies. In addition the component handler exposes operations
+              through which the managing implementation may navigate the structure 
+              of its internal parts.  <tt>ComponentHandler</tt> instances may be 
+              resolved via the <tt>Partsmanager</tt>.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

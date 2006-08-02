@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Building on the Sholders of Giants</title>
+  </properties>
+
+  <body>
+
+    <section name="Building on the Sholders of Giants">
+
+      <subsection name="Tutorial Objective">
+
+        <p>
+        This tutorial aims to demonstrate the reuse of existing component
+        definitions. The demonstration uses three projects:
+        </p>
+        
+        <ul>
+          <li>a component that defines a minamalistic clock</li>
+          <li>a component that extends the clock defintion with overriding
+              context data declared in the component directive</li>
+          <li>a component that extends the clock both in terms of classpath
+              and context arguments</li>
+        </ul>
+        
+        <p>
+        In addition to the techniques uses to create a component defintion by 
+        extension, the tutorial also summarizes the impact of these changes on
+        the overall classloader heirachy established by the Metro runtime.
+        </p>
+        
+      </subsection>
+      
+      <subsection name="Project 1: The SimpleClock">
+      
+        <p>
+        Our minamalistic clock is defined as a component with a context 
+        format argument <tt>K:mm a, z</tt>.  The format argument simply 
+        determines the format that the clock will use when listing the 
+        current time.
+        </p>
+        
+<pre>&lt;index .... &gt;
+
+  ...
+  
+  &lt;project name="acme-simple-clock" basedir="customize/clock"&gt;
+    &lt;info title="Simple Clock"/&gt;
+    &lt;types&gt;
+      &lt;type id="jar"/&gt;
+      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" alias="true"
+           type="org.acme.clock.SimpleClock" name="clock"&gt;
+        &lt;context&gt;
+          &lt;entry key="format" value="K:mm a, z"/&gt;
+        &lt;/context&gt;
+      &lt;/component&gt;
+    &lt;/types&gt;
+    &lt;dependencies&gt;
+      &lt;test&gt;
+        &lt;include ref="ant/ant-junit"/&gt;
+        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+      &lt;/test&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+  
+  ...
+  
+&lt;/index&gt;</pre>
+
+        <p>
+        Based on the above defintion Metro will construct a single classloader
+        containing the <tt>dpmlx/tutorials/components/acme-simple-clock#SNAPSHOT</tt> 
+        jar file as a child of the Metro SPI.
+        </p>
+        
+        <p><i>Classloader chain for the clock component.</i></p>
+        
+<pre>
+|-----------------------------|
+| Classloader (PUBLIC)        |
+| Metro Runtime               |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PROTECTED)     |
+| Metro Runtime               |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PRIVATE)       |
+| /clock                      |
+|-----------------------------|
+</pre>
+
+      </subsection>
+      
+      <subsection name="Project 2: Overriding the component ..">
+      
+        <p>
+        Our second project is an example of a component solution based on
+        our first project - however, we change the data format context argument
+        (but reference the original component defintion under the uri attribute).
+        Secondly, we have overriden the context format argument with a new value.
+        Any context argument not declared in our new defintion will be based on
+        arguments declared in the super-component.
+        </p>
+        
+<pre>&lt;index .... &gt;
+
+  ...
+  
+  &lt;project name="acme-simple-clock" basedir="customize/extension"&gt;
+    &lt;info title="Cusomized Clock"/&gt;
+    &lt;types&gt;
+      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+          <font color="darkred">uri="link:part:dpmlx/tutorials/components/acme-simple-clock"</font> 
+           name="clock"&gt;
+        <font color="darkred">&lt;context&gt;
+          &lt;entry key="format" value="K:mm a, z"/&gt;
+        &lt;/context&gt;</font>
+      &lt;/component&gt;
+    &lt;/types&gt;
+    &lt;dependencies&gt;
+      &lt;test&gt;
+        &lt;include ref="ant/ant-junit"/&gt;
+        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+      &lt;/test&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+  
+  ...
+  
+&lt;/index&gt;</pre>
+
+    <p>
+    The classloader chain constructed in the second example is basically the same as before
+    except that the final component classloader is established relative to the classloader
+    definition declared in the super-component.
+    </p>
+        
+<pre>
+|-----------------------------|
+| Classloader (PUBLIC)        |
+| Metro Runtime               |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PROTECTED)     |
+| Metro Runtime               |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PRIVATE)       |
+| <font color="blue">/clock (super)</font>              |
+|-----------------------------|
+</pre>
+
+      </subsection>
+      
+      <subsection name="Project 3: Extending the component ..">
+      
+        <p>
+        Our third project is an example of a component solution where we 
+        customize the original component defintion with a new context value, 
+        but the context value is resolved from a class local to the customized 
+        component.  In this case Metro has to handle the establishment of a 
+        classloader for the super-component and a subsidiary classloader for 
+        the cusomization content.
+        </p>
+        
+<pre>&lt;index .... &gt;
+
+  ...
+  
+  &lt;project name="acme-simple-clock" basedir="customize/custom"&gt;
+    &lt;info title="Simple Clock"/&gt;
+    &lt;types&gt;
+      <font color="darkred">&lt;type id="jar"/&gt;</font>
+      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+           uri="resource:part:dpmlx/tutorials/components/acme-simple-clock"
+           name="clock"&gt;
+        <font color="darkred">&lt;context&gt;
+          &lt;entry key="format" class="org.acme.extra.Customizer" method="getCustomFormat"/&gt;
+        &lt;/context&gt;</font>
+      &lt;/component&gt;
+    &lt;/types&gt;
+    &lt;dependencies&gt;
+      &lt;test&gt;
+        &lt;include ref="ant/ant-junit"/&gt;
+        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+      &lt;/test&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+  
+  ...
+  
+&lt;/index&gt;</pre>
+
+        <p>
+        The following classloader chain is similar to the above (the super-component
+        classloader hanging of the Metro SPI) together with an additional classloader  
+        created as a child of the super-component classloader holding the classes 
+        used in the new component definition.
+        </p>
+
+<pre>
+|-----------------------------|
+| Classloader (PUBLIC)        |
+| Metro Runtime               |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PROTECTED)     |
+| Metro Runtime               |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PRIVATE)       |
+| <font color="blue">/clock (super)</font>              |
+|-----------------------------|
+              ^
+              |
+|-----------------------------|
+| Classloader (PRIVATE)       |
+| <font color="blue">/clock</font>                      |
+|-----------------------------|
+</pre>
+
+      </subsection>
+      
+      <subsection name="Summary">
+      
+        <p>
+        In this tutorial we have demonstrated the usage of the <tt>uri</tt> attribute in 
+        a component defintion as a means to declare a super-component.  In each case we
+        used a different date fomat value generating the following output values:
+        </p>
+        
+        <table>
+          <tr><td>base</td><td><tt>[junit] 11:33 PM, CST</tt></td></tr>
+          <tr><td>customizer</td><td><tt>[junit] 11:33 PM</tt></td></tr>
+          <tr><td>extended</td><td><tt>[junit] 11:33 </tt></td></tr>
+        </table>
+        
+        <p>
+        In real-world applications component context models can become rather complex 
+        and the ability to define a generic solution component fully populated with 
+        an appropriate deployment solution is attractive.  Adding the ability to 
+        further customize default solutions further simplifies the overall development
+        task and encorages reuse of existing component definitions.
+        </p>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

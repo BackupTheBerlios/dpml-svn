@@ -1,0 +1,157 @@
+#!/bin/sh
+#
+# Utility script that executes the bootstrap build.
+#
+# The following command will bootstrap using the SNAPSHOT version identifier.
+#
+# $ bootstrap
+#
+# Versioned builds can be invoked using the following command (where '1.0.0' is the prefix and '123' is the version postfix):
+# 
+# $ bootstrap 1.0.0 123
+#
+
+build()
+{
+    STATUS=99
+    while [ "$STATUS" -eq 99 ] ; do
+      if [ -n "$ID" ] ; then
+        BUILD_ID="-Dbuild.signature=$ID"
+      else
+        BUILD_ID=""
+      fi
+      if [ -n "$SPEC" ] ; then
+        SPEC_ID="-Dbuild.decimal=$SPEC"
+      else
+        SPEC_ID=""
+      fi
+      echo "building project with with spec [$SPEC] and release ID [$ID]"
+      ant $SPEC_ID $BUILD_ID "$@"
+      STATUS="$?"
+    done
+    if [ "$STATUS" == 0 ] ; then
+        echo ""
+    else
+        exit 1
+    fi
+}
+
+antlibCleanup()
+{
+    # need something in here to delete dpml content in .ant/lib
+    cd .
+}
+
+xmlSetup()
+{
+    ant -f bootstrap.xml xml
+}
+
+dpmlModule()
+{
+    cd lang/module
+    build clean install
+    cd ../..
+}
+
+dpmlPart()
+{
+    cd lang/part
+    build clean install
+    cd ../..
+}
+
+dpmlState()
+{
+    cd lang/state
+    build clean install
+    cd ../..
+}
+
+dpmlComponent()
+{
+    cd lang/component
+    build clean install
+    cd ../..
+}
+
+dpmlType()
+{
+    cd lang/type
+    build clean install
+    cd ../..
+}
+
+transitMain()
+{
+    cd transit/core
+    build clean install
+    cd ../..
+}
+
+transitTools()
+{
+    cd transit/tools
+    build clean install
+    cd ../..
+}
+
+dpmlLibrary()
+{
+    cd depot/library
+    build clean install
+    cd ../..
+}
+
+depotAntBuilder()
+{
+    cd depot/tools
+    build clean install
+    cd ../..
+}
+
+externalModules()
+{
+    cd external
+    build clean install
+    cd ..
+}
+
+utilCli()
+{
+    cd util/cli
+    build clean install
+    cd ../..
+}
+
+depotBuild()
+{
+    cd depot/build
+    build clean install
+    cd ../..
+}
+
+depotCore()
+{
+    cd depot/core
+    build clean install
+    cd ../..
+}
+
+ID=$1
+SPEC=$2
+antlibCleanup
+xmlSetup
+dpmlModule
+dpmlPart
+dpmlState
+dpmlType
+dpmlComponent
+transitMain
+transitTools
+dpmlLibrary
+depotAntBuilder
+externalModules
+utilCli
+depotBuild
+depotCore

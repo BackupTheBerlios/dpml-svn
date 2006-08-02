@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+  Copyright 2005 Stephen J McConnell
+  
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-transit-console" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit">
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <available property="transit.exe.available" file="${dpml.system}/bin/transit.exe"/>
+
+  <target name="install" depends="bin,standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/transit.lap"/>
+        <include name="bin/transit"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="transit"/>
+      </fileset>
+    </chmod>
+  </target>
+
+  <target name="bin" depends="standard.install" unless="transit.exe.available">
+    <copy todir="${dpml.system}" preservelastmodified="true">
+      <fileset dir="target">
+        <include name="bin/transit.exe"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

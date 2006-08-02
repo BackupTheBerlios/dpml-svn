@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+  Copyright 2004-2005 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+  
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-transit-tools" default="install" basedir=".">
+
+  <property name="project.group" value="dpml/transit"/>
+  <property name="project.name" value="dpml-transit-tools"/>
+  <property name="project.antlib" value="${project.name}.jar"/>
+  <property file="${basedir}/build.properties"/>
+
+  <import file="${home}/bootstrap.xml"/>
+
+  <target name="setup-path" depends="init">
+    <path id="project.main.path">
+      <pathelement location="${dpml.local.cache}/${project.group}/jars/${dpml-transit-handler.filename}"/>
+      <pathelement location="${target.classes.dir}"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+    </path>
+  </target>
+
+  <target name="install" depends="bootstrap.install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Ant. ${user.home}/.ant/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy tofile="${user.home}/.ant/lib/dpml-transit-tools.jar"
+      file="${target.deliverables.jars.dir}/${project.name}-${project.version}.jar"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Prefs. ${dpml.prefs}
+#----------------------------------------------------------------------------------
+    </echo>
+    <property name="templates" value="${dpml.prefs}/dpml/transit/templates"/>
+    <echo>Adding build template to ${templates}</echo>
+    <mkdir dir="${templates}"/>
+    <copy file="${home}/bootstrap.xml" tofile="${templates}/bootstrap.template" />
+  </target>
+
+</project>

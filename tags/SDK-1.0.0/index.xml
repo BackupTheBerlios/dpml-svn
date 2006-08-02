@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
+
+  <properties>
+    <property name="project.publisher.name" value="Digital Product Meta Library"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+    <property name="project.javadoc.linksource" value="true"/>
+  </properties>
+  
+  <module name="dpml" basedir="main">
+  
+    <properties>
+      <property name="java.util.logging.config.class" value="dpml"/>
+      <property name="project.version-prefix.enabled" value="true"/>
+      <property name="project.version-postfix.enabled" value="false"/>
+      <property name="project.major.version" value="1"/>
+      <property name="project.minor.version" value="0"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    
+    <types>
+      <type id="module" alias="true"/>
+    </types>
+    
+    <filters>
+      <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+      <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      <feature token="PROJECT-VERSION" id="decimal"/> 
+    </filters>
+    
+    <module file="lang/module.xml"/>
+    <module file="transit/module.xml"/>
+    <module file="util/module.xml"/>
+    <module file="depot/module.xml"/>
+    <module file="metro/module.xml"/>
+    <module file="station/module.xml"/>
+    <module file="planet/module.xml"/>
+    
+  </module>
+    
+  <module name="dpmlx">
+    <filters>
+      <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+      <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      <feature token="PROJECT-VERSION" id="version"/> 
+    </filters>
+    <module file="tutorials/module.xml"/>
+    <module file="central/module.xml"/>
+  </module>
+  
+</index>

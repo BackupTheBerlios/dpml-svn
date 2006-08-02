@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+
+STATION_JVM_OPTS="-Ddpml.depot.application=dpml.station"
+
+if [ "$DEPOT_JVM_OPTS" = "" ] ; then
+    DEPOT_JVM_OPTS=$STATION_JVM_OPTS
+else
+    DEPOT_JVM_OPTS="$STATION_JVM_OPTS $DEPOT_JVM_OPTS"
+fi
+export DEPOT_JVM_OPTS
+
+depot $*

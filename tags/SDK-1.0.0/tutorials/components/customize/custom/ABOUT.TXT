@@ -1,0 +1,1 @@
+Example dealing with uri extension of another component with supplimentary classes support context values.

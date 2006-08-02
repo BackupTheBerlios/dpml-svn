@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="metro"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+
+  <project name="dpml-metro-state" basedir="state">
+    <info title="DPML State Management Model">
+      <description>State/transition model for lifecycle manaement.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+    </filters>
+  </project>
+  
+  <project name="dpml-metro-component" basedir="component">
+    <info title="DPML Metro Component API">
+      <description>Interfaces defining the Metro component model.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-metro-state" tag="public"/>
+        <include ref="dpml/transit/dpml-transit-main" tag="private"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
+  </project>
+  
+  <project name="dpml-metro-model" basedir="model">
+    <info title="DPML Metro Component SPI">
+      <description>Interfaces defining the Metro datastructures.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-metro-state"/>
+        <include key="dpml-metro-component"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" ref="dpml/metro/dpml-metro-runtime" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
+    </filters>
+  </project>
+   
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <info title="DPML Metro Runtime">
+      <description>
+      Metro component management platform runtime container.
+      </description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+        <part:param class="net.dpml.component.InitialContext"/>
+      </part:plugin>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
+    </filters>
+  </project>
+  
+  <project name="dpml-metro-tools" basedir="tools">
+    <info title="DPML Metro Tools">
+      <description>
+      DPML extensions supporting the Ant build system for component 
+      type and deployment data management.
+      </description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:resource alias="true" urn="dpml:metro"
+        path="net/dpml/metro/tools/antlib.xml"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-tools-builder"/>
+        <include ref="dpml/transit/dpml-transit-tools"/>
+        <include ref="dpml/metro/dpml-metro-runtime"/>
+      </runtime>
+    </dependencies>
+    <filters>
+      <feature token="PART-BUILDER-URI" id="uri" type="part"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
+      <feature token="STRATEGY-BUILDER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
+  </project>
+
+  <project name="dpml-metro-test" basedir="test">
+    <info title="Internal Test Package"/>
+    <properties>
+      <property name="project.javadoc.exclude" value="true"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-logging-api"/>
+        <include ref="dpml/metro/dpml-metro-model"/>
+      </runtime>
+      <test>
+        <include key="dpml-metro-tools"/>
+      </test>
+    </dependencies>
+  </project>
+  
+</module>

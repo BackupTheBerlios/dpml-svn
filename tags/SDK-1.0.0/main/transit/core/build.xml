@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+  Copyright 2004-2005 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+  
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-transit-main" default="install" basedir=".">
+
+  <property name="project.group" value="dpml/transit"/>
+  <property name="project.name" value="dpml-transit-main"/>
+
+  <property file="${basedir}/build.properties"/>
+  <property file="${home}/bootstrap.properties"/>
+  <import file="${home}/bootstrap.xml"/>
+
+  <target name="setup-path" depends="init">
+    <path id="project.test.path">
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+    </path>
+  </target>
+
+  <target name="init" depends="bootstrap.init">
+    <property name="part.xsd.version" value="${project.specification.version}"/>
+    <filter token="PART-XSD-SPEC-URI" value="link:xsd:dpml/lang/dpml-part#${part.xsd.version}"/>
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-GROUP" value="${project.group}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+  </target>
+
+  <target name="build" depends="bootstrap.build">
+    <rmic base="${target.classes.dir}">
+      <include name="**/DefaultHostModel.class"/>
+      <include name="**/DefaultContentModel.class"/>
+      <include name="**/DefaultLayoutModel.class"/>
+      <include name="**/StandardLayoutModel.class"/>
+      <include name="**/DefaultCacheModel.class"/>
+      <include name="**/DefaultContentRegistryModel.class"/>
+      <include name="**/DefaultLayoutRegistryModel.class"/>
+      <include name="**/DefaultRepositoryModel.class"/>
+      <include name="**/DefaultTransitModel.class"/>
+      <include name="**/DefaultProxyModel.class"/>
+      <include name="**/DefaultCacheHandler.class"/>
+      <include name="**/DefaultContentRegistry.class"/>
+      <include name="**/DefaultLayoutRegistry.class"/>
+      <include name="**/DefaultResourceHost.class"/>
+      <include name="**/SecuredTransitContext$ProxyController.class"/>
+      <include name="**/SecuredTransitContext$DisposalController.class"/>
+    </rmic>
+  </target>
+
+  <target name="package" depends="build">
+    <mkdir dir="${target.deliverables.jars.dir}"/>
+    <jar destfile="${target.deliverables.jars.dir}/${project.filename}"
+       basedir="${target.classes.dir}" 
+       includes="**/*.*" excludes="**/*.html,**/*.png"
+       index="true">
+    </jar>
+    <checksum fileext=".md5" file="${target.deliverables.jars.dir}/${project.filename}"/>
+    <delete file="${target.deliverables.jars.dir}/${project.filename}.asc"/>
+    <antcall target="execute.jar.asc"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.prefs}/dpml/transit"/>
+    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
+      <fileset dir="${basedir}/target/prefs"/>
+    </copy>
+  </target>
+
+  <target name="install" depends="bootstrap.install">
+    <property name="lib" location="${dpml.system}/lib"/>
+    <property name="short.filename" value="${project.name}.jar"/>
+    <property name="long.filename" value="${project.name}-${project.version}.jar"/>
+    <mkdir dir="${lib}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML Lib ${lib}
+#----------------------------------------------------------------------------------
+    </echo>
+    <delete verbose="true" failonerror="false">
+      <fileset dir="${lib}">
+        <include name="${project.name}-*.*"/>
+        <exclude name="${short.filename}"/>
+      </fileset>
+    </delete>
+    <copy toFile="${lib}/${short.filename}" preservelastmodified="true" overwrite="true" 
+      file="${target.deliverables.jars.dir}/${long.filename}"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Ant. ${user.home}/.ant/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <copy preservelastmodified="true" overwrite="true"
+      tofile="${user.home}/.ant/lib/${short.filename}" 
+      file="${target.deliverables.jars.dir}/${long.filename}"/>
+  </target>
+
+</project>

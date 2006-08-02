@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Management Platform</title>
+  </properties> 
+
+  <body>
+
+    <section name="DPML Metro">
+
+       <p>
+       Metro is an advanced component runtime solution.
+       </p>
+       
+       <p>
+       Metro is an <a href="ioc.html">IOC</a> Container  
+       that handles and deployment of component-based applications. Beyond this Metro
+       delivers pure framework independent component-driven <a href="ioc.html">Adaptive 
+       Context</a> support backed by an <a href="management.html">Active State</a>, 
+       <a href="model.html">Model Driven</a>, <a href="parts.html">Part Based</a> 
+       system arctitecture. 
+       </p>
+
+       <p>
+       <i>
+       A broader overview of the issues and challenges related to component-based 
+       development is presented in the paper 
+       <a href="http://www.mrtc.mdh.se/publications/0953.pdf">Component-based 
+       Development Process and Component Lifecycle</a> by Ivica Crnkovic, Stig Larsson, 
+       Michel Chaudron.
+       </i>
+       </p>
+
+    </section>
+
+  </body>
+
+</document>
+

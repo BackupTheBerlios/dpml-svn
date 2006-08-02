@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station</title>
+  </properties> 
+
+  <body>
+
+    <section name="DPML Station">
+
+      <p>
+      The DPML Station is system supporting the maintenance of multiple
+      applications. It is composed of an remotely accessible registry
+      of <a href="applications/index.html">applications</a> and a 
+      supporting <a href="cli/index.html">commandline tool</a>.
+      Applications are defined using network resolvable 
+      <a href="profiles/index.html">profiles</a> that contain information about
+      the application environment, JVM settings, and application codebase.
+      </p>
+
+      <p>
+      Capabilities of the station include:
+      </p>
+
+      <ul>
+        <li>Ability to run as a background process.</li>
+        <li>Add, remove and update application profiles.</li>
+        <li>Start, stop and restart registered applications.</li>
+        <li>List information about running applications and/or profiles</li>
+      </ul>
+
+    </section>
+
+  </body>
+
+</document>
+

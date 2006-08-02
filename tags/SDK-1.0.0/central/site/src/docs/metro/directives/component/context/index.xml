@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Context Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Context">
+
+      <subsection name="Description">
+
+        <p>
+        Declaration of the initial context model state together
+        including context entry key/value bindings.  A context
+        directive typically contains a series of &lt;entry&gt; directives
+        where each directive asserts a default inital value for a context 
+        entry key.  Any required context entry declared by a component must
+        be associated with a context entry directive.  Failure to provide
+        context entry directives for all required context keys will result
+        in a deployment failure.
+        </p>
+
+      </subsection>
+
+      <subsection name="Context Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="entries.html">entry</a></tt></td>
+            <td>The entry element may contain 0..n nested &lt;entry&gt; directives.
+              A entry directive allows the creation by (value or reference) of 
+              a value associated with a context entry key.</td>
+          </tr>
+          <!--
+          <tr>
+            <td><tt><a href="../index.html">component</a></tt></td>
+            <td>The entry element may also contain 0..n nested &lt;component&gt; directives
+              representing inline context entry solutions.</td>
+          </tr>
+          -->
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Examples">
+
+      <subsection name="General Example">
+
+        <p>
+          The following example demonstrates a variety 
+          of context entry directives including the usage of 
+          symbolic values, static field references, direct value 
+          creation, composite value creation, and service wiring.
+        </p>
+
+<source><![CDATA[
+<context>
+  <entry key="name" value="${user.name}"/>
+  <entry key="printer" lookup="org.acme.Printer"/>
+  <entry key="background" method="RED"/>
+  <entry key="foreground">
+    <param class="float" value="100"/>
+    <param class="float" value="200"/>
+    <param class="float" value="0"/>
+  </entry>
+  <entry key="widget" class="org.acme.DefaultWidget">
+    <param class="org.acme.DefaultGizmo">
+      <param class="float" value="0"/>
+      <param class="int" value="1024"/>
+    </param>
+  </entry>
+</context>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+    <section name="Technical Notes">
+    
+      <p>
+      The context descriptor class provides support for the declaration of 
+      an alternative context class hewever this feature is not currently 
+      supporting within the runtime.
+      </p>
+      
+    </section>
+
+  </body>
+
+</document>

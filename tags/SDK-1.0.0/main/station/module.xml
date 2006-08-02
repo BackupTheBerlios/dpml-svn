@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="station"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+
+  <project name="dpml-station-info" basedir="info">
+    <info title="DPML Station XSD Schema">
+      <description>Formal specification of application registry elements.</description>
+    </info>
+    <types>
+      <type id="xsd" version="1.0"/>
+    </types>
+    <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-part"/>
+      </build>
+    </dependencies>
+    <filters>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri" alias="true"/>
+      <feature token="PROJECT-XSD-URI" type="xsd" id="uri" alias="true"/>
+    </filters>
+  </project>
+
+  <project name="dpml-station-api" basedir="api">
+    <info title="DPML Station API">
+      <description>Application control APIs.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+        <include ref="dpml/metro/dpml-metro-component"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" type="xsd" id="uri" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" ref="dpml/lang/dpml-component" type="xsd" id="uri" alias="true"/>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" 
+          type="xsd" id="uri" alias="true"/>
+    </filters>
+  </project>
+
+  <project name="dpml-station-exec" basedir="exec">
+    <info title="DPML Station Application Launcher">
+      <description>Support tool for the deployment of component applications.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:plugin class="net.dpml.station.exec.ApplicationHandler" alias="true"/>
+    </types>
+    <dependencies>
+      <build>
+        <include ref="dpml/metro/dpml-metro-runtime"/>
+      </build>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="public"/>
+        <include ref="dpml/station/dpml-station-api" tag="public"/>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+      </runtime>
+    </dependencies>
+    <filters>
+      <feature token="COMPOSITION-CONTROLLER-URI" 
+          ref="dpml/metro/dpml-metro-runtime" type="part" id="uri"/>
+    </filters>
+  </project>
+
+  <project name="dpml-station-builder" basedir="builder">
+    <info title="DPML Station Builder">
+      <description>Internal utilities supporting application profile encoding/decoding.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-station-api" tag="public"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" 
+          type="xsd" id="uri" alias="true"/>
+    </filters>
+  </project>
+   
+  <project name="dpml-station-server" basedir="server">
+    <info title="DPML Station Server">
+      <description>Background process supporting application clustering.</description>
+    </info>
+    <properties>
+      <property name="project.test.fork" value="true"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:plugin class="net.dpml.station.server.StationServerPlugin" alias="true"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-depot-console" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="public"/>
+        <include ref="dpml/transit/dpml-transit-main" tag="public"/>
+        <include ref="dpml/station/dpml-station-api" tag="public"/>
+        <include ref="dpml/station/dpml-station-builder" tag="protected"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+        </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="APPLICATION-XSD-URI" ref="dpml/station/dpml-station-info" 
+          type="xsd" id="uri" alias="true"/>
+    </filters>
+  </project>
+
+  <project name="dpml-station-console" basedir="console">
+    <info title="DPML Station Console">
+      <description>Commandline interface to the DPML Station.</description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.station.console.StationPlugin"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-util-cli"/>
+        <include ref="dpml/station/dpml-station-api" tag="public"/>
+        <include ref="dpml/station/dpml-station-server"/>
+      </runtime>
+    </dependencies>
+    <filters>
+      <feature token="DEPOT-STATION-PLUGIN-URI" ref="dpml/station/dpml-station-server" 
+          type="part" id="uri"/>
+    </filters>
+  </project>
+   
+</module>

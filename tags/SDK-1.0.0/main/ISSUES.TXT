@@ -1,0 +1,19 @@
+
+Current issues
+--------------
+
+1. Build System Declaration
+
+   Current implementation allows for the defintion of a build system 
+   implementation to be used by the builder when invoking a build 
+   sequence.  While allowing for the potential of replaceable build 
+   strategies, the implementation needs to be extended to supporting 
+   multiple coexistant build strategies with defintion at the library,
+   module and/or project levels.
+
+
+
+
+
+
+
