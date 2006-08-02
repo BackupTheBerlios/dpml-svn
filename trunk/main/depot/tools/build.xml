@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-tools-builder" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <!--
+  -->
+  <target name="install" depends="standard.install">
+    <property name="tools.prefs" location="${dpml.prefs}/dpml/tools"/>
+    <mkdir dir="${tools.prefs}"/>
+    <copy toDir="${tools.prefs}">
+      <fileset dir="${project.target.dir}/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+  
+</project>

@@ -23,6 +23,13 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
+    <filters>
+      <feature token="MODULE-XSD-URI" ref="dpml/lang/dpml-module" id="uri" type="xsd" alias="true"/>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" id="uri" type="xsd" alias="true"/>
+      <feature token="JUNIT_VERSION" ref="junit/junit" id="version"/>
+      <feature token="PROJECT_VERSION" id="version"/>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part" alias="true"/>
+    </filters>
   </project>
 
   <project name="dpml-library-build" basedir="build">
@@ -102,6 +109,23 @@
         <include ref="ant/ant-trax" tag="system"/>
       </runtime>
     </dependencies>
+    <filters>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" alias="true" ref="dpml/lang/dpml-part" />
+      <feature token="PROJECT-URI" id="uri" type="part"/>
+      <feature token="PROJECT-LINK-URI" id="uri" type="part" alias="true"/>
+      <feature token="PROJECT-NAME" id="name"/>
+      <feature token="PROJECT-GROUP" id="group"/>
+      <feature token="PROJECT-VERSION" id="version"/>
+      <feature token="ANT-VERSION" id="version" ref="ant/ant"/>
+      <feature token="JUNIT-VERSION" id="version" ref="junit/junit"/>
+      <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
+      <feature token="DEPOT-CHECKSTYLE-PLUGIN-URI" id="uri" type="part" ref="dpml/depot/dpml-depot-checkstyle" />
+      <feature token="DDEPOT-CHECKSTYLE-PLUGIN-LINK-URI" id="uri" type="part" alias="true" 
+          ref="dpml/depot/dpml-depot-checkstyle" />
+      <feature token="TRANSIT-CORE-VERSION" id="version" ref="dpml/transit/dpml-transit-main"/>
+      <feature token="TRANSIT-TOOLS-VERSION" id="version" ref="dpml/transit/dpml-transit-tools"/>
+      <feature token="LIBRARY-VERSION" id="version" ref="dpml/depot/dpml-library"/>
+    </filters>
   </project>
 
   <project name="dpml-depot-checkstyle" basedir="plugins/checkstyle">

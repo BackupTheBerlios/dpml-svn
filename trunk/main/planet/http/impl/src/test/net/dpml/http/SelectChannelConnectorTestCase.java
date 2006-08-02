@@ -43,7 +43,7 @@ public class SelectChannelConnectorTestCase extends AbstractConnectorContextTest
     {
         Map map = createMap();
         
-        map.put( "assumeShortDispatch", new Boolean( ASSUME_SHORT_DISPATH_POLICY ) );
+        map.put( "delaySelectKeyUpdate", new Boolean( ASSUME_SHORT_DISPATH_POLICY ) );
         
         Class clazz = Context.class;
         Context context = (Context) ContextInvocationHandler.getProxiedInstance( clazz, map );
@@ -63,9 +63,9 @@ public class SelectChannelConnectorTestCase extends AbstractConnectorContextTest
     * Test min-thread assignment integrity.
     * @throws Exception if an error occurs during test execution
     */
-    public void testAssumeShortDispatch() throws Exception
+    public void testDelaySelectKeyUpdate() throws Exception
     {
-        assertEquals( "assumeShortDispatch", ASSUME_SHORT_DISPATH_POLICY, m_connector.getAssumeShortDispatch() );
+        assertEquals( "delaySelectKeyUpdate", ASSUME_SHORT_DISPATH_POLICY, m_connector.getDelaySelectKeyUpdate() );
     }
 
 }

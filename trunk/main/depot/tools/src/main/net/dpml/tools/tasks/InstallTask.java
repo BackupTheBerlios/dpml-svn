@@ -65,6 +65,7 @@ public class InstallTask extends GenericTask
         Resource resource = getResource();
         String resourceVersion = resource.getVersion();
         boolean snapshot = "SNAPSHOT".equals( resourceVersion );
+        boolean bootstrap = "BOOTSTRAP".equals( resourceVersion );
         Type[] types = resource.getTypes();
         if( types.length == 0 )
         {
@@ -96,7 +97,7 @@ public class InstallTask extends GenericTask
                 throw new BuildException( error, getLocation() );
             }
             
-            if( !snapshot )
+            if( !snapshot && !bootstrap )
             {
                 try
                 {
@@ -232,7 +233,6 @@ public class InstallTask extends GenericTask
               + "\n      New: " + newValue;
             throw new BuildException( error, getLocation() );
         }
-        System.out.println( "# CHECKSUM OK" );
     }
     
     private String getChecksum( File file )

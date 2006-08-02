@@ -38,6 +38,21 @@
     <types>
       <type id="jar"/>
     </types>
+    <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-part"/>
+      </build>
+      <test>
+        <include key="dpml-transit-main"/>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PROJECT-NAME" id="name"/>
+      <feature token="PROJECT-GROUP" id="group"/>
+      <feature token="PROJECT-VERSION" id="version"/>
+      <feature token="PART-XSD-SPEC-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+    </filters>
   </project>
    
   <project name="dpml-transit-tools" basedir="tools">

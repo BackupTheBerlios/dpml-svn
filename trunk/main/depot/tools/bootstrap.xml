@@ -47,9 +47,10 @@
   </target>
 
   <target name="package" depends="bootstrap.package">
-    <move file="${target.deliverables.dir}/parts/builder.xml"
+    <mkdir dir="${target.deliverables.dir}/parts"/>
+    <move file="${target.dir}/bootstrap/builder.xml"
       toFile="${target.deliverables.dir}/parts/${project.name}-${project.version}.part"/>
-    <move file="${target.deliverables.dir}/parts/builder.link"
+    <move file="${target.dir}/bootstrap/builder.link"
       toFile="${target.deliverables.dir}/parts/${project.name}.part.link"/>
   </target>
 

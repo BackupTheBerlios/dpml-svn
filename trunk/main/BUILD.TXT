@@ -31,12 +31,12 @@ The bootstrap procedure will create a number of executables under
 %DPML_HOME%/share/bin.  To successfull invoke the build command the bin 
 directory must be included in your PATH environment variable.
 
-  $ cd dev\dpml
   $ build
 
 The build procedure will build approximately 42 projects during which a number 
-of downloads may occur.  On completion the %DPML_HOME% should be fully populated and 
-operational.
+of downloads may occur.  On completion the %DPML_HOME%\data\dist directory will
+contain the distribution archives for the installation.  Unpack the archive 
+corresponding to your platform into the %DPML_HOME% root directory.
 
 
 

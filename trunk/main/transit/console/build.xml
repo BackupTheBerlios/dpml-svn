@@ -22,6 +22,7 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <!--
   <available property="transit.exe.available" file="${dpml.system}/bin/transit.exe"/>
 
   <target name="install" depends="bin,standard.install">
@@ -45,5 +46,6 @@
       </fileset>
     </copy>
   </target>
-
+  -->
+  
 </project>

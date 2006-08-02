@@ -129,13 +129,13 @@ GOTO :EOF
 
 :depot-build
 PUSHD depot\build
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :depot-core
 PUSHD depot\core
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 

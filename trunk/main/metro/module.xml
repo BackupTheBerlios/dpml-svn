@@ -16,6 +16,9 @@
       <type id="jar"/>
     </types>
     <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-state"/>
+      </build>
       <runtime>
         <include ref="dpml/transit/dpml-transit-main"/>
       </runtime>
@@ -36,6 +39,9 @@
       <type id="jar"/>
     </types>
     <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-part"/>
+      </build>
       <runtime>
         <include key="dpml-metro-state" tag="public"/>
         <include ref="dpml/transit/dpml-transit-main" tag="private"/>
@@ -60,6 +66,12 @@
       <type id="jar"/>
     </types>
     <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-part"/>
+        <include ref="dpml/lang/dpml-state"/>
+        <include ref="dpml/lang/dpml-type"/>
+        <include ref="dpml/lang/dpml-component"/>
+      </build>
       <runtime>
         <include key="dpml-metro-state"/>
         <include key="dpml-metro-component"/>
@@ -93,6 +105,12 @@
       </part:plugin>
     </types>
     <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-part"/>
+        <include ref="dpml/lang/dpml-state"/>
+        <include ref="dpml/lang/dpml-type"/>
+        <include ref="dpml/lang/dpml-component"/>
+      </build>
       <runtime>
         <include ref="dpml/util/dpml-logging-api" tag="public"/>
         <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
@@ -124,6 +142,9 @@
         path="net/dpml/metro/tools/antlib.xml"/>
     </types>
     <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-component"/>
+      </build>
       <runtime>
         <include ref="dpml/depot/dpml-tools-builder"/>
         <include ref="dpml/transit/dpml-transit-tools"/>

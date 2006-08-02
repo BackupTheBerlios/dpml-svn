@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-type" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="package" depends="standard.package">
+    <property name="target.file" location="${project.target.dir}/type.xsd"/>
+    <property name="xsds.dir" location="${project.deliverable.xsd.dir}"/>
+    <mkdir dir="${xsds.dir}"/>
+    <property name="filename" value="${project.name}-${project.version}.xsd"/>
+    <copy file="${target.file}" toFile="${project.deliverable.xsd.path}" 
+        preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${project.deliverable.xsd.path}"/>
+  </target>
+
+</project>
