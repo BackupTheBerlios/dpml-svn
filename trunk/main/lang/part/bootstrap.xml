@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- 
-  Copyright 2005-2006 Stephen J McConnell
+  Copyright 2004-2005 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
   
   Licensed  under the  Apache License,  Version 2.0  (the "License");
   you may not use  this file  except in  compliance with the License.
@@ -17,21 +18,18 @@
   limitations under the License.
 -->
 
-<project name="dpml-module" default="install" basedir=".">
+<project name="dpml-part" default="install" basedir=".">
 
   <property name="project.group" value="dpml/lang"/>
-  <property name="project.name" value="dpml-module"/>
+  <property name="project.name" value="dpml-part"/>
 
-  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
   <property name="home" value="../.."/>
-  
   <import file="${home}/bootstrap.xml"/>
 
   <target name="init" depends="bootstrap.init">
-    <property name="xsd.uri" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
     <property name="xsd.spec.uri" value="link:xsd:${project.group}/${project.name}#${specification.version}"/>
-    <filter token="PART-XSD-URI" value="artifact:xsd:dpml/lang/dpml-part#${project.version}"/>
-    <filter token="PROJECT-XSD-URI" value="${xsd.uri}"/>
+    <filter token="MODULE-XSD-SPEC-URI" value="link:xsd:dpml/lang/dpml-module#${specification.version}"/>
     <filter token="PROJECT-XSD-SPEC-URI" value="${xsd.spec.uri}"/>
   </target>
 
@@ -40,9 +38,8 @@
     <mkdir dir="${xsds}"/>
     <property name="filename" value="${project.name}-${project.version}.xsd"/>
     <copy toFile="${xsds}/${filename}" preservelastmodified="true" overwrite="true" 
-      file="${target.dir}/module.xsd"/>
+      file="${target.dir}/part.xsd"/>
     <checksum fileext=".md5" file="${xsds}/${filename}"/>
-    <echo file="${xsds}/${project.name}-${specification.version}.xsd.link" message="${xsd.uri}"/>
   </target>
 
 </project>

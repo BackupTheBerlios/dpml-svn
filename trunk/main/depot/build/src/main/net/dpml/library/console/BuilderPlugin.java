@@ -61,9 +61,15 @@ import net.dpml.cli.validation.URIValidator;
 public class BuilderPlugin
 {
     // ------------------------------------------------------------------------
-    // state
+    // static
     // ------------------------------------------------------------------------
 
+    private static final URI ANT_BUILDER_URI;
+    
+    // ------------------------------------------------------------------------
+    // state
+    // ------------------------------------------------------------------------
+    
     private final Logger m_logger;
     private final DefaultLibrary m_library;
     private final Map m_map = new Hashtable();
@@ -87,17 +93,28 @@ public class BuilderPlugin
         throws Exception
     {
         m_logger = logger;
-        m_library = new DefaultLibrary( logger );
         
         Thread.currentThread().setContextClassLoader( Builder.class.getClassLoader() );
         
-        Parser parser = new Parser();
-        parser.setGroup( COMMAND_GROUP );
+        CommandLine line = getCommandLine( args );
+        m_verbose = line.hasOption( VERBOSE_OPTION );
+        
+        // setup the build version
+        
+        if( line.hasOption( VERSION_OPTION ) )
+        {
+            String version = (String) line.getValue( VERSION_OPTION, "SNAPSHOT" );
+            System.setProperty( "build.signature", version );
+            if( m_verbose )
+            {
+                getLogger().info( "Setting version to: " + version );
+            }
+        }
+        
+        m_library = new DefaultLibrary( logger );
         
         try
         {
-            CommandLine line = parser.parse( args );
-            m_verbose = line.hasOption( VERBOSE_OPTION );
             if( line.hasOption( HELP_OPTION ) )
             {
                 processHelp();
@@ -105,18 +122,6 @@ public class BuilderPlugin
             }
             else
             {
-                // setup the build version
-                
-                if( line.hasOption( VERSION_OPTION ) )
-                {
-                    String version = (String) line.getValue( VERSION_OPTION, "SNAPSHOT" );
-                    System.setProperty( "build.signature", version );
-                    if( m_verbose )
-                    {
-                        getLogger().info( "Setting version to: " + version );
-                    }
-                }
-                
                 if( line.hasOption( LIST_OPTION ) )
                 {
                     m_expand = line.hasOption( EXPAND_OPTION );
@@ -157,6 +162,13 @@ public class BuilderPlugin
         }
     }
     
+    private CommandLine getCommandLine( String[] args ) throws Exception
+    {
+        Parser parser = new Parser();
+        parser.setGroup( COMMAND_GROUP );
+        return parser.parse( args );
+    }
+        
     private Part createPart( URI uri ) throws Exception
     {
         try
@@ -275,10 +287,6 @@ public class BuilderPlugin
     private boolean process( CommandLine line, Resource[] resources ) throws Exception
     {
         URI uri = (URI) line.getValue( BUILDER_URI_OPTION, ANT_BUILDER_URI );
-        
-        Part part = createPart( uri );
-        Builder builder = createBuilder( part );
-        
         if( resources.length > 1 )
         {
             StringBuffer buffer = 
@@ -297,6 +305,8 @@ public class BuilderPlugin
         for( int i=0; i<resources.length; i++ )
         {
             Resource resource = resources[i];
+            Part part = createPart( uri );
+            Builder builder = createBuilder( part );
             boolean status = builder.build( resource, targets );
             if( !status )
             {
@@ -306,21 +316,7 @@ public class BuilderPlugin
         }
         return true;
     }
-
-    private static final URI ANT_BUILDER_URI;
     
-    static
-    {
-        try
-        {
-            ANT_BUILDER_URI = new URI( "@ANT-BUILDER-URI@" );
-        }
-        catch( Exception e )
-        {
-            throw new RuntimeException( "will not happen", e );
-        }
-    }
-
    /**
     * Build the supplied set of projects. If a build filure occurs then 
     * abort the build sequence and exit.
@@ -613,5 +609,18 @@ public class BuilderPlugin
         .withOption( BUILD_GROUP )
         .withOption( TARGETS )
         .create();
+
+    static
+    {
+        try
+        {
+            ANT_BUILDER_URI = new URI( "@ANT-BUILDER-URI@" );
+        }
+        catch( Exception e )
+        {
+            throw new RuntimeException( "will not happen", e );
+        }
+    }
+
 }
 

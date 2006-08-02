@@ -19,9 +19,9 @@
       <uri>artifact:jar:ant/ant-trax#@ANT-VERSION@</uri>
     </system>
     <private>
-      <uri>artifact:jar:dpml/transit/dpml-transit-main#@PROJECT-VERSION@</uri>
-      <uri>artifact:jar:dpml/transit/dpml-transit-tools#@PROJECT-VERSION@</uri>
-      <uri>artifact:jar:dpml/depot/dpml-library#@PROJECT-VERSION@</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#@TRANSIT-CORE-VERSION@</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-tools#@TRANSIT-TOOLS-VERSION@</uri>
+      <uri>artifact:jar:dpml/depot/dpml-library#@LIBRARY-VERSION@</uri>
       <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#@PROJECT-VERSION@</uri>
     </private>
   </classpath>

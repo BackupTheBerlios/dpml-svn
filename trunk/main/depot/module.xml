@@ -4,7 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
   
-  <resource name="dpml-library" basedir="library">
+  <properties>
+    <property name="project.micro.version" value="1"/>
+  </properties>
+  
+  <project name="dpml-library" basedir="library">
     <info title="DPML Project Management Library">
       <description>Module, project and resource management system.</description>
     </info>
@@ -19,7 +23,7 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
-  </resource>
+  </project>
 
   <project name="dpml-library-build" basedir="build">
     <info title="DPML Depot Build Tool">
@@ -40,10 +44,10 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part"/>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part" alias="true"/>
     </filters>
   </project>
-   
+  
   <project name="dpml-depot-console" basedir="core">
     <info title="DPML Console">
       <description>Internal subsystem application handler.</description>
@@ -80,7 +84,7 @@
     </filters>
   </project>
 
-  <resource name="dpml-tools-builder" basedir="tools">
+  <project name="dpml-tools-builder" basedir="tools">
     <info title="DPML Depot Toolkit">
       <description>Antlib supporting Depot-based build automation.</description>
     </info>
@@ -98,7 +102,7 @@
         <include ref="ant/ant-trax" tag="system"/>
       </runtime>
     </dependencies>
-  </resource>
+  </project>
 
   <project name="dpml-depot-checkstyle" basedir="plugins/checkstyle">
     <info title="DPML Checkstyle Plugin">
@@ -128,6 +132,9 @@
     <info title="DPML Java to HTML Converter">
       <description>Checkstyle plugin for Depot.</description>
     </info>
+    <properties>
+      <property name="project.micro.version" value="0"/>
+    </properties>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>

@@ -116,7 +116,7 @@ public class ResourceDirective extends AbstractDirective
                 {
                     resource = 
                       new ModuleDirective(
-                        elem, null, Classifier.EXTERNAL, ".", null,
+                        elem, null, Classifier.EXTERNAL, null, null,
                         new DataDirective[0], new DependencyDirective[0],
                         new ResourceDirective[]{resource}, null, null );
                 }

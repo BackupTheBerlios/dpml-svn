@@ -3,6 +3,10 @@
     xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+    
+  <properties>
+    <property name="project.micro.version" value="1"/>
+  </properties>
 
   <project name="dpml-metro-state" basedir="state">
     <info title="DPML State Management Model">

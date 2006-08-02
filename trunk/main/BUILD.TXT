@@ -17,6 +17,8 @@ B. Bootstrap Build
 
 Create a directory to hold the svn codebase (e.g. c:\dev\dpml\main), checkout 
 the sources, cd to the main directory and invoke the bootstrap build procedure.
+The bootstrap procedure invokes a SNAPSHOT build on all resources necessary to
+establish the build tool.
 
   $ cd dev\dpml\main
   $ svn checkout svn://svn.berlios.de/dpml/trunk/main
@@ -32,7 +34,7 @@ directory must be included in your PATH environment variable.
   $ cd dev\dpml
   $ build
 
-The build procedure will build approximately 40 projects during which a number 
+The build procedure will build approximately 42 projects during which a number 
 of downloads may occur.  On completion the %DPML_HOME% should be fully populated and 
 operational.
 

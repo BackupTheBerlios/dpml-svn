@@ -73,7 +73,7 @@ public final class ModuleDirective extends ResourceDirective
                 {
                     enclosing = 
                       new ModuleDirective(
-                        elem, null, Classifier.EXTERNAL, ".", null,
+                        elem, null, Classifier.EXTERNAL, null, null,
                         new DataDirective[0], new DependencyDirective[0],
                         new ResourceDirective[]{enclosing}, null, null );
                 }
@@ -95,10 +95,10 @@ public final class ModuleDirective extends ResourceDirective
     * @param name the module name
     * @param resource resource contained within the module
     */
-    public ModuleDirective( String name, ResourceDirective resource )
+    public ModuleDirective( String name, String version, ResourceDirective resource )
     {
         this(
-          name, null, Classifier.ANONYMOUS, null, null,
+          name, version, Classifier.ANONYMOUS, null, null,
           new DataDirective[0], new DependencyDirective[0],
           new ResourceDirective[]{resource}, null, null );
     }

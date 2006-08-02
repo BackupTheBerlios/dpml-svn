@@ -15,18 +15,7 @@ build()
 {
     STATUS=99
     while [ "$STATUS" -eq 99 ] ; do
-      if [ -n "$ID" ] ; then
-        BUILD_ID="-Dbuild.signature=$ID"
-      else
-        BUILD_ID=""
-      fi
-      if [ -n "$SPEC" ] ; then
-        SPEC_ID="-Dbuild.decimal=$SPEC"
-      else
-        SPEC_ID=""
-      fi
-      echo "building project with with spec [$SPEC] and release ID [$ID]"
-      ant $SPEC_ID $BUILD_ID "$@"
+      ant $BUILD_ID "$@"
       STATUS="$?"
     done
     if [ "$STATUS" == 0 ] ; then
@@ -50,63 +39,63 @@ xmlSetup()
 dpmlModule()
 {
     cd lang/module
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 dpmlPart()
 {
     cd lang/part
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 dpmlState()
 {
     cd lang/state
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 dpmlComponent()
 {
     cd lang/component
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 dpmlType()
 {
     cd lang/type
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 transitMain()
 {
     cd transit/core
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 transitTools()
 {
     cd transit/tools
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 dpmlLibrary()
 {
     cd depot/library
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 depotAntBuilder()
 {
     cd depot/tools
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
@@ -139,7 +128,6 @@ depotCore()
 }
 
 ID=$1
-SPEC=$2
 antlibCleanup
 xmlSetup
 dpmlModule

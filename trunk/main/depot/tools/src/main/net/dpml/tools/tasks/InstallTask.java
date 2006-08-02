@@ -23,7 +23,9 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 
 import net.dpml.lang.Version;
 
@@ -32,12 +34,14 @@ import net.dpml.library.Resource;
 import net.dpml.library.Type;
 
 import net.dpml.transit.Artifact;
+import net.dpml.transit.artifact.ArtifactNotFoundException;
 import net.dpml.transit.link.ArtifactLinkManager;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Checksum;
 
 /**
  * Execute the install phase.
@@ -59,6 +63,8 @@ public class InstallTask extends GenericTask
     private void installDeliverables()
     {
         Resource resource = getResource();
+        String resourceVersion = resource.getVersion();
+        boolean snapshot = "SNAPSHOT".equals( resourceVersion );
         Type[] types = resource.getTypes();
         if( types.length == 0 )
         {
@@ -89,7 +95,32 @@ public class InstallTask extends GenericTask
                   + "] however no artifacts of that type are present in the target deliverables directory.";
                 throw new BuildException( error, getLocation() );
             }
-
+            
+            if( !snapshot )
+            {
+                try
+                {
+                    Artifact artifact = resource.getArtifact( id );
+                    URL url = artifact.toURL();
+                    File file = (File) url.getContent( new Class[]{File.class} );
+                    if( file.exists() )
+                    {
+                        compare( file, target );
+                    }
+                }
+                catch( ArtifactNotFoundException anfe )
+                {
+                    // continue as there is nothing to compare with
+                }
+                catch( IOException ioe )
+                {
+                    final String error =
+                      "IO error while attempting to cross-check resource type: " + id
+                      + "\n" + ioe.toString();
+                    throw new BuildException( error, ioe, getLocation() );
+                }
+            }
+            
             //
             // If the type declares an alias then construct a link 
             // and add the link to the deliverables directory as part of 
@@ -187,6 +218,32 @@ public class InstallTask extends GenericTask
                 throw new BuildException( error, e );
             }
         }
+    }
+    
+    private void compare( File old, File target )
+    {
+        String oldValue = getChecksum( old );
+        String newValue = getChecksum( target );
+        if( !oldValue.equals( newValue ) )
+        {
+            final String error =
+              "Produced resource has the same id as an existing resource but MD5s are not equal."
+              + "\n Existing: " + oldValue
+              + "\n      New: " + newValue;
+            throw new BuildException( error, getLocation() );
+        }
+        System.out.println( "# CHECKSUM OK" );
+    }
+    
+    private String getChecksum( File file )
+    {
+        final Checksum checksum = (Checksum) getProject().createTask( "checksum" );
+        checksum.setTaskName( getTaskName() );
+        checksum.setFile( file );
+        checksum.setProperty( "checksum.property" );
+        checksum.init();
+        checksum.execute();
+        return getProject().getProperty( "checksum.property" );
     }
     
    /**

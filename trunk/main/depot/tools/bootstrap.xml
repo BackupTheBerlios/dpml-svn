@@ -3,12 +3,12 @@
 <project name="dpml-tools-builder" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit">
 
-  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
   <property file="../../bootstrap.properties"/>
   <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">
-    <filter token="PART-XSD-URI" value="link:xsd:dpml/lang/dpml-part#${dpml.xsd.version}"/>
+    <filter token="PART-XSD-URI" value="link:xsd:dpml/lang/dpml-part#1.0"/>
     <filter token="PROJECT-URI" value="artifact:part:${project.group}/${project.name}#${project.version}" />
     <filter token="PROJECT-LINK-URI" value="link:part:${project.group}/${project.name}" />
     <filter token="PROJECT-NAME" value="${project.name}" />
@@ -18,20 +18,23 @@
     <filter token="JUNIT-VERSION" value="${junit.version}"/>
     <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-URI" 
-        value="artifact:part:${project.group}/dpml-depot-checkstyle#${project.version}"/>
+        value="artifact:part:${project.group}/dpml-depot-checkstyle#SNAPSHOT"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-LINK-URI" 
         value="link:part:${project.group}/dpml-depot-checkstyle"/>
+    <filter token="TRANSIT-CORE-VERSION" value="SNAPSHOT"/>
+    <filter token="TRANSIT-TOOLS-VERSION" value="SNAPSHOT"/>
+    <filter token="LIBRARY-VERSION" value="SNAPSHOT"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
     <transit:get property="library.path" 
-      uri="artifact:jar:dpml/depot/dpml-library#${project.version}"/>
+      uri="artifact:jar:dpml/depot/dpml-library#SNAPSHOT"/>
     <transit:get property="transit.path" 
-      uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
+      uri="artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT"/>
     <path id="project.main.path">
       <pathelement 
-        location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+        location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-SNAPSHOT.jar"/>
       <pathelement location="${library.path}"/>
       <pathelement location="${target.classes.dir}"/>
     </path>

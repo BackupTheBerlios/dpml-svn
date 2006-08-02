@@ -23,10 +23,14 @@
   <property name="project.group" value="dpml/transit"/>
   <property name="project.name" value="dpml-transit-tools"/>
   <property name="project.antlib" value="${project.name}.jar"/>
-  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
 
   <import file="${home}/bootstrap.xml"/>
 
+  <target name="init" depends="bootstrap.init">
+    <property name="dpml-transit-handler.filename" value="dpml-transit-main-${project.version}.jar"/>
+  </target>
+  
   <target name="setup-path" depends="init">
     <path id="project.main.path">
       <pathelement location="${dpml.local.cache}/${project.group}/jars/${dpml-transit-handler.filename}"/>

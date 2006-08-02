@@ -3,7 +3,7 @@
 <project name="dpml-library" default="install" basedir="."
     xmlns:transit="antlib:net.dpml.transit" >
 
-  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
   <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
 
   <target name="init" depends="bootstrap.init">
@@ -17,9 +17,9 @@
 
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
-    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#${project.version}"/>
+    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT"/>
     <path id="project.main.path">
-      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${dpml.transit.version}.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-SNAPSHOT.jar"/>
       <pathelement location="${target.classes.dir}"/>
     </path>
     <path id="project.test.path">

@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module name="lang" xmlns="link:xsd:dpml/lang/dpml-module#1.0">
    
-  <resource name="dpml-module">
+  <properties>
+    <property name="project.micro.version" value="0"/>
+  </properties>
+
+  <project name="dpml-module" basedir="module">
     <info title="DPML Library XSD Schema">
       <description>Formal XML specification of the index, module, project and resource elements.</description>
     </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>
-  </resource>
+    <filters>
+      <feature token="PROJECT-XSD-URI" id="uri" type="xsd"/>
+      <feature token="PROJECT-XSD-SPEC-URI" id="uri" type="xsd" alias="true"/>
+    </filters>
+  </project>
 
-  <resource name="dpml-part">
+  <project name="dpml-part" basedir="part">
     <info title="DPML Part XSD Schema">
       <description>Formal XML specification of a part deployment unit.</description>
     </info>
@@ -22,18 +30,25 @@
         <include key="dpml-module"/>
       </build>
     </dependencies>
-  </resource>
+    <filters>
+      <feature token="MODULE-XSD-SPEC-URI" id="uri" type="xsd" ref="dpml/lang/dpml-module" alias="true"/>
+      <feature token="PROJECT-XSD-SPEC-URI" id="uri" type="xsd" alias="true"/>
+    </filters>
+  </project>
 
-  <resource name="dpml-state">
+  <project name="dpml-state" basedir="state">
     <info title="DPML State XSD Schema">
       <description>Formal XML specification of a state transition model.</description>
     </info>
     <types>
       <type id="xsd" version="1.0"/>
     </types>
-  </resource>
+    <filters>
+      <feature token="PROJECT-XSD-URI" id="uri" type="xsd" alias="true"/>
+    </filters>
+  </project>
    
-  <resource name="dpml-component">
+  <project name="dpml-component" basedir="component">
     <info title="DPML State XSD Schema">
       <description>Formal XML specification of the Metro component descriptors and deployment directives.</description>
     </info>
@@ -46,9 +61,15 @@
         <include key="dpml-type"/>
       </build>
     </dependencies>
-  </resource>
+    <filters>
+      <feature token="PROJECT-XSD-LINK-URI" id="uri" type="xsd" alias="true"/>
+      <feature token="PART-XSD-LINK-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
+      <feature token="MODULE-XSD-SPEC-URI" id="uri" type="xsd" ref="dpml/lang/dpml-module" alias="true"/>
+    </filters>
+  </project>
 
-  <resource name="dpml-type">
+  <project name="dpml-type" basedir="type">
     <info title="DPML Type XSD Schema">
       <description>Formal XML specification of the Metro component type descriptors.</description>
     </info>
@@ -61,6 +82,11 @@
         <include key="dpml-part"/>
       </build>
     </dependencies>
-  </resource>
+    <filters>
+      <feature token="PROJECT-XSD-URI" id="uri" type="xsd" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+    </filters>
+  </project>
 
 </module>

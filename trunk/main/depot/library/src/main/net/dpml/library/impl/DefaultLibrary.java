@@ -390,11 +390,11 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
             String elem = elements[i];
             if( i == ( elements.length-1 ) )
             {
-                enclosing = new ModuleDirective( elem, resourceDirective );
+                enclosing = new ModuleDirective( elem, version, resourceDirective );
             }
             else
             {
-                enclosing = new ModuleDirective( elem, enclosing );
+                enclosing = new ModuleDirective( elem, version, enclosing );
             }
         }
         try

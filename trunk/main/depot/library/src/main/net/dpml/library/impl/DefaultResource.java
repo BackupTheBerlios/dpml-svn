@@ -79,9 +79,19 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     public static final String SNAPSHOT = "SNAPSHOT";
     
    /**
+    * Constant BOOTSTRAP symbol.
+    */
+    public static final String BOOTSTRAP = "BOOTSTRAP";
+    
+   /**
     * Constant RELEASE symbol.
     */
     public static final String RELEASE = "RELEASE";
+    
+   /**
+    * Constant ANONYMOUS version symbol.
+    */
+    public static final String ANONYMOUS = "ANONYMOUS";
     
     private final DefaultLibrary m_library;
     private final ResourceDirective m_directive;
@@ -206,8 +216,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         String version = getVersion();
         if( null != version )
         {
-            setProperty( "project.version", getVersion() );
+            setProperty( "project.version", version );
         }
+        
+        // setup filters
         
         FilterDirective[] filters = directive.getFilterDirectives();
         for( int i=0; i<filters.length; i++ )
@@ -262,25 +274,14 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     */
     public String getVersion()
     {
-        if( null == m_directive )
+        String version = getStatutoryVersion();
+        if( null != version )
         {
-            return getStandardVersion();
-        }
-        if( ResourceDirective.ANONYMOUS.equals( getClassifier() ) )
-        {
-            return m_directive.getVersion();
+            return version;
         }
         else
         {
-            String version = getStatutoryVersion();
-            if( null != version )
-            {
-                return version;
-            }
-            else
-            {
-                return getStandardVersion();
-            }
+            return getStandardVersion();
         }
     }
     
@@ -306,6 +307,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                 if( null != m_parent )
                 {
                     return m_parent.getStatutoryVersion();
+                }
+                else if( !m_directive.getClassifier().equals( Classifier.LOCAL ) )
+                {
+                    return ANONYMOUS;
                 }
                 else
                 {
@@ -1399,6 +1404,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     {
         String value = getBuildSignature();
         if( value.equals( SNAPSHOT ) )
+        {
+            return value;
+        }
+        else if( value.equals( BOOTSTRAP ) )
         {
             return value;
         }

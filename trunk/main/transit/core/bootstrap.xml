@@ -23,7 +23,7 @@
   <property name="project.group" value="dpml/transit"/>
   <property name="project.name" value="dpml-transit-main"/>
 
-  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
   <property file="${home}/bootstrap.properties"/>
   <import file="${home}/bootstrap.xml"/>
 

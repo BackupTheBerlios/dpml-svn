@@ -3,11 +3,18 @@
     xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+    
+  <properties>
+    <property name="project.micro.version" value="1"/>
+  </properties>
 
   <project name="dpml-station-info" basedir="info">
     <info title="DPML Station XSD Schema">
       <description>Formal specification of application registry elements.</description>
     </info>
+    <properties>
+      <property name="project.micro.version" value="0"/>
+    </properties>
     <types>
       <type id="xsd" version="1.0"/>
     </types>

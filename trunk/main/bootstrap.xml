@@ -31,6 +31,7 @@
   <property file="${user.home}/ant.properties"/>
   <property file="${basedir}/user.properties"/>
   <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
   <property name="home" location=""/>
   <property file="${home}/user.properties"/>
   <property file="${home}/bootstrap.properties"/>
@@ -146,10 +147,6 @@
     <isset property="build.signature"/>
   </condition>
 
-  <condition property="decimal.declared" value="true">
-    <isset property="build.decimal"/>
-  </condition>
-
   <property name="src" value="src"/>
   <property name="src.main" value="main"/>
   <property name="src.main.dir" value="${src}/${src.main}"/>
@@ -177,20 +174,20 @@
   <property name="target.deliverables.dir" location="${target.dir}/deliverables"/>
   <property name="target.deliverables.jars.dir" location="${target.deliverables.dir}/jars"/>
 
-  <target name="setupReleasePrefix" if="decimal.declared">
-    <property name="project.prefix" value="${build.decimal}-"/>
+  <!--
+  <target name="setupVersionedFilename" unless="signature.declared">
+    <loadfile  property="project.version" srcFile="${basedir}/VERSION.TXT"/>
   </target>
 
-  <target name="setupReleaseFilename" depends="setupReleasePrefix" if="signature.declared">
-    <property name="project.prefix" value=""/>
-    <property name="project.version" value="${project.prefix}${build.signature}"/>
+  <target name="setupReleaseFilename" depends="setupVersionedFilename" if="signature.declared">
+    <property name="project.version" value="${build.signature}"/>
   </target>
-
-  <target name="init" depends="setup,setupReleaseFilename">
+  -->
+  
+  <target name="init" depends="setup">
     <property name="project.version" value="SNAPSHOT"/>
     <property name="build.signature" value="SNAPSHOT"/>
     <property name="project.filename" value="${project.name}-${project.version}.${project.type}"/>
-    <property name="dpml-transit-handler.filename" value="dpml-transit-main-${project.version}.jar"/>
     <echo>
 #----------------------------------------------------------------------------------
 # ${project.group}/${project.name}#${project.version}

@@ -9,16 +9,12 @@ REM ant plugin, and the console CLI handler.
 REM
 REM Usage:
 REM ------
-REM bootstrap 1.0.0 1234
-REM
-REM or
 REM
 REM bootstrap
 REM
 
 
 set ARG_ONE=%1
-set ARG_TWO=%2
 CALL :antlib-cleanup
 IF ERRORLEVEL 1 GOTO :exit
 CALL :xml-setup
@@ -67,55 +63,55 @@ GOTO :EOF
 
 :dpml-module
 PUSHD lang\module
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-part
 PUSHD lang\part
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-state
 PUSHD lang\state
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-component
 PUSHD lang\component
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-type
 PUSHD lang\type
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :transit-main
 PUSHD transit\core
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :transit-tools
 PUSHD transit\tools
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-library
 PUSHD depot\library
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :depot-ant-builder
 PUSHD depot\tools
-CALL :build clean install
+CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
@@ -145,33 +141,10 @@ GOTO :EOF
 
 :build
 
-REM if %ARG_TWO% is undefined then %SPEC_ID% is undefined and %BUILD_ID% is %ARG_ONE%
-
-SET SPEC_ID=""
-SET BUILD_ID=""
-
-IF NOT "%ARG_TWO%" == "" GOTO SETUP_WITH_TWO_ARGS
-IF "%ARG_TWO%" == "" GOTO SETUP_WITH_ONE_ARGS
-
-:SETUP_WITH_ONE_ARGS
-SET BUILD_ID=-Dbuild.signature=%ARG_ONE%
-GOTO EXECUTE
-
-:SETUP_WITH_TWO_ARGS
-SET SPEC_ID=-Dbuild.decimal=%ARG_ONE%
-SET BUILD_ID=-Dbuild.signature=%ARG_TWO%
-GOTO EXECUTE
-
-
-:EXECUTE
-ECHO ### START BUILD ###
 @echo on
 CD
 @echo off
-ECHO building project with [%SPEC_ID%] and [%BUILD_ID%]
-CALL ant %SPEC_ID% %BUILD_ID% %*
-SET SPEC_ID=""
-SET BUILD_ID=""
+CALL ant %*
 goto :EOF
 
 

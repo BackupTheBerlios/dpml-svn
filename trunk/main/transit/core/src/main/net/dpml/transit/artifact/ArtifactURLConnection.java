@@ -191,6 +191,21 @@ public class ArtifactURLConnection extends URLConnection
     public Object getContent( Class[] classes )
         throws IOException
     {
+    
+        //
+        // attempt to resolve this locally as we may be dealing
+        // with Depot references to the artifact File
+        //
+
+        for( int i=0; i < classes.length; i++ )
+        {
+            Class c = classes[i];
+            if( c.equals( File.class ) )
+            {
+                return m_context.getCacheHandler().getLocalFile( m_artifact );
+            }
+        }
+        
         String type = m_artifact.getType();
 
         // 
@@ -221,19 +236,6 @@ public class ArtifactURLConnection extends URLConnection
             boolean ignoreThis = true;
         }
 
-        //
-        // attempt to resolve this locally as we may be dealing
-        // with Magic references to the artifact File
-        //
-
-        for( int i=0; i < classes.length; i++ )
-        {
-            Class c = classes[i];
-            if( c.equals( File.class ) )
-            {
-                return m_context.getCacheHandler().getLocalFile( m_artifact );
-            }
-        }
         return null;
     }
     

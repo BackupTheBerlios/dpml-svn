@@ -18,23 +18,18 @@
   limitations under the License.
 -->
 
-<project name="dpml-component" default="install" basedir=".">
+<project name="dpml-state" default="install" basedir=".">
 
   <property name="project.group" value="dpml/lang"/>
-  <property name="project.name" value="dpml-component"/>
+  <property name="project.name" value="dpml-state"/>
 
-  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bootstrap.properties"/>
   <property name="home" value="../.."/>
   <import file="${home}/bootstrap.xml"/>
 
   <target name="init" depends="bootstrap.init">
-    <property name="xsd.uri" value="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
-    <filter token="PART-XSD-LINK-URI" value="link:xsd:dpml/lang/dpml-part#1.0"/>
-    <filter token="TYPE-XSD-URI" value="link:xsd:dpml/lang/dpml-type#1.0"/>
-    <filter token="MODULE-XSD-URI" value="artifact:xsd:dpml/lang/dpml-module#1.0"/>
-    <filter token="PROJECT-XSD-URI" value="${xsd.uri}"/>
-    <filter token="PROJECT-XSD-LINK-URI" 
-      value="link:xsd:${project.group}/${project.name}#${specification.version}"/>
+    <property name="xsd.spec.uri" value="link:xsd:${project.group}/${project.name}#${specification.version}"/>
+    <filter token="PROJECT-XSD-URI" value="${xsd.spec.uri}"/>
   </target>
 
   <target name="package" depends="bootstrap.package">
@@ -42,9 +37,8 @@
     <mkdir dir="${xsds.dir}"/>
     <property name="filename" value="${project.name}-${project.version}.xsd"/>
     <copy toFile="${xsds.dir}/${filename}" preservelastmodified="true" overwrite="true" 
-      file="${target.dir}/component.xsd"/>
+      file="${target.dir}/state.xsd"/>
     <checksum fileext=".md5" file="${xsds.dir}/${filename}"/>
-    <echo file="${xsds.dir}/${project.name}-${specification.version}.xsd.link" message="${xsd.uri}"/>
   </target>
 
 </project>
