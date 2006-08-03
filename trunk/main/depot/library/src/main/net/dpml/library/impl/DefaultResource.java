@@ -68,6 +68,9 @@ import net.dpml.util.Resolver;
  */
 public class DefaultResource extends DefaultDictionary implements Resource, Resolver, Comparable
 {
+    private static final String LEGACY_DECIMAL_PREFIX_KEY = 
+      "project.version-prefix.enabled";
+    
    /**
     * Timestamp.
     */
@@ -1389,8 +1392,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     // version utilities
     //----------------------------------------------------------------------------
 
-    private static final String DECIMAL_VERSIONING_KEY = "project.decimal.versioning.enabled";
-
     private String getStandardVersion()
     {
         String signature = getBuildSignature();
@@ -1399,8 +1400,9 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
             return BOOTSTRAP;
         }
         
-        boolean decimalFlag = Boolean.getBoolean( DECIMAL_VERSIONING_KEY );
-        boolean isDecimal = getBooleanProperty( DECIMAL_VERSIONING_KEY, decimalFlag );
+        boolean isDecimal = Boolean.getBoolean( DECIMAL_VERSIONING_KEY );
+        isDecimal = getBooleanProperty( DECIMAL_VERSIONING_KEY, isDecimal );
+        isDecimal = getBooleanProperty( LEGACY_DECIMAL_PREFIX_KEY, isDecimal );
         if( isDecimal )
         {
             Version decimal = getDecimalVersion();
