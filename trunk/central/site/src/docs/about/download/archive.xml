@@ -20,31 +20,11 @@
       <subsection name="Build @VERSION@">
 
         <p>
-        Resolved issues and/or enhancements:
+        Eenhancements:
         </p>
         
         <ul>
-          <li>Resolved issue in Depot application handler related to logging 
-              configuration resource assignment preventing the execution of
-              the metro tool with trace or debug options.</li>
-          <li>Corrections to component directive documentation.</li>
-          <li>Depot and Metro tutorials.</li>
-          <li>Added decimal version prefix support.</li>
-          <li>Super-component support in component defintion.</li>
-          <li>Moved main library defintion to <tt>index.xml</tt> and corresponding
-              <tt>&lt;index&gt;</tt> top-level element.</li>
-          <li>Updated project/module/resource <tt>info</tt> element to be equivalent
-              to the info element declared under the <tt>plugin</tt> schema.</li>
-          <li>Documentation improvements including information about type versions
-              and alias references.</li>
-          <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
-              XML instances.</li>
-          <li>Update JUnit task to assert forked test mode as default and 
-              association of system properties for all local deliverables.</li>
-          <li>Removal of redundant declaration in component and type XSD.</li>
-          <li>Updated Type class to support dynamic introspection of context inner interfaces
-              allowing component creation without an explicit .type resource).</li>
-          <li>Consolidated duplicate code dealing with feature resolution.</li>
+          <li>Support in the Depot build tool for multiple versioning schemes.</li>
         </ul>
         
         <table>
@@ -97,6 +77,90 @@
         <p>
         Online <a href="http://api.dpml.net/dpml/@VERSION@">Javadoc</a> and 
         <a href="http://www.dpml.net/reports/@VERSION@/junit">JUnit</a> reports are available.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0">
+
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <ul>
+          <li>Resolved issue in Depot application handler related to logging 
+              configuration resource assignment preventing the execution of
+              the metro tool with trace or debug options.</li>
+          <li>Corrections to component directive documentation.</li>
+          <li>Depot and Metro tutorials.</li>
+          <li>Added decimal version prefix support.</li>
+          <li>Super-component support in component defintion.</li>
+          <li>Moved main library defintion to <tt>index.xml</tt> and corresponding
+              <tt>&lt;index&gt;</tt> top-level element.</li>
+          <li>Updated project/module/resource <tt>info</tt> element to be equivalent
+              to the info element declared under the <tt>plugin</tt> schema.</li>
+          <li>Documentation improvements including information about type versions
+              and alias references.</li>
+          <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
+              XML instances.</li>
+          <li>Update JUnit task to assert forked test mode as default and 
+              association of system properties for all local deliverables.</li>
+          <li>Removal of redundant declaration in component and type XSD.</li>
+          <li>Updated Type class to support dynamic introspection of context inner interfaces
+              allowing component creation without an explicit .type resource).</li>
+          <li>Consolidated duplicate code dealing with feature resolution.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.exe">
+                dpml-sdk-win32-1.0.0.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.zip">
+                dpml-sdk-win32-1.0.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-linux-1.0.0.tar.gz">
+                dpml-sdk-linux-1.0.0.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-linux-1.0.0.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-docs-1.0.0.zip">
+                dpml-sdk-docs-1.0.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-docs-1.0.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+        Online <a href="http://api.dpml.net/dpml/1.0.0">Javadoc</a> and 
+        <a href="http://www.dpml.net/reports/1.0.0/junit">JUnit</a> reports are available.
         </p>
 
       </subsection>

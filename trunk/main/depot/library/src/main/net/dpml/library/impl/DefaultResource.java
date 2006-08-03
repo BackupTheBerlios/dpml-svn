@@ -321,27 +321,16 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
 
    /**
-    * Return the decimal version.  If version prefixing is enabled
-    * via the <tt>project.version-prefix.enabled</tt> property then the value
-    * returned will be derived from the project major, minor and micro version
-    * properties, otherwise a null value will be returned.
+    * Return the decimal version.
     *
     * @return the version
     */
     public Version getDecimalVersion()
     {
-        boolean flag = getBooleanProperty( "project.version-prefix.enabled", false );
-        if( flag )
-        {
-            int major = getMajorVersion();
-            int minor = getMinorVersion();
-            int micro = getMicroVersion();
-            return new Version( major, minor, micro );
-        }
-        else
-        {
-            return null;
-        }
+        int major = getMajorVersion();
+        int minor = getMinorVersion();
+        int micro = getMicroVersion();
+        return new Version( major, minor, micro );
     }
     
    /**
@@ -1400,19 +1389,52 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     // version utilities
     //----------------------------------------------------------------------------
 
+    private static final String DECIMAL_VERSIONING_KEY = "project.decimal.versioning.enabled";
+
     private String getStandardVersion()
     {
-        String value = getBuildSignature();
-        if( value.equals( SNAPSHOT ) )
+        String signature = getBuildSignature();
+        if( BOOTSTRAP.equals( signature ) )
         {
-            return value;
+            return BOOTSTRAP;
         }
-        else if( value.equals( BOOTSTRAP ) )
+        
+        boolean decimalFlag = Boolean.getBoolean( DECIMAL_VERSIONING_KEY );
+        boolean isDecimal = getBooleanProperty( DECIMAL_VERSIONING_KEY, decimalFlag );
+        if( isDecimal )
+        {
+            Version decimal = getDecimalVersion();
+            String spec = decimal.toString();
+            if( null == signature )
+            {
+                return spec;
+            }
+            else
+            {
+                return spec + "-" + signature;
+            }
+        }
+        else
+        {
+            if( null == signature )
+            {
+                return SNAPSHOT;
+            }
+            else
+            {
+                return signature;
+            }
+        }
+        
+       /*
+        String value = getBuildSignature();
+        if( value.equals( SNAPSHOT ) || value.equals( BOOTSTRAP ) )
         {
             return value;
         }
         else
         {
+        
             Version decimal = getDecimalVersion();
             if( null != decimal )
             {
@@ -1431,8 +1453,16 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                 return value;
             }
         }
+        */
     }
     
+    private String getBuildSignature()
+    {
+        String system = System.getProperty( "build.signature", null );
+        return getProperty( "build.signature", system );
+    }
+    
+    /*
     private String getBuildSignature()
     {
         String system = System.getProperty( "build.signature", null );
@@ -1450,6 +1480,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
             return value;
         }
     }
+    */
     
     private int getMajorVersion()
     {

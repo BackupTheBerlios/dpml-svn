@@ -144,7 +144,7 @@ GOTO :EOF
 @echo on
 CD
 @echo off
-CALL ant %*
+CALL ant -Dbuild.signature=BOOTSTRAP %*
 goto :EOF
 
 

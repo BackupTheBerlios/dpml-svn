@@ -111,6 +111,15 @@ public class BuilderPlugin
             }
         }
         
+        if( line.hasOption( DECIMAL_OPTION ) )
+        {
+            System.setProperty( Resource.DECIMAL_VERSIONING_KEY, "true" );
+            if( m_verbose )
+            {
+                getLogger().info( "Enabling decimal versioning." );
+            }
+        }
+        
         m_library = new DefaultLibrary( logger );
         
         try
@@ -286,6 +295,11 @@ public class BuilderPlugin
     */
     private boolean process( CommandLine line, Resource[] resources ) throws Exception
     {
+        boolean validation = line.hasOption( VALIDATE_OPTION );
+        if( validation )
+        {
+            System.setProperty( "project.validation.enabled", "true" );
+        }
         URI uri = (URI) line.getValue( BUILDER_URI_OPTION, ANT_BUILDER_URI );
         if( resources.length > 1 )
         {
@@ -548,10 +562,17 @@ public class BuilderPlugin
           .withRequired( false )
           .create();
     
+    private static final Option VALIDATE_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "validate" )
+          .withDescription( "Enable deliverable validation." )
+          .withRequired( false )
+          .create();
+    
     private static final Option VERSION_OPTION = 
         OPTION_BUILDER
           .withShortName( "version" )
-          .withDescription( "Build output artifact version." )
+          .withDescription( "Build version." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
@@ -562,6 +583,13 @@ public class BuilderPlugin
               .create() )
           .create();
 
+    private static final Option DECIMAL_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "decimal" )
+          .withDescription( "Enable decimal versioning." )
+          .withRequired( false )
+          .create();
+    
     private static final Option BUILDER_URI_OPTION = 
         OPTION_BUILDER
           .withShortName( "plugin" )
@@ -598,6 +626,8 @@ public class BuilderPlugin
         .withOption( VERBOSE_OPTION )
         .withOption( BUILDER_URI_OPTION )
         .withOption( VERSION_OPTION )
+        .withOption( DECIMAL_OPTION )
+        .withOption( VALIDATE_OPTION )
         .withOption( PROPERTY_OPTION )
         .create();
     

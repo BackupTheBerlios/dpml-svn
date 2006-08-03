@@ -2,20 +2,17 @@
 #
 # Utility script that executes the bootstrap build.
 #
-# The following command will bootstrap using the SNAPSHOT version identifier.
+# The following command will initate a bootstrap build using the BOOTSTRAP 
+# version identifier.
 #
 # $ bootstrap
-#
-# Versioned builds can be invoked using the following command (where '1.0.0' is the prefix and '123' is the version postfix):
-# 
-# $ bootstrap 1.0.0 123
 #
 
 build()
 {
     STATUS=99
     while [ "$STATUS" -eq 99 ] ; do
-      ant $BUILD_ID "$@"
+      ant -Ddpml.signature=BOOTSTRAP "$@"
       STATUS="$?"
     done
     if [ "$STATUS" == 0 ] ; then
@@ -116,18 +113,17 @@ utilCli()
 depotBuild()
 {
     cd depot/build
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
 depotCore()
 {
     cd depot/core
-    build clean install
+    build -f bootstrap.xml clean install
     cd ../..
 }
 
-ID=$1
 antlibCleanup
 xmlSetup
 dpmlModule

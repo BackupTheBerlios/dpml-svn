@@ -17,9 +17,9 @@
 
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
-    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT"/>
+    <transit:get property="transit.path" uri="artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP"/>
     <path id="project.main.path">
-      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-SNAPSHOT.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
       <pathelement location="${target.classes.dir}"/>
     </path>
     <path id="project.test.path">

@@ -21,20 +21,20 @@
         value="artifact:part:${project.group}/dpml-depot-checkstyle#SNAPSHOT"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-LINK-URI" 
         value="link:part:${project.group}/dpml-depot-checkstyle"/>
-    <filter token="TRANSIT-CORE-VERSION" value="SNAPSHOT"/>
-    <filter token="TRANSIT-TOOLS-VERSION" value="SNAPSHOT"/>
-    <filter token="LIBRARY-VERSION" value="SNAPSHOT"/>
+    <filter token="TRANSIT-CORE-VERSION" value="BOOTSTRAP"/>
+    <filter token="TRANSIT-TOOLS-VERSION" value="BOOTSTRAP"/>
+    <filter token="LIBRARY-VERSION" value="BOOTSTRAP"/>
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">
     <transit:get property="junit.path" uri="${junit.uri}"/>
     <transit:get property="library.path" 
-      uri="artifact:jar:dpml/depot/dpml-library#SNAPSHOT"/>
+      uri="artifact:jar:dpml/depot/dpml-library#BOOTSTRAP"/>
     <transit:get property="transit.path" 
-      uri="artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT"/>
+      uri="artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP"/>
     <path id="project.main.path">
       <pathelement 
-        location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-SNAPSHOT.jar"/>
+        location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
       <pathelement location="${library.path}"/>
       <pathelement location="${target.classes.dir}"/>
     </path>

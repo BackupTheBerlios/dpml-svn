@@ -66,6 +66,7 @@ public class InstallTask extends GenericTask
         String resourceVersion = resource.getVersion();
         boolean snapshot = "SNAPSHOT".equals( resourceVersion );
         boolean bootstrap = "BOOTSTRAP".equals( resourceVersion );
+        boolean validation = resource.getBooleanProperty( "project.validation.enabled", false );
         Type[] types = resource.getTypes();
         if( types.length == 0 )
         {
@@ -97,7 +98,7 @@ public class InstallTask extends GenericTask
                 throw new BuildException( error, getLocation() );
             }
             
-            if( !snapshot && !bootstrap )
+            if( !snapshot && !bootstrap && validation )
             {
                 try
                 {
@@ -106,7 +107,8 @@ public class InstallTask extends GenericTask
                     File file = (File) url.getContent( new Class[]{File.class} );
                     if( file.exists() )
                     {
-                        compare( file, target );
+                        log( "validating " + target.getName() );
+                        compare( file, target, id );
                     }
                 }
                 catch( ArtifactNotFoundException anfe )
@@ -221,29 +223,53 @@ public class InstallTask extends GenericTask
         }
     }
     
-    private void compare( File old, File target )
+    private void compare( File old, File target, String id )
     {
         String oldValue = getChecksum( old );
         String newValue = getChecksum( target );
         if( !oldValue.equals( newValue ) )
         {
+            String path = getContext().getLayoutFilename( id );
             final String error =
-              "Produced resource has the same id as an existing resource but MD5s are not equal."
-              + "\n Existing: " + oldValue
-              + "\n      New: " + newValue;
+              "A versioned resource created in this build has a different MD5 signature "
+              + "compared to an existing resource of the same name in the cache directory. "
+              + "If the cached resource is a published resource a possibility exists that "
+              + "this build artifact will be introducing a modification to an existing published "
+              + "contract. If the resource has not been published then you can rebuild without "
+              + "deliverable validation.  Otherwise, consider assigning an alternative "
+              + "(non-conflicting) version identifier."
+              + "\n"
+              + "\n\tProduced Type: " + path
+              + "\n\tCached Resource: " + getCanonicalPath( old )
+              + "\n";
             throw new BuildException( error, getLocation() );
+        }
+    }
+    
+    private String getCanonicalPath( File file )
+    {
+        try
+        {
+            return file.getCanonicalPath();
+        }
+        catch( IOException e )
+        {
+            final String error = 
+              "Internal error while attempting to resolve a canonical path for the file: " + file;
+            throw new BuildException( error, e, getLocation() );
         }
     }
     
     private String getChecksum( File file )
     {
+        final String key = "checksum.property." + file.toString();
         final Checksum checksum = (Checksum) getProject().createTask( "checksum" );
         checksum.setTaskName( getTaskName() );
         checksum.setFile( file );
-        checksum.setProperty( "checksum.property" );
+        checksum.setProperty( key );
         checksum.init();
         checksum.execute();
-        return getProject().getProperty( "checksum.property" );
+        return getProject().getProperty( key );
     }
     
    /**

@@ -54,6 +54,22 @@ public interface Dictionary
     String getProperty( String key, String value );
     
    /**
+    * Return an boolean property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value as an boolean
+    */
+    boolean getBooleanProperty( String key, boolean value );
+    
+   /**
+    * Return an integer property value.
+    * @param key the property key
+    * @param value the default value
+    * @return the property value as an integer
+    */
+    int getIntegerProperty( String key, int value );
+
+   /**
     * Evaluate and expand any symbolic references in the supplied value.
     * @param value the value to resolve
     * @return the resolved value
