@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Version Builds</title>
+  </properties>
+
+  <body>
+
+    <section name="Decimal Versioning Example">
+
+      <subsection name="Assigning major, minor and micro properties">
+      
+        <p>
+        Decimal versions are generated relative to the following project 
+        defintion properties.  All property values must be integers.
+        </p>
+
+        <ul>
+          <li>project.major.version</li>
+          <li>project.minor.version</li>
+          <li>project.micro.version</li>
+        </ul>
+        
+      </subsection>
+
+      <subsection name="Using the decimal CLI option">
+
+        <p>
+        Decimal versioning is enabled via the Depot build tool <tt>-decimal</tt>
+        command-line option.  In this example properties from the major, minor and 
+        micro values has been added to the index.xml file (see below).
+        </p>
+
+<pre>$ build -list -decimal
+
+Selection: [3]
+
+  [1]   project:org/acme/plugin/clock-api#1.0.0
+  [2]   project:org/acme/plugin/clock-impl#1.0.2
+  [3]   module:org/acme/plugin#1.0.2
+  
+$</pre>
+
+      </subsection>
+      
+      <subsection name="index.xml">
+
+        <p>
+        The following <tt>index.xml</tt> is an update from the plugin tutorial 
+        example and includes additional properties dealing with major, minor
+        and micro version values.  If undefined - a decimal value defaults to 
+        zero.  Values defined at module level establish the default for 
+        subsidiary projects.
+        </p>
+
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"
+  xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"&gt;
+
+  &lt;imports&gt;
+    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
+  &lt;/imports&gt;
+
+  &lt;module name="org/acme/plugin" basedir="."&gt;
+  
+    <font color="darkred">&lt;properties&gt;
+      &lt;property name="project.major.version" value="1"/&gt;
+      &lt;property name="project.micro.version" value="2"/&gt;
+    &lt;/properties&gt;</font>
+  
+    &lt;types&gt;
+      &lt;type id="module" version="1.0"&gt;
+    &lt;/types&gt;
+  
+    &lt;project name="clock-api" basedir="api"&gt;
+      <font color="darkred">&lt;properties&gt;
+        &lt;property name="project.micro.version" value="0"/&gt;
+      &lt;/properties&gt;</font>
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+      &lt;/types&gt;
+    &lt;/project&gt;
+  
+    &lt;project name="clock-impl" basedir="impl"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+        &lt;part:plugin class="org.acme.impl.SimpleClock"&gt;
+          &lt;part:param value="h:mm"/&gt;
+          &lt;part:param class="java.util.Locale" method="getDefault"/&gt;
+        &lt;/part:plugin&gt;
+      &lt;/types&gt;
+      &lt;dependencies&gt;
+        &lt;runtime&gt;
+          &lt;include key="clock-api"/&gt;
+        &lt;/runtime&gt;
+        &lt;test&gt;
+          &lt;include ref="ant/ant-junit"/&gt;
+          &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+        &lt;/test&gt;
+      &lt;/dependencies&gt;
+    &lt;/project&gt;
+
+  &lt;/module&gt;
+  
+&lt;/index&gt;
+</pre>
+
+      </subsection>
+      
+      <subsection name="Technical Note">
+        <p>
+        The DPML project makes extensive use of decimal versioning and applies the 
+        following convention with respect to major, minor and micro version values:
+        </p>
+        
+        <table>
+          <tr>
+            <td>major</td>
+            <td>All resources sharing the same major version are deemed as backward 
+                compatible.</td>
+          </tr>
+          <tr>
+            <td>minor</td>
+            <td>A minor version represents a functional extension or enhancement
+                that is compatible within the context of the major version identifier.</td>
+          </tr>
+          <tr>
+            <td>micro</td>
+            <td>A micro version represents a sequential release identifier relative 
+                to the <tt>[major].[minor]</tt> namespace.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+  
+</document>
+

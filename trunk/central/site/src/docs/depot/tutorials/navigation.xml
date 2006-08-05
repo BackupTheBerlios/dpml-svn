@@ -38,7 +38,7 @@
       <item name="Working with Modules" href="modules.html"/>
       <item name="Exporting Modules" href="export.html"/>
       <item name="Working with Plugins" href="plugins.html"/>
-      <item name="Versioned Builds" href="versioned.html"/>
+      <item name="Versioned Builds" href="versioning/index.html"/>
     </menu>
 
  </body>
