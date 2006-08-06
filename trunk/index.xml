@@ -16,15 +16,15 @@
     <property name="project.api.host" value="http://api.dpml.net"/>
     <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
     <property name="project.javadoc.linksource" value="true"/>
+    <property name="project.major.version" value="1"/>
+    <property name="project.minor.version" value="0"/>
+    <property name="project.micro.version" value="1"/>
   </properties>
   
   <module name="dpml" basedir="main">
   
     <properties>
       <property name="java.util.logging.config.class" value="dpml"/>
-      <property name="project.major.version" value="1"/>
-      <property name="project.minor.version" value="0"/>
-      <property name="project.micro.version" value="1"/>
     </properties>
     
     <types>
