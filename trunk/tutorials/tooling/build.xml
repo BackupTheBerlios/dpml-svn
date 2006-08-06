@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="demo" default="install"
-    xmlns:transit="antlib:net.dpml.transit">
+<project name="tooling" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot">
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <macrodef name="build">
+    <attribute name="dir"/>
+    <sequential>
+      <exec executable="build" dir="@{dir}">
+        <arg value="clean"/>
+        <arg value="install"/>
+      </exec>
+    </sequential>
+  </macrodef>
   
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
   <target name="build" depends="standard.build">
     <echo message="starting"/>
-    <exec executable="build" dir="${basedir}/simple" />
-    <exec executable="build" dir="${basedir}/alias" />
-    <exec executable="build" dir="${basedir}/automation" />
-    <exec executable="build" dir="${basedir}/filters" />
-    <exec executable="build" dir="${basedir}/imports" />
-    <exec executable="build" dir="${basedir}/properties" />
-    <exec executable="build" dir="${basedir}/symbolic" />
-    <exec executable="build" dir="${basedir}/types" />
-    <exec executable="build" dir="${basedir}/unit" />
-    <exec executable="build" dir="${basedir}/complex/build" />
-    <exec executable="build" dir="${basedir}/complex/export" />
-    <exec executable="build" dir="${basedir}/complex/modules" />
-    <exec executable="build" dir="${basedir}/complex/plugin" />
+    <build dir="${basedir}/simple"/>
+    <build dir="${basedir}/alias" />
+    <build dir="${basedir}/automation" />
+    <build dir="${basedir}/filters" />
+    <build dir="${basedir}/imports" />
+    <build dir="${basedir}/properties" />
+    <build dir="${basedir}/symbolic" />
+    <build dir="${basedir}/types" />
+    <build dir="${basedir}/unit" />
+    <build dir="${basedir}/complex/build" />
+    <build dir="${basedir}/complex/export" />
+    <build dir="${basedir}/complex/modules" />
+    <build dir="${basedir}/complex/plugin" />
     <echo message="done"/>
   </target>
-
+  
 </project>
