@@ -28,7 +28,7 @@
       </subsection>
 
       <subsection name="Build @VERSION@">
-
+      
         <p>
         Please refer to the README.TXT file included in the distribution for 
         additional install details.
@@ -80,7 +80,19 @@
             </td>
           </tr>
         </table>
-
+        
+        <p>
+        Changes in this release include the addition of a new command-line option to the Depot build
+        tool enabling a decimal version build policy together with some internal implementation 
+        enhancements that enable the generation of a full DPML system build using the Depot build 
+        system.  The decimal versioning option basically addresses functional requirements that arise
+        when evaluating the impact of small changes on dependent systems.  In addition version @VERSION@
+        introduces the ability within the DPML build to run the entire build under Depot (as opposed 
+        to the earlier bootstrap+Depot build sequence).  With full Depot-based build sequencing in 
+        place its now much easier to address subjects such as build system reporting and general 
+        shortcomings in larger scale multi-project management.
+        </p>
+        
       </subsection>
 
     </section>
