@@ -93,6 +93,7 @@ public final class ModuleDirective extends ResourceDirective
     * of an anonymous resource.
     *
     * @param name the module name
+    * @param version the module version
     * @param resource resource contained within the module
     */
     public ModuleDirective( String name, String version, ResourceDirective resource )

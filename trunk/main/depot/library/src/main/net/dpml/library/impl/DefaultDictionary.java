@@ -120,8 +120,6 @@ public class DefaultDictionary implements Dictionary
     * @param key the property key
     * @param value the default value
     * @return the property value as an integer
-    * @exception NumberFormatException if underlying property value 
-    *    cannot be resolved to an integer
     */
     public int getIntegerProperty( String key, int value )
     {
@@ -142,8 +140,6 @@ public class DefaultDictionary implements Dictionary
     * @param key the property key
     * @param value the default value
     * @return the property value as an boolean
-    * @exception NumberFormatException if underlying property value 
-    *    cannot be resolved to an integer
     */
     public boolean getBooleanProperty( String key, boolean value )
     {

@@ -244,6 +244,7 @@
       <fileset dir=".">
         <include name="**/target/build/main/**/*.java"/>
         <include name="**/target/build/test/**/*.java"/>
+        <exclude name="target/**/*.*"/>
       </fileset>
     </checkstyle>
     <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"

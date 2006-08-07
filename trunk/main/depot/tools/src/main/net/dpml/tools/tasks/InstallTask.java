@@ -67,6 +67,7 @@ public class InstallTask extends GenericTask
         boolean snapshot = "SNAPSHOT".equals( resourceVersion );
         boolean bootstrap = "BOOTSTRAP".equals( resourceVersion );
         boolean validation = resource.getBooleanProperty( "project.validation.enabled", false );
+        boolean validate = !snapshot && !bootstrap && validation;
         Type[] types = resource.getTypes();
         if( types.length == 0 )
         {
@@ -77,117 +78,7 @@ public class InstallTask extends GenericTask
         for( int i=0; i < types.length; i++ )
         {
             Type type = types[i];
-            
-            //
-            // Check that the project has actually built the resource
-            // type that it declares
-            //
-
-            String id = type.getID();
-            String filename = getContext().getLayoutFilename( id );
-            File group = new File( deliverables, id + "s" );
-            File target = new File( group, filename );
-            if( !target.exists() && !id.equalsIgnoreCase( "null" ) )
-            {
-                final String error = 
-                  "Project [" 
-                  + resource 
-                  + "] declares that it produces the resource type ["
-                  + id
-                  + "] however no artifacts of that type are present in the target deliverables directory.";
-                throw new BuildException( error, getLocation() );
-            }
-            
-            if( !snapshot && !bootstrap && validation )
-            {
-                try
-                {
-                    Artifact artifact = resource.getArtifact( id );
-                    URL url = artifact.toURL();
-                    File file = (File) url.getContent( new Class[]{File.class} );
-                    if( file.exists() )
-                    {
-                        log( "validating " + target.getName() );
-                        compare( file, target, id );
-                    }
-                }
-                catch( ArtifactNotFoundException anfe )
-                {
-                    // continue as there is nothing to compare with
-                }
-                catch( IOException ioe )
-                {
-                    final String error =
-                      "IO error while attempting to cross-check resource type: " + id
-                      + "\n" + ioe.toString();
-                    throw new BuildException( error, ioe, getLocation() );
-                }
-            }
-            
-            //
-            // If the type declares an alias then construct a link 
-            // and add the link to the deliverables directory as part of 
-            // install process.
-            //
-
-            Version version = type.getVersion();
-            if( null != version )
-            {
-                try
-                {
-                    Artifact artifact = resource.getArtifact( id );
-                    String uri = artifact.toURI().toASCIIString();
-                    
-                    String link = null;
-                    if( Version.NULL_VERSION.equals( version ) )
-                    {
-                        link = resource.getName() + "." + id + ".link";
-                    }
-                    else
-                    {
-                        link = resource.getName()
-                        + "-"
-                        + version.getMajor()
-                        + "." 
-                        + version.getMinor()
-                        + "."
-                        + id + ".link";
-                    }
-                    File out = new File( group, link );
-                    boolean flag = true;
-                    if( out.exists() )
-                    {
-                        ArtifactLinkManager manager = new ArtifactLinkManager();
-                        URI enclosed = manager.getTargetURI( new URI( out.toURL().toString() ) );
-                        if( artifact.toURI().equals( enclosed ) )
-                        {
-                            flag = false;
-                        }
-                    }
-                    
-                    if( flag )
-                    {
-                        log( link.toString() );
-                        log( uri.toString() );
-                        out.createNewFile();
-                        final OutputStream output = new FileOutputStream( out );
-                        final Writer writer = new OutputStreamWriter( output );
-                        writer.write( uri );
-                        writer.close();
-                        output.close();
-                    }
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Internal error while attempting to create a link for the resource type ["
-                      + id 
-                      + "] in project ["
-                      + resource
-                      + "].";
-                    throw new BuildException( error, e, getLocation() );
-                }
-            }
+            checkType( resource, type, validate );
         }
 
         if( deliverables.exists() )
@@ -220,6 +111,129 @@ public class InstallTask extends GenericTask
                   + "\nDeliverables dir: " + deliverables;
                 throw new BuildException( error, e );
             }
+        }
+    }
+    
+    private void checkType( Resource resource, Type type, boolean validate )
+    {
+        //
+        // Check that the project has actually built the resource
+        // type that it declares
+        //
+
+        String id = type.getID();
+        String filename = getContext().getLayoutFilename( id );
+        final File deliverables = getContext().getTargetDeliverablesDirectory();
+        File group = new File( deliverables, id + "s" );
+        File target = new File( group, filename );
+        if( !target.exists() && !id.equalsIgnoreCase( "null" ) )
+        {
+            final String error = 
+              "Project [" 
+              + resource 
+              + "] declares that it produces the resource type ["
+              + id
+              + "] however no artifacts of that type are present in the target deliverables directory.";
+            throw new BuildException( error, getLocation() );
+        }
+
+        //
+        // If the type declares an alias then construct a link 
+        // and add the link to the deliverables directory as part of 
+        // install process.
+        //
+
+        Version version = type.getVersion();
+        if( null != version )
+        {
+            try
+            {
+                Artifact artifact = resource.getArtifact( id );
+                String uri = artifact.toURI().toASCIIString();
+                String link = null;
+                if( Version.NULL_VERSION.equals( version ) )
+                {
+                    link = resource.getName() + "." + id + ".link";
+                }
+                else
+                {
+                    link = resource.getName()
+                    + "-"
+                    + version.getMajor()
+                    + "." 
+                    + version.getMinor()
+                    + "."
+                    + id + ".link";
+                }
+                File out = new File( group, link );
+                boolean flag = true;
+                if( out.exists() )
+                {
+                    ArtifactLinkManager manager = new ArtifactLinkManager();
+                    URI enclosed = manager.getTargetURI( new URI( out.toURL().toString() ) );
+                    if( artifact.toURI().equals( enclosed ) )
+                    {
+                        flag = false;
+                    }
+                }
+                
+                if( flag )
+                {
+                    final String message = 
+                      link.toString()
+                      + "\n  target: " 
+                      +  uri.toString();
+                    log( message, Project.MSG_VERBOSE );
+                    out.createNewFile();
+                    final OutputStream output = new FileOutputStream( out );
+                    final Writer writer = new OutputStreamWriter( output );
+                    writer.write( uri );
+                    writer.close();
+                    output.close();
+                }
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Internal error while attempting to create a link for the resource type ["
+                  + id 
+                  + "] in project ["
+                  + resource
+                  + "].";
+                throw new BuildException( error, e, getLocation() );
+            }
+        }
+
+        if( validate )
+        {
+            validateType( resource, type, target );
+        }
+    }
+    
+    private void validateType( Resource resource, Type type, File target )
+    {
+        String id = type.getID();
+        try
+        {
+            Artifact artifact = resource.getArtifact( id );
+            URL url = artifact.toURL();
+            File file = (File) url.getContent( new Class[]{File.class} );
+            if( file.exists() )
+            {
+                log( "validating " + target.getName() );
+                compare( file, target, id );
+            }
+        }
+        catch( ArtifactNotFoundException anfe )
+        {
+            // continue as there is nothing to compare with
+        }
+        catch( IOException ioe )
+        {
+            final String error =
+              "IO error while attempting to cross-check resource type: " + id
+              + "\n" + ioe.toString();
+            throw new BuildException( error, ioe, getLocation() );
         }
     }
     
