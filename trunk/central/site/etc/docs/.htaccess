@@ -16,3 +16,6 @@ RedirectMatch ^/metro/station/cli(.*) http://www.dpml.net/station/cli
 RedirectMatch ^/milestones/* http://download.dpml.net/milestones/index.html
 RedirectMatch ^/dpml/1.0.0-1692/* http://api.dpml.net/dpml/1.0.0/index.html
 RedirectMatch ^/dpml/1.0.0-RC* http://api.dpml.net/dpml/1.0.0/index.html
+RedirectMatch ^/reports/1.0.0-RC* http://api.dpml.net/reports/1.0.0/index.html
+RedirectMatch ^/reports/2005* http://api.dpml.net/reports/1.0.0/index.html
+RedirectMatch ^/reports/2006* http://api.dpml.net/reports/1.0.0/index.html
