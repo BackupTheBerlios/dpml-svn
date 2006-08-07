@@ -94,11 +94,6 @@
           </tr>
         </table>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0">Javadoc</a> and 
-        <a href="http://www.dpml.net/reports/1.0.0/junit">JUnit</a> reports are available.
-        </p>
-
       </subsection>
             
       <subsection name="Build 1.0.0-RC9">
@@ -167,11 +162,6 @@
         an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
         </p>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC9">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC9/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC9/catalog/index.html">Catalog</a> reports are available.
-        </p>
-
       </subsection>
       
       <subsection name="Build 1.0.0 RC7">
@@ -226,11 +216,6 @@
           </tr>  
         </table>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC7">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC7/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC7/catalog/index.html">Catalog</a> reports are available.
-        </p>
-
       </subsection>
       
       <subsection name="Build 1.0.0 RC6 (SVN rev 1333)">
@@ -280,11 +265,6 @@
             </td>
           </tr>  
         </table>
-
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC6">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC6/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC6/catalog/index.html">Catalog</a> reports are available.
-        </p>
 
       </subsection>
       
@@ -336,11 +316,6 @@
             </td>
           </tr>  
         </table>
-
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC5">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC5/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC5/catalog/index.html">Catalog</a> reports are available.
-        </p>
 
       </subsection>
       
@@ -404,11 +379,6 @@
           </tr>  
         </table>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC4">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC4/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC4/catalog/index.html">Catalog</a> reports are available.
-        </p>
-
       </subsection>
 
       <subsection name="Build 1.0.0 RC3">
@@ -454,11 +424,6 @@
           </tr>  
         </table>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC2">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC2/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC2/catalog/index.html">Catalog</a> reports are available.
-        </p>
-
       </subsection>
 
       <subsection name="Build 1.0.0 RC1">
@@ -500,11 +465,6 @@
           </tr>
         </table>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/1.0.0-RC1">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/1.0.0-RC1/junit">JUnit</a> and <a href="http://www.dpml.net/reports/1.0.0-RC1/catalog/index.html">Catalog</a> reports are available.
-        </p>
-
       </subsection>
 
       <subsection name="Build 20060217">
@@ -545,11 +505,6 @@
             </td>
           </tr>  
         </table>
-
-        <p>
-        Online <a href="http://api.dpml.net/dpml/20060217">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/20060217/junit">JUnit</a>, <a href="http://www.dpml.net/reports/20060217/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060217/catalog/index.html">Catalog</a> reports are available.
-        </p>
 
       </subsection>
 
@@ -598,11 +553,6 @@
           </tr>  
         </table>
 
-        <p>
-        Online <a href="http://api.dpml.net/dpml/20060215">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/20060215/junit">JUnit</a>, <a href="http://www.dpml.net/reports/20060215/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060215/catalog/index.html">Catalog</a> reports are available.
-        </p>
-
       </subsection>
 
       <subsection name="Build 20060113">
@@ -647,11 +597,6 @@
             </td>
           </tr>  
         </table>
-
-        <p>
-        Online <a href="http://api.dpml.net/dpml/20060113">Javadoc</a>, 
-        <a href="http://www.dpml.net/reports/20060113/junit">JUnit</a>, <a href="http://www.dpml.net/reports/20060113/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060113/catalog/index.html">Catalog</a> reports are available.
-        </p>
 
       </subsection>
 
@@ -742,12 +687,6 @@
           </tr>  
         </table>
 
-        <p>
-        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20060110">http://api.dpml.net/dpml/20060110</a>.
-        <br/>
-        <a href="http://www.dpml.net/reports/20060110/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20060110/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060110/catalog/index.html">Catalog</a> reports are also available.
-        </p>
-
       </subsection>
 
 
@@ -788,12 +727,6 @@
         <p>
         Please refer to the README.TXT file included in the distribution for 
         additional install details.
-        </p>
-
-        <p>
-        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20060101">http://api.dpml.net/dpml/20060101</a>.
-        <br/>
-        <a href="http://www.dpml.net/reports/20060101/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20060101/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20060101/catalog/index.html">Catalog</a> reports are also available.
         </p>
 
       </subsection>
@@ -837,12 +770,6 @@
         <p>
         Please refer to the README.TXT file included in the distribution for 
         additional install details.
-        </p>
-
-        <p>
-        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20051231">http://api.dpml.net/dpml/20051231</a>.
-        <br/>
-        <a href="http://www.dpml.net/reports/20051231/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20051231/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20051231/catalog/index.html">Catalog</a> reports are also available.
         </p>
 
       </subsection>
@@ -889,12 +816,6 @@
         <p>
         Please refer to the README.TXT file included in the distribution for 
         additional install details.
-        </p>
-
-        <p>
-        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20051228">http://api.dpml.net/dpml/20051228</a>.
-        <br/>
-        <a href="http://www.dpml.net/reports/20051228/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20051228/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20051228/catalog/index.html">Catalog</a> reports are also available.
         </p>
 
       </subsection>
@@ -990,11 +911,6 @@
         <p>
         NOTE: File structure layouts within DPML_HOME have been updated.  For Win32 users 
         please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
-        </p>
-        <p>
-        Online Javadoc is available at <a href="http://api.dpml.net/dpml/20051224">http://api.dpml.net/dpml/20051224</a>.
-        <br/>
-        <a href="http://www.dpml.net/reports/20051224/junit">JUnit </a>, <a href="http://www.dpml.net/reports/20051224/checkstyle/index.html">Checkstyle</a> and <a href="http://www.dpml.net/reports/20051224/catalog/index.html">Catalog</a> reports are also available.
         </p>
 
       </subsection>
@@ -1133,43 +1049,6 @@
             </td>
             <td>
               <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-linux-20050803.tar.gz.md5">
-              MD5</a>
-            </td>
-          </tr>  
-        </table>
-
-      </subsection>
-
-
-      <subsection name="Build 20050727">
-
-        <p>
-        The 20050727 milestone is single product distribution of the Depot platform.
-        The installation includes release ready versions of Transit and Magic and links
-        to a version of Metro.  The Depot application provides built-in support for the 
-        install of Magic and Metro.  
-        </p>
-
-        <table>
-          <tr>
-            <td>Windows</td>
-            <td>
-              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-win32-20050727.zip">
-                dpml-transit-win32-20050727.zip</a>
-            </td>
-            <td>
-              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-win32-20050727.zip.md5">
-              MD5</a>
-            </td>
-          </tr>  
-          <tr>
-            <td>Linux</td>
-            <td>
-              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-linux-20050727.tar.gz">
-                dpml-transit-linux-20050727.tar.gz</a>
-            </td>
-            <td>
-              <a href="http://download.dpml.net/milestones/depot/20050727/dpml-depot-linux-20050727.tar.gz.md5">
               MD5</a>
             </td>
           </tr>  
