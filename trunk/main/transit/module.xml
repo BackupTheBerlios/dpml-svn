@@ -43,7 +43,6 @@
         <include ref="dpml/lang/dpml-part"/>
       </build>
       <test>
-        <include key="dpml-transit-main"/>
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
