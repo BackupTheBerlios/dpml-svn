@@ -12,6 +12,10 @@
     <info title="DPML Project Management Library">
       <description>Module, project and resource management system.</description>
     </info>
+    <properties>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
     <types>
       <type id="jar"/>
     </types>
@@ -41,6 +45,9 @@
       <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
     </types>
     <dependencies>
+      <build>
+        <include key="dpml-tools-builder"/>
+      </build>
       <runtime>
         <include ref="dpml/depot/dpml-library"/>
         <include ref="dpml/util/dpml-util-cli"/>

@@ -157,7 +157,6 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         
         // setup produced types
         
-        //m_types = buildTypes( directive.getTypeDirectives() );
         m_types = directive.getTypeDirectives();
         m_typeNames = new String[ m_types.length ];
         for( int i=0; i<m_types.length; i++ )
@@ -1400,10 +1399,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
             return BOOTSTRAP;
         }
         
-        boolean isDecimal = Boolean.getBoolean( DECIMAL_VERSIONING_KEY );
-        isDecimal = getBooleanProperty( DECIMAL_VERSIONING_KEY, isDecimal );
-        isDecimal = getBooleanProperty( LEGACY_DECIMAL_PREFIX_KEY, isDecimal );
-        if( isDecimal )
+        if( isDecimal() )
         {
             Version decimal = getDecimalVersion();
             String spec = decimal.toString();
@@ -1427,35 +1423,13 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                 return signature;
             }
         }
-        
-       /*
-        String value = getBuildSignature();
-        if( value.equals( SNAPSHOT ) || value.equals( BOOTSTRAP ) )
-        {
-            return value;
-        }
-        else
-        {
-        
-            Version decimal = getDecimalVersion();
-            if( null != decimal )
-            {
-                boolean flag = getBooleanProperty( "project.version-postfix.enabled", true );
-                if( flag )
-                {
-                    return decimal.toString() + "-" + value;
-                }
-                else
-                {
-                    return decimal.toString();
-                }
-            }
-            else
-            { 
-                return value;
-            }
-        }
-        */
+    }
+    
+    private boolean isDecimal()
+    {
+        boolean isDecimal = Boolean.getBoolean( DECIMAL_VERSIONING_KEY );
+        isDecimal = getBooleanProperty( DECIMAL_VERSIONING_KEY, isDecimal );
+        return getBooleanProperty( LEGACY_DECIMAL_PREFIX_KEY, isDecimal );
     }
     
     private String getBuildSignature()
