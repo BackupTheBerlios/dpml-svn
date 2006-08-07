@@ -116,7 +116,15 @@ public class CheckstyleTask extends CheckStyleTask
             fileset.setIncludes( "**/*.java" );
             super.addFileset( fileset );
         }
-        if( resource instanceof Module )    
+        File test = new File( file, "target/build/test" );
+        if( test.exists() )
+        {
+            FileSet fileset = new FileSet();
+            fileset.setDir( test );
+            fileset.setIncludes( "**/*.java" );
+            super.addFileset( fileset );
+        }
+        if( resource instanceof Module )
         {
             Module module = (Module) resource;
             Resource[] children = module.getResources();
