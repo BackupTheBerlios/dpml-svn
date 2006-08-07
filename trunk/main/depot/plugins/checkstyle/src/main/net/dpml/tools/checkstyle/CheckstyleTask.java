@@ -29,6 +29,7 @@ import net.dpml.library.Module;
 
 import net.dpml.tools.Context;
 
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 
@@ -54,6 +55,20 @@ public class CheckstyleTask extends CheckStyleTask
     
     private boolean m_init = false;
     private Context m_context;
+    private boolean m_implicit = true;
+    
+   /**
+    * Set the implicit inclusion of the current resource (and potentially
+    * the resources children if the resource is a module).  If implicit
+    * file inclusion is disabled then resources must be declared using an 
+    * explicit fileset.
+    *
+    * @param flag false if implicit inclusion is to be disabled
+    */
+    public void setImplicit( boolean flag )
+    {
+        m_implicit = flag;
+    }
 
    /**
     * Task initialization.
@@ -71,9 +86,7 @@ public class CheckstyleTask extends CheckStyleTask
                   "Missing 'project.context' reference.";
                 throw new IllegalStateException( error );
             }
-            Resource resource = m_context.getResource();
-            addTargetToFileset( resource );
-            
+
             String defaultFormat = "local:format:dpml/tools/dpml";
             String spec = m_context.getProperty( FORMAT_KEY, FORMAT_VALUE );
             if( !spec.startsWith( "local:" ) )
@@ -104,35 +117,60 @@ public class CheckstyleTask extends CheckStyleTask
         }
         m_init = true;
     }
-
+    
+   /**
+    * Execute the checkstyle check.
+    */
+    public void execute() 
+    {
+        Resource resource = m_context.getResource();
+        if( m_implicit )
+        {
+            addTargetToFileset( resource );
+        }
+        super.execute();
+    }
+    
     private void addTargetToFileset( Resource resource )
     {
-        File file = resource.getBaseDir();
-        File main = new File( file, "target/build/main" );
-        if( main.exists() )
+        try
         {
-            FileSet fileset = new FileSet();
-            fileset.setDir( main );
-            fileset.setIncludes( "**/*.java" );
-            super.addFileset( fileset );
-        }
-        File test = new File( file, "target/build/test" );
-        if( test.exists() )
-        {
-            FileSet fileset = new FileSet();
-            fileset.setDir( test );
-            fileset.setIncludes( "**/*.java" );
-            super.addFileset( fileset );
-        }
-        if( resource instanceof Module )
-        {
-            Module module = (Module) resource;
-            Resource[] children = module.getResources();
-            for( int i=0; i < children.length; i++ )
+            File file = resource.getBaseDir();
+            Project project = getProject();
+            //File main = new File( file, "target/build/main" );
+            File main = new File( file, "src/main" );
+            if( main.exists() )
             {
-                Resource child = children[i];
-                addTargetToFileset( child );
+                FileSet fileset = new FileSet();
+                fileset.setDir( main );
+                fileset.setIncludes( "**/*.java" );
+                super.addFileset( fileset );
             }
+            //File test = new File( file, "target/build/test" );
+            File test = new File( file, "src/test" );
+            if( test.exists() )
+            {
+                FileSet fileset = new FileSet();
+                fileset.setDir( test );
+                fileset.setIncludes( "**/*.java" );
+                super.addFileset( fileset );
+            }
+            if( resource instanceof Module )
+            {
+                Module module = (Module) resource;
+                Resource[] children = module.getResources();
+                for( int i=0; i < children.length; i++ )
+                {
+                    Resource child = children[i];
+                    addTargetToFileset( child );
+                }
+            }
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Internal error while attempting to construct implicit fileset for the resource: " + resource;
+            throw new BuildException( error, e, getLocation() );
         }
     }
 

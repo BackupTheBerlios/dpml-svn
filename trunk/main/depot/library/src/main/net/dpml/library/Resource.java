@@ -38,6 +38,9 @@ import net.dpml.util.Resolver;
  */
 public interface Resource extends Dictionary, Resolver
 {
+   /**
+    * System property name used to declare the decimal versioning enabled flag.
+    */
     public static final String DECIMAL_VERSIONING_KEY = "project.decimal.versioning.enabled";
 
    /**

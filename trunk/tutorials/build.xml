@@ -31,12 +31,12 @@
       <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>
-    <checkstyle>
+    <checkstyle implicit="false">
       <formatter type="xml" toFile="${checkstyle.data}"/>
       <fileset dir=".">
+        <exclude name="**/target/**/*.*"/>
         <include name="**/src/main/**/*.java"/>
         <include name="**/src/test/**/*.java"/>
-        <exclude name="**/target/**/*.*"/>
       </fileset>
     </checkstyle>
     <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
