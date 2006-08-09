@@ -44,64 +44,10 @@
         to provide a framework for plugable sub-systems deployment.
         </p>
 
-      </subsection>
-
-      <subsection name="Part Creation">
-
         <p>
-        In practice the creation and maintenance of plugin information is highly 
-        error prone due to overall complexity of dependency management. This was one
-        of the driving factors in the development of the Depot build system.  Depot 
-        was developed from the ground up to provided full transitive 
-        dependency management across build, runtime and test scopes. Using the 
-        Depot project model the job of creating a plugin definition is reduced down 
-        to type production declaration within a Depot project definition.
+        The following part description is an example that has been automaticaly generated 
+        by the Depot build system.
         </p>
-        
-        <p><i>An example Depot project defintion ...</i></p>
-
-<pre>
-&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
-
-  ...
-  
-  &lt;project name="dpml-metro-runtime" basedir="runtime"&gt;
-    &lt;info title="Metro Runtime"&gt;
-      &lt;description&gt;
-      DPML Component management platform runtime container.
-      &lt;/description&gt;
-    &lt;/info&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      <font color="darkred">&lt;part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController"/&gt;</font>
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;include ref="dpml/util/dpml-logging-api" tag="public"/&gt;
-      &lt;include key="dpml-metro-component" tag="protected"/&gt;
-      &lt;include key="dpml-metro-model" tag="protected"/&gt;
-    &lt;/dependencies&gt;
-    &lt;dependencies scope="test"&gt;
-      &lt;include ref="ant/ant-junit"/&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-   
-  ...
-  
-&lt;/index&gt;
-</pre>
-
-        <p>
-        The following part description is generated automatically by the Depot build system
-        based on the above project definition based on the following rules:
-        </p>
-        
-        <ul>
-          <li>The <tt>info</tt> element is mapped directory to a part info declaration.</li>
-          <li>The <tt>part:plugin</tt> element is mapped to a part deployment <tt>strategy</tt> 
-              definition.</li>
-          <li>All runtime dependencies are fully expanded.</li>
-        </ul>
         
         <source><![CDATA[<?xml version="1.0"?>
 
@@ -183,10 +129,9 @@
       <subsection name="Summary">
       
         <p>
-        In the examples presented above we have demonstrated the usage of Depot's project 
-        definition as the source of information about project runtime dependencies and 
-        deployment information from which a part definition is created and used at runtime
-        within an application.  The next tutorial focussed on the <a href="repositories.html">
+        In the examples presented above we have demonstrated the usage of an XML definition of 
+        a part including a classloader defintion and object deployment strategy.  The next 
+        tutorial focussed on the <a href="repositories.html">
         underlying resource repositories</a> from which artifact uris are resolved in terms of 
         physical resources.
         </p>
