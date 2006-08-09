@@ -117,7 +117,7 @@ class DefaultCacheHandler extends UnicastRemoteObject implements CacheHandler, C
         catch( Throwable e )
         {
             final String error = 
-              "Cannot construct cache handler due to a cache layout resolvution failure.";
+              "Cannot construct cache handler due to a cache layout resolution failure.";
             throw new TransitException( error, e );
         }
 

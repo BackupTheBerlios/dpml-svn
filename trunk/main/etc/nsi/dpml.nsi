@@ -16,7 +16,7 @@
 
 !define ALL_USERS
 !define TEMP $R0
-!define VERSION '@PROJECT-VERSION@'
+!define VERSION '@BUILD-VERSION@'
 
 !include "WriteEnvStr.nsh"
 !include "PathManipulation.nsh"
@@ -28,7 +28,7 @@
   ;General
   Name "DPML SDK"
   Caption "DPML SDK (${VERSION}) Setup"
-  OutFile "dpml-sdk-win32-@PROJECT-VERSION@.exe"
+  OutFile "dpml-sdk-win32-@BUILD-VERSION@.exe"
 
   ;Folder selection page
   InstallDir $PROGRAMFILES\DPML
@@ -148,15 +148,6 @@ Section "share" SecShare
   SetOutPath $INSTDIR\share\local
   File /r ..\bundle\share\local\*
 SectionEND
-
-;Section "docs" SecDoc
-;  SetOutPath $INSTDIR\share\docs
-;  File /r ..\bundle\share\docs\*
-;  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-;    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Home (local).lnk" "$INSTDIR\share\docs\index.html"
-;    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\DPML Platform API.lnk" "$INSTDIR\share\docs\api\dpml\@PROJECT-VERSION@\index.html"
-;  !insertmacro MUI_STARTMENU_WRITE_END
-;SectionEND
 
 Section "station scm" SecStation
   Exec "$INSTDIR\share\bin\scm\wrapper.exe -i $INSTDIR\share\bin\scm\conf\wrapper.conf"

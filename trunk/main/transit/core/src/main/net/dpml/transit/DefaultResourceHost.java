@@ -273,18 +273,10 @@ class DefaultResourceHost extends UnicastRemoteObject
         return m_priority;
     }
 
-    /** Downloads the given artifact to the directory indicated.
-     * <p>
-     *   The cachedir argument is the root cache directory, and the ResourceHost
-     *   class is responsible for the creation of the directory structure of the
-     *   group if nonexistent.
-     * </p>
-     * <p>
-     *   If the knownOnly argument is true, then only attempt download if the
-     *   group is known to exist on this resource host.
-     * </p>
+    /** 
+     * Downloads a given artifact.
      * @param artifact the artifact that is requested to be downloaded.
-     * @param dest The output stream where to write the downloaded content.
+     * @param dest the destination output stream into which download content is to be written
      * @exception IOException if an IO related error occurs
      */
     public Date download( Artifact artifact, OutputStream dest )
@@ -295,7 +287,6 @@ class DefaultResourceHost extends UnicastRemoteObject
         {
             NetworkLoader loader = new NetworkLoader();
             URL url = createRemoteUrl( artifact );
-
             URLConnection connection;
             synchronized ( m_connections )
             {

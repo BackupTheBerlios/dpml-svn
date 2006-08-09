@@ -35,6 +35,7 @@
       <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
       <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
       <feature token="PROJECT-VERSION" id="decimal"/> 
+      <feature token="BUILD-VERSION" id="version"/> 
     </filters>
     
     <module file="lang/module.xml"/>

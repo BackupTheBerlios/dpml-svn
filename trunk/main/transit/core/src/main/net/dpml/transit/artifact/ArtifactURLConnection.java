@@ -78,10 +78,8 @@ public class ArtifactURLConnection extends URLConnection
      * @param url the url to establish a connection with
      * @param context the transit context
      * @exception NullPointerException if the url argument is null
-     * @exception IOException if the url argument is not a valid,
-     *            i.e. the path must contain a group and an artifactId
-     *            separated by a slash.
-     */
+     * @exception IOException if the url argument is invalid
+      */
     ArtifactURLConnection( URL url, SecuredTransitContext context )
         throws NullPointerException, IOException
     {
