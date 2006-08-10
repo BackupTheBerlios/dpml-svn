@@ -136,6 +136,10 @@
       type and deployment data management.
       </description>
     </info>
+    <properties>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:metro"
@@ -163,6 +167,8 @@
     <info title="Internal Test Package"/>
     <properties>
       <property name="project.javadoc.exclude" value="true"/>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
     </properties>
     <types>
       <type id="jar"/>
