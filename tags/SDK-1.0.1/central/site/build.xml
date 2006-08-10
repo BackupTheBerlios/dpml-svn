@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-central" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot" 
+    xmlns:c="dpml:metro">
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="init" depends="standard.init">
+    <x:property name="dpml.module.version" ref="dpml" feature="version"/>
+    <property name="docs.filename" value="dpml-sdk-docs-${dpml.module.version}.zip"/>
+    <property name="docs.dir" location="target/dist"/>
+    <property name="docs.path" location="${docs.dir}/${docs.filename}"/>
+  </target>
+
+  <target name="prepare" depends="standard.prepare"/>
+
+  <target name="build" depends="standard.build,site"/>
+
+  <target name="package" depends="standard.package,zip" description="Creates a documentation distribution archive."/>
+  
+  <target name="install" depends="standard.install">
+    <mkdir dir="${dpml.data}/dist"/>
+    <mkdir dir="${dpml.data}/docs"/>
+    <copy toDir="${dpml.data}/docs">
+      <fileset dir="${basedir}/target/docs"/>
+    </copy>
+    <copy toDir="${dpml.data}/dist">
+      <fileset dir="${basedir}/target/dist">
+        <include name="${docs.filename}"/>
+        <include name="${docs.filename}.*"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="zip" depends="site" >
+    <mkdir dir="${docs.dir}"/>
+    <zip destfile="${docs.path}" duplicate="fail">
+      <zipfileset dir="target/docs" prefix="share/docs"/>
+    </zip>
+    <checksum file="${docs.path}" fileext=".md5"/>
+  </target>
+
+  <target name="catalog" depends="init">
+    <property name="catalog.path" location="${basedir}/target/docs/reports/${dpml.module.version}/catalog"/>
+    <mkdir dir="${catalog.path}"/>
+    <x:plugin uri="link:part:dpml/metro/dpml-metro-tools"/>
+    <c:catalog title="DPML Catalog" dest="${catalog.path}">
+      <fileset dir="${basedir}/../../main">
+        <include name="**/target/classes/main/**/*.type"/>
+        <exclude name="**/test/**/*.*"/>
+      </fileset>
+    </c:catalog>
+  </target>
+
+  <target name="site" depends="docs,javadoc,junit-report,catalog">
+    <x:docs dest="${dpml.data}/docs"/>
+  </target>
+  
+  <target name="docs" depends="tutorials.prepare">
+    <x:docs dest="${dpml.data}/docs"/>
+  </target>
+  
+  <target name="javadoc" depends="init">
+    <property name="api.path" location="${basedir}/target/docs/api/dpml/${dpml.module.version}"/>
+    <mkdir dir="${api.path}"/>
+    <x:javadoc title="DPML Component Management Platform" access="protected" ref="dpml"
+         dest="${api.path}">
+      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <link href="http://api.dpml.net/javax/servlet/2.5"/>
+      <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0-RC0"/>
+      <group title="Library">
+        <package name="net.dpml.library"/>
+        <package name="net.dpml.library.*"/>
+      </group>
+      <group title="Depot">
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
+        <package name="net.dpml.tools"/>
+        <package name="net.dpml.tools.*"/>
+      </group>
+      <group title="Transit">
+        <package name="net.dpml.lang"/>
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
+        <package name="net.dpml.util"/>
+      </group>
+      <group title="Metro">
+        <package name="net.dpml.component"/>
+        <package name="net.dpml.metro"/>
+        <package name="net.dpml.metro.*"/>
+        <package name="net.dpml.state"/>
+      </group>
+      <group title="Station">
+        <package name="net.dpml.station"/>
+        <package name="net.dpml.station.*"/>
+      </group>
+      <group title="Planet">
+        <package name="net.dpml.http"/>
+        <package name="net.dpml.http.*"/>
+      </group>
+      <group title="Util">
+        <package name="net.dpml.cli"/>
+        <package name="net.dpml.cli.*"/>
+        <package name="net.dpml.i18n"/>
+        <package name="net.dpml.i18n.*"/>
+        <package name="net.dpml.logging"/>
+        <package name="net.dpml.logging.*"/>
+      </group>
+    </x:javadoc>
+  </target>
+  
+  <target name="junit-report" depends="init">
+    <property name="junit.html" location="${basedir}/target/docs/reports/${dpml.module.version}/junit"/>
+    <mkdir dir="${junit.html}"/>
+    <junitreport todir="${junit.html}">
+      <fileset dir="${basedir}/../../main">
+        <include name="**/target/reports/test/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/dpml/tools/xsls"/>
+    </junitreport>
+  </target>
+  
+  <target name="checkstyle" depends="prepare">
+    <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
+    <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
+    <x:plugin uri="link:part:dpml/depot/dpml-depot-checkstyle">
+      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+    </x:plugin>
+    <mkdir dir="${checkstyle.dir}"/>
+    <checkstyle>
+      <formatter type="xml" toFile="${checkstyle.data}"/>
+      <fileset dir="../../main">
+        <include name="**/target/build/main/**/*.java"/>
+        <include name="**/target/build/test/**/*.java"/>
+      </fileset>
+    </checkstyle>
+    <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
+        in="${checkstyle.data}" 
+        out="${checkstyle.dir}/checkstyle_report.html">
+      <param name="output.dir" expression="${checkstyle.dir}"/>
+    </xslt>
+  </target>
+  
+  <target name="tutorials.prepare" depends="standard.prepare">
+
+    <!-- tooling tutorial build content -->
+
+    <x:property name="tooling.dir" feature="basedir" ref="dpmlx/tutorials/tooling"/>
+    <property name="plugin.src.dir" location="${tooling.dir}/complex/plugin"/>
+    <property name="local.plugin.docs.dir" location="target/docs/depot/tutorials/plugin"/>
+    <mkdir dir="${local.plugin.docs.dir}"/>
+    <copy toDir="${local.plugin.docs.dir}" flatten="true">
+      <fileset dir="${plugin.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <!-- component tutorial build content -->
+    
+    <x:property name="components.dir" feature="basedir" ref="dpmlx/tutorials/components"/>
+    
+    <property name="hello.src.dir" location="${components.dir}/hello"/>
+    <property name="local.hello.docs.dir" location="target/docs/metro/tutorials/hello"/>
+    <mkdir dir="${local.hello.docs.dir}"/>
+    <copy toDir="${local.hello.docs.dir}" flatten="true">
+      <fileset dir="${hello.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+
+    <property name="context.src.dir" location="${components.dir}/context"/>
+    <property name="local.context.docs.dir" location="target/docs/metro/tutorials/context"/>
+    <mkdir dir="${local.context.docs.dir}"/>
+    <copy toDir="${local.context.docs.dir}" flatten="true">
+      <fileset dir="${context.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="examples.src.dir" location="${components.dir}/examples"/>
+    <property name="local.examples.docs.dir" location="target/docs/metro/tutorials/examples"/>
+    <mkdir dir="${local.examples.docs.dir}"/>
+    <copy toDir="${local.examples.docs.dir}" flatten="true">
+      <fileset dir="${examples.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="parts.src.dir" location="${components.dir}/parts"/>
+    <property name="local.parts.docs.dir" location="target/docs/metro/tutorials/parts"/>
+    <mkdir dir="${local.parts.docs.dir}"/>
+    <copy toDir="${local.parts.docs.dir}" flatten="true">
+      <fileset dir="${parts.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="lookup.src.dir" location="${components.dir}/lookup"/>
+    <property name="local.lookup.docs.dir" location="target/docs/metro/tutorials/lookup"/>
+    <mkdir dir="${local.lookup.docs.dir}"/>
+    <copy toDir="${local.lookup.docs.dir}" flatten="true">
+      <fileset dir="${lookup.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="lifestyle.src.dir" location="${components.dir}/lifestyle"/>
+    <property name="local.lifestyle.docs.dir" location="target/docs/metro/tutorials/lifestyle"/>
+    <mkdir dir="${local.lifestyle.docs.dir}"/>
+    <copy toDir="${local.lifestyle.docs.dir}" flatten="true">
+      <fileset dir="${lifestyle.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="transient.src.dir" location="${components.dir}/transient"/>
+    <property name="local.transient.docs.dir" location="target/docs/metro/tutorials/transient"/>
+    <mkdir dir="${local.transient.docs.dir}"/>
+    <copy toDir="${local.transient.docs.dir}" flatten="true">
+      <fileset dir="${transient.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="thread.src.dir" location="${components.dir}/thread"/>
+    <property name="local.thread.docs.dir" location="target/docs/metro/tutorials/thread"/>
+    <mkdir dir="${local.thread.docs.dir}"/>
+    <copy toDir="${local.thread.docs.dir}" flatten="true">
+      <fileset dir="${thread.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="singleton.src.dir" location="${components.dir}/singleton"/>
+    <property name="local.singleton.docs.dir" location="target/docs/metro/tutorials/singleton"/>
+    <mkdir dir="${local.singleton.docs.dir}"/>
+    <copy toDir="${local.singleton.docs.dir}" flatten="true">
+      <fileset dir="${singleton.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="state.src.dir" location="${components.dir}/state"/>
+    <property name="local.state.docs.dir" location="target/docs/metro/tutorials/state"/>
+    <mkdir dir="${local.state.docs.dir}"/>
+    <copy toDir="${local.state.docs.dir}" flatten="true">
+      <fileset dir="${state.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="type.src.dir" location="${components.dir}/type"/>
+    <property name="local.type.docs.dir" location="target/docs/metro/tutorials/type"/>
+    <mkdir dir="${local.type.docs.dir}"/>
+    <copy toDir="${local.type.docs.dir}" flatten="true">
+      <fileset dir="${type.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="import.src.dir" location="${components.dir}/import"/>
+    <property name="local.import.docs.dir" location="target/docs/metro/tutorials/import"/>
+    <mkdir dir="${local.import.docs.dir}"/>
+    <copy toDir="${local.import.docs.dir}" flatten="true">
+      <fileset dir="${import.src.dir}/api/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${import.src.dir}/clock/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${import.src.dir}/demo/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+    <property name="customize.src.dir" location="${components.dir}/customize"/>
+    <property name="customize.import.docs.dir" location="target/docs/metro/tutorials/customize"/>
+    <mkdir dir="${customize.import.docs.dir}"/>
+    <copy toDir="${customize.import.docs.dir}" flatten="true">
+      <fileset dir="${customize.src.dir}/clock/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${customize.src.dir}/custom/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
+  </target>
+  
+</project>
+

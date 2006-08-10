@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="demo" default="install">
+
+  <target name="clean">
+    <delete dir="${project.target.dir}"/>
+  </target>
+
+  <!--
+  Copy the src content to the target/build/main directory with filtering
+  applied and compile the resulting source files into the target/classes/main
+  directory.
+  -->
+  <target name="build">
+    <mkdir dir="${project.target.build.main.dir}"/>
+    <copy toDir="${project.target.build.main.dir}" filtering="true">
+      <fileset dir="${project.src.main.dir}"/>
+    </copy>
+    <mkdir dir="${project.target.classes.main.dir}"/>
+    <javac srcdir="${project.target.build.main.dir}" 
+      destdir="${project.target.classes.main.dir}"/>
+  </target>
+  
+  <!--
+  Package the compiled classes into a jar file and place the result in the 
+  target/deliverables/jars directory.
+  -->
+  <target name="package" depends="build">
+    <mkdir dir="${project.deliverable.jar.dir}"/>
+    <jar destfile="${project.deliverable.jar.path}" basedir="${project.target.classes.main.dir}"/>
+  </target>
+
+  <!--
+  Copy the jar file to the Depot system cache.
+  -->
+  <target name="install" depends="package">
+    <mkdir dir="${project.cache}/${project.cache.jar.dir}"/>
+    <copy file="${project.deliverable.jar.path}" toFile="${project.cache}/${project.cache.jar.path}"/>
+  </target>
+  
+</project>

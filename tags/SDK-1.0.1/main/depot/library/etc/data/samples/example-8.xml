@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<index xmlns="@MODULE-XSD-URI@" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="@PART-XSD-URI@">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
+
+    <module name="acme">
+      <resource name="widget">
+        <types>
+          <type id="foo" xsi:type="GenericType">
+            <property name="pink" value="floyd"/>
+            <property name="alice" value="cooper"/>
+          </type>
+          <part:plugin class="Widget"/>
+        </types>
+      </resource>
+    </module>
+  
+</index>

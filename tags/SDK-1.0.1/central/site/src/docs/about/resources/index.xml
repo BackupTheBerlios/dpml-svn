@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Community Resources</title>
+    <description>Overview of the community resources provided by the DPML.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties> 
+
+  <body>
+    <section name="Resources">
+      <p>
+        The DPML provides various resources for:
+        
+        <ul>
+          <li>providing support to the users of our products</li>
+          <li>helping DPML community members work together</li>
+          <li>improving the quality of our products and services</li>
+        </ul>
+      </p>
+      
+      <p>
+        The resources we offer include
+        <a href="lists.html">mailing lists</a> for posting relevant e-mail messages,
+        an <a href="issues.html">issue tracking</a> service for signalling bugs or change requests, 
+        and a <a href="svn.html">code management</a> system for keeping the source code in order
+        and up to date.
+      </p>
+    </section>
+  </body>
+</document>
+

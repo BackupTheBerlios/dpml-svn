@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Using Dependency Information at Runtime via Plugins</title>
+  </properties>
+
+  <body>
+
+    <section name="Using Dependency Information at Runtime">
+
+      <subsection name="Tutorial Objective">
+
+        <p>
+        Given the availability of full dependency information from the 
+        Depot environment - the potential exists to capture the runtime 
+        related concerns and use this information to create a plugin definition
+        sufficient for the automatic deployment of a application.  This requires
+        the capture of classpath information and the object deployment strategy.
+        </p>
+        
+        <p>
+        This tutorial demonstrates the creation of a plugin using a simple 
+        constructor injection model and the subsequent deployment of an instance 
+        of <a href="plugin/SimpleClock.java.html">SimpleClock</a> using only 
+        the plugin defintion i.e. no references to implementation classes).
+        </p>
+
+      </subsection>
+
+      <subsection name="index.xml">
+
+        <p>
+        Our <tt>index.xml</tt> file has been updated to include a <tt>part:plugin</tt>
+        production staement.  The statement is declaring that the SimpleClock class is 
+        the deployment target and that two constructor arguments are to be provided on
+        instantiation (a locale value and a format argument).
+        </p>
+
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"
+    <font color="darkred">xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"</font>&gt;
+
+  &lt;imports&gt;
+    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
+  &lt;/imports&gt;
+
+  &lt;module name="org/acme/plugin" basedir="."&gt;
+  
+    &lt;types&gt;
+      &lt;type id="module" version="1.0"&gt;
+    &lt;/types&gt;
+  
+    &lt;project name="clock-api" basedir="api"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+      &lt;/types&gt;
+    &lt;/project&gt;
+  
+    &lt;project name="clock-impl" basedir="impl"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+        <font color="darkred">&lt;part:plugin class="org.acme.impl.SimpleClock"&gt;
+          &lt;part:param value="h:mm"/&gt;
+          &lt;part:param class="java.util.Locale" method="getDefault"/&gt;
+        &lt;/part:plugin&gt;</font>
+      &lt;/types&gt;
+      &lt;dependencies&gt;
+        &lt;runtime&gt;
+          &lt;include key="clock-api"/&gt;
+        &lt;/runtime&gt;
+        &lt;test&gt;
+          &lt;include ref="ant/ant-junit"/&gt;
+          &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+        &lt;/test&gt;
+      &lt;/dependencies&gt;
+    &lt;/project&gt;
+
+  &lt;/module&gt;
+  
+&lt;/index&gt;
+</pre>
+
+      </subsection>
+
+      <subsection name="The Part Artifact">
+
+        <p>
+        During the build the following part defintion is created. 
+        </p>
+        
+        <p><i>Generated part:</i> <tt>artifact:part:org/acme/plugin/clock-impl#SNAPSHOT</tt></p>
+        
+<source>
+<font color="blue"><![CDATA[<?xml version="1.0"?>
+
+<part xmlns="link:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <info/>
+
+  <strategy xsi:type="plugin" class="org.acme.impl.SimpleClock">
+    <param value="h:mm"/>
+    <param class="java.util.Locale" method="getDefault"/>
+  </strategy>
+
+  <classpath>
+    <private>
+      <uri>artifact:jar:org/acme/plugin/clock-api#SNAPSHOT</uri>
+      <uri>artifact:jar:org/acme/plugin/clock-impl#SNAPSHOT</uri>
+    </private>
+  </classpath>
+
+</part>]]></font></source>
+
+        <p>It contains the following data:</p>
+        
+        <ul>
+          <li>An information block.</li>
+          <li>A deployment strategy.</li>
+          <li>A classpath definition.</li>
+        </ul>
+        
+        <p>
+        Collectively this information is sufficient to meet requirements of 
+        automated plugin deployment.  In the following code example we demonstrate
+        the construction of a <a href="plugin/Clock.java.html">Clock</a> instance 
+        using the part artifact:
+        </p>
+        
+    <pre>URI uri = new Uri( "artifact:part:org/acme/plugin/clock-impl#SNAPSHOT" );
+Part part = Part.load( uri );
+Clock clock = (Clock) part.getContent();
+String timestamp = clock.getTimestamp();</pre>
+
+      </subsection>
+      
+      <subsection name="Summary">
+      
+        <p>
+        Two import considerations within the above code include:
+        </p>
+        
+        <ul>
+          <li>no direct reference to a physical resource location (i.e. the 
+              artifact resource identifier addresses the development concern 
+              and the actual resource location and retrieval mechanism are not
+              something that we as developer need be concerned with)</li>
+          <li>the code handling instance instantiation is not polluted with details 
+              concerning deployment strategy - in fact we could easily 
+              substitute a more sophisticated deployment models without any 
+              impact to the client code</li>
+        </ul>
+        
+        <p>
+        However, the plugin strategy demonstrated above is for all intensive purposes 
+        a relatively primitive model in that it does not address real-world semantic issues 
+        such as lifecycle or lifestyle management, composition, thread-safety, 
+        remote management, or collection policies.  The <a href="../../metro/tutorials/index.html">
+        Metro Tutorials</a> takes you into another semantic dimension with the 
+        introduction of an alternative deployment strategy based on the Metro Component Model
+        whereas <a href="versioned/index.html">our last tutorial in the Depot collection</a> wraps-up
+        with project versions management techniques.
+        </p>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+</document>
+

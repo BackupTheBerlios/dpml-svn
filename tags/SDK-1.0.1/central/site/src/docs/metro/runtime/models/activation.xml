@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Activation Policy</title>
+  </properties> 
+
+  <body>
+
+    <section name="Activation Policies">
+
+      <p>
+      During the deployment of the runtime system the runtime needs
+      to determin if it is directing a deployment scenario of if deployment
+      will be demand driven by some external client.  This concerning is 
+      described via the activation policy.
+      </p>
+
+      <table>
+
+        <tr>
+          <th>Policy</th><th>Description</th>
+        </tr>
+
+        <tr>
+          <td><tt>STARTUP</tt></td>
+          <td>
+          The <tt>STARTUP</tt> activation policy dictates that a 
+          component instance shall be activated during the startup 
+          sequence of the containing component (or controller in 
+          case of a root component).
+          </td>
+        </tr>
+        <tr>
+          <td><tt>DEMAND</tt></td>
+          <td>
+          The <tt>DEMAND</tt> activation policy dictates that a new 
+          runtime instance of a component will not be created until 
+          such time that an actual service request is raised (sometimes
+          referred to as lazy activation).
+          </td>
+        </tr>
+
+      </table>
+    
+      <subsection name="Default Policy">
+
+        <p>
+          A special activation policy named <tt>SYSTEM</tt> is used
+          to delegate the selection of a activation policy to the 
+          container. If no explicit activation policy is nominated
+          by a component the <tt>SYSTEM</tt> policy will be asserted.
+          The default behaviour of the runtime is to assign the 
+          <tt>STARTUP</tt> activation policy to top-level components and 
+          the <tt>DEMAND</tt> policy to subsidiary instances.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

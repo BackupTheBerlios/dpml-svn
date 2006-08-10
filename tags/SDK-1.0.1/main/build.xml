@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright 2005 Stephen J McConnell
+
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml" default="install"
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot"
+    xmlns:c="dpml:metro">
+
+  <property environment="ENV"/>
+
+  <condition property="nsis.available" value="true">
+    <isset property="ENV.NSIS_HOME"/>
+  </condition>
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="prepare" depends="standard.prepare">
+    <property name="bundle" location="${project.target.dir}/bundle"/>
+    <property name="prefs" location="${bundle}/prefs"/>
+    <property name="data" location="${bundle}/data"/>
+    <property name="share" location="${bundle}/share"/>
+    <property name="share.docs" location="${share}/docs"/>
+    <property name="share.lib" location="${share}/lib"/>
+    <mkdir dir="${data}"/>
+    <mkdir dir="${prefs}"/>
+    <mkdir dir="${share.docs}"/>
+  </target>
+  
+  <target name="package" depends="standard.package"/>
+
+  <target name="install" depends="standard.install,zip,tar,nsis">
+    <copy todir="${dpml.data}">
+      <fileset dir="${share}">
+        <include name="docs/**"/>
+      </fileset>
+      <fileset dir="target">
+        <include name="dist/**"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="replicate" depends="standard.install,replication"/>
+
+  <target name="replication" depends="prepare">
+    <property name="share.local" location="${share}/local"/>
+    <x:replicate self="true" toDir="${share.local}" layout="modern"/>
+    <x:replicate self="true" toDir="${share.local}" layout="modern" ref="junit"/>
+    <x:replicate self="true" toDir="${share.local}" layout="modern" ref="ant"/>
+  </target>
+
+  <target name="nsis" depends="bundle,replicate" if="nsis.available">
+    <echo>Building NSIS Installer</echo>
+    <exec os="Windows XP" dir="${basedir}/target/nsi" executable="makensis.exe">
+      <arg value="/ONSIS.LOG"/>
+      <arg value="dpml.nsi"/>
+    </exec>
+    <copy toDir="${basedir}/target/dist">
+      <fileset dir="${basedir}/target/nsi">
+        <include name="*.exe"/>
+      </fileset>
+    </copy>
+    <checksum file="${basedir}/target/dist/dpml-sdk-win32-${project.version}.exe" fileext=".md5"/>
+    <echo>Created target/dist/dpml-sdk-win32-${project.version}.exe</echo>
+  </target>
+
+  <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
+    <property name="filename" value="dpml-sdk-win32-${project.version}.zip"/>
+    <property name="ziploc" location="target/dist"/>
+    <mkdir dir="${ziploc}"/>
+    <zip destfile="${ziploc}/${filename}" duplicate="fail">
+      <zipfileset dir="target/bundle" prefix="dpml">
+        <exclude name="share/bin/depot"/>
+        <exclude name="share/bin/build"/>
+        <exclude name="share/bin/station"/>
+        <exclude name="share/bin/metro"/>
+        <exclude name="share/bin/transit"/>
+        <exclude name="share/bin/*.sh"/>
+      </zipfileset>
+    </zip>
+    <checksum file="${ziploc}/${filename}" fileext=".md5"/>
+  </target>
+
+  <target name="tar" depends="replicate" description="Creates a binary linux distribution.">
+    <property name="tarfilename" value="dpml-sdk-linux-${project.version}.tar"/>
+    <property name="temp" location="target/temp"/>
+    <mkdir dir="${temp}"/>
+    <tar destfile="${temp}/${tarfilename}" longfile="gnu" >
+      <tarfileset dir="target/bundle" prefix="dpml" mode="755">
+        <include name="share/bin/depot"/>
+        <include name="share/bin/build"/>
+        <include name="share/bin/station"/>
+        <include name="share/bin/metro"/>
+        <include name="share/bin/transit"/>
+        <include name="share/bin/*.sh"/>
+      </tarfileset>
+      <tarfileset dir="target/bundle" prefix="dpml">
+        <exclude name="share/bin/depot"/>
+        <exclude name="share/bin/build"/>
+        <exclude name="share/bin/station"/>
+        <exclude name="share/bin/metro"/>
+        <exclude name="share/bin/transit"/>
+        <exclude name="share/bin/*.sh"/>
+        <exclude name="share/bin/*.lap"/>
+        <exclude name="share/bin/*.exe"/>
+        <exclude name="share/bin/scm/**/*"/>
+      </tarfileset>
+    </tar>
+    <property name="dist" location="target/dist"/>
+    <mkdir dir="${dist}"/>
+    <gzip src="${temp}/${tarfilename}" destfile="${dist}/${tarfilename}.gz"/>
+    <checksum file="${dist}/${tarfilename}.gz" fileext=".md5"/>
+  </target>
+
+  <target name="bundle" depends="standard.install,data,prefs,bin,lib"> <!-- removed docs -->
+    <copy todir="${bundle}" filtering="true">
+      <fileset dir="${basedir}">
+        <include name="LICENSE.TXT"/>
+        <include name="NOTICE.TXT"/>
+        <include name="README.TXT"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!--
+  <target name="docs" depends="prepare">
+    <property name="share.docs.api.dpml" location="${share.docs}/api/dpml/${project.version}"/>
+    <mkdir dir="${share.docs.api.dpml}"/>
+    <copy todir="${share.docs.api.dpml}" filtering="false">
+      <fileset dir="${project.target.reports.dir}/api">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
+    <mkdir dir="${share.docs.reports}"/>
+    <copy todir="${share.docs.reports}">
+      <fileset dir="target/reports">
+        <exclude name="api/**"/>
+        <exclude name="checkstyle/**"/>
+      </fileset>
+    </copy>
+    <copy todir="${share.docs}">
+      <fileset dir="central/target/docs"/>
+    </copy>
+  </target>
+  -->
+  
+  <target name="data" depends="prepare">
+    <mkdir dir="${data}/cache"/>
+    <mkdir dir="${data}/work"/>
+    <mkdir dir="${data}/logs/station"/>
+    <mkdir dir="${data}/logs/transit"/>
+    <mkdir dir="${data}/temp"/>
+  </target>
+
+  <target name="lib" depends="prepare">
+    <mkdir dir="${share.lib}"/>
+    <copy todir="${share.lib}">
+      <fileset dir="${dpml.system}/lib"/>
+    </copy>
+  </target>
+
+  <target name="prefs" depends="prepare">
+    <property name="prefs.transit" location="${prefs}/dpml/transit"/>
+    <mkdir dir="${prefs.transit}"/>
+    <copy todir="${prefs.transit}" filtering="false">
+      <fileset dir="transit/core/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs.tools" location="${prefs}/dpml/tools"/>
+    <mkdir dir="${prefs.tools}"/>
+    <copy todir="${prefs.tools}" filtering="false">
+      <fileset dir="depot/tools/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+      <fileset dir="depot/plugins/checkstyle/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs.metro" location="${prefs}/dpml/metro"/>
+    <mkdir dir="${prefs.metro}"/>
+    <copy todir="${prefs.metro}" filtering="false">
+      <fileset dir="station/exec/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+      <fileset dir="metro/tools/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs.station" location="${prefs}/dpml/station"/>
+    <mkdir dir="${prefs.station}"/>
+    <copy todir="${prefs.station}" filtering="false">
+      <fileset dir="station/server/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <property name="prefs.http" location="${prefs}/dpml/planet/http"/>
+    <mkdir dir="${prefs.http}"/>
+    <copy todir="${prefs.http}" filtering="false">
+      <fileset dir="planet/http/server/target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="bin" depends="prepare">
+    <property name="share.bin" location="${share}/bin"/>
+    <mkdir dir="${share.bin}"/>
+    <copy todir="${share.bin}" filtering="false">
+      <fileset dir="transit/console/target/bin"/>
+      <fileset dir="depot/core/target/bin"/>
+      <fileset dir="depot/build/target/bin"/>
+      <fileset dir="station/console/target/bin"/>
+      <fileset dir="station/server/target/bin"/>
+      <fileset dir="station/exec/target/bin"/>
+    </copy>
+  </target>
+
+  <target name="checkstyle" depends="prepare">
+    <echo message="Checkstyle" />
+    <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
+    <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
+    <x:plugin uri="link:part:dpml/depot/dpml-depot-checkstyle">
+      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+    </x:plugin>
+    <mkdir dir="${checkstyle.dir}"/>
+    <checkstyle>
+      <formatter type="xml" toFile="${checkstyle.data}"/>
+    </checkstyle>
+    <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
+        in="${checkstyle.data}" 
+        out="${checkstyle.dir}/checkstyle_report.html">
+      <param name="output.dir" expression="${checkstyle.dir}"/>
+    </xslt>
+  </target>
+  
+</project>

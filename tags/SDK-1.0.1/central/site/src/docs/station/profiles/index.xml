@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Application Profiles</title>
+  </properties> 
+
+  <body>
+
+    <section name="Application Profiles">
+
+      <p>
+      An application profile is an immutable datastructure using to describe 
+      the configuration of a Java Virtual Machine deployment.  The datastructure
+      includes the following information:
+      </p>
+
+      <ul>
+        <li>codebase URI (e.g. a <tt>part</tt> artifact or link)</li>
+        <li>basedir - the directory under which the virtual machine will be established</li>
+        <li>configuration uri - optional overriding configuration uri argument</li>
+        <li>startup and shutdown timeout values</li>
+        <li>application startup policy (MANUAL, AUTOMATIC, or DISABLED)</li>
+        <li>system properties to be supplied to the JVM on creation</li>
+        <li>application title</li>
+      </ul>
+
+      <p>
+      Application profiles may be created using the <a href="../cli/index.html">Station
+      CommandLine Handler</a> and are used in conjuction with the <a href="../index.html">
+      Station</a> management platform during the creation of runtime 
+      <a href="../applications/index.html">applications</a>.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+

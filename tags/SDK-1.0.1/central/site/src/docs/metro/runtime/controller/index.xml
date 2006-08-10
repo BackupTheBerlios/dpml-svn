@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Controller</title>
+  </properties> 
+
+  <body>
+
+    <section name="Controllers">
+
+      <p>
+      Throught the Metro runtime there is general concept of 
+      separation of model and controller.  At the very top-level
+      is the main <tt>net.dpml.metro.runtime.CompositionController</tt>
+      class which handles component establishment.
+      </p>
+
+      <p>A reference to the default controller is resolved using the 
+      <tt>net.dpml.component.Controller</tt> interface:</p>
+
+      <pre>Controller controller = <font color="darkred">Controller.STANDARD</font>;</pre>
+
+      <p>
+      While the operations exposed by a controller are rather limited, 
+      the semantics concerning delegation are somewhat deeper and worthy of 
+      a brief discussion.</p>
+
+      <p>
+      The <tt><a href="/api/dpml/@VERSION@/net/dpml/component/Controller.html">
+      Controller</a></tt> interface defines operations enabling:
+      </p>
+
+      <ul>
+        <li>creation of a component using network accessible part</li>
+        <li>creation of a component using a remote component model</li>
+      </ul>
+
+      <p>
+      Operations dealing with network-accessible parts potentially involve a 
+      process of delegation by the default controller to a controller asserted 
+      by the part datatype.  This delegation process will result in the potential
+      establishment of a different controller supporting a foreign component 
+      implementation (or more specifically a controller with an alternative or
+      legacy implementation strategy).The default controller will locate a URI 
+      from a part, load the foreign controller (if required) in an isolated 
+      classloader, and delegate part loading to that controller.
+      </p>
+
+      <p>
+      Operations dealing with the construction of a component from a model 
+      are focussed around the requirements for management acess to the component 
+      model.  The <tt>Controller</tt> interface allows the construction of a 
+      component model and subsequent creation of a <tt>Component</tt> using a supplied 
+      model.  This separation allows for potentially different versions of managed
+      models and components to co-exist in the same runtime environment.
+      </p>
+
+      <subsection name="Example">
+      
+        <p>
+        The following snipet of code demonstrates the creation of a component
+        using a part uri.
+        </p>
+
+        <pre>
+Controller controller = Controller.STANDARD;
+URI uri = new URI( "artifact:part:acme/acme-widget#1.1" );
+Component component = controller.createComponent( uri );
+Provider provider = component.getProvider();
+Widget widget = (Widget) provider.getValue( true );
+        </pre>
+
+      </subsection>
+
+      <subsection name="Techical Notes">
+      
+        <p>
+        All controllers must implement the 
+        <tt><a href="/api/dpml/@VERSION@/net/dpml/component/package-summary.html">
+        net.dpml.component</a></tt> package API.  Through reference this implies support for the 
+        <tt><a href="/api/dpml/@VERSION@/net/dpml/state/package-summary.html">
+        net.dpml.state</a></tt> package and a soft dependency on the protocol handlers
+        defined within the 
+        <a href="/api/dpml/@VERSION@/net/dpml/transit/package-summary.html">
+        <tt>net.dpml.transit</tt></a>
+        resource management layer.  Implementation of alternative controllers is not 
+        covered here - however, examination of the <tt>net.dpml.metro.runtime</tt>
+        package is the recommended starting point.  Developers dealing with legacy applications
+        and in particular the encapsulation of lagacy products as first-class components 
+        should consider the potential benefits of a dedicated controller implementation.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

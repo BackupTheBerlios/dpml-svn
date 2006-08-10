@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Modularization Principals</title>
+  </properties> 
+
+  <body>
+
+    <section name="Modularization">
+
+      <p>
+      A framework for modularization of project structures enables the 
+      establishment and maintenance of discrete namespaces.  In turn this
+      improves the overall maintainability within large-scale projects.  
+      The Depot system maintains information about project and resources 
+      within <a href="../library/modules.html">modules</a> and provides
+      support for the production of a module suitable for export and use 
+      by external projects. This adds to the general integrity concerning 
+      naming, content versioning, and overall dependency management.
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+

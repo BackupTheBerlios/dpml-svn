@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="depot"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+  
+  <properties>
+    <property name="project.micro.version" value="1"/>
+  </properties>
+  
+  <project name="dpml-library" basedir="library">
+    <info title="DPML Project Management Library">
+      <description>Module, project and resource management system.</description>
+    </info>
+    <properties>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="MODULE-XSD-URI" ref="dpml/lang/dpml-module" id="uri" type="xsd" alias="true"/>
+      <feature token="PART-XSD-URI" ref="dpml/lang/dpml-part" id="uri" type="xsd" alias="true"/>
+      <feature token="JUNIT_VERSION" ref="junit/junit" id="version"/>
+      <feature token="PROJECT_VERSION" id="version"/>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part" alias="true"/>
+    </filters>
+  </project>
+
+  <project name="dpml-library-build" basedir="build">
+    <info title="DPML Depot Build Tool">
+      <description>Multi-project build automation tool.</description>
+    </info>
+    <properties>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
+    </types>
+    <dependencies>
+      <build>
+        <include key="dpml-tools-builder"/>
+      </build>
+      <runtime>
+        <include ref="dpml/depot/dpml-library"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part" alias="true"/>
+    </filters>
+  </project>
+  
+  <project name="dpml-depot-console" basedir="core">
+    <info title="DPML Console">
+      <description>Internal subsystem application handler.</description>
+    </info>
+    <properties>
+      <property name="depot.short.filename" value="${project.name}.jar"/>
+      <property name="transit.short.filename" value="dpml-transit-main.jar"/>
+      <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
+      <property name="project.micro.version" value="1"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
+      <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
+      <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
+      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.lang.SystemClassLoader"/>
+      <feature token="BUILD-ID" id="version"/>
+      <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
+      <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
+      <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
+      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-library-build" />
+      <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
+      <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
+      <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
+    </filters>
+  </project>
+
+  <project name="dpml-tools-builder" basedir="tools">
+    <info title="DPML Depot Toolkit">
+      <description>Antlib supporting Depot-based build automation.</description>
+    </info>
+    <properties>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-library"/>
+        <include ref="dpml/transit/dpml-transit-tools"/>
+        <include ref="ant/ant-junit" tag="system"/>
+        <include ref="ant/ant" tag="system"/>
+        <include ref="ant/ant-xslp" tag="system"/>
+        <include ref="ant/ant-trax" tag="system"/>
+      </runtime>
+    </dependencies>
+    <filters>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" alias="true" ref="dpml/lang/dpml-part" />
+      <feature token="PROJECT-URI" id="uri" type="part"/>
+      <feature token="PROJECT-LINK-URI" id="uri" type="part" alias="true"/>
+      <feature token="PROJECT-NAME" id="name"/>
+      <feature token="PROJECT-GROUP" id="group"/>
+      <feature token="PROJECT-VERSION" id="version"/>
+      <feature token="ANT-VERSION" id="version" ref="ant/ant"/>
+      <feature token="JUNIT-VERSION" id="version" ref="junit/junit"/>
+      <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
+      <feature token="DEPOT-CHECKSTYLE-PLUGIN-URI" id="uri" type="part" ref="dpml/depot/dpml-depot-checkstyle" />
+      <feature token="DDEPOT-CHECKSTYLE-PLUGIN-LINK-URI" id="uri" type="part" alias="true" 
+          ref="dpml/depot/dpml-depot-checkstyle" />
+      <feature token="TRANSIT-CORE-VERSION" id="version" ref="dpml/transit/dpml-transit-main"/>
+      <feature token="TRANSIT-TOOLS-VERSION" id="version" ref="dpml/transit/dpml-transit-tools"/>
+      <feature token="LIBRARY-VERSION" id="version" ref="dpml/depot/dpml-library"/>
+    </filters>
+  </project>
+
+  <project name="dpml-depot-checkstyle" basedir="plugins/checkstyle">
+    <info title="DPML Checkstyle Plugin">
+      <description>Checkstyle plugin for Depot.</description>
+    </info>
+    <properties>
+      <property name="project.minor.version" value="1"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-tools-builder"/>
+        <include uri="artifact:jar:checkstyle/checkstyle#4.1">
+          <property name="project.api.host" value="http://api.dpml.net"/>
+          <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
+        </include>
+        <include uri="artifact:jar:commons-logging/commons-logging#1.0.4" />
+        <include uri="artifact:jar:commons-collections/commons-collections#3.1" />
+        <include uri="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
+        <include uri="artifact:jar:bcel/bcel#5.1" />
+        <include uri="artifact:jar:antlr/antlr#2.7.2" />
+      </runtime>
+    </dependencies>
+  </project>
+
+  <project name="dpml-depot-convert" basedir="plugins/convert">
+    <info title="DPML Java to HTML Converter">
+      <description>Checkstyle plugin for Depot.</description>
+    </info>
+    <properties>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include uri="artifact:jar:java2html/java2html#4.2"/>
+        <include ref="ant/ant-launcher"/>
+      </runtime>
+    </dependencies>
+  </project>
+
+</module>

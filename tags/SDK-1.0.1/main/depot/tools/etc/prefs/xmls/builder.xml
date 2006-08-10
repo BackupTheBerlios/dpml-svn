@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+Default configuration for Depot-on-Ant.
+-->
+
+<builder default="install">
+  
+  <properties/>
+  
+  <listeners>
+    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener" priority="0"/>
+  </listeners>
+  
+</builder>
+
