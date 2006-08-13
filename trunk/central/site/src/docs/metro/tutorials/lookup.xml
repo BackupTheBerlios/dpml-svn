@@ -71,7 +71,7 @@
           &lt;/component&gt;
           &lt;component key="gizmo" type="org.acme.Gizmo" name="gizmo"&gt;
             &lt;context&gt;
-              <font color="darkred">&lt;entry lookup="org.acme.Widget"/&gt;</font>
+              <font color="darkred">&lt;entry key="widget" lookup="org.acme.Widget"/&gt;</font>
             &lt;/context&gt;
           &lt;/component&gt;
         &lt;/parts&gt;
