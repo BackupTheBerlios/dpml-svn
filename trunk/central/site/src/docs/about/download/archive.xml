@@ -11,14 +11,81 @@
 
   <body>
 
-    <section name="Milestone Archive">
-       
+    <section name="Release Archive">
+    
       <p>
-      The following table lists archived milestone distributions published by the DPML.
+      The following table lists formal distributions published by the DPML.
       </p>
-
-      <subsection name="Build 1.0.0">
-
+        
+      <subsection name="Version 1.0.1">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        Changes in this release include the addition of a new command-line option to the Depot build
+        tool enabling a decimal version build policy together with some internal implementation 
+        enhancements that enable the generation of a full DPML system build using the Depot build 
+        system.  The decimal versioning option basically addresses functional requirements that arise
+        when evaluating the impact of small changes on dependent systems.  In addition version 1.0.1
+        introduces the ability within the DPML build to run the entire build under Depot (as opposed 
+        to the earlier bootstrap+Depot build sequence).  With full Depot-based build sequencing in 
+        place its now much easier to address subjects such as build system reporting and general 
+        shortcomings in larger scale multi-project management.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.exe">
+                dpml-sdk-win32-1.0.1.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.zip">
+                dpml-sdk-win32-1.0.1.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-linux-1.0.1.tar.gz">
+                dpml-sdk-linux-1.0.1.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-linux-1.0.1.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-docs-1.0.1.zip">
+                dpml-sdk-docs-1.0.1.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-docs-1.0.1.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Version 1.0.0">
+        
         <p>
         Resolved issues and/or enhancements:
         </p>
@@ -95,6 +162,14 @@
         </table>
 
       </subsection>
+      
+    </section>
+    
+    <section name="Milestone Archive">
+    
+      <p>
+      The following table lists archived milestone distributions published by the DPML. 
+      </p>
       
       <subsection name="Build 1.0.0-RC9">
 
