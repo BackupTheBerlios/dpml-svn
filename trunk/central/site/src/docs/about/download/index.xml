@@ -38,44 +38,44 @@
           <tr>
             <td>Windows NSIS Installer</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
                 dpml-sdk-win32-@VERSION@.exe</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
               MD5</a>
             </td>
           </tr>
           <tr>
             <td>Windows Zip Archive</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
                 dpml-sdk-win32-@VERSION@.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
               MD5</a>
             </td>
           </tr>  
           <tr>
             <td>Linux Archive</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
                 dpml-sdk-linux-@VERSION@.tar.gz</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
               MD5</a>
             </td>
           </tr>  
           <tr>
             <td>Documentation Archive</td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-docs-@VERSION@.zip">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip">
                 dpml-sdk-docs-@VERSION@.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
               MD5</a>
             </td>
           </tr>

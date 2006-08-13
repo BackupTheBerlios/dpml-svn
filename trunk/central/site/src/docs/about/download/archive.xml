@@ -51,51 +51,51 @@
           <tr>
             <td>Windows NSIS Installer</td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.exe">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.exe">
                 dpml-sdk-win32-1.0.0.exe</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.exe.md5">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.exe.md5">
               MD5</a>
             </td>
           </tr>
           <tr>
             <td>Windows Zip Archive</td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.zip">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.zip">
                 dpml-sdk-win32-1.0.0.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-win32-1.0.0.zip.md5">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.zip.md5">
               MD5</a>
             </td>
           </tr>
           <tr>
             <td>Linux Archive</td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-linux-1.0.0.tar.gz">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-linux-1.0.0.tar.gz">
                 dpml-sdk-linux-1.0.0.tar.gz</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-linux-1.0.0.tar.gz.md5">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-linux-1.0.0.tar.gz.md5">
               MD5</a>
             </td>
           </tr>
           <tr>
             <td>Documentation Archive</td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-docs-1.0.0.zip">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-docs-1.0.0.zip">
                 dpml-sdk-docs-1.0.0.zip</a>
             </td>
             <td>
-              <a href="http://download.dpml.net/milestones/1.0.0/dpml-sdk-docs-1.0.0.zip.md5">
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-docs-1.0.0.zip.md5">
               MD5</a>
             </td>
           </tr>
         </table>
 
       </subsection>
-            
+      
       <subsection name="Build 1.0.0-RC9">
 
         <p>
