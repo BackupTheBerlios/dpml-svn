@@ -28,7 +28,7 @@ public class ResourceHandler extends org.mortbay.jetty.servlet.ServletHandler
    /**
     * Creation of a new resource handler.
     * @param name the resource handler name
-    * @param path the resourdce path
+    * @param path the resource path
     */
     public ResourceHandler( String name, String path )
     {
