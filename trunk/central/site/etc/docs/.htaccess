@@ -23,6 +23,7 @@ RedirectMatch ^/reports/SNAPSHOT* http://www.dpml.net/about/reports/index.html
 RedirectMatch ^/api/dpml/metro/* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/transit/* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/magic/* http://api.dpml.net/dpml/@VERSION@/index.html
+RedirectMatch ^/api/dpml/depot/* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/2006* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/2005* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/SNAPSHOT* http://api.dpml.net/dpml/@VERSION@/index.html

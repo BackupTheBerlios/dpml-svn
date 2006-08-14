@@ -15,10 +15,7 @@
       The Depot build system will assign a template file to a project as 
       the primary definition of the build strategy.  The default standard 
       template includes a series of common targets covering initialization, 
-      preparation, build, packaging, testing and installation.  Build 
-      <a href="../listeners/index.html">listeners</a> monitor a project for 
-      build events and perform actions such as code compilation, jar file 
-      creation, unit testing, cache updated, etc.
+      preparation, build, packaging, testing and installation.
       </p>
 
       <subsection name="Template Selection">
@@ -77,7 +74,7 @@
             <td>init</td>
             <td>Copies the content of the <tt>${basedir}/src</tt> directory to 
              <tt>${basedir}/target/build</tt> filtering content in the process.
-              See <a href="../tasks/prepare.html">prepare task</a> for additional 
+              See <a href="../../tasks/prepare.html">prepare task</a> for additional 
               information.</td>
           </tr>
           <tr>
