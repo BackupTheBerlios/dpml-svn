@@ -13,7 +13,7 @@
 
       <p>
       A <tt>Component</tt> is a remotely reachable object that is established using a data 
-      <tt><a href="models/index.html">Model</a></tt>. 
+      <tt><a href="../models/index.html">Model</a></tt>. 
       Component and model implementations are established via a <tt>Controller</tt>. 
       A controller is selected based on meta-data included in a stand-alone <tt>part</tt>
       datastructure.  All components implement the common
