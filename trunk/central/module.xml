@@ -7,10 +7,17 @@
     </build>
   </dependencies>
   
+  <project name="apis" basedir="apis">
+    <filters>
+      <feature token="VERSION" id="version" ref="dpml"/>
+    </filters>
+  </project>
+  
   <project name="site" basedir="site">
     <dependencies>
       <build>
         <include ref="dpmlx/tutorials"/>
+        <include key="apis"/>
       </build>
     </dependencies>
     <filters>

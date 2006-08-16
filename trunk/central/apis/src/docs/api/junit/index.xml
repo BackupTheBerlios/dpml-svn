@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>Ant Javadoc Archive</title>
+    <description>Javadocs for the Ant System.</description>
+  </properties>
+
+  <body>
+
+    <section name="JUnit Javadocs">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="3.8.1/index.html">3.8.1</a></td>
+          <td>Classic JUnit version 3.8.1.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+
