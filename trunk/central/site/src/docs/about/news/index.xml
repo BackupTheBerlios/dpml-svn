@@ -12,7 +12,23 @@
 
     <section name="News &amp; Events">
     
-      <subsection name="27 July 2006 Formal 1.0.0 Release">
+      <subsection name="11 Agust 2006, DPML SDK 1.0.1 Release">
+      
+        <p>
+        Changes in this release include the addition of a new command-line option to the Depot build
+        tool enabling a decimal version build policy together with some internal implementation 
+        enhancements that enable the generation of a full DPML system build using the Depot build 
+        system.  The decimal versioning option basically addresses functional requirements that arise
+        when evaluating the impact of small changes on dependent systems.  In addition version 1.0.1
+        introduces the ability within the DPML build to run the entire build under Depot (as opposed 
+        to the earlier bootstrap+Depot build sequence).  With full Depot-based build sequencing in 
+        place its now much easier to address subjects such as build system reporting and general 
+        shortcomings in larger scale multi-project management.
+        </p>
+        
+      </subsection>
+      
+      <subsection name="27 July 2006 DPML SDK 1.0.0 Release">
       
         <p>
         The DPML is proud to announce the formal distribution 
@@ -35,6 +51,23 @@
             management system that combines 'deployment data' and 'classloader chain' 
             information into XML files that can be used by the system to automatically
             deploy complex systems.
+            </td>
+            
+          </tr>
+          
+          <tr>
+          
+            <td><b><i>Metro</i></b></td>
+        
+            <td>
+            Metro is an advanced deployment strategy for plugins.  In effect Transit plugin definitions
+            allow for the declaration of alternative object deployment strategies.
+            While the basic Transit plugin model supports a generic framework (including antlib
+            resources loading) - the Metro system goes orders of magnitude further in its provision 
+            for lifecycle management, custom lifestyle, Context-IOC, remote management, 
+            logging, and other features aimed at composite component management.  The Metro platform 
+            also includes a the 'Station' - in effect a server handles multiple JVMs and provides 
+            support for remote application management.
             </td>
             
           </tr>
@@ -67,23 +100,6 @@
             extra instructions into build.xml files (i.e. its just driving classic Ant).
             </td>
         
-          </tr>
-          
-          <tr>
-          
-            <td><b><i>Metro</i></b></td>
-        
-            <td>
-            Metro is a next-gen deployment strategy for plugins.  In effect Transit plugin definitions
-            allow for the declaration of alternative object deployment strategies.
-            While the basic Transit plugin model supports a simple generic framework (including antlib
-            resources loading) - the Metro system goes orders of magnitude further in its provision 
-            for composite objects, lifecycle management, custom lifestyle, Context-IOC, remote management, 
-            logging, and bunch other stuff that makes for very easy development.  The Metro platform 
-            also includes a the 'Station' - in effect a server handles multiple JVMs and provides 
-            support for remote application management.
-            </td>
-            
           </tr>
           
         </table>

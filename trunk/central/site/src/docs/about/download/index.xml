@@ -76,6 +76,7 @@
           </tr>
         </table>
         
+        <!--
         <p>
         Changes and/or enhancements include:
         </p>
@@ -83,6 +84,7 @@
         <ul>
           <li>Correction to the lookup tutorial documentation.</li>
         </ul>
+        -->
         
         <p>
         Please refer to the README.TXT file included in the distribution for 
