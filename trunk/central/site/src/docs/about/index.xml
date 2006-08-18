@@ -12,8 +12,22 @@
 
     <section name="Component Management Solutions">
 
-      <subsection name="Products">
+      <subsection name="DPML SDK 1.0.1 Release">
 
+        <p>
+        Version 1.0.1 of the DPML SDK is available on our 
+        <a href="download/index.html">download page</a>.  The download includes
+        Transit, the Metro component strategy, the Depot build system, and the
+        Station application controller. Feedback and/or contributions are handled 
+        through our <a href="resources/lists.html">developer and supports forums</a>.
+        The SDK is published under the ASF 2.0 open-source 
+        <a href="legal/index.html">license</a>.
+        </p>
+        
+      </subsection>
+      
+      <subsection name="Products">
+      
         <ul>
           <li>
             <a href="../transit/index.html">Transit</a> resource management framework.
@@ -34,15 +48,7 @@
         </ul>
 
       </subsection>
-
-      <subsection name="License">
-
-        <p>
-        All DPML products are published under <a href="legal/index.html">open-source</a> license.
-        </p>
-
-      </subsection>
-
+      
     </section>
 
   </body>
