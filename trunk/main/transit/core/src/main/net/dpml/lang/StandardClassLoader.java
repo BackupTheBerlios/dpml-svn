@@ -376,22 +376,28 @@ public class StandardClassLoader extends URLClassLoader
     
     private static ClassLoader[] getClassLoaderChain( ClassLoader classloader )
     {
-        ArrayList list = new ArrayList();
-        list.add( classloader );
-        ClassLoader parent = classloader.getParent();
-        while( null != parent )
+        if( null == classloader )
         {
-            list.add( parent );
-            parent = parent.getParent();
+            return new ClassLoader[0];
         }
-        ArrayList result = new ArrayList();
-        int n = list.size() - 1;
-        for( int i=n; i>-1; i-- )
+        else
         {
-            result.add( list.get( i ) );
+            ArrayList list = new ArrayList();
+            list.add( classloader );
+            ClassLoader parent = classloader.getParent();
+            while( null != parent )
+            {
+                list.add( parent );
+                parent = parent.getParent();
+            }
+            ArrayList result = new ArrayList();
+            int n = list.size() - 1;
+            for( int i=n; i>-1; i-- )
+            {
+                result.add( list.get( i ) );
+            }
+            return (ClassLoader[]) result.toArray( new ClassLoader[0] );
         }
-        
-        return (ClassLoader[]) result.toArray( new ClassLoader[0] );
     }
 
     private static ClassLoader getCommonClassLoader( ClassLoader[] primary, ClassLoader[] secondary )
