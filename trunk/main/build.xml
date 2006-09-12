@@ -70,12 +70,13 @@
       <arg value="/ONSIS.LOG"/>
       <arg value="dpml.nsi"/>
     </exec>
+    <checksum file="${basedir}/target/nsi/dpml-sdk-win32-${project.version}.exe" fileext=".md5"/>
     <copy toDir="${basedir}/target/dist">
       <fileset dir="${basedir}/target/nsi">
         <include name="*.exe"/>
+        <include name="*.md5"/>
       </fileset>
     </copy>
-    <checksum file="${basedir}/target/dist/dpml-sdk-win32-${project.version}.exe" fileext=".md5"/>
     <echo>Created target/dist/dpml-sdk-win32-${project.version}.exe</echo>
   </target>
 
