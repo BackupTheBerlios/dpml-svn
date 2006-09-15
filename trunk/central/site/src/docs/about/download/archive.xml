@@ -28,7 +28,9 @@
         Transit console handler related to commandline-based deployment of 
         plugins.  The update ensures that a logging instance is provided as 
         as a available constructor argument to plugins deployed using the 
-        <tt>transit -uri [uri]</tt> command option.
+        <tt>transit -uri [uri]</tt> command option.  In addition some minor
+        improvements have been made to Transit's info report to include 
+        the console version.
         </p>
         
         <table>
