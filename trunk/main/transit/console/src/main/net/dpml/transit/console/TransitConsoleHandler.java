@@ -172,7 +172,7 @@ public class TransitConsoleHandler
             List list = line.getValues( ARGUMENTS );
             String[] args = (String[]) list.toArray( new String[ list.size() ] );
             Part part = Part.load( uri );
-            Object instance = part.instantiate( new Object[]{args} );
+            Object instance = part.instantiate( new Object[]{args, m_logger} );
             if( instance instanceof Runnable )
             {
                 Runnable runnable = (Runnable) instance;

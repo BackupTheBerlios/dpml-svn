@@ -69,7 +69,7 @@
          dest="${api.path}">
       <link href="http://java.sun.com/j2se/1.4/docs/api"/>
       <link href="http://api.dpml.net/javax/servlet/2.5"/>
-      <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0-RC0"/>
+      <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0"/>
       <group title="Library">
         <package name="net.dpml.library"/>
         <package name="net.dpml.library.*"/>

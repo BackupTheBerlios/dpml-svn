@@ -8,13 +8,16 @@
     <property name="project.test.fork" value="true"/>
     <property name="project.major.version" value="1"/>
     <property name="project.minor.version" value="0"/>
-    <property name="project.micro.version" value="1"/>
+    <property name="project.micro.version" value="2"/>
   </properties>
 
   <project name="dpml-transit-console" basedir="console">
     <info title="DPML Transit Console">
       <description>Transit preferences commandline handler.</description>
     </info>
+    <properties>
+      <property name="project.micro.version" value="2"/>
+    </properties>
     <types>
       <type id="jar"/>
       <part:plugin
@@ -35,6 +38,9 @@
     <info title="DPML Transit Resource Management">
       <description>Transit resource management system.</description>
     </info>
+    <properties>
+      <property name="project.micro.version" value="1"/>
+    </properties>
     <types>
       <type id="jar"/>
     </types>
@@ -58,6 +64,9 @@
     <info title="DPML Transit Antlib">
       <description>Transit tools for the Ant build system.</description>
     </info>
+    <properties>
+      <property name="project.micro.version" value="1"/>
+    </properties>
     <types>
       <type id="jar"/>
     </types>
