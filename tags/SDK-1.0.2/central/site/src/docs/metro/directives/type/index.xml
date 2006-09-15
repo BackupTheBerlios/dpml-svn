@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Type Task</title>
+  </properties> 
+
+  <body>
+
+    <section name="Type Task">
+    
+      <pre>link:xsd:dpml/lang/dpml-type#1.0</pre>
+
+      <subsection name="Description">
+
+        <p>
+        A component type descriptor is an XML document that describes 
+        supplimentary information about a Java class.  This information
+        includes details about the assumtions that the class makes concerning
+        context information, it's capabilities with respect to thread-safety, 
+        garbage collection policy, lifestyle, and lifecycle.
+        </p>
+        
+        <p>
+        A component type descriptor is stored as an XML resource co-located 
+        with the component class under the path <tt>&lt;package&gt;/&lt;classname&gt;.type</tt>.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><a href="info/index.html"><tt>info</tt></a></td>
+            <td>Information about the component type including the implementation
+                class, threadsafe policy, lifestyle preference, and collection 
+                policy preference.</td>
+          </tr>
+          <tr>
+            <td><a href="services/index.html"><tt>services</tt></a></td>
+            <td>Declaration of the service that the componet type provides.</td>
+          </tr>
+          <tr>
+            <td><a href="context/index.html"><tt>context</tt></a></td>
+            <td>Declaration of context assumptions that the component implementation
+                has concerning context entries, the required type of context value, 
+                and option/required status of entries.</td>
+          </tr>
+          <tr>
+            <td><a href="categories/index.html"><tt>categories</tt></a></td>
+            <td>Declaration of the logging categories used by the component type 
+                implementation.</td>
+          </tr>
+          <tr>
+            <td><a href="state/index.html"><tt>state</tt></a></td>
+            <td>Definition of a component lifecycle expressed as a state transition graph.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>Example of a complex component type definition:</p>
+
+<source><![CDATA[
+<?xml version="1.0"?>
+<type xmlns="link:xsd:dpml/lang/dpml-type#1.0">
+
+  <info name="server"
+      class="net.dpml.http.Server"
+      version="0.0.0"
+      lifestyle="singleton"
+      collection="hard"
+      threadsafe="true"/>
+      
+  <services>
+    <service class="net.dpml.http.Server" version="1.0.0"/>
+  </services>
+  
+  <context>
+    <entry key="configuration" class="java.net.URI" optional="true"/>
+    <entry key="threadPool" class="org.mortbay.thread.ThreadPool" optional="true"/>
+    <entry key="requestLog" class="org.mortbay.jetty.RequestLog" optional="true"/>
+  </context>
+  
+  <state xmlns="link:xsd:dpml/lang/dpml-state#1.0">
+    <trigger event="initialization">
+      <transition name="init" target="started">
+        <operation name="startup" method="start"/>
+      </transition>
+    </trigger>
+    <state name="started">
+      <trigger event="termination">
+        <apply id="stop"/>
+      </trigger>
+      <transition name="stop" target="../stopped">
+        <operation name="stop" method="stop"/>
+      </transition>
+    </state>
+    <state name="stopped">
+      <transition name="start" target="../started">
+        <operation name="start" method="start"/>
+      </transition>
+    </state>
+  </state>
+  
+</type>
+]]></source>
+      
+    </section>
+
+  </body>
+
+</document>
+

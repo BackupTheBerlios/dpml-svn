@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Plugin Task</title>
+  </properties> 
+
+  <body>
+    <section name="Plugin Task">
+
+      <p>
+      The plugin task locates plugin meta-data, and from that data, creates 
+      a classloader, loads the pluging from the repository, and declares to ant
+      any tasks that the plugin declares.  In addition, any listeners declared 
+      by the plugin meta are registered with the current project. 
+      </p>
+
+<source><![CDATA[
+<x:plugin uri="@METRO-TOOLS-URI@"/>
+]]></source>
+
+    </section>
+  </body>
+
+</document>
+

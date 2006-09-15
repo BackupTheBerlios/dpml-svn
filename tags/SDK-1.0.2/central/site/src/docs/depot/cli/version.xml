@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot CLI Version Option</title>
+  </properties> 
+
+  <body>
+
+    <section name="Version">
+
+<pre><![CDATA[$ build -version <version>]]></pre>
+
+      <subsection name="Description">
+
+        <p>
+        The <tt>-version</tt> option enables the assertion of a 
+        version to be used within the current build sequence. 
+        </p>
+
+      </subsection>
+
+      <subsection name="Default">
+
+        <p>
+        If no version is specified, the default version of <tt>SNAPSHOT</tt>
+        will be assigned.
+        </p>
+
+      </subsection>
+
+      <subsection name="Example">
+
+       <p>The following example demonstrates the building of a project 
+       using an explicit <tt>2.0.1</tt> target version using context
+       based project selection.</p>
+
+<pre>$ build -version 2.0.1</pre>
+<source>
+-------------------------------------------------------------------------
+dpml/util/dpml-util-i18n
+-------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] Created dir: C:\dev\dpml\main\util\i18n\target
+[x:prepare] Created dir: C:\dev\dpml\main\util\i18n\target\build\main
+[x:prepare] Copying 3 files to C:\dev\dpml\main\util\i18n\target\build\main
+[x:prepare] Created dir: C:\dev\dpml\main\util\i18n\target\build\test
+[x:prepare] Copying 3 files to C:\dev\dpml\main\util\i18n\target\build\test
+[x:prepare] Created dir: C:\dev\dpml\main\util\i18n\target\test
+
+build:
+    [javac] Created dir: C:\dev\dpml\main\util\i18n\target\classes\main
+    [javac] Compiling 2 source files to C:\dev\dpml\main\util\i18n\target\classes\main
+    [javac] Copying 1 file to C:\dev\dpml\main\util\i18n\target\classes\main
+
+package:
+      [jar] Created dir: C:\dev\dpml\main\util\i18n\target\deliverables\jars
+      [jar] Building jar: C:\dev\dpml\main\util\i18n\target\deliverables\jars\dpml-util-i18n-2.0.1.jar
+      [jar] Creating md5 checksum
+
+test:
+    [javac] Created dir: C:\dev\dpml\main\util\i18n\target\classes\test
+    [javac] Compiling 1 source file to C:\dev\dpml\main\util\i18n\target\classes\test
+    [javac] Copying 2 files to C:\dev\dpml\main\util\i18n\target\classes\test
+    [junit] Created dir: C:\dev\dpml\main\util\i18n\target\reports\test
+    [junit] executing in local jvm
+    [junit] Running net.dpml.i18n.test.ResourceManagerTestCase
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.047 sec
+
+install:
+[x:install] Copying 2 files to C:\osm\Data\cache\dpml\util
+
+BUILD SUCCESSFUL
+Total time: 3 seconds
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

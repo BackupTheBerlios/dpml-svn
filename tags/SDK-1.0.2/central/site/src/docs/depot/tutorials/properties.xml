@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Project Properties Tutorial</title>
+  </properties>
+
+  <body>
+
+    <section name="Declaring Properties">
+    
+      <p>
+      This tutorial demonstrates the addition of property declarations
+      to our project definition.
+      </p>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        Any number of properties can be declared within an enclosing <tt>properties</tt> 
+        element.  The <tt>properties</tt>  element may be declared within a project 
+        defintion, a module defintion (more on that later), and/or within the index
+        file.  In the following example we are declaring a single property inside the 
+        project defintion which we will reference in our build file.
+        </p>
+        
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+
+  &lt;project name="demo" basedir="."&gt;
+    <font color="darkred">&lt;properties&gt;
+      &lt;property name="message" value="Hello"/&gt;
+    &lt;/properties&gt;</font>
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="build.xml">
+      
+        <p>
+        The build file is updated to demonstrate a reference to our project
+        defined property value in an echo statement.
+        </p>
+        
+<pre>
+&lt;project name="demo" default="install">
+
+  &lt;target name="clean"&gt;
+    &lt;!-- nothing to do --&gt;
+  &lt;/target>
+
+  &lt;target name="build"&gt;
+    <font color="darkred">&lt;echo message="${message}"/&gt;</font>
+  &lt;/target&gt;
+
+  &lt;target name="install" depends="build"/&gt;
+
+&lt;/project&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Building the project ..">
+      
+        <pre>
+$ cd tutorials\tooling\properties
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+build:
+     <font color="blue">[echo] Hello</font>
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+$
+        </pre>
+     
+      </subsection>
+
+      <subsection name="Standard Properties">
+    
+        <p>
+        When Depot creates a new Ant project it automatically populates the project
+        with a set of properties derived from the associated project model.  These 
+        properties contain information about the project name, group, version, and 
+        default directory locations for src files, test source files, compiled classes,
+        deliverables resulting from the build and the system wide cache location.
+        If the project also declares one or more produced types - then a set of 
+        properties are made available that contain deliverable names and local directories
+        together with the directories and full paths relative to the system cache.
+        An example of the use of standard properties is included in the <a href="types.html">
+        Type Production Tutorial</a> build file.
+        </p>
+      
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        When Depot establishes the Ant project, it consults the Depot project
+        defintion for all properties declared within the project and any enclosing
+        scopes (e.g. module level properties and properties declared within the 
+        index itself). Properties declared within a project take precidence over
+        properties declared at module scope which in turn take precidence over 
+        properties declared at index scope.
+        </p>
+        
+        <p>
+        The <a href="symbolic.html">following totorial</a> updates the example to
+        include symbolic references to system properties. 
+        </p>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+  
+</document>
+

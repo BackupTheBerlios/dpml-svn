@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Symbolic Properties Tutorial</title>
+  </properties>
+
+  <body>
+
+    <section name="Using Symbolic References">
+
+      <p>
+      Ant users will be familiar to the <tt>${name}</tt> convention when referencing
+      property values.  This tutorial demonstrates the equivalent functionality within
+      the Depot project defintion. 
+      </p>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        The index file has been updated to reference an existing property and
+        a system property in the defintion of our message property. In this case we are referencing
+        the system property <tt>user.name</tt> and the property <tt>location</tt> in the 
+        defintion of <tt>message</tt>.
+        </p>
+        
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+
+  &lt;project name="demo" basedir="."&gt;
+    &lt;properties&gt;
+      <font color="darkred">&lt;property name="location" value="New York"/&gt;
+      &lt;property name="message" value="Hello for ${user.name} in ${location}"/&gt;</font>
+    &lt;/properties&gt;
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Building the project ..">
+      
+        <pre>
+$ cd tutorials\tooling\symbolic
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+build:
+     <font color="blue">[echo] Hello from mcconnell in New York</font>
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+$
+        </pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        Symbolic references to property names may include any property defined
+        within the project or any enclosing scope (module or index) and any 
+        system property declared by tyhe JVM.
+        </p>
+        
+        <p>
+        The <a href="filters.html">following totorial</a> demonstrates the 
+        addition of token-based filters to our project defintion.
+        </p>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

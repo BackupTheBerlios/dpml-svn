@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Apply Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Apply Datatype">
+
+      <subsection name="Description">
+
+        <p>
+        The apply element may be used within a <tt>trigger</tt> to 
+        request the automatic invocation of a state transition by 
+        reference to a named transition.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>id</tt></td>
+            <td>The name of a state <a href="../transition.html">transition</a> to be applied.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following state definition contains a termination trigger that
+      holds an <tt>apply</tt> statement.  The apply statement references
+      the state transition named <tt>stop</tt>.  During termination the 
+      the <tt>stop</tt> state transition will be invoked resulting in the 
+      transition of the component fropm the <tt>started</tt> to 
+      <tt>stopped</tt> state.
+      </p>
+
+<pre><![CDATA[
+<state name="started">
+  <transition name="stop" target="../stopped">
+    <operation name="stop" method="stop"/>
+  </transition>
+  <trigger event="termination">
+    <apply id="stop"/>
+  </trigger>
+</state>
+]]></pre>
+
+    </section>
+
+  </body>
+
+</document>
+

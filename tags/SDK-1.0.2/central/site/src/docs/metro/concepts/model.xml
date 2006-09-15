@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Model Driven Architecture</title>
+  </properties> 
+
+  <body>
+
+    <section name="Model Driven">
+
+      <p>
+      A "Model Driven" system is a system within which a central model is 
+      the definiative source for runtime information.  Within Metro the complete
+      deployment scenario including the component type internal datastructure
+      is represented as a remotely accessible model.  Modification of the model 
+      via local or remote invocations may have a direct impact on the application 
+      deployment or runtime state.  Metro provides a suite of interfaces dealing 
+      with remote control of of the component state machine, activation policy, 
+      garbage collection policies, context state, and redepoloyment scenario 
+      information (including control over component configuration, parameterization, 
+      and individual context entry settings).
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+

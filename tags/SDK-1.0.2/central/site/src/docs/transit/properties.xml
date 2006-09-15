@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005-2006 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit Properties</title>
+  </properties> 
+
+  <body>
+    <section name="System Properties">
+
+      <p>
+        Two optional system properties may be used to control the configuration 
+        of the Transit system.  One property provides a mechanisms whereby a 
+        remote active transit model can be associated as the confiuration
+        for a local transit instance.  A second property is available for 
+        selection of a transit profile via url (suitable for centralized 
+        configuration of static models).
+      </p>
+
+      <table>
+        <tr>
+          <td>dpml.transit.model</td>
+          <td>
+            If this system property is passed as an argument to the Depot 
+            console handler (via the <tt>transit</tt>, <tt>metro</tt>, or 
+            <tt>station</tt> commandline handlers), Depot will attempt to 
+            locate a Transit Model using an RMI registry.  If declared the 
+            value of the property must be in the form <tt>registry[:host[:port]]:name</tt>
+            where the <tt>name</tt> value corresponds to a RMI registry name binding
+            that maps to an instance of a remote TransitModel.
+          </td>
+        </tr>
+        <tr>
+          <td>dpml.transit.profile</td>
+          <td>
+            If Transit is not initialized within an explicit TransitModel then
+            Transit will attempt to establish a TransitModel using a externalized
+            TransitDirective located at the uri <tt>local:xml:dpml/transit/standard</tt>.
+            This uri can be overridden using the <tt>dpml.transit.profile</tt> property
+            enabling the selection of a remote profile.  The uri value will be resolved 
+            to a url referencing a <a href="config/index.html">Transit XML configuration</a>.  
+            Overriding the uri enables the possiblity for centralization of multiple 
+            Transit configurations.
+          </td>
+        </tr>
+      </table>
+
+    </section>
+  </body>
+</document>
+

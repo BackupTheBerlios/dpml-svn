@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="transit"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+   
+  <properties>
+    <property name="project.test.fork" value="true"/>
+    <property name="project.major.version" value="1"/>
+    <property name="project.minor.version" value="0"/>
+    <property name="project.micro.version" value="2"/>
+  </properties>
+
+  <project name="dpml-transit-console" basedir="console">
+    <info title="DPML Transit Console">
+      <description>Transit preferences commandline handler.</description>
+    </info>
+    <properties>
+      <property name="project.micro.version" value="2"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:plugin
+        class="net.dpml.transit.console.TransitConsoleHandler" alias="true"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PROJECT-VERSION" id="version"/>
+    </filters>
+  </project>
+
+  <project name="dpml-transit-main" basedir="core">
+    <info title="DPML Transit Resource Management">
+      <description>Transit resource management system.</description>
+    </info>
+    <properties>
+      <property name="project.micro.version" value="1"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <build>
+        <include ref="dpml/lang/dpml-part"/>
+      </build>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PROJECT-NAME" id="name"/>
+      <feature token="PROJECT-GROUP" id="group"/>
+      <feature token="PROJECT-VERSION" id="version"/>
+      <feature token="PART-XSD-SPEC-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+    </filters>
+  </project>
+   
+  <project name="dpml-transit-tools" basedir="tools">
+    <info title="DPML Transit Antlib">
+      <description>Transit tools for the Ant build system.</description>
+    </info>
+    <properties>
+      <property name="project.micro.version" value="1"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-transit-main"/>
+        <include ref="ant/ant"/>
+      </runtime>
+    </dependencies>
+  </project>
+
+</module>
