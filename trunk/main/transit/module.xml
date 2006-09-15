@@ -32,6 +32,9 @@
         <include ref="ant/ant-junit"/>
       </test>
     </dependencies>
+    <filters>
+      <feature token="PROJECT-VERSION" id="version"/>
+    </filters>
   </project>
 
   <project name="dpml-transit-main" basedir="core">

@@ -217,7 +217,8 @@ public class TransitConsoleHandler
     {
         StringBuffer buffer = new StringBuffer();
         
-        buffer.append( "\n\n  Version " + Transit.VERSION );
+        buffer.append( "\n\n  Transit Console Version @PROJECT-VERSION@" );
+        buffer.append( "\n  Transit Runtime Version " + Transit.VERSION );
         buffer.append( "\n\n  Environment\n" );
         buffer.append( "\n    ${dpml.home} \t" + Transit.DPML_HOME );
         buffer.append( "\n    ${dpml.data} \t" + Transit.DPML_DATA );
