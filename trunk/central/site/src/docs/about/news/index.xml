@@ -12,6 +12,20 @@
 
     <section name="News &amp; Events">
     
+      <subsection name="16 September 2006, DPML SDK 1.0.2 Maintenance Update">
+      
+        <p>
+        The <a href="http://download.dpml.net/formal/sdk/1.0.2">1.0.2 release</a> 
+        includes the resolution of a bug in the Transit console handler related 
+        to the deployment of plugins from the command line.  Earlier versions did 
+        not properly support plugins declaring a net.dpml.util.Logger constructor 
+        argument instance.  The release also includes improvements to the console 
+        info listing with additional version information for both console and 
+        runtime resources.
+        </p>
+        
+      </subsection>
+      
       <subsection name="11 August 2006, DPML SDK 1.0.1 Release">
       
         <p>
