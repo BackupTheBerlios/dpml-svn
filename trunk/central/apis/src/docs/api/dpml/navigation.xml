@@ -25,8 +25,9 @@
  <body>
 
     <menu>
-      <item name="@VERSION@" href="@VERSION@/index.html"/>
       <item name="1.0.0" href="1.0.0/index.html"/>
+      <item name="1.0.1" href="1.0.1/index.html"/>
+      <item name="@VERSION@" href="@VERSION@/index.html"/>
     </menu>
 
  </body>

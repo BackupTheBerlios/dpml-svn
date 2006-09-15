@@ -25,8 +25,8 @@
  <body>
 
     <menu>
-      <item name="1.6.5" href="1.6.5/index.html"/>
       <item name="1.6.4" href="1.6.4/index.html"/>
+      <item name="1.6.5" href="1.6.5/index.html"/>
     </menu>
 
  </body>

@@ -16,13 +16,23 @@
           <th>Version</th>
           <th>Description</th>
         </tr>
+        <!--
         <tr>
           <td><a href="@VERSION@/index.html">@VERSION@</a></td>
-          <td>Latest release.</td>
+          <td>Minor update to the Transit console handler.</td>
         </tr>
+        -->
         <tr>
           <td><a href="1.0.0/index.html">1.0.0</a></td>
           <td>First release of the DPML SDK.</td>
+        </tr>
+        <tr>
+          <td><a href="1.0.1/index.html">1.0.1</a></td>
+          <td>Updated version including improved build version management.</td>
+        </tr>
+        <tr>
+          <td><a href="1.0.2/index.html">1.0.2</a></td>
+          <td>Minor update to the Transit console handler.</td>
         </tr>
       </table>
 
