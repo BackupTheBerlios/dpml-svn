@@ -12,10 +12,10 @@
 
     <section name="Component Management Solutions">
 
-      <subsection name="DPML SDK 1.0.1 Release">
+      <subsection name="DPML SDK @VERSION@ Release">
 
         <p>
-        Version 1.0.1 of the DPML SDK is available on our 
+        Version @VERSION@ of the DPML SDK is available on our 
         <a href="download/index.html">download page</a>.  The download includes
         Transit, the Metro component strategy, the Depot build system, and the
         Station application controller. Feedback and/or contributions are handled 
