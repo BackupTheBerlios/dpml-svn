@@ -52,8 +52,7 @@
 
         <p>
         Following a series of 'under-the-radar' RC distributions, 
-        the <a href="../download/archive.html#Build%20;1.0.0%20;RC4">RC4</a> 
-        deliverable is now available.  RC4 resolves several runtime issues 
+        the RC4 deliverable is now available.  RC4 resolves several runtime issues 
         specific to the nix* platform, incorporates a cleaner cross-JVM 
         logging aggregation subsystem, introduced full XML-Schema based 
         definitions for long term storage of library, component, and 
@@ -68,7 +67,7 @@
       <subsection name="13 January 2005 20060113 Milstone Distribution">
 
         <p>
-        The <a href="../download/archive.html#Build%20;20060113">20060113</a> 
+        The 20060113
         milestone resolves some installation issues under Unix and closes 
         an obscure bug in Transit resource management layer.  This milestone 
         also includes a Windows installer.
@@ -79,8 +78,7 @@
       <subsection name="10 January 2005 20060110 Milstone Distribution">
 
         <p>
-        The milestone build <a href="../download/archive.html#Build%20;20051228">
-        20060110</a> incorporates a series of updates dealing with 
+        The milestone build 20060110</a> incorporates a series of updates dealing with 
         full support for both Unix and Windows under JDK 1.5.  The 
         milestone is released with the specific objective of binary 
         distribution validation.
@@ -179,12 +177,6 @@
         requirements declaration.
         </p>
 
-        <p>
-        The binary download of the 
-        <a href="../setup/archive.html#Build%20%20051228">20051228</a> build is available for 
-        immediate download.
-        </p>
-
       </subsection>
 
       <subsection name="26 August 2005 - Crystal XP Icons" >
@@ -223,7 +215,7 @@
 
       <subsection name="23 August 2005 - Janel Project License." >
         <p>
-        <a href="http://janel.sourceforge.net/janel">
+        <a href="http://janel.sourceforge.net">
         Janel</a> is an open-source Java Launcher for Windows developed by Tim Kil.  The 
         launcher provides excellent integration between the Windows OS environment 
         and Java applications and is used within the DPML Depot application.  Tim Kil
