@@ -276,6 +276,11 @@ public class ArtifactURLConnection extends URLConnection
             if( j > 0 )
             {
                 String s = spec.substring( 0, j );
+                String query = url.getQuery();
+                if( null != query )
+                {
+                    s = s + "?" + query;
+                }
                 String version = url.getUserInfo();
                 if( null != version )
                 {
