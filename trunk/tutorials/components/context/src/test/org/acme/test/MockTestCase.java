@@ -1,43 +1,62 @@
-/*
+/* 
  * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
- * You may obtain a copy of the License at
- *
+ * You may obtain a copy of the License at 
+ * 
  *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed  under the  License is distributed on an "AS IS" BASIS,
  * WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
  * implied.
- *
+ * 
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
-package org.acme;
+package org.acme.test;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
+
+import junit.framework.TestCase;
+
+import org.acme.Demo;
+import org.acme.Demo.Context;
 
 /**
- * A minimal component.
- * 
+ * Deployment of the demo component.
+ *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class Demo
+public class MockTestCase extends TestCase
 {
-    //------------------------------------------------------------------
-    // context
-    //------------------------------------------------------------------
-
+    private static final String ACTIVITY = "Painting";
+    private static final String OWNER = System.getProperty( "user.name" );
+    private static final String TARGET = "house";
+    private static final String COLOR = "red";
+    private static final String MESSAGE = 
+      ACTIVITY + " " + OWNER + "'s " + TARGET + " " + COLOR + ".";
+      
    /**
-    * The internal context interface through which the component declares 
-    * its operational prerequisited.
+    * Test construction of the demo instance using a mock context object.
+    * @exception Exception if an error occurs
     */
-    public interface Context
+    public void testComponent() throws Exception
+    {
+        Logger logger = Logger.getLogger( "test" );
+        Context context = new MockContext();
+        Demo demo = new Demo( logger, context );
+        String message = demo.getMessage();
+        assertEquals( "message", MESSAGE, message );
+    }
+    
+   /**
+    * The mock context object.
+    */
+    private static final class MockContext implements Context
     {
        /**
         * Return a string describing an activity that our object should 
@@ -48,7 +67,10 @@ public class Demo
         *
         * @return the activity verb
         */
-        String getActivity();
+        public String getActivity()
+        {
+            return ACTIVITY;
+        }
         
        /**
         * When constructing a phrase the implementation uses a owner to 
@@ -58,7 +80,10 @@ public class Demo
         *
         * @return the owner's name
         */
-        String getOwner();
+        public String getOwner()
+        {
+            return OWNER;
+        }
         
        /**
         * The object implementation applies an activity to an owners object.  The
@@ -69,59 +94,19 @@ public class Demo
         * @return the name of the owner's target to which the activity will
         *   be applied
         */
-        String getTarget();
+        public String getTarget()
+        {
+            return TARGET;
+        }
         
        /**
         * Returns the color to be used during construction of the activity statement.
         * 
         * @return the color value
         */
-        String getColor();
-    }
-    
-    //------------------------------------------------------------------
-    // state
-    //------------------------------------------------------------------
-    
-    private final Logger m_logger;
-    private final Context m_context;
-
-    //------------------------------------------------------------------
-    // constructor
-    //------------------------------------------------------------------
-    
-   /**
-    * Creation of a new object using a supplied logging channel.
-    * @param logger the logging channel
-    * @param context the deployment context
-    */
-    public Demo( final Logger logger, final Context context )
-    {
-        m_logger = logger;
-        m_context = context;
-
-        if( m_logger.isLoggable( Level.INFO ) )
+        public String getColor()
         {
-            String message = getMessage();
-            m_logger.info( message );
+            return COLOR;
         }
-    }
-    
-    public String getMessage()
-    {
-        final String owner = m_context.getOwner();
-        final String activity = m_context.getActivity();
-        final String target = m_context.getTarget();
-        final String color = m_context.getColor();
-        final String message = 
-            activity 
-            + " " 
-            + owner 
-            + "'s " 
-            + target 
-            + " " 
-            + color 
-            + ".";
-        return message;
     }
 }
