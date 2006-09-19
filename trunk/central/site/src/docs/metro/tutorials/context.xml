@@ -55,6 +55,10 @@ import java.util.logging.Level;
 
 public class Demo
 {
+    //------------------------------------------------------------------
+    // context
+    //------------------------------------------------------------------
+    
     <font color="darkred">public interface Context
     {
         String getActivity();
@@ -63,18 +67,45 @@ public class Demo
         String getColor();
     }</font>
     
+    //------------------------------------------------------------------
+    // state
+    //------------------------------------------------------------------
+    
+    private final Logger m_logger;
+    private final Context m_context;
+
+    //------------------------------------------------------------------
+    // constructor
+    //------------------------------------------------------------------
+    
+   /**
+    * Creation of a new object using a supplied logging channel.
+    * @param logger the logging channel
+    * @param context the deployment context
+    */
     public Demo( final Logger logger, final Context context )
     {
-        if( logger.isLoggable( Level.INFO ) )
-        {
-            final String owner = context.getOwner();
-            final String activity = context.getActivity();
-            final String target = context.getTarget();
-            final String color = context.getColor();
-            final String message = 
-              activity + " " + owner + "'s " + target + " " + color + ".";
-            logger.info( message );
-        }
+        m_logger = logger;
+        m_context = context;
+    }
+    
+    public String getMessage()
+    {
+        final String owner = m_context.getOwner();
+        final String activity = m_context.getActivity();
+        final String target = m_context.getTarget();
+        final String color = m_context.getColor();
+        final String message = 
+            activity 
+            + " " 
+            + owner 
+            + "'s " 
+            + target 
+            + " " 
+            + color 
+            + ".";
+            
+        return message;
     }
 }
 </source>
@@ -138,15 +169,15 @@ public class Demo
       <subsection name="Building the deployment solution">
       
         <p>
-        Tje context inner interface is declaring the operation requirements - however, 
+        The context inner interface is declaring the operation requirements - however, 
         we need to declare somewhere the solution strategy.  We do this by updating our 
         component definition to include a <tt>&lt;context&gt;</tt> block.
         </p>
         
         <p><i>
         The following lines are example of the creation of a component 
-        deployment solution (taken from the components/002 project definition).
-        Modifications markup shows changes from our initial component definition.
+        deployment solution.  Modifications markup shows changes from our initial 
+        component definition.
         </i></p>
 
 <pre>&lt;index ..... &gt;
@@ -179,7 +210,7 @@ public class Demo
 
       </subsection>
 
-      <subsection name="Testing the component">
+      <subsection name="Testing the component using a Part handler">
 
         <p>
         During execution of the testcases we see the result of logging the 
@@ -190,11 +221,40 @@ public class Demo
         </p>
 
 <pre>
-test:
     [junit] Executing forked test.
     [junit] Running org.acme.test.DemoTestCase
     <font color="darkred">[junit] [16245] [INFO   ] (demo): Painting mcconnell's bike silver.</font>
     [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.89 sec
+</pre>
+
+      </subsection>
+
+      <subsection name="Testing with a Mock Context">
+
+        <p>
+        An alternative to the above is to use a mock context object as demonstrated
+        in the <a href="context/MockTestCase.java.html">MockTestCase</a>.
+        </p>
+
+<pre>
+    [junit] Running org.acme.test.MockTestCase
+    [junit] [17497] [INFO   ] (test): Painting mcconnell's house red.
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.203 sec
+</pre>
+
+      </subsection>
+
+      <subsection name="Testing via Context Proxy">
+
+        <p>
+        Another solution is to use a proxy invocation handler as the context 
+        implementation. This approach is demonstrated in the 
+        in the <a href="context/ProxyTestCase.java.html">ProxyTestCase</a>.
+        </p>
+    
+<pre>
+    [junit] [20148] [INFO   ] (test): Painting mcconnell's GTV white.
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.204 sec
 </pre>
 
       </subsection>
@@ -206,7 +266,7 @@ test:
         scenario.  If that scenario cannot be established then your component will 
         not be deployed.  During deployment the container will evaluate all runtime 
         requirements declaring with a #Context innner interface, build an context
-        implementation fullfilling the contract (and any other regognized contructor
+        implementation fullfilling the contract (and any other recognized contructor
         arguments) and deploy the component taking into account lifecyle and lifestyle
         (but more of these subject later in the tutorial).
         </p>
