@@ -123,6 +123,13 @@ public class Handler extends URLStreamHandler
         {
             buf.append( internal );
         }
+        
+        String query = u.getQuery();
+        if( query != null )
+        {
+            buf.append( '?' );
+            buf.append( query );
+        }
 
         String version = u.getUserInfo();
         if( ( version != null ) && !"".equals( version ) )
@@ -196,7 +203,33 @@ public class Handler extends URLStreamHandler
             final String protocol = dest.getProtocol();
             String specPath = spec.substring( start, limit );
             String path = dest.getPath();
-
+            
+            // get any query info from the supplied spec
+            
+            final String query = getQueryFragment( specPath );
+            if( null != query )
+            {
+                int n = specPath.indexOf( "?" );
+                if( n > -1 )
+                {
+                    specPath = specPath.substring( 0, n );
+                }
+            }
+            
+            // get the version using the url ref semantics
+            
+            final String version = getRefFragment( specPath );
+            if( null != version )
+            {
+                int n = specPath.indexOf( "#" );
+                if( n > -1 )
+                {
+                    specPath = specPath.substring( 0, n );
+                }
+            }
+            
+            // setup the path 
+            
             if( path == null )
             {
                 path = specPath;
@@ -221,20 +254,25 @@ public class Handler extends URLStreamHandler
                     path = path + "!/" + specPath;
                 }
             }
-            String version = dest.getUserInfo();
-            if( version == null )
+            
+            // establish the artifact type
+            
+            String type = dest.getUserInfo();
+            if( type == null )
             {
                 if( limit < spec.length() )
                 {
-                    version = spec.substring( limit + 1 );
+                    type = spec.substring( limit + 1 );
                 }
             }
-            final String user = version;
+            
+            // map features to url fields
+            
+            final String user = type; // final String user = version;
             final String authority = null;
             final int port = -1;
             final String host = null;
-            final String query = null;
-            final String ref = null;
+            final String ref = version; // final String ref = null;
             final String finalPath = path;
             AccessController.doPrivileged( 
               new PrivilegedAction()
@@ -260,9 +298,48 @@ public class Handler extends URLStreamHandler
             }
             catch( TransitRuntimeException f )
             {
-                // Panic!!!! Should not happen.
                 f.printStackTrace();
                 e.printStackTrace();
+            }
+        }
+    }
+    
+    private String getQueryFragment( String path )
+    {
+        if( null == path )
+        {
+            return null;
+        }
+        else
+        {
+            int q = path.indexOf( "?" );
+            if( q > -1 )
+            {
+                return path.substring( q+1 );
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+    
+    private String getRefFragment( String path )
+    {
+        if( null == path )
+        {
+            return null;
+        }
+        else
+        {
+            int n = path.indexOf( "#" );
+            if( n > -1 )
+            {
+                return path.substring( n+1 );
+            }
+            else
+            {
+                return null;
             }
         }
     }
