@@ -218,30 +218,33 @@ public final class Artifact implements Serializable, Comparable
         }
     }
     
-    private static String buildComposite( String scheme, String group, String name, String version, String type )
+    private static String buildComposite( 
+      final String scheme, final String group, final String name, 
+      final String version, final String type )
     {
-        if( null == group )
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( scheme );
+        buffer.append( ":" );
+        buffer.append( type );
+        buffer.append( ":" );
+        if( null != group )
         {
-            if( null == version )
-            {
-                return scheme + ":" + type + ":" + name;
-            }
-            else
-            {
-                return scheme + ":" + type + ":" + name + "#" + version;
-            }
+            buffer.append( group );
+            buffer.append( "/" );
         }
-        else
+        buffer.append( name );
+        //if( null != query )
+        //{
+        //    buffer.append( "?" );
+        //    buffer.append( query );
+        //}
+        if( null != version )
         {
-            if( null == version )
-            {
-                return scheme + ":" + type + ":" + group + "/" + name;
-            }
-            else
-            {
-                return scheme + ":" + type + ":" + group + "/" + name + "#" + version;
-            }
+            buffer.append( "#" );
+            buffer.append( version );
         }
+        String spec = buffer.toString();
+        return spec;
     }
     
    /**
