@@ -24,10 +24,13 @@
         <a href="legal/index.html">license</a>.
         </p>
         
+        <p><img src="../images/overview.png"/></p>
+        
       </subsection>
       
-      <subsection name="Products">
       
+      <subsection name="Products">
+        
         <ul>
           <li>
             <a href="../transit/index.html">Transit</a> resource management framework.
