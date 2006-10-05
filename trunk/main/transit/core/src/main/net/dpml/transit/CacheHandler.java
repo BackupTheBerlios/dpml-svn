@@ -62,7 +62,7 @@ public interface CacheHandler
      * repositories.
      *
      * @param artifact the artifact to retrieve and cache
-     * @return a file referencing the local resource
+     * @return an input stream to the local resource
      * @exception IOException if an IO error occurs
      * @exception TransitException is a transit system error occurs
      */
