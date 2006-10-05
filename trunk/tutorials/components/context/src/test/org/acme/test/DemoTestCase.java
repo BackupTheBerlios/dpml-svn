@@ -45,7 +45,8 @@ public class DemoTestCase extends TestCase
         Part part = Part.load( uri );
         Demo demo = (Demo) part.getContent();
         String message = demo.getMessage();
-        assertEquals( "message", "Painting mcconnell's bike silver.", message );
+        String name = System.getProperty( "user.name" );
+        assertEquals( "message", "Painting " + name + "'s bike silver.", message );
     }
     
     private URI getPartURI() throws Exception
