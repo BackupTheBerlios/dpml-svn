@@ -29,7 +29,7 @@
          URI scheme handlers</a> the Metro platform provides the environment within 
          which a component implementation can operate exclusively with URI 
          references.  This moves potential resource handling limitations from a 
-         components by delegating the concern to an underlying resource managment 
+         component by delegating the concern to an underlying resource management 
          framework.
          </p>
 
