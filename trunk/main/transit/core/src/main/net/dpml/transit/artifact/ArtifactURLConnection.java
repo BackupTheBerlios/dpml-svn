@@ -115,7 +115,33 @@ public class ArtifactURLConnection extends URLConnection
     public void connect()
         throws IOException
     {
-        m_connected = true;
+        if( m_connected )
+        {
+            return;
+        }
+        else
+        {
+            m_connected = true;
+            InputStream stream = null;
+            try
+            {
+                stream = getInputStream();
+            }
+            finally
+            {
+                if( null != stream )
+                {
+                    try
+                    {
+                        stream.close();
+                    }
+                    finally
+                    {
+                        stream = null;
+                    }
+                }
+            }
+        }
     }
 
    /**
@@ -189,7 +215,6 @@ public class ArtifactURLConnection extends URLConnection
     public Object getContent( Class[] classes )
         throws IOException
     {
-    
         //
         // attempt to resolve this locally as we may be dealing
         // with Depot references to the artifact File
