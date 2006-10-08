@@ -21,8 +21,9 @@ package net.dpml.transit.tools;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLConnection;
 
-import net.dpml.transit.artifact.Handler;
+import net.dpml.transit.Artifact;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -129,11 +130,15 @@ public class GetTask extends TransitTask
 
         try
         {
+            URI uri = getURI();
             String spec = getURI().toString();
             log( "artifact: " + spec );
-            URL url = new URL( (URL) null, spec, new Handler() );
-            File file = (File) url.getContent( new Class[]{File.class} );
-            getProject().setNewProperty( name, file.getAbsolutePath() );
+            URL url = Artifact.toURL( uri );
+            URLConnection connection = url.openConnection();
+            connection.connect();
+            File file = (File) connection.getContent( new Class[]{File.class} );
+            String path = file.getCanonicalPath();
+            getProject().setNewProperty( name, path );
         }
         catch( Throwable e )
         {
