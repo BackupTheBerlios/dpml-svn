@@ -16,7 +16,7 @@ REM
 
 set ARG_ONE=%1
 CALL :antlib-cleanup
-IF ERRORLEVEL 1 GOTO :exit
+rem IF ERRORLEVEL 1 GOTO :exit
 CALL :xml-setup
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-module
