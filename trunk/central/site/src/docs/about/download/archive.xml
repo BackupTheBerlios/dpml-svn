@@ -16,6 +16,67 @@
       <p>
       The following table lists formal distributions published by the DPML.
       </p>
+
+      <subsection name="Version 1.0.3">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        Version 1.0.3 is a minor update that incorporates bug fixes dealing with
+        the Transit protocol URL connection handler and a number of general 
+        documentation updates.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.exe">
+                dpml-sdk-win32-1.0.3.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.zip">
+                dpml-sdk-win32-1.0.3.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-linux-1.0.3.tar.gz">
+                dpml-sdk-linux-1.0.3.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-linux-1.0.3.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-docs-1.0.3.zip">
+                dpml-sdk-docs-1.0.3.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-docs-1.0.3.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
       
       <subsection name="Version 1.0.2">
       
