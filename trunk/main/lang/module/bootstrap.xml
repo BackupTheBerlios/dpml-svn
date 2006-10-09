@@ -39,6 +39,8 @@
     <copy toFile="${xsds}/${filename}" preservelastmodified="true" overwrite="true" 
       file="${target.dir}/module.xsd"/>
     <checksum fileext=".md5" file="${xsds}/${filename}"/>
+    <echo file="${xsds}/${project.name}-${specification.version}.xsd.link"
+      message="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
   </target>
 
 </project>
