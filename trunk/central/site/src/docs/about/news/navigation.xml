@@ -24,6 +24,7 @@
 
   <body>
     <menu>
+      <item name="SDK 1.0.3" href="SDK-1.0.3.html"/>
       <item name="SDK 1.0.2" href="SDK-1.0.2.html"/>
       <item name="Archive" href="archive.html"/>
     </menu>
