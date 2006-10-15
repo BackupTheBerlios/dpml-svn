@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Service Providers</title>
+  </properties> 
+
+  <body>
+
+    <section name="Service Provider">
+
+      <p>
+      A <tt>Component</tt> is responsible for the management of a set 
+      of service <tt>Provider</tt>(s).  The number of providers
+      managed by a component is implementation dependent.  The reference
+      implementation maintains providers relative to the associated 
+      <a href="../../models/lifestyle.html">lifestyle</a> and 
+      <a href="../../models/collection.html">collection</a> policies. For 
+      example, a component declaring the <tt>SINGLETON</tt> collection 
+      policy will have a 0..1 <tt>Provider</tt> association.  The lifetime
+      of the provider will be a function of the associated collection 
+      policy and usage contitions.
+      </p>
+
+      <p>
+      A <tt>Provider</tt> exposes the following functions:
+      </p>
+
+      <ol>
+        <li>access to the concrete service instance with support
+            for isolution of the instance within a proxy exposing 
+            only the service interfaces</li>
+        <li>access to the provider <a href="state.html">state</a>
+            and as a consequence the available mangement transitions and 
+            dynamic operations</li>
+      </ol>
+
+      <subsection name="Example">
+      
+        <p>
+        The following snipet of code demonstrates the creation of a 
+        service provider using a part uri and the subsequent resolution
+        of the provider instance.
+        </p>
+
+        <pre>
+Controller controller = Controller.STANDARD;
+URI uri = new URI( "artifact:part:acme/acme-widget#1.1" );
+Component component = controller.createComponent( uri );
+<font color="darkred">Provider provider = component.getProvider();</font>
+Widget widget = (Widget) provider.getValue( true );
+        </pre>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

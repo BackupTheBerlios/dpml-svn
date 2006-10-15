@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<registry xmlns="@APPLICATION-XSD-URI@">
+
+  <app key="demo" title="Test Application" policy="manual">
+
+    <jvm>
+      <startup>120</startup>
+      <shutdown>60</shutdown>
+      <properties>
+        <property name="foo" value="bar"/>
+      </properties>
+    </jvm>
+  
+    <codebase uri="link:part:acme/widget">
+      <param class="java.awt.Color" method="RED"/>
+    </codebase>
+
+  </app>
+
+</registry>

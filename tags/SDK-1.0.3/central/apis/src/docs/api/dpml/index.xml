@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Javadoc Archive</title>
+    <description>API repository for the DPML SDK.</description>
+  </properties>
+
+  <body>
+
+    <section name="DPML SDK Javadocs">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <!--
+        <tr>
+          <td><a href="@VERSION@/index.html">@VERSION@</a></td>
+          <td>Minor update to the Transit console handler.</td>
+        </tr>
+        -->
+        <tr>
+          <td><a href="1.0.0/index.html">1.0.0</a></td>
+          <td>First release of the DPML SDK.</td>
+        </tr>
+        <tr>
+          <td><a href="1.0.1/index.html">1.0.1</a></td>
+          <td>Updated version including improved build version management.</td>
+        </tr>
+        <tr>
+          <td><a href="1.0.2/index.html">1.0.2</a></td>
+          <td>Minor update to the Transit console handler.</td>
+        </tr>
+        <tr>
+          <td><a href="1.0.3/index.html">1.0.3</a></td>
+          <td>Minor update to the Transit URL connection handler.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

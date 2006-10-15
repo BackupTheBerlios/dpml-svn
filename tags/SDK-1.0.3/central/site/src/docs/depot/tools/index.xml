@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Ant Builder Plugin</title>
+  </properties> 
+
+  <body>
+
+    <section name="Ant Builder Plugin">
+    
+      <p>
+      The Depot <tt><a href="../cli/index.html">build</a></tt> tool loads a 
+      plugin to handle project build requests using the property <tt>project.builder.uri</tt>.  
+      The default builder plugin (<tt>net.dpml.tools.impl.StandardBuilder</tt>) is an 
+      application that dynamically establishes and populates an Ant project based on 
+      information obtained from a <a href="../library/projects.html">project</a> 
+      definition within the common library. The plugin creates a local 
+      <a href="context.html">Context</a> object which provides convinient access to 
+      project related information such as classpaths, file locations, and project 
+      related properties.
+      </p>
+      
+      <p>
+      During Ant project initialization the following actions are undertaken:
+      </p>
+      
+      <table>
+        <tr>
+          <td>basedir</td>
+          <td>
+          The Ant project basedir is assigned the value of the Depot project basedir.
+          </td>
+        </tr>
+        <tr>
+          <td>template</td>
+          <td>
+          A build template is assigned from which formal build phased are established
+          The default template declares initialization, preparation, build, packaging, 
+          validation and installation targets (which in turn trigger additional build 
+          functionality via processors declared within the builder configuration). 
+          </td>
+        </tr>
+        <tr>
+          <td>properties</td>
+          <td>
+          Properties associated (or inherited by) the Depot project defintion
+          are mapped to properties in a new Ant project.
+          </td>
+        </tr>
+        <tr>
+          <td>filters</td>
+          <td>
+          Filters declared in the current project are mapped to global filters in 
+          the underlying ant project. 
+          </td>
+        </tr>
+        <tr>
+          <td>paths</td>
+          <td>
+          Compilation and test phase paths are constructed based on the dependencies
+          declared in the Depot project defintion.
+          </td>
+        </tr>
+        <tr>
+          <td>listeners</td>
+          <td>
+          Build-listeners registered in the builder configuration are loaded, sorted
+          with respect to listener priority, and attached to the Ant project.
+          </td>
+        </tr>
+      </table>
+      
+
+      <p>
+      From a technical perspective the project definition provides sufficent information 
+      for the creation and parameterization of the Ant project such that a build can 
+      be exectuted without a build.xml file. The builder achieves this through the 
+      assignment of a project base directory and a <a href="templates/index.html">
+      template</a> build file.  Templates are resolved using the <tt>project.template</tt> 
+      property which defaults to the value of the <tt>project.standard.template</tt> 
+      property.  If neither property is defined, the default template 
+      <tt>local:template:dpml/tools/standard</tt> is assigned.
+      </p>
+      
+      <subsection name="Builder Configuration">
+
+      <p>
+      The Depot Build is configured using an XML file located using the following uri:
+      </p>
+
+      <pre>local:xml:dpml/tools/config</pre>
+
+<source><![CDATA[
+<builder default="install">
+  
+  <listeners>
+    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener" priority="0"/>
+  </listeners>
+
+</builder>
+]]></source>
+
+      <p>
+      The builder configuration contains a set of <tt>&lt;listener&gt;</tt> declarations.  
+      A <tt>&lt;listener&gt;</tt> definition allows the association of a plugin-based build 
+      listener to an Ant project. Further customization may be added under 
+      a build.xml file.
+      </p>
+      
+      </subsection>
+      
+      <subsection name="Builder Attributes">
+      
+         <table>
+           <tr>
+             <td>default</td>
+             <td>The default build target.</td>
+           </tr>
+         </table>
+
+      </subsection>
+      
+      <subsection name="Nested elements">
+      
+         <table>
+           <tr>
+             <td>listeners</td>
+             <td>0..n</td>
+             <td>
+               A sequence of build listeners.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Listener Attributes">
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The listener name.</td>
+           </tr>
+           <tr>
+             <td>uri</td>
+             <td>A plugin codebase uri.</td>
+           </tr>
+           <tr>
+             <td>class</td>
+             <td>Listener classname.</td>
+           </tr>
+           <tr>
+             <td>priority</td>
+             <td>The listener priority value. Lower priority values are assigned 
+             to the project ahead of listeners with a higher priotrity value.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

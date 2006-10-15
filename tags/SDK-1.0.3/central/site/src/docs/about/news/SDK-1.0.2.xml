@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML SDK 1.0.2 Release</title>
+    <description>16 September 2006 - DPML SDK 1.0.2 Release.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties>
+
+  <body>
+
+    <section name="16 September 2006 - DPML SDK 1.0.2 Release">
+      
+      <p>
+      The DPML is proud to announce the formal distribution 
+      of version <tt>1.0.2</tt> of the DPML SDK.
+      </p>
+        
+      <subsection name="Distribution">
+    
+        <table>
+        
+          <tr>
+          
+            <td><b><i>Transit</i></b></td>
+
+            <td>
+            Transit is a resource management system that lets you work with 
+            uris instead of urls - where uris include artifact:[group]/[name]#[version]
+            (for cached based retrieval of versioned resources backed by local and/or
+            remote repositories), link:[group]/[name]#[version] which provides an 
+            equivalent concept to a symlink, and local:[group]/[name]#[version] for retrieval of 
+            local preferences.  Above the resource management layer is a plugin 
+            management system that combines 'deployment data' and 'classloader chain' 
+            information into XML files that can be used by the system to automatically
+            deploy complex systems.
+            </td>
+            
+          </tr>
+          
+          <tr>
+          
+            <td><b><i>Metro</i></b></td>
+        
+            <td>
+            Metro is an advanced deployment strategy for plugins.  In effect Transit plugin definitions
+            allow for the declaration of alternative object deployment strategies.
+            While the basic Transit plugin model supports a generic framework (including antlib
+            resources loading) - the Metro system goes orders of magnitude further in its provision 
+            for lifecycle management, custom lifestyle, Context-IOC, remote management, 
+            logging, and other features aimed at composite component management.  The Metro platform 
+            also includes a the 'Station' - in effect a server handles multiple JVMs and provides 
+            support for remote application management.
+            </td>
+            
+          </tr>
+          
+          <tr>
+          
+            <td><b><i>Depot</i></b></td>
+
+            <td>
+            The Depot library provides a framework for &lt;resource&gt; (e.g. 
+            jar file, XML files, etc.), &lt;project&gt;, and &lt;module&gt; declarations.
+            Modules identify a namespace for a group of resource and/or projects.
+            Projects identify a working base directory. Projects can declare scoped dependencies 
+            covering BUILD, TEST and RUNTIME phases.  Runtime phases can be further 
+            qualified to separate PUBLIC, PROTECTED and PRIVATE scopes.  In addition
+            project definitions may include property and filter declarations and (which
+            may be direct name/token substitution or feature based substitution - e.g.
+            lookup the version of project X and replace token Y with the value).
+            The build system includes a command line handler that uses the library
+            to resolve project base directories, transitive dependencies, properties, 
+            and filters.  It uses the Transit system for all resource management concerns 
+            including support within Transit for the declaration and deployment of plugins
+            (where a plugin is somewhat equivalent to an antlib plus classloader 
+            definition).  Depot uses Transit for loading build templates and antlibs.  
+            Depot also includes a small number of Ant tasks that enable build automation
+            of the majority of the DPML project.  Generally speaking these ant tasks
+            are simply pulling in info from the library (e.g. compile path creation,
+            test path creation, meta-data creation, property resolution, etc.).
+            When the generic Depot tasks don't meet all of our needs - we simply add extra 
+            extra instructions into build.xml files (i.e. its just driving classic Ant).
+            </td>
+        
+          </tr>
+          
+        </table>
+      
+      </subsection>
+
+      <subsection name="1.0.1 Maintenance Update">
+      
+        <p>
+        Changes in the the 1.0.1 release included the addition of a new command-line option to the Depot build
+        tool enabling a decimal version build policy together with some internal implementation 
+        enhancements that enable the generation of a full DPML system build using the Depot build 
+        system.  The decimal versioning option basically addresses functional requirements that arise
+        when evaluating the impact of small changes on dependent systems.  In addition version 1.0.1
+        introduced the ability within the DPML build to run the entire build under Depot (as opposed 
+        to the earlier bootstrap+Depot build sequence).
+        </p>
+        
+      </subsection>
+
+      <subsection name="1.0.2 Maintenance Update">
+      
+        <p>
+        The 1.0.2 update resolved a bug in the Transit console handler related 
+        to the deployment of plugins from the command line.  Earlier versions did 
+        not properly support plugins declaring a net.dpml.util.Logger constructor 
+        argument instance.  The release also included improvements to the console 
+        info listing with additional version information for both console and 
+        runtime resources.
+        </p>
+        
+      </subsection>
+      
+    </section>
+    
+  </body>
+</document>
+
+
+

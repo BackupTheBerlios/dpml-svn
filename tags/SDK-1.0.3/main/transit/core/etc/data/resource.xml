@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<part xmlns="@PART-XSD-SPEC-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <info title="Demo Resource">
+    <description>
+    Resource descriptor using XMLSchema.
+    </description>
+  </info>
+  
+  <resource urn="foo:bar" path="org/acme"/>
+  
+  <classpath>
+    <public>
+      <uri>link:jar:fred/blogs</uri>
+      <uri>link:jar:peter/rabbit</uri>
+    </public>
+  </classpath>
+  
+</part>

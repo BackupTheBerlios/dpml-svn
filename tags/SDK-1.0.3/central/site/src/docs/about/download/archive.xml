@@ -1,0 +1,1263 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Archive</title>
+    <description>Archive of milestone builds.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties> 
+
+  <body>
+
+    <section name="Release Archive">
+    
+      <p>
+      The following table lists formal distributions published by the DPML.
+      </p>
+
+      <subsection name="Version 1.0.3">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        Version 1.0.3 is a minor update that incorporates bug fixes dealing with
+        the Transit protocol URL connection handler and a number of general 
+        documentation updates.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.exe">
+                dpml-sdk-win32-1.0.3.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.zip">
+                dpml-sdk-win32-1.0.3.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-win32-1.0.3.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-linux-1.0.3.tar.gz">
+                dpml-sdk-linux-1.0.3.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-linux-1.0.3.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-docs-1.0.3.zip">
+                dpml-sdk-docs-1.0.3.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.3/dpml-sdk-docs-1.0.3.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Version 1.0.2">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        Version 1.0.2 is a minor update that incorporates corrections to the 
+        Transit console handler related to commandline-based deployment of 
+        plugins.  The update ensures that a logging instance is provided as 
+        as a available constructor argument to plugins deployed using the 
+        <tt>transit -uri [uri]</tt> command option.  In addition some minor
+        improvements have been made to Transit's info report to include 
+        the console version.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-win32-1.0.2.exe">
+                dpml-sdk-win32-1.0.2.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-win32-1.0.2.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-win32-1.0.2.zip">
+                dpml-sdk-win32-1.0.2.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-win32-1.0.2.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-linux-1.0.2.tar.gz">
+                dpml-sdk-linux-1.0.2.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-linux-1.0.2.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-docs-1.0.2.zip">
+                dpml-sdk-docs-1.0.1.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.2/dpml-sdk-docs-1.0.2.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Version 1.0.1">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        Changes in this release include the addition of a new command-line option to the Depot build
+        tool enabling a decimal version build policy together with some internal implementation 
+        enhancements that enable the generation of a full DPML system build using the Depot build 
+        system.  The decimal versioning option basically addresses functional requirements that arise
+        when evaluating the impact of small changes on dependent systems.  In addition version 1.0.1
+        introduces the ability within the DPML build to run the entire build under Depot (as opposed 
+        to the earlier bootstrap+Depot build sequence).  With full Depot-based build sequencing in 
+        place its now much easier to address subjects such as build system reporting and general 
+        shortcomings in larger scale multi-project management.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.exe">
+                dpml-sdk-win32-1.0.1.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.zip">
+                dpml-sdk-win32-1.0.1.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-win32-1.0.1.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-linux-1.0.1.tar.gz">
+                dpml-sdk-linux-1.0.1.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-linux-1.0.1.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-docs-1.0.1.zip">
+                dpml-sdk-docs-1.0.1.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.1/dpml-sdk-docs-1.0.1.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Version 1.0.0">
+        
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <ul>
+          <li>Resolved issue in Depot application handler related to logging 
+              configuration resource assignment preventing the execution of
+              the metro tool with trace or debug options.</li>
+          <li>Corrections to component directive documentation.</li>
+          <li>Depot and Metro tutorials.</li>
+          <li>Added decimal version prefix support.</li>
+          <li>Super-component support in component defintion.</li>
+          <li>Moved main library defintion to <tt>index.xml</tt> and corresponding
+              <tt>&lt;index&gt;</tt> top-level element.</li>
+          <li>Updated project/module/resource <tt>info</tt> element to be equivalent
+              to the info element declared under the <tt>plugin</tt> schema.</li>
+          <li>Documentation improvements including information about type versions
+              and alias references.</li>
+          <li>Addition of testcases dealing with <tt>xsi:type</tt> usage in plugin
+              XML instances.</li>
+          <li>Update JUnit task to assert forked test mode as default and 
+              association of system properties for all local deliverables.</li>
+          <li>Removal of redundant declaration in component and type XSD.</li>
+          <li>Updated Type class to support dynamic introspection of context inner interfaces
+              allowing component creation without an explicit .type resource).</li>
+          <li>Consolidated duplicate code dealing with feature resolution.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.exe">
+                dpml-sdk-win32-1.0.0.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.zip">
+                dpml-sdk-win32-1.0.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-win32-1.0.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-linux-1.0.0.tar.gz">
+                dpml-sdk-linux-1.0.0.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-linux-1.0.0.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-docs-1.0.0.zip">
+                dpml-sdk-docs-1.0.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.0/dpml-sdk-docs-1.0.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+    
+    <section name="Milestone Archive">
+    
+      <p>
+      The following table lists archived milestone distributions published by the DPML. 
+      </p>
+      
+      <subsection name="Build 1.0.0-RC9">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Module processing enhanced to support composite names.</li>
+          <li>Removal of redundant property assertions in exported modules.</li>
+          <li>Depot builder structural enhancements.</li>
+          <li>Addition of configurable project listeners.</li>
+          <li>Removal of transit content handlers (functionality available 
+              under the improved part model).</li>
+          <li>Added support for trace level logging.</li>
+          <li>Addition of test cases in the http impl package and related code improvements.</li>
+          <li>Replaced artifact based XSDL target namespaces with logical links.</li>
+          <li>Improved part sequencing in the Metro container.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.exe">
+                dpml-sdk-win32-1.0.0-RC9.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.zip">
+                dpml-sdk-win32-1.0.0-RC9.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-win32-1.0.0-RC9.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-linux-1.0.0-RC9.tar.gz">
+                dpml-sdk-linux-1.0.0-RC9.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC9/dpml-sdk-linux-1.0.0-RC9.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Note:
+        </p>
+
+        <p>
+        XSD schema reference have been update to use symbolic links in favour
+        of direct artifact references. XSD namespace references are now declared
+        in the form <tt>link:xsd:dpml/lang/dpml-module#1.0</tt> (which in-turn references
+        an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
+        </p>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0 RC7">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Support for the declaration of custom etc/main and etc/text directories.</li>
+          <li>Removal of activity api (functionality covered by state package).</li>
+          <li>Removal of the configuration and parameterization packages (functionality covered via Context IOC model).</li>
+          <li>Support for filter declarations within a <tt>&lt;project&gt;</tt> definition.</li>
+          <li>Improvements to DOM related error reporting.</li>
+          <li>Structural enhancements to the module schema.</li>
+          <li>Upgrade to Jetty  6.0.0 B14.</li>
+        </ul>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC7/dpml-sdk-win32-1.0.0-RC7.exe">
+                dpml-sdk-win32-1.0.0-RC7.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC7/dpml-sdk-win32-1.0.0-RC7.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC7/dpml-sdk-win32-1.0.0-RC7.zip">
+                dpml-sdk-win32-1.0.0-RC7.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC7/dpml-sdk-win32-1.0.0-RC7.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC7/dpml-sdk-linux-1.0.0-RC7.tar.gz">
+                dpml-sdk-linux-1.0.0-RC7.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC7/dpml-sdk-linux-1.0.0-RC7.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0 RC6 (SVN rev 1333)">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Convergence of the plugin versus component deployment models.</li>
+          <li>Resolve bug in Windows SCM controller.</li>
+          <li>Removal of configuration and parameters (functionality covered by Context IOC services).</li>
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.exe">
+                dpml-sdk-win32-1.0.0-RC6.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.zip">
+                dpml-sdk-win32-1.0.0-RC6.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-win32-1.0.0-RC6.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-linux-1.0.0-RC6.tar.gz">
+                dpml-sdk-linux-1.0.0-RC6.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC6/dpml-sdk-linux-1.0.0-RC6.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0 RC5">
+
+        <p>
+        Enhancements include:
+        </p>
+        
+        <ul>
+          <li>Improvements to the metro commandline handler cli options.</li>
+          <li>Documentation on part and component XML schemas.</li>
+          <li>Build-time valiation of artifact link references.</li>
+          <li>Module merging and nested module export.</li>
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.exe">
+                dpml-sdk-win32-1.0.0-RC5.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.zip">
+                dpml-sdk-win32-1.0.0-RC5.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-win32-1.0.0-RC5.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-linux-1.0.0-RC5.tar.gz">
+                dpml-sdk-linux-1.0.0-RC5.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC5/dpml-sdk-linux-1.0.0-RC5.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+      
+      <subsection name="Build 1.0.0 RC4">
+
+        <p>
+        Enhancements include:
+        </p>
+        <ul>
+          <li>Resolves a bug related to application deployment within the Station under the 
+              Unix platform.</li>
+          <li>Rewrite of the multi-JVM log aggregation services eliminating a low-level 
+              issued raised by RMI log events during handler establishement.</li>
+          <li>An improved implementation of the JVM process identification model.</li>
+          <li>Resolution of a number of API inconsistencies.</li>
+          <li>Improved management of lifecycle policies (import, export, type defaults, etc.).</li>
+          <li>Numerouse documentation updates.</li>
+          <li>Additional testcases.</li>
+          <li>Improved error handling in the Station console.</li>
+          <li>cleanup logging channel assignments to ensure that new top-level components are 
+              created under the station namespace when launched by the station.</li>
+          <li>Update station shutdown semantic to formally decommision Transit.</li>
+          <li>Improvements to symbol dereferencing logic.</li>
+          <li>Update feature task to handle resolution of link uris.</li>
+          <li>Update depot to reference links in preference to full qualified artifacts.</li>
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.exe">
+                dpml-sdk-win32-1.0.0-RC4.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.zip">
+                dpml-sdk-win32-1.0.0-RC4.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-win32-1.0.0-RC4.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-linux-1.0.0-RC4.tar.gz">
+                dpml-sdk-linux-1.0.0-RC4.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC4/dpml-sdk-linux-1.0.0-RC4.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 1.0.0 RC3">
+      
+        <p>Replaced by RC4.</p>
+
+      </subsection>
+
+      <subsection name="Build 1.0.0 RC2">
+        <p>
+        Resolves station-based deployment under Unix.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC2/dpml-sdk-win32-1.0.0-RC2.exe">
+                dpml-sdk-win32-1.0.0-RC2.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC2/dpml-sdk-win32-1.0.0-RC2.zip">
+                dpml-sdk-win32-1.0.0-RC2.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC2/dpml-sdk-win32-1.0.0-RC2.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC2/dpml-sdk-linux-1.0.0-RC2.tar.gz">
+                dpml-sdk-linux-1.0.0-RC2.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC2/dpml-sdk-linux-1.0.0-RC2.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 1.0.0 RC1">
+
+        <p>
+        First release candidate.  Includes fully human-readable XML defintions across 
+        all sub-systems.  Known issues under the Unix platform are current pending.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC1/dpml-sdk-win32-1.0.0-RC1.exe">
+                dpml-sdk-win32-1.0.0-RC1.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC1/dpml-sdk-win32-1.0.0-RC1.zip">
+                dpml-sdk-win32-1.0.0-RC1.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC1/dpml-sdk-win32-1.0.0-RC1.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC1/dpml-sdk-linux-1.0.0-RC1.tar.gz">
+                dpml-sdk-linux-1.0.0-RC1.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/1.0.0-RC1/dpml-sdk-linux-1.0.0-RC1.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 20060217">
+
+        <p>
+        The 20060217 milestone adds support for array datatypes (primitive and complex)
+        to the context IOC model. 
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-win32-20060217.exe">
+                dpml-sdk-win32-20060217.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-win32-20060217.zip">
+                dpml-sdk-win32-20060217.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-win32-20060217.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-linux-20060217.tar.gz">
+                dpml-sdk-linux-20060217.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060217/dpml-sdk-linux-20060217.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 20060215">
+
+        <p>
+        The 20060215 milestone represents the completion of the part and component 
+        model API with the notable addition of component composition at the 
+        level of a deployment definition.  Deployment directives have been extended 
+        to include array datatypes as nested constructor elements (top-level arrays 
+        as context arguments is in progress).  The Planet HTTP package has been 
+        rewritten to leverage the composition functionality together with a major 
+        updated to the Jetty 6.X implementation. Web application samples are included. 
+        Transit has also been updated to include deployment support in the CLI handler. 
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.exe">
+                dpml-sdk-win32-20060215.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.zip">
+                dpml-sdk-win32-20060215.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-win32-20060215.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-linux-20060215.tar.gz">
+                dpml-sdk-linux-20060215.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060215/dpml-sdk-linux-20060215.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 20060113">
+
+        <p>
+        The 20060113 includes the resolution of a bug in Transit (related to 
+        execution of a plugin that extend a system classloader following deletion of 
+        the cache directory). Alsoincludes improvements to logging and console messages 
+        ensuring equivalence across different platforms.  Finally - the build includes 
+        a Windows installer that handles automatic setup of environment variables and 
+        the Station NT service manager.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-win32-20060113.exe">
+                dpml-sdk-win32-20060113.exe</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-win32-20060113.zip">
+                dpml-sdk-win32-20060113.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-win32-20060113.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-linux-20060113.tar.gz">
+                dpml-sdk-linux-20060113.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060113/dpml-sdk-linux-20060113.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 20060110">
+
+        <p>
+        This milestone build resolves known issues
+        related to deployment under the *nix environment and 
+        all know issues related to JDK1.5.
+        </p>
+        <p>
+        Key changes include:
+        </p>
+
+        <ul>
+          <li>
+          resolved issues concerning the building of the DPML 
+          system under the Unix environment - including resolution
+          of the bootstrap script and corrections to handling of 
+          runtime tool scripts
+          </li>
+
+          <li>
+          resolved issues related to build and runtime support
+          under the JDK 1.5 environment including resolution of 
+          xslt issue in the doc task, resolving issues in the 
+          checkstyle report creation process, and resolving 
+          issues in the javadoc generation process
+          </li>
+
+          <li>
+          bumped the version of checkstyle from 3.8.1 to 4.1 
+          adding support for Java 1.5 source validation
+          </li>
+
+          <li>
+          bumped the version of Jetty from 5.1.1 to 5.1.6 and 
+          resolved a number of deprecation issues in the process
+          </li>
+      
+          <li>
+          incorporated unit test sources into the overall DPML 
+          checkstyle validation resulting in the resolution of 
+          some 9,300 formatting and test documentation issues
+          </li>
+
+          <li>
+          resolved issues concerning the CLI2 date validator
+          </li>
+
+          <li>
+          completed some outstanding TODO items concerning 
+          component context and state change listener handling
+          </li>
+
+          <li>
+          fixed issued concerning missing jgoodies package
+          </li>
+
+          <li>
+          improved error reporting on component deployment failure
+          </li>
+
+        </ul>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060110/dpml-sdk-win32-20060110.zip">
+                dpml-sdk-win32-20060110.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060110/dpml-sdk-win32-20060110.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060110/dpml-sdk-linux-20060110.tar.gz">
+                dpml-sdk-linux-20060110.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060110/dpml-sdk-linux-20060110.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+
+      <subsection name="Build 20060101">
+
+        <p>
+        Important update that resolve a issue concerning binary packaging.  The milestone
+        also includes updates to the replicate task to support selection of a target 
+        layout and from this the ability to migrate the local system repository to the 
+        <tt>modern</tt> layout strategy.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-win32-20060101.zip">
+                dpml-sdk-win32-20060101.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-win32-20060101.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-linux-20060101.tar.gz">
+                dpml-sdk-linux-20060101.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20060101/dpml-sdk-linux-20060101.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+      </subsection>
+
+      <subsection name="Build 20051231">
+
+        <p>
+        This is a minor update that includes resolution of the following issues:
+        </p>
+
+        <ol>
+          <li>checkstyle plugin loading is now independent of the library</li>
+          <li>checkstyle implementation updated to properly handle rule selection</li>
+        </ol>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-win32-20051231.zip">
+                dpml-platform-win32-20051231.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-win32-20051231.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-linux-20051231.tar.gz">
+                dpml-platform-linux-20051231.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051231/dpml-platform-linux-20051231.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+      </subsection>
+
+      <subsection name="Build 20051228">
+
+        <p>
+        This is a minor update that includes resolution of the following issues:
+        </p>
+
+        <ol>
+          <li>resolution of the bug concerning a non-declared project publisher</li>
+          <li>elimination of all outstanding checkstyle format errors</li>
+          <li>addition of missing build reports to the binary distribution</li>
+          <li>addition of a content handler plugin for network resolvable parts</li>
+          <li>minor javadoc corrections</li>
+        </ol>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-win32-20051228.zip">
+                dpml-platform-win32-20051228.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-win32-20051228.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-linux-20051228.tar.gz">
+                dpml-platform-linux-20051228.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051228/dpml-platform-linux-20051228.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+      </subsection>
+
+      <subsection name="Build 20051224">
+
+        <p>
+        The 20051224 release is the first release following the refactoring 
+        of the core to support component driven context declaration and part 
+        based composition (codename Freight-Train).  The release also includes
+        the seoparation of project defintion form build strategy (reflected in the 
+        replacement of Magic with the Depot build tool).  Finally, the release 
+        include server management framework capable of supporting remote management
+        of a cluser of server processes.
+        </p>
+
+        <p>
+        TRANSIT: Includes a registry protocol handler enabling publication of references to an 
+        RMI registry in the form registry://[host]:[port]/[path] or the shortform
+        registry:/[path]. Updates to the standard log message formatter to include
+        the JVM process identifier.  Updates to the ContentModel implementation to
+        include the declaration of constructed types used as plugin parameters.
+        Improvement to the plugin loader preventing the assignment of an argument 
+        to more than one constructor parameter value.  Addition of support for
+        primitive arguments in plugin constructors (such as int, boolean, etc.).
+        Upgrade of plugin model to include support for system level jar files 
+        (e.g. protocol handlers or look-and-feel implementations that need to exist in the 
+        system classloader).  Added Enum and ValuedEnum to util package. Extended
+        the Construct class to alow references to static member variables. 
+        Consolidated all configuration options down to a single strategy
+        based on the net.dpml.transit.info immutable datatypes.  Added support for 
+        the 'modern' layout strategy which add compatibility with the recent Maven2
+        repository layout.  Added the transit commandline configuration tool.
+        </p>
+
+        <p>
+        DEPOT: Incorporated Janel distribution under ASL 2.0 and added project and 
+        copyright attribution to NOTICE.TXT.  Upgrade to Janel 2.5.0 (resolving 
+        issues with working directory resolution). Updates to DPML Station with 
+        support for multi-JVM deployment and teardown.  Added a remote logging
+        services that handles message aggregation from multiple JVMs to the central
+        station and support for JVM process identity within the default log message
+        formatter. Major cleanup of the profile API and implementation with 
+        consolidation around the ApplicationProfile class.  Updated Depot icons 
+        based on content from CrystalXP.net and inclusion of credits in 
+        NOTICE.TXT. Enhanced the console to support deployment of plugin handlers 
+        that add supplimentary content to the system classloader.
+        </p>
+
+        <p>
+        METRO: General enhancements to the Part contract model including improvements 
+        in the way top-level versus composite parts and handled.  Separation of
+        state related aspects into a new package 'net.dpml.state' supported by a 
+        cleaner implementation.  Introduced support for long-term storage of 
+        descriptors and directivies compliant with JSR-57. Added definition and 
+        implemetnation of a remote component model and context model suitable 
+        for deployment independently of a component runtime (i.e. management 
+        occurs on machine 'a' and deployment occurs on machine 'b'). Moved all
+        enumerations to formally typed enumerations (e.g. CollectionPolicy, 
+        LifestylePolicy, etc.).
+        </p>
+
+        <p>
+        Please refer to the README.TXT file included in the distribution for 
+        additional install details.
+        </p>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-win32-20051224.zip">
+                dpml-platform-win32-20051224.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-win32-20051224.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-linux-20051224.tar.gz">
+                dpml-platform-linux-20051224.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/20051224/dpml-platform-linux-20051224.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+        <p>
+        NOTE: File structure layouts within DPML_HOME have been updated.  For Win32 users 
+        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        </p>
+
+      </subsection>
+
+      <subsection name="Build 20050809">
+
+        <p>
+        Improvements to Transit handling of dynamic content handlers.
+        Improvements to the Depot setup procedure to support version
+        downgrading.  Enhancments to Transit and Magic related to link management.
+        Internal improvements to Metro enabling mixed component controllers 
+        within a composite component structure.
+        </p>
+
+        <p><i>
+        After unpacking the distribution run the following command to complete the 
+        installation:
+        </i></p>
+
+        <pre>
+ $ depot -setup
+        </pre>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-win32-20050809.zip">
+                dpml-transit-win32-20050809.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-win32-20050809.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-linux-20050809.tar.gz">
+                dpml-transit-linux-20050809.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050809/dpml-depot-linux-20050809.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+
+      <subsection name="Build 20050806">
+
+        <p>
+        Resolves identified issues with build scripts under unix platforms. Includes
+        separation of the checkstyle to a standalone plugin.  Release is synchronized
+        with a general quality review of the Transit and Magic systems incororating 
+        substantial javadoc enhancements and checkstyle compliance.  Subject to feedback
+        this release should be considered as a final release candidate.
+        </p>
+
+        <p><i>
+        After unpacking the distribution run the following command to complete the 
+        installation:
+        </i></p>
+
+        <pre>
+ $ depot -setup
+        </pre>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-win32-20050806.zip">
+                dpml-transit-win32-20050806.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-win32-20050806.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-linux-20050806.tar.gz">
+                dpml-transit-linux-20050806.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050806/dpml-depot-linux-20050806.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+      <subsection name="Build 20050803">
+
+        <p>
+        Includes a reengineering of the Depot system within which command handles
+        are now separated into plugin processors.  In addition of the profile APIs
+        have been separated out and included under the Metro package.  Improvements
+        have been added for the Win32 platform with the replacement of the depot.bat
+        script with a debot.exe.  This milestone represents a solid Transit/Magic
+        combination, and improved Depot system (but still subject to change), and 
+        an evolving Metro system.
+        </p>
+
+        <p><i>
+        Please note: following unpacking the distribution you will need to run 
+        the following command to complete the installation:
+        </i></p>
+
+        <pre>
+ $ depot -setup
+        </pre>
+
+        <table>
+          <tr>
+            <td>Windows</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-win32-20050803.zip">
+                dpml-transit-win32-20050803.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-win32-20050803.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux</td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-linux-20050803.tar.gz">
+                dpml-transit-linux-20050803.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/milestones/depot/20050803/dpml-depot-linux-20050803.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+        </table>
+
+      </subsection>
+
+    </section>
+  </body>
+</document>
+

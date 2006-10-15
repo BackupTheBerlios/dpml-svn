@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Runtime</title>
+  </properties> 
+
+  <body>
+
+    <section name="Metro Runtime">
+
+      <p>
+      The Metro Runtime is an application that implements a multi-layered system model.
+      The following illustration depicts the principal sub-system APIs (higher level blocks 
+      are dependent on immediate low-lever blocks).
+      </p>
+
+      <img src="/images/metro/apis.png"/>
+
+      <subsection name="Metro API">
+
+        <p>
+        A <tt>component</tt> part is a network accessible datatype
+        that associates a controller with a deployment profile. The 
+        deloyment profile references a component type.  The component type may
+        be implementated using a collection of local or remote component parts.
+        The Metro API defines concrete datatypes for component type definitions, 
+        deployment scenarios, and an extended management model.
+        </p>
+
+        <ul>
+          <li>
+            <a href="../directives/type/index.html">type:</a> 
+            located under a &lt;classname&gt;.type - a serializable datatype 
+            containing information about a component class including characteristics 
+            such as the services provided by the component, the context 
+            assumptions asserted by the implementation, logging assumptions
+            and defaults, etc.  A type may also contain an implemention description
+            in the form of a collection of internal parts.  This information is cached 
+            under the <tt>.type</tt> resource (in XML) for use by deployment tools 
+            and the runtime system.
+          </li>
+          <li>
+            <a href="../directives/component/index.html">directive:</a> 
+            an XML component definition referencable via the <tt>artifact</tt>
+            uri using the <tt>part</tt> type identifier.  The part directive contains 
+            the default deployment profile including the definition of 
+            the component inital context, dependency solutions, and any related 
+            configuration information.  The directives serves as the initial data 
+            used to establish a component model.  The component definition may contain
+            nested component definitions as parts of its internal structure.
+          </li>
+        </ul>
+
+      </subsection>
+
+      <subsection name="Component API">
+
+        <p>
+        The Component API deals with component composition and is 
+        central to the platforms ability to support concurrent deployment of different 
+        container implementations.  The Metro system is the reference implementation
+        of the Component API.
+        </p>
+
+        <p>
+        Using a network accessible <tt>part</tt> datastructrues, the Metro 
+        runtime provides support for the creation of a <tt>Component</tt> via 
+        a <tt>Controller</tt>. The <tt>Component</tt> handles requests 
+        for locating service providers and the establishment of the underlying 
+        component.
+        </p>
+
+        <ul>
+          <li><a href="controller/index.html">controller</a>: 
+              general utility to construct directives from network  
+              accessible resources and handles creation of locally or remotely managed 
+              components.</li>
+          <li><a href="components/index.html">component</a>:  
+              encapsulates a deployment configuration applied to a
+              component type.  Uses an associated lifestyle policy to control 
+              establishment of managed providers.</li>
+          <li><a href="components/provider.html">provider</a>: 
+              handles service provider establishment, runtime state management, and 
+              provider decommissioning.</li>
+        </ul>
+
+      </subsection>
+
+      <subsection name="Part API">
+
+        <p>
+        The <a href="/transit/parts/index.html">Part API</a> deals with a generic 
+        deployment package.  XML part descriptions include a complete classloader 
+        chain definition and the declaration of a deployment strategy.  
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

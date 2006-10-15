@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>Ant Javadoc Archive</title>
+    <description>Javadocs for the Ant System.</description>
+  </properties>
+
+  <body>
+
+    <section name="Jetty Javadocs">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="6.0.0/index.html">6.0.0</a></td>
+          <td>Jetty 6.0.0 Final.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

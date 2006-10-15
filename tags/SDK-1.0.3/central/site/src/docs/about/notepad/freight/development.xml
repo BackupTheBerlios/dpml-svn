@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body>
+    <section name="Freight Train">
+
+      <subsection name="An example component ....">
+
+      <p>
+      Here is an example of a component.
+      </p>
+<source>
+package net.dpml.composition.testing;
+
+import java.util.logging.Logger;
+
+public class ExampleComponent implements MyService
+{
+    private final logger m_logger;
+
+    public ExampleComponent( Logger logger, Context context )
+    {
+        m_logger = logger;
+        m_context = context;
+    }
+    
+    public void doMyStuff()
+    {
+        Dimension dimension = m_context.getDimension();
+        int w = dimension.getWidth();
+        m_logger.info( "Creating a widget with a width of " + w + "." );
+    }
+
+    public interface Context
+    {
+        Dimension getDimension();
+    }
+}
+</source>
+
+      <p>
+      The first notable divergence from classic Metro is the usage
+      of <code>java.util.logging.Logger</code>.  The rational here is 
+      that with the decision to use JDK 1.4 as a base line, the value
+      of another logger class is questionable - in particular, the usage
+      of java.util.logging eliminates a framework dependency.  
+      </p>
+
+      <p>
+      The second point of divergence is the usage of the Context inner 
+      interface in preference to javadoc tag markup.  In this case we have 
+      the declaration by the component that it needs an instance of <code>Dimension</code>.
+      From the Metro point of view this is equivalent to a non-optional 
+      dependency of the type <code>Dimension</code> assigned to the key
+      <code>dimension</code>.
+      </p>
+
+      <p>
+      Another important point in FT is that there is no distinction from the 
+      component implementation point-of-view between context and dependencies
+      thus eliminating the need for <code>net.dpml.context.Context</code> and the 
+      <code>net.dpml.service.ServiceManager</code> framework interfaces.  When
+      combined with the usage of <code>java.util.logging.Logger</code> we are 
+      starting to see the emergence of a sustainable framework independent 
+      component strategy.  
+      </p>
+
+      <p>
+      From a formal point-of-view Context operations are expressed using patterns.  
+      Allowable method patterns within the Context inner interface are listed 
+      below:
+      </p>
+
+<pre>
+[type] get[key]();               // required entry
+[type] get[key]( [default] );    // optional entry
+</pre>
+
+      <p>
+      Declaration of an optional context entry would look like the 
+      following:
+      </p>
+
+<source>
+public class ExampleComponent implements MyService
+{
+    public interface Context
+    {
+        Dimension getDimension( Dimension value );
+    }
+
+    ...
+
+    public void doMyStuff()
+    {
+        Dimesion defaultValue = new DimensionValue( 10, 20 );
+        Dimension dimension = m_context.getDimension( defaultValue );
+        ...
+    }
+}
+</source>
+
+      <p>
+      One concern of the inner-interface approach is the potential level of 
+      verbosity this creates.  This issue can be handled easily by referencing 
+      standard context interfaces.  For example, the following one line context 
+      inner interface demonstrates the definition of the context via extension  
+      of a another context interface.
+      </p>
+
+<source>
+public interface DimensionalContext
+{
+    int getHeight( int h );
+    int getWidth( int w );
+}
+
+public class ExampleComponent implements MyService
+{
+    ...
+
+    public interface Context extends DimensionalContext
+    {
+    }
+}
+</source>
+
+      <p>
+      Constraints applied to context entry method declarations include
+      the following:
+      </p>
+
+      <ol>
+        <li>no exception declarations</li>
+        <li>return type may not be void</li>
+        <li>return type may not be an array (this may be relaxed in the future)</li>
+        <li>zero or one method parameter where the supplied parameter is the default</li>
+        <li>a default parameter type must be assignable from the return type</li>
+      </ol>
+
+      <p>
+      An Ant task has been created that generates a serialized Type for each component.  
+      Unlike the classic javadoc tag based approach, the task uses information 
+      available in Magic to construct the runtime implementation classloader and 
+      uses this to load the component class.  Using introspection the information 
+      about the component is extracted, validated, and stored in a .type 
+      serialized Type holder.  This process enables substantial validation of the 
+      declaration within inner-interfaces and in particular, the integrity of method
+      declarations, return types, and parameter declarations.
+      </p>
+
+      <p>
+      Build time constraints applied during the Context evaluation include:
+      </p>
+
+      <ol>
+        <li>context dependencies shall be declared within an inner interface 
+            named <code>Context</code></li>
+        <li>context return types and parameters will be checked for 
+            accessibility within the runtime implementation classloader established by
+            the Magic build system</li>
+        <li>type assignability between default parameters and return types will 
+            be checked</li>
+      </ol>
+
+      </subsection>
+
+      <subsection name="Creating the component part ...">
+
+      <p>
+      A component part is somewhat similar to the notion of a block in classic
+      Metro, however under FT a number of significant differences are present.  
+      Firstly, a part is stored as a serialized description (a .part file) thereby 
+      eliminating the time consuming XML definition loading, parsing and construction 
+      of deployment directives.  Instead - we load a part and we have the complete 
+      directive ready to work with.  Secondly - with the removal of the notion of 
+      container the definition of a part is a definition of the component deployment 
+      scenario.</p>
+
+      <p>
+      The following fragment of a build file demonstrates the generation of the 
+      component type information and the subsequent usage of that information in 
+      the generation of the component part for the component we have described above.
+      </p>
+
+<source><![CDATA[
+  <target name="build" depends="standard.build">
+
+    <types xmlns="plugin:dpml/composition/dpml-composition-builder">
+      <type class="net.dpml.composition.testing.ExampleComponent"/>
+    </types>
+
+    <component dest="example.part" 
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.composition.testing.ExampleComponent"
+        name="demo">
+      <context>
+        <value key="dimension" class="net.dpml.composition.testing.DimensionValue">
+          <param class="int" value="2"/>
+          <param class="int" value="5"/>
+        </value>
+      </context>
+    </component>
+
+  </target>
+]]></source>
+
+      <p>
+      The above example starts of with the creation of the <code>&lt;types&gt;</code>.
+      The output of each <code>&lt;type/&gt;</code> element is the serialized type
+      descriptor collocated with the class (i.e. basically the same as the .xinfo but
+      in a serialized form and names [classname].type).
+      </p>
+
+      <p>
+      Following type creation we move on with the creation of a <code>&lt;component&gt;</code>
+      part. The <code>&lt;component&gt;</code> element <code>dest</code> attribute tells the task where 
+      to store the serialized descriptor (and if not supplied the output defaults to a classic 
+      deliverables artifact filename).  The <code>type</code> attribute is the reference to the 
+      component type we want to use. The <code>&lt;context&gt;</code> element contains all of 
+      the information describing the fulfillment of the components dependencies.  In the above
+      examples this is limited to the supply of an instance of Dimension.  The solution employed
+      above is to create a simple constructed object using the DimensionValue class by declaring the 
+      classes constructor parameters as nested &lt;param&gt; elements.
+      </p>
+
+      <p>
+      It is important to note that the strategy concerning the creation of the Dimension
+      is totally customizable.  You could for example create your own custom part builder and  
+      declare this inside the <code>&lt;context&gt;</code> element.  
+      </p>
+
+      <p>
+      A second and equally important aspect of the above is that we have removed any notion
+      from the component as to how the dependency is resolved (compared to classic Metro where
+      dependencies were distinct from context entries).  To demonstrate this point, we could
+      replace the above <code>&lt;value&gt;</code> with an alternative solution using a 
+      component strategy.
+      </p>
+
+<source><![CDATA[
+    <component dest="example.part" 
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.composition.testing.ExampleComponent"
+        name="demo">
+      <context>
+        <component key="dimension" type="net.dpml.composition.testing.DimensionComponent"/>
+      </context>
+    </component>
+]]></source>
+
+      <p>
+      In the above examples we have demonstrated alternative approaches to 
+      the population of a context.  In both cases we have a developer in control
+      (in that it is a developer that is writing the component XML). In effect 
+      this is demonstrating "developer" as the point of authority concerning the 
+      establishment of the context values.  But what if we want our application 
+      to take control?  This is where parts and parts management come into play.
+      </p>
+
+      </subsection>
+
+      <subsection name="Parts of a component ...">
+
+      <p>
+      In classic Metro we use the composition api as the framework for dynamic 
+      management.  In Metro FT this is replaced by a <code>Parts</code> inner interface
+      and another set of method patterns supporting instance management, deployment and
+      release.
+      </p>
+
+      <p>
+      The following source code is from the class ExampleContainer.  It is 
+      basically the same as ExampleComponent except that we have included the 
+      Dimension as a part.  As a part the Dimension context is accessible to 
+      the containing component (ExampleContainer) and we can get in there are 
+      do things based on current state.
+      </p>
+
+<source>
+package net.dpml.composition.testing;
+
+import java.util.logging.Logger;
+
+public class ExampleContainer implements Example
+{
+    private final Logger m_logger;
+    private final Context m_context;
+    private final Parts m_parts;
+
+    public ExampleContainer( final Logger logger, final Context context, final Parts parts )
+    {
+        m_logger = logger;
+        m_context = context;
+        m_parts = parts;
+    }
+
+    public void doMyStuff()
+    {
+        //
+        // configure the dimension component's context map
+        //
+
+        Map map = m_parts.getDimensionContextMap();
+        int width = m_context.getWidth( 9 );
+        int height = m_context.getHeight( 7 );
+        map.put( "height", new Integer( height ) );
+        map.put( "width", new Integer( width ) );
+
+        //
+        // get the dimension instance
+        //
+
+        Dimension dimension = m_parts.getDimension();
+        int size = dimension.getSize();
+        m_logger.info( 
+          "Creating a widget with a area of " + size );
+    }
+
+
+    public interface Context extends DimensionalContext{}
+
+    public interface Parts
+    {
+        Map getDimensionContextMap();
+        Dimension getDimension();
+    }
+}
+</source>
+
+      <p>
+      The parts of component are distinct from context in that 
+      parts are exclusivly managed by the containing component.  In the above
+      example the Dimension component model is declared in XML and the 
+      component is reaching into the context model of the Dimension component
+      and modifying height and width values based on it's own context information.
+      After modification of the context the component acquires an instance of 
+      Dimension and proceeds with service execution.
+      </p>
+
+      <p>
+      The formal patterns associated with a Parts inner interface deal with 
+      default and identifiable instances.
+      </p>
+
+      <p>
+      Methods dealing with the default instance include:
+      </p>
+
+<pre>
+   [type] get[key]();                     // return the default service instance
+[manager] get[key]ContextManager();       // return the context manager for the default instance
+      Map get[key]ContextMap();           // return the context map for the default instance
+Component get[key]Component()             // return a model of a Component instance
+    Model get[key]Model()                 // return the Model of a component type
+</pre>
+
+      <p>
+      Methods dealing with the identifiable instance include:
+      </p>
+
+<pre>
+   [type] get[key]( [id] );               // return an identified service instance
+   [type] get[key]( [id], [policy] );     // same as above with control over proxy creation
+[manager] get[key]ContextManager( [id] ); // return the context manager for the identified instance
+      Map get[key]ContextMap( [id] );     // return the context map for the identified instance
+Component get[key]Component( [id] )       // return a model of an identified Component instance
+    Model get[key]Model( [id] )           // return the Model of an identified component type
+</pre>
+
+      <p>
+      In addition to the above the following optional release method signature 
+      is supported:
+      </p>
+
+<pre>
+     void release[key]( [instance] )         // release of a proxy or implementation instance
+</pre>
+
+      <p>
+      In the above examples we are interacting with the context model of the 
+      Dimension component via the <code>java.util.Map</code> interface.  As suggested 
+      by the <code>[manager] get[key]ContextManager( [id] );</code> a type safe
+      management strategy is also provided as demonstrated in the following code 
+      fragment:
+      </p>
+
+<source>
+    public void doMyStuff()
+    {
+        DimensionalContext.Manager manager = 
+          m_parts.getDimensionContextManager();
+        manager.setHeight( height );
+        manager.setWidth( width );
+
+        Dimension dimension = m_parts.getDimension();
+        int size = dimension.getSize();
+        m_logger.info( 
+          "Creating a widget with a area of " + size );
+    }
+
+    public interface Parts
+    {
+        DimensionalContext.Manager getDimensionContextManager();
+        Dimension getDimension();
+    }
+</source>
+
+     <p>
+     Where DimensionContext and the associated inner Manager are defined as:
+     </p>
+
+<source>
+public interface DimensionalContext
+{
+    int getHeight( int h );
+    int getWidth( int w );
+
+    interface Manager extends DimensionalContext
+    {
+        void setWidth( int width );
+        void setHeight( int height );
+    }
+}
+</source>
+
+     <p>
+     In effect the Parts interface and its associated patterns provide
+     a framework for management of internal parts with minimal API 
+     intrusion (significantly reducing the OS risk factor).
+     </p>
+
+      </subsection>
+
+      <subsection name="Parts within parts ...">
+
+     <p>
+     The following part descriptor demonstrates the creation of a part 
+     containing another part within itself.  Nested parts are declared within
+     the <code>&lt;parts&gt;</code> element.  Support for custom part handlers
+     is provided at the build level, allowing for example the inclusion of a 
+     completely foreign part as a intrinsic part of the containing part.  This 
+     feature will enable 'radical' development of the metro platform while 
+     retaining runtime compatibility with prior releases.
+     </p>
+
+     <p>The part descriptor:</p>
+
+<source><![CDATA[
+    <component dest="target/test/acme-example-three.part" 
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.composition.testing.ExampleContainer"
+        name="demo">
+      <parts>
+        <component key="dimension" type="net.dpml.composition.testing.DimensionComponent"/>
+      </parts>
+    </component>
+]]></source>
+
+      </subsection>
+
+      <subsection name="Parts by reference ...">
+
+     <p>
+     In addition to the classic declaration of parts - support has been included
+     for parts-by-reference.  The following <code>&lt;component&gt;</code> delcaration 
+     has a <code>&lt;parts&gt;</code> element that is using the <code>&lt;part&gt;</code>
+     element to include a foreign part by reference to a Transit artifact uri.
+     </p>
+
+<source><![CDATA[
+    <x:property key="dpml-composition-testing-acme" feature="uri" type="part" name="acme.uri"/>
+    <component dest="target/test/acme-example-four.part" 
+        xmlns="plugin:dpml/composition/dpml-composition-builder" 
+        type="net.dpml.composition.testing.ExampleContainer"
+        name="demo">
+      <parts>
+        <part key="dimension" uri="${acme.uri}"/>
+      </parts>
+    </component>
+]]></source>
+
+      </subsection>
+
+      <subsection name="Observations, issues and questions ...">
+
+      <p>
+      While the current development effort is looking promising there 
+      are number of issues still to addressed.  These topics are covered
+      in the <a href="observations.html">following section</a>.
+      </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

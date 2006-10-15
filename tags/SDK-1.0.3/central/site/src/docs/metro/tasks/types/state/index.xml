@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Type State Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="State Datatype">
+
+      <subsection name="Description">
+
+        <p>
+        A state is an immutable datastructure that defines a collection 
+        of available transitions, management operations, and possibly
+        initialization or termination triggers.  Actionable features
+        of a state are exposed when the state is within the current state path.
+        The current state path is a path composed of the current state, it's 
+        parent, parent's patrent, etc. unit the root state is reached.  As 
+        such, any operations declared within the root state will always be 
+        available where operations and/transitions in sub-states will only
+        available if the associated state is present in the state path.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Set the state name (required on sub-states).</td>
+          </tr>
+          <tr>
+            <td><tt>terminal</tt></td>
+            <td>If set to 'true' the state will be classified as a terminal state.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="trigger/index.html">trigger</a></tt></td>
+            <td>An initialization or termination trigger.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="index.html">state</a></tt></td>
+            <td>A nested state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="transition.html">transition</a></tt></td>
+            <td>A state transition.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="operation.html">operation</a></tt></td>
+            <td>A management operation.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+<pre><![CDATA[
+<c:type class="net.dpml.test.state.ManagedComponent" name="demo" lifestyle="thread">
+  <state>
+    <operation name="ping" method="ping"/>
+    <operation name="monitor"/>
+    <trigger event="initialization">
+      <transition name="startup" target="started">
+        <operation method="start"/>
+      </transition>
+    </trigger>
+    <state name="started">
+      <trigger event="termination">
+        <apply id="stop"/>
+      </trigger>
+      <transition name="stop" target="../stopped">
+        <operation method="stop"/>
+      </transition>
+    </state>
+    <state name="stopped">
+      <transition name="start" target="../started">
+        <operation method="start"/>
+      </transition>
+    </state>
+  </state>
+</c:type>
+]]></pre>
+
+    </section>
+
+    <section name="Technical Note">
+
+      <subsection name="Importing a State Graph">
+
+        <p>
+        As an alternative to the above attributes and nested elements, a 
+        state graph may be imported from an external source.  For example, a 
+        graph defining a common lifecycle model can be shared across multiple 
+        components.
+        </p>
+
+      </subsection>
+
+      <subsection name="XGraph Resource">
+
+        <p>
+        The following example demonstrates the import of a state graph 
+        using the <tt>class</tt> attribute.  The classname supplied must 
+        be a class that has a collocated <tt>.xgraph</tt> resource.  The 
+        <tt>.xgraph</tt> resource is an XML file containing a state model 
+        described using the same attribute and element combinanations as 
+        described above.
+        </p>
+
+<pre><![CDATA[
+<c:type name="http" class="net.dpml.http.impl.HttpServerImpl" threadsafe="true">
+  <state class="net.dpml.activity.Startable"/>
+</c:type>
+]]></pre>
+
+      </subsection>
+
+      <subsection name="Graph Artifact">
+
+        <p>
+        Another alternative is to reference a state graph as a published 
+        artifact using the <tt>uri</tt> attribute. 
+        </p>
+
+<pre><![CDATA[
+<c:type class="org.acme.DefaultWidget" name="widget">
+  <state uri="artifact:state:acme/widget/acme-widget#123"/>
+</c:type>
+]]></pre>
+
+        <p>
+        The original graph artifact may be created using the 
+        <a href="../../graph/index.html">state graph artifact 
+        builder task</a>.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

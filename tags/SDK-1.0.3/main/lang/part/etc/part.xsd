@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="@PROJECT-XSD-SPEC-URI@"
+            xmlns:module="@MODULE-XSD-SPEC-URI@"
+            targetNamespace="@PROJECT-XSD-SPEC-URI@"
+            elementFormDefault="qualified"
+            >
+    
+    <import namespace="@MODULE-XSD-SPEC-URI@" schemaLocation="@MODULE-XSD-SPEC-URI@"/>
+    
+    <element name="part" type="this:PartType"/>
+    <element name="strategy" type="this:StrategyType" substitutionGroup="module:typedef"/>
+    <element name="plugin" type="this:plugin" substitutionGroup="this:strategy"/>
+    <element name="resource" type="this:resource" substitutionGroup="this:strategy"/>
+    <element name="codebase" type="this:CodeBaseType"/>
+    <element name="param" type="this:ValueType"/>
+    
+    <complexType name="PartType">
+      <sequence>
+        <element name="info" type="this:InfoType" minOccurs="1" maxOccurs="1"/>
+        <element ref="this:strategy" minOccurs="1" maxOccurs="1"/>
+        <element name="classpath" type="this:ClassPathType" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="StrategyType" abstract="true">
+      <complexContent>
+        <extension base="module:AbstractType"/>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="plugin">
+      <complexContent>
+        <extension base="this:StrategyType">
+          <sequence>
+            <element name="param" type="this:ValueType" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+          <attribute name="class" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="resource">
+      <complexContent>
+        <extension base="this:StrategyType">
+          <attribute name="urn" type="string" use="required"/>
+          <attribute name="path" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="ClassPathType">
+      <sequence>
+        <element name="system" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="public" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="protected" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="private" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ClassLoaderType">
+      <sequence>
+        <element name="uri" type="this:URIType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="InfoType">
+      <sequence>
+        <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+    </complexType>
+
+    <complexType name="URIType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="URNType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="ValueType">
+      <sequence>
+        <element ref="this:param" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="class" type="string"/>
+      <attribute name="value" type="string"/>
+      <attribute name="method" type="string"/>
+    </complexType>
+
+    <complexType name="TaggedValueType">
+      <complexContent>
+        <extension base="this:ValueType">
+          <attribute name="key" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="codebase">
+      <complexContent>
+        <extension base="this:CodeBaseType">
+          <sequence>
+            <element ref="this:param" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="CodeBaseType" abstract="true">
+      <attribute name="uri" type="anyURI"/>
+    </complexType>
+    
+    <simpleType name="URI">
+      <restriction base="anyURI"/>
+    </simpleType>
+    
+
+</schema>
+

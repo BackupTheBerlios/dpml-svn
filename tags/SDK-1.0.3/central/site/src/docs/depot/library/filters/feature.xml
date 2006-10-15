@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Type Production</title>
+  </properties> 
+
+  <body>
+
+    <section name="Feature-based Filter">
+
+      <p>
+      A feature-based filter is a filter with a value resolved relative
+      to a requested feature identifier against the current or selected 
+      project. 
+      </p>
+
+      <subsection name="Attributes">
+      
+      <table>
+        <tr>
+          <td>token</td>
+          <td>The filter token (required).</td>
+        </tr>
+        <tr>
+          <td>ref</td>
+          <td>Optional reference to a project or resource that the feature request refers
+              (if undeclared the feature will be resolved relative to the current project).</td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td>The feature keyword (see feature list below).</td>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>Required when referencing a feature of type produced by a resource type (see feature list).
+            The value refers to a resource type id declared by a resource or project.</td>
+        </tr>
+      </table>
+
+      </subsection>
+
+      <subsection name="Special URI Feature related Attributes">
+      
+      <table>
+        <tr>
+          <td>alias</td>
+          <td>If <tt>true</tt> the artifact uri returned for the uri feature will 
+          be a link (assuming that the resource declares production of
+          an link alias).</td>
+        </tr>
+      </table>
+
+      </subsection>
+      
+      <subsection name="Features">
+      
+        <p>
+        Available features are listed in the following table.
+        </p>
+
+        <table>
+          <tr>
+            <td>name</td>
+            <td>The resource name.</td>
+          </tr>
+          <tr>
+            <td>group</td>
+            <td>The resource group.</td>
+          </tr>
+          <tr>
+            <td>version</td>
+            <td>The resource version.</td>
+          </tr>
+          <tr>
+            <td>uri</td>
+            <td>The full artifact uri (requires type attribute).</td>
+          </tr>
+          <tr>
+            <td>spec</td>
+            <td>Short form of uri.  The spec value is equivalent to the 
+              uri with the "artifact:" protocol identifier (requires type attribute).</td>
+          </tr>
+          <tr>
+            <td>filename</td>
+            <td>The filename of the final artifact that the resource represents (requires type attribute).</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following project definition declares four feature-based filters to be applied
+      during project build.
+      </p>
+
+<source><![CDATA[
+  <project name="dpml-metro-component" basedir="component">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-state-api" tag="public"/>
+        <include ref="dpml/metro/dpml-job-api" tag="public"/>
+        <include ref="dpml/transit/dpml-transit-main" tag="private"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" type="part" ref="dpml/metro/dpml-metro-runtime"/>
+    </filters>
+  </project>
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+
+
+
