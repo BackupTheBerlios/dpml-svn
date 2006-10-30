@@ -748,7 +748,8 @@ public class TransitConsoleHandler
             {
                 try
                 {
-                    URL url = config.toURL();
+                    URI uri = config.toURI();
+                    URL url = uri.toURL();
                     TransitBuilder builder = new TransitBuilder( m_logger );
                     return builder.load( url );
                 }

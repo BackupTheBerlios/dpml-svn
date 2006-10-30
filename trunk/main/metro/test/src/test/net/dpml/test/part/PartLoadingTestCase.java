@@ -56,7 +56,7 @@ public class PartLoadingTestCase extends TestCase
     */
     public void testPartLoading() throws Exception
     {
-        Logger.global.info( "commencing test" );
+        Logger.getLogger( "global" ).info( "commencing test" );
         
         // initialize transit
         
@@ -71,7 +71,7 @@ public class PartLoadingTestCase extends TestCase
         
         model.dispose();
         
-        Logger.global.info( "test complete." );
+        Logger.getLogger( "global" ).info( "test complete." );
     }
     
     static

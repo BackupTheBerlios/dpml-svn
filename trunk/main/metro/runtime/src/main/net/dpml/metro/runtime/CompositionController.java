@@ -485,7 +485,7 @@ public class CompositionController implements Controller, Builder
             String path = System.getProperty( "user.dir" );
             File file = new File( path );
             URI uri = file.toURI();
-            URL url = file.toURL();
+            URL url = uri.toURL();
             return url.toString();
         }
         catch( Exception e )

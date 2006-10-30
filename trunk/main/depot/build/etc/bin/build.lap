@@ -9,6 +9,7 @@
 -Djava.endorsed.dirs=${env.DPML_HOME}\share\lib\endorsed
 -Ddpml.depot.application=dpml.builder
 -Djava.protocol.handler.pkgs=net.dpml.transit
+-Dcom.sun.management.jmxremote
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4.0
 janel.classpath.jars.dir=${env.DPML_HOME}\share\lib

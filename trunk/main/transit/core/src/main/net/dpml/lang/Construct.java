@@ -902,7 +902,8 @@ public class Construct implements Value, Serializable
     {
         try
         {
-            return loader.loadClass( classname );
+            //return loader.loadClass( classname ); // fails under JDK6, see bug parade 6446627 
+            return Class.forName( classname, false, loader );
         }
         catch( final ClassNotFoundException e )
         {

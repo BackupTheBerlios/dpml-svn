@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.AccessController;
@@ -206,7 +207,9 @@ public class LocalURLConnection extends URLConnection
         {
             if( null != m_target )
             {
-                return m_target.toURL().getContent( classes );
+                URI uri = m_target.toURI();
+                URL url = uri.toURL();
+                return url.getContent( classes );
             }
             else
             {

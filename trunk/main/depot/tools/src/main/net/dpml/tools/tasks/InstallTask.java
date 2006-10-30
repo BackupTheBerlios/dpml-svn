@@ -170,7 +170,7 @@ public class InstallTask extends GenericTask
                 if( out.exists() )
                 {
                     ArtifactLinkManager manager = new ArtifactLinkManager();
-                    URI enclosed = manager.getTargetURI( new URI( out.toURL().toString() ) );
+                    URI enclosed = manager.getTargetURI( out.toURI() );
                     if( artifact.toURI().equals( enclosed ) )
                     {
                         flag = false;

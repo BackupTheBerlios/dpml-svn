@@ -145,7 +145,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         }
         if( null != path )
         {
-            URL url = Artifact.createArtifact( path ).toURL();
+            URI uri = Artifact.createArtifact( path ).toURI();
+            URL url = uri.toURL();
             TransitBuilder builder = new TransitBuilder( logger );
             TransitDirective directive =  builder.load( url );
             return new DefaultTransitModel( EVENT_QUEUE, logger, directive );
@@ -156,7 +157,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             File config = new File( prefs, "dpml/transit/xmls/standard.xml" );
             if( config.exists() )
             {
-                URL url = config.toURL();
+                URI uri = config.toURI();
+                URL url = uri.toURL();
                 TransitBuilder builder = new TransitBuilder( logger );
                 TransitDirective directive =  builder.load( url );
                 return new DefaultTransitModel( EVENT_QUEUE, logger, directive );

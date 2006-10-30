@@ -5,7 +5,7 @@
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
     
   <properties>
-    <property name="project.micro.version" value="2"/>
+    <property name="project.micro.version" value="3"/>
   </properties>
 
   <project name="dpml-metro-state" basedir="state">
@@ -138,7 +138,7 @@
     </info>
     <properties>
       <property name="project.minor.version" value="1"/>
-      <property name="project.micro.version" value="1"/>
+      <property name="project.micro.version" value="2"/>
     </properties>
     <types>
       <type id="jar"/>
@@ -168,7 +168,7 @@
     <properties>
       <property name="project.javadoc.exclude" value="true"/>
       <property name="project.minor.version" value="1"/>
-      <property name="project.micro.version" value="1"/>
+      <property name="project.micro.version" value="2"/>
     </properties>
     <types>
       <type id="jar"/>

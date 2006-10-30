@@ -57,7 +57,8 @@ public final class SystemClassLoader extends StandardClassLoader
                 File jdk = jre.getParentFile();
                 File lib = new File( jdk, "lib" );
                 File jar = new File( lib, "tools.jar" );
-                URL url = jar.toURL();
+                URI uri = jar.toURI();
+                URL url = uri.toURL();
                 addURL( url );
             }
             catch( Throwable e )

@@ -16,7 +16,7 @@
       <description>Transit preferences commandline handler.</description>
     </info>
     <properties>
-      <property name="project.micro.version" value="3"/>
+      <property name="project.micro.version" value="4"/>
     </properties>
     <types>
       <type id="jar"/>
@@ -42,7 +42,7 @@
       <description>Transit resource management system.</description>
     </info>
     <properties>
-      <property name="project.micro.version" value="2"/>
+      <property name="project.micro.version" value="3"/>
     </properties>
     <types>
       <type id="jar"/>
@@ -68,7 +68,7 @@
       <description>Transit tools for the Ant build system.</description>
     </info>
     <properties>
-      <property name="project.micro.version" value="2"/>
+      <property name="project.micro.version" value="3"/>
     </properties>
     <types>
       <type id="jar"/>

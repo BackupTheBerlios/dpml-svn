@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.net.URI;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -360,9 +361,11 @@ public class JUnitTestTask extends GenericTask
             log.setKey( "dpml.logging.config" );
             try
             {
-                log.setValue( logProperties.toURL().toString() );
+                URI logPropertiesURI = logProperties.toURI();
+                String logPropertiesSpec = logPropertiesURI.toString();
+                log.setValue( logPropertiesSpec );
             }
-            catch( IOException e )
+            catch( Exception e )
             {
                 final String error = 
                   "Unexpected file to url error."
@@ -424,10 +427,10 @@ public class JUnitTestTask extends GenericTask
             {
                 InputStream input = new FileInputStream( properties );
                 props.load( input );
-                Enumeration enum = props.propertyNames();
-                while( enum.hasMoreElements() )
+                Enumeration enumeration = props.propertyNames();
+                while( enumeration.hasMoreElements() )
                 {
-                    String name = (String) enum.nextElement();
+                    String name = (String) enumeration.nextElement();
                     final Environment.Variable v = new Environment.Variable();
                     v.setKey( name );
                     v.setValue( props.getProperty( name ) );

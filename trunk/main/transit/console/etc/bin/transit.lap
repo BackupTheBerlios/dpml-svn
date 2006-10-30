@@ -8,6 +8,7 @@
 -Ddpml.depot.application=dpml.transit
 -Djava.protocol.handler.pkgs=net.dpml.transit
 -Djava.rmi.server.RMIClassLoaderSpi=net.dpml.depot.DepotRMIClassLoaderSpi
+-Dcom.sun.management.jmxremote
 janel.main.class=net.dpml.depot.Main
 janel.min.java.version=1.4
 janel.classpath.jars.dir=${env.DPML_HOME}\share\lib
