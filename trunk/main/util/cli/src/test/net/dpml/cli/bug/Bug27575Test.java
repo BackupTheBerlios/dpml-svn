@@ -22,7 +22,8 @@ import net.dpml.cli.Option;
 import net.dpml.cli.builder.PatternBuilder;
 import net.dpml.cli.option.GroupImpl;
 
-import java.util.Iterator;
+import java.util.List;
+//import java.util.Iterator;
 
 /**
  * DOCUMENT ME!
@@ -39,14 +40,23 @@ public class Bug27575Test extends TestCase
     {
         PatternBuilder builder = new PatternBuilder(  );
         builder.withPattern( "hc!<" );
-
         Option option = builder.create(  );
         assertTrue( option instanceof GroupImpl );
-
         GroupImpl group = (GroupImpl) option;
-        Iterator i = group.getOptions(  ).iterator(  );
-        assertEquals( "[-h]", i.next(  ).toString(  ) );
-        assertEquals( "-c <arg>", i.next(  ).toString(  ) );
-        assertFalse( i.hasNext(  ) );
+        List options = group.getOptions();
+        assertEquals( "size", 2, options.size() );
+        Object[] entries = options.toArray();
+        for( int i=0; i<entries.length; i++ )
+        {
+            String entry = entries[i].toString();
+            if( entry.equals( "[-h]" ) || entry.equals( "-c <arg>" ) )
+            {
+                // ok
+            }
+            else
+            {
+                throw new RuntimeException( "Incorrect option [" + entry + "]" );
+            }
+        }
     }
 }
