@@ -23,9 +23,6 @@
 
   <body>
     <menu>
-      <item name="SE6/JMX" href="SE6/index.html"/>
-      <item name="JSR 277 Modules" href="277/index.html"/>
-      <item name="Registration and Discovery" href="discovery/index.html"/>
     </menu>
   </body>
 
