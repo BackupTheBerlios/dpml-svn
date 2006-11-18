@@ -28,6 +28,7 @@ import net.dpml.library.Library;
 import net.dpml.library.Resource;
 
 import net.dpml.tools.Context;
+import net.dpml.tools.BuildError;
 import net.dpml.tools.info.BuilderDirective;
 import net.dpml.tools.info.BuilderDirectiveHelper;
 
@@ -138,8 +139,42 @@ public class StandardBuilder implements Builder
     */
     public boolean build( Resource resource, String[] targets )
     {
-        Project project = createProject( resource );
-        File template = getTemplateFile( resource );
+        Project project = null;
+        File template = null;
+        try
+        {
+            project = createProject( resource );
+        }
+        catch( Throwable e )
+        {
+            m_result = e;
+            if( m_logger.isErrorEnabled() )
+            {
+                final String error = 
+                  "Failed to construct embedded project."
+                  + "\nResource: " + resource.getResourcePath()
+                  + "\nBasedir: " + resource.getBaseDir();
+                m_logger.error( error, e );
+            }
+            return false;
+        }
+        try
+        {
+            template = getTemplateFile( resource );
+        }
+        catch( Throwable e )
+        {
+            m_result = e;
+            if( m_logger.isErrorEnabled() )
+            {
+                final String error = 
+                  "Failed to load template file."
+                  + "\nResource: " + resource.getResourcePath()
+                  + "\nBasedir: " + resource.getBaseDir();
+                m_logger.error( error, e );
+            }
+            return false;
+        }
         return build( resource, project, template, targets );
     }
     
@@ -224,7 +259,7 @@ public class StandardBuilder implements Builder
               "Unexpected error while attempting to resolve project template."
               + "\nResource path: " 
               + resource.getResourcePath();
-            throw new BuildException( error, e );
+            throw new BuildError( error, e );
         }
     }
     
@@ -291,6 +326,27 @@ public class StandardBuilder implements Builder
             }
             return false;
         }
+        catch( Throwable e )
+        {
+            System.out.println( 
+              "# UNEXPECTED: " 
+              + e.toString() 
+              + " (" 
+              + m_logger.isErrorEnabled() 
+              + ")" );
+              
+            m_result = e;
+            if( m_logger.isErrorEnabled() )
+            {
+                final String error = 
+                  "Build error."
+                  + "\nProject: " + resource.getResourcePath()
+                  + "\nBasedir: " + resource.getBaseDir()
+                  + "\nTemplate: " + template;
+                m_logger.error( error, e );
+            }
+            return false;
+        }
         finally
         {
             project.fireBuildFinished( m_result );
@@ -327,7 +383,7 @@ public class StandardBuilder implements Builder
             final String error = 
               "Unable to establish build context." 
               + "\nProject: " + resource;
-            throw new BuildException( error, e );
+            throw new BuildError( error, e );
         }
     }
     

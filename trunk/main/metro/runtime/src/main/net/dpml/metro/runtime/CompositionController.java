@@ -111,7 +111,7 @@ public class CompositionController implements Controller, Builder
         m_listener = new InternalControllerContextListener();
         m_context.addControllerContextListener( m_listener );
         m_controller = new ComponentController( m_logger, this );
-        m_events = new EventQueue( m_logger );
+        m_events = new EventQueue( m_logger, "DPML Metro Event Queue" );
     }
     
     EventQueue getEventQueue()

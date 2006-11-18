@@ -38,6 +38,7 @@ import net.dpml.library.Resource;
 import net.dpml.transit.Artifact;
 
 import net.dpml.tools.Context;
+import net.dpml.tools.BuildError;
 
 import net.dpml.util.DefaultLogger;
 
@@ -128,9 +129,11 @@ public class PartTask extends GenericTask
                     return;
                 }
             }
-            catch( Exception e )
+            catch( Throwable e )
             {
-                // continue
+                final String error = 
+                  "Part comparisom failure.";
+                throw new BuildError( error, e );
             }
         }
         
@@ -161,7 +164,7 @@ public class PartTask extends GenericTask
         {
             final String error = 
               "Part externalization error.";
-            throw new BuildException( error, e );
+            throw new BuildError( error, e );
         }
     }
     
@@ -205,7 +208,7 @@ public class PartTask extends GenericTask
             final String error = 
               "Internal error while attempting to build an external part definition."
               + "\nResource: " + resource;
-            throw new BuildException( error, e, getLocation() );
+            throw new BuildError( error, e, getLocation() );
         }
     }
     

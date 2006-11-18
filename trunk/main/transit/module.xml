@@ -8,7 +8,7 @@
     <property name="project.test.fork" value="true"/>
     <property name="project.major.version" value="1"/>
     <property name="project.minor.version" value="0"/>
-    <property name="project.micro.version" value="3"/>
+    <property name="project.micro.version" value="4"/>
   </properties>
 
   <project name="dpml-transit-console" basedir="console">
@@ -77,6 +77,25 @@
       <runtime>
         <include key="dpml-transit-main"/>
         <include ref="ant/ant"/>
+      </runtime>
+    </dependencies>
+  </project>
+
+  <project name="dpml-transit-jmx" basedir="jmx">
+    <info title="DPML Transit JMX">
+      <description>Transit JMX Management Support.</description>
+    </info>
+    <properties>
+      <property name="project.major.version" value="0"/>
+      <property name="project.minor.version" value="0"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-transit-main"/>
       </runtime>
     </dependencies>
   </project>

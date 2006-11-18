@@ -51,6 +51,11 @@ public class JavacTask extends MatchingTask
    /**
     * Constant debug key.
     */ 
+    public static final String VERBOSE_KEY = "project.javac.verbose";
+
+   /**
+    * Constant debug key.
+    */ 
     public static final String DEBUG_KEY = "project.javac.debug";
 
    /**
@@ -179,6 +184,12 @@ public class JavacTask extends MatchingTask
         if( null != lint )
         {
             javac.createCompilerArg().setValue( "-Xlint:" + lint );
+        }
+        
+        String verbose = getProperty( "project.javac.verbose", "false" );
+        if( "true".equals( verbose ) )
+        {
+            javac.setVerbose( true );
         }
         
         final Path srcDirPath = new Path( project );

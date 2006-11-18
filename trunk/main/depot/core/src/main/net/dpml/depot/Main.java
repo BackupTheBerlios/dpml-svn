@@ -24,6 +24,7 @@ import java.net.URI;
 import java.rmi.RMISecurityManager;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.LogManager;
 
 import net.dpml.transit.Disposable;
 import net.dpml.transit.Transit;
@@ -85,11 +86,11 @@ public final class Main //implements ShutdownHandler
     
     private Main( String[] arguments )
     {
-        String[] args = processSystemProperties( arguments );
-
         //
         // check for debug and trace cli options
         //
+        
+        String[] args = arguments;
         
         if( CLIHelper.isOptionPresent( args, "-trace" ) )
         {
@@ -105,6 +106,8 @@ public final class Main //implements ShutdownHandler
             m_debug = true;
         }
         
+        args = processSystemProperties( args );
+
         //
         // handle cli sub-system establishment
         //
@@ -397,6 +400,14 @@ public final class Main //implements ShutdownHandler
     {
         if( null == m_LOGGER )
         {
+            try
+            {
+                LogManager.getLogManager().readConfiguration();
+            }
+            catch( Throwable e )
+            {
+                e.printStackTrace();
+            }
             String category = System.getProperty( "dpml.logging.category", "depot" );
             m_LOGGER = new LoggingAdapter( java.util.logging.Logger.getLogger( category ) );
         }
@@ -417,6 +428,17 @@ public final class Main //implements ShutdownHandler
         return buffer.toString();
     }
     
+   /**
+    * For all of the supplied command line arguments, if the 
+    * argument is in the form -Dabc=def then extract the argument from
+    * the array and apply it as a system property.  All non-system property
+    * arguments are included in the returned argument array.
+    *
+    * @param args the supplied commandline arguments including 
+    *   system property assignments
+    * @return the array of pure command line arguments (excluding
+    *   and arg values recognized as system property declarations
+    */
     private String[] processSystemProperties( String[] args )
     {
         ArrayList result = new ArrayList();

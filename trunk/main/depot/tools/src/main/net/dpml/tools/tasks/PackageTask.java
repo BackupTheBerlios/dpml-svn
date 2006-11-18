@@ -23,6 +23,7 @@ import java.io.File;
 import net.dpml.library.Resource;
 
 import net.dpml.tools.Context;
+import net.dpml.tools.BuildError;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -81,9 +82,12 @@ public class PackageTask extends GenericTask
             }
             catch( Throwable e )
             {
+                e.printStackTrace();
                 final String error = 
-                  "Unexpected failure during part externalization.";
-                throw new BuildException( error, e );
+                  "Unexpected failure during part externalization in ["
+                    + resource.getName()
+                    + "]";
+                throw new BuildError( error, e, getLocation() );
             }
         }
         

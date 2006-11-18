@@ -85,8 +85,8 @@ public class TransitBuilder
           RESOURCE, null )
     };
 
-    private static final DTDResolver DTD_RESOLVER =
-        new DTDResolver( DTDS, TransitBuilder.class.getClassLoader() );
+    //private static final DTDResolver DTD_RESOLVER =
+    //    new DTDResolver( DTDS, TransitBuilder.class.getClassLoader() );
 
     private Logger m_logger;
     
@@ -116,7 +116,9 @@ public class TransitBuilder
         factory.setNamespaceAware( true );
         factory.setExpandEntityReferences( true );
         DocumentBuilder builder = factory.newDocumentBuilder();
-        builder.setEntityResolver( DTD_RESOLVER );
+        DTDResolver resolver =
+          new DTDResolver( DTDS, getClass().getClassLoader() );
+        builder.setEntityResolver( resolver );
         ErrorHandler errors = new SaxMonitor( m_logger );
         builder.setErrorHandler( errors );
         

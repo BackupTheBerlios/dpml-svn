@@ -55,12 +55,12 @@ public final class Transit
     public static final String HOME_KEY = "dpml.home";
 
    /**
-    * DPML home key.
+    * DPML data key.
     */
     public static final String DATA_KEY = "dpml.data";
 
    /**
-    * DPML home key.
+    * DPML prefs key.
     */
     public static final String PREFS_KEY = "dpml.prefs";
 

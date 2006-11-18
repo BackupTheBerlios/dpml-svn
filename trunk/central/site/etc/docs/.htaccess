@@ -13,7 +13,7 @@ RedirectMatch ^/transit/overview.html http://www.dpml.net/transit/concepts/index
 RedirectMatch ^/about/setup(.*) http://www.dpml.net/about/download/index.html
 RedirectMatch ^/index.html http://www.dpml.net/about/index.html
 RedirectMatch ^/index.htm http://www.dpml.net/about/index.html
-RedirectMatch ^/metro/station/cli(.*) http://www.dpml.net/station/cli
+RedirectMatch ^/metro/station/* http://www.dpml.net/station/index.html
 RedirectMatch ^/milestones/* http://download.dpml.net/milestones/index.html
 RedirectMatch ^/dpml/1.0.0-1692/* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/dpml/1.0.0-RC* http://api.dpml.net/dpml/@VERSION@/index.html

@@ -130,6 +130,7 @@
         <include ref="dpml/transit/dpml-transit-main" tag="public"/>
         <include ref="dpml/station/dpml-station-api" tag="public"/>
         <include ref="dpml/station/dpml-station-builder" tag="protected"/>
+        <include ref="dpml/transit/dpml-transit-jmx" tag="protected"/>
         <include ref="dpml/util/dpml-util-cli"/>
         </runtime>
       <test>

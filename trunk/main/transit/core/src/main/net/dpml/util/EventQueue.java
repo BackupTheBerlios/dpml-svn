@@ -49,28 +49,58 @@ public class EventQueue
 
    /**
     * Creation of a new event queue.
-    * @param name the name used to construct a logging channel
+    * @param category the name used to construct a logging channel
+    * @deprecated Use new EventQueue( logger, "Thread name" ) instead.
     */
-    public EventQueue( String name ) 
+    public EventQueue( String category ) 
     {
-        this( getLoggerForCategory( name ) );
+        this( category, "Event Dispatch Thread" );
     }
 
    /**
     * Creation of a new model.
     * @param logger the assigned logging channel
     * @exception NullPointerException if the supplied logging channel is null
+    * @deprecated Use new EventQueue( logger, "Thread name" ) instead.
     */
     public EventQueue( Logger logger ) 
+      throws NullPointerException
+    {
+        this( logger, "Event Dispatch Thread" );
+    }
+    
+   /**
+    * Creation of a new event queue.
+    * @param category the name used to construct a logging channel
+    * @param name the name to assign to the thread
+    */
+    public EventQueue( String category, String name ) 
+    {
+        this( getLoggerForCategory( category ), name );
+    }
+
+   /**
+    * Creation of a new model.
+    * @param logger the assigned logging channel
+    * @param name the name to assign to the thread
+    * @exception NullPointerException if the supplied logging channel or 
+    *   thread name is null
+    */
+    public EventQueue( Logger logger, String name ) 
       throws NullPointerException
     {
         if( null == logger )
         {
             throw new NullPointerException( "logger" );
         }
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
         m_logger = logger;
         m_queue = new LinkedList();
         m_thread = new EventDispatchThread();
+        m_thread.setName( name );
         m_thread.setDaemon( true );
         m_thread.start();
     }

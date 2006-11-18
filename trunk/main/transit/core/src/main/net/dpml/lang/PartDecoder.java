@@ -385,7 +385,6 @@ public final class PartDecoder implements Decoder
     * the builder, and returning the plugin instance as a builder instance.
     *
     * @param uri the part builder uri
-    * @see Builder
     * @exception DecodingException if a part decoding error occurs
     * @exception Exception if part loading error occurs
     */
@@ -423,7 +422,7 @@ public final class PartDecoder implements Decoder
         Logger logger = getLogger();
         Object[] args = new Object[]{logger};
         Object object = part.instantiate( args );
-        if( object instanceof Builder )
+        if( Builder.class.isAssignableFrom( object.getClass() ) )
         {
             Builder builder = (Builder) object;
             WeakReference reference = new WeakReference( builder );
@@ -432,12 +431,18 @@ public final class PartDecoder implements Decoder
         }
         else
         {
+            String stack = 
+              StandardClassLoader.toString(
+                getClass().getClassLoader(), 
+                object.getClass().getClassLoader() );
+            String classname = object.getClass().getName();
             final String error = 
-              "Plugin does not implement the "
+              "Plugin instance is not assignable to the "
               + Builder.class.getName()
               + " interface."
-              + "\nURI: " + uri 
-              + "\nClass: " + object.getClass().getName();
+              + "\n  URI: " + uri 
+              + "\n  Class: " + classname
+              + "\n" + stack;
             throw new PartException( error );
         }
     }

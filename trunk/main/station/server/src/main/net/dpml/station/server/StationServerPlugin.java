@@ -38,6 +38,7 @@ import net.dpml.station.ApplicationRegistry;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.model.TransitModel;
+import net.dpml.transit.management.TransitController;
 
 import net.dpml.util.Logger;
 
@@ -99,6 +100,32 @@ public class StationServerPlugin implements Runnable
     {
         try
         {
+            // register MBeans
+            
+            String jmxEnabled = System.getProperty( "dpml.transit.jmx.enabled" );
+            if( "true".equals( jmxEnabled ) )
+            {
+                try
+                {
+                    new TransitController( m_logger, m_model );
+                    m_logger.info( "Transit controller established." );
+                }
+                catch( NoClassDefFoundError ncdfe )
+                {
+                    if( m_logger.isWarnEnabled() )
+                    {
+                        m_logger.warn( "JMX resources unavailable." );
+                    }
+                }
+                catch( ClassNotFoundException cnfe )
+                {
+                    if( m_logger.isWarnEnabled() )
+                    {
+                        m_logger.warn( "JMX resources unavailable." );
+                    }
+                }
+            }
+            
             int port = getPortValue( m_line, Registry.REGISTRY_PORT );
             URI uri = (URI) m_line.getValue( URI_OPTION, null );
             if( null == uri )

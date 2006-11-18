@@ -20,6 +20,9 @@ package net.dpml.transit;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+
+import net.dpml.lang.StandardClassLoader;
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -42,7 +45,7 @@ class DTDResolver implements EntityResolver
     /**
      * The ClassLoader to use when loading resources for DTDs.
      */
-    private final ClassLoader m_classLoader;
+    private final ClassLoader m_classloader;
 
     /**
      * Construct a resolver using specified DTDInfos where resources are loaded
@@ -51,7 +54,35 @@ class DTDResolver implements EntityResolver
     public DTDResolver( final DTD[] dtds, final ClassLoader classLoader )
     {
         m_dtds = dtds;
-        m_classLoader = classLoader;
+        m_classloader = classLoader;
+        
+        /*
+        final ClassLoader loader = getClassLoader();
+        for( int i=0; i<dtds.length; i++ )
+        {
+            DTD dtd = dtds[i];
+            final String path = dtd.getResource();
+            URL url = loader.getResource( path );
+            if( null == url )
+            {
+                if( null == ClassLoader.getSystemClassLoader().getResource( path ) )
+                {
+                    String stack = StandardClassLoader.toString( loader, null );
+                    String sysLoaderProp = System.getProperty( "java.system.class.loader" );
+                    ClassLoader sysLoader = ClassLoader.getSystemClassLoader();
+                    final String error = 
+                      "Unresolvable DTD resource [" 
+                      + path 
+                      + "]"
+                      + "\nPROP: " + sysLoaderProp
+                      + "\nSYSTEM: " + sysLoader
+                      + "\nCCL-STACK: " + stack
+                      + "\nSYS-STACK: " + StandardClassLoader.toString( sysLoader, null );
+                    throw new TransitError( error );
+                }
+            }
+        }
+        */
     }
 
     /**
@@ -61,6 +92,9 @@ class DTDResolver implements EntityResolver
     public InputSource resolveEntity( final String publicId, final String systemId )
         throws IOException, SAXException
     {
+        //System.out.println( "# PUBLIC: " + publicId );
+        //System.out.println( "# SYSTEM: " + systemId );
+        
         for( int i=0; i<m_dtds.length; i++ )
         {
             final DTD info = m_dtds[i];
@@ -68,15 +102,48 @@ class DTDResolver implements EntityResolver
             if( ( publicId != null && publicId.equals( info.getPublicId() ) ) 
                || ( systemId != null && systemId.equals( info.getSystemId() ) ) )
             {
-                final ClassLoader classLoader = getClassLoader();
-                final InputStream inputStream =
-                    classLoader.getResourceAsStream( info.getResource() );
+                final String path = info.getResource();
+                final InputStream inputStream = resolveInputStream( path );
                 if( null == inputStream )
                 {
-                    String path = "resource:" + info.getResource();
-                    throw new NullPointerException( path );
+                    final String error = 
+                      "Matched DTD identifier returned an unresolvable resource path."
+                      + "\nPublic ID: " + info.getPublicId()
+                      + "\nSystem ID: " + info.getSystemId()
+                      + "\nResource: '" + path + "'";
+                    throw new TransitError( error );
                 }
-                return new InputSource( inputStream );
+                else
+                {
+                    return new InputSource( inputStream );
+                }
+            }
+        }
+        return null;
+    }
+    
+    private InputStream resolveInputStream( String path )
+    {
+        InputStream input = ClassLoader.getSystemClassLoader().getResourceAsStream( path );
+        if( null != input )
+        {
+            return input;
+        }
+        ClassLoader context = Thread.currentThread().getContextClassLoader();
+        if( null != context )
+        {
+            input = context.getResourceAsStream( path );
+            if( null != input )
+            {
+                return input;
+            }
+        }
+        if( null != m_classloader )
+        {
+            input = m_classloader.getResourceAsStream( path );
+            if( null != input )
+            {
+                return input;
             }
         }
         return null;
@@ -90,7 +157,7 @@ class DTDResolver implements EntityResolver
      */
     private ClassLoader getClassLoader()
     {
-        ClassLoader classLoader = m_classLoader;
+        ClassLoader classLoader = m_classloader;
         if( null == classLoader )
         {
             classLoader = Thread.currentThread().getContextClassLoader();

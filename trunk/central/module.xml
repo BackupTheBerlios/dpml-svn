@@ -25,6 +25,7 @@
       <feature token="ANT-JAR-VERSION" ref="ant/ant" id="version"/>
       <feature token="ANT-JAR-URI" ref="ant/ant" id="uri" type="jar" />
       <feature token="TRANSIT-TOOLS-URI" ref="dpml/transit/dpml-transit-tools" id="uri" type="jar" />
+      <feature token="TRANSIT-CLI-URI" ref="dpml/transit/dpml-transit-console" id="uri" type="jar" />
       <feature token="TRANSIT-MODULE-VERSION" ref="dpml/transit" id="version"/>
       <feature token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" id="uri" type="jar" />
       <feature token="DEPOT-MODULE-VERSION" ref="dpml/depot" id="version" />

@@ -355,14 +355,20 @@ public class StandardClassLoader extends URLClassLoader
             buffer.append( "\n----------------------------------------------------------------" );
             list( buffer, anchor );
         }
-        buffer.append( "\n----------------------------------------------------------------" );
-        buffer.append( "\nPrimary Classloader" );
-        buffer.append( "\n----------------------------------------------------------------" );
-        list( buffer, primary, anchor );
-        buffer.append( "\n----------------------------------------------------------------" );
-        buffer.append( "\nSecondary Classloader" );
-        buffer.append( "\n----------------------------------------------------------------" );
-        list( buffer, secondary, anchor );
+        if( null != primary )
+        {
+            buffer.append( "\n----------------------------------------------------------------" );
+            buffer.append( "\nPrimary Classloader" );
+            buffer.append( "\n----------------------------------------------------------------" );
+            list( buffer, primary, anchor );
+        }
+        if( null != secondary )
+        {
+            buffer.append( "\n----------------------------------------------------------------" );
+            buffer.append( "\nSecondary Classloader" );
+            buffer.append( "\n----------------------------------------------------------------" );
+            list( buffer, secondary, anchor );
+        }
         buffer.append( "\n----------------------------------------------------------------" );
         return buffer.toString();
     }

@@ -6,4 +6,15 @@
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
+  <target name="package" depends="standard.package">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Shared Lib. ${dpml.share}/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.share}/lib"/>
+    <copy preservelastmodified="true" toFile="${dpml.share}/lib/${project.name}.jar" 
+      file="${project.deliverable.jar.path}"/>
+  </target>
+
 </project>

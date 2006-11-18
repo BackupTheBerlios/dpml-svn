@@ -29,6 +29,8 @@
 
     <section name="Transit Command Line">
 
+      <pre>@TRANSIT-CLI-URI@</pre>
+
       <subsection name="Description">
 
         <p>

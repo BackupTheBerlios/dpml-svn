@@ -60,7 +60,7 @@ public class DefaultStateMachineTestCase extends AbstractEncodingTestCase
             StateDecoder builder = new StateDecoder();
             m_state = builder.loadState( example.toURI() );
             m_logger = new DefaultLogger( "test" );
-            m_queue = new EventQueue( m_logger );
+            m_queue = new EventQueue( m_logger, "StateMachine Event Queue" );
             m_machine = new DefaultStateMachine( m_queue, m_logger, m_state );
         }
         catch( Throwable e )

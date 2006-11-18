@@ -68,8 +68,6 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     */
     public static final String PROFILE_KEY = "dpml.transit.profile";
 
-    private static final EventQueue EVENT_QUEUE = new EventQueue( "dpml.transit" );
-
    /**
     * Return a model that is restricted to the secure local environment with 
     * no proxy setting or external hosts.
@@ -87,7 +85,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
                 int id = System.identityHashCode( system );
                 logger.trace( "system classloader id: " + id );
             }
-            return new DefaultTransitModel( EVENT_QUEUE, logger, directive );
+            EventQueue queue = new EventQueue( logger, "DPML Transit Event Queue" );
+            return new DefaultTransitModel( queue, logger, directive );
         }
         catch( Exception e )
         {
@@ -149,7 +148,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             URL url = uri.toURL();
             TransitBuilder builder = new TransitBuilder( logger );
             TransitDirective directive =  builder.load( url );
-            return new DefaultTransitModel( EVENT_QUEUE, logger, directive );
+            return new DefaultTransitModel( logger, directive );
         }
         else
         {
@@ -161,7 +160,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
                 URL url = uri.toURL();
                 TransitBuilder builder = new TransitBuilder( logger );
                 TransitDirective directive =  builder.load( url );
-                return new DefaultTransitModel( EVENT_QUEUE, logger, directive );
+                return new DefaultTransitModel( logger, directive );
             }
             else
             {
@@ -195,7 +194,9 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     public DefaultTransitModel( Logger logger, TransitDirective directive ) 
       throws RemoteException, NullPointerException
     {
-        this( EVENT_QUEUE, logger, directive );
+        this( 
+          new EventQueue( logger, "DPML Transit Event Queue" ), 
+          logger, directive );
     }
     
    /**
@@ -219,9 +220,9 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         {
             throw new NullPointerException( "directive" );
         }
-
-        m_proxy = createProxyModel( directive );
-        m_cache = createCacheModel( directive );
+        
+        m_proxy = createProxyModel( queue, directive );
+        m_cache = createCacheModel( queue, directive );
     }
 
     // ------------------------------------------------------------------------
@@ -319,7 +320,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         disposeCacheModel();
         disposeProxyModel();
         super.dispose();
-        EVENT_QUEUE.terminateDispatchThread();
+        getEventQueue().terminateDispatchThread();
         Thread thread = new Terminator( this );
         thread.start();
     }
@@ -396,7 +397,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         }
     }
     
-    private DefaultProxyModel createProxyModel( final TransitDirective directive )
+    private DefaultProxyModel createProxyModel( final EventQueue queue, final TransitDirective directive )
     {
         try
         {
@@ -408,7 +409,7 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
             else
             {
                 Logger logger = getLogger().getChildLogger( "proxy" );
-                return new DefaultProxyModel( EVENT_QUEUE, logger, config );
+                return new DefaultProxyModel( queue, logger, config );
             }
         }
         catch( Throwable e )
@@ -419,13 +420,13 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
         }
     }
 
-    private DefaultCacheModel createCacheModel( final TransitDirective directive )
+    private DefaultCacheModel createCacheModel( final EventQueue queue, final TransitDirective directive )
     {
         try
         {
             Logger logger = getLogger().getChildLogger( "cache" );
             CacheDirective config = directive.getCacheDirective();
-            return new DefaultCacheModel( EVENT_QUEUE, logger, config );
+            return new DefaultCacheModel( queue, logger, config );
         }
         catch( Throwable e )
         {
@@ -444,7 +445,8 @@ public class DefaultTransitModel extends DefaultModel implements TransitModel
     static DefaultTransitModel getClassicModel( Logger logger ) throws Exception
     {
         TransitDirective directive = TransitDirective.CLASSIC_PROFILE;
-        return new DefaultTransitModel( EVENT_QUEUE, logger, directive );
+        EventQueue queue = new EventQueue( logger, "DPML Transit Event Queue" );
+        return new DefaultTransitModel( queue, logger, directive );
     }
     
     private static URI createStaticURI( String path )
