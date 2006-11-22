@@ -103,6 +103,23 @@ $
       
       </subsection>
       
+      <subsection name="Supplimentary Test Properties">
+      
+        <p>
+        Supplimentary property declarations used during testcase execution may be 
+        declared in a file name <tt>test.properties</tt> in the project base directory.
+        Property values may include any of the following symbolic values (since 1.0.4):
+        </p>
+        
+        <ul>
+          <li>any system property .. e.g. <tt>${user.name}</tt></li>
+          <li>any of the standard DPML environment properties .. e.g. <tt>${dpml.prefs}</tt></li>
+          <li>any property declared in the project definition e.g. <tt>${project.name}</tt></li>
+          <li>the testcase base directory <tt>${project.test.basedir}</tt></li>
+        </ul>
+                
+      </subsection>
+      
       <subsection name="Summary">
 
         <p>

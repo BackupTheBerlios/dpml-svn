@@ -294,7 +294,7 @@ public class JUnitTestTask extends GenericTask
             Commandline.Argument arg = junit.createJvmarg();
             arg.setValue( "-verbose:" + verbose );
         }
-            
+        
         final File reports = getContext().getTargetReportsTestDirectory();
         mkDir( reports );
 
@@ -433,7 +433,9 @@ public class JUnitTestTask extends GenericTask
                     String name = (String) enumeration.nextElement();
                     final Environment.Variable v = new Environment.Variable();
                     v.setKey( name );
-                    v.setValue( props.getProperty( name ) );
+                    String propertyValue = props.getProperty( name );
+                    String parsedValue = getContext().getResource().resolve( propertyValue );
+                    v.setValue( parsedValue );
                     junit.addConfiguredSysproperty( v );
                 }
             }

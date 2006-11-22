@@ -24,7 +24,7 @@
 -Djava.security.policy=${env.DPML_HOME}\share\bin\security.policy
 -Djava.endorsed.dirs=${env.DPML_HOME}\share\lib\endorsed
 -Djava.rmi.server.randomIDs=true
--Dcom.sun.management.jmxremote
+#-Dcom.sun.management.jmxremote
 janel.main.class=@DEPOT-MAIN-CLASS@
 janel.min.java.version=1.4.0
 janel.classpath.jars.dir=${env.DPML_HOME}\share\lib

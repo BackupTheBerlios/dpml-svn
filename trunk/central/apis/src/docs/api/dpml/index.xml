@@ -38,6 +38,10 @@
           <td><a href="1.0.3/index.html">1.0.3</a></td>
           <td>Minor update to the Transit URL connection handler.</td>
         </tr>
+        <tr>
+          <td><a href="1.0.4/index.html">1.0.4</a></td>
+          <td>Maintence update supporting the SE6 runtime.</td>
+        </tr>
       </table>
 
     </section>
