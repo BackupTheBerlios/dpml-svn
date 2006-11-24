@@ -5,7 +5,7 @@
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
     
   <properties>
-    <property name="project.micro.version" value="3"/>
+    <property name="project.micro.version" value="5"/>
   </properties>
 
   <project name="dpml-station-info" basedir="info">
