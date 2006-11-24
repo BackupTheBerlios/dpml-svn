@@ -25,8 +25,8 @@
         
         <p>
         Version @VERSION@ is a maintenance update the resolves a number of 
-        issues identified while testing under SE6 (RC), together with a number 
-        of minor internal enhancements.
+        issues identified while testing under SE5 and SE6 (RC), together with a number 
+        of minor internal enhancements related to test phase build management.
         </p>
         
         <table>
@@ -71,6 +71,67 @@
             </td>
             <td>
               <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+
+      <subsection name="Version 1.0.4">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        Version 1.0.4 is a maintenance update the resolves a number of 
+        issues identified while testing under SE6 (RC), together with a number 
+        of minor internal enhancements.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-win32-1.0.4.exe">
+                dpml-sdk-win32-1.0.4.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-win32-1.0.4.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-win32-1.0.4.zip">
+                dpml-sdk-win32-1.0.4.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-win32-1.0.4.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-linux-1.0.4.tar.gz">
+                dpml-sdk-linux-1.0.4.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-linux-1.0.4.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-docs-1.0.4.zip">
+                dpml-sdk-docs-1.0.4.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.0.4/dpml-sdk-docs-1.0.4.zip.md5">
               MD5</a>
             </td>
           </tr>
