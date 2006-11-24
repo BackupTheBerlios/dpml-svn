@@ -22,6 +22,8 @@ import java.net.URI;
 import java.net.URL;
 import java.rmi.registry.Registry;
 
+import javax.management.NotCompliantMBeanException;
+
 import net.dpml.cli.Option;
 import net.dpml.cli.Group;
 import net.dpml.cli.CommandLine;
@@ -109,6 +111,13 @@ public class StationServerPlugin implements Runnable
                 {
                     new TransitController( m_logger, m_model );
                     m_logger.info( "Transit controller established." );
+                }
+                catch( NotCompliantMBeanException ncdfe )
+                {
+                    if( m_logger.isWarnEnabled() )
+                    {
+                        m_logger.warn( "JMX support requires SE6." );
+                    }
                 }
                 catch( NoClassDefFoundError ncdfe )
                 {

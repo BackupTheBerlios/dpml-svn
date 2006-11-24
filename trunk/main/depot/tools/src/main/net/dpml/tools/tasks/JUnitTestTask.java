@@ -34,6 +34,7 @@ import net.dpml.library.info.Scope;
 import net.dpml.tools.Context;
 
 import net.dpml.transit.Transit;
+import net.dpml.util.PropertyResolver;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -352,7 +353,7 @@ public class JUnitTestTask extends GenericTask
             junit.addConfiguredSysproperty( security );
         }
 
-        setupTestProperties( junit, project );
+        setupTestProperties( junit, project, working );
         
         final File logProperties = new File( working, "logging.properties" );
         if( logProperties.exists() )
@@ -416,7 +417,7 @@ public class JUnitTestTask extends GenericTask
         junit.execute();
     }
     
-    private void setupTestProperties( JUnitTask junit, Project project )
+    private void setupTestProperties( JUnitTask junit, Project project, File working )
     {
         File base = project.getBaseDir();
         final File properties = new File( base, "test.properties" );
@@ -425,9 +426,11 @@ public class JUnitTestTask extends GenericTask
             Properties props = new Properties();
             try
             {
+                props.setProperty( "project.test.dir", working.getCanonicalPath() );
                 InputStream input = new FileInputStream( properties );
                 props.load( input );
                 Enumeration enumeration = props.propertyNames();
+                props = PropertyResolver.resolve( props );
                 while( enumeration.hasMoreElements() )
                 {
                     String name = (String) enumeration.nextElement();

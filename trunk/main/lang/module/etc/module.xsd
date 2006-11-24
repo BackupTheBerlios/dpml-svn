@@ -36,7 +36,7 @@
     <complexType name="ModulesType">
       <choice minOccurs="0" maxOccurs="unbounded">
         <element name="module" type="this:ModuleType"/>
-        <element name="import" type="this:FileImportType"/>
+        <!--<element name="import" type="this:FileImportType"/>-->
       </choice>
     </complexType>
 
@@ -83,7 +83,7 @@
             <element name="module" type="this:ModuleType"/>
             <element name="project" type="this:ProjectType"/>
             <element name="resource" type="this:ResourceType"/>
-            <element name="import" type="this:FileImportType"/>
+            <!--<element name="import" type="this:FileImportType"/>-->
           </choice>
         </extension>
       </complexContent>

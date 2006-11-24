@@ -191,4 +191,24 @@
     </dependencies>
   </project>
   
+  <project name="dpml-depot-test" basedir="test">
+    <info title="DPML Java to HTML Converter">
+      <description>Depot Tests.</description>
+    </info>
+    <properties>
+      <property name="project.major.version" value="0"/>
+      <property name="project.minor.version" value="0"/>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <dependencies>
+      <build>
+        <include ref="dpml/depot/dpml-tools-builder"/>
+        <include ref="ant/ant-junit"/>
+      </build>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+  </project>
+  
 </module>
