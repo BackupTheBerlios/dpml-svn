@@ -41,6 +41,8 @@ import org.w3c.dom.NodeList;
  */
 public final class ElementHelper
 {
+    private static final Resolver SIMPLE_RESOLVER = new SimpleResolver();
+    
     private ElementHelper()
     {
         // utility class
@@ -193,6 +195,16 @@ public final class ElementHelper
     */
     public static String getValue( final Element node )
     {
+        return getValue( node, null );
+    }
+    
+   /**
+    * Return the value of an element.
+    * @param node the DOM node
+    * @return the node value
+    */
+    public static String getValue( final Element node, Resolver resolver )
+    {
         if( null == node )
         {
             return null;
@@ -206,8 +218,7 @@ public final class ElementHelper
         {
             value = node.getNodeValue();
         }
-        //return normalize( value );
-        return value;
+        return normalize( resolver, value );
     }
 
    /**
@@ -230,6 +241,18 @@ public final class ElementHelper
     */
     public static String getAttribute( final Element node, final String key, final String def )
     {
+        return getAttribute( node, key, def, null );
+    }
+    
+   /**
+    * Return the value of an element attribute.
+    * @param node the DOM node
+    * @param key the attribute key
+    * @param def the default value if the attribute is undefined
+    * @return the attribute value or the default value if undefined
+    */
+    public static String getAttribute( final Element node, final String key, final String def, Resolver resolver )
+    {
         if( null == node )
         {
             return def;
@@ -238,9 +261,8 @@ public final class ElementHelper
         {
             return def;
         }
-        //final String value = node.getAttribute( key );
-        //return normalize( value );
-        return node.getAttribute( key );
+        String v = node.getAttribute( key );
+        return normalize( resolver, v );
     }
 
    /**
@@ -263,6 +285,19 @@ public final class ElementHelper
     */
     public static boolean getBooleanAttribute( final Element node, final String key, final boolean def )
     {
+        return getBooleanAttribute( node, key, def, null );
+    }
+    
+   /**
+    * Return the value of an element attribute as a boolean.
+    * @param node the DOM node
+    * @param key the attribute key
+    * @param def the default value if the attribute is undefined
+    * @return the attribute value or the default value if undefined
+    */
+    public static boolean getBooleanAttribute( 
+      final Element node, final String key, final boolean def, Resolver resolver )
+    {
         if( null == node )
         {
             return def;
@@ -274,7 +309,7 @@ public final class ElementHelper
         } 
 
         String value = node.getAttribute( key );
-        value = normalize( value );
+        value = normalize( resolver, value );
         if( value.equals( "" ) )
         {
             return def;
@@ -299,9 +334,26 @@ public final class ElementHelper
     */
     static String normalize( String value )
     {
-        return normalize( value, System.getProperties() );
+        return SIMPLE_RESOLVER.resolve( value );
     }
-
+    
+   /**
+    * Parse the value for any property tokens relative to system properties.
+    * @param value the value to parse
+    * @return the normalized string
+    */
+    static String normalize( Resolver resolver, String value )
+    {
+        if( null != resolver )
+        {
+            return resolver.resolve( value );
+        }
+        else
+        {
+            return value;
+        }
+    }
+    
    /**
     * Parse the value for any property tokens relative to the supplied properties.
     * @param value the value to parse

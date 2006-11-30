@@ -5,17 +5,14 @@
     xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
   
   <properties>
-    <property name="project.micro.version" value="4"/>
+    <property name="project.minor.version" value="2"/>
+    <property name="project.micro.version" value="0"/>
   </properties>
   
   <project name="dpml-library" basedir="library">
     <info title="DPML Project Management Library">
       <description>Module, project and resource management system.</description>
     </info>
-    <properties>
-      <property name="project.minor.version" value="1"/>
-      <property name="project.micro.version" value="2"/>
-    </properties>
     <types>
       <type id="jar"/>
     </types>
@@ -40,10 +37,6 @@
     <info title="DPML Depot Build Tool">
       <description>Multi-project build automation tool.</description>
     </info>
-    <properties>
-      <property name="project.minor.version" value="1"/>
-      <property name="project.micro.version" value="4"/>
-    </properties>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
@@ -74,7 +67,6 @@
       <property name="depot.short.filename" value="${project.name}.jar"/>
       <property name="transit.short.filename" value="dpml-transit-main.jar"/>
       <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
-      <property name="project.micro.version" value="3"/>
     </properties>
     <types>
       <type id="jar"/>
@@ -107,10 +99,6 @@
     <info title="DPML Depot Toolkit">
       <description>Antlib supporting Depot-based build automation.</description>
     </info>
-    <properties>
-      <property name="project.minor.version" value="1"/>
-      <property name="project.micro.version" value="3"/>
-    </properties>
     <types>
       <type id="jar"/>
       <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
@@ -148,10 +136,6 @@
     <info title="DPML Checkstyle Plugin">
       <description>Checkstyle plugin for Depot.</description>
     </info>
-    <properties>
-      <property name="project.minor.version" value="1"/>
-      <property name="project.micro.version" value="4"/>
-    </properties>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
@@ -176,9 +160,6 @@
     <info title="DPML Java to HTML Converter">
       <description>Checkstyle plugin for Depot.</description>
     </info>
-    <properties>
-      <property name="project.micro.version" value="3"/>
-    </properties>
     <types>
       <type id="jar"/>
       <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>

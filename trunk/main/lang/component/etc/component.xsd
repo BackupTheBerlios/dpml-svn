@@ -14,6 +14,7 @@
     <element name="category" type="this:CategoryType"/>
     <element name="categories" type="this:CategoriesType" substitutionGroup="this:category"/>
     <element name="entry" type="this:EntryType"/>
+    <element name="context" type="this:ContextEntryType" substitutionGroup="this:entry"/>
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
     
     <complexType name="component">
@@ -60,8 +61,17 @@
     <complexType name="EntryType">
       <complexContent>
         <extension base="part:TaggedValueType">
+          <sequence>
+            <element ref="this:entry" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
           <attribute name="lookup" type="string"/>
         </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="ContextEntryType">
+      <complexContent>
+        <extension base="this:EntryType"/>
       </complexContent>
     </complexType>
     

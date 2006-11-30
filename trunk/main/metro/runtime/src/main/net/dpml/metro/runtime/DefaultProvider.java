@@ -84,8 +84,6 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     * The proxied instance.
     */
     private final Object m_proxy;
-
-    //private final StateEventPropergator m_propergator;
     
     //-------------------------------------------------------------------
     // mutable state
@@ -102,7 +100,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     * Tag used within logging messages.
     */
     private String m_tag;
-
+    
     //-------------------------------------------------------------------
     // constructor
     //-------------------------------------------------------------------
@@ -125,15 +123,13 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
         
         m_handler = handler;
         
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "provider instantiation" );
-        }
+        //if( getLogger().isTraceEnabled() )
+        //{
+        //    getLogger().trace( "provider instantiation" );
+        //}
         
         State graph = m_handler.getStateGraph();
         m_machine = new DefaultStateMachine( queue, logger, graph );
-        //m_propergator = new StateEventPropergator();
-        //m_machine.addPropertyChangeListener( m_propergator );
         m_parts = new DefaultPartsManager( this );
         
         ClassLoader classloader = m_handler.getClassLoader();
@@ -145,6 +141,49 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
         else
         {
             m_proxy = null;
+        }
+    }
+    
+    public void commission() throws Exception
+    {
+        if( Status.INSTANTIATED.equals( m_status ) )
+        {
+            initialize();
+        }
+    }
+    
+    public void decommission()
+    {
+        synchronized( m_status )
+        {
+            if( Status.DISPOSED.equals( m_status ) )
+            {
+                return;
+            }
+            else if( Status.DECOMMISSIONING.equals( m_status ) )
+            {
+                return;
+            }
+            else if( Status.DECOMMISSIONED.equals( m_status ) )
+            {
+                return;
+            }
+            else
+            {
+                synchronized( this )
+                {
+                    m_status = Status.DECOMMISSIONING;
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "decommissioning " + m_tag );
+                    }
+                    if( null != m_value )
+                    {
+                        m_machine.terminate( m_value );
+                    }
+                    m_status = Status.DECOMMISSIONED;
+                }
+            }
         }
     }
     
@@ -218,7 +257,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     {
         if( getLogger().isTraceEnabled() )
         {
-            getLogger().trace( "adding state listener [" + listener + "] to " + m_tag );
+            getLogger().trace( "adding state listener in " + m_tag );
         }
         m_machine.addStateListener( listener );
     }
@@ -231,7 +270,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     {
         if( getLogger().isTraceEnabled() )
         {
-            getLogger().trace( "removing state listener [" + listener + "] to " + m_tag );
+            getLogger().trace( "removing state listener in " + m_tag );
         }
         m_machine.removeStateListener( listener );
     }
@@ -246,25 +285,23 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     {
         synchronized( m_status )
         {
-            if( Status.INSTANTIATED.equals( m_status ) )
+            try
             {
-                try
-                {
-                    initialize();
-                }
-                catch( Exception e )
-                {
-                    final String error = 
-                      "Initialization failure.";
-                    throw new ControllerRuntimeException( error, e );
-                }
+                commission();
             }
-            checkAvailable();
+            catch( Exception e )
+            {
+                final String error = 
+                  "Commissioning failure.";
+                throw new ControllerRuntimeException( error, e );
+            }
+            
+            //checkAvailable();
             if( isolate  && ( null != m_proxy ) )
             {
                 if( getLogger().isTraceEnabled() )
                 {
-                    getLogger().trace( "returning proxied service " + m_tag );
+                    getLogger().trace( "returning proxy in " + m_tag );
                 }
                 return m_proxy;
             }
@@ -272,7 +309,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
             {
                 if( getLogger().isTraceEnabled() )
                 {
-                    getLogger().trace( "returning service instance " + m_tag );
+                    getLogger().trace( "returning instance in " + m_tag );
                 }
                 return m_value;
             }
@@ -347,7 +384,6 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
         return m_machine.invoke( value, method, args );
     }
     
-
    /**
     * Return a handler capable of supporting the requested service.
     * @param service the service definition
@@ -451,16 +487,53 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
 
     protected void finalize() throws Throwable
     {
-        if( getLogger().isTraceEnabled() )
+        synchronized( m_parts )
         {
-            getLogger().trace( "initiating finalization in " + m_tag );
+            
+            decommission();
         }
-        String tag = m_tag;
-        dispose();
-        if( getLogger().isTraceEnabled() )
+        
+        /*
+        synchronized( this )
         {
-            getLogger().trace( "finalization completed in " + tag );
+            if( Status.AVAILABLE.equals( m_status ) )
+            {
+                synchronized( m_value ) 
+                {
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "initiating synchronized finalization in " + m_tag );
+                    }
+                    String tag = m_tag;
+                    dispose();
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "finalization completed in " + tag );
+                    }
+                }
+            }
+            else if( !Status.DISPOSED.equals( m_status ) )
+            {
+                try
+                {
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "initiating finalization in " + m_tag );
+                    }
+                    String tag = m_tag;
+                    dispose();
+                    if( getLogger().isTraceEnabled() )
+                    {
+                        getLogger().trace( "finalization completed in " + tag );
+                    }
+                }
+                finally
+                {
+                    super.finalize();
+                }
+            }
         }
+        */
     }
     
     public String toString()
@@ -506,6 +579,34 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     {
         synchronized( getLock() )
         {
+            if( Status.DISPOSED.equals( m_status ) )
+            {
+                return;
+            }
+            else
+            {
+                decommission();
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "initiating disposal of " + m_tag );
+                }
+                m_machine.terminate( m_value );
+                m_parts.decommission();
+                m_machine.dispose();
+                if( m_parts instanceof Disposable )
+                {
+                    Disposable disposable = (Disposable) m_parts;
+                    disposable.dispose();
+                }
+                super.dispose();
+                m_status = Status.DISPOSED;
+                if( getLogger().isTraceEnabled() )
+                {
+                    getLogger().trace( "disposal of " + m_tag + " complete");
+                }
+            }
+            
+            /*
             if( Status.DECOMMISSIONING.equals( m_status ) || Status.DISPOSED.equals( m_status ) )
             {
                 return;
@@ -518,7 +619,6 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
             
             m_machine.terminate( m_value );
             m_parts.decommission();
-            //m_machine.removePropertyChangeListener( m_propergator );
             m_machine.dispose();
             if( m_parts instanceof Disposable )
             {
@@ -527,12 +627,13 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
             }
             super.dispose();
             m_status = Status.DISPOSED;
-            if( getLogger().isDebugEnabled() )
+            if( getLogger().isTraceEnabled() )
             {
-                getLogger().debug( "instance disposal " + m_tag );
+                getLogger().trace( "disposal of " + m_tag + " complete");
             }
-            m_tag = null;
-            m_value = null;
+            //m_tag = null;
+            //m_value = null;
+            */
         }
     }
     
@@ -559,7 +660,7 @@ class DefaultProvider extends UnicastEventSource implements Provider, Invocation
     public Object invoke( final Object proxy, final Method method, final Object[] args ) 
       throws InvocationTargetException, IllegalAccessException
     {
-        checkAvailable();
+        //checkAvailable();
         return method.invoke( m_value, args );
     }
 }

@@ -153,6 +153,7 @@ public class DefaultDictionary implements Dictionary
             return value;
         }
     }
+    
    /**
     * Evaluate and expand any symbolic references in the supplied value.
     * @param value the value to resolve

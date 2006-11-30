@@ -66,4 +66,19 @@ public class ContextDirectiveTestCase extends AbstractEncodingTestCase
           (ContextDirective) executeEncodingTest( m_context );
         assertEquals( "encoded-equality", m_context, result );
     }
+    
+   /**
+    * Test the nexted context directive encoding/decoding.
+    * @exception Exception if an error occurs
+    */
+    public void testNestedContextEncoding() throws Exception
+    {
+        ContextDirective c = new ContextDirective( new PartReference[0] );
+        PartReference ref = new PartReference( "fred", c );
+        ContextDirective directive = new ContextDirective( new PartReference[]{ref} ); 
+        ContextDirective result = 
+          (ContextDirective) executeEncodingTest( directive );
+        assertEquals( "encoded-equality", directive, result );
+    }
+    
 }

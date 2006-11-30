@@ -46,6 +46,11 @@
           <td><a href="1.0.5/index.html">1.0.5</a></td>
           <td>Updates SE6 support with resolution of JMX issue when running under SE5.</td>
         </tr>
+        <tr>
+          <td><a href="1.1.0/index.html">1.1.0</a></td>
+          <td>Updates SE6 support related to garbage collection semantics and improved
+            support for symbolic properties in component part definitions.</td>
+        </tr>
       </table>
 
     </section>

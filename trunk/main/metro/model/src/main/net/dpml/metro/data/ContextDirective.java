@@ -48,7 +48,7 @@ import net.dpml.metro.info.PartReference;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ContextDirective extends AbstractDirective
+public final class ContextDirective extends AbstractDirective implements Directive
 {
     //--------------------------------------------------------------------------
     // static
@@ -97,7 +97,7 @@ public final class ContextDirective extends AbstractDirective
     }
 
    /**
-    * Creation of a new file target.
+    * Creation of context directive.
     * @param classname the context implementation class
     * @param entries the set of entry descriptors
     */

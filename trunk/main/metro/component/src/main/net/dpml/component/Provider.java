@@ -33,7 +33,7 @@ import net.dpml.state.UnknownTransitionException;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Provider extends Remote
+public interface Provider extends Remote, Commissionable
 {
    /**
     * Return a parent provider.

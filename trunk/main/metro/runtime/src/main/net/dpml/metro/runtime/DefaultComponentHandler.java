@@ -132,6 +132,7 @@ class DefaultComponentHandler extends UnicastEventSource
     //--------------------------------------------------------------------------
     
     private boolean m_active = false;
+    private Object m_singleton = null;
     
     //--------------------------------------------------------------------------
     // constructor
@@ -154,10 +155,10 @@ class DefaultComponentHandler extends UnicastEventSource
         m_flag = flag;
         
         String classname = model.getImplementationClassName();
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "creating new component handler [" + m_path + "] for class [" + classname + "]" );
-        }
+        //if( getLogger().isTraceEnabled() )
+        //{
+        //    getLogger().trace( "creating new component handler [" + m_path + "]" );
+        //}
         
         m_support = new PropertyChangeSupport( this );
         model.addModelListener( this );
@@ -172,6 +173,14 @@ class DefaultComponentHandler extends UnicastEventSource
               "Unable to load component class: "
               + classname;
             throw new ControllerException( error, e );
+        }
+        
+        if( getLogger().isDebugEnabled() )
+        {
+            getLogger().debug( 
+              "loaded [" 
+              + classname 
+              + "]" );
         }
         
         try
@@ -254,9 +263,7 @@ class DefaultComponentHandler extends UnicastEventSource
             getLogger().debug( 
               "established " 
               + lifestyleName
-              + " lifestyle handler for [" 
-              + classname 
-              + "]" );
+              + " lifestyle handler." );
         }
     }
 
@@ -463,6 +470,11 @@ class DefaultComponentHandler extends UnicastEventSource
                 getLogger().debug( "activating" );
                 m_holder.getProvider().getValue( false );
             }
+            //else if( m_model.getActivationPolicy().equals( ActivationPolicy.SYSTEM ) && ( null != m_parent ) )
+            //{
+            //    getLogger().debug( "activating" );
+            //    m_holder.getProvider().getValue( false );
+            //}
             m_active = true;
         }
         catch( RemoteException e )
@@ -512,7 +524,7 @@ class DefaultComponentHandler extends UnicastEventSource
         
         if( getLogger().isTraceEnabled() )
         {
-            getLogger().trace( "decommissioning" );
+            getLogger().trace( "decommissioning handler" );
         }
         
         //
@@ -521,7 +533,6 @@ class DefaultComponentHandler extends UnicastEventSource
         
         m_holder.decommission();
         m_active = false;
-        getLogger().debug( "decommissioned" );
     }
     
    /**
@@ -616,9 +627,9 @@ class DefaultComponentHandler extends UnicastEventSource
     {
         synchronized( getLock() )
         {
-            if( getLogger().isDebugEnabled() )
+            if( getLogger().isTraceEnabled() )
             {
-                getLogger().debug( "initiating disposal" );
+                getLogger().trace( "initiating disposal" );
             }
             decommission();
             try
@@ -641,10 +652,6 @@ class DefaultComponentHandler extends UnicastEventSource
                 }
             }
             super.dispose();
-            if( getLogger().isDebugEnabled() )
-            {
-                getLogger().debug( "disposal complete" );
-            }
         }
     }
     
@@ -712,14 +719,6 @@ class DefaultComponentHandler extends UnicastEventSource
         }
     }
 
-    protected void finalize() throws Throwable
-    {
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "finalizing component handler" );
-        }
-    }
-    
     //--------------------------------------------------------------------------
     // utilities
     //--------------------------------------------------------------------------
@@ -825,7 +824,10 @@ class DefaultComponentHandler extends UnicastEventSource
                 {
                     if( getLogger().isTraceEnabled() )
                     {
-                        getLogger().trace( "assigning hard (system) collection policy" );
+                        getLogger().trace( 
+                          "asserting "
+                          + CollectionPolicy.HARD
+                          + " (system) collection policy" );
                     }
                     m_collection = CollectionPolicy.HARD;
                 }
@@ -833,21 +835,19 @@ class DefaultComponentHandler extends UnicastEventSource
                 {
                     if( getLogger().isTraceEnabled() )
                     {
-                        getLogger().trace( "assigning soft (system) collection policy" );
+                        getLogger().trace( 
+                          "asserting " 
+                          + CollectionPolicy.SOFT 
+                          + " (default) collection policy" );
                     }
                     m_collection = CollectionPolicy.SOFT;
                 }
             }
             else
             {
-                if( getLogger().isDebugEnabled() )
-                {
-                    String name = policy.getName();
-                    getLogger().debug( "assigning " + name + " collection policy" );
-                }
                 m_collection = policy;
             }
-
+            
             m_reference = createReference( null );
         }
         
@@ -894,7 +894,7 @@ class DefaultComponentHandler extends UnicastEventSource
         
         String getName()
         {
-            return "singleton";
+            return "SINGLETON:" + m_collection;
         }
         
        /**
@@ -963,7 +963,7 @@ class DefaultComponentHandler extends UnicastEventSource
         
         String getName()
         {
-            return "transient";
+            return "TRANSIENT";
         }
         
         private DefaultProvider[] getAllProviders()
@@ -1002,7 +1002,7 @@ class DefaultComponentHandler extends UnicastEventSource
 
         String getName()
         {
-            return "per-thread";
+            return "THREAD";
         }
         
         private DefaultProvider[] getAllProviders()

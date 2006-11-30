@@ -29,6 +29,7 @@ import net.dpml.component.Model;
 import net.dpml.component.Service;
 import net.dpml.component.Directive;
 import net.dpml.component.Disposable;
+import net.dpml.component.Provider;
 
 import net.dpml.lang.Classpath;
 import net.dpml.lang.UnknownKeyException;
@@ -51,6 +52,7 @@ class DefaultPartsManager implements PartsManager, Disposable
     private final DefaultProvider m_provider;
     private final String[] m_keys;
     private final ComponentHandler[] m_components;
+    private final Provider[] m_providers;
     
     private boolean m_commissioned;
     
@@ -66,6 +68,7 @@ class DefaultPartsManager implements PartsManager, Disposable
         PartReference[] references = model.getPartReferences();
         m_keys = new String[ references.length ];
         m_components = new ComponentHandler[ references.length ];
+        m_providers = new Provider[ references.length ];
         
         if( references.length > 0 )
         {
@@ -116,6 +119,26 @@ class DefaultPartsManager implements PartsManager, Disposable
                   + part.getClass() 
                   + "] not recognized.";
                 throw new UnsupportedOperationException( error );
+            }
+        }
+
+        for( int i=0; i < references.length; i++ )
+        {
+            String k = m_keys[i];
+            ComponentHandler h = m_components[i];
+            try
+            {
+                m_providers[i] = h.getProvider();
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Internal error while attempting to create a subsidiary part ["
+                  + k
+                  + "] in ["
+                  + h
+                  + "]";
+                throw new ControllerRuntimeException( error, e );
             }
         }
     }
@@ -223,6 +246,65 @@ class DefaultPartsManager implements PartsManager, Disposable
             if( k.equals( key ) )
             {
                 return m_components[i];
+            }
+        }
+        throw new UnknownKeyException( key );
+    }
+
+   /**
+    * Return an array of all component handlers.
+    * @return the local component handler array
+    */
+    public Provider[] getProviders()
+    {
+        return m_providers;
+    }
+    
+   /**
+    * Return an array of component handlers to the supplied service.
+    * @param clazz the service class to match against
+    * @return the local component handler array
+    */
+    public Provider[] getProviders( Class clazz )
+    {
+        Service service = new DefaultService( clazz, Version.parse( "-1" ) );
+        ArrayList list = new ArrayList();
+        ComponentHandler[] components = getComponentHandlers();
+        for( int i=0; i<components.length; i++ )
+        {
+            ComponentHandler component = components[i];
+            try
+            {
+                if( component.isaCandidate( service ) )
+                {
+                    Provider provider = m_providers[i];
+                    list.add( provider );
+                }
+            }
+            catch( RemoteException e )
+            {
+                final String error = 
+                  "Unexpected remote exception raised during subsidiary component evaluation."
+                  + "\nProvider: " + m_provider;
+                throw new ControllerRuntimeException( error, e );
+            }
+        }
+        return (Provider[]) list.toArray( new Provider[0] );
+    }
+    
+   /**
+    * Return a component handler.
+    * @param key the internal component key
+    * @return the local component handler
+    */
+    public Provider getProvider( String key ) throws UnknownKeyException
+    {
+        for( int i=0; i<m_keys.length; i++ )
+        {
+            String k = m_keys[i];
+            if( k.equals( key ) )
+            {
+                return m_providers[i];
             }
         }
         throw new UnknownKeyException( key );

@@ -158,7 +158,14 @@ class DefaultComponentModel extends UnicastEventSource
         else
         {
             ComponentDirective base = directive.getBaseDirective();
-            return getCollectionPolicy( base );
+            if( null != base )
+            {
+                return getCollectionPolicy( base );
+            }
+            else
+            {
+                return m_type.getInfo().getCollectionPolicy();
+            }
         }
     }
 
@@ -289,10 +296,6 @@ class DefaultComponentModel extends UnicastEventSource
     */
     public void addModelListener( ModelListener listener )
     {
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "adding component model listener [" + listener + "]" );
-        }
         super.addListener( listener );
         //m_context.addModelListener( listener ); // ???? why not directly on context model ??
     }
@@ -303,10 +306,6 @@ class DefaultComponentModel extends UnicastEventSource
     */
     public void removeModelListener( ModelListener listener )
     {
-        if( getLogger().isTraceEnabled() )
-        {
-            getLogger().trace( "removing component model listener [" + listener + "]" );
-        }
         super.removeListener( listener );
         //m_context.removeListener( listener ); // ???? why not directly on context model ??
     }

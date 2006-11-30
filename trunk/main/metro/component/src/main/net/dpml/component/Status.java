@@ -59,15 +59,20 @@ public final class Status extends Enum
     public static final Status DECOMMISSIONING = new Status( "decommissioning" );
 
    /**
-    * The provider is not longer available.
+    * The provider has completed local decommissioning.
+    */
+    public static final Status DECOMMISSIONED = new Status( "decommissioned" );
+
+   /**
+    * The provider is decommissioned not longer available.
     */
     public static final Status DISPOSED = new Status( "disposed" );
-        
+    
    /**
     * Array of static status enumeration values.
     */
     private static final Status[] ENUM_VALUES = 
-      new Status[]{INSTANTIATED, COMMISSIONING, AVAILABLE, DECOMMISSIONING, DISPOSED};
+      new Status[]{INSTANTIATED, COMMISSIONING, AVAILABLE, DECOMMISSIONING, DECOMMISSIONED, DISPOSED};
 
    /**
     * Returns an array of activation enum values.
@@ -109,6 +114,10 @@ public final class Status extends Enum
         else if( DECOMMISSIONING.getName().equalsIgnoreCase( value ) )
         {
             return DECOMMISSIONING;
+        }
+        else if( DECOMMISSIONED.getName().equalsIgnoreCase( value ) )
+        {
+            return DECOMMISSIONED;
         }
         else if( DISPOSED.getName().equalsIgnoreCase( value ) )
         {

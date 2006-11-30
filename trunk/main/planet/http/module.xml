@@ -6,8 +6,6 @@
     <property name="jasper.version" value="5.5.15"/>
     <property name="sl4j.version" value="1.0.1"/>
     <property name="project.major.version" value="0"/>
-    <property name="project.minor.version" value="0"/>
-    <property name="project.micro.version" value="4"/>
   </properties>
 
   <project name="dpml-http-impl" basedir="impl">

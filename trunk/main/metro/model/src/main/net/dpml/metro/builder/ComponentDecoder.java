@@ -81,8 +81,9 @@ public class ComponentDecoder
         {
             final Document document = DOCUMENT_BUILDER.parse( uri );
             final Element root = document.getDocumentElement();
-            Resolver resolver = new SimpleResolver();
-            return buildComponent( root, resolver );
+            //Resolver resolver = new SimpleResolver();
+            //return buildComponent( root, resolver );
+            return buildComponent( root, null );
         }
         catch( Throwable e )
         {
@@ -126,13 +127,13 @@ public class ComponentDecoder
     private ComponentDirective createComponentDirective( 
       Element element, Resolver resolver ) throws DecodingException
     {
-        String classname = buildComponentClassname( element );
-        String name = buildComponentName( element );
-        ActivationPolicy activation = buildActivationPolicy( element );
-        CollectionPolicy collection = buildCollectionPolicy( element );
-        LifestylePolicy lifestyle = buildLifestylePolicy( element );
-        CategoriesDirective categories = getNestedCategoriesDirective( element );
-        ContextDirective context = getNestedContextDirective( element );
+        String classname = buildComponentClassname( element, resolver );
+        String name = buildComponentName( element, resolver );
+        ActivationPolicy activation = buildActivationPolicy( element, resolver );
+        CollectionPolicy collection = buildCollectionPolicy( element, resolver );
+        LifestylePolicy lifestyle = buildLifestylePolicy( element, resolver );
+        CategoriesDirective categories = getNestedCategoriesDirective( element, resolver );
+        ContextDirective context = getNestedContextDirective( element, resolver );
         PartReference[] parts = getNestedParts( element, resolver );
         URI base = getBaseURI( element, resolver );
         
@@ -171,7 +172,7 @@ public class ComponentDecoder
     
     private URI getBaseURI( Element element, Resolver resolver ) throws DecodingException
     {
-        String base = ElementHelper.getAttribute( element, "uri" );
+        String base = ElementHelper.getAttribute( element, "uri", null, resolver );
         if( null == base )
         {
             return null;
@@ -192,14 +193,14 @@ public class ComponentDecoder
         }
     }
     
-    private String buildComponentClassname( Element element ) throws DecodingException
+    private String buildComponentClassname( Element element, Resolver resolver ) throws DecodingException
     {
-        return ElementHelper.getAttribute( element, "type" );
+        return ElementHelper.getAttribute( element, "type", null, resolver );
     }
     
-    private ActivationPolicy buildActivationPolicy( Element element ) throws DecodingException
+    private ActivationPolicy buildActivationPolicy( Element element, Resolver resolver ) throws DecodingException
     {
-        String policy = ElementHelper.getAttribute( element, "activation" );
+        String policy = ElementHelper.getAttribute( element, "activation", null, resolver );
         if( null == policy )
         {
             return null;
@@ -210,9 +211,9 @@ public class ComponentDecoder
         }
     }
     
-    private LifestylePolicy buildLifestylePolicy( Element element ) throws DecodingException
+    private LifestylePolicy buildLifestylePolicy( Element element, Resolver resolver ) throws DecodingException
     {
-        String policy = ElementHelper.getAttribute( element, "lifestyle", null );
+        String policy = ElementHelper.getAttribute( element, "lifestyle", null, resolver );
         if( null != policy )
         { 
             return LifestylePolicy.parse( policy );
@@ -223,11 +224,11 @@ public class ComponentDecoder
         }
     }
     
-    private CollectionPolicy buildCollectionPolicy( Element element ) throws DecodingException
+    private CollectionPolicy buildCollectionPolicy( Element element, Resolver resolver ) throws DecodingException
     {
-        String policy = ElementHelper.getAttribute( element, "collection" );
+        String policy = ElementHelper.getAttribute( element, "collection", null, resolver );
         if( null != policy )
-        { 
+        {
             return CollectionPolicy.parse( policy );
         }
         else
@@ -236,12 +237,12 @@ public class ComponentDecoder
         }
     }
     
-    private String buildComponentName( Element element )
+    private String buildComponentName( Element element, Resolver resolver )
     {
-        return ElementHelper.getAttribute( element, "name" );
+        return ElementHelper.getAttribute( element, "name", null, resolver );
     }
     
-    private CategoriesDirective getNestedCategoriesDirective( Element root )
+    private CategoriesDirective getNestedCategoriesDirective( Element root, Resolver resolver )
     {
         Element element = ElementHelper.getChild( root, "categories" );
         if( null == element )
@@ -250,11 +251,11 @@ public class ComponentDecoder
         }
         else
         {
-            return createCategoriesDirective( element );
+            return createCategoriesDirective( element, resolver );
         }
     }
     
-    private CategoriesDirective createCategoriesDirective( Element element )
+    private CategoriesDirective createCategoriesDirective( Element element, Resolver resolver )
     {
         if( null == element )
         {
@@ -262,23 +263,23 @@ public class ComponentDecoder
         }
         else
         {
-            String name = ElementHelper.getAttribute( element, "name" );
-            Priority priority = createPriority( element );
-            String target = ElementHelper.getAttribute( element, "target" );
-            CategoryDirective[] categories = createCategoryDirectiveArray( element );
+            String name = ElementHelper.getAttribute( element, "name", null, resolver );
+            Priority priority = createPriority( element, resolver );
+            String target = ElementHelper.getAttribute( element, "target", null, resolver );
+            CategoryDirective[] categories = createCategoryDirectiveArray( element, resolver );
             return new CategoriesDirective( name, priority, target, categories );
         }
     }
     
-    private CategoryDirective createCategoryDirective( Element element )
+    private CategoryDirective createCategoryDirective( Element element, Resolver resolver )
     {
-        String name = ElementHelper.getAttribute( element, "name" );
-        Priority priority = createPriority( element );
-        String target = ElementHelper.getAttribute( element, "target" );
+        String name = ElementHelper.getAttribute( element, "name", null, resolver );
+        Priority priority = createPriority( element, resolver);
+        String target = ElementHelper.getAttribute( element, "target", null, resolver );
         return new CategoryDirective( name, priority, target );
     }
     
-    private CategoryDirective[] createCategoryDirectiveArray( Element element )
+    private CategoryDirective[] createCategoryDirectiveArray( Element element, Resolver resolver )
     {
         Element[] children = ElementHelper.getChildren( element );
         CategoryDirective[] categories = new CategoryDirective[ children.length ];
@@ -287,19 +288,19 @@ public class ComponentDecoder
             Element elem = children[i];
             if( "category".equals( elem.getTagName() ) )
             {
-                categories[i] = createCategoryDirective( elem );
+                categories[i] = createCategoryDirective( elem, resolver );
             }
             else
             {
-                categories[i] = createCategoriesDirective( elem );
+                categories[i] = createCategoriesDirective( elem, resolver );
             }
         }
         return categories;
     }
     
-    private Priority createPriority( Element element )
+    private Priority createPriority( Element element, Resolver resolver )
     {
-        String priority = ElementHelper.getAttribute( element, "priority" );
+        String priority = ElementHelper.getAttribute( element, "priority", null, resolver );
         if( null == priority )
         {
             return null;
@@ -310,7 +311,7 @@ public class ComponentDecoder
         }
     }
     
-    private ContextDirective getNestedContextDirective( Element root ) throws DecodingException
+    private ContextDirective getNestedContextDirective( Element root, Resolver resolver ) throws DecodingException
     {
         Element context = ElementHelper.getChild( root, "context" );
         if( null == context )
@@ -319,27 +320,27 @@ public class ComponentDecoder
         }
         else
         {
-            return createContextDirective( context );
+            return createContextDirective( context, resolver );
         }
     }
     
-    private ContextDirective createContextDirective( Element element ) throws DecodingException
+    private ContextDirective createContextDirective( Element element, Resolver resolver ) throws DecodingException
     {
-        String classname = ElementHelper.getAttribute( element, "class" );
+        String classname = ElementHelper.getAttribute( element, "class", null, resolver );
         Element[] children = ElementHelper.getChildren( element );
         PartReference[] entries = new PartReference[ children.length ];
         for( int i=0; i<children.length; i++ )
         {
             Element elem = children[i];
-            entries[i] = createContextEntryPartReference( elem );
+            entries[i] = createContextEntryPartReference( elem, resolver );
         }
         return new ContextDirective( classname, entries );
     }
     
-    private PartReference createContextEntryPartReference( Element element ) throws DecodingException
+    private PartReference createContextEntryPartReference( Element element, Resolver resolver ) throws DecodingException
     {
-        String key = ElementHelper.getAttribute( element, "key" );
-        String spec = ElementHelper.getAttribute( element, "lookup" );
+        String key = ElementHelper.getAttribute( element, "key", null, resolver );
+        String spec = ElementHelper.getAttribute( element, "lookup", null, resolver );
         if( null != spec )
         {
             LookupDirective directive = new LookupDirective( spec );
@@ -350,14 +351,14 @@ public class ComponentDecoder
             String name = element.getTagName();
             if( "entry".equals( name ) )
             {
-                ValueDirective directive = buildValueDirective( element );
+                ValueDirective directive = buildValueDirective( element, resolver );
                 return new PartReference( key, directive );
             }
-            //else if( "component".equals( name ) )
-            //{
-            //    ComponentDirective directive = buildComponent( element );
-            //    return new PartReference( key, directive );
-            //}
+            else if( "context".equals( name ) )
+            {
+                ContextDirective directive = createContextDirective( element, resolver );
+                return new PartReference( key, directive );
+            }
             else
             {
                 final String error = 
@@ -372,19 +373,19 @@ public class ComponentDecoder
     * @param element the DOM element
     * @return the value directive
     */
-    protected ValueDirective buildValueDirective( Element element )
+    protected ValueDirective buildValueDirective( Element element, Resolver resolver )
     {
-        String classname = ElementHelper.getAttribute( element, "class" );
-        String method = ElementHelper.getAttribute( element, "method" );
+        String classname = ElementHelper.getAttribute( element, "class", null, resolver );
+        String method = ElementHelper.getAttribute( element, "method", null, resolver );
         Element[] elements = ElementHelper.getChildren( element, "param" );
         if( elements.length > 0 )
         {
-            Value[] values = VALUE_DECODER.decodeValues( elements );
+            Value[] values = VALUE_DECODER.decodeValues( elements, resolver );
             return new ValueDirective( classname, method, values );
         }
         else
         {
-            String value = ElementHelper.getAttribute( element, "value" );
+            String value = ElementHelper.getAttribute( element, "value", null, resolver );
             return new ValueDirective( classname, method, value );
         }
     }
@@ -417,8 +418,8 @@ public class ComponentDecoder
     private PartReference createPartReference( Element element, Resolver resolver ) throws DecodingException
     {
         String tag = element.getTagName();
-        String key = ElementHelper.getAttribute( element, "key" );
-        int priority = getPriority( element );
+        String key = ElementHelper.getAttribute( element, "key", null, resolver );
+        int priority = getPriority( element, resolver );
         if( "component".equals( tag ) )
         {
             ComponentDirective directive = buildComponent( element, resolver );
@@ -434,9 +435,9 @@ public class ComponentDecoder
         }
     }
     
-    private int getPriority( Element element ) throws DecodingException
+    private int getPriority( Element element, Resolver resolver ) throws DecodingException
     {
-        String priority = ElementHelper.getAttribute( element, "priority", "0" );
+        String priority = ElementHelper.getAttribute( element, "priority", "0", resolver );
         try
         {
             return Integer.parseInt( priority );

@@ -347,10 +347,23 @@ class PartsInvocationHandler implements InvocationHandler
     
     protected void finalize() throws Throwable
     {
-        if( m_provider.getLogger().isTraceEnabled() )
+        synchronized( m_provider )
         {
-            m_provider.getLogger().trace( "finalizing parts invocation handler" );
         }
+   /*
+        try
+        {
+            if( m_provider.getLogger().isTraceEnabled() )
+            {
+                m_provider.getLogger().trace( "finalizing parts invocation handler" );
+            }
+            //m_provider.dispose();
+        }
+        finally
+        {
+            super.finalize();
+        }
+    */
     }
     
     public static final int GET = 1;

@@ -261,7 +261,7 @@ public final class PartDecoder implements Decoder
                 }
                 String classname = ElementHelper.getAttribute( strategy, "class" );
                 Element[] elements = ElementHelper.getChildren( strategy );
-                Value[] values = VALUE_DECODER.decodeValues( elements );
+                Value[] values = VALUE_DECODER.decodeValues( elements, resolver );
                 Part part = new Plugin( logger, information, classpath, classname, values );
                 if( logger.isTraceEnabled() )
                 {

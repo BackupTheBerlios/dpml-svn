@@ -1,4 +1,5 @@
 /*
+ * Copyright 2006 Stephen McConnell
  * Copyright 2004 Niclas Hedhman
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -93,7 +94,7 @@ public final class PropertyResolver
         {
             return null;
         }
-
+        
         // optimization for common case.
         if( value.indexOf( '$' ) < 0 )
         {
@@ -111,7 +112,6 @@ public final class PropertyResolver
         while ( st.hasMoreTokens() )
         {
             String token = st.nextToken();
-
             if( token.equals( "}" ) )
             {
                 String name = (String) stack.pop();
@@ -119,7 +119,7 @@ public final class PropertyResolver
                 if( open.equals( "${" ) )
                 {
                     String propValue = System.getProperty( name );
-                    if( propValue == null )
+                    if( ( propValue == null ) && ( null != props ) )
                     {
                         propValue = props.getProperty( name );
                     }
@@ -156,7 +156,7 @@ public final class PropertyResolver
         }
         return result;
     }
-
+    
    /**
     * Pushes a value on a stack
     * @param stack the stack
@@ -167,7 +167,11 @@ public final class PropertyResolver
         if( stack.size() > 0 )
         {
             String data = (String) stack.pop();
-            if( data.equals( "${" ) )
+            if( data.equals( "$" ) && !"{".equals( value ) )
+            {
+                stack.push( value );
+            }
+            else if( data.equals( "${" ) )
             {
                 stack.push( data );
                 stack.push( value );

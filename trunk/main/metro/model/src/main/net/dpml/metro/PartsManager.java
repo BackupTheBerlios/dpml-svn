@@ -18,6 +18,7 @@
 
 package net.dpml.metro;
 
+import net.dpml.component.Provider;
 import net.dpml.component.ControlException;
 
 import net.dpml.lang.UnknownKeyException;
@@ -50,6 +51,26 @@ public interface PartsManager
     * @return the local component handler array
     */
     ComponentHandler[] getComponentHandlers();
+    
+   /**
+    * Return an array of all component handlers.
+    * @return the local component handler array
+    */
+    Provider[] getProviders();
+    
+   /**
+    * Return an array of component handlers to the supplied service.
+    * @param service the service class to match against
+    * @return the local component handler array
+    */
+    Provider[] getProviders( Class service );
+    
+   /**
+    * Return a component handler.
+    * @param key the internal component key
+    * @return the local component handler
+    */
+    Provider getProvider( String key ) throws UnknownKeyException;
     
    /**
     * Return an array of component handlers assignable to the supplied service.

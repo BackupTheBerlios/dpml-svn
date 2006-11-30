@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package net.dpml.transit.test;
+package net.dpml.transit;
 
 import junit.framework.TestCase;
 
@@ -115,6 +115,18 @@ public class PropertyResolverTestCase extends TestCase
         String src = "${some.${mama}.${papa}.${child}.value}";
         String result = PropertyResolver.resolve( m_properties, src );
         String expected = "All that.";
+        assertEquals( expected, result );
+    }
+    
+   /**
+    * Test escaped property resolution.
+    * @exception Exception if an error occurs
+    */
+    public void testEscapedSymbol() throws Exception
+    {
+        String src = "$${alpha}";
+        String result = PropertyResolver.resolve( m_properties, src );
+        String expected = "${alpha}";
         assertEquals( expected, result );
     }
 }

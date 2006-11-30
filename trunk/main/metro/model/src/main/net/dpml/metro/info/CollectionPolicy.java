@@ -79,6 +79,15 @@ public final class CollectionPolicy extends Enum
     {
         super( label );
     }
+    
+   /**
+    * Return a string representation of this enumeration.
+    * @return the string value
+    */
+    public String toString()
+    {
+        return getName().toUpperCase();
+    }
    
    /**
     * Parse the supplied name.

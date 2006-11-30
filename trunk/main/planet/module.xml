@@ -4,8 +4,8 @@
 
   <properties>
     <property name="project.major.version" value="0"/>
-    <property name="project.minor.version" value="0"/>
-    <property name="project.micro.version" value="4"/>
+    <property name="project.minor.version" value="2"/>
+    <property name="project.micro.version" value="0"/>
   </properties>
 
   <module file="http/module.xml"/>
