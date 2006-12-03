@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ Copyright 2006 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit Set Resource Host Command</title>
+  </properties> 
+
+  <body>
+
+    <section name="Set Host Command">
+
+      <subsection name="Description">
+
+        <p>
+        Updates a resource host defintion.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ transit set host <id>
+  [-url <url>]
+  [-username <username>]
+  [-password <password>]
+  [-priority <int>]
+  [-index <resource>]
+  [-disabled | -enabled]
+  [-trusted | -untrusted]
+  [-layout <id>]
+  [-scheme <scheme>]
+  [-prompt <prompt>]
+]]></pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td>url</td><td>Updates the resource host base url.</td></tr>
+          <tr><td>username</td><td>Update the resource host login username.</td></tr>
+          <tr><td>password</td><td>Update the resource host password.</td></tr>
+          <tr><td>priority</td><td>Change the host priority setting.</td></tr>
+          <tr><td>index</td><td>Update the host index resource path.</td></tr>
+          <tr><td>disabled</td><td>Marks the host as disabled.</td></tr>
+          <tr><td>enabled</td><td>Marks the host as enabled.</td></tr>
+          <tr><td>trusted</td><td>Marks the host as trusted.</td></tr>
+          <tr><td>untrusted</td><td>Marks the host as untrusted.</td></tr>
+          <tr><td>layout</td><td>Updates the assigned layout key.</td></tr>
+          <tr><td>scheme</td><td>Modifies the host authentication scheme.</td></tr>
+          <tr><td>prompt</td><td>Modifies the host authentication prompt.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example demonstrates the modification of a resource 
+        host definition.
+        </p>
+
+<pre><![CDATA[
+$ transit set host demo -url http://localhost:8080 -priority 60 -trusted]]></pre>
+<source><![CDATA[
+Updating resource host: demo
+Saving to: local:xml:dpml/transit/config
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

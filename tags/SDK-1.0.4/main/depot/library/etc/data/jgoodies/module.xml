@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module xmlns="@MODULE-XSD-URI@" name="jgoodies">
+
+    <resource name="looks" version="1.1">
+      <types>
+        <type id="jar"/>
+      </types>
+    </resource>
+
+    <resource name="forms" version="1.0.5">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <runtime>
+          <include key="looks"/>
+        </runtime>
+      </dependencies>
+    </resource>
+
+</module>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<index xmlns="@MODULE-XSD-URI@" >
+
+    <module name="gov/nsa/acme">
+      <info/>
+      <resource name="widget/gizmo"/>
+    </module>
+
+</index>

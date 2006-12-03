@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Start Command</title>
+  </properties> 
+
+  <body>
+
+    <section name="Start Command">
+
+      <subsection name="Description">
+
+        <p>
+        Start a named application.  The station will create a new process
+        with a Java virtual machine configured with system properties declared 
+        in the selected profile.  The codebase uri will be used to resolve 
+        the application unit (normally a <tt>part</tt> artifact).  The default
+        logging configuration redirects application log message back to the 
+        station where log messages are consolidated in accordance with the 
+        station settings.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station start <key> [-port <port>]]]></pre>
+
+      </subsection>
+
+      <subsection name="Parameters">
+
+        <table>
+          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100"><tt>-port</tt></td>
+            <td>Override the RMI registry port to use when selecting the station server.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<pre>$ station start demo</pre>
+
+<source>
+[1132 ] [INFO   ] (depot.station): starting application [demo]
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

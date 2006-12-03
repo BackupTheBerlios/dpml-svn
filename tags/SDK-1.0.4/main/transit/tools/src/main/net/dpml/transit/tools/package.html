@@ -1,0 +1,36 @@
+
+<body>
+<p>
+        Ant tasks supporting Transit-based repository access.
+        The init task is used to established a number of transit related ant
+        properties and the plugin task is used to load antlibs, taskdefs, typedefs
+        and build listeners using classloaders established relative to resources
+        managed by the transit system.
+</p>
+
+        <p><i>Example build file:</i></p>
+
+<pre>
+&lt;project name="example" xmlns:transit="antlib:net.dpml.transit"&gt;
+
+  &lt;transit:import uri="local:template:dpml/tools/standard"/&gt;
+
+&lt;/project&gt;
+</pre>
+
+      <p><i>Example of a request to load and register a task definition.</i></p>
+
+<pre>
+&lt;project name="example" xmlns:transit="antlib:net.dpml.transit"&gt;
+
+    &lt;transit:plugin uri="artifact:plugin:dpml/magic/dpml-magic-doc#3000"&gt;
+      &lt;task class="net.dpml.magic.doc.DocTask" name="docs"/&gt;
+    &lt;/transit:plugin&gt;
+
+    &lt;docs/&gt;
+
+&lt;/project&gt;
+</pre>
+
+</body>
+

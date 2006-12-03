@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Version Builds</title>
+  </properties>
+
+  <body>
+
+    <section name="Versioned Builds">
+
+      <subsection name="Tutorial Objective">
+
+        <p>
+        The default version assigned to build artifacts is the constant
+        string <tt>SNAPSHOT</tt>. The purpose of this tutorial is to 
+        present the mechanisms available to control default version 
+        identifiers and the techniques used in decimal versioning.
+        </p>
+        
+      </subsection>
+      
+      <subsection name="Version Generation Styles">
+      
+        <table>
+          <tr>
+            <td>snapshot</td>
+            <td>Assignes an opaque version identifier equal to the 
+                the constant string <tt>SNAPSHOT</tt> (e.g. 
+                <tt>acme-clock-SNAPSHOT</tt>).  This is 
+                the default system behaviour unless modified by a 
+                command line option of project property.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="opaque.html">opaque</a></td>
+            <td>Assignes an opaque version identifier equal to 
+                argument supplied in conjunction with the <tt>-version</tt>
+                build command-line option.  For example the result of 
+                declaring the string <tt>DEMO3</tt> as the argument to 
+                <tt>-version</tt> would be <tt>acme-clock-DEMO3</tt>.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="decimal.html">decimal</a></td>
+            <td>Assignes an decimal version identifier composed of
+            a sequence of <tt>[major].[minor].[micro]</tt> integer values
+            where each value is resolved from the respective 
+            <tt>project.major.version</tt>, <tt>project.minor.version</tt>, 
+            and <tt>project.micor.version</tt> properties.  For example
+            the result of declaring <tt>2</tt>, <tt>1</tt>, and <tt>0</tt> 
+            as the respective values of the major, minor and micro project 
+            properties in conjunction with the <tt>-decimal</tt> 
+            command line option would be <tt>acme-clock-2.1.0</tt>.
+            </td>
+          </tr>
+          <tr>
+            <td><a href="mixed.html">mixed</a></td>
+            <td>Assignes an decimal version identifier as a prefix followed
+            by the "<tt>-</tt>" character and an opaque identifier.
+            For example the result of declaring major, minor and micro properties
+            of <tt>2</tt>, <tt>1</tt>, and <tt>0</tt> in a project defintion in 
+            conjunction with the <tt>-decimal</tt> command line option and a 
+            <tt>-version</tt> option argument of <tt>RC1</tt> would be
+            <tt>acme-clock-2.1.0-RC1</tt>.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        Using any variation of the opaque or decimal version strategies presented 
+        above results in the generation of artifacts with qualtified identities.
+        While Depot does not ensure that these identities are unique - developers 
+        can leverage the <tt>build -l -consumers</tt> option in order to establish 
+        the implications of changes on consumer projects.  Based on this information,
+        micro, minor and major version values can be managed (although it is recognized 
+        that the overall management of historical published versions versus current 
+        build version information is an topic that could result in new management tools).
+        </p>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+  
+</document>
+

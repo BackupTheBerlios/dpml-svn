@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<state xmlns="@STATE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <transition name="foo" target="bar"/>
+  <transition name="pink" target="floyd"/>
+  <transition name="barry" target="manalow"/>
+</state>

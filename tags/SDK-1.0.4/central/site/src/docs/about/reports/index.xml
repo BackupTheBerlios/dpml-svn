@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Product Reports</title>
+    <description>Automated build reports for the DPML product suite.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties> 
+
+  <body>
+
+    <section name="Project Reports">
+      
+      <p>
+      This section includes development reports derived from the 
+      DPML codebase.
+      </p>
+
+      <table>
+        <tr>
+          <th>Report</th><th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="../../reports/@VERSION@/junit/index.html">JUnit</a></td>
+          <td>Contains the results of JUnit tests.</td>
+        </tr>
+        <tr>
+          <td><a href="../../api/dpml/@VERSION@/index.html">Javadoc</a></td>
+          <td>Generated Javadoc for the Transit, Depot, Metro and Util 
+           modules together with Javadocs for the Planet component suite.</td> 
+        </tr>
+        <tr>
+          <td><a href="../../reports/@VERSION@/catalog/index.html">Catalog</a></td>
+          <td>Description of all component types.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

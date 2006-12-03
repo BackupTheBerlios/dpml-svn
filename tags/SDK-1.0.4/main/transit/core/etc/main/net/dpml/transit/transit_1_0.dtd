@@ -1,0 +1,58 @@
+<!--
+Copyright 2006 Stephen McConnell, DPML
+Licensed  under the  Apache License,  Version 2.0  (the "License");
+you may not use  this file  except in  compliance with the License.
+You may obtain a copy of the License at 
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!ELEMENT transit ( proxy?, local, hosts, layouts? ) >
+<!ATTLIST transit cache CDATA #REQUIRED >
+<!ATTLIST transit layout CDATA #REQUIRED >
+
+<!ELEMENT proxy ( credentials?, excludes? ) >
+<!ATTLIST proxy host CDATA #REQUIRED >
+<!ELEMENT credentials ( username?, password? ) >
+<!ELEMENT username (#PCDATA) >
+<!ELEMENT password (#PCDATA) >
+<!ELEMENT excludes ( exclude* ) >
+<!ELEMENT exclude (#PCDATA) >
+
+<!ELEMENT local EMPTY >
+<!ATTLIST local path CDATA #REQUIRED >
+<!ATTLIST local layout CDATA #REQUIRED >
+
+<!ELEMENT layouts ( layout* ) >
+<!ELEMENT hosts ( host* ) >
+
+<!ELEMENT layout ( codebase ) >
+<!ATTLIST layout id CDATA #REQUIRED >
+<!ATTLIST layout title CDATA #IMPLIED >
+
+<!ELEMENT codebase ( value* ) >
+<!ATTLIST codebase uri CDATA #REQUIRED >
+
+<!ELEMENT host ( credentials? ) >
+<!ATTLIST host id CDATA #REQUIRED >
+<!ATTLIST host priority CDATA #REQUIRED >
+<!ATTLIST host url CDATA #REQUIRED >
+<!ATTLIST host layout CDATA #REQUIRED >
+<!ATTLIST host enabled ( true | false ) "true" >
+<!ATTLIST host trusted ( true | false ) "false" >
+<!ATTLIST host index CDATA #IMPLIED >
+<!ATTLIST host scheme CDATA #IMPLIED >
+<!ATTLIST host prompt CDATA #IMPLIED >
+
+<!ELEMENT value ( value* ) >
+<!ATTLIST value method CDATA #IMPLIED >
+<!ATTLIST value target CDATA #IMPLIED >
+<!ATTLIST value value CDATA #IMPLIED >

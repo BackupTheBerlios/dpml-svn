@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Type Production</title>
+  </properties> 
+
+  <body>
+
+    <section name="Types">
+
+      <p>
+      Projects, resources and modules can be associated with multiple types.
+      The combination of a resource group, name, type and version is used to 
+      construct an artifact uri.
+      </p>
+
+      <p>
+      One or more type declarations may be added within an enclosing 
+      <tt>&lt;types&gt;</tt> element.  The nested <tt>&lt;type&gt;</tt>
+      element declares the type name under the <tt>id</tt> attribute.
+      Optional properties may be declared as nested <tt>&lt;property&gt;</tt>
+      elements.
+      </p>
+
+      <p>
+      The <tt>jar</tt> type is given special consideration when constructing 
+      classpath information.  If a project is declared as a dependency of another 
+      project and that project declares that it is a jar type, then the referenced 
+      projects will be included in classpath constuction.      
+      </p>
+
+      <subsection name="XML Attributes">
+
+         <p>
+         The following attributes may be declared on a <tt>&lt;type&gt;</tt> element.
+         </p>
+      
+         <table>
+           <tr>
+             <td>id</td>
+             <td>The type identifier (required).</td>
+           </tr>
+           <tr>
+             <td>version</td>
+             <td>Declaration of an link-based alias version If declared a link
+               will be created with a version corresponding to the supplied value
+               (a version in the form &lt;major&gt;.&lt;minor&gt; e.g. as <tt>1.2</tt>.</td>
+           </tr>
+           <tr>
+             <td>alias</td>
+             <td>Declaration of an an un-versioned link (may not be used in conjunction 
+             with the version attribute).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td>property</td>
+             <td>0..n</td>
+             <td>Declaration of one or more <a href="properties.html">properties</a> 
+                associated with the type.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following resource definition declares a single type with an id of <tt>"jar"</tt>.
+      </p>
+
+<source><![CDATA[
+<resource name="ant-junit">
+  <types>
+    <type id="jar"/>
+  </types>
+  <dependencies>
+    <runtime>
+      <include key="ant"/>
+      <include ref="junit/junit"/>
+    </runtime>
+  </dependencies>
+</resource>
+]]></source>
+
+      <p>
+      The following project definition contains multiple type declarations. In this
+      example the <tt>&lt;part:plugin&gt;</tt> type declaration is a case of a custom
+      type defintion that extends the generic type element.
+      </p>
+
+<source><![CDATA[
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <info title="Metro Container Runtime">
+      <description>
+      DPML Component management platform runtime container.
+      </description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+        <part:param class="net.dpml.component.InitialContext"/>
+      </part:plugin>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
+        <include ref="dpml/metro/dpml-job-impl"/>
+        <include ref="dpml/metro/dpml-state-impl"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
+    </filters>
+  </project>
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+
+
+

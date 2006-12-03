@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Type Parts Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Property Element">
+
+      <subsection name="Description">
+
+        <p>
+        The <tt>property</tt> element declares a name value pair.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td>name</td>
+            <td>The property name.</td>
+          </tr>
+          <tr>
+            <td>value</td>
+            <td>The property value.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Examples">
+
+        <subsection name="Property assertion example">
+
+<pre><![CDATA[
+]]></pre>
+
+        </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

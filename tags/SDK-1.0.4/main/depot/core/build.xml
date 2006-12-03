@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot-console" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="package" depends="standard.package">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Shared Lib. ${dpml.share}/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.share}/lib"/>
+    <copy preservelastmodified="true" toFile="${dpml.share}/lib/${project.name}.jar" 
+      file="${project.deliverable.jar.path}"/>
+  </target>
+
+</project>

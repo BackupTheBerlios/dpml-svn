@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="demo" default="install">
+
+  <target name="init">
+    <property name="src" location="${basedir}/src"/>
+    <property name="target" location="${basedir}/target"/>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete dir="${target}"/>
+  </target>
+
+  <target name="build" depends="init,clean">
+    <mkdir dir="${target}"/>
+    <copy file="${src}/DEMO.TXT" toFile="${target}/RESULT.TXT" filtering="true"/>
+    <loadfile srcFile="${target}/RESULT.TXT" property="result"/>
+    <echo message="${result}"/>
+  </target>
+  
+  <target name="install" depends="build"/>
+  
+</project>

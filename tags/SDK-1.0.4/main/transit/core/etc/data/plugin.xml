@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<part xmlns="@PART-XSD-SPEC-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <info title="Demo Plugin">
+    <description>
+    Plugin descriptor using XMLSchema.
+    </description>
+  </info>
+  
+  <!-- <strategy xsi:type="plugin" class="Widget"/>-->
+  
+  <plugin class="Widget"/>
+  
+  <classpath>
+    <public>
+      <uri>link:jar:fred/blogs</uri>
+      <uri>link:jar:peter/rabbit</uri>
+    </public>
+  </classpath>
+  
+</part>
