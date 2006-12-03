@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Versioned Builds</title>
+  </properties>
+
+  <body>
+
+    <section name="Mxed Decimal and Opaque Example">
+
+      <subsection name="Using the decimal and version CLI options in combination">
+
+        <p>
+        Using the decimal switch in combination with a version tag results in the 
+        generation of a version value equivalent to <tt>[decimal]-[tag]></tt>. The
+        following example demonstrates this relative to the index file used in the 
+        decimal versioning example.
+        </p>
+
+<pre>$ build -list -decimal -version RC1
+
+Selection: [3]
+
+  [1]   project:org/acme/plugin/clock-api#1.0.0-RC1
+  [2]   project:org/acme/plugin/clock-impl#1.0.2-RC1
+  [3]   module:org/acme/plugin#1.0.2-RC1
+  
+$</pre>
+
+      </subsection>
+    
+    </section>
+    
+  </body>
+  
+</document>
+

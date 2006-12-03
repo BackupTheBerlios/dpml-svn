@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Declaring Type Production by a Project</title>
+  </properties>
+
+  <body>
+
+    <section name="Using Type Production Statements">
+    
+      <p>
+      A project definition can contain multiple <tt>&lt;type&gt;</tt> statements within an 
+      enclosing <tt>&lt;types&gt;</tt> element. The direct impact of a type declaration is
+      the automatic definition of several Ant project properties dealing with the local 
+      directory and filenames of produced types that follow a single convention.  This convention
+      states that all resources (files, etc.) produces by a build shall be placed in a directory
+      named ${basedir}/target/deliverables/[type]s/[name]-[version].  The convention also
+      requires that resources declared within a project defintion should be published to the 
+      local system cache for potential usage by other projects (taking into account the potentially
+      customizable layout employed by the cache).
+      </p>
+      
+      <subsection name="Type Related Properties">
+      
+        <p>
+        The following table summarises the type related properties automatically established
+        by Depot.
+        </p>
+        
+        <table>
+          <tr>
+            <td>project.deliverable.[type].path</td>
+            <td>The path of the resource relative to the project basedir.</td>
+          </tr>
+          <tr>
+            <td>project.deliverable.[type].dir</td>
+            <td>The path of the enclosing directory relative to the project basedir.</td>
+          </tr>
+          <tr>
+            <td>project.cache.[type].path</td>
+            <td>The path of the resource relative to the system cache.</td>
+          </tr>
+          <tr>
+            <td>project.cache.[type].dir</td>
+            <td>The path of the enclosing directory relative to the system cache.</td>
+          </tr>
+        </table>
+      
+      </subsection>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        The index.xml file shown below includes the addition of a type product
+        statement <tt>&lt;type id="jar"/&gt;</tt> indicating that the project produces
+        a jar file.  As such, Ant project project properties will be created for the 
+        local and cache-based locations of enclosing directories and resource paths.
+        These properties can be used within a build file to simplify the handling of
+        file names and locations.
+        </p>
+        
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+
+  &lt;project name="demo" basedir="."&gt;
+    &lt;properties&gt;
+      &lt;property name="location" value="New York"/&gt;
+      &lt;property name="message" value="Hello from ${user.name} in ${location}"/&gt;
+    &lt;/properties&gt;
+    <font color="darkred">&lt;types&gt;
+      &lt;type id="jar"/&gt;
+    &lt;/types&gt;</font>
+    &lt;filters&gt;
+      &lt;filter token="MESSAGE" value="${message}"/&gt;
+    &lt;/filters&gt;
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="build.xml">
+      
+        <p>
+        The following build file uses standard properties concerning target
+        directory location, strc file location, compiled classes directory, 
+        final jar deliverable naming, and cache path to construct and publish
+        a jar file.
+        </p>
+        
+<pre>
+&lt;project name="demo" default="install"&gt;
+
+  &lt;target name="clean"&gt;
+    &lt;delete dir="${project.target.dir}"/&gt;
+  &lt;/target&gt;
+
+  <font color="gray">&lt;!--
+  Copy the src content to the target/build/main directory with filtering
+  applied and compile the resulting source files into the target/classes/main
+  directory.
+  --&gt;</font>
+  &lt;target name="build"&gt;
+    <font color="darkred">&lt;mkdir dir="${project.target.build.main.dir}"/&gt;
+    &lt;copy toDir="${project.target.build.main.dir}" filtering="true"&gt;
+      &lt;fileset dir="${project.src.main.dir}"/&gt;
+    &lt;/copy&gt;
+    &lt;mkdir dir="${project.target.classes.main.dir}"/&gt;
+    &lt;javac srcdir="${project.target.build.main.dir}" 
+      destdir="${project.target.classes.main.dir}"/&gt;</font>
+  &lt;/target>
+  
+  <font color="gray">&lt;!--
+  Package the compiled classes into a jar file and place the result in the 
+  target/deliverables/jars directory.
+  --&gt;</font>
+  <font color="darkred">&lt;target name="package" depends="build"&gt;
+    &lt;mkdir dir="${project.deliverable.jar.dir}"/&gt;
+    &lt;jar destfile="${project.deliverable.jar.path}" 
+      basedir="${project.target.classes.main.dir}"/&gt;
+  &lt;/target&gt;</font>
+
+  <font color="gray">&lt;!--
+  Copy the jar file to the system cache.
+  --&gt;</font>
+  &lt;target name="install" depends="package"&gt;
+    <font color="darkred">&lt;mkdir dir="${project.cache}/${project.cache.jar.dir}"/&gt;
+    &lt;copy file="${project.deliverable.jar.path}" 
+      toFile="${project.cache}/${project.cache.jar.path}"/&gt;</font>
+  &lt;/target&gt;
+
+&lt;/project&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Building the project ..">
+      
+        <pre>
+$ cd tutorials\tooling\simple\types
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+build:
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\types\target\build\main
+     [copy] Copying 1 file to D:\dpml\tutorials\tooling\types\target\build\main
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\types\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\types\target\classes\main
+
+package:
+    [mkdir] Created dir: D:\dpml\tutorials\tooling\types\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\types\target\deliverables\jars\demo-SNAPSHOT.jar
+
+install:
+    [mkdir] Created dir: D:\system\dpml\data\cache\jars
+     [copy] Copying 1 file to D:\system\dpml\data\cache\jars
+
+BUILD SUCCESSFUL
+Total time: 1 second
+
+$
+        </pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        This tutorial has demonstrated the benefits gained from standard and type-derived property
+        values. These benefits really come down to the usage of a standard project layout, naming
+        conventions, and shared repository.  Given these resources combinaed with support for 
+        programatic access to a project defintion - the logic next step is the automation of common 
+        taks such as jar file production.  In the <a href="automation.html">next tutorial</a> we 
+        introduce the usage of a imported build template that handles the establishment of a number
+        of tasks that are project-defintion-aware.
+        </p>
+        
+      </subsection>
+      
+      
+    </section>
+
+  </body>
+  
+</document>
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Component Management Solutions</title>
+    <description>Intelligent Component Management Solutions for Java.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties>
+
+  <body>
+
+    <section name="Component Management Solutions">
+
+      <subsection name="DPML SDK @VERSION@ Release">
+
+        <p>
+        Version @VERSION@ of the DPML SDK is available on our 
+        <a href="download/index.html">download page</a>.  The download includes
+        Transit, the Metro component strategy, the Depot build system, and the
+        Station application controller. Feedback and/or contributions are handled 
+        through our <a href="resources/lists.html">developer and supports forums</a>.
+        The SDK is published under the ASF 2.0 open-source 
+        <a href="legal/index.html">license</a>.
+        </p>
+        
+        <p><img src="../images/overview.png"/></p>
+        
+      </subsection>
+      
+      
+      <subsection name="Products">
+        
+        <ul>
+          <li>
+            <a href="../transit/index.html">Transit</a> resource management framework.
+          </li>
+          <li>
+            <a href="../depot/index.html">Depot</a> tools 
+            for build automation in complex multi-project environments.
+          </li>
+          <li>
+            <a href="../metro/index.html">Metro</a> context-driven IOC runtime container.
+          </li>
+          <li>
+            <a href="../station/index.html">Station</a> multi-appplication management system.
+          </li>
+          <li>
+            <a href="../util/index.html">Util</a> supporting utilities.
+          </li>
+        </ul>
+
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Install Task</title>
+  </properties> 
+
+  <body>
+    <section name="Install Task">
+      <p>
+      The install task copies the content of ${basedir}/target/deliverables
+      into the working repository cache.
+      </p>
+<source><![CDATA[
+<x:install/>
+]]></source>
+
+<pre>[x:install] installing deliverables
+     [copy] Copying 4 files to F:\dpml\Dat\cache\metro\tools</pre>
+
+    </section>
+  </body>
+
+</document>
+

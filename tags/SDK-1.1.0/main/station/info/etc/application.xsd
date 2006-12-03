@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<!--
+Defintion of an application.
+
+Example:
+
+  <application title="Sample Application" policy="automatic">
+    
+    <jvm>
+      <startup>60</startup>
+      <shutdown>60</shutdown>
+      <properties>
+        <property name="foo" value="bar"/>
+      </properties>
+    </jvm>
+    
+    <codebase uri="link:part:acme/widget">
+      <param class="java.awt.Color" method="RED"/>
+    </codebase>
+    
+  </application>
+  
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="@PROJECT-XSD-URI@"
+            xmlns:part="@PART-XSD-URI@"
+            targetNamespace="@PROJECT-XSD-URI@"
+            elementFormDefault="qualified">
+    
+    <import namespace="@PART-XSD-URI@" schemaLocation="@PART-XSD-URI@"/>
+
+    <element name="codebase" type="part:codebase"/>
+    <element name="application" type="this:ApplicationType"/>
+    <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
+    <element name="registry" type="this:RegistryType"/>
+    <element name="app" type="this:TaggedApplicationType"/>
+    
+    <complexType name="RegistryType">
+      <sequence>
+        <element ref="this:app" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+      <attribute name="policy" type="this:StartupPolicy"/>
+    </complexType>
+    
+    <complexType name="ApplicationType">
+      <sequence>
+        <element name="jvm" type="this:JVMType" minOccurs="0" maxOccurs="1"/>
+        <element ref="this:codebase" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+      <attribute name="policy" type="this:StartupPolicy"/>
+    </complexType>
+    
+    <complexType name="TaggedApplicationType">
+      <complexContent>
+        <extension base="this:ApplicationType">
+          <attribute name="key" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="JVMType">
+      <sequence>
+        <element name="startup" type="this:TimeoutType" minOccurs="0" maxOccurs="1"/>
+        <element name="shutdown" type="this:TimeoutType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="basedir" type="string"/>
+    </complexType>
+    
+    <simpleType name="TimeoutType">
+      <restriction base="integer"/>
+    </simpleType>
+    
+    <simpleType name="StartupPolicy">
+      <restriction base="string">
+        <enumeration value="disabled"/>
+        <enumeration value="manual"/>
+        <enumeration value="automatic"/>
+      </restriction>
+    </simpleType>
+        
+    <complexType name="PropertiesType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="PropertyType">
+      <attribute name="name" type="string"/>
+      <attribute name="value" type="string"/>
+    </complexType>
+
+</schema>

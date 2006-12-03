@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Component Management Solutions</title>
+    <description>Intelligent Component Management Solutions for Java.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties>
+
+  <body>
+
+    <section name="Unknown Resource Reference (404)">
+    
+      <p>
+      The requested page is unknown.  Chances are that you have referenced
+      a resource relative to an interim or milestone version ID.  Javadoc API
+      are available for all formal releases and several dependent libraries.
+      The menu on the right details all of the available Javadoc API groups
+      hosted by the DPML. By navigating though group and published versions 
+      you should be able to find the APIs you need.  If the resources your
+      looking for at not listed please notify the DPML via the 
+      support <a href="/about/resources/lists.html">mailing list</a>.
+      </p>
+      
+    </section>
+
+  </body>
+
+</document>
+
