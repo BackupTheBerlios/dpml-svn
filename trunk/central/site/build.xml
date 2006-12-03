@@ -287,6 +287,18 @@
       </fileset>
     </copy>
     
+    <property name="unit.src.dir" location="${components.dir}/unit"/>
+    <property name="unit.import.docs.dir" location="target/docs/metro/tutorials/unit"/>
+    <mkdir dir="${unit.import.docs.dir}"/>
+    <copy toDir="${unit.import.docs.dir}" flatten="true">
+      <fileset dir="${unit.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+      <fileset dir="${unit.src.dir}/target/reports/src">
+        <include name="**/*.html"/>
+      </fileset>
+    </copy>
+    
   </target>
   
 </project>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Component Testing</title>
+  </properties>
+
+  <body>
+
+    <section name="Component Testing">
+
+      <subsection name="Tutorial Objective">
+
+        <p>
+        This tutorial focusses on the usage of Metro management APIs 
+        within a testcase with the objective of fully simulating formal
+        commissioning and decommissioning of components in a unit testcase.
+        </p>
+        
+      </subsection>
+      
+      <subsection name="Supporting Resources">
+
+        <table>
+          <tr>
+            <td><a href="ExampleTest.java.html">ExampleTest.java</a></td>
+            <td>An example of a formal component testcase.</td>
+          </tr>
+          <tr>
+            <td><a href="ContainerImpl.java.html">ContainerImpl.java</a></td>
+            <td>A component managing the lifecycle of a child component.</td>
+          </tr>
+          <tr>
+            <td><a href="ChildImpl.java.html">ChildImpl.java</a></td>
+            <td>The managed child component.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Testcase Setup">
+
+        <p>
+        The following code establishes the runtime context for all testXxx
+        methods in the testcase.  In this example we are locating the part
+        definition for the project from the target directory, converting
+        the part location to a URI, and loading the part.  In addition, 
+        we explicity request a <tt>Component</tt> instance via the
+        the <tt>Part.getContent</tt> request.
+        </p>
+        
+        <source>
+public void setUp() throws Exception 
+{
+    m_logger = Logger.getLogger( "test" );
+    m_logger.info( "commissioning" );
+    URI uri = getPartURI();
+    Part part = Part.load( uri );
+    m_component = (Component) part.getContent( new Class[]{Component.class} );
+}
+
+private URI getPartURI() throws Exception
+{
+    String path = System.getProperty( "project.deliverable.part.path" );
+    File file = new File( path );
+    return file.toURI();
+}
+        </source>
+        
+      </subsection>
+      
+      <subsection name="Test Execution">
+
+        <p>
+        The Component instance exposes a bunch of management operations.  One
+        of these is the operation getProvider() which gives us access to 
+        the manager of one instance of the class specificed by the component 
+        type. The provider exposes the operation getValue( boolean ) which 
+        is where we actually get a fully initialized instance (and keep
+        in mind here that full-initialized means that all initialization 
+        actions (such as state transitions) have alrady been successfully 
+        completed.
+        </p>
+        
+        <source>
+public void testExampleComponent() throws Exception 
+{
+    m_logger.info( "testing" );
+    Provider provider = m_component.getProvider();
+    ContainerImpl container = (ContainerImpl) provider.getValue( false );
+    
+    // Any tests assertions go here.
+}
+        </source>
+        
+        <p>
+        With debug level logging assigned to the top-level component the 
+        following output will be generated: 
+        </p>
+        
+        <pre>
+test:
+    [junit] Executing forked test.
+    [junit] Running acme.test.ExampleTest
+    [junit] [14139] [INFO   ] (test): commissioning
+    [junit] [14139] [FINE   ] (container): loaded [acme.ContainerImpl]
+    [junit] [14139] [FINE   ] (container): established SINGLETON:HARD lifestyle handler.
+    [junit] [14139] [INFO   ] (test): testing
+    [junit] [14139] [FINE   ] (container.child): loaded [acme.ChildImpl]
+    [junit] [14139] [FINE   ] (container.child): established SINGLETON:HARD lifestyle handler.
+    [junit] [14139] [INFO   ] (container): configuration uri: local:properties:acme/examples/services/configuration
+    [junit] [14139] [FINE   ] (container.child): instantiated [4744654]
+    [junit] [14139] [FINE   ] (container.child): activated [4744654]
+    [junit] [14139] [FINE   ] (container): instantiated [21854021]
+    [junit] [14139] [INFO   ] (container): starting
+    [junit] [14139] [INFO   ] (container.child): starting with: local:properties:acme/examples/services/configuration
+    [junit] [14139] [INFO   ] (container): configurable service started successfully
+    [junit] [14139] [FINE   ] (container): activated [21854021]
+    [junit] [14139] [INFO   ] (test): decommissioning
+    [junit] [14139] [INFO   ] (container): stopping
+    [junit] [14139] [INFO   ] (container.child): stopping
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.859 sec
+        </pre>
+        
+      </subsection>
+      
+      <subsection name="Testcase TearDown">
+      
+        <p>
+        The following code gaurantees that the component instance will 
+        be formally decommissioned (in effect simulating the normal 
+        decommissioning behaviour you would see if the component was deployed 
+        under the DPML Station).
+        </p>
+        
+        <source>
+public void tearDown() throws Exception
+{
+    m_logger.info( "decommissioning" );
+    Disposable disposable = (Disposable) m_component;
+    disposable.dispose();
+}
+        </source>
+
+      </subsection>
+      
+      <subsection name="Summary">
+      
+        <p>
+        Usage of classes in the <tt>net.dpml.component</tt> package enables
+        the formal control of a component.  In effect your testcase is acting as 
+        the component controller and the overall impact of commissioning and 
+        decommissioning cycles can be fully assessed.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+
