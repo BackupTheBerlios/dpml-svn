@@ -90,9 +90,8 @@
         <p>
         Version 1.0.5 is a maintenance update resoles an issues related to 
         properties supplied to forked testcases (specifically and dereferencing
-        of property values in a <tt>${basedir}/test.properties</tt> file> and 
-        the addition of related documentation.
-        of .
+        of property values in a <tt>${basedir}/test.properties</tt> file and 
+        related documentation).
         </p>
         
         <table>
