@@ -209,11 +209,11 @@ public abstract class UnicastEventSource extends UnicastRemoteObject implements 
             try
             {
                 UnicastRemoteObject.unexportObject( m_source, true );
-                m_logger.debug( "terminated" );
+                m_logger.trace( "terminated " + m_source.getClass().getName() );
             }
             catch( NoSuchObjectException e )
             {
-                boolean ignoreThis = true; // objct has not been exported
+                boolean ignoreThis = true; // object has not been exported
             }
             catch( RemoteException e )
             {
