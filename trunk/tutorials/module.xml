@@ -478,6 +478,32 @@
       <feature ref="dpmlx/tutorials/components/acme-clock-demo" token="PART" id="uri" type="part"/> 
     </filters>
   </project>
+  
+  <project name="acme-unit" basedir="unit">
+    <properties>
+      <property name="java.util.logging.config.class" value="dpml"/>
+      <property name="example.uri" value="local:properties:acme/examples/services/configuration"/>
+    </properties>
+    <types>
+      <type id="jar" />
+      <component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
+          type="acme.ContainerImpl"
+          name="container" alias="true" collection="hard">
+        <context>
+          <entry key="configurationURI" value="${example.uri}" />
+        </context>
+        <parts>
+          <component key="child" type="acme.ChildImpl" collection="hard"/>
+        </parts>
+      </component>
+    </types>
+    <dependencies>
+      <test>
+        <include ref="ant/ant-junit" />
+        <include ref="dpml/metro/dpml-metro-model" />
+      </test>
+    </dependencies>
+  </project>
     
   </module>
     
