@@ -45,11 +45,10 @@ public class ExampleTest extends TestCase
         m_logger.info( "decommissioning" );
         Disposable disposable = (Disposable) m_component;
         disposable.dispose();
-        System.gc();
     }
    
    /**
-    * The Component instance exposes a buch of management operations.  One
+    * The Component instance exposes a bunch of management operations.  One
     * of these is the operation getProvider() which gives us access to 
     * the manager of one instance of the class specificed by the component 
     * type. The provider exposes the operation getValue( boolean ) which 
@@ -66,7 +65,7 @@ public class ExampleTest extends TestCase
         Provider provider = m_component.getProvider();
         ContainerImpl container = (ContainerImpl) provider.getValue( false );
         
-        // Any tests dealing with the instance would go here.
+        // Any test assertions go here.
     }
     
    /**
