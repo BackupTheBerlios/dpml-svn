@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="demo" default="install">
+
+  <target name="clean">
+    <!-- nothing to do -->
+  </target>
+
+  <target name="build">
+    <echo message="${message}"/>
+  </target>
+
+  <target name="install" depends="build"/>
+
+</project>

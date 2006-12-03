@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-component" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:x="dpml:depot">
+    
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
+      <include name="**/DefaultHostModel.class"/>
+      <include name="**/DefaultContentModel.class"/>
+      <include name="**/DefaultLayoutModel.class"/>
+      <include name="**/StandardLayoutModel.class"/>
+      <include name="**/DefaultCacheModel.class"/>
+      <include name="**/DefaultContentRegistryModel.class"/>
+      <include name="**/DefaultLayoutRegistryModel.class"/>
+      <include name="**/DefaultRepositoryModel.class"/>
+      <include name="**/DefaultTransitModel.class"/>
+      <include name="**/DefaultProxyModel.class"/>
+      <include name="**/DefaultCacheHandler.class"/>
+      <include name="**/DefaultContentRegistry.class"/>
+      <include name="**/DefaultLayoutRegistry.class"/>
+      <include name="**/DefaultResourceHost.class"/>
+      <include name="**/SecuredTransitContext$ProxyController.class"/>
+      <include name="**/SecuredTransitContext$DisposalController.class"/>
+    </rmic>
+  </target>
+
+  <target name="update">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.prefs}/dpml/transit"/>
+    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
+      <fileset dir="${basedir}/target/prefs"/>
+    </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Shared Lib. ${dpml.share}/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.share}/lib"/>
+    <copy preservelastmodified="true" toFile="${dpml.share}/lib/${project.name}.jar" 
+      file="${project.deliverable.jar.path}" overwrite="true"/>
+  </target>
+
+</project>

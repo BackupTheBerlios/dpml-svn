@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Control Command</title>
+  </properties> 
+
+  <body>
+
+    <section name="Control Command">
+
+      <subsection name="Description">
+
+        <p>
+        Start a console connected to a named application.  The console
+        provides a set of additional commands supporting the invocation 
+        of state transitions and management operations.  Once connected 
+        with an application, management operations may be invoked using
+        the nested <tt>exec</tt> command with the name of the operation
+        as the first parameter.  Subsequent parameters will be used as 
+        operation arguments.  Transitions may be invoked using the 
+        nested <tt>apply</tt> command by supplying the name of the 
+        transition to be applied by the state machine.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station control <id>]]></pre>
+
+      </subsection>
+
+      <subsection name="Parameters">
+
+        <table>
+          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key.</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Console Commandline">
+
+<pre>
+<![CDATA[
+Usage:
+ info | apply <id> | exec <id> [<arg> ...] | help | exit 
+options
+  info                List state info.
+  apply id            Apply a state transition.
+  exec id [arg ...]   Execute a management operation.
+  help                List controller help info.
+  exit                Exit the console.
+]]>
+</pre>
+
+      </subsection>
+
+      <subsection name="Example">
+
+        <p>
+        The following example assumes that the demo application is up and running.  The 
+        initial command line establishes a console connected to the named appplication.
+        Within the console the user can query the status of the application and review available
+        state transitions and management operations published by the component.  The following
+        example demonstrates the invocation of the management operation <tt>'memory'</tt> on
+        the component and the listing of the returned value.
+        </p>
+
+<pre>$ station control demo</pre>
+
+<source>
+[3984]> Connected to application [demo]
+[3984]> <font color="darkred">info</font>
+
+Application: demo
+Current State:
+Transitions: 0
+Operations: 2
+  [1] stats
+  [2] memory
+
+[3984]&gt; <font color="darkred">exec memory</font>
+
+applying operation: memory
+listing return value
+
+Memory Usage
+  Timestamp: Fri Dec 23 08:07:16 CST 2005
+       Free: 181024
+      Total: 2523136
+        Max: 66650112
+done
+[3984]&gt;
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="@PROJECT-XSD-SPEC-URI@"
+            targetNamespace="@PROJECT-XSD-SPEC-URI@"
+            elementFormDefault="qualified">
+    
+    <element name="index" type="this:IndexType"/>
+    <element name="resource" type="this:ResourceType"/>
+    <element name="project" type="this:ProjectType" substitutionGroup="this:resource"/>
+    <element name="module" type="this:ModuleType" substitutionGroup="this:resource"/>
+    <element name="property" type="this:PropertyType"/>
+    <element name="typedef" type="this:AbstractType"/>
+    <element name="type" type="this:GenericType" substitutionGroup="this:typedef"/>
+    
+    <complexType name="IndexType">
+      <sequence>
+        <element name="imports" type="this:ImportsType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element ref="this:resource" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ImportsType">
+      <sequence>
+        <element name="import" type="this:URIImportType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="PropertiesType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ModulesType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="module" type="this:ModuleType"/>
+        <!--<element name="import" type="this:FileImportType"/>-->
+      </choice>
+    </complexType>
+
+    <complexType name="URIImportType">
+      <attribute name="uri" type="anyURI"/>
+    </complexType>
+
+    <complexType name="FileImportType">
+      <attribute name="file" type="string"/>
+    </complexType>
+
+    <complexType name="PropertyType">
+      <attribute name="name" type="string" use="required"/>
+      <attribute name="value" type="string" use="required"/>
+    </complexType>
+
+    <complexType name="ResourceType">
+      <sequence>
+        <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0"  maxOccurs="1"/>
+        <element name="types" type="this:TypesType" minOccurs="0" maxOccurs="1"/>
+        <element name="dependencies" type="this:DependenciesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="name" type="string"/>
+      <attribute name="version" type="string"/>
+      <attribute name="basedir" type="string"/>
+      <attribute name="file" type="string"/>
+    </complexType>
+
+    <complexType name="ProjectType">
+      <complexContent>
+        <extension base="this:ResourceType">
+          <sequence>
+            <element name="filters" type="this:FiltersType" minOccurs="0"  maxOccurs="1"/>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="ModuleType">
+      <complexContent>
+        <extension base="this:ProjectType">
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <element name="module" type="this:ModuleType"/>
+            <element name="project" type="this:ProjectType"/>
+            <element name="resource" type="this:ResourceType"/>
+            <!--<element name="import" type="this:FileImportType"/>-->
+          </choice>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="TypesType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="this:typedef"/>
+      </choice>
+    </complexType>
+
+    <complexType name="AbstractType" abstract="true">
+      <attribute name="alias" type="boolean" default="false"/>
+      <attribute name="version" type="string"/>
+    </complexType>
+    
+    <complexType name="GenericType">
+      <complexContent>
+        <extension base="this:AbstractType">
+          <sequence>
+             <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+          <attribute name="id" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="DependenciesType">
+      <all>
+        <element name="build" type="this:BuildScope" minOccurs="0" maxOccurs="1"/>
+        <element name="runtime" type="this:RuntimeScope" minOccurs="0" maxOccurs="1"/>
+        <element name="test" type="this:TestScope" minOccurs="0" maxOccurs="1"/>
+      </all>
+    </complexType>
+
+    <complexType name="BuildScope">
+      <sequence>
+        <element name="include" type="this:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="RuntimeScope">
+      <sequence>
+        <element name="include" type="this:RuntimeIncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="TestScope">
+      <sequence>
+        <element name="include" type="this:IncludeType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="IncludeType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="key" type="string"/>
+      <attribute name="ref" type="string"/>
+      <attribute name="uri" type="string"/>
+    </complexType>
+
+    <complexType name="InfoType">
+      <sequence>
+        <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+    </complexType>
+
+    <complexType name="RuntimeIncludeType">
+      <complexContent>
+        <extension base="this:IncludeType">
+          <attribute name="tag" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <simpleType name="tag">
+      <restriction base="string">
+        <enumeration value="system"/>
+        <enumeration value="public"/>
+        <enumeration value="protected"/>
+        <enumeration value="private"/>
+      </restriction>
+    </simpleType>
+    
+    <!-- filter management -->
+
+    <complexType name="FiltersType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="filter" type="this:Filter"/>
+        <element name="feature" type="this:Feature"/>
+      </choice>
+    </complexType>
+    
+    <complexType name="AbstractFilter" abstract="true">
+      <attribute name="token" type="string" use="required"/>
+    </complexType>
+
+    <complexType name="Filter">
+      <complexContent>
+        <extension base="this:AbstractFilter">
+          <attribute name="value" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="Feature">
+      <complexContent>
+        <extension base="this:AbstractFilter">
+          <attribute name="id" type="this:featureEnumeration" use="required"/>
+          <attribute name="type" type="string" use="optional"/>
+          <attribute name="alias" type="boolean" use="optional"/>
+          <attribute name="ref" type="string" use="optional"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+    <simpleType name="featureEnumeration">
+      <restriction base="string">
+        <enumeration value="name"/>
+        <enumeration value="group"/>
+        <enumeration value="version"/>
+        <enumeration value="decimal"/>
+        <enumeration value="uri"/>
+        <enumeration value="spec"/>
+        <enumeration value="path"/>
+        <enumeration value="filename"/>
+      </restriction>
+    </simpleType>
+
+</schema>
+

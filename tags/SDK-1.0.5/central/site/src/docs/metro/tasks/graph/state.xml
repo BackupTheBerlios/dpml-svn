@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Graph State Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="State Datatype">
+
+      <subsection name="Description">
+
+        <p>
+        A state is an immutable datastructure that defines a collection 
+        of available transitions, management operations, and possibly
+        initialization or termination triggers.  Actionable features
+        of a state are exposed when the state is within the current state path.
+        The current state path is a path composed of the current state, it's 
+        parent, parent's patrent, etc. unit the root state is reached.  As 
+        such, any operations declared within the root state will always be 
+        available where operations and/transitions in sub-states will only
+        available if the associated state is present in the state path.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Set the state name.</td>
+          </tr>
+          <tr>
+            <td><tt>terminal</tt></td>
+            <td>If set to 'true' the state will be classified as a terminal state.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="trigger/index.html">trigger</a></tt></td>
+            <td>An initialization or termination trigger.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="state.html">state</a></tt></td>
+            <td>A nested state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="transition.html">transition</a></tt></td>
+            <td>A state transition.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="operation.html">operation</a></tt></td>
+            <td>A management operation.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+      
+<pre><![CDATA[
+<project name="standalone-graph-example" default="install"
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:depot" 
+    xmlns:c="dpml:metro">
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+    <c:state>
+      <trigger event="initialization">
+        <transition name="startup" target="started">
+          <operation method="start"/>
+        </transition>
+      </trigger>
+      <state name="started">
+        <trigger event="termination">
+          <apply id="stop"/>
+        </trigger>
+        <transition name="stop" target="../stopped">
+          <operation method="stop"/>
+        </transition>
+      </state>
+      <state name="stopped">
+        <transition name="start" target="../started">
+          <operation method="start"/>
+        </transition>
+      </state>
+    </c:state>
+  </target>
+
+</project>
+]]></pre>
+
+    </section>
+
+  </body>
+
+</document>
+

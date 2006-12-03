@@ -1,0 +1,24 @@
+
+<body>
+
+<p>
+The transit package contains the primary runtime classes within the Transit 
+resource management system. 
+</p>
+
+<p>
+The principal <a href="Transit.html">Transit</a> class is responsible for the 
+establishment of the Transit runtime based on a default or explicit 
+<a href="model/TransitModel.html">TransitModel</a>. The Transit class provides 
+the internal machinery for a protocol handler dealing with the "artifact" and 
+"link" uri schemes and the corresponding url protocols.  In addition Transit 
+provides access to classloader construction services via the following static 
+operation:
+</p>
+
+<code>
+  <a href="Repository.html">Repository</a> Transit.getInstance().getRepository();
+</code>
+
+</body>
+
