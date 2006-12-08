@@ -53,7 +53,7 @@
     &lt;/types&gt;
     &lt;dependencies&gt;
       &lt;test&gt;
-        <font color="darkred">&lt;include ref="ant/ant-unit"/&gt;
+        <font color="darkred">&lt;include ref="ant/ant-junit"/&gt;
         &lt;include ref="dpml/transit/dpml-transit-main"/&gt;</font>
       &lt;/test&gt;
     &lt;/dependencies&gt;
