@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Project Declarations</title>
+  </properties> 
+
+  <body>
+
+    <section name="Projects">
+
+      <p> 
+      A project is an extension of a resource definition. A project definition is typically
+      used by a build system implementation to harvest information about dependecies, 
+      produced resources, and project specific properties.  Typically a project definition
+      if sufficient to establish and deploy a embedeed build system such as the DPML default
+      Ant-based builder.
+      </p>
+
+      <p>
+      A project differs from a resource in terms of the granularity of detail associated with
+      dependency references.  Specifically - a project can delcare RUNTIME dependencies that 
+      are scoped in terms of their rank within a classloader chain.  Dependencies can be scoped
+      as PUBLIC, PROTECTED or PRIVATE.  This supplimentary data can be used in the construction 
+      of plugin descriptors that separate the classic public API from restricted (or PROTECTED) 
+      management APIS from the internal PRIVATE classloader. 
+      </p>
+
+      <p>
+      Another important distinction between a resource and project is the declaration of a
+      base directory.  Typically the base directory of a project is used by a build system 
+      to resolve sources and generate build artifacts.  While the project defintion itself is 
+      independent of the build strategy, it can provide properties that influence the selection
+      of a build system and subsequent build system behaviour.
+      </p>
+      
+      <subsection name="XML Attributes">
+
+         <p>
+         The following attributes may be declared on a <tt>&lt;project&gt;</tt> element.
+         </p>
+      
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The project name (required).</td>
+           </tr>
+           <tr>
+             <td>basedir</td>
+             <td>The project base directory (required). The supplied value will 
+               be resolved relative to the basedir of the enclosing module.</td>
+           </tr>
+           <tr>
+             <td>version</td>
+             <td>The resource version (not normally declared - instead the version 
+               will typically be supplied using the 
+               <a href="../cli/version.html"><tt>build -version</tt></a>
+               commandline argument).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td><a href="info.html">info</a></td>
+             <td>0..1</td>
+             <td>Declaration of supplimentary human readable <a href="info.html">info</a> 
+                about the project.</td>
+           </tr>
+           <tr>
+             <td><a href="properties.html">properties</a></td>
+             <td>0..1</td>
+             <td>Declaration of a set of <a href="properties.html">properties</a> 
+                associated with the project.  Typically property declarations will be used 
+                by a build system to qualify resource production behaviour.</td>
+           </tr>
+           <tr>
+             <td><a href="types.html">types</a></td>
+             <td>0..1</td>
+             <td>A collection of <a href="types.html">types</a> associated with the project
+               (e.g. a jar file, plugin, war, etc.).  Each type declaration asserted by a project
+               can be viewed as an artifact produced by the project as a result of a build. When 
+               a project declares a type, features of that type (such as the filename) may be 
+               accessed by build procedures associated to this or other projects).</td>
+           </tr>
+           <tr>
+             <td><a href="dependencies.html">dependencies</a></td>
+             <td>0..3</td>
+             <td>A project may declare <tt>BUILD</tt>, <tt>RUNTIME</tt> and <tt>TEST</tt> 
+             scoped <a href="dependencies.html">dependencies</a>.  Unless otherwise specified the 
+             default scope of a dependencies element is <tt>RUNTIME</tt>. Dependencies declared 
+             under <tt>BUILD</tt> scope do effect project build sequencing but do not contribute 
+             to classpath related information.  <tt>RUNTIME</tt> dependencies are used in the 
+             construction of classpath data.  <tt>TEST</tt> scoped dependencies extend runtime 
+             dependencies with supplimentary resources used during unit testing.</td>
+           </tr>
+           <tr>
+             <td><a href="filters/index.html">filters</a></td>
+             <td>0..1</td>
+             <td>Declaration of a set of content <a href="filters/index.html">filters</a> 
+                associated with the project.  Typically filters are used to substitute
+                string tokens in source code with values resolved from the project
+                model (or other project/resources).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following example project is taken from the DPML Metro module. The project
+      declares a basedir and the project name <tt>dpml-metro-runtime</tt>.  It declares
+      that it produces two artifacts - a jar file and a plugin part definition.  The part type
+      is an example of a plugin declaration containing nexted constructor arguments.
+      The project includes several dependencies collected under two groups - the 
+      first group maps to the projects <tt>RUNTIME</tt> dependencies and second group maps
+      to <tt>TEST</tt> scoped dependencies.  Within the runtime group the dependencies 
+      in this example are tagged with respect to classloader categories <tt>PUBLIC</tt>, 
+      <tt>PROTECTED</tt> or <tt>PRIVATE</tt> (the default). Runtime dependency tags are 
+      typically used in the creation of a classloader chains.
+      </p>
+
+<source><![CDATA[
+  <project name="dpml-metro-runtime" basedir="runtime">
+    <info title="Metro Container Runtime">
+      <description>
+      DPML Component management platform runtime container.
+      </description>
+    </info>
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="net.dpml.metro.runtime.CompositionController">
+        <part:param class="net.dpml.component.InitialContext"/>
+      </part:plugin>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/util/dpml-logging-api" tag="public"/>
+        <include ref="dpml/metro/dpml-metro-component" tag="protected"/>
+        <include ref="dpml/metro/dpml-metro-model" tag="protected"/>
+        <include ref="dpml/metro/dpml-job-impl"/>
+        <include ref="dpml/metro/dpml-state-impl"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PART-HANDLER-URI" id="uri" type="part"/>
+      <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
+      <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
+    </filters>
+  </project>
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,1 @@
+Example dealing with direct uri extension of another component.

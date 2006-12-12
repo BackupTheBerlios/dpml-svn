@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<component xmlns="@COMPONENT-XSD-URI@"
+      type="net.dpml.test.array.ArrayTestComponent"
+      name="array"
+      lifestyle="thread"
+      collection="system"
+      activation="system">
+  <context>
+    <entry key="values" class="[Ljava.lang.String;">
+      <param class="Hello"/>
+      <param class="World"/>
+    </entry>
+  </context>
+</component>
+

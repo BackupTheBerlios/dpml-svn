@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<index xmlns="link:xsd:dpml/lang/dpml-module#1.0"
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+
+  <imports>
+    <import uri="link:module:ant"/>
+    <import uri="link:module:dpml"/>
+  </imports>
+
+  <module name="org/acme/plugin" basedir=".">
+  
+    <project name="clock-api" basedir="api">
+      <types>
+        <type id="jar"/>
+      </types>
+    </project>
+    
+    <project name="clock-impl" basedir="impl">
+      <types>
+        <type id="jar"/>
+        <part:plugin class="org.acme.impl.SimpleClock">
+          <part:param value="h:mm"/>
+          <part:param class="java.util.Locale" method="getDefault"/>
+        </part:plugin>
+      </types>
+      <dependencies>
+        <runtime>
+          <include key="clock-api"/>
+        </runtime>
+        <test>
+          <include ref="ant/ant-junit"/>
+          <include ref="dpml/transit/dpml-transit-main"/>
+        </test>
+      </dependencies>
+    </project>
+
+  </module>
+
+</index>

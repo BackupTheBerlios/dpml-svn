@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Type Parts Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Services Element">
+
+      <subsection name="Description">
+
+        <p>
+        The <tt>services</tt> element declares a collection of classnames
+        representing services (typically interfaces) that the component
+        is declaring it provides.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <p>
+        The <tt>services</tt> element may contain any number of <tt>service</tt> 
+        elements.
+        </p>
+
+        <table>
+          <tr>
+            <td><tt><a href="service.html">service</a></tt></td>
+            <td>Declaration of of a published service provided by the component.
+              The services element may contain 0..n nested service elements.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Examples">
+
+      <p>
+      The following example illustrates a type descriptor that declares that 
+      the component implementation exports the service 
+      <tt>net.dpml.http.BoundedThreadPool</tt> service.</p>
+
+<source><![CDATA[
+<?xml version="1.0"?>
+
+<type xmlns="link:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:type="link:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:component="link:xsd:dpml/lang/dpml-component#1.0">
+
+  <info name="pool"
+      class="net.dpml.http.BoundedThreadPool"
+      version="0.0.0"
+      lifestyle="singleton"
+      collection="system"
+      threadsafe="true"/>
+  <services>
+    <service class="org.mortbay.thread.ThreadPool" version="1.0.0"/>
+  </services>
+  <context>
+    <entry key="name" class="java.lang.String" optional="true"/>
+    <entry key="priority" class="int" optional="true"/>
+    <entry key="min" class="int" optional="true"/>
+    <entry key="max" class="int" optional="true"/>
+    <entry key="daemon" class="boolean" optional="true"/>
+    <entry key="idle" class="int" optional="true"/>
+  </context>
+
+</type>]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+

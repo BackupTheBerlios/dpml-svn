@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="planet"
+    xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+
+  <properties>
+    <property name="project.major.version" value="0"/>
+    <property name="project.minor.version" value="2"/>
+    <property name="project.micro.version" value="0"/>
+  </properties>
+
+  <module file="http/module.xml"/>
+
+</module>

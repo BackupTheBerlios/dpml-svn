@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<index xmlns="@MODULE-XSD-URI@">
+
+    <module name="org">
+      <properties>
+        <property name="ping" value="pong"/>
+        <property name="batman" value="robin"/>
+      </properties>
+      <module name="acme">
+        <properties>
+          <property name="foo" value="bar"/>
+        </properties>
+      </module>
+    </module>
+
+</index>

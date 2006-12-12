@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Build Templates</title>
+  </properties> 
+
+  <body>
+
+    <section name="Templates">
+
+      <p>
+      The Depot build system will assign a template file to a project as 
+      the primary definition of the build strategy.  The default standard 
+      template includes a series of common targets covering initialization, 
+      preparation, build, packaging, testing and installation.
+      </p>
+
+      <subsection name="Template Selection">
+
+      <p>
+      A project template is selected in accordance with the following rules.
+      </p>
+
+      <ol>
+        <li>If a file named <tt>build.xml</tt> exists in the project base directory
+          then that file will be used as the build template.</li>
+        <li>Otherwise, if the property <tt>project.template</tt> is defined then use the 
+           uri declared under this property.</li>
+        <li>Otherwise, if the property <tt>project.standard.template</tt> is defined then use the 
+           uri declared under this property.</li>
+        <li>Otherwise, the default standard template is selected.</li>
+      </ol>
+
+      </subsection>
+
+      <subsection name="Standard Templates">
+
+        <table>
+          <tr>
+            <td>name</td>
+            <td>standard</td>
+          </tr>
+          <tr>
+            <td>url</td>
+            <td><tt>local:template:dpml/tools/standard</tt></td>
+          </tr>
+          <tr>
+            <td>desription</td>
+            <td>
+              Defines a set of standard targets which are used 
+              primarily to fire build events which in turn are handled 
+              by project listeners.
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr>
+            <th>Target</th>
+            <th>Depends</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>init</td>
+            <td></td>
+            <td>Project initialization including the establishment of the 
+            project context.</td>
+          </tr>
+          <tr>
+            <td>prepare</td>
+            <td>init</td>
+            <td>Copies the content of the <tt>${basedir}/src</tt> directory to 
+             <tt>${basedir}/target/build</tt> filtering content in the process.
+              See <a href="../../tasks/prepare.html">prepare task</a> for additional 
+              information.</td>
+          </tr>
+          <tr>
+            <td>build</td>
+            <td>prepare</td>
+            <td>Trigger the build phases event - typically triggering code compilation.</td>
+          </tr>
+          <tr>
+            <td>package</td>
+            <td>build</td>
+            <td>Trigger the packaging phases event.</td>
+          </tr>
+          <tr>
+            <td>test</td>
+            <td>package</td>
+            <td>Trigger the test phases event.</td>
+          </tr>
+          <tr>
+            <td>install</td>
+            <td>test</td>
+            <td>Validates that the build has produced the artifacts declared under the 
+              project defintion and copies these to the local cache.</td>
+          </tr>
+          <tr>
+            <td>clean</td>
+            <td>init</td>
+            <td>Deletes the <tt>${basedir}/target</tt> directory.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Technical Note">
+
+        <p>
+        Currently the standard template includes a <tt>checkstyle</tt> tasks.  This 
+        should be considered as temporary pending development of the builder 
+        configuration to support site wide common targets.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
+<!--
+-->

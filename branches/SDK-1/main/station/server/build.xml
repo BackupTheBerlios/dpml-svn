@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-station-impl" default="install" basedir="." 
+    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <available property="dpml.exe.available" file="${dpml.system}/bin/server/dpml.exe"/>
+
+  <target name="build" depends="standard.build">
+    <rmic base="${project.target.classes.main.dir}" classpathref="project.compile.path">
+      <include name="**/RemoteApplicationRegistry.class"/>
+      <include name="**/RemoteApplication.class"/>
+      <include name="**/RemoteStation.class"/>
+    </rmic>
+  </target>
+
+  <target name="install" depends="bin,standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/*.bat"/>
+        <exclude name="**/*.exe"/>
+        <exclude name="**/*.EXE"/>
+      </fileset>
+    </copy>
+    <property name="prefs" location="${dpml.prefs}/dpml/station"/>
+    <mkdir dir="${prefs}"/>
+    <copy toDir="${prefs}">
+      <fileset dir="target/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="bin" depends="standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true" filtering="false">
+      <fileset dir="etc">
+        <include name="bin/scm/**/*.*"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

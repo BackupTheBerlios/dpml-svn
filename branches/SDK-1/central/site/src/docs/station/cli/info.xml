@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Info Command</title>
+  </properties> 
+
+  <body>
+
+    <section name="Info Command">
+
+      <subsection name="Description">
+
+        <p>
+        The info command provides support for listing information from 
+        the station registry, and if the server is active - information
+        about the status of registered applications.  If the <tt>&lt;key&gt;</tt>
+        argument is supplied then information about the process will be 
+        listed, otherwise a general listing of registered processes will 
+        included.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station info [<key>]]]></pre>
+
+      </subsection>
+
+      <subsection name="Parameters">
+
+        <table>
+          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key (optional).</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100"><tt>-port</tt></td>
+            <td>Override the RMI registry port to use when selecting the station server
+              (cannot be used in conjuction with the <tt>-registry</tt> option).</td></tr>
+          <tr>
+            <td width="100"><tt>-registry</tt></td>
+            <td>Override the application repository storage uri
+                (cannot be used in conjuction with the <tt>-port</tt> option).</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Example - General Listing">
+
+<pre>$ station info</pre>
+
+<source>
+  Server is operational.
+  Port: 1099
+  Store: local:xml:dpml/station/registry
+  Basedir: c:\dev\dpml\main
+  Codebase: artifact:jar:dpml/metro/dpml-station-server#SNAPSHOT
+
+Profile count: 1
+
+ (1) demo       STARTED link:part:dpml/planet/http/dpml-http-demo
+</source>
+
+      </subsection>
+
+      <subsection name="Example - Named Application Listing">
+
+<pre>$ station info demo</pre>
+
+<source>
+  Server is operational.
+  Port: 1099
+  Store: local:xml:dpml/station/registry
+  Basedir: c:\dev\dpml\main
+  Codebase: artifact:jar:dpml/metro/dpml-station-server#SNAPSHOT
+
+  Codebase: link:part:dpml/planet/http/dpml-http-demo
+  Working Directory Path: ${dpml.data}/work
+  Startup Timeout: 6
+  Shutdown Timeout: 6
+  Startup Policy: MANUAL
+  System Properties: 1
+
+  Process: [3452] (STARTED)
+  State: [started]
+  Transitions: (1)
+    transition:stop (target=../stopped)
+</source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
