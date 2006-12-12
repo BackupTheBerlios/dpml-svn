@@ -11,6 +11,7 @@
 <body>
 
     <section name="Subversion Code Management">
+    
       <p> 
         Subversion is an open source version control system, released under 
         an Apache/BSD-style license. This application was designed, and is on 
@@ -29,10 +30,10 @@
       </p>
       <subsection name="DPML SVN Repository" >
         <p>Checkout the DPML codebase using the following svn commandline:</p>
-        <source>svn checkout https://svn.berlios.de/svnroot/repos/dpml/trunk/main</source>
+        <source>svn checkout https://svn.berlios.de/svnroot/repos/dpml/branches/SDK-1</source>
         <p>Developers registered with the DPML project should use the following command:</p>
         <source>svn checkout \ 
-svn+ssh://developername@svn.berlios.de/svnroot/repos/dpml/trunk/main</source>
+svn+ssh://developername@svn.berlios.de/svnroot/repos/dpml/branches/SDK-1</source>
       </subsection>
     </section> 
 

@@ -41,7 +41,7 @@
 
 <pre>
 $ cd dev\dpml\main
-$ svn checkout svn://svn.berlios.de/dpml/trunk/main
+$ svn checkout svn://svn.berlios.de/dpml/branches/SDK-1/main
 $ bootstrap
 </pre>
 
