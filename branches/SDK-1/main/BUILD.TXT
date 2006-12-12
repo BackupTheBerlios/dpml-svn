@@ -21,7 +21,7 @@ The bootstrap procedure invokes a SNAPSHOT build on all resources necessary to
 establish the build tool.
 
   $ cd dev\dpml\main
-  $ svn checkout svn://svn.berlios.de/dpml/trunk/main
+  $ svn checkout svn://svn.berlios.de/dpml/branches/SDK-1/main
   $ bootstrap
 
 C. Main System Build
@@ -54,8 +54,8 @@ full build.
 
      $ build -decimal
 
-The build procedure will build approximately 42 projects during which a number 
-of downloads may occur.  On completion the %DPML_HOME%\data\dist directory will
+The procedure will build approximately 42 projects during which a number of 
+downloads may occur.  On completion the %DPML_HOME%\data\dist directory will 
 contain the distribution archives for the installation.  Unpack the archive 
 corresponding to your platform into the %DPML_HOME% root directory.
 
