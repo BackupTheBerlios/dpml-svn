@@ -68,7 +68,7 @@ public final class ContextInvocationHandler implements InvocationHandler
    /**
     * Create a context invocation handler.
     *
-    * @param provider the provider
+    * @param map a map containing context key/value pairs.
     */
     private ContextInvocationHandler( Map map )
     {
