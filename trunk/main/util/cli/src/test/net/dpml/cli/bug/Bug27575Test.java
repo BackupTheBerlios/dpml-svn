@@ -52,6 +52,7 @@ public class Bug27575Test extends TestCase
             if( entry.equals( "[-h]" ) || entry.equals( "-c <arg>" ) )
             {
                 // ok
+                boolean ok = true;
             }
             else
             {
