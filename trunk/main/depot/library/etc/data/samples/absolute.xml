@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<index xmlns="@MODULE-XSD-URI@" >
+<index xmlns="dpml:library" >
 
     <module name="gov/nsa/acme">
       <info/>

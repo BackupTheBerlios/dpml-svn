@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="commons-cli" version="1.0" xmlns="@MODULE-XSD-URI@">
+<module xmlns="dpml:library" name="commons-cli" version="1.0">
 
     <resource name="commons-cli">
       <types>

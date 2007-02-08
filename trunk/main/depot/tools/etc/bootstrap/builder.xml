@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<part xmlns="@PART-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<part xmlns="dpml:part">
   
   <info title="Depot Builder">
     <description>
@@ -7,22 +7,21 @@
     </description>
   </info>
   
-  <strategy xsi:type="plugin" class="@PLUGIN-CLASS@"/>
+  <component xmlns="dpml:metro" type="dpml.tools.impl.StandardBuilder"
+    handler="net.dpml.runtime.ComponentStrategyHandler"/>
   
   <classpath>
-    <system>
-      <uri>artifact:jar:ant/ant-launcher#@ANT-VERSION@</uri>
-      <uri>artifact:jar:ant/ant#@ANT-VERSION@</uri>
-      <uri>artifact:jar:junit/junit#@JUNIT-VERSION@</uri>
-      <uri>artifact:jar:ant/ant-junit#@ANT-VERSION@</uri>
-      <uri>artifact:jar:ant/ant-xslp#@ANT-VERSION@</uri>
-      <uri>artifact:jar:ant/ant-trax#@ANT-VERSION@</uri>
-    </system>
     <private>
-      <uri>artifact:jar:dpml/transit/dpml-transit-main#@TRANSIT-CORE-VERSION@</uri>
-      <uri>artifact:jar:dpml/transit/dpml-transit-tools#@TRANSIT-TOOLS-VERSION@</uri>
-      <uri>artifact:jar:dpml/depot/dpml-library#@LIBRARY-VERSION@</uri>
-      <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#@PROJECT-VERSION@</uri>
+      <uri>artifact:jar:junit/junit#@JUNIT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant-launcher#@ANT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant#@ANT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant-trax#@ANT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant-junit#@ANT-VERSION@</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/lang/dpml-lang-part#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/depot/dpml-depot-library#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/depot/dpml-depot-build#BOOTSTRAP</uri>
+      <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#BOOTSTRAP</uri>
     </private>
   </classpath>
   

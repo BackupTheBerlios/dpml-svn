@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-tools-builder" default="install" basedir="."
-    xmlns:transit="antlib:net.dpml.transit">
+<project name="dpml-depot-builder" default="install" basedir=".">
 
   <property file="${basedir}/bootstrap.properties"/>
   <property file="../../bootstrap.properties"/>
-  <transit:import file="${dpml.prefs}/dpml/transit/templates/bootstrap.template"/>
-
+  <property name="bootstrap.template" location="${basedir}/../../bootstrap.xml"/>
+  <import file="${bootstrap.template}"/>
+  
   <target name="init" depends="bootstrap.init">
-    <filter token="PART-XSD-URI" value="link:xsd:dpml/lang/dpml-part#1.0"/>
+    <filter token="PART-XSD-URI" value="dpml:part"/>
     <filter token="PROJECT-URI" value="artifact:part:${project.group}/${project.name}#${project.version}" />
     <filter token="PROJECT-LINK-URI" value="link:part:${project.group}/${project.name}" />
     <filter token="PROJECT-NAME" value="${project.name}" />
     <filter token="PROJECT-GROUP" value="${project.group}"/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>
-    <filter token="ANT-VERSION" value="${tools.ant.version}"/>
+    <filter token="ANT-VERSION" value="${transit-ant.version}"/>
     <filter token="JUNIT-VERSION" value="${junit.version}"/>
-    <filter token="PLUGIN-CLASS" value="net.dpml.tools.impl.StandardBuilder"/>
+    <filter token="PLUGIN-CLASS" value="dpml.tools.impl.StandardBuilder"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-URI" 
-        value="artifact:part:${project.group}/dpml-depot-checkstyle#SNAPSHOT"/>
+        value="artifact:part:${project.group}/dpml-depot-checkstyle#BOOTSTRAP"/>
     <filter token="DEPOT-CHECKSTYLE-PLUGIN-LINK-URI" 
         value="link:part:${project.group}/dpml-depot-checkstyle"/>
     <filter token="TRANSIT-CORE-VERSION" value="BOOTSTRAP"/>
@@ -27,21 +27,16 @@
   </target>
 
   <target name="setup-path" depends="bootstrap.setup-path">
-    <transit:get property="junit.path" uri="${junit.uri}"/>
-    <transit:get property="library.path" 
-      uri="artifact:jar:dpml/depot/dpml-library#BOOTSTRAP"/>
-    <transit:get property="transit.path" 
-      uri="artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP"/>
     <path id="project.main.path">
-      <pathelement 
-        location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
-      <pathelement location="${library.path}"/>
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/lang/jars/dpml-lang-part-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/depot/jars/dpml-depot-library-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/depot/jars/dpml-depot-build-BOOTSTRAP.jar"/>
       <pathelement location="${target.classes.dir}"/>
     </path>
     <path id="project.test.path">
-      <pathelement location="${junit.path}"/>
-      <pathelement location="${library.path}"/>
-      <pathelement location="${transit.path}"/>
+      <path refid="project.main.path"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
     </path>
   </target>

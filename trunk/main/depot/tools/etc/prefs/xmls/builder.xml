@@ -9,7 +9,7 @@ Default configuration for Depot-on-Ant.
   <properties/>
   
   <listeners>
-    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener" priority="0"/>
+    <listener name="standard" class="dpml.tools.impl.StandardBuildListener" priority="0"/>
   </listeners>
   
 </builder>

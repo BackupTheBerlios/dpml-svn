@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-depot-builder">
+
+  <info title="DPML Depot Toolkit">
+    <description>Antlib supporting Depot-based build automation.</description>
+  </info>
+  
+  <types>
+    <type id="jar"/>
+    <type id="part" source="target/component.xml" alias="true"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/lang/dpml-lang-part"/>
+      <include ref="dpml/depot/dpml-depot-library"/>
+      <include ref="dpml/depot/dpml-depot-build"/>
+      <include ref="org/apache/ant/ant"/>
+      <include ref="org/apache/ant/ant-junit"/>
+      <include ref="org/apache/ant/ant-trax"/>
+      <!--<include uri="artifact:jar:openjdk/javac/javac"/>-->
+    </runtime>
+  </dependencies>
+  
+  <filters>
+    <filter token="PLUGIN-CLASS" value="dpml.tools.impl.StandardBuilder"/>
+    <feature token="PART-XSD-URI" id="uri" type="xsd" alias="true" ref="dpml/lang/dpml-lang-part" />
+    <feature token="PART-XSD-SPEC-URI" id="uri" type="xsd" alias="true" ref="dpml/lang/dpml-lang-part" />
+    <feature token="PROJECT-URI" id="uri" type="part"/>
+    <feature token="PROJECT-LINK-URI" id="uri" type="part" alias="true"/>
+    <feature token="PROJECT-NAME" id="name"/>
+    <feature token="PROJECT-GROUP" id="group"/>
+    <feature token="PROJECT-VERSION" id="version"/>
+    <feature token="ANT-VERSION" id="version" ref="org/apache/ant/ant"/>
+    <feature token="JUNIT-VERSION" id="version" ref="junit/junit"/>
+    <feature token="DEPOT-CHECKSTYLE-PLUGIN-URI" id="uri" type="part" ref="dpml/depot/dpml-depot-checkstyle" />
+    <feature token="DEPOT-CHECKSTYLE-PLUGIN-LINK-URI" id="uri" type="part" alias="true" 
+        ref="dpml/depot/dpml-depot-checkstyle" />
+    <feature token="TRANSIT-CORE-VERSION" id="version" ref="dpml/transit/dpml-transit-main"/>
+    <!--<feature token="TRANSIT-TOOLS-VERSION" id="version" ref="dpml/transit/dpml-transit-tools"/>-->
+    <feature token="LIBRARY-VERSION" id="version" ref="dpml/depot/dpml-depot-library"/>
+  </filters>
+
+</project>

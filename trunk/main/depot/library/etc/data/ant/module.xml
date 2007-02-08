@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module name="ant" version="1.6.5" xmlns="@MODULE-XSD-URI@">
+<module name="ant" version="1.6.5" xmlns="dpml:library">
 
     <resource name="ant">
       <types>

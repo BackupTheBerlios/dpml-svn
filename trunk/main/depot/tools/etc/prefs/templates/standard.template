@@ -17,13 +17,8 @@
 -->
 
 <project name="standard" default="install"
-    xmlns:transit="antlib:net.dpml.transit" 
-    xmlns:x="dpml:depot" >
+    xmlns:x="antlib:dpml.tools" >
 
-  <transit:plugin uri="@PROJECT-LINK-URI@">
-    <antlib urn="dpml:depot" resource="net/dpml/tools/tasks/antlib.xml"/>
-  </transit:plugin>
-  
   <target name="init">
     <x:init/>
   </target>
@@ -68,6 +63,10 @@
         out="${checkstyle.dir}/checkstyle_report.html">
       <param name="output.dir" expression="${checkstyle.dir}"/>
     </xslt>
+  </target>
+
+  <target name="javadoc" depends="init">
+    <x:javadoc/>
   </target>
 
 </project>

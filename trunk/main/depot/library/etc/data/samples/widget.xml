@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<module xmlns="@MODULE-XSD-URI@" name="abc"/>
+<module xmlns="dpml:library" name="abc"/>

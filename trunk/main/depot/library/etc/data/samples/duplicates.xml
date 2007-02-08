@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<index xmlns="@MODULE-XSD-URI@" 
-    xmlns:part="@PART-XSD-URI@">
+<index xmlns="dpml:library">
 
     <module name="acme">
       <resource name="widget">
@@ -9,7 +8,7 @@
             <property name="pink" value="floyd"/>
             <property name="alice" value="cooper"/>
           </type>
-          <part:plugin class="Widget"/>
+          <type id="part" source="strategy.xml"/>
         </types>
       </resource>
     </module>
@@ -17,7 +16,7 @@
     <module name="acme">
       <resource name="gizmo">
         <types>
-          <part:plugin class="gizmo"/>
+          <type id="part" source="strategy.xml"/>
         </types>
       </resource>
     </module>

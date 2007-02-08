@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="dpml-library-console" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:depot" >
+<project name="dpml-depot-build" default="install" basedir=".">
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <property name="project.group" value="dpml/depot"/>
+  <property name="project.name" value="dpml-depot-build"/>
 
-  <available property="builder.exe.available" file="${dpml.system}/bin/build.exe"/>
+  <property name="home" value="../.."/>
+  <import file="${home}/bootstrap.xml"/>
+  
+  <target name="init" depends="bootstrap.init">
+    <filter token="PROJECT-NAME" value="${project.name}" />
+    <filter token="PROJECT-GROUP" value="${project.group}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <filter token="DEPOT-BUILDER-URI" value="link:part:dpml/depot/dpml-depot-builder"/>
+  </target>
+  
+  <target name="setup-path" depends="bootstrap.setup-path">
+    <path id="project.main.path">
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/lang/jars/dpml-lang-part-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/depot/jars/dpml-depot-library-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/util/jars/dpml-util-cli-BOOTSTRAP.jar"/>
+      <pathelement location="${target.classes.dir}"/>
+    </path>
+    <path id="project.test.path">
+      <path refid="project.main.path"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
+    </path>
+  </target>
 
-  <target name="install" depends="bin,standard.install">
-    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
-      <fileset dir="target">
-        <include name="bin/build.lap"/>
-        <include name="bin/build"/>
+  <target name="package" depends="bootstrap.package">
+    <mkdir dir="${target.deliverables.dir}/parts"/>
+    <move file="${target.dir}/bootstrap/part.xml"
+      toFile="${target.deliverables.dir}/parts/${project.name}-${project.version}.part"/>
+    <move file="${target.dir}/bootstrap/part.link"
+      toFile="${target.deliverables.dir}/parts/${project.name}.part.link"/>
+  </target>
+
+  <target name="install" depends="bootstrap.install">
+    <mkdir dir="${dpml.system}/bin"/>
+    <copy todir="${dpml.system}/bin" preservelastmodified="true" overwrite="true">
+      <fileset dir="target/bin">
+        <include name="build"/>
+        <include name="build.lap"/>
+        <include name="build.policy"/>
+      </fileset>
+    </copy>
+    <copy todir="${dpml.system}/bin" preservelastmodified="true" overwrite="true" filtering="false">
+      <fileset dir="etc/bin">
+        <include name="build.exe"/>
       </fileset>
     </copy>
     <chmod perm="755">
@@ -22,12 +59,14 @@
     </chmod>
   </target>
 
-  <target name="bin" depends="standard.install" unless="builder.exe.available">
+  <!--
+  <target name="bin" depends="bootstrap.install" unless="builder.exe.available">
     <copy todir="${dpml.system}" preservelastmodified="true">
-      <fileset dir="target">
-        <include name="bin/build.exe"/>
+      <fileset dir="${basedir}/etc/bin">
+        <include name="build.exe"/>
       </fileset>
     </copy>
   </target>
-
+  -->
+  
 </project>

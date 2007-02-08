@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-depot-build">
+
+  <info title="DPML Depot Build Tool">
+    <description>Multi-project build automation tool.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" alias="true" source="target/component.xml"/>
+  </types>
+    
+  <dependencies>
+    <runtime>
+      <include ref="dpml/lang/dpml-lang-part"/>
+      <include ref="dpml/depot/dpml-depot-library"/>
+      <include ref="dpml/util/dpml-util-cli"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+    
+  <filters>
+    <feature token="DEPOT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" id="uri" type="part" alias="true"/>
+  </filters>
+
+</project>
