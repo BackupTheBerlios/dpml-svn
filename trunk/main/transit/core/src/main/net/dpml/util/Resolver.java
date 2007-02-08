@@ -43,7 +43,7 @@ public interface Resolver
     * @return the uri value
     * @exception URISyntaxException if an error occurs during uri creation
     */
-    URI toURI( String ref ) throws URISyntaxException;
+    //URI toURI( String ref ) throws URISyntaxException;
     
    /**
     * Return a property value.

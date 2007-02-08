@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Stephen J. McConnell.
+ * Copyright 2004-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,22 +16,10 @@
  * limitations under the License.
  */
 
-package net.dpml.util;
-
-import java.io.Writer;
-import java.io.IOException;
-
 /**
- * Interface implemented by generic encoders.
+ * Common utility interfaces.
+ *
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
+ * @version @PROJECT-VERSION@
  */
-public interface Encoder
-{
-   /**
-    * Externalize a object to XML.
-    * @param writer the output stream writer
-    * @param object the object to externalize
-    * @param pad the character offset
-    * @exception IOException if an IO error occurs
-    */
-    public void encode( Writer writer, Object object, String pad ) throws IOException;
-}
+package net.dpml.util;
