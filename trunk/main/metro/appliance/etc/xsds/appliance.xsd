@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<!--
+Defintion of an application.
+
+Example:
+
+  <application title="Sample Application" policy="automatic">
+    
+    <process startup="60" shutdown="60">
+      <properties>
+        <property name="foo" value="bar"/>
+      </properties>
+    </process>
+    
+    <codebase uri="link:part:acme/widget">
+      <param class="java.awt.Color" method="RED"/>
+    </codebase>
+    
+  </application>
+  
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:part="dpml:part"
+            xmlns:this="dpml:appliance"
+            targetNamespace="dpml:appliance"
+            elementFormDefault="qualified">
+    
+    <import namespace="dpml:part" schemaLocation="link:xsd:dpml/lang/dpml-lang-part"/>
+
+    <element name="appliance" type="this:ApplianceType"/>
+    <element name="codebase" type="this:CodebaseType"/>
+    
+    <complexType name="ApplianceType">
+      <sequence>
+        <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
+        <element name="process" type="this:ProcessType" minOccurs="0" maxOccurs="1"/>
+        <element name="codebase" type="this:CodebaseType" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="ProcessType">
+      <sequence>
+        <element name="environment" type="this:EnvironmentType" minOccurs="0" maxOccurs="1"/>
+        <element name="properties" type="this:PropertiesType" minOccurs="0" maxOccurs="1"/>
+        <element name="arguments" type="this:ArgumentsType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="startup" type="integer" default="0"/>
+      <attribute name="shutdown" type="integer" default="0"/>
+      <attribute name="path" type="string"/>
+      <attribute name="executable" type="string" default="metro"/>
+    </complexType>
+    
+    <complexType name="PropertiesType">
+      <sequence>
+        <element name="property" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="EnvironmentType">
+      <sequence>
+        <element name="variable" type="this:PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ArgumentsType">
+      <sequence>
+        <element name="arg" type="this:ArgumentsType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ArgumentType">
+      <attribute name="value" type="string"/>
+    </complexType>
+
+    <complexType name="PropertyType">
+      <attribute name="name" type="string"/>
+      <attribute name="value" type="string"/>
+    </complexType>
+
+    <complexType name="CodebaseType">
+      <attribute name="uri" type="anyURI"/>
+    </complexType>
+    
+    <complexType name="InfoType">
+      <sequence>
+        <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="name" type="string"/>
+      <attribute name="title" type="string"/>
+    </complexType>
+
+</schema>

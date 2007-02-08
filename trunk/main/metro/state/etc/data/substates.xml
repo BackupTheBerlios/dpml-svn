@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<state xmlns="@STATE-XSD-URI@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <state name="foo">
-    <transition name="fred" target="wilma"/>
-    <state name="xxx"/>
-  </state>
-  <state name="bar">
-  </state>
-</state>

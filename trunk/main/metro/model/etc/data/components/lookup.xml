@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-
-<component xmlns="@COMPONENT-XSD-URI@"
-    type="net.dpml.test.array.ArrayTestComponent">
-  <context>
-    <entry key="test" lookup="acme.Widget"/>
-  </context>
-</component>
-

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-metro-main">
+
+  <info title="DPML Metro Commandline handler"/>
+  
+  <types>
+    <type id="jar"/>
+    <type id="part" source="etc/component.xml" alias="true"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/lang/dpml-lang-part"/>
+      <include ref="dpml/metro/dpml-metro-connector"/>
+      <include ref="dpml/metro/dpml-metro-appliance"/>
+      <include ref="dpml/util/dpml-util-cli"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+  
+</project>
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-metro-main" default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+
+  <x:import uri="local:template:dpml/tools/standard"/>
+
+  <available property="metro.exe.available" file="${dpml.system}/bin/metro.exe"/>
+
+  <target name="build" depends="standard.build">
+    <!--
+    <x:rmic>
+      <include name="**/StandardAppliance.class"/>
+    </x:rmic>
+    -->
+  </target>
+
+  <target name="install" depends="bin,standard.install">
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/metro.lap"/>
+        <include name="bin/metro.policy"/>
+        <include name="bin/metro"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="metro"/>
+      </fileset>
+    </chmod>
+  </target>
+
+  <target name="bin" depends="standard.install" unless="metro.exe.available">
+    <mkdir dir="${dpml.system}/bin"/>
+    <copy todir="${dpml.system}" preservelastmodified="true">
+      <fileset dir="target">
+        <include name="bin/metro.exe"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

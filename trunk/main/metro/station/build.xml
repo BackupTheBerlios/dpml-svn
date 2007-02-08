@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-metro-station" default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+
+  <x:import uri="local:template:dpml/tools/standard"/>
+
+  <available property="station.exe.available" file="${dpml.system}/bin/station.exe"/>
+
+  <target name="install" depends="bin,standard.install">
+    <mkdir dir="${dpml.prefs}/${project.group}"/>
+    <copy toDir="${dpml.prefs}/${project.group}">
+      <fileset dir="etc/prefs">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    
+    <!--
+    <mkdir dir="${dpml.prefs}/${project.group}/plans"/>
+    <copy file="${basedir}/target/prefs/default.xml" toFile="${dpml.prefs}/${project.group}/plans/default.plan"
+        preservelastmodified="true" overwrite="true"/>
+    -->
+    
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/station.lap"/>
+        <include name="bin/station.policy"/>
+        <include name="bin/station"/>
+        <include name="bin/scm/**"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="station"/>
+      </fileset>
+    </chmod>
+  </target>
+
+  <target name="bin" depends="standard.install" unless="station.exe.available">
+    <mkdir dir="${dpml.system}/bin"/>
+    <copy todir="${dpml.system}" preservelastmodified="true">
+      <fileset dir="target">
+        <include name="bin/station.exe"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

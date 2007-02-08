@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-metro-test">
+
+  <info title="DPML Metro Test Suite"/>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/metro/dpml-metro-appliance"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+  
+</project>
+

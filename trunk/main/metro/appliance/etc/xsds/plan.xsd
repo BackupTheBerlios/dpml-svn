@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<!--
+Defintion of an multi-application deployment plan.
+
+Example:
+
+  <plan title="Scenario Demo">
+    <entry name="foo" uri="link:appliance:dpml/metro/demo"/>
+    <entry name="bar" uri="link:part:dpml/lang/dpml-lang-sample"/>
+    <entry name="toto" uri="link:part:dpml/lang/dpml-lang-sample?message=My%20Scenario,port=999"/>
+  </plan>
+  
+-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="dpml:plan"
+            targetNamespace="dpml:plan"
+            elementFormDefault="qualified">
+    
+    <element name="plan" type="this:PlanType"/>
+    
+    <complexType name="PlanType">
+      <sequence>
+        <element name="entry" type="this:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="name" type="string" default="root"/>
+      <attribute name="title" type="string"/>
+    </complexType>
+
+    <complexType name="EntryType">
+      <attribute name="uri" type="anyURI" use="required"/>
+      <attribute name="key" type="string" use="required"/>
+    </complexType>
+
+</schema>
