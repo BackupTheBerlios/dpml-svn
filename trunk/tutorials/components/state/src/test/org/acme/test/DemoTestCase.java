@@ -23,7 +23,10 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.lang.Part;
+import net.dpml.runtime.Component;
+import net.dpml.runtime.Provider;
+
+import net.dpml.lang.Strategy;
 
 import org.acme.Demo;
 
@@ -42,10 +45,11 @@ public class DemoTestCase extends TestCase
     public void testComponent() throws Exception
     {
         URI uri = getPartURI();
-        Part part = Part.load( uri, false );
-        Demo demo = (Demo) part.getContent();
-        demo = null;
-        System.gc();
+        Strategy strategy = Strategy.load( uri );
+        Component component = strategy.getContentForClass( Component.class );
+        Provider provider = component.getProvider();
+        Demo demo = provider.getInstance( Demo.class );
+        component.terminate();
     }
     
     private URI getPartURI() throws Exception

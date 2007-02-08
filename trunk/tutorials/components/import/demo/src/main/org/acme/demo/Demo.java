@@ -20,7 +20,7 @@ package org.acme.demo;
 
 import org.acme.Clock;
 
-import net.dpml.logging.Logger;
+import net.dpml.util.Logger;
 
 /**
  * A minimal component.

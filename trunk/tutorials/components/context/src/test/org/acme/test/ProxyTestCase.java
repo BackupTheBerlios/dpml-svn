@@ -24,7 +24,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import net.dpml.util.ContextInvocationHandler;
+import dpml.lang.ContextInvocationHandler;
 
 import org.acme.Demo;
 import org.acme.Demo.Context;
@@ -52,18 +52,17 @@ public class ProxyTestCase extends TestCase
     public void testComponent() throws Exception
     {
         Logger logger = Logger.getLogger( "test" );
-        Class clazz = Demo.Context.class;
-        Map map = buildContextMap();
-        Context context = 
-          (Context) ContextInvocationHandler.getProxiedInstance( clazz, map );
+        Class<?> clazz = Demo.Context.class;
+        Map<String,Object> map = buildContextMap();
+        Context context = (Context) ContextInvocationHandler.getProxiedInstance( clazz, map );
         Demo demo = new Demo( logger, context );
         String message = demo.getMessage();
         assertEquals( "message", MESSAGE, message );
     }
     
-    private Map buildContextMap()
+    private Map<String,Object> buildContextMap()
     {
-        Map map = new Hashtable();
+        Map<String,Object> map = new Hashtable<String,Object>();
         map.put( "activity", ACTIVITY );
         map.put( "owner", OWNER );
         map.put( "target", TARGET );

@@ -23,7 +23,7 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 
-import net.dpml.lang.Part;
+import net.dpml.lang.Strategy;
 
 import org.acme.Demo;
 
@@ -42,8 +42,8 @@ public class DemoTestCase extends TestCase
     public void testComponent() throws Exception
     {
         URI uri = getPartURI();
-        Part part = Part.load( uri );
-        Demo demo = (Demo) part.getContent();
+        Strategy strategy = Strategy.load( uri );
+        Demo demo = strategy.getInstance( Demo.class );
         String message = demo.getMessage();
         String name = System.getProperty( "user.name" );
         assertEquals( "message", "Painting " + name + "'s bike silver.", message );

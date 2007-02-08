@@ -18,9 +18,8 @@
 -->
 
 <project name="tutorials" default="install"
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:depot"
-    xmlns:c="dpml:metro">
+    xmlns:transit="antlib:dpml.tools.transit"
+    xmlns:x="dpml:depot">
 
   <transit:import uri="local:template:dpml/tools/standard"/>
 
@@ -28,7 +27,7 @@
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
     <x:plugin uri="link:part:dpml/depot/dpml-depot-checkstyle">
-      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+      <task class="dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>
     <checkstyle implicit="false">

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<component xmlns="dpml:metro" 
+   type="org.acme.Demo" 
+   name="demo">
+  <parts>
+    <component key="widget" type="org.acme.Widget" name="widget">
+      <context>
+        <entry key="color" method="BLUE"/>
+      </context>
+    </component>
+    <component key="gizmo" type="org.acme.Gizmo" name="gizmo">
+      <context>
+        <entry key="widget" lookup="org.acme.Widget"/>
+      </context>
+    </component>
+  </parts>
+</component>

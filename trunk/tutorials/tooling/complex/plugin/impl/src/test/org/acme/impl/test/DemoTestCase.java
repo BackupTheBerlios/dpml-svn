@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
-import net.dpml.lang.Part;
+import net.dpml.lang.Strategy;
 
 import org.acme.Clock;
 
@@ -43,12 +43,8 @@ public class DemoTestCase extends TestCase
     public void testComponent() throws Exception
     {
         URI uri = getPartURI();
-        Part part = Part.load( uri );
-        Clock clock = (Clock) part.getContent();
-        String timestamp = clock.getTimestamp();
-        
-        Logger logger = Logger.getLogger( "test" );
-        logger.info( clock.getTimestamp() );
+        Strategy strategy = Strategy.load( null, null, uri, "test" );
+        Clock clock = strategy.getInstance( Clock.class );
     }
     
     private URI getPartURI() throws Exception

@@ -33,6 +33,12 @@ import org.acme.Clock;
  */
 public class SimpleClock implements Clock
 {
+    public interface Context
+    {
+        public String getFormat();
+        public Locale getLocale();
+    }
+    
     //------------------------------------------------------------------
     // state
     //------------------------------------------------------------------
@@ -49,10 +55,10 @@ public class SimpleClock implements Clock
     * @param format the format to use for timestamps
     * @param locale the assigned locale
     */
-    public SimpleClock( final String format, final Locale locale )
+    public SimpleClock( Context context )
     {
-        m_format = format;
-        m_locale = locale;
+        m_format = context.getFormat();
+        m_locale = context.getLocale();
     }
     
     //------------------------------------------------------------------

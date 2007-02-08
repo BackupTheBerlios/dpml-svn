@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<index xmlns="link:xsd:dpml/lang/dpml-module#1.0"
-    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+<index xmlns="dpml:library">
 
   <imports>
-    <import uri="link:module:ant"/>
+    <import uri="link:module:org/apache/ant"/>
     <import uri="link:module:dpml"/>
   </imports>
 
@@ -18,18 +17,15 @@
     <project name="clock-impl" basedir="impl">
       <types>
         <type id="jar"/>
-        <part:plugin class="org.acme.impl.SimpleClock">
-          <part:param value="h:mm"/>
-          <part:param class="java.util.Locale" method="getDefault"/>
-        </part:plugin>
+        <type id="part" source="target/plugin.xml"/>
       </types>
       <dependencies>
         <runtime>
           <include key="clock-api"/>
+          <include ref="dpml/lang/dpml-lang-part"/>
         </runtime>
         <test>
-          <include ref="ant/ant-junit"/>
-          <include ref="dpml/transit/dpml-transit-main"/>
+          <include ref="org/apache/ant/ant-junit"/>
         </test>
       </dependencies>
     </project>

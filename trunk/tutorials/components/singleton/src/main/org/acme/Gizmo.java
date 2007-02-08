@@ -18,12 +18,16 @@
 
 package org.acme;
 
+import net.dpml.annotation.Component;
+import static net.dpml.annotation.LifestylePolicy.SINGLETON;
+
 /**
  * A test component.
  * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
+@Component( lifestyle=SINGLETON )
 public class Gizmo
 {
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+<index xmlns="dpml:library">
 
   <imports>
-    <import uri="link:module:ant"/>
+    <import uri="link:module:org/apache/ant"/>
     <import uri="link:module:dpml"/>
   </imports>
   
@@ -16,7 +16,7 @@
     </types>
     <dependencies>
       <test>
-        <include ref="ant/ant-junit"/>
+        <include ref="org/apache/ant/ant-junit"/>
         <include ref="dpml/transit/dpml-transit-main"/>
       </test>
     </dependencies>

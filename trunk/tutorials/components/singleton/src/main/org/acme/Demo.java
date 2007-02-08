@@ -21,12 +21,16 @@ package org.acme;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import net.dpml.annotation.Component;
+import static net.dpml.annotation.LifestylePolicy.SINGLETON;
+
 /**
  * A minimal component.
  * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
+@Component( lifestyle=SINGLETON )
 public class Demo
 {
    /**
