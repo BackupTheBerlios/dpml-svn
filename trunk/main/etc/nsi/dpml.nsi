@@ -83,7 +83,7 @@
   LangString DESC_SecData  ${LANG_ENGLISH} "Installs Local data"
   LangString DESC_SecPrefs  ${LANG_ENGLISH} "Installs Default Preferences"
   LangString DESC_SecShare  ${LANG_ENGLISH} "Installs Shared Libraries"
-  LangString DESC_SecPlatform ${LANG_ENGLISH} "Installs Transit Resource Management, Depot Build Management, Metro Runtime and the Station Application Controller"
+  LangString DESC_SecPlatform ${LANG_ENGLISH} "Installs Depot Build Management, Metro Runtime and the Station Application Controller"
   LangString DESC_SecStation  ${LANG_ENGLISH} "Installs Station SCM"
 ;  LangString DESC_SecDoc      ${LANG_ENGLISH} "Installs Platform and API Documentation"
 
@@ -131,16 +131,19 @@ Section "share" SecShare
   SectionIn RO
   SetOutPath $INSTDIR\share\bin
   File ..\bundle\share\bin\security.policy
-  File ..\bundle\share\bin\transit.exe
-  File ..\bundle\share\bin\transit.lap
-  File ..\bundle\share\bin\depot.exe
-  File ..\bundle\share\bin\depot.lap
+  ;File ..\bundle\share\bin\transit.exe
+  ;File ..\bundle\share\bin\transit.lap
+;  File ..\bundle\share\bin\depot.exe
+;  File ..\bundle\share\bin\depot.lap
   File ..\bundle\share\bin\build.exe
   File ..\bundle\share\bin\build.lap
+  File ..\bundle\share\bin\build.policy
   File ..\bundle\share\bin\metro.exe
   File ..\bundle\share\bin\metro.lap
+  File ..\bundle\share\bin\metro.policy
   File ..\bundle\share\bin\station.exe
   File ..\bundle\share\bin\station.lap
+  File ..\bundle\share\bin\station.policy
   SetOutPath $INSTDIR\share\bin\scm
   File /r ..\bundle\share\bin\scm\*
   SetOutPath $INSTDIR\share\lib
@@ -182,6 +185,6 @@ Section "Uninstall"
 
   Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
   RMDir /r "$SMPROGRAMS\$MUI_TEMP"
-  RMDir /r $INSTDIR
+;  RMDir /r $INSTDIR
   
 SectionEnd
