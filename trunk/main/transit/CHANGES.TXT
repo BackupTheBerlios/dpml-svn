@@ -1,0 +1,29 @@
+
+Transit system changes under the 2.X branch:
+
+  1. removed transit/console during refactoring (it may come back but if it does it will
+     be different).  Transit configuration updates will be performed via JMX but additional 
+     work is needed on storing configuration state and state mutation operations on 
+     respective managers.
+
+  2. removes registry protocol handler package (was never documented and is not needed with 
+     JMX implementation)
+
+  3. moved layout classes to net.dpml.transit package scope
+
+  4. removed net/dpml/transit/model classes (remote management will be deliverered via JMX 
+     MXBeans)
+
+  5. consolidated the net/dpml/transit/monitor classes as internal concerns within Transit
+
+  6. updated transit configuration to remove codebase abstraction on the grounds that 
+     we can use java.util.ServiceLoader under SE6 to resolve custom layouts
+
+  7. update artifact and local connection handler to use java.util.ServiceLoader for 
+     loading of custom content handlers
+
+
+/SJM
+
+
+
