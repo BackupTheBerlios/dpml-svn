@@ -1,58 +1,14 @@
 <?xml version="1.0"?>
 <module name="util" basedir="."
-    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns="dpml:library" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
     
-  <properties>
-    <property name="project.major.version" value="1"/>
-    <property name="project.minor.version" value="0"/>
-    <property name="project.micro.version" value="0"/>
-  </properties>
-
   <dependencies>
     <build>
       <include key="transit"/>
     </build>
   </dependencies>
 
-  <project name="dpml-util-i18n" basedir="i18n">
-    <info title="DPML I18N Utility">
-      <description>Internationalization utility.</description>
-    </info>
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <test>
-        <include ref="ant/ant-junit"/>
-      </test>
-    </dependencies>
-  </project>
-   
-  <project name="dpml-util-cli" basedir="cli">
-    <info title="DPML CLI Utility">
-      <description>Commandline handling utility.</description>
-    </info>
-    <properties>
-      <property name="project.test.fork" value="true"/>
-    </properties>
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <test>
-        <include ref="ant/ant-junit"/>
-      </test>
-    </dependencies>
-  </project>
-
-  <project name="dpml-logging-api" basedir="logging">
-    <info title="DPML Logging Utility">
-      <description>Logging API Wrapper.</description>
-    </info>
-    <types>
-      <type id="jar" alias="true"/>
-    </types>
-  </project>
+  <project file="cli/project.xml"/>
   
 </module>
