@@ -1,6 +1,5 @@
 /*
- * Copyright 2004-2005 Stephen J. McConnell.
- * Copyright 2004 Niclas Hedhman.
+ * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,31 +18,38 @@
 
 package net.dpml.transit;
 
-import java.io.Serializable;
-
+import javax.management.MXBean;
 
 /** 
- * Abstract base class for layout implementations.
+ * Cache management interface.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-abstract class AbstractLayout implements Layout, Serializable
+@MXBean
+public interface CacheManager
 {
-    public boolean equals( Object other )
-    {
-        if( null == other )
-        {
-            return false;
-        }
-        else
-        {
-            return getClass().equals( other.getClass() );
-        }
-    }
-
-    public int hashCode()
-    {
-        return getClass().hashCode();
-    }
+   /**
+    * Return the Transit cache directory path.
+    * @return the cache path
+    */
+    String getPath();
+    
+   /**
+    * Return the Transit cache directory location as a string.
+    * @return the cache file value
+    */
+    String getDirectory();
+    
+   /**
+    * Return the Transit cache layout id.
+    * @return the cache layout identifier
+    */
+    String getLayoutID();
+    
+   /**
+    * Return the hosts assigned in this Transit configuration
+    * @return the host manager array
+    */
+    HostManager[] getHosts();
 }

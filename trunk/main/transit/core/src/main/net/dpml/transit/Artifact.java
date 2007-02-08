@@ -21,7 +21,6 @@ package net.dpml.transit;
 
 import java.io.Serializable;
 import java.net.URLStreamHandler;
-
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -85,13 +84,14 @@ public final class Artifact implements Serializable, Comparable
      * @exception java.net.URISyntaxException if the supplied uri is not valid.
      * @exception UnsupportedSchemeException if the URI does not have "artifact"
      *         or "link" as its <strong>scheme</strong>.
+     * @exception NullPointerException if the supplied uri argument is null
      */
     public static final Artifact createArtifact( String uri )
-        throws URISyntaxException, UnsupportedSchemeException
+        throws URISyntaxException, UnsupportedSchemeException, NullPointerException
     {
         if( null == uri )
         {
-            throw new NullArgumentException( "uri" );
+            throw new NullPointerException( "uri" );
         }
         int asterix = uri.indexOf( "!" );
         if( asterix == -1 )
@@ -130,13 +130,14 @@ public final class Artifact implements Serializable, Comparable
      * @return the new artifact
      * @exception UnsupportedSchemeException if the URI does not have "artifact"
      *     or "link" as its <strong>scheme</strong>.
+     * @exception NullPointerException if the supplied uri argument is null
      */
     public static final Artifact createArtifact( URI uri )
-        throws UnsupportedSchemeException
+        throws UnsupportedSchemeException, NullPointerException
     {
         if( null == uri )
         {
-            throw new NullArgumentException( "uri" );
+            throw new NullPointerException( "uri" );
         }
         String scheme = uri.getScheme();
         if( null == scheme )
@@ -145,13 +146,10 @@ public final class Artifact implements Serializable, Comparable
               "URI does not declare a scheme: " + uri;
             throw new UnsupportedSchemeException( error );
         }
-        //if( !scheme.equals( ARTIFACT ) && !scheme.equals( LINK ) && !scheme.equals( LOCAL ) )
-        //{
-        //    final String error = 
-        //      "URI contains a scheme that is not recognized: " + uri;
-        //    throw new UnsupportedSchemeException( error );
-        //}
-        return new Artifact( uri );
+        else
+        {
+            return new Artifact( uri );
+        }
     }
 
     /**
@@ -163,12 +161,13 @@ public final class Artifact implements Serializable, Comparable
      * @param version the version
      * @param type the type
      * @return the new artifact
-     * @exception NullArgumentException if any of the <code>group</code>,
+     * @exception NullPointerException if any of the <code>group</code>,
      *            <code>name</code> or <code>type</code> arguments are
      *            <code>null</code>.
      */
-    public static Artifact createArtifact( String group, String name, String version, String type )
-        throws NullArgumentException
+    public static Artifact createArtifact( 
+      String group, String name, String version, String type )
+        throws NullPointerException
     {
         return createArtifact( ARTIFACT, group, name, version, type );
     }
@@ -183,24 +182,25 @@ public final class Artifact implements Serializable, Comparable
      * @param version the version
      * @param type the type
      * @return the new artifact
-     * @exception NullArgumentException if any of the <code>group</code>,
+     * @exception NullPointerException if any of the <code>group</code>,
      *            <code>name</code> or <code>type</code> arguments are
      *            <code>null</code>.
      */
-    public static Artifact createArtifact( String scheme, String group, String name, String version, String type )
-        throws NullArgumentException
+    public static Artifact createArtifact( 
+      String scheme, String group, String name, String version, String type )
+        throws NullPointerException
     {
         if( name == null )
         {
-            throw new NullArgumentException( "name" );
+            throw new NullPointerException( "name" );
         }
         if( type == null )
         {
-            throw new NullArgumentException( "type" );
+            throw new NullPointerException( "type" );
         }
         if( scheme == null )
         {
-            throw new NullArgumentException( "scheme" );
+            throw new NullPointerException( "scheme" );
         }
         String composite = buildComposite( scheme, group, name, version, type );
         try
@@ -233,11 +233,6 @@ public final class Artifact implements Serializable, Comparable
             buffer.append( "/" );
         }
         buffer.append( name );
-        //if( null != query )
-        //{
-        //    buffer.append( "?" );
-        //    buffer.append( query );
-        //}
         if( null != version )
         {
             buffer.append( "#" );
@@ -272,6 +267,11 @@ public final class Artifact implements Serializable, Comparable
         {
             return uri.toURL();
         }
+        catch( IllegalArgumentException iae )
+        {
+            throw new InvalidArtifactException( iae.getMessage() );
+        }
+        
         catch( MalformedURLException mue )
         {
             throw mue;
@@ -343,11 +343,15 @@ public final class Artifact implements Serializable, Comparable
      * @param uri a uri of the form [scheme]:[type]:[group]/[name]#[version]
      *   where [scheme] is one of 'link', 'artifact' or 'local'.
      */
-    private Artifact( URI uri )
-        throws IllegalArgumentException
+    private Artifact( URI uri ) throws InvalidArtifactException
     {
-        m_uri = uri;
-        String ssp = uri.getSchemeSpecificPart();
+        m_uri = reconstructURI( uri );
+        String ssp = m_uri.getSchemeSpecificPart();
+        
+        if( ssp.indexOf( '?' ) > -1 )
+        {
+            ssp = ssp.substring( 0, ssp.indexOf( '?' ) );
+        }
 
         if( ssp.indexOf( "//" ) > -1
           || ssp.indexOf( ":/" ) > -1
@@ -356,7 +360,7 @@ public final class Artifact implements Serializable, Comparable
             final String error =
               "Invalid character sequence in uri ["
               + uri + "].";
-            throw new IllegalArgumentException( error );
+            throw new InvalidArtifactException( error );
         }
         
         int typeIndex = ssp.indexOf( ':' );
@@ -370,10 +374,10 @@ public final class Artifact implements Serializable, Comparable
         {
             final String error = "Supplied artifact specification ["
               + uri + "] does not contain a type.";
-            throw new IllegalArgumentException( error );
+            throw new InvalidArtifactException( error );
         }
         
-        // ssp now contains group, name and version
+        // ssp now contains group and name
         
         int groupIndex = ssp.lastIndexOf( '/' );
         if( groupIndex > -1 )
@@ -388,7 +392,7 @@ public final class Artifact implements Serializable, Comparable
             m_name = ssp;
         }
         
-        String ver = uri.getFragment();
+        String ver = m_uri.getFragment();
         if( ver != null )
         {
             if( ver.indexOf( '/' ) >= 0
@@ -413,12 +417,56 @@ public final class Artifact implements Serializable, Comparable
             {
                 final String error =
                   "Supplied artifact specification ["
-                    + uri
+                    + m_uri
                     + "] contains illegal characters in the Version part.";
-                throw new IllegalArgumentException( error );
+                throw new InvalidArtifactException( error );
             }
         }
     }
+
+    private URI reconstructURI( URI uri ) 
+    {
+        String fragment = uri.getFragment();
+        
+        // if the fragment cointains a '?' character then reconstruct the uri
+        // such that the query is in the ssp
+        
+        if( null != fragment )
+        {
+            int n = fragment.indexOf( '?' );
+            if( n > -1 )
+            {
+                try
+                {
+                    String version = fragment.substring( 0, n );
+                    String query = fragment.substring( n + 1 );
+                    String scheme = uri.getScheme();
+                    String ssp = uri.getSchemeSpecificPart();
+                    return new URI( scheme, ssp + "?" + query, version );
+                }
+                catch( Exception e )
+                {
+                    throw new InvalidArtifactException( e.getMessage() );
+                }
+            }
+        }
+        return uri;
+        
+        /*
+        String ssp = uri.getSchemeSpecificPart();
+        int n = ssp.indexOf( '?' );
+        if( n > -1 )
+        {
+            String body = ssp.substring( 0, n );
+            String query = ssp.substring( n+1 );
+            System.out.println( "  SSP: " + ssp );
+            System.out.println( " BODY: " + body );
+            System.out.println( "QUERY: " + query );
+        }
+        return uri;
+        */
+    }
+    
 
     // ------------------------------------------------------------------------
     // public
@@ -508,15 +556,15 @@ public final class Artifact implements Serializable, Comparable
         String scheme = getScheme();
         if( ARTIFACT.equals( scheme ) )
         {
-            return toURL( new net.dpml.transit.artifact.Handler() );
+            return toURL( new dpml.transit.artifact.Handler() );
         }
         else if( LINK.equals( scheme ) )
         {
-            return toURL( new net.dpml.transit.link.Handler() );
+            return toURL( new dpml.transit.link.Handler() );
         }
         else if( LOCAL.equals( scheme ) )
         {
-            return toURL( new net.dpml.transit.local.Handler() );
+            return toURL( new dpml.transit.local.Handler() );
         }
         else
         {
@@ -570,11 +618,11 @@ public final class Artifact implements Serializable, Comparable
      * @param object the object to compare with this instance
      * @return the comparative order of the supplied object relative to this
      *   artifact
-     * @exception NullArgumentException if the supplied object argument is null.
+     * @exception NullPointerException if the supplied object argument is null.
      * @exception ClassCastException if the supplied object is not an Artifact.
      */
     public int compareTo( Object object )
-        throws NullArgumentException, ClassCastException
+        throws NullPointerException, ClassCastException
     {
         if( object instanceof Artifact )
         {
@@ -583,7 +631,7 @@ public final class Artifact implements Serializable, Comparable
         }
         else if( null == object )
         {
-            throw new NullArgumentException( "object" );
+            throw new NullPointerException( "object" );
         }
         else
         {

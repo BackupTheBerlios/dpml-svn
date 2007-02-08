@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2004-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -16,21 +16,17 @@
  * limitations under the License.
  */
 
-package net.dpml.transit;
-
 /**
- * The Disposable interface is implemented by a disposable sub-system within Transit.
+ * The transit package contains the primary runtime classes within the Transit 
+ * resource management system. 
+ * 
+ * The principal <a href="Transit.html">Transit</a> class is responsible for the 
+ * establishment of the Transit runtime based on a default or explicit 
+ * <a href="info/TransitDirective.html">TransitDirective</a>. The Transit class provides 
+ * the internal machinery for a protocol handler dealing with the "artifact", "link" and 
+ * "local" uri schemes and the corresponding url protocol handlers.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Disposable
-{
-   /**
-    * Dispose of the service.  During disposal a sub-system is required to 
-    * release all references such as listeners and internal resources
-    * in preparation for garbage collection.
-    */
-    void dispose();
-}
-
+package net.dpml.transit;

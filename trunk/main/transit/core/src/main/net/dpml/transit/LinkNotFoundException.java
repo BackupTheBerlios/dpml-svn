@@ -1,6 +1,5 @@
 /*
  * Copyright 2004-2005 Stephen J. McConnell.
- * Copyright 2004-2005 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,39 +18,36 @@
 
 package net.dpml.transit;
 
+import java.net.URI;
+
+import net.dpml.transit.ArtifactNotFoundException;
+
 /**
- * Runtime exception throw when an attempt is made to initialize transit 
- * when an existing Transit instance is already active.
+ * Exception to indicate that a link could not be located.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class TransitAlreadyInitializedException extends TransitRuntimeException
+public class LinkNotFoundException extends ArtifactNotFoundException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * Construct a new <code>TransitAlreadyInitializedException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     */
-    public TransitAlreadyInitializedException( final String message )
-    {
-        this( message, null );
-    }
+    // ------------------------------------------------------------------------
+    // constructor
+    // ------------------------------------------------------------------------
 
     /**
-     * Construct a new <code>TransitAlreadyInitializedException</code> instance.
+     * Construct a new <code>LinkNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
-     * @param cause the root cause of the exception
+     * @param uri the link uri
      */
-    public TransitAlreadyInitializedException( final String message, final Throwable cause )
+    public LinkNotFoundException( final String message, final URI uri )
     {
-        super( message, cause );
+        super( message, uri );
     }
 }
 

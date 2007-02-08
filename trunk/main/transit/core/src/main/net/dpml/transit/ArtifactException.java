@@ -1,5 +1,6 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2004-2005 Stephen J. McConnell.
+ * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,32 +19,40 @@
 
 package net.dpml.transit;
 
-
 /**
- * Exception to indicate that there was a configuration model related error.
+ * Exception to indicate that there was an Artifact related error.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ModelRuntimeException extends TransitRuntimeException
+public class ArtifactException extends TransitException
 {
+   /**
+    * Serial version identifier.
+    */
+    static final long serialVersionUID = 1L;
+
+    // ------------------------------------------------------------------------
+    // constructor
+    // ------------------------------------------------------------------------
+
     /**
-     * Construct a new <code>ModelRuntimeException</code> instance.
+     * Construct a new <code>ArtifactException</code> instance.
      *
      * @param message The detail message for this exception.
      */
-    public ModelRuntimeException( final String message )
+    public ArtifactException( final String message )
     {
-        this( message, null );
+        super( message );
     }
 
     /**
-     * Construct a new <code>ModelRuntimeException</code> instance.
+     * Construct a new <code>ArtifactException</code> instance.
      *
      * @param message The detail message for this exception.
      * @param cause the root cause of the exception
      */
-    public ModelRuntimeException( final String message, final Throwable cause )
+    public ArtifactException( final String message, final Throwable cause )
     {
         super( message, cause );
     }

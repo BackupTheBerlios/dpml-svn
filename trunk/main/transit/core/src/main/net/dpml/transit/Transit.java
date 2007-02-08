@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2005 Stephen McConnell.
+ * Copyright 2004-2006 Stephen McConnell.
  * Copyright 2004-2005 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -19,26 +19,61 @@
 
 package net.dpml.transit;
 
+import dpml.util.DefaultLogger;
+
+import dpml.transit.*;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URL;
 
-import net.dpml.transit.link.LinkManager;
-import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.monitor.RepositoryMonitorRouter;
-import net.dpml.transit.monitor.CacheMonitorRouter;
-import net.dpml.transit.monitor.NetworkMonitorRouter;
-import net.dpml.transit.model.TransitModel;
+import dpml.transit.info.TransitDirective;
 
-import net.dpml.lang.UnknownKeyException;
 import net.dpml.util.Logger;
 
 /**
- * The Transit class manages the establishment of a singleton transit instance
- * together with a service supporting the deployment of a application plugin and
- * access to transit monitor routers.
+ * The Transit class manages the establishment of a singleton transit instance.
+ * The implementation establishes an internal cache management system, a suite
+ * of protocol handlers, and a dynamic content handler service.
+ * 
+ * During initialization Transit will load an XML configuration descibing the 
+ * available remote hosts.  The XML file will be resolved using the following 
+ * strategy:
+ *
+ * <ul>
+ *  <li>if the system property <tt>dpml.transit.profile</tt> is defined then
+ *     <ul>
+ *       <li>if the value contains the ':' character the value will be 
+ *           treated as a URL referencing a remote configuration</li>
+ *       <li>otherwise the value will be treated as a relative file path
+ *           that is first evaluated relative to the current working directory 
+ *           and a file exists at that location it will be loaded, otherwise, 
+ *           the path will be evaluated relative to the DPML Preferences root
+ *           directory</li>
+ *     </ul>
+ *   </li>
+ *   <li>otherwise, the default configuration path 
+ *     <tt>dpml/transit/xmls/standard.xml</tt> will be resolved relative to the 
+ *     Preferences root directory</li>
+ *   <li>if no default configuration is found, Transit will assign a standard
+ *     profile</li>
+ * </ul>
+ * 
+ * During initialization Transit will create the following system properties:
+ *
+ * <ul>
+ *  <li><tt>dpml.home</tt> home directory</li>
+ *  <li><tt>dpml.data</tt> data directory</li>
+ *  <li><tt>dpml.prefs</tt> preferences repository root directory</li>
+ *  <li><tt>dpml.share</tt> shared system root directory</li>
+ *  <li><tt>dpml.transit.version</tt> Transit system version</li>
+ * </ul>
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -52,150 +87,140 @@ public final class Transit
    /**
     * DPML home key.
     */
-    public static final String HOME_KEY = "dpml.home";
+    private static final String HOME_KEY = "dpml.home";
 
    /**
     * DPML data key.
     */
-    public static final String DATA_KEY = "dpml.data";
+    private static final String DATA_KEY = "dpml.data";
 
    /**
     * DPML prefs key.
     */
-    public static final String PREFS_KEY = "dpml.prefs";
+    private static final String PREFS_KEY = "dpml.prefs";
 
    /**
     * Transit system key.
     */
-    public static final String SYSTEM_KEY = "dpml.system";
+    private static final String SYSTEM_KEY = "dpml.system";
 
    /**
     * Transit share key (alias to dpml.system).
     */
-    public static final String SHARE_KEY = "dpml.share";
+    private static final String SHARE_KEY = "dpml.share";
 
    /**
     * DPML environment variable string.
     */
-    public static final String HOME_SYMBOL = "DPML_HOME";
+    private static final String HOME_SYMBOL = "DPML_HOME";
 
    /**
     * DPML environment variable string.
     */
-    public static final String SYSTEM_SYMBOL = "DPML_SYSTEM";
+    private static final String SYSTEM_SYMBOL = "DPML_SYSTEM";
 
    /**
     * The DPML home directory established via assesment of the the ${dpml.home}
-    * system property and the DPML_HOME environment variable.
+    * system property and the <tt>DPML_HOME</tt> environment variable.
     */
-    public static final File DPML_HOME;
+    public static final File HOME;
 
    /**
     * If a system property named "dpml.system" is defined then the value
     * is assigned otherwise the implementation will look for an environment
-    * variable named "DPML_SYSTEM".
+    * variable <tt>DPML_SYSTEM</tt>.
     */
-    public static final File DPML_SYSTEM;
+    public static final File SYSTEM;
 
    /**
     * The Transit personal data directory. The location of this diectory is system
     * dependent.
     */
-    public static final File DPML_DATA;
+    public static final File DATA;
 
    /**
     * The Transit personal preferences directory. The location of this diectory is system
     * dependent.
     */
-    public static final File DPML_PREFS;
+    public static final File PREFS;
 
    /**
     * The Transit system version.
     */
     public static final String VERSION = "@PROJECT-VERSION@";
 
-    static
-    {
-        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
-        System.setProperty( "dpml.transit.version", VERSION );
-
-        DPML_HOME = resolveHomeDirectory();
-        DPML_SYSTEM = resolveSystemDirectory( DPML_HOME );
-        DPML_DATA = resolveDataDirectory( DPML_HOME );
-        DPML_PREFS = resolvePreferencesDirectory( DPML_HOME );
-
-        System.setProperty( SYSTEM_KEY, DPML_SYSTEM.getAbsolutePath() );
-        System.setProperty( SHARE_KEY, DPML_SYSTEM.getAbsolutePath() );
-        System.setProperty( HOME_KEY, DPML_HOME.getAbsolutePath() );
-        System.setProperty( DATA_KEY, DPML_DATA.getAbsolutePath() );
-        System.setProperty( PREFS_KEY, DPML_PREFS.getAbsolutePath() );
-    }
+   /**
+    * Default configuration path.
+    */
+    private static final String STANDARD_PATH = "dpml/transit/xmls/standard.xml";
 
    /**
-    * Returns the singleton instance of the transit system. If Transit
-    * has not been initialized a the transit model will be resolved 
-    * using the System property <tt>dpml.transit.profile</tt>.
-    * @return the singleton transit instance
-    * @exception TransitError if an error occurs during establishment
-    * @see DefaultTransitModel#getDefaultModel
+    * System property key used to hold an overriding configuration url.
     */
-    public static Transit getInstance() throws TransitError
+    private static final String PROFILE_KEY = "dpml.transit.profile";
+
+    private static final Logger LOGGER = new DefaultLogger( "dpml.transit" );
+
+    static
     {
-        synchronized( Transit.class )
+        String pkgs = System.getProperty( "java.protocol.handler.pkgs" );
+        if( null == pkgs )
         {
-            if( m_INSTANCE == null )
-            {
-                try
-                {
-                    Logger logger = new LoggingAdapter( "dpml.transit" );
-                    TransitModel model = DefaultTransitModel.getDefaultModel( logger );
-                    return getInstance( model );
-                }
-                catch( Throwable e )
-                {
-                    String message = e.getMessage();
-                    Throwable cause = e.getCause();
-                    throw new TransitError( message, cause );
-                }
-            }
-            else
-            {
-                return m_INSTANCE;
-            }
+            System.setProperty( "java.protocol.handler.pkgs", "dpml.transit|net.dpml.transit" );
         }
+        else
+        {
+            System.setProperty( "java.protocol.handler.pkgs", pkgs + "|dpml.transit|net.dpml.transit" );
+        }
+        
+        System.setProperty( "dpml.transit.version", VERSION );
+        
+        HOME = resolveHomeDirectory();
+        SYSTEM = resolveSystemDirectory( HOME );
+        DATA = resolveDataDirectory( HOME );
+        PREFS = resolvePreferencesDirectory( HOME );
+
+        System.setProperty( SYSTEM_KEY, SYSTEM.getAbsolutePath() );
+        System.setProperty( SHARE_KEY, SYSTEM.getAbsolutePath() );
+        System.setProperty( HOME_KEY, HOME.getAbsolutePath() );
+        System.setProperty( DATA_KEY, DATA.getAbsolutePath() );
+        System.setProperty( PREFS_KEY, PREFS.getAbsolutePath() );
     }
     
    /**
-    * Returns the singleton instance of the transit system.  If this method
-    * has already been invoked the server and monitor argument will be ignored.
-    *
-    * @param model the activate transit model
+    * Returns the singleton instance of the transit system. If Transit
+    * has not been initialized the transit configuration will be resolved 
+    * using the System property <tt>dpml.transit.profile</tt>.
     * @return the singleton transit instance
-    * @exception IOException if an error occurs during establishment
-    * @exception TransitAlreadyInitializedException if Transit is already initialized
+    * @exception TransitError if an error occurs during establishment
     */
-    public static Transit getInstance( TransitModel model )
-        throws IOException, TransitAlreadyInitializedException
+    public synchronized static Transit getInstance() throws TransitError
     {
-        synchronized( Transit.class )
+        if( null == m_INSTANCE )
         {
-            if( m_INSTANCE == null )
+            if( LOGGER.isTraceEnabled() )
             {
-                m_INSTANCE = new Transit( model );
-
-                // before returning from this method we need to give the transit
-                // subsystems a chance to complete initialization actions that 
-                // are themselves dependent on an establish Transit instance
-
-                m_INSTANCE.getTransitContext().initialize();
+                LOGGER.trace( "version " + VERSION );
+                LOGGER.trace( "codebase: " 
+                  + Transit.class.getProtectionDomain().getCodeSource().getLocation()
+                );
+            }
+            try
+            {
+                TransitDirective directive = loadTransitDirective();
+                m_INSTANCE = new Transit( directive );
                 return m_INSTANCE;
             }
-            else
+            catch( Throwable e )
             {
                 final String error = 
-                  "Transit has already been initialized.";
-                throw new TransitAlreadyInitializedException( error );
+                  "Transit initialization failure.";
+                throw new TransitError( error, e );
             }
+        }
+        else
+        {
+            return m_INSTANCE;
         }
     }
     
@@ -204,34 +229,48 @@ public final class Transit
     //------------------------------------------------------------------
 
    /**
-    * Singleton repository monitor router.
+    * Internal transit context.
     */
-    private RepositoryMonitorRouter m_repositoryMonitor;
+    private TransitContext m_context;
+
+    //------------------------------------------------------------------
+    // constructor 
+    //------------------------------------------------------------------
 
    /**
-    * Singleton cache monitor router.
+    * Private constructor of a transit instance.
+    *
+    * @param directive the transit configuration
+    * @exception TransitException if an establishment error occurs
     */
-    private CacheMonitorRouter m_cacheMonitor;
-
-   /**
-    * Singleton network monitor router.
-    */
-    private NetworkMonitorRouter m_networkMonitor;
-
-   /**
-    * PrintWriter where operations troubleshooting messages
-    * can be written to.
-    */
-    private PrintWriter m_logWriter;
-
-    private SecuredTransitContext m_context;
+    private Transit( TransitDirective directive ) throws TransitException
+    {
+        try
+        {
+            m_context = TransitContext.create( directive );
+        }
+        //catch( TransitException e )
+        //{
+        //    throw e;
+        //}
+        catch( Throwable e )
+        {
+            final String error = "Internal error while attempting to create the Transit context.";
+            throw new TransitException( error, e );
+        }
+    }
+    
+    //------------------------------------------------------------------
+    // implementation 
+    //------------------------------------------------------------------
 
    /**
     * Return the singleton transit content.
+    *
     * @return the context instance
     * @exception IllegalStateException if transit has not been initialized
     */
-    SecuredTransitContext getTransitContext() throws IllegalStateException
+    TransitContext getTransitContext() throws IllegalStateException
     {
         if( null == m_context )
         {
@@ -245,63 +284,6 @@ public final class Transit
         }
     }
 
-   /**
-    * Private constructor of a transit instance.
-    * @param model the active transit model
-    * @exception TransitException if an establishment error occurs
-    */
-    private Transit( TransitModel model ) throws TransitException
-    {
-        //
-        // create the transit context
-        //
-
-        try
-        {
-            m_context = SecuredTransitContext.create( model );
-        }
-        catch( TransitException e )
-        {
-            throw e;
-        }
-        catch( Throwable e )
-        {
-            final String error = "Unable to construct transit context.";
-            throw new TransitException( error, e );
-        }
-
-        //
-        // setup the monitors
-        //
-
-        m_repositoryMonitor = new RepositoryMonitorRouter();
-        m_cacheMonitor = new CacheMonitorRouter();
-        m_networkMonitor = new NetworkMonitorRouter();
-
-        try
-        {
-            // Setting up a temporary directory for Transit.
-
-            File temp = new File( DPML_DATA, "temp" );
-            temp.mkdirs();
-
-            // Setting up a permanent output troubleshooting resource
-            // for Transit.
-            File logs = new File( DPML_DATA, "logs" );
-            File logDir = new File( logs, "transit" );
-            logDir.mkdirs();
-            File logFile = new File( logDir, "transit.log" );
-            FileOutputStream fos = new FileOutputStream( logFile );
-            OutputStreamWriter osw = new OutputStreamWriter( fos, "UTF-8" );
-            m_logWriter = new PrintWriter( osw, true );
-        }
-        catch( Throwable e )
-        {
-            final String error = "Unable to construct transit instance.";
-            throw new TransitException( error, e );
-        }
-    }
-    
    /**
     * Return the current cache directory.
     * @return the cache directory.
@@ -330,74 +312,26 @@ public final class Transit
     }
     
    /**
-    * Return a layout object matching the supplied identifier.
-    * @param id the layout identifier
-    * @return the layout object
-    * @exception UnknownKeyException if the supplied layout id is unknown
-    * @exception IOException if an IO error occurs
+    * Add a monitor to Transit.
+    * @param monitor the monitor to add
     */
-    public Layout getLayout( String id ) throws UnknownKeyException, IOException
+    public void addMonitor( Monitor monitor )
     {
-        return getTransitContext().getLayout( id );
+        getTransitContext().addMonitor( monitor );
     }
     
    /**
-    * Return the Transit repository service.
-    * @return the repository service
-    * @exception IllegalStateException if Transit has not been initialized
+    * Return the content handler fo the supplied content type.
+    * @return the content handler or null if no content handler found
     */
-    //public Repository getRepository() throws IllegalStateException 
-    //{
-    //    return getTransitContext().getRepository();
-    //}
-
-   /**
-    * Returns a reference to the repository monitor router.  Client application
-    * may use the router to add, remove or replace existing monitors.
-    * @return the repository monitor router
-    */
-    public RepositoryMonitorRouter getRepositoryMonitorRouter()
+    public ContentHandler getContentHandler( String type )
     {
-        return m_repositoryMonitor;
+        return getTransitContext().getContentHandler( type );
     }
-
-   /**
-    * Returns a reference to the cache monitor router.  Client application
-    * may use the router to add, remove or replace existing monitors.
-    * @return the cache monitor router
-    */
-    public CacheMonitorRouter getCacheMonitorRouter()
-    {
-        return m_cacheMonitor;
-    }
-
-   /**
-    * Returns a reference to the netowork monitor router.  Client application
-    * may use the router to add, remove or replace existing monitors.
-    * @return the network monitor router
-    */
-    public NetworkMonitorRouter getNetworkMonitorRouter()
-    {
-        return m_networkMonitor;
-    }
-
-   /** Returns the LogWriter for the Transit system.
-    * This writer should only be used to report information that
-    * should not be output to the user in the course of normal
-    * execution but can aid to determine what has gone wrong in
-    * Transit, such as configuration problems, network problems
-    * and security issues.
-    * @return a PrintWriter where troubleshooting information can
-    * be written to.
-    */
-    public PrintWriter getLogWriter()
-    {
-        return m_logWriter;
-    }
-
+    
    /**
     * Resolve the DPML home directory using assesment of the the ${dpml.home}
-    * system property, the DPML_HOME environment variable.  If DPML_HOME is
+    * system property, the HOME environment variable.  If HOME is
     * not declared, the behaviour is platform specific.  If the os is Windows,
     * the value returned is equivalent to $APPDATA\DPML whereas Unix environment
     * will return ${user.home}/.dpml. The value returned may be overriden by 
@@ -412,7 +346,7 @@ public final class Transit
         {
             return new File( home );
         }
-        home = Environment.getEnvVariable( HOME_SYMBOL );
+        home = System.getenv( HOME_SYMBOL );
         if( null != home )
         {
             return new File( home );
@@ -420,7 +354,7 @@ public final class Transit
         String os = System.getProperty( "os.name" ).toLowerCase();
         if( os.indexOf( "win" ) >= 0 )
         {
-            home = Environment.getEnvVariable( "APPDATA" );
+            home = System.getenv( "APPDATA" );
             File data = new File( home );
             return new File( data, "DPML" );
         }
@@ -435,11 +369,11 @@ public final class Transit
     * Resolve the DPML system home directory.  If a system property
     * named "dpml.system" is defined then the value as a file is
     * returned otherwise the implementation will look for an environment
-    * variable named "DPML_SYSTEM" which if defined will be
+    * variable named "SYSTEM" which if defined will be
     * returned as a file otherwise a value equivalent to 
     * <tt>${dpml.home}/share</tt> will be returned.
     *
-    * @param dpmlHomeDir the default DPML_HOME value
+    * @param dpmlHomeDir the default HOME value
     * @return the transit system directory
     */
     private static File resolveSystemDirectory( File dpmlHomeDir )
@@ -449,7 +383,7 @@ public final class Transit
         {
             return new File( home );
         }
-        home = Environment.getEnvVariable( SYSTEM_SYMBOL );
+        home = System.getenv( SYSTEM_SYMBOL );
         if( null != home )
         {
             return new File( home );
@@ -466,7 +400,7 @@ public final class Transit
     * system property otherwise the default value returned
     * will be equivalent to <tt>${dpml.home}/data</tt>.
     *
-    * @param dir the default DPML_HOME value
+    * @param dir the default HOME value
     * @return the transit personal data directory
     */
     private static File resolveDataDirectory( File dir )
@@ -488,7 +422,7 @@ public final class Transit
     * system property otherwise the default value returned
     * will be equivalent to <tt>${dpml.home}/prefs</tt>.
     *
-    * @param dir the default DPML_HOME value
+    * @param dir the default HOME value
     * @return the transit personal data directory
     */
     private static File resolvePreferencesDirectory( File dir )
@@ -513,4 +447,80 @@ public final class Transit
     */
     private static Transit m_INSTANCE;
 
+   /**
+    * Resolve the transit configuration using the default resource path 
+    * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
+    * default scenario will be returned.
+    *
+    * @return the transit configuration directive
+    * @exception Exception if an error occurs during model construction
+    */
+    private static TransitDirective loadTransitDirective() throws Exception
+    {
+        String path = System.getProperty( PROFILE_KEY );
+        if( null != path )
+        {
+            URL url = resolveURL( path );
+            return loadTransitDirective( url );
+        }
+        else
+        {
+            File prefs = Transit.PREFS;
+            File config = new File( prefs, STANDARD_PATH );
+            if( config.exists() )
+            {
+                URI uri = config.toURI();
+                URL url = uri.toURL();
+                return loadTransitDirective( url );
+            }
+            else
+            {
+                return TransitDirective.CLASSIC_PROFILE;
+            }
+        }
+    }
+    
+    private static TransitDirective loadTransitDirective( URL url ) throws Exception
+    {
+        if( LOGGER.isTraceEnabled() )
+        {
+            LOGGER.trace( 
+              "configuration [" 
+              + url
+              + "]" );
+        }
+        return TransitDirective.decode( url );
+    }
+    
+    private static URL resolveURL( String path ) throws Exception
+    {
+        if( path.indexOf( ":" ) > -1 )
+        {
+            // its a url
+            URI uri = new URI( path );
+            return Artifact.toURL( uri );
+        }
+        else
+        {
+            // its a file path
+            File file = new File( path );
+            if( file.exists() )
+            {
+                return file.toURI().toURL();
+            }
+            else
+            {
+                File prefs = Transit.PREFS;
+                File alt = new File( prefs, path );
+                if( alt.exists() )
+                {
+                    return alt.toURI().toURL();
+                }
+                else
+                {
+                    throw new FileNotFoundException( path ); 
+                }
+            }
+        }
+    }
 }

@@ -1,6 +1,5 @@
 /*
  * Copyright 2004-2005 Stephen J. McConnell.
- * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,42 +18,53 @@
 
 package net.dpml.transit;
 
-import java.io.IOException;
+import java.net.URI;
 
 /**
- * Exception to indicate that there was a repository related error.
+ * Exception to indicate that an Artifact could not be located.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class RepositoryException extends IOException
+public class ArtifactNotFoundException extends ArtifactException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * Construct a new <code>RepositoryException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     */
-    public RepositoryException( final String message )
-    {
-        this( message, null );
-    }
+    // ------------------------------------------------------------------------
+    // state
+    // ------------------------------------------------------------------------
+
+   /**
+    * The artifact that we not found.
+    */
+    private final URI m_artifact;
+
+    // ------------------------------------------------------------------------
+    // constructor
+    // ------------------------------------------------------------------------
 
     /**
-     * Construct a new <code>RepositoryException</code> instance.
+     * Construct a new <code>ArtifactNotFoundException</code> instance.
      *
      * @param message The detail message for this exception.
-     * @param cause the root cause of the exception
+     * @param artifact the subject artifact
      */
-    public RepositoryException( final String message, final Throwable cause )
+    public ArtifactNotFoundException( final String message, final URI artifact )
     {
         super( message );
-        super.initCause( cause );
+        m_artifact = artifact;
+    }
+
+    /**
+     * Returns the uri that could not be found.
+     * @return the subject uri
+     */
+    public URI getURI()
+    {
+        return m_artifact;
     }
 }
-
 

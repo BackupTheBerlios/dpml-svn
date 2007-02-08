@@ -1,6 +1,5 @@
 /*
  * Copyright 2004-2005 Stephen J. McConnell.
- * Copyright 2004 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -20,39 +19,31 @@
 package net.dpml.transit;
 
 /**
- * Exception thrown when a plugin class cannot be found.
+ * Exception to indicate that the Artifact already exists in the cache and
+ * can therefor not be written to.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class PluginClassNotFoundException extends RepositoryException
+public class InvalidArtifactException extends IllegalArgumentException
 {
    /**
     * Serial version identifier.
     */
     static final long serialVersionUID = 1L;
 
-    /**
-     * Construct a new <code>PluginClassNotFoundException</code> instance.
-     *
-     * @param message The detail message for this exception.
-     */
-    public PluginClassNotFoundException( final String message )
-    {
-        this( message, null );
-    }
+    // ------------------------------------------------------------------------
+    // constructor
+    // ------------------------------------------------------------------------
 
     /**
-     * Construct a new <code>RepositoryException</code> instance.
+     * Construct a new <code>InvalidArtifactException</code> instance.
      *
-     * @param message The detail message for this exception.
-     * @param cause the root cause of the exception
+     * @param message the exception message
      */
-    public PluginClassNotFoundException( final String message, final Throwable cause )
+    public InvalidArtifactException( final String message )
     {
-        super( message, cause );
+        super( message );
     }
-
 }
-
 
