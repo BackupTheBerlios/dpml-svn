@@ -195,7 +195,7 @@
     </echo>
     <filter value="${project.version}" token="PROJECT-VERSION"/>
     <filter value="http://www.dpml.net" token="PUBLISHER-URL"/>
-    <filter value="The Digital Product Meta Library" token="PUBLISHER-NAME"/>
+    <filter value="The Digital Product Management Laboratory" token="PUBLISHER-NAME"/>
   </target>
 
   <target name="setup-path" depends="init">
@@ -405,10 +405,10 @@
     <mkdir dir="${target.deliverables.jars.dir}"/>
     <jar destfile="${target.deliverables.jars.dir}/${project.filename}"
        basedir="${target.classes.dir}"
-       includes="**/*.class,**/*.xml,**/*.properties,**/*.dtd"
+       includes="**/*.*"
        excludes="**/*.html,**/*.gif,**/*.png">
        <manifest>
-         <attribute name="Created-By" value="The Digital Product Meta Library."/>
+         <attribute name="Created-By" value="The Digital Product Management Laboratory."/>
          <attribute name="Built-By" value="${user.name}"/>
          <attribute name="Extension-Name" value="${project.name}"/>
          <attribute name="Specification-Vendor" value="DPML"/>
@@ -449,8 +449,7 @@
     <mkdir dir="${target.test-classes.dir}"/>
     <javac srcdir="${target.build.test.dir}"
            destdir="${target.test-classes.dir}"
-           debug="true"
-           source="1.4" target="1.4">
+           debug="true">
       <classpath refid="project.test.path"/>
     </javac>
   </target>
@@ -466,7 +465,10 @@
            showoutput="true"
            haltonfailure="yes" failureproperty="junit.failure"
            haltonerror="yes" errorproperty="junit.error">
+      <sysproperty key="java.util.logging.config.class" value="dpml.util.ConfigurationHandler"/>
+      <sysproperty key="dpml.logging.config" value="file:${target.test.dir}/logging.properties"/>
       <sysproperty key="build.signature" value="${build.signature}"/>
+      <sysproperty key="basedir" value="${basedir}"/>
       <sysproperty key="project.basedir" value="${basedir}"/>
       <sysproperty key="project.test.dir" value="${target.test.dir}"/>
       <sysproperty key="project.version" value="${project.version}"/>

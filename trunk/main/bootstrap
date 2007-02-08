@@ -33,9 +33,9 @@ xmlSetup()
     ant -f bootstrap.xml xml
 }
 
-dpmlModule()
+dpmlLangLibrary()
 {
-    cd lang/module
+    cd lang/library
     build -f bootstrap.xml clean install
     cd ../..
 }
@@ -47,24 +47,10 @@ dpmlPart()
     cd ../..
 }
 
-dpmlState()
+dpmlPartRebuild()
 {
-    cd lang/state
-    build -f bootstrap.xml clean install
-    cd ../..
-}
-
-dpmlComponent()
-{
-    cd lang/component
-    build -f bootstrap.xml clean install
-    cd ../..
-}
-
-dpmlType()
-{
-    cd lang/type
-    build -f bootstrap.xml clean install
+    cd lang/part
+    build clean install
     cd ../..
 }
 
@@ -125,17 +111,14 @@ depotCore()
 }
 
 antlibCleanup
-xmlSetup
-dpmlModule
-dpmlPart
-dpmlState
-dpmlType
-dpmlComponent
 transitMain
+dpmlLangLibrary
+dpmlPart
 transitTools
 dpmlLibrary
 depotAntBuilder
 externalModules
 utilCli
 depotBuild
+dpmlPartRebuild
 depotCore

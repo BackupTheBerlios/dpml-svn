@@ -18,9 +18,7 @@
 -->
 
 <project name="dpml" default="install"
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:depot"
-    xmlns:c="dpml:metro">
+    xmlns:x="antlib:dpml.tools">
 
   <property environment="ENV"/>
 
@@ -28,7 +26,7 @@
     <isset property="ENV.NSIS_HOME"/>
   </condition>
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/tools/standard"/>
 
   <target name="prepare" depends="standard.prepare">
     <property name="bundle" location="${project.target.dir}/bundle"/>
@@ -42,7 +40,7 @@
     <mkdir dir="${share.docs}"/>
   </target>
   
-  <target name="package" depends="standard.package"/>
+  <target name="package" depends="standard.package,javadoc"/>
 
   <target name="install" depends="standard.install,zip,tar,nsis">
     <copy todir="${dpml.data}">
@@ -61,7 +59,7 @@
     <property name="share.local" location="${share}/local"/>
     <x:replicate self="true" toDir="${share.local}" layout="modern"/>
     <x:replicate self="true" toDir="${share.local}" layout="modern" ref="junit"/>
-    <x:replicate self="true" toDir="${share.local}" layout="modern" ref="ant"/>
+    <x:replicate self="true" toDir="${share.local}" layout="modern" ref="org/apache/ant"/>
   </target>
 
   <target name="nsis" depends="bundle,replicate" if="nsis.available">
@@ -107,7 +105,6 @@
         <include name="share/bin/build"/>
         <include name="share/bin/station"/>
         <include name="share/bin/metro"/>
-        <include name="share/bin/transit"/>
         <include name="share/bin/*.sh"/>
       </tarfileset>
       <tarfileset dir="target/bundle" prefix="dpml">
@@ -115,7 +112,6 @@
         <exclude name="share/bin/build"/>
         <exclude name="share/bin/station"/>
         <exclude name="share/bin/metro"/>
-        <exclude name="share/bin/transit"/>
         <exclude name="share/bin/*.sh"/>
         <exclude name="share/bin/*.lap"/>
         <exclude name="share/bin/*.exe"/>
@@ -138,98 +134,63 @@
     </copy>
   </target>
 
-  <!--
-  <target name="docs" depends="prepare">
-    <property name="share.docs.api.dpml" location="${share.docs}/api/dpml/${project.version}"/>
-    <mkdir dir="${share.docs.api.dpml}"/>
-    <copy todir="${share.docs.api.dpml}" filtering="false">
-      <fileset dir="${project.target.reports.dir}/api">
-        <include name="**/*"/>
-      </fileset>
-    </copy>
-    <property name="share.docs.reports" location="${share.docs}/reports/${project.version}"/>
-    <mkdir dir="${share.docs.reports}"/>
-    <copy todir="${share.docs.reports}">
-      <fileset dir="target/reports">
-        <exclude name="api/**"/>
-        <exclude name="checkstyle/**"/>
-      </fileset>
-    </copy>
-    <copy todir="${share.docs}">
-      <fileset dir="central/target/docs"/>
-    </copy>
-  </target>
-  -->
-  
   <target name="data" depends="prepare">
     <mkdir dir="${data}/cache"/>
     <mkdir dir="${data}/work"/>
     <mkdir dir="${data}/logs/station"/>
-    <mkdir dir="${data}/logs/transit"/>
     <mkdir dir="${data}/temp"/>
   </target>
 
   <target name="lib" depends="prepare">
-    <mkdir dir="${share.lib}"/>
-    <copy todir="${share.lib}">
-      <fileset dir="${dpml.system}/lib"/>
-    </copy>
+    <mkdir dir="${share.lib}/ext"/>
+    <mkdir dir="${share.lib}/endorced"/>
+    <x:property name="transit.path" ref="dpml/transit/dpml-transit-main" feature="path" type="jar"/>
+    <copy file="${transit.path}" tofile="${share.lib}/ext/dpml-transit-main.jar"/>
   </target>
 
   <target name="prefs" depends="prepare">
+    <x:property name="transit.main.basedir" ref="dpml/transit/dpml-transit-main" feature="basedir"/>
+    <x:property name="depot.builder.basedir" ref="dpml/depot/dpml-depot-builder" feature="basedir"/>
+    <x:property name="depot.checkstyle.basedir" ref="dpml/depot/dpml-depot-checkstyle" feature="basedir"/>
     <property name="prefs.transit" location="${prefs}/dpml/transit"/>
     <mkdir dir="${prefs.transit}"/>
     <copy todir="${prefs.transit}" filtering="false">
-      <fileset dir="transit/core/target/prefs">
+      <fileset dir="${transit.main.basedir}/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
     <property name="prefs.tools" location="${prefs}/dpml/tools"/>
     <mkdir dir="${prefs.tools}"/>
     <copy todir="${prefs.tools}" filtering="false">
-      <fileset dir="depot/tools/target/prefs">
+      <fileset dir="${depot.builder.basedir}/target/prefs">
         <include name="**/*"/>
       </fileset>
-      <fileset dir="depot/plugins/checkstyle/target/prefs">
-        <include name="**/*"/>
-      </fileset>
-    </copy>
-    <property name="prefs.metro" location="${prefs}/dpml/metro"/>
-    <mkdir dir="${prefs.metro}"/>
-    <copy todir="${prefs.metro}" filtering="false">
-      <fileset dir="station/exec/target/prefs">
-        <include name="**/*"/>
-      </fileset>
-      <fileset dir="metro/tools/target/prefs">
+      <fileset dir="${depot.checkstyle.basedir}/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
-    <property name="prefs.station" location="${prefs}/dpml/station"/>
+    <property name="prefs.station" location="${prefs}/dpml/metro"/>
+    <x:property name="station.main.basedir" ref="dpml/metro/dpml-metro-station" feature="basedir"/>
     <mkdir dir="${prefs.station}"/>
     <copy todir="${prefs.station}" filtering="false">
-      <fileset dir="station/server/target/prefs">
-        <include name="**/*"/>
-      </fileset>
-    </copy>
-    <property name="prefs.http" location="${prefs}/dpml/planet/http"/>
-    <mkdir dir="${prefs.http}"/>
-    <copy todir="${prefs.http}" filtering="false">
-      <fileset dir="planet/http/server/target/prefs">
+      <fileset dir="${station.main.basedir}/target/prefs">
         <include name="**/*"/>
       </fileset>
     </copy>
   </target>
 
   <target name="bin" depends="prepare">
+    <x:property name="build.basedir" ref="dpml/depot/dpml-depot-build" feature="basedir"/>
+    <x:property name="metro.basedir" ref="dpml/metro/dpml-metro-main" feature="basedir"/>
+    <x:property name="part.basedir" ref="dpml/lang/dpml-lang-part" feature="basedir"/>
+    <x:property name="station.basedir" ref="dpml/metro/dpml-metro-station" feature="basedir"/>
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">
-      <fileset dir="transit/console/target/bin"/>
-      <fileset dir="depot/core/target/bin"/>
-      <fileset dir="depot/build/target/bin"/>
-      <fileset dir="station/console/target/bin"/>
-      <fileset dir="station/server/target/bin"/>
-      <fileset dir="station/exec/target/bin"/>
+      <fileset dir="${part.basedir}/target/bin"/>
+      <fileset dir="${build.basedir}/etc/bin"/>
+      <fileset dir="${metro.basedir}/etc/bin"/>
+      <fileset dir="${station.basedir}/etc/bin"/>
     </copy>
   </target>
 
@@ -238,7 +199,7 @@
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
     <x:plugin uri="link:part:dpml/depot/dpml-depot-checkstyle">
-      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+      <task class="dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>
     <checkstyle>
@@ -249,6 +210,36 @@
         out="${checkstyle.dir}/checkstyle_report.html">
       <param name="output.dir" expression="${checkstyle.dir}"/>
     </xslt>
+  </target>
+  
+
+  <target name="javadoc" depends="init">
+    <property name="title" value="DPML SDK Version: ${project.version}"/>
+    <x:javadoc title="${title}" 
+        Windowtitle="${title}" 
+        access="protected">
+      <link href="http://java.sun.com/javase/6/docs/api"/>
+      <link href="http://api.dpml.net/javax/servlet/2.5"/>
+      <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0"/>
+      <group title="Metro">
+        <package name="net.dpml.annotation"/>
+        <package name="net.dpml.appliance"/>
+        <package name="net.dpml.lang"/>
+        <package name="net.dpml.lang.*"/>
+        <package name="net.dpml.runtime"/>
+        <package name="net.dpml.runtime.*"/>
+        <package name="net.dpml.state"/>
+        <package name="net.dpml.station"/>
+      </group>
+      <group title="Transit">
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
+        <package name="net.dpml.util"/>
+      </group>
+      <group title="Internal Packages">
+        <package name="dpml.*"/>
+      </group>
+    </x:javadoc>
   </target>
   
 </project>

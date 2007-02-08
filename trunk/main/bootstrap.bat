@@ -17,35 +17,34 @@ REM
 set ARG_ONE=%1
 CALL :antlib-cleanup
 rem IF ERRORLEVEL 1 GOTO :exit
-CALL :xml-setup
-IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-module
-IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-part
-IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-state
-IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-type
-IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-component
-IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
 IF ERRORLEVEL 1 GOTO :exit
-CALL :transit-tools
+CALL :depot-lang-part
 IF ERRORLEVEL 1 GOTO :exit
-CALL :dpml-library
+CALL :dpml-depot-library
 IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-ant-builder
+CALL :dpml-util-cli
 IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-depot-build
+IF ERRORLEVEL 1 GOTO :exit
+CALL :dpml-depot-builder
+IF ERRORLEVEL 1 GOTO :exit
+
+rem
+rem Depot build tool is now available.
+rem Proceed with the creation of the external modules using Depot build exe.
+rem
+
 CALL :external-modules
-IF ERRORLEVEL 1 GOTO :exit
-CALL :util-cli
-IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-build
-IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-core
-IF ERRORLEVEL 1 GOTO :exit
-ECHO BOOTSTRAP SUCCESSFUL
+IF ERRORLEVEL 0 ( ECHO BOOTSTRAP SUCCESSFUL [%ERRORLEVEL%] ) ELSE ( ECHO BOOTSTRAP FAILED [%ERRORLEVEL%] )
+
+rem
+rem Bootstrap build is not complete and external module definitions are in the cache.
+rem We can now processed with a regular build.
+rem
+
+GOTO :EOF
+
 
 :exit
 IF ERRORLEVEL 1 ECHO BOOTSTRAP FAILED
@@ -57,37 +56,19 @@ del/q .ant\lib\dpml-*.jar
 POPD
 GOTO :EOF
 
-:xml-setup
-CALL ant -f bootstrap.xml xml
-GOTO :EOF
+rem :xml-setup
+rem CALL ant -f bootstrap.xml xml
+rem GOTO :EOF
 
-:dpml-module
-PUSHD lang\module
-CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
-
-:dpml-part
+:depot-lang-part
 PUSHD lang\part
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
-:dpml-state
-PUSHD lang\state
-CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
-
-:dpml-component
-PUSHD lang\component
-CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
-
-:dpml-type
-PUSHD lang\type
-CALL :build -f bootstrap.xml clean install
+:depot-lang-part-rebuild
+PUSHD lang\part
+CALL :build clean install
 POPD
 GOTO :EOF
 
@@ -97,47 +78,48 @@ CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
-:transit-tools
+:dpml-transit-tools
 PUSHD transit\tools
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
-:dpml-library
+:dpml-depot-library
 PUSHD depot\library
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
-:depot-ant-builder
+:dpml-depot-builder
 PUSHD depot\tools
+CALL :build -f bootstrap.xml clean install
+POPD
+GOTO :EOF
+
+:dpml-util-cli
+PUSHD util\cli
+rem CALL :build clean install
+CALL :build -f bootstrap.xml clean install
+POPD
+GOTO :EOF
+
+:dpml-depot-build
+PUSHD depot\build
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :external-modules
 PUSHD external
-CALL :build clean install
+CALL build clean install
 POPD
 GOTO :EOF
 
-:util-cli
-PUSHD util\cli
-CALL :build clean install
-POPD
-GOTO :EOF
-
-:depot-build
-PUSHD depot\build
-CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
-
-:depot-core
-PUSHD depot\core
-CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
+rem :depot-core
+rem PUSHD depot\core
+rem CALL :build -f bootstrap.xml clean install
+rem POPD
+rem GOTO :EOF
 
 :build
 
