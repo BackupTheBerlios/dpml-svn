@@ -28,9 +28,9 @@ chown -R $USER .
           $HOME/.bash_profile  (system dependent).
         </p>
         <source>
-DPML_HOME=$HOME/.dpml
-export DPML_HOME
-PATH=$PATH:$DPML_HOME/share/bin
+HOME=$HOME/.dpml
+export HOME
+PATH=$PATH:$HOME/share/bin
 export PATH
         </source>
       </subsection>
@@ -56,9 +56,9 @@ cd cache
           e.g. /etc/profile (system dependent).
         </p>
         <source>
-DPML_HOME=/var/dpml
-export DPML_HOME
-PATH=$PATH:$DPML_HOME/share/bin
+HOME=/var/dpml
+export HOME
+PATH=$PATH:$HOME/share/bin
 export PATH
         </source>
       </subsection>

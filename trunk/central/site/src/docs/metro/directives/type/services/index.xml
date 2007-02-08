@@ -52,9 +52,9 @@
 
 <type xmlns="link:xsd:dpml/lang/dpml-type#1.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"
+    xmlns:part="dpml:part"
     xmlns:type="link:xsd:dpml/lang/dpml-type#1.0"
-    xmlns:component="link:xsd:dpml/lang/dpml-component#1.0">
+    xmlns:component="dpml:metro">
 
   <info name="pool"
       class="net.dpml.http.BoundedThreadPool"

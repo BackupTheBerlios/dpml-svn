@@ -17,7 +17,11 @@
           <th>Description</th>
         </tr>
         <tr>
-          <td><a href="3.8.1/index.html">3.8.1</a></td>
+          <td><a href="http://api.dpml.net/junit/4.2/index.html">4.2</a></td>
+          <td>JUnit version 4.2.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/junit/3.8.1/index.html">3.8.1</a></td>
           <td>Classic JUnit version 3.8.1.</td>
         </tr>
       </table>

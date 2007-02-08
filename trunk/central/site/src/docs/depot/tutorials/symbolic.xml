@@ -27,7 +27,7 @@
         
 <pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+&lt;index xmlns="dpml:library"&gt;
 
   &lt;project name="demo" basedir="."&gt;
     &lt;properties&gt;

@@ -27,11 +27,11 @@
       
 <source>&lt;?xml version="1.0"?&gt;
 
-&lt;part xmlns="link:xsd:dpml/lang/dpml-part#1.0"&gt;
+&lt;part xmlns="dpml:part"&gt;
 
   &lt;info/&gt;
 
-  <font color="darkred">&lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+  <font color="darkred">&lt;component xmlns="dpml:metro" 
     type="org.acme.Widget"/&gt;</font>
 
   &lt;classpath&gt;

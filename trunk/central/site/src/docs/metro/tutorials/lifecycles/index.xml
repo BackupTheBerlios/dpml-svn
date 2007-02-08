@@ -47,7 +47,7 @@
 <source>
 &lt;?xml version="1.0" encoding="UTF-8" ?&gt;
 
-&lt;project xmlns:transit="antlib:net.dpml.transit" 
+&lt;project xmlns:transit="antlib:dpml.tools.transit" 
     xmlns:x="dpml:depot"&gt;
 
   &lt;transit:import uri="local:template:dpml/tools/standard"/&gt;

@@ -29,7 +29,7 @@
 
     <section name="Part XML Directive">
 
-      <pre>link:xsd:dpml/lang/dpml-part#1.0</pre>
+      <pre>dpml:part</pre>
 
       <subsection name="Description">
 
@@ -95,7 +95,7 @@
 <![CDATA[
 <?xml version="1.0"?>
 
-<part xmlns="link:xsd:dpml/lang/dpml-part#1.0">
+<part xmlns="dpml:part">
 
   <info title="DPML Metro Runtime">
     <description>

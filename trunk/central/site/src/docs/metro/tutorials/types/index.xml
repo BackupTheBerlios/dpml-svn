@@ -67,7 +67,7 @@
 <source>
 &lt;?xml version="1.0" encoding="UTF-8" ?&gt;
 
-&lt;project xmlns:transit="antlib:net.dpml.transit" 
+&lt;project xmlns:transit="antlib:dpml.tools.transit" 
     xmlns:x="dpml:depot"&gt;
 
   &lt;target name="init" depends="standard.init"&gt;
@@ -118,7 +118,7 @@
   &lt;project name="acme-type-demo" basedir="type"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
-      <font color="darkred">&lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" type="org.acme.Demo"/&gt;</font>
+      <font color="darkred">&lt;component xmlns="dpml:metro" type="org.acme.Demo"/&gt;</font>
     &lt;/types&gt;
     &lt;dependencies&gt;
       &lt;test&gt;

@@ -114,7 +114,7 @@ public class HelloImpl
 
 <pre><![CDATA[<?xml version="1.0"?>
 
-<part xmlns="link:xsd:dpml/lang/dpml-part#1.0"
+<part xmlns="dpml:part"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <info title="Example">

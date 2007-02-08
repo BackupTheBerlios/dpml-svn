@@ -64,7 +64,7 @@
   <project name="acme-clock-impl" basedir="clock">
     <types>
       <type id="jar"/>
-      <component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      <component xmlns="dpml:metro" 
            type="org.acme.scheduler.SimpleClock" alias="true"/>
     </types>
     <dependencies>
@@ -105,7 +105,7 @@
   <project name="acme-clock-demo" basedir="demo">
     <types>
       <type id="jar"/>
-      <component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
+      <component xmlns="dpml:metro"
            type="org.acme.demo.Demo">
         <parts>
           <component key="clock" uri="link:part:org/acme/import/acme-clock-impl">

@@ -25,12 +25,16 @@
  <body>
 
     <menu>
-      <item name="Ant" href="ant/index.html"/>
-      <item name="Checkstyle" href="checkstyle/index.html"/>
-      <item name="DPML" href="dpml/index.html"/>
-      <item name="Javax" href="javax/index.html"/>
-      <item name="JUnit" href="junit/index.html"/>
-      <item name="org" href="org/index.html"/>
+      <item name="1.1.0" href="http://api.dpml.net/dpml/1.1.0/index.html"/>
+      <item name="1.0.5" href="http://api.dpml.net/dpml/1.0.5/index.html"/>
+      <item name="1.0.4" href="http://api.dpml.net/dpml/1.0.4/index.html"/>
+      <item name="1.0.3" href="http://api.dpml.net/dpml/1.0.3/index.html"/>
+      <item name="1.0.2" href="http://api.dpml.net/dpml/1.0.2/index.html"/>
+      <item name="1.0.1" href="http://api.dpml.net/dpml/1.0.1/index.html"/>
+      <item name="1.0.0" href="http://api.dpml.net/dpml/1.0.0/index.html"/>
+      <!--
+      <item name="Latest" href="http://api.dpml.net/dpml/@VERSION@/index.html"/>
+      -->
     </menu>
 
  </body>

@@ -52,7 +52,7 @@
       </p>
 
 <source><![CDATA[
-  <component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
+  <component xmlns="dpml:metro"
      class="net.dpml.test.categories.CategoriesComponent"
       name="categories"
       collection="hard"

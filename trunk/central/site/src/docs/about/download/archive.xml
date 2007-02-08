@@ -547,7 +547,7 @@
         <p>
         XSD schema reference have been update to use symbolic links in favour
         of direct artifact references. XSD namespace references are now declared
-        in the form <tt>link:xsd:dpml/lang/dpml-module#1.0</tt> (which in-turn references
+        in the form <tt>dpml:library</tt> (which in-turn references
         an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
         </p>
 
@@ -1235,7 +1235,7 @@
         system classloader).  Added Enum and ValuedEnum to util package. Extended
         the Construct class to alow references to static member variables. 
         Consolidated all configuration options down to a single strategy
-        based on the net.dpml.transit.info immutable datatypes.  Added support for 
+        based on the dpml.transit.info immutable datatypes.  Added support for 
         the 'modern' layout strategy which add compatibility with the recent Maven2
         repository layout.  Added the transit commandline configuration tool.
         </p>
@@ -1298,8 +1298,8 @@
         </table>
 
         <p>
-        NOTE: File structure layouts within DPML_HOME have been updated.  For Win32 users 
-        please note that the bin path has changed to <tt>%DPML_HOME%\share\bin</tt>.
+        NOTE: File structure layouts within HOME have been updated.  For Win32 users 
+        please note that the bin path has changed to <tt>%HOME%\share\bin</tt>.
         </p>
 
       </subsection>

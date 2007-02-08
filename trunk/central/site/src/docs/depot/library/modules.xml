@@ -135,10 +135,10 @@
       </p>
 
 <source><![CDATA[
-<index xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+<index xmlns="dpml:library">
 
   <properties>
-    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-tools-builder"/>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-depot-builder"/>
     <property name="project.standard.template" value="local:template:dpml/tools/standard"/>
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
@@ -178,7 +178,7 @@
 <module name="dpml" basedir=".">
 
   <properties>
-    <property name="project.publisher.name" value="Digital Product Meta Library"/>
+    <property name="project.publisher.name" value="Digital Product Management Laboratory"/>
     <property name="project.specification.vendor" value="${project.publisher.name}"/>
     <property name="project.implementation.vendor" value="${project.publisher.name}"/>
     <property name="project.implementation.vendor-id" value="net.dpml"/>
@@ -220,9 +220,9 @@
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <module name="depot"
-    xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
+    xmlns="dpml:library" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+    xmlns:part="dpml:part">
 
   <resource name="dpml-library" basedir="library">
     <types>
@@ -238,10 +238,10 @@
     </dependencies>
   </resource>
 
-  <project name="dpml-library-build" basedir="build">
+  <project name="dpml-depot-build" basedir="build">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.library.console.BuilderPlugin"/>
+      <part:plugin alias="true" class="dpml.build.Main"/>
     </types>
     <dependencies>
       <runtime>
@@ -254,7 +254,7 @@
       </test>
     </dependencies>
     <filters>
-      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part"/>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" id="uri" type="part"/>
     </filters>
   </project>
    
@@ -263,7 +263,7 @@
       <property name="project.test.fork" value="true"/>
       <property name="depot.short.filename" value="${project.name}.jar"/>
       <property name="transit.short.filename" value="dpml-transit-main.jar"/>
-      <property name="project.jar.main.class" value="net.dpml.depot.Main"/>
+      <property name="project.jar.main.class" value="dpml.depot.Main"/>
     </properties>
     <types>
       <type id="jar"/>
@@ -280,22 +280,22 @@
       <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
       <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
       <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
-      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.lang.SystemClassLoader"/>
+      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.util.SystemClassLoader"/>
       <feature token="BUILD-ID" id="version"/>
       <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
       <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
       <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
-      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-library-build" />
+      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-depot-build" />
       <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
       <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
       <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
     </filters>
   </project>
 
-  <resource name="dpml-tools-builder" basedir="tools/builder">
+  <resource name="dpml-depot-builder" basedir="tools/builder">
     <types>
       <type id="jar"/>
-      <part:plugin alias="true" class="net.dpml.tools.impl.StandardBuilder"/>
+      <part:plugin alias="true" class="dpml.tools.impl.StandardBuilder"/>
     </types>
     <dependencies>
       <runtime>
@@ -312,11 +312,11 @@
   <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
     <types>
       <type id="jar"/>
-      <part:resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>
+      <part:resource alias="true" urn="dpml:checkstyle" path="dpml/tools/checkstyle/antlib.xml"/>
     </types>
     <dependencies>
       <runtime>
-        <include ref="dpml/depot/dpml-tools-builder"/>
+        <include ref="dpml/depot/dpml-depot-builder"/>
         <include urn="artifact:jar:checkstyle/checkstyle#4.1">
           <property name="project.api.host" value="http://api.dpml.net"/>
           <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
@@ -333,7 +333,7 @@
   <project name="dpml-depot-convert" basedir="tools/convert">
     <types>
       <type id="jar"/>
-      <part:resource alias="true" urn="dpml:convert" path="net/dpml/tools/convert/antlib.xml"/>
+      <part:resource alias="true" urn="dpml:convert" path="dpml/tools/convert/antlib.xml"/>
     </types>
     <dependencies>
       <runtime>

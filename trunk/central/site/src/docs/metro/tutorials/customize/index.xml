@@ -50,7 +50,7 @@
     &lt;info title="Simple Clock"/&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
-      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" alias="true"
+      &lt;component xmlns="dpml:metro" alias="true"
            type="org.acme.clock.SimpleClock" name="clock"&gt;
         &lt;context&gt;
           &lt;entry key="format" value="K:mm a, z"/&gt;
@@ -116,7 +116,7 @@
   &lt;project name="acme-simple-clock" basedir="customize/extension"&gt;
     &lt;info title="Cusomized Clock"/&gt;
     &lt;types&gt;
-      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      &lt;component xmlns="dpml:metro" 
           <font color="darkred">uri="link:part:dpmlx/tutorials/components/acme-simple-clock"</font> 
            name="clock"&gt;
         <font color="darkred">&lt;context&gt;
@@ -182,7 +182,7 @@
     &lt;info title="Simple Clock"/&gt;
     &lt;types&gt;
       <font color="darkred">&lt;type id="jar"/&gt;</font>
-      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      &lt;component xmlns="dpml:metro" 
            uri="resource:part:dpmlx/tutorials/components/acme-simple-clock"
            name="clock"&gt;
         <font color="darkred">&lt;context&gt;

@@ -29,7 +29,7 @@
         
 <pre>
 &lt;project name="demo" default="install"
-    xmlns:transit="antlib:net.dpml.transit"&gt;
+    xmlns:transit="antlib:dpml.tools.transit"&gt;
 
   <font color="darkred">&lt;transit:import uri="local:template:dpml/tools/standard"/&gt;</font>
 

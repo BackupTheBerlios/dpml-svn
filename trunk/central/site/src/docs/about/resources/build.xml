@@ -16,9 +16,9 @@
 
         <p>
         To complete a full build will need to declare an environment variable
-        DPML_HOME referencing a directory into which the installed DPML products
+        HOME referencing a directory into which the installed DPML products
         will be placed duirng the bootstrap and main system build (e.g. C:\dpml).  
-        You will also need to include the <tt>%DPML_HOME%\share\bin</tt> in you system 
+        You will also need to include the <tt>%HOME%\share\bin</tt> in you system 
         <tt>PATH</tt>.
         </p>
 

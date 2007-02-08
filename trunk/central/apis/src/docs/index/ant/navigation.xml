@@ -25,7 +25,9 @@
  <body>
 
     <menu>
-      <item name="Mortbay" href="mortbay/index.html"/>
+      <item name="1.7.0" href="http://api.dpml.net/org/apache/ant/1.7.0/index.html"/>
+      <item name="1.6.5" href="http://api.dpml.net/ant/1.6.5/index.html"/>
+      <item name="1.6.4" href="http://api.dpml.net/ant/1.6.4/index.html"/>
     </menu>
 
  </body>

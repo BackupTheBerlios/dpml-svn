@@ -35,18 +35,18 @@
       <group title="Depot">
         <package name="net.dpml.depot"/>
         <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.library"/>
-        <package name="net.dpml.library.*"/>
-        <package name="net.dpml.tools"/>
-        <package name="net.dpml.tools.*"/>
+        <package name="dpml.library"/>
+        <package name="dpml.library.*"/>
+        <package name="dpml.tools"/>
+        <package name="dpml.tools.*"/>
       </group>
       <group title="Transit">
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
       </group>
       <group title="Util">
-        <package name="net.dpml.cli"/>
-        <package name="net.dpml.cli.*"/>
+        <package name="dpml.cli"/>
+        <package name="dpml.cli.*"/>
         <package name="net.dpml.i18n"/>
         <package name="net.dpml.i18n.*"/>
         <package name="net.dpml.activity"/>

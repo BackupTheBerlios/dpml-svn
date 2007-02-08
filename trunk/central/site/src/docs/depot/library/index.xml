@@ -11,7 +11,7 @@
 
     <section name="Project Library">
 
-      <pre>link:xsd:dpml/lang/dpml-module#1.0</pre>
+      <pre>dpml:library</pre>
 
       <p>
       The DPML build system maintains information about projects, 
@@ -64,8 +64,8 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<index xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
-    xmlns:part="link:xsd:dpml/lang/dpml-part#1.0">
+<index xmlns="dpml:library" 
+    xmlns:part="dpml:part">
 
   <imports>
     <import uri="link:module:junit"/>
@@ -77,7 +77,7 @@
     <module name="dpml" basedir=".">
     
       <properties>
-        <property name="project.publisher.name" value="Digital Product Meta Library"/>
+        <property name="project.publisher.name" value="Digital Product Management Laboratory"/>
         <property name="project.specification.vendor" value="${project.publisher.name}"/>
         <property name="project.implementation.vendor" value="${project.publisher.name}"/>
         <property name="project.implementation.vendor-id" value="net.dpml"/>
@@ -116,7 +116,7 @@
           <feature token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" id="uri" type="jar" />
           <feature token="DEPOT-MODULE-VERSION" ref="dpml/depot" id="version" />
           <feature token="DEPOT-CONSOLE-URI" ref="dpml/depot/dpml-depot-console" id="uri" type="jar" />
-          <feature token="DEPOT-TOOLS-ANT-URI" ref="dpml/depot/dpml-tools-builder" id="uri" type="part" />
+          <feature token="DEPOT-TOOLS-ANT-URI" ref="dpml/depot/dpml-depot-builder" id="uri" type="part" />
           <feature token="DEPOT-TOOLS-LIBRARY-URI" ref="dpml/depot/dpml-library" id="uri" type="jar"/>
           <feature token="METRO-RUNTIME-URI" ref="dpml/metro/dpml-metro-runtime" id="uri" type="part"/>
           <feature token="METRO-TOOLS-URI"  ref="dpml/metro/dpml-metro-tools" id="uri" type="part"/>

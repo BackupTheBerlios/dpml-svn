@@ -55,8 +55,8 @@
 
 Sys Account: true
 SYSTEM\CurrentControlSet\Control\Session Manager\Environment
-DPML_HOME = C:\dpml
-DPML_SYSTEM = null
+HOME = C:\dpml
+SYSTEM = null
 ]]></source>
 
       </subsection>

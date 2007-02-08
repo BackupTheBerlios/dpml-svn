@@ -72,7 +72,7 @@
     <section name="Examples">
       
 <source>
-<![CDATA[<plugin class="net.dpml.tools.impl.StandardBuilder" alias="true"/>]]>
+<![CDATA[<plugin class="dpml.tools.impl.StandardBuilder" alias="true"/>]]>
 </source>
 
     </section>

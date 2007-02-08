@@ -66,7 +66,7 @@
     <section name="Examples">
       
 <source>
-<![CDATA[<resource alias="true" urn="dpml:checkstyle" path="net/dpml/tools/checkstyle/antlib.xml"/>]]>
+<![CDATA[<resource alias="true" urn="dpml:checkstyle" path="dpml/tools/checkstyle/antlib.xml"/>]]>
 </source>
 
     </section>

@@ -101,7 +101,7 @@
 
 <pre><![CDATA[
   <x:replicate self="true" verbose="false" layout="modern" todir="${local}"  >
-    <include ref="dpml/depot/dpml-tools-builder"/>
+    <include ref="dpml/depot/dpml-depot-builder"/>
     <include ref="dpml/depot/dpml-library-main"/>
   </x:replicate>
 ]]></pre>

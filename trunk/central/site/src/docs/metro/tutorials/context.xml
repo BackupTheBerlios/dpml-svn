@@ -185,7 +185,7 @@ public class Demo
   &lt;project name="acme-demo-context" basedir="context"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
-      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      &lt;component xmlns="dpml:metro" 
          type="org.acme.Demo" 
          name="demo"&gt;
         <font color="darkred">&lt;context&gt;

@@ -25,10 +25,15 @@
  <body>
 
     <links>
-      <item name="Modules" href="api/index.html"/>
+      <item name="Modules" href="index/index.html"/>
     </links>
 
     <menu>
+      <item name="Ant" href="index/ant/index.html"/>
+      <item name="Checkstyle" href="index/checkstyle/index.html"/>
+      <item name="DPML" href="index/dpml/index.html"/>
+      <item name="JUnit" href="index/junit/index.html"/>
+      <item name="Jetty" href="index/jetty/index.html"/>
     </menu>
 
  </body>

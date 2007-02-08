@@ -26,7 +26,7 @@
         under the service name <tt>dpml</tt>.
         </p> 
 <pre>
-$ %DPML_HOME%\Shared\bin\scm\install-DPML-SCM
+$ %HOME%\Shared\bin\scm\install-DPML-SCM
 </pre>
 
       </subsection>
@@ -49,7 +49,7 @@ $ net stop dpml
         The following command will uninstall the DPML Station NT Service.
         </p> 
 <pre>
-$ %DPML_HOME%\Shared\bin\scm\uninstall-DPML-SCM
+$ %HOME%\Shared\bin\scm\uninstall-DPML-SCM
 </pre>
 
       </subsection>

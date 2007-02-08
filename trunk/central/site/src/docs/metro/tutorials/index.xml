@@ -67,7 +67,7 @@
   &lt;project name="acme-demo-hello" basedir="hello"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
-      <font color="darkred">&lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      <font color="darkred">&lt;component xmlns="dpml:metro" 
          type="org.acme.Demo" 
          name="demo"/&gt;</font>
     &lt;/types&gt;
@@ -85,7 +85,7 @@
 </source>
 
         <p>
-        The custom part definition introduced under the <tt>link:xsd:dpml/lang/dpml-component#1.0</tt>
+        The custom part definition introduced under the <tt>dpml:metro</tt>
         namespace is declaring the production of a new <tt>part</tt> datastructure under which 
         the class <tt>org.acme.Demo</tt> is to handled by the Metro runtime platform. The above 
         definition also includes the declaration of test phase dependencies that we will need in 
@@ -98,12 +98,12 @@
         </p>
         
 <source>
-&lt;part xmlns="link:xsd:dpml/lang/dpml-part#1.0"
+&lt;part xmlns="dpml:part"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
 
   &lt;info/&gt;
 
-  <font color="darkred">&lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
+  <font color="darkred">&lt;component xmlns="dpml:metro"
       type="org.acme.Demo"
       name="demo"
       collection="system"

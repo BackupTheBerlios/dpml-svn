@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="dpml-central" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:depot" 
-    xmlns:c="dpml:metro">
+    xmlns:x="antlib:dpml.tools"
+    >
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/tools/standard"/>
 
   <target name="init" depends="standard.init">
     <x:property name="dpml.module.version" ref="dpml" feature="version"/>
@@ -42,6 +41,7 @@
     <checksum file="${docs.path}" fileext=".md5"/>
   </target>
 
+  <!--
   <target name="catalog" depends="init">
     <property name="catalog.path" location="${basedir}/target/docs/reports/${dpml.module.version}/catalog"/>
     <mkdir dir="${catalog.path}"/>
@@ -53,8 +53,9 @@
       </fileset>
     </c:catalog>
   </target>
+  -->
 
-  <target name="site" depends="docs,javadoc,junit-report,catalog">
+  <target name="site" depends="docs,javadoc,junit-report,checkstyle">
     <x:docs dest="${dpml.data}/docs"/>
   </target>
   
@@ -64,28 +65,43 @@
   
   <target name="javadoc" depends="init">
     <property name="api.path" location="${basedir}/target/docs/api/dpml/${dpml.module.version}"/>
+    <property name="javadoc.title" value="Digitial Product Management Laboratory (DPML) - SDK ${dpml.module.version}"/> 
     <mkdir dir="${api.path}"/>
-    <x:javadoc title="DPML Component Management Platform" access="protected" ref="dpml"
-         dest="${api.path}">
-      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+    <x:javadoc title="${javadoc.title}" 
+        Windowtitle="${javadoc.title}" 
+        access="protected" ref="dpml"
+        dest="${api.path}">
+      <exclude name="dpml"/>
+      <exclude name="org.acme"/>
+      <link href="http://java.sun.com/javase/6/docs/api"/>
       <link href="http://api.dpml.net/javax/servlet/2.5"/>
       <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0"/>
-      <group title="Library">
-        <package name="net.dpml.library"/>
-        <package name="net.dpml.library.*"/>
+      <group title="Station">
+        <package name="net.dpml.appliance"/>
+        <package name="net.dpml.appliance.*"/>
+        <package name="net.dpml.station"/>
+        <package name="net.dpml.station.*"/>
       </group>
-      <group title="Depot">
-        <package name="net.dpml.depot"/>
-        <package name="net.dpml.depot.*"/>
-        <package name="net.dpml.tools"/>
-        <package name="net.dpml.tools.*"/>
+      <group title="Metro">
+        <package name="net.dpml.annotation"/>
+        <package name="net.dpml.lang"/>
+        <package name="net.dpml.lang.*"/>
+        <package name="net.dpml.runtime"/>
+        <package name="net.dpml.runtime.*"/>
+        <package name="net.dpml.state"/>
       </group>
       <group title="Transit">
-        <package name="net.dpml.lang"/>
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
         <package name="net.dpml.util"/>
       </group>
+      <group title="Depot">
+        <package name="dpml.library"/>
+        <package name="dpml.library.*"/>
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
+      </group>
+      <!--
       <group title="Metro">
         <package name="net.dpml.component"/>
         <package name="net.dpml.metro"/>
@@ -101,13 +117,10 @@
         <package name="net.dpml.http.*"/>
       </group>
       <group title="Util">
-        <package name="net.dpml.cli"/>
-        <package name="net.dpml.cli.*"/>
-        <package name="net.dpml.i18n"/>
-        <package name="net.dpml.i18n.*"/>
-        <package name="net.dpml.logging"/>
-        <package name="net.dpml.logging.*"/>
+        <package name="dpml.cli"/>
+        <package name="dpml.cli.*"/>
       </group>
+      -->
     </x:javadoc>
   </target>
   
@@ -126,7 +139,7 @@
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
     <property name="checkstyle.data" location="${checkstyle.dir}/checkstyle.xml"/>
     <x:plugin uri="link:part:dpml/depot/dpml-depot-checkstyle">
-      <task class="net.dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
+      <task class="dpml.tools.checkstyle.CheckstyleTask" name="checkstyle"/>
     </x:plugin>
     <mkdir dir="${checkstyle.dir}"/>
     <checkstyle>

@@ -2,7 +2,7 @@
 <document> 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>JSR 277 Potential Impact</title>
+    <title>SE6 and JMX</title>
   </properties>
   <body>
     <section name="Transit on SE6 and JMX">

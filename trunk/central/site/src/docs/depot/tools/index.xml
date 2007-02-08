@@ -14,7 +14,7 @@
       <p>
       The Depot <tt><a href="../cli/index.html">build</a></tt> tool loads a 
       plugin to handle project build requests using the property <tt>project.builder.uri</tt>.  
-      The default builder plugin (<tt>net.dpml.tools.impl.StandardBuilder</tt>) is an 
+      The default builder plugin (<tt>dpml.tools.impl.StandardBuilder</tt>) is an 
       application that dynamically establishes and populates an Ant project based on 
       information obtained from a <a href="../library/projects.html">project</a> 
       definition within the common library. The plugin creates a local 
@@ -97,7 +97,7 @@
 <builder default="install">
   
   <listeners>
-    <listener name="standard" class="net.dpml.tools.impl.StandardBuildListener" priority="0"/>
+    <listener name="standard" class="dpml.tools.impl.StandardBuildListener" priority="0"/>
   </listeners>
 
 </builder>

@@ -21,9 +21,9 @@
       <ol>
         <li>create the installation directory <tt>C:\dpml</tt> 
           (or any other location you prefer - e.g. <tt>%APPDATA%\DPML </tt>)</li>
-        <li>define an environment variable DPML_HOME referring to that directory</li>
-        <li>add %DPML_HOME%\share\bin to your system PATH</li>
-        <li>copy or move the contents of the distribution to your DPML_HOME directory</li>
+        <li>define an environment variable HOME referring to that directory</li>
+        <li>add %HOME%\share\bin to your system PATH</li>
+        <li>copy or move the contents of the distribution to your HOME directory</li>
       </ol>
 
       </subsection>
@@ -32,13 +32,13 @@
 
       <ol>
         <li>create the directory %PROGRAMFILES%\DPML (or a alternative preferred location)</li>
-        <li>define an environment variable DPML_SYSTEM referring to that location</li>
-        <li>add %DPML_SYSTEM%\bin to your system PATH</li>
-        <li>copy or move the content of the distribution 'share' directory into %DPML_SYSTEM%</li>
+        <li>define an environment variable SYSTEM referring to that location</li>
+        <li>add %SYSTEM%\bin to your system PATH</li>
+        <li>copy or move the content of the distribution 'share' directory into %SYSTEM%</li>
         <li>create the per-user application data directory %APPDATA%\DPML (or 
-          declare the environment variable DPML_HOME to point to an alternative location)</li>
+          declare the environment variable HOME to point to an alternative location)</li>
         <li>copy or move the distribution 'data' and 'prefs' directory, and related txt files
-           to each users DPML_HOME directory</li>
+           to each users HOME directory</li>
       </ol>
 
       </subsection>
@@ -47,7 +47,7 @@
 
     <section name="Declaring Environment Variables">
 
-      <p>This following sections describe the procedures for defining the DPML_SYSTEM and/or DPML_HOME
+      <p>This following sections describe the procedures for defining the SYSTEM and/or HOME
       environment variables and modifying your system path.</p>
 
       <subsection name="Configuring MyComputer">
@@ -76,7 +76,7 @@
         <p>
         From the environment panel select 'New' under the system properties
         group to open up a dialog box for the creation of the 
-        <code><strong>DPML_HOME</strong></code> environment variable.
+        <code><strong>HOME</strong></code> environment variable.
         
         </p>
 
@@ -84,10 +84,10 @@
 
       </subsection>
 
-      <subsection name="Create DPML_HOME">
+      <subsection name="Create HOME">
 
         <p>
-        Create a new environment variabled named <code><strong>DPML_HOME</strong></code> that
+        Create a new environment variabled named <code><strong>HOME</strong></code> that
         declares the location of the root DPML directory.
         </p>
 
@@ -98,7 +98,7 @@
       <subsection name="Updating you PATH">
 
         <p>
-        Edit the PATH environment variable to include the <strong><code>%DPML_HOME%\share\bin</code></strong> path
+        Edit the PATH environment variable to include the <strong><code>%HOME%\share\bin</code></strong> path
         value.  Make sure you separate the value from other entries with the ';' character.
         </p>
 

@@ -35,7 +35,7 @@
 
 <pre><![CDATA[
 <project name="demo" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:transit="antlib:dpml.tools.transit"
     xmlns:x="dpml:depot" >
 
   <transit:import uri="local:template:dpml/tools/standard"/>

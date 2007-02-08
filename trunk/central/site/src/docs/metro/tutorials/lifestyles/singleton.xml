@@ -50,7 +50,7 @@
   &lt;project name="acme-singleton-demo" basedir="singleton"&gt;
     &lt;types&gt;
       &lt;type id="jar"/&gt;
-      &lt;component xmlns="link:xsd:dpml/lang/dpml-component#1.0" 
+      &lt;component xmlns="dpml:metro" 
          type="org.acme.Demo" 
          name="demo"&gt;
         &lt;context&gt;

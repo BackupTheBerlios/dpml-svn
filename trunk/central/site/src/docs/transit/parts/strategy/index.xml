@@ -57,7 +57,7 @@
       </p>
 
 <source>
-<![CDATA[<strategy xsi:type="plugin" class="net.dpml.tools.impl.StandardBuilder"/>]]>
+<![CDATA[<strategy xsi:type="plugin" class="dpml.tools.impl.StandardBuilder"/>]]>
 </source>
 
       <p>
@@ -65,7 +65,7 @@
       </p>
 
 <source>
-<![CDATA[<plugin class="net.dpml.tools.impl.StandardBuilder"/>]]>
+<![CDATA[<plugin class="dpml.tools.impl.StandardBuilder"/>]]>
 </source>
 
       <p>
@@ -74,7 +74,7 @@
       </p>
 
 <source>
-<![CDATA[<component xmlns="link:xsd:dpml/lang/dpml-component#1.0"
+<![CDATA[<component xmlns="dpml:metro"
      type="net.dpml.http.Server"
       collection="system"
       activation="system">

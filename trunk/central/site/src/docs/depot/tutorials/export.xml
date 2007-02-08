@@ -30,7 +30,7 @@
 
 <pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+&lt;index xmlns="dpml:library"&gt;
 
   &lt;imports&gt;
     &lt;import uri="link:module:ant"/&gt;
@@ -83,7 +83,7 @@
 
 <source><font color="blue"><![CDATA[<?xml version="1.0" encoding="ISO-8859-1"?>
 <module name="org/acme" version="SNAPSHOT"
-    xmlns="link:xsd:dpml/lang/dpml-module#1.0">
+    xmlns="dpml:library">
 
   <types>
     <type id="module" version="1.0"/>
@@ -132,7 +132,7 @@
         
 <source>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;module name="org/acme" version="1.0.0"
-    xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+    xmlns="dpml:library"&gt;
 
   &lt;types&gt;
     &lt;type id="module" version="1.0"/&gt;
@@ -173,7 +173,7 @@
         
 <pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"&gt;
+&lt;index xmlns="dpml:library"&gt;
 
   &lt;imports&gt;
     <font color="blue">&lt;import uri="link:module:org/acme#1.0"/&gt;</font>

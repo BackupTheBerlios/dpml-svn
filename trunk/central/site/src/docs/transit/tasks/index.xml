@@ -45,7 +45,7 @@
 
       </subsection>
 
-      <subsection name="Antlib Namespace"><source>antlib:net.dpml.transit</source></subsection>
+      <subsection name="Antlib Namespace"><source>antlib:dpml.tools.transit</source></subsection>
 
     </section>
   </body>

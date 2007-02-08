@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="dpml-central-apis" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
-    xmlns:x="dpml:depot">
+    xmlns:x="antlib:dpml.tools">
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/tools/standard"/>
 
   <target name="build" depends="standard.build">
-    <x:docs dest="${dpml.data}/docs"/>
+    <mkdir dir="${dpml.data}/api"/>
+    <x:docs dest="${dpml.data}/api"/>
   </target>
     
 </project>

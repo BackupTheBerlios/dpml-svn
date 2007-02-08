@@ -71,7 +71,7 @@
       
 <pre><![CDATA[
 <project name="standalone-graph-example" default="install"
-    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:transit="antlib:dpml.tools.transit" 
     xmlns:x="dpml:depot" 
     xmlns:c="dpml:metro">
 

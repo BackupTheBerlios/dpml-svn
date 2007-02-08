@@ -17,7 +17,7 @@
           <th>Description</th>
         </tr>
         <tr>
-          <td><a href="2.5/index.html">Servlet 2.5 APIs</a></td>
+          <td><a href="http://api.dpml.net/javax/servlet/2.5/index.html">Servlet 2.5 APIs</a></td>
           <td>Javax Servlet 2.5 APIs from Jetty.</td>
         </tr>
       </table>

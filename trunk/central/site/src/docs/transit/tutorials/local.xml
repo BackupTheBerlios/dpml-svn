@@ -52,7 +52,7 @@
 
         <p> 
         The following code demonstrates the use of a local artifact to retrieve a property 
-        file from <tt>DPML_PREFS</tt> and supply it as an input stream to a Properties object.
+        file from <tt>PREFS</tt> and supply it as an input stream to a Properties object.
         We construct a new URL using a local artifact specification
         that declares a resource type of "properties", a group named "dpml/test", with the name 
         "example-property-file".  We then pass the URLs resource stream to a new Property 

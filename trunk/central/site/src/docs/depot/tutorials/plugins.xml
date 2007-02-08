@@ -40,8 +40,8 @@
 
 <pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="link:xsd:dpml/lang/dpml-module#1.0"
-    <font color="darkred">xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"</font>&gt;
+&lt;index xmlns="dpml:library"
+    <font color="darkred">xmlns:part="dpml:part"</font>&gt;
 
   &lt;imports&gt;
     &lt;import uri="link:module:ant"/&gt;
@@ -97,7 +97,7 @@
 <source>
 <font color="blue"><![CDATA[<?xml version="1.0"?>
 
-<part xmlns="link:xsd:dpml/lang/dpml-part#1.0"
+<part xmlns="dpml:part"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <info/>

@@ -156,7 +156,7 @@
     <filters>
       <feature token="PART-HANDLER-URI" id="uri" type="part"/>
       <feature token="STATE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-state" alias="true"/>
-      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-part" alias="true"/>
+      <feature token="PART-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-lang-part" alias="true"/>
       <feature token="TYPE-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-type" alias="true"/>
       <feature token="COMPONENT-XSD-URI" id="uri" type="xsd" ref="dpml/lang/dpml-component" alias="true"/>
     </filters>
