@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<index xmlns="link:xsd:dpml/lang/dpml-module#1.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+<index xmlns="dpml:library">
 
-    <module name="junit" version="3.8.1" basedir="junit">
+    <module name="junit" version="4.2" basedir="junit">
 
       <properties>
         <property name="project.publisher.name" value="JUnit"/>
@@ -29,7 +28,7 @@
 
     </module>
 
-    <module name="ant" version="1.6.5" basedir="ant">
+    <module name="org/apache/ant" version="1.7.0" basedir="ant">
 
       <properties>
         <property name="project.publisher.name" value="Apache Software Foundation"/>
@@ -47,7 +46,7 @@
 
       <resource name="ant">
         <properties>
-          <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
+          <property name="project.api.root" value="${project.api.host}/ant/${project.version}"/>
         </properties>
         <types>
           <type id="jar"/>
@@ -56,7 +55,6 @@
           <runtime>
             <include key="ant-launcher"/>
             <include key="ant-trax"/>
-            <include key="ant-xslp"/>
           </runtime>
         </dependencies>
       </resource>
@@ -73,17 +71,6 @@
         </dependencies>
       </resource>
 
-      <resource name="ant-xslp">
-        <types>
-          <type id="jar"/>
-        </types>
-        <dependencies>
-          <runtime>
-            <include key="ant"/>
-          </runtime>
-        </dependencies>
-      </resource>
-  
       <resource name="ant-trax">
         <types>
           <type id="jar"/>

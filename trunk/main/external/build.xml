@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="external" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit" 
+    xmlns:transit="antlib:dpml.tools.transit" 
     xmlns:x="dpml:depot" >
 
-  <transit:plugin uri="link:part:dpml/depot/dpml-tools-builder">
-    <antlib urn="dpml:depot" resource="net/dpml/tools/tasks/antlib.xml"/>
+  <transit:plugin uri="link:part:dpml/depot/dpml-depot-builder">
+    <antlib urn="dpml:depot" resource="dpml/tools/antlib.xml"/>
   </transit:plugin>
 
   <target name="default">
