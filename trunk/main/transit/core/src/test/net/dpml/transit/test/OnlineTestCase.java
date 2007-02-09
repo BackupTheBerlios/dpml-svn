@@ -23,20 +23,18 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.FileOutputStream;
 
 import java.net.URL;
 import java.net.URLClassLoader;
 
 import junit.framework.TestCase;
 
-import net.dpml.transit.info.CacheDirective;
-import net.dpml.transit.info.TransitDirective;
-import net.dpml.transit.info.LayoutDirective;
-import net.dpml.transit.info.HostDirective;
-import net.dpml.transit.monitor.LoggingAdapter;
-import net.dpml.transit.model.TransitModel;
+import dpml.transit.info.CacheDirective;
+import dpml.transit.info.TransitDirective;
+import dpml.transit.info.HostDirective;
+
 import net.dpml.transit.Transit;
-import net.dpml.transit.DefaultTransitModel;
 
 /**
  * URL Handler TestCase for online operations.
@@ -50,22 +48,23 @@ public class OnlineTestCase extends TestCase
     
     private static final Transit setupTransit()
     {
-        System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );
         try
         {
-            new File( "target/test/cache" ).delete();
+            File basedir = new File( System.getProperty( "basedir" ) );
+            new File( basedir, "target/test/cache" ).delete();
             CacheDirective cache =
               new CacheDirective(
                 "${user.dir}/target/test/cache",
                 CacheDirective.CACHE_LAYOUT,
                 "file:${user.dir}/target/test/trusted",
                 CacheDirective.LOCAL_LAYOUT,
-                new LayoutDirective[0],
                 new HostDirective[0] );
             TransitDirective directive = new TransitDirective( null, cache );
-            LoggingAdapter logger = new LoggingAdapter( "test" );
-            TransitModel model = new DefaultTransitModel( logger, directive );
-            return Transit.getInstance( model );
+            File config = new File( basedir, "target/test/online.config" );
+            FileOutputStream out = new FileOutputStream( config );
+            TransitDirective.encode( directive, out );
+            System.setProperty( "dpml.transit.profile", config.toURI().toASCIIString() );
+            return Transit.getInstance();
         }
         catch( Throwable e )
         {

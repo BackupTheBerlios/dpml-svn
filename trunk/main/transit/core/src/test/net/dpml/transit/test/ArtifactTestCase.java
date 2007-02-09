@@ -18,9 +18,11 @@
 
 package net.dpml.transit.test;
 
+import java.net.URI;
+
 import junit.framework.TestCase;
 
-import net.dpml.transit.ClassicLayout;
+import net.dpml.transit.layout.ClassicLayout;
 import net.dpml.transit.Layout;
 import net.dpml.transit.Artifact;
 
@@ -33,15 +35,6 @@ import net.dpml.transit.Artifact;
 public class ArtifactTestCase extends TestCase
 {
    /**
-    * Constructor for ArtifactReferenceTest.
-    * @param name the test name
-    */
-    public ArtifactTestCase( String name )
-    {
-        super( name );
-    }
-
-   /**
     * Test invalid null path argument.
     * @exception Exception if an unexpected error occurs
     */
@@ -50,9 +43,9 @@ public class ArtifactTestCase extends TestCase
         try
         {
             Artifact artifact = Artifact.createArtifact( (String) null );
-            fail( "No IllegalArgumentException thrown for null uri spec: " + artifact );
+            fail( "No NullPointerException thrown for null uri spec: " + artifact );
         }
-        catch( IllegalArgumentException e )
+        catch( NullPointerException e )
         {
             assertTrue( true );
         }

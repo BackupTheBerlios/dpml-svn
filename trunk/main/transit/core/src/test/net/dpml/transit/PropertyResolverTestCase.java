@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import java.util.Properties;
 
-import net.dpml.util.PropertyResolver;
+import dpml.util.PropertyResolver;
 
 /**
  * Testcases for the PropertyResolver
@@ -47,15 +47,6 @@ public class PropertyResolverTestCase extends TestCase
         m_properties.put( "papa", "def" );
         m_properties.put( "child", "ghi" );
         m_properties.put( "some.abc.def.ghi.value", "All that." );
-    }
-
-   /**
-    * Testcase constructor.
-    * @param name the testcase name
-    */
-    public PropertyResolverTestCase( String name )
-    {
-        super( name );
     }
 
    /**
@@ -122,11 +113,47 @@ public class PropertyResolverTestCase extends TestCase
     * Test escaped property resolution.
     * @exception Exception if an error occurs
     */
+    public void testNonDeclaredSymbol() throws Exception
+    {
+        String src = "${batman}";
+        String result = PropertyResolver.resolve( m_properties, src );
+        String expected = "${batman}";
+        assertEquals( expected, result );
+    }
+
+   /**
+    * Test escaped property resolution.
+    * @exception Exception if an error occurs
+    */
     public void testEscapedSymbol() throws Exception
     {
-        String src = "$${alpha}";
+        String src = "$${abc}";
         String result = PropertyResolver.resolve( m_properties, src );
-        String expected = "${alpha}";
+        String expected = "${abc}";
+        assertEquals( expected, result );
+    }
+    
+   /**
+    * Test escaped property resolution with a system property symbol.
+    * @exception Exception if an error occurs
+    */
+    public void testSystemProperty() throws Exception
+    {
+        String src = "${user.dir}";
+        String result = PropertyResolver.resolve( System.getProperties(), src );
+        String expected = System.getProperty( "user.dir" );
+        assertEquals( expected, result );
+    }
+
+   /**
+    * Test escaped property resolution with a system property symbol.
+    * @exception Exception if an error occurs
+    */
+    public void testEscapedSystemProperty() throws Exception
+    {
+        String src = "$${user.dir}";
+        String result = PropertyResolver.resolve( System.getProperties(), src );
+        String expected = "${user.dir}";
         assertEquals( expected, result );
     }
 }
