@@ -77,7 +77,7 @@ class CompositeAppliance extends AbstractAppliance implements Appliance, Applian
                 final String error =
                   "Failed to resolve an appliance for the uri [ " 
                   + codebase 
-                  + "]."
+                  + "].";
                 throw new ApplianceException( error );
             }
             else
