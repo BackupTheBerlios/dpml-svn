@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro"
+      name="registry" 
+      type="org.acme.CompositeComponent">
+      <parts>
+        <component key="widget" 
+            type="org.acme.WidgetUsingGizmo">
+          <context>
+            <entry key="gizmo" lookup="org.acme.Gizmo"/>
+          </context>
+        </component>
+        <component key="gizmo" type="org.acme.DefaultGizmo"/>
+      </parts>
+   </component>
+   
+</part>

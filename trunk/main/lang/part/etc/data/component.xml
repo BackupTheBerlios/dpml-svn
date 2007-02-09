@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part" xmlns:metro="dpml:metro">
+  
+  <metro:component type="org.acme.DefaultWidget"/>
+
+</part>

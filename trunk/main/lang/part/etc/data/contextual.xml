@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro"
+      name="widget" 
+      type="org.acme.ContextualWidget">
+    <context>
+      <entry key="message" value="Batman"/>
+      <context key="colors">
+        <entry key="primary" method="RED"/>
+        <entry key="secondary" method="BLUE"/>
+      </context>
+      <entry key="numbers">
+        <param value="1"/>
+        <param value="2"/>
+        <param value="3"/>
+      </entry>
+    </context>
+  </component>
+
+</part>
