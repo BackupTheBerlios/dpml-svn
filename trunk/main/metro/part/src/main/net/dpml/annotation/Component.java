@@ -36,6 +36,6 @@ public @interface Component
     LifestylePolicy lifestyle() default LifestylePolicy.THREAD;
     CollectionPolicy collection() default CollectionPolicy.HARD;
     String lifecycle() default "";
-    String handlerURI() default "link:part:dpml/lang/dpml-lang-component";
+    String handlerURI() default "link:part:dpml/metro/dpml-lang-component";
     String handlerClassname() default "net.dpml.runtime.ComponentStrategyHandler";
 }

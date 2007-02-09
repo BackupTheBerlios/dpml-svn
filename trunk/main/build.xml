@@ -182,7 +182,7 @@
   <target name="bin" depends="prepare">
     <x:property name="build.basedir" ref="dpml/depot/dpml-depot-build" feature="basedir"/>
     <x:property name="metro.basedir" ref="dpml/metro/dpml-metro-main" feature="basedir"/>
-    <x:property name="part.basedir" ref="dpml/lang/dpml-lang-part" feature="basedir"/>
+    <x:property name="part.basedir" ref="dpml/metro/dpml-metro-part" feature="basedir"/>
     <x:property name="station.basedir" ref="dpml/metro/dpml-metro-station" feature="basedir"/>
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>

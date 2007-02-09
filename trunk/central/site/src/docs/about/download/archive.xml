@@ -548,7 +548,7 @@
         XSD schema reference have been update to use symbolic links in favour
         of direct artifact references. XSD namespace references are now declared
         in the form <tt>dpml:library</tt> (which in-turn references
-        an artifact such <tt>artifact:xsd:dpml/lang/dpml-module#1.0.0-RC8</tt>).
+        an artifact such <tt>artifact:xsd:dpml/metro/dpml-module#1.0.0-RC8</tt>).
         </p>
 
       </subsection>

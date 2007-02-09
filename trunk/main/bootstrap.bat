@@ -19,7 +19,7 @@ CALL :antlib-cleanup
 rem IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
 IF ERRORLEVEL 1 GOTO :exit
-CALL :depot-lang-part
+CALL :dpml-metro-part
 IF ERRORLEVEL 1 GOTO :exit
 CALL :dpml-depot-library
 IF ERRORLEVEL 1 GOTO :exit
@@ -56,30 +56,14 @@ del/q .ant\lib\dpml-*.jar
 POPD
 GOTO :EOF
 
-rem :xml-setup
-rem CALL ant -f bootstrap.xml xml
-rem GOTO :EOF
-
-:depot-lang-part
-PUSHD lang\part
+:dpml-metro-part
+PUSHD metro\part
 CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
-
-:depot-lang-part-rebuild
-PUSHD lang\part
-CALL :build clean install
 POPD
 GOTO :EOF
 
 :transit-main
 PUSHD transit\core
-CALL :build -f bootstrap.xml clean install
-POPD
-GOTO :EOF
-
-:dpml-transit-tools
-PUSHD transit\tools
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
@@ -114,12 +98,6 @@ PUSHD external
 CALL build clean install
 POPD
 GOTO :EOF
-
-rem :depot-core
-rem PUSHD depot\core
-rem CALL :build -f bootstrap.xml clean install
-rem POPD
-rem GOTO :EOF
 
 :build
 

@@ -15,7 +15,7 @@
     <copy file="${part.file}" toFile="${project.deliverable.xsd.path}" 
         preservelastmodified="true" overwrite="true"/>
     <checksum fileext=".md5" file="${project.deliverable.xsd.path}"/>
-    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/metro"/>
     <mkdir dir="${packaged.dir}"/>
     <copy file="${part.file}" toFile="${packaged.dir}/${project.name}.xsd" 
         preservelastmodified="true" overwrite="true"/>
@@ -28,7 +28,7 @@
     <copy file="${state.file}" toFile="${project.deliverable.xsd#dpml-lang-state.path}" 
         preservelastmodified="true" overwrite="true"/>
     <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-state.path}"/>
-    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/metro"/>
     <mkdir dir="${packaged.dir}"/>
     <copy file="${state.file}" toFile="${packaged.dir}/dpml-lang-state.xsd" 
         preservelastmodified="true" overwrite="true"/>
@@ -42,7 +42,7 @@
     <copy file="${component.file}" toFile="${project.deliverable.xsd#dpml-lang-component.path}" 
         preservelastmodified="true" overwrite="true"/>
     <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-component.path}"/>
-    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/metro"/>
     <mkdir dir="${packaged.dir}"/>
     <copy file="${component.file}" toFile="${packaged.dir}/dpml-lang-component.xsd" 
         preservelastmodified="true" overwrite="true"/>
@@ -56,7 +56,7 @@
     <copy file="${resource.file}" toFile="${project.deliverable.xsd#dpml-lang-resource.path}" 
         preservelastmodified="true" overwrite="true"/>
     <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-resource.path}"/>
-    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/metro"/>
     <mkdir dir="${packaged.dir}"/>
     <copy file="${resource.file}" toFile="${packaged.dir}/dpml-lang-resource.xsd" 
         preservelastmodified="true" overwrite="true"/>
@@ -70,7 +70,7 @@
     <copy file="${library.file}" toFile="${project.deliverable.xsd#dpml-lang-library.path}" 
         preservelastmodified="true" overwrite="true"/>
     <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-library.path}"/>
-    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/metro"/>
     <mkdir dir="${packaged.dir}"/>
     <copy file="${library.file}" toFile="${packaged.dir}/dpml-lang-library.xsd" 
         preservelastmodified="true" overwrite="true"/>

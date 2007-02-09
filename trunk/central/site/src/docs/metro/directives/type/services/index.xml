@@ -50,10 +50,10 @@
 <source><![CDATA[
 <?xml version="1.0"?>
 
-<type xmlns="link:xsd:dpml/lang/dpml-type#1.0"
+<type xmlns="link:xsd:dpml/metro/dpml-type#1.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:part="dpml:part"
-    xmlns:type="link:xsd:dpml/lang/dpml-type#1.0"
+    xmlns:type="link:xsd:dpml/metro/dpml-type#1.0"
     xmlns:component="dpml:metro">
 
   <info name="pool"

@@ -9,7 +9,7 @@
 -Djava.protocol.handler.pkgs=dpml.transit
 -Djava.rmi.server.RMIClassLoaderSpi=dpml.util.FederatingClassLoader
 -Dcom.sun.management.jmxremote
--Ddpml.class.path=link:jar:dpml/lang/dpml-lang-part
+-Ddpml.class.path=link:jar:dpml/metro/dpml-metro-part
 -Ddpml.depot.application=link:part:dpml/metro/dpml-metro-main
 -Ddpml.jmx.enabled=true
 janel.main.class=dpml.util.Main

@@ -13,6 +13,6 @@
     </properties>
   </process>
   
-  <codebase uri="link:part:dpml/lang/dpml-lang-sample?message=Foo,port=7"/>
+  <codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Foo,port=7"/>
 
 </appliance>

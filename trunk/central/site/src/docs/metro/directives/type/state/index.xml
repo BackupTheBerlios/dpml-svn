@@ -72,7 +72,7 @@
 <source><![CDATA[
 <?xml version="1.0"?>
 
-<type xmlns="link:xsd:dpml/lang/dpml-type#1.0">
+<type xmlns="link:xsd:dpml/metro/dpml-type#1.0">
 
   <info name="example"
       class="net.dpml.test.ExampleComponent"
@@ -89,7 +89,7 @@
     <entry key="color" class="java.awt.Color" optional="false"/>
   </context>
   
-  <state xmlns="link:xsd:dpml/lang/dpml-state#1.0">
+  <state xmlns="link:xsd:dpml/metro/dpml-state#1.0">
     <trigger event="initialization">
       <transition name="init" target="available"/>
     </trigger>

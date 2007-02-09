@@ -18,7 +18,7 @@
       <uri>artifact:jar:org/apache/ant/ant-trax#@ANT-VERSION@</uri>
       <uri>artifact:jar:org/apache/ant/ant-junit#@ANT-VERSION@</uri>
       <uri>artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP</uri>
-      <uri>artifact:jar:dpml/lang/dpml-lang-part#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-part#BOOTSTRAP</uri>
       <uri>artifact:jar:dpml/depot/dpml-depot-library#BOOTSTRAP</uri>
       <uri>artifact:jar:dpml/depot/dpml-depot-build#BOOTSTRAP</uri>
       <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#BOOTSTRAP</uri>

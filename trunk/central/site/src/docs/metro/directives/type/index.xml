@@ -11,7 +11,7 @@
 
     <section name="Type Task">
     
-      <pre>link:xsd:dpml/lang/dpml-type#1.0</pre>
+      <pre>link:xsd:dpml/metro/dpml-type#1.0</pre>
 
       <subsection name="Description">
 
@@ -70,7 +70,7 @@
 
 <source><![CDATA[
 <?xml version="1.0"?>
-<type xmlns="link:xsd:dpml/lang/dpml-type#1.0">
+<type xmlns="link:xsd:dpml/metro/dpml-type#1.0">
 
   <info name="server"
       class="net.dpml.http.Server"
@@ -89,7 +89,7 @@
     <entry key="requestLog" class="org.mortbay.jetty.RequestLog" optional="true"/>
   </context>
   
-  <state xmlns="link:xsd:dpml/lang/dpml-state#1.0">
+  <state xmlns="link:xsd:dpml/metro/dpml-state#1.0">
     <trigger event="initialization">
       <transition name="init" target="started">
         <operation name="startup" method="start"/>

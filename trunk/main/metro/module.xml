@@ -10,6 +10,8 @@
     </build>
   </dependencies>
 
+  <project file="part/project.xml"/>
+  <project file="sample/project.xml"/>
   <project file="appliance/project.xml"/>
   <project file="main/project.xml"/>
   <project file="connector/project.xml"/>

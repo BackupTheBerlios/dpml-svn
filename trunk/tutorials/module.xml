@@ -37,7 +37,7 @@
       <dependencies>
         <test>
           <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
         </test>
       </dependencies>
     </project>
@@ -55,7 +55,7 @@
         </build>
         <test>
           <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
         </test>
       </dependencies>
     </project>
@@ -73,7 +73,7 @@
       </build>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -89,7 +89,7 @@
       </build>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -105,7 +105,7 @@
       </build>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -120,7 +120,7 @@
         <include key="acme-lookup-demo"/>
       </build>
       <runtime>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </runtime>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
@@ -138,7 +138,7 @@
         <include key="acme-lifestyle-demo"/>
       </build>
       <runtime>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </runtime>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
@@ -156,7 +156,7 @@
         <include key="acme-transient-demo"/>
       </build>
       <runtime>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </runtime>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
@@ -174,7 +174,7 @@
         <include key="acme-thread-demo"/>
       </build>
       <runtime>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </runtime>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
@@ -193,7 +193,7 @@
         <include key="acme-singleton-demo"/>
       </build>
       <test>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
         <include ref="org/apache/ant/ant-junit"/>
       </test>
     </dependencies>
@@ -212,7 +212,7 @@
         <include uri="artifact:jar:dpml/util/dpml-logging-api#1.0.0"/>
       </runtime>
       <test>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
         <include ref="org/apache/ant/ant-junit"/>
       </test>
     </dependencies>
@@ -230,7 +230,7 @@
       </build>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -251,7 +251,7 @@
       </build>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -276,7 +276,7 @@
       </runtime>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
-          <include ref="dpml/lang/dpml-lang-part"/>
+          <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -298,7 +298,7 @@
       <test>
         <include ref="org/apache/ant/ant-junit"/>
         <include key="acme-simple-clock"/>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </test>
     </dependencies>
   </project>
@@ -327,7 +327,7 @@
     <dependencies>
       <runtime>
         <include key="acme-clock-api"/>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
         </runtime>
     </dependencies>
   </project>
@@ -353,7 +353,7 @@
       <runtime>
         <include key="acme-clock-api"/>
         <include ref="dpml/util/dpml-logging-api"/>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
       </runtime>
       <test>
         <include ref="org/apache/ant/ant-junit"/>
@@ -364,7 +364,7 @@
   <project name="acme-clock-test" basedir="import/test">
     <dependencies>
       <test>
-        <include ref="dpml/lang/dpml-lang-part"/>
+        <include ref="dpml/metro/dpml-metro-part"/>
         <include ref="org/apache/ant/ant-junit"/>
       </test>
     </dependencies>

@@ -133,13 +133,13 @@ options
     * An example commandline and resulting log of an application launch 
     * using <tt>metro</tt> is show below:
     * <pre>
-$ metro -command link:part:dpml/lang/dpml-lang-sample
+$ metro -command link:part:dpml/metro/dpml-metro-sample
 
 [2756 ] [INFO   ] (dpml.metro): commissioning hello
 [2756 ] [INFO   ] (hello): pid: [2756]
 [2756 ] [INFO   ] (hello): message: Hello
 [2756 ] [INFO   ] (hello): port: 0
-[2756 ] [INFO   ] (hello): target: artifact:jar:dpml/lang/dpml-lang-sample#SNAPSHOT
+[2756 ] [INFO   ] (hello): target: artifact:jar:dpml/metro/dpml-metro-sample#SNAPSHOT
 [2756 ] [INFO   ] (hello): starting
 [2756 ] [INFO   ] (hello): started
 [2756 ] [INFO   ] (dpml.metro): decommissioning hello

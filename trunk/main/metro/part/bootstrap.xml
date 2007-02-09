@@ -18,10 +18,10 @@
   limitations under the License.
 -->
 
-<project name="dpml-lang-part" default="install" basedir=".">
+<project name="dpml-metro-part" default="install" basedir=".">
 
-  <property name="project.group" value="dpml/lang"/>
-  <property name="project.name" value="dpml-lang-part"/>
+  <property name="project.group" value="dpml/metro"/>
+  <property name="project.name" value="dpml-metro-part"/>
   
   <property file="${basedir}/bootstrap.properties"/>
   <property file="${home}/bootstrap.properties"/>
@@ -47,7 +47,7 @@
     <filter token="PROJECT-NAME" value="${project.name}"/>
     <filter token="PROJECT-GROUP" value="${project.group}"/>
     <filter token="PROJECT-VERSION" value="${project.version}"/>
-    <filter token="PART-XSD-SPEC-URI" value="link:xsd:${project.group}/dpml-lang-part"/>
+    <filter token="PART-XSD-SPEC-URI" value="link:xsd:${project.group}/dpml-metro-part"/>
     <filter token="COMPONENT-XSD-SPEC-URI" value="link:xsd:${project.group}/dpml-lang-component"/>
     <filter token="RESOURCE-NAMESPACE" value="link:xsd:${project.group}/dpml-lang-resource"/>
     <filter token="DEPOT-CLASSLOADER-CLASS" value="dpml.util.SystemClassLoader"/>
@@ -157,7 +157,7 @@
 #----------------------------------------------------------------------------------
     </echo>
     <!--
-    <copy tofile="${user.home}/.ant/lib/dpml-lang-part.jar"
+    <copy tofile="${user.home}/.ant/lib/dpml-metro-part.jar"
       file="${target.deliverables.jars.dir}/${project.name}-${project.version}.jar"/>
     -->
     <property name="lib" location="${dpml.system}/lib"/>

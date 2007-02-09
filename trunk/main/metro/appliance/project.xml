@@ -23,10 +23,10 @@
   
   <dependencies>
     <build>
-      <include ref="dpml/lang/dpml-lang-sample"/>
+      <include ref="dpml/metro/dpml-metro-sample"/>
     </build>
     <runtime>
-      <include ref="dpml/lang/dpml-lang-part"/>
+      <include ref="dpml/metro/dpml-metro-part"/>
       <include ref="dpml/metro/dpml-metro-connector"/>
     </runtime>
     <test>

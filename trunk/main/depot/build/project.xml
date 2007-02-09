@@ -13,7 +13,7 @@
     
   <dependencies>
     <runtime>
-      <include ref="dpml/lang/dpml-lang-part"/>
+      <include ref="dpml/metro/dpml-metro-part"/>
       <include ref="dpml/depot/dpml-depot-library"/>
       <include ref="dpml/util/dpml-util-cli"/>
     </runtime>

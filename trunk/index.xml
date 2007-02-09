@@ -44,9 +44,8 @@
     
     <module file="util/module.xml"/>
     <module file="transit/module.xml"/>
-    <module file="lang/module.xml"/>
-    <module file="depot/module.xml"/>
     <module file="metro/module.xml"/>
+    <module file="depot/module.xml"/>
     
   </module>
     

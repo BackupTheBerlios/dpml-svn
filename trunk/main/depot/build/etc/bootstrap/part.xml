@@ -13,7 +13,7 @@
   <classpath>
     <private>
       <uri>artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP</uri>
-      <uri>artifact:jar:dpml/lang/dpml-lang-part#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-part#BOOTSTRAP</uri>
       <uri>artifact:jar:dpml/depot/dpml-depot-library#BOOTSTRAP</uri>
       <uri>artifact:jar:dpml/util/dpml-util-cli#BOOTSTRAP</uri>
       <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#BOOTSTRAP</uri>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project xmlns="dpml:library" name="dpml-lang-part">
+<project xmlns="dpml:library" name="dpml-metro-part">
 
   <info title="DPML Part Content Handler">
     <description>Part content handler for the Transit system.</description>

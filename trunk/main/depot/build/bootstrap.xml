@@ -18,7 +18,7 @@
   <target name="setup-path" depends="bootstrap.setup-path">
     <path id="project.main.path">
       <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
-      <pathelement location="${dpml.local.cache}/dpml/lang/jars/dpml-lang-part-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/metro/jars/dpml-metro-part-BOOTSTRAP.jar"/>
       <pathelement location="${dpml.local.cache}/dpml/depot/jars/dpml-depot-library-BOOTSTRAP.jar"/>
       <pathelement location="${dpml.local.cache}/dpml/util/jars/dpml-util-cli-BOOTSTRAP.jar"/>
       <pathelement location="${target.classes.dir}"/>

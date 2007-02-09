@@ -92,23 +92,23 @@ public final class StandardNamespaceResolver implements LSResourceResolver
         ClassLoader classloader = getClass().getClassLoader();
         if( "dpml:part".equals( namespace ) )
         {
-            return classloader.getResource( "dpml/lang/dpml-lang-part.xsd" );
+            return classloader.getResource( "dpml/metro/dpml-metro-part.xsd" );
         }
         else if( "dpml:metro".equals( namespace ) )
         {
-            return classloader.getResource( "dpml/lang/dpml-lang-component.xsd" );
+            return classloader.getResource( "dpml/metro/dpml-lang-component.xsd" );
         }
         else if( "dpml:state".equals( namespace ) )
         {
-            return classloader.getResource( "dpml/lang/dpml-lang-state.xsd" );
+            return classloader.getResource( "dpml/metro/dpml-lang-state.xsd" );
         }
         else if( "dpml:antlib".equals( namespace ) )
         {
-            return classloader.getResource( "dpml/lang/dpml-lang-resource.xsd" );
+            return classloader.getResource( "dpml/metro/dpml-lang-resource.xsd" );
         }
         else if( "dpml:library".equals( namespace ) )
         {
-            return classloader.getResource( "dpml/lang/dpml-lang-library.xsd" );
+            return classloader.getResource( "dpml/metro/dpml-lang-library.xsd" );
         }
         else
         {
