@@ -30,12 +30,18 @@ import java.util.concurrent.TimeUnit;
 public interface ApplianceConnector extends Remote
 {
    /**
-    * Connect a appliance to the station.
+    * Connect an appliance to the connector.
     * @param appliance the appliance 
     * @exception RemoteException if a remote error occurs
     */
     void connect( Appliance appliance ) throws RemoteException;
     
+   /**
+    * Retrieve the connected appliance.
+    * @param units the timout units
+    * @param timeout duration (in units) to wait for a connection
+    * @exception IOException if an I/O error occurs
+    */
     Appliance getAppliance( TimeUnit units, int timeout ) throws IOException;
     
 }

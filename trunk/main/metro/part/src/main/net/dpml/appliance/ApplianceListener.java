@@ -24,7 +24,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Interface implementated by remote listeners to state change events.
+ * Interface implementated by remote listeners to appliance state change events.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -34,7 +34,7 @@ public interface ApplianceListener extends EventListener, Remote
    /**
     * Notify the listener of an event within the appliance.
     *
-    * @param event the comnponent event
+    * @param event the appliance event
     * @exception RemoteException if a remote transport error occurs
     */
     void applianceChanged( final ApplianceEvent event ) throws RemoteException;

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URLConnection;
 
 /**
- * Interface implementated by remote listeners to state change events.
+ * Interface implementated by appliance factories.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -30,7 +30,7 @@ import java.net.URLConnection;
 public interface ApplianceFactory
 {
    /**
-    * Create a new appliance using the supplied connection object.
+    * Create a new appliance using the supplied url connection and partition.
     * @param connection the URL connection
     * @param partition an optional partition name
     * @return the appliance

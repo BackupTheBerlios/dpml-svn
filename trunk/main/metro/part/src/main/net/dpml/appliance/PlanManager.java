@@ -21,7 +21,7 @@ package net.dpml.appliance;
 import javax.management.MXBean;
 
 /**
- * Management interface for applications.
+ * Management interface for deployment plan.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -29,5 +29,9 @@ import javax.management.MXBean;
 @MXBean
 public interface PlanManager extends ApplianceManager
 {
+   /**
+    * Return the array of appliance managers established within the plan.
+    * @return the managed appliance managers
+    */
     ApplianceManager[] getApplianceManagers();
 }

@@ -23,7 +23,7 @@ import java.util.EventObject;
 import net.dpml.runtime.Status;
 
 /**
- * Event triggered as a result of a state change.
+ * Event triggered as a result of a state change within an appliance.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -41,7 +41,8 @@ public class ApplianceEvent extends EventObject
    /**
     * Construct a new <code>StateEvent</code>.
     *
-    * @param source the source component
+    * @param source the source appliance
+    * @param status the appliance state
     */
     public ApplianceEvent( final Appliance source, Status status )
     {

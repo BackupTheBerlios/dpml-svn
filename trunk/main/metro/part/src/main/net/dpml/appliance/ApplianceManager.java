@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 import javax.management.MXBean;
 
 /**
- * Management interface for applications.
+ * Management interface for an appliance.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -32,7 +32,7 @@ import javax.management.MXBean;
 public interface ApplianceManager extends Remote
 {
    /**
-    * Returns the part URI as a string.
+    * Returns the codebase URI as a string.
     * @return the codebase uri
     */
     String getCodebaseURI() throws RemoteException;

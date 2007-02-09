@@ -23,31 +23,39 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
 
-
 /**
- * Appliance interface.
+ * Appliance interface.  An appliance represents a component or component collection
+ * that can be comissioned and decommissioned.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public interface Appliance extends Remote
 {
+   /**
+    * Add an appliance listener to the appliance.
+    * @param listener the appliance listener
+    * @exception RemoteException if a RMI error occurs
+    */
     void addApplianceListener( ApplianceListener listener ) throws RemoteException;
     
+   /**
+    * Remove an appliance listener from the appliance.
+    * @param listener the appliance listener
+    * @exception RemoteException if a RMI error occurs
+    */
     void removeApplianceListener( ApplianceListener listener ) throws RemoteException;
     
+   /**
+    * Commission the appliance.
+    * @exception IOException if a I/O error occurs
+    */
     void commission() throws IOException;
     
-    void decommission() throws RemoteException;
-    
    /**
-    * Return a value assignable to the supplied remote type or null if the type
-    * cannot be resolved from the underlying component.
-    * @param type the service type
-    * @return an instance of the type or null
-    * @exception IOException if an IO error occurs
+    * Decommission the appliance.
+    * @exception RemoteException if a RMI error occurs
     */
-    //public <T>T getContentForClass( Class<T> type ) throws IOException;
-    
+    void decommission() throws RemoteException;
 }
 

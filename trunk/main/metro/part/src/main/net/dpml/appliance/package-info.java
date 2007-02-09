@@ -17,7 +17,7 @@
  */
 
 /**
- * <p>Interfaces represening a managed process.</p>
+ * <p>Interfaces representing managed processes.</p>
  * 
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
