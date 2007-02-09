@@ -1,19 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="dpml-part" default="install" basedir="." 
-    xmlns:transit="antlib:net.dpml.transit"
+    xmlns:transit="antlib:dpml.tools.transit"
     xmlns:x="dpml:depot" >
 
   <transit:import uri="local:template:dpml/tools/standard"/>
-
-  <target name="package" depends="standard.package">
-    <property name="target.file" location="${project.target.dir}/part.xsd"/>
-    <property name="xsds.dir" location="${project.deliverable.xsd.dir}"/>
-    <mkdir dir="${xsds.dir}"/>
-    <property name="filename" value="${project.name}-${project.version}.xsd"/>
-    <copy file="${target.file}" toFile="${project.deliverable.xsd.path}" 
+  
+  <target name="build" depends="standard.build">
+  
+    <!-- part.xsd -->
+    <!--
+    <property name="part.file" location="${project.target.dir}/xsds/part.xsd"/>
+    <mkdir dir="${project.deliverable.xsd.dir}"/>
+    <copy file="${part.file}" toFile="${project.deliverable.xsd.path}" 
         preservelastmodified="true" overwrite="true"/>
     <checksum fileext=".md5" file="${project.deliverable.xsd.path}"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <mkdir dir="${packaged.dir}"/>
+    <copy file="${part.file}" toFile="${packaged.dir}/${project.name}.xsd" 
+        preservelastmodified="true" overwrite="true"/>
+    -->
+    <!-- state.xsd -->
+    
+    <!--
+    <property name="state.file" location="${project.target.dir}/xsds/state.xsd"/>
+    <mkdir dir="${project.deliverable.xsd.dir}"/>
+    <copy file="${state.file}" toFile="${project.deliverable.xsd#dpml-lang-state.path}" 
+        preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-state.path}"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <mkdir dir="${packaged.dir}"/>
+    <copy file="${state.file}" toFile="${packaged.dir}/dpml-lang-state.xsd" 
+        preservelastmodified="true" overwrite="true"/>
+    -->
+        
+    <!-- component.xsd -->
+    
+    <!--
+    <property name="component.file" location="${project.target.dir}/xsds/component.xsd"/>
+    <mkdir dir="${project.deliverable.xsd.dir}"/>
+    <copy file="${component.file}" toFile="${project.deliverable.xsd#dpml-lang-component.path}" 
+        preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-component.path}"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <mkdir dir="${packaged.dir}"/>
+    <copy file="${component.file}" toFile="${packaged.dir}/dpml-lang-component.xsd" 
+        preservelastmodified="true" overwrite="true"/>
+    -->
+        
+    <!-- resource.xsd -->
+    
+    <!--
+    <property name="resource.file" location="${project.target.dir}/xsds/resource.xsd"/>
+    <mkdir dir="${project.deliverable.xsd.dir}"/>
+    <copy file="${resource.file}" toFile="${project.deliverable.xsd#dpml-lang-resource.path}" 
+        preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-resource.path}"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <mkdir dir="${packaged.dir}"/>
+    <copy file="${resource.file}" toFile="${packaged.dir}/dpml-lang-resource.xsd" 
+        preservelastmodified="true" overwrite="true"/>
+    -->
+        
+    <!-- library.xsd -->
+    
+    <!--
+    <property name="library.file" location="${project.target.dir}/xsds/library.xsd"/>
+    <mkdir dir="${project.deliverable.xsd.dir}"/>
+    <copy file="${library.file}" toFile="${project.deliverable.xsd#dpml-lang-library.path}" 
+        preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${project.deliverable.xsd#dpml-lang-library.path}"/>
+    <property name="packaged.dir" location="${project.target.classes.main.dir}/dpml/lang"/>
+    <mkdir dir="${packaged.dir}"/>
+    <copy file="${library.file}" toFile="${packaged.dir}/dpml-lang-library.xsd" 
+        preservelastmodified="true" overwrite="true"/>
+    -->
+        
+  </target>
+
+  <target name="update">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating ${dpml.share}/bin
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.share}/bin"/>
+    <copy todir="${dpml.share}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/**"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.share}/bin">
+        <include name="**/*.sh"/>
+        <include name="**/depot"/>
+      </fileset>
+    </chmod>
   </target>
 
 </project>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-lang-part">
+
+  <info title="DPML Part Content Handler">
+    <description>Part content handler for the Transit system.</description>
+  </info>
+  
+  <properties>
+    <property name="project.package.include-in-classes" value="true"/>
+  </properties>
+  
+  <types>
+    <type id="xsd" alias="true" source="etc/xsds/part.xsd"/>
+    <type id="xsd" alias="true" name="dpml-lang-state" source="etc/xsds/state.xsd"/>
+    <type id="xsd" alias="true" name="dpml-lang-component" source="etc/xsds/component.xsd"/>
+    <type id="xsd" alias="true" name="dpml-lang-resource" source="etc/xsds/resource.xsd"/>
+    <type id="xsd" alias="true" name="dpml-lang-library" source="etc/xsds/library.xsd"/>
+    <type id="jar" alias="true"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+  
+  <filters>
+    <feature token="COMPONENT-XSD-SPEC-URI" id="uri" type="xsd#dpml-lang-component" alias="true"/>
+  </filters>
+
+</project>
+

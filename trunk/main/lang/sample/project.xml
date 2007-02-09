@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-lang-sample">
+
+  <info title="DPML Component Example"/>
+  
+  <types>
+    <type id="jar"/>
+    <type id="part" source="etc/component.xml" alias="true"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/lang/dpml-lang-part"/>
+    </runtime>
+  </dependencies>
+  
+</project>
+
