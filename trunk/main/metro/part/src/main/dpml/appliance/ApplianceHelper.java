@@ -50,6 +50,10 @@ public class ApplianceHelper
     
     public static Appliance newAppliance( String partition, URI uri ) throws IOException
     {
+        if( null == partition )
+        {   
+            throw new NullPointerException( "partition" );
+        }
         Artifact artifact = Artifact.createArtifact( uri );
         String type = artifact.getType();
         ContentHandler handler = Transit.getInstance().getContentHandler( type );
@@ -84,7 +88,7 @@ public class ApplianceHelper
     
     private static String getPartition()
     {
-        String partition = System.getProperty( "dpml.station.partition", null );
+        String partition = System.getProperty( "dpml.station.partition", "main" );
         Properties system = System.getProperties();
         return PropertyResolver.resolve( system, partition );
     }
