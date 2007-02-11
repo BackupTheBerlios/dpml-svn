@@ -68,7 +68,31 @@ class ContextModel implements Resolvable
                 {
                     ContextDirective parent = getContextDirective( bundled, key );
                     ContextDirective nested = getContextDirective( directive, key );
-                    value = new ContextModel( clazz, path, c, policy, key, parent, nested, query );
+                    try
+                    {
+                        ContextModel model = new ContextModel( clazz, path, c, policy, key, parent, nested, query );
+                        if( !optional || ( model.size() > 0 ) )
+                        {
+                            value = model;
+                        }
+                    }
+                    catch( MissingContextEntryException mcee )
+                    {
+                        if( !optional )
+                        {
+                            final String error = 
+                              "Nested context entry ["
+                              + key
+                              + "] within the context definition ["
+                              + c.getName()
+                              + "] as a constructor argument to the component class ["
+                              + clazz.getName()
+                              + "] within the component model ["
+                              + path
+                              + "] could not be created.";
+                            throw new ComponentException( error );
+                        }
+                    }
                 }
                 else
                 {
@@ -102,10 +126,15 @@ class ContextModel implements Resolvable
                       + "] within the component model ["
                       + path
                       + "].";
-                    throw new ComponentException( error );
+                    throw new MissingContextEntryException( error );
                 }
             }
         }
+    }
+    
+    int size()
+    {
+        return m_map.size();
     }
     
     private String getScopedKey( String base, String key )
