@@ -988,7 +988,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                     category,
                     path,
                     null );
-                list.add( include );
+                if( !list.contains( include ) )
+                {
+                    list.add( include );
+                }
             }
             else
             {
@@ -1007,7 +1010,10 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
                         category,
                         urn,
                         null );
-                    list.add( include );
+                    if( !list.contains( include ) )
+                    {
+                        list.add( include );
+                    }
                 }
             }
         }
