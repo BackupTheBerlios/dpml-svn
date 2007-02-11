@@ -367,7 +367,10 @@ public class PackageTask extends GenericTask
             Type type = resource.getType( "jar" );
             Artifact artifact = getArtifact( type, resolve );
             URI uri = artifact.toURI();
-            list.add( uri );
+            if( !list.contains( uri ) )
+            {
+                list.add( uri );
+            }
         }
     }
     
