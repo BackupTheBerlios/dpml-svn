@@ -15,6 +15,7 @@
     <element name="context" type="this:ContextEntryType" substitutionGroup="this:entry"/>
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
     <element name="profile" type="this:ProfileType"/>
+    <element name="parts" type="this:PartsType"/>
     
     <complexType name="component">
       <complexContent>
@@ -22,7 +23,7 @@
           <sequence>
             <element name="categories" type="this:CategoriesType" minOccurs="0" maxOccurs="1"/>
             <element name="context" type="this:ContextType" minOccurs="0" maxOccurs="1"/>
-            <element name="parts" type="this:PartsType" minOccurs="0" maxOccurs="1"/>
+            <element ref="this:parts" minOccurs="0" maxOccurs="1"/>
           </sequence>
           <attribute name="key" type="string"/>
           <attribute name="name" type="string"/>

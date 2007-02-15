@@ -63,7 +63,7 @@ if [ "$DEPOT_ENDORSED_DIRECTORY" = "" ] ; then
 fi
 export DEPOT_ENDORSED_DIRECTORY
 
-DEPOT_BASE_JVM_OPTS="-Djava.ext.dirs=$DPML_SYSTEM/lib/ext -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=dpml.util.RemotingClassLoader -Djava.protocol.handler.pkgs=dpml.transit"
+DEPOT_BASE_JVM_OPTS="-Djava.ext.dirs=$DPML_SYSTEM/lib/ext:$JAVA_HOME/lib/ext -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=dpml.util.RemotingClassLoader -Djava.protocol.handler.pkgs=dpml.transit"
 
 if [ "$DEPOT_JVM_OPTS" = "" ] ; then
     DEPOT_JVM_OPTS=$DEPOT_BASE_JVM_OPTS
@@ -71,14 +71,6 @@ else
     DEPOT_JVM_OPTS="$DEPOT_BASE_JVM_OPTS $DEPOT_JVM_OPTS"
 fi
 export DEPOT_JVM_OPTS
-
-#DEPOT_BASE_CLASSPATH=$DPML_SYSTEM/bin/@DEPOT-PATH@:$DPML_SYSTEM/lib/@TRANSIT-PATH@:$DPML_SYSTEM/lib/@PART-PATH@
-
-#if [ "$DEPOT_CLASSPATH" = "" ] ; then
-#    DEPOT_CLASSPATH=$DEPOT_BASE_CLASSPATH
-#else
-#    DEPOT_CLASSPATH="$DEPOT_BASE_CLASSPATH $DEPOT_CLASSPATH"
-#fi
 export DEPOT_CLASSPATH
 
 DEPOT_ARGS=$@

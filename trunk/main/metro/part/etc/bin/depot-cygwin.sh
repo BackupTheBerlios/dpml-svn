@@ -41,7 +41,6 @@ if [ "$DEPOT_DEBUG" = "true" ]; then
     echo "          DPML System: $DPML_SYSTEM"
     echo "            DPML Home: $DPML_HOME"
     echo "      Security Policy: $DEPOT_SECURITY_POLICY"
-    echo "      Security Policy: $DEPOT_SECURITY_POLICY"
     echo "          JVM Options: $DEPOT_JVM_OPTS"
     echo "            Classpath: $DEPOT_CLASSPATH"
     echo "      Depot Arguments: $DEPOT_ARGS"

@@ -2,7 +2,7 @@
 # This file contains the runtime configuration of the Janel java launcher application.
 #
 
--Djava.ext.dirs=${env.DPML_HOME}\share\lib\ext
+-Djava.ext.dirs=${FOUND_JAVA_HOME}\lib\ext;${env.DPML_HOME}\share\lib\ext
 -Djava.endorsed.dirs=${env.DPML_HOME}\share\lib\endorsed
 -Djava.system.class.loader=dpml.util.SystemClassLoader
 -Djava.security.policy=${env.DPML_HOME}\share\bin\station.policy
