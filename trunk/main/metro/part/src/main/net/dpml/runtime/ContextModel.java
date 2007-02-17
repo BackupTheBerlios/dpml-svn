@@ -200,21 +200,5 @@ class ContextModel implements Resolvable
             return directive.getContextDirective( key );
         }
     }
-    
-    /*
-    private static class Entry
-    {
-        private final String m_key;
-        private final boolean m_optional;
-        private final boolean m_composite;
-        
-        Entry( String key, boolean optional, boolean composite )
-        {
-            m_key = key;
-            m_optional = optional;
-            m_composite = composite;
-        }
-    }
-    */
 }
 
