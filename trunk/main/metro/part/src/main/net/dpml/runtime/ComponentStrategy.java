@@ -123,15 +123,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         m_map.put( "path", m_path );
         m_map.put( "work", new File( System.getProperty( "user.dir" ) ).getCanonicalFile() );
         m_map.put( "temp", new File( System.getProperty( "java.io.tmpdir" ) ).getCanonicalFile() );
-        
-        try
-        {
-            m_map.put( "uri", new URI( "component:" + m_path ) );
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-        }
+        m_map.put( "uri", URI.create( "component:" + m_path ) ); 
         
         if( m_logger.isTraceEnabled() )
         {
