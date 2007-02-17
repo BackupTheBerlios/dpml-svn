@@ -106,38 +106,12 @@ class ContextDirective extends Directive implements Encodable
                 }
             }
         }
-        
-        /*
-        // override context with query arguments if present
-        if( null != query )
-        {
-            Map<String,String> map = new Hashtable<String,String>();
-            String[] segments = query.split( "," );
-            for( String segment : segments )
-            {
-                String[] args = segment.split( "=" );
-                if( args.length != 2 )
-                {
-                    throw new IllegalArgumentException( "Invalid query [" + segment + "]" );
-                }
-                String key = args[0];
-                String param = args[1];
-                Value value = new Construct( param );
-                m_entries.put( key, new ValueWrapper( null, value ) );
-            }
-        }
-        */
     }
     
     int size()
     {
         return m_entries.size();
     }
-    
-    //String[] getKeys()
-    //{
-    //    return m_entries.keySet().toArray( new String[0] );
-    //}
     
     public Element getElement()
     {
