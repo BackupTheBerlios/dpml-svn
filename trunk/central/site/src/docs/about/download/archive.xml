@@ -24,12 +24,7 @@
         </p>
         
         <p>
-        The 1.1.0 release includes a number of small updates dealing with runtime
-        support for Java 1.5 and 1.6.  The changes deal with memory management under
-        1.5 and 1.6 that introduce requirements for a more restricted component
-        decommissioning process.  Other changes include the addition of the support
-        for symbolic property references inside part definitions declared at the
-        level of a Depot project type declaration.
+        
         </p>
         
         <table>
@@ -81,6 +76,70 @@
         
       </subsection>
       
+     <subsection name="Version 1.1.0">
+      
+        <p>
+        Resolved issues and/or enhancements:
+        </p>
+        
+        <p>
+        The 1.1.0 release includes a number of small updates dealing with runtime
+        support for Java 1.5 and 1.6.  The changes deal with memory management under
+        1.5 and 1.6 that introduce requirements for a more restricted component
+        decommissioning process.  Other changes include the addition of the support
+        for symbolic property references inside part definitions declared at the
+        level of a Depot project type declaration.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.exe">
+                dpml-sdk-win32-1.1.0.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.zip">
+                dpml-sdk-win32-1.1.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-linux-1.1.0.tar.gz">
+                dpml-sdk-linux-1.1.0.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-linux-1.1.0.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-docs-1.1.0.zip">
+                dpml-sdk-docs-1.1.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-docs-1.1.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+
       <subsection name="Version 1.0.5">
       
         <p>

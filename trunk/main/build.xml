@@ -219,8 +219,6 @@
         Windowtitle="${title}" 
         access="protected">
       <link href="http://java.sun.com/javase/6/docs/api"/>
-      <link href="http://api.dpml.net/javax/servlet/2.5"/>
-      <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0"/>
       <group title="Metro">
         <package name="net.dpml.annotation"/>
         <package name="net.dpml.appliance"/>

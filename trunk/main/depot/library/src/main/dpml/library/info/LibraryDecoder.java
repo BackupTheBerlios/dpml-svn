@@ -691,8 +691,9 @@ public final class LibraryDecoder extends LibraryConstants
         final String source = getSource( element );
         final String name = ElementHelper.getAttribute( element, "name" );
         boolean alias = getAliasPolicy( element );
+        boolean export = getExportPolicy( element );
         ProductionPolicy production = getProductionPolicy( element );
-        return new TypeDirective( production, id, name, version, alias, source, properties );
+        return new TypeDirective( production, id, name, version, alias, source, properties, export );
     }
     
     private String getVersion( Element element )
@@ -793,6 +794,16 @@ public final class LibraryDecoder extends LibraryConstants
     protected boolean getAliasPolicy( Element element )
     {
         return ElementHelper.getBooleanAttribute( element, "alias", false );
+    }
+    
+   /**
+    * Return the export attribute of the supplied element.
+    * @param element the DOM element
+    * @return the export value
+    */
+    protected boolean getExportPolicy( Element element )
+    {
+        return ElementHelper.getBooleanAttribute( element, "export", true );
     }
     
     private ProductionPolicy getProductionPolicy( Element element )

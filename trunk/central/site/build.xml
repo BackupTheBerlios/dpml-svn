@@ -74,8 +74,6 @@
       <exclude name="dpml"/>
       <exclude name="org.acme"/>
       <link href="http://java.sun.com/javase/6/docs/api"/>
-      <link href="http://api.dpml.net/javax/servlet/2.5"/>
-      <link href="http://api.dpml.net/org/mortbay/jetty/6.0.0"/>
       <group title="Station">
         <package name="net.dpml.appliance"/>
         <package name="net.dpml.appliance.*"/>
@@ -90,14 +88,12 @@
         <package name="net.dpml.runtime.*"/>
         <package name="net.dpml.state"/>
       </group>
-      <group title="Transit">
+      <group title="Utilities">
         <package name="net.dpml.transit"/>
         <package name="net.dpml.transit.*"/>
         <package name="net.dpml.util"/>
       </group>
       <group title="Depot">
-        <package name="dpml.library"/>
-        <package name="dpml.library.*"/>
         <package name="net.dpml.depot"/>
         <package name="net.dpml.depot.*"/>
       </group>

@@ -38,6 +38,7 @@ public class TypeDirective extends AbstractDirective
     private final boolean m_alias;
     private final boolean m_test;
     private final String m_name;
+    private final boolean m_export;
     
    /**
     * Creation of a new type directive.
@@ -55,17 +56,23 @@ public class TypeDirective extends AbstractDirective
     */
     public TypeDirective( String id, String version )
     {
-        this( ProductionPolicy.DELIVERABLE, id, null, version, false, null, null );
+        this( ProductionPolicy.DELIVERABLE, id, null, version, false, null, null, true );
     }
     
    /**
     * Creation of a new generic type directive.
+    * @param policy the production policy
     * @param id the type id
-    * @param version alias version
+    * @param name the optional overriding name
+    * @param version the optional version
+    * @param alias alias production flag
+    * @param source the optional input source
     * @param properties supplimentary properties 
+    * @param export the export flag (default is true)
     */
     public TypeDirective( 
-      ProductionPolicy policy, String id, String name, String version, boolean alias, String source, Properties properties )
+      ProductionPolicy policy, String id, String name, String version, boolean alias, 
+      String source, Properties properties, boolean export )
     {
         super( properties );
         
@@ -84,6 +91,7 @@ public class TypeDirective extends AbstractDirective
         m_source = source;
         m_alias = alias;
         m_test = ProductionPolicy.TEST.equals( policy );
+        m_export = export;
     }
     
    /**
@@ -114,12 +122,24 @@ public class TypeDirective extends AbstractDirective
     }
     
    /**
-    * Return the test flag.
+    * Return the test flag.   If true, the type
+    * should not be including in a module export and type production
+    * will use the target/test directory as the type destination.
     * @return the test flag
     */
     public boolean getTest()
     {
         return m_test;
+    }
+    
+   /**
+    * Return the export flag (defaults to true).  If false, the type
+    * should not be including in a module export.
+    * @return the export flag
+    */
+    public boolean getExport()
+    {
+        return m_export;
     }
     
    /**

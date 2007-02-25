@@ -14,11 +14,11 @@
       <property name="project.package.include-in-classes" value="true"/>
     </type>
     <type id="jar"/>
-    <type id="appliance" name="demo" source="etc/data/appliance.xml" alias="true"/>
-    <type id="appliance" name="demo-foo" source="etc/data/foo.xml" alias="true"/>
-    <type id="appliance" name="demo-bar" source="etc/data/bar.xml" alias="true"/>
-    <type id="plan" name="demo" source="etc/data/plan.xml" alias="true"/>
-    <type id="plan" name="empty" source="etc/data/empty.xml" alias="true"/>
+    <type id="appliance" name="demo" source="etc/data/appliance.xml" alias="true" export="false"/>
+    <type id="appliance" name="demo-foo" source="etc/data/foo.xml" alias="true" export="false"/>
+    <type id="appliance" name="demo-bar" source="etc/data/bar.xml" alias="true" export="false"/>
+    <type id="plan" name="demo" source="etc/data/plan.xml" alias="true" export="false"/>
+    <type id="plan" name="empty" source="etc/data/empty.xml" alias="true" export="false"/>
   </types>
   
   <dependencies>

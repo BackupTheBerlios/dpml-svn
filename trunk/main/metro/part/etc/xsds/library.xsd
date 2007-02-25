@@ -19,6 +19,7 @@
       <attribute name="name" type="string"/>
       <attribute name="test" type="boolean" default="false"/>
       <attribute name="alias" type="boolean" default="false"/>
+      <attribute name="export" type="boolean" default="true"/>
       <attribute name="version" type="string"/>
     </complexType>
 

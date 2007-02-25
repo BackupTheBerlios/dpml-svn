@@ -11,16 +11,14 @@
 
     <section name="DPML SDK Javadocs">
     
-      <!--
       <subsection name="Latest Version">
         <table>
           <tr>
             <td><a href="@VERSION@/index.html">@VERSION@</a></td>
-            <td>Latest version of the DPML SDK.</td>
+            <td>Latest version of the DPML SDK based on the JRE6.</td>
           </tr>
         </table>
       </subsection>
-      -->
       
       <subsection name="DPML SDK Javadoc Index">
     
@@ -28,6 +26,10 @@
         <tr>
           <th>Version</th>
           <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/@VERSION@/index.html">@VERSION@</a></td>
+          <td>Branch based on SE6 and open Javac compiler APIs.</td>
         </tr>
         <tr>
           <td><a href="http://api.dpml.net/dpml/1.1.0/index.html">1.1.0</a></td>

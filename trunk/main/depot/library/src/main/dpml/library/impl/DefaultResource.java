@@ -916,15 +916,21 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     
     TypeDirective[] createExportedTypes( final TypeDirective[] types )
     {
-        TypeDirective[] export = new TypeDirective[ types.length ]; 
-        for( int i=0; i<export.length; i++ )
+        List<TypeDirective> list = new ArrayList<TypeDirective>();
+        for( int i=0; i<types.length; i++ )
         {
             TypeDirective type = types[i];
-            String id = type.getID();
-            String version = type.getVersion();
-            export[i] = new TypeDirective( id, version );
+            boolean export = type.getExport();
+            if( export )
+            {
+                boolean test = type.getTest();
+                if( !test )
+                {
+                    list.add( type );
+                }
+            }
         }
-        return export;
+        return list.toArray( new TypeDirective[0] );
     }
     
     private DependencyDirective[] createDeps( final DefaultModule module )

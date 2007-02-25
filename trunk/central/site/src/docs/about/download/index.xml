@@ -19,10 +19,10 @@
         </p>
 
         <ul>
-          <li>Transit resource management </li>
-          <li>Depot build system</li>
+          <li>Transit resource management</li>
           <li>Metro component management runtime</li>
           <li>Station application server</li>
+          <li>Depot build utilities</li>
         </ul>
 
       </subsection>

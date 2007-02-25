@@ -33,7 +33,7 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
         TYPES[0] = new TypeDirective( "jar" );
         TYPES[1] = new TypeDirective( "plugin", "0.0,0" );
         TYPES[2] = new TypeDirective( 
-          ProductionPolicy.DELIVERABLE, "widget", null, "1.2", false, null, PROPERTIES );
+          ProductionPolicy.DELIVERABLE, "widget", null, "1.2", false, null, PROPERTIES, false );
     }
     
    /**
@@ -51,6 +51,35 @@ public final class TypeDirectiveTestCase extends AbstractTestCase
         {
             // success
         }
+    }
+    
+   /**
+    * Test the type directive name accessor.
+    */
+    public void testDefaultExport()
+    {
+        TypeDirective type = new TypeDirective( "abc" );
+        assertTrue( "export", type.getExport() );
+    }
+    
+   /**
+    * Test the type directive name accessor.
+    */
+    public void testDisabledExport()
+    {
+        TypeDirective type = new TypeDirective( 
+          ProductionPolicy.DELIVERABLE, "widget", null, "1.2", false, null, PROPERTIES, false );
+        assertFalse( "export", type.getExport() );
+    }
+    
+   /**
+    * Test the type directive name accessor.
+    */
+    public void testEnabledExport()
+    {
+        TypeDirective type = new TypeDirective( 
+          ProductionPolicy.DELIVERABLE, "widget", null, "1.2", false, null, PROPERTIES, true );
+        assertTrue( "export", type.getExport() );
     }
     
    /**
