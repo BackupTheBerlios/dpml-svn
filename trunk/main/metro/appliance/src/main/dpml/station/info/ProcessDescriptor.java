@@ -51,14 +51,10 @@ public final class ProcessDescriptor
     
    /**
     * Creation of a new process descriptor.
-    * @param executable the java executable name (optional)
-    * @param environment a map of overriding environment variables
-    * @param properties supplimentary system properties 
-    * @param path the deployment base directory path
-    * @param startup startup timeout in seconds
-    * @param shutdown startup timeout in seconds
+    * @param element the elememnt defining the process descriptor
+    * @param resolver the symbolic reference resolver
     */
-    public ProcessDescriptor( Element element, Resolver resolver ) throws DecodingException
+    public ProcessDescriptor( Element element, Resolver resolver )
     {
         m_element = element;
         if( null == element )
@@ -114,6 +110,16 @@ public final class ProcessDescriptor
         }
     }
     
+   /**
+    * Creation of a new process descriptor.
+    * @param executable the java executable name (optional)
+    * @param environment a map of overriding environment variables
+    * @param properties supplimentary system properties 
+    * @param arguments command line arguments
+    * @param path the deployment base directory path
+    * @param startup startup timeout in seconds
+    * @param shutdown startup timeout in seconds
+    */
     public ProcessDescriptor( 
       String executable, Map<String,String> environment, Properties properties, 
       List<String> arguments, String path, int startup, int shutdown )

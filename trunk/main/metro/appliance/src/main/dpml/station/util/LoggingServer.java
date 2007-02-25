@@ -45,30 +45,6 @@ public class LoggingServer extends Thread
     private static final String LOG_SERVER_PORT_KEY = "dpml.station.logging.port";
     private static final int DEFAULT_LOG_SERVER_PORT = 2020;
     
-    //public static final Thread SERVER = createLoggingServerThread();
-    
-    /*
-    private static Thread createLoggingServerThread()
-    {
-        System.out.println( "## CREATING LOG SERVER THREAD IN " + PROCESS );
-        int port = getLogServerPort();
-        try
-        {
-            LoggingServer server = new LoggingServer( port );
-            Thread thread = new Thread( server, "DPML Station Aggregator" );
-            thread.setDaemon( true );
-            thread.start();
-            return thread;
-        }
-        catch( Throwable e )
-        {
-            final String error =
-             "Unexpected error while attempting to start the logging server on port [" + port + "].";
-            throw new Error( error, e );
-        }
-    }
-    */
-    
     private static LoggingServer SERVER;
     
     public static void init()
@@ -108,7 +84,6 @@ public class LoggingServer extends Thread
     
    /**
     * Creation of a new logging service instance.
-    * @param port the log server port
     * @exception IOException if an IO exception occurs
     */
     public LoggingServer() throws IOException

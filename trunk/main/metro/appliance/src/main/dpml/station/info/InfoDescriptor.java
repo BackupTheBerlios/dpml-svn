@@ -41,9 +41,9 @@ public final class InfoDescriptor
     
    /**
     * Creation of a new application info descriptor.
-    * @param name the application name
-    * @param title the title of the application
-    * @param description the application description
+    * @param element the DOM element definining the info descriptor
+    * @param resolver symbolic reference resolver
+    * @exception DecodingException if a decoding exception occurs
     */
     public InfoDescriptor( Element element, Resolver resolver ) throws DecodingException
     {
