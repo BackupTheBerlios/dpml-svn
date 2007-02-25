@@ -59,6 +59,7 @@ public class ResourceDirective extends AbstractDirective
     private final Classifier m_classifier;
     private final FilterDirective[] m_filters;
     private final InfoDirective m_info;
+    private final boolean m_export;
     
    /**
     * Creation of a new anonymous resource directive.
@@ -72,7 +73,7 @@ public class ResourceDirective extends AbstractDirective
     public static ResourceDirective createAnonymousResource( 
       String scheme, String name, String version, String type, Properties properties )
     {
-        return new ResourceDirective( scheme, name, type, version, properties );
+        return new ResourceDirective( scheme, name, type, version, properties, true );
     }
 
    /**
@@ -95,7 +96,7 @@ public class ResourceDirective extends AbstractDirective
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      FilterDirective[] filters )
+      FilterDirective[] filters, boolean export )
     {
         int n = name.indexOf( "/" );
         if( n > -1 )
@@ -110,7 +111,7 @@ public class ResourceDirective extends AbstractDirective
                     resource =  
                       new ResourceDirective(
                         elem, version, classifier, basedir, info, types, dependencies,
-                        properties, filters );
+                        properties, filters, export );
                 }
                 else
                 {
@@ -118,7 +119,7 @@ public class ResourceDirective extends AbstractDirective
                       new ModuleDirective(
                         elem, null, Classifier.EXTERNAL, null, null,
                         new TypeDirective[0], new DependencyDirective[0],
-                        new ResourceDirective[]{resource}, null, null );
+                        new ResourceDirective[]{resource}, null, null, true );
                 }
             }
             return resource;
@@ -127,7 +128,7 @@ public class ResourceDirective extends AbstractDirective
         {
             return new ResourceDirective(
               name, version, classifier, basedir, info, types, 
-              dependencies, properties, filters );
+              dependencies, properties, filters, export );
         }
     }
 
@@ -139,7 +140,7 @@ public class ResourceDirective extends AbstractDirective
     * @param properties suppliementary properties
     */
     private ResourceDirective( 
-      String scheme, String name, String type, String version, Properties properties )
+      String scheme, String name, String type, String version, Properties properties, boolean export )
     {
         super( properties );
         
@@ -157,6 +158,7 @@ public class ResourceDirective extends AbstractDirective
         m_info = new InfoDirective( null, null );
         m_filters = new FilterDirective[0];
         m_scheme = scheme;
+        m_export = export;
     }
     
    /**
@@ -175,7 +177,7 @@ public class ResourceDirective extends AbstractDirective
       String name, String version, Classifier classifier, String basedir, 
       InfoDirective info, TypeDirective[] types, 
       DependencyDirective[] dependencies, Properties properties, 
-      FilterDirective[] filters )
+      FilterDirective[] filters, boolean export )
     {
         super( properties );
         
@@ -223,6 +225,7 @@ public class ResourceDirective extends AbstractDirective
         }
         
         m_types = types;
+        m_export = export;
     }
     
    /**
@@ -241,6 +244,16 @@ public class ResourceDirective extends AbstractDirective
     public String getVersion()
     {
         return m_version;
+    }
+    
+    
+   /**
+    * Return the export policy.
+    * @return the export policy value
+    */
+    public boolean getExportPolicy()
+    {
+        return m_export;
     }
     
    /**
@@ -374,6 +387,10 @@ public class ResourceDirective extends AbstractDirective
         if( super.equals( other ) && ( other instanceof ResourceDirective ) )
         {
             ResourceDirective object = (ResourceDirective) other;
+            if( m_export != object.m_export )
+            {
+                return false;
+            }
             if( !equals( m_name, object.m_name ) )
             {
                 return false;
@@ -424,6 +441,10 @@ public class ResourceDirective extends AbstractDirective
         hash ^= super.hashArray( m_types );
         hash ^= super.hashArray( m_dependencies );
         hash ^= super.hashArray( m_filters );
+        if( m_export )
+        {
+            hash ^= 42;
+        }
         return hash;
     }
 }

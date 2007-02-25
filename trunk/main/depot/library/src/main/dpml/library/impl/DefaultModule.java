@@ -393,13 +393,20 @@ public final class DefaultModule extends DefaultResource implements Module
     */
     ModuleDirective exportModule( final DefaultModule module, final String name ) throws IllegalArgumentException
     {
+        // TODO: check for non-export policy
+        
         DefaultResource[] resources = getDefaultResources();
-        ResourceDirective[] directives = new ResourceDirective[ resources.length ];
-        for( int i=0; i<directives.length; i++ )
+        List<ResourceDirective> list = new ArrayList<ResourceDirective>();
+        for( int i=0; i<resources.length; i++ )
         {
             DefaultResource resource = resources[i];
-            directives[i] = resource.exportResource( module );
+            if( resource.getExportPolicy() )
+            {
+                ResourceDirective export = resource.exportResource( module );
+                list.add( export );
+            }
         }
+        ResourceDirective[] directives = list.toArray( new ResourceDirective[0] );
         String version = getVersion();
         String basedir = null;
         InfoDirective info = m_directive.getInfoDirective();
@@ -408,7 +415,7 @@ public final class DefaultModule extends DefaultResource implements Module
         return new ModuleDirective( 
           name, version, Classifier.EXTERNAL, basedir,
           info, types, new DependencyDirective[0], 
-          directives, properties, null );
+          directives, properties, null, true );
     }
     
     //----------------------------------------------------------------------------

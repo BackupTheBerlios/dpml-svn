@@ -42,6 +42,12 @@ public interface Resource extends Dictionary, Resolver
     public static final String DECIMAL_VERSIONING_KEY = "project.decimal.versioning.enabled";
 
    /**
+    * Return the export policy.
+    * @return the export policy value
+    */
+    boolean getExportPolicy();
+
+   /**
     * Return the singleton library.
     * @return the library
     */

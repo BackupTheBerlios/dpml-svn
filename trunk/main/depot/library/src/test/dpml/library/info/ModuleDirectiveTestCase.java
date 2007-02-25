@@ -38,13 +38,13 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         
         MODULES[0] = new ModuleDirective( 
           "aaa", "1.1", ResourceDirective.LOCAL, ".", info, types, 
-          dependencies, resources, PROPERTIES, null );
+          dependencies, resources, PROPERTIES, null, true );
         MODULES[1] = new ModuleDirective( 
           "bbb", "1.1", ResourceDirective.LOCAL, ".", info, types, 
-          dependencies, resources, PROPERTIES, null );
+          dependencies, resources, PROPERTIES, null, false );
         MODULES[2] = new ModuleDirective( 
           "ccc", "1.1", ResourceDirective.LOCAL, ".", info, types, 
-          dependencies, resources, PROPERTIES, null );
+          dependencies, resources, PROPERTIES, null, true );
     }
 
     private final Classifier m_classifier = ResourceDirective.LOCAL;
@@ -56,6 +56,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
     private final ResourceDirective[] m_resources = ResourceDirectiveTestCase.RESOURCES;
     private final FilterDirective[] m_filters = new FilterDirective[0];
     private final TypeDirective[] m_data = TypeDirectiveTestCase.TYPES;
+    private final boolean m_export = false;
     
     private ModuleDirective m_module;
     
@@ -68,7 +69,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         m_module = 
           new ModuleDirective( 
             m_name, m_version, m_classifier, "test", m_info, m_data, m_dependencies, 
-            m_resources, PROPERTIES, m_filters );
+            m_resources, PROPERTIES, m_filters, m_export );
     }
 
    /**
@@ -81,7 +82,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         {
             new ModuleDirective( 
               null, m_version, m_classifier, "test", m_info, m_data, 
-              m_dependencies, m_resources, PROPERTIES, m_filters );
+              m_dependencies, m_resources, PROPERTIES, m_filters, m_export );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -100,7 +101,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         {
             new ModuleDirective( 
               m_name, null, m_classifier, "test", m_info, m_data, m_dependencies, 
-              m_resources, PROPERTIES, m_filters );
+              m_resources, PROPERTIES, m_filters, m_export );
         }
         catch( NullPointerException e )
         {
@@ -118,7 +119,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         {
             new ModuleDirective( 
               m_name, m_version, m_classifier, "test", m_info, m_data, null, 
-              m_resources, PROPERTIES, m_filters );
+              m_resources, PROPERTIES, m_filters, m_export );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )
@@ -137,7 +138,7 @@ public final class ModuleDirectiveTestCase extends AbstractTestCase
         {
             new ModuleDirective( 
               m_name, m_version, m_classifier, "test", m_info, m_data, 
-              m_dependencies, null, PROPERTIES, m_filters );
+              m_dependencies, null, PROPERTIES, m_filters, m_export );
             fail( "no-NPE" );
         }
         catch( NullPointerException e )

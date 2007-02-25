@@ -72,6 +72,7 @@
       <attribute name="name" type="string"/>
       <attribute name="version" type="string"/>
       <attribute name="basedir" type="string"/>
+      <attribute name="export" type="boolean" default="true"/>
       <attribute name="file" type="string"/>
     </complexType>
 

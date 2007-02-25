@@ -295,6 +295,8 @@ public final class LibraryDecoder extends LibraryConstants
                 classifier = Classifier.EXTERNAL;
             }
             
+            final boolean export = ElementHelper.getBooleanAttribute( element, "export", true );
+            
             final InfoDirective info = 
               buildInfoDirective( 
                 ElementHelper.getChild( element, "info" ) );
@@ -338,13 +340,13 @@ public final class LibraryDecoder extends LibraryConstants
                 ResourceDirective[] resources = list.toArray( new ResourceDirective[0] );
                 return ModuleDirective.createModuleDirective( 
                   name, version, classifier, basedir, info, data, dependencies, 
-                  properties, filters, resources );
+                  properties, filters, resources, export );
             }
             else
             {
                 return ResourceDirective.createResourceDirective( 
                   name, version, classifier, basedir, info, data, dependencies, 
-                  properties, filters );
+                  properties, filters, export );
             }
         }
         else

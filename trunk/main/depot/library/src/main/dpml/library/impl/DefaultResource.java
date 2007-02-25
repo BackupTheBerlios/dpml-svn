@@ -242,6 +242,22 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
     }
 
    /**
+    * Return the export policy.
+    * @return the export policy value
+    */
+    public boolean getExportPolicy()
+    {
+        if( null != m_directive )
+        {
+            return m_directive.getExportPolicy();
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+   /**
     * Return the name of the resource.
     * @return the resource name
     */
@@ -911,7 +927,7 @@ public class DefaultResource extends DefaultDictionary implements Resource, Reso
         Properties properties = getExportProperties();
         return ResourceDirective.createResourceDirective( 
           name, version, Classifier.EXTERNAL, basedir,
-          info, exportedTypes, dependencies, properties, null );
+          info, exportedTypes, dependencies, properties, null, true );
     }
     
     TypeDirective[] createExportedTypes( final TypeDirective[] types )

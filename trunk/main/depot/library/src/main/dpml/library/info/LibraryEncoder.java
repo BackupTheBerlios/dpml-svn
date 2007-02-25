@@ -53,6 +53,10 @@ public final class LibraryEncoder extends LibraryConstants
     */
     public void export( final ModuleDirective module, final OutputStream output ) throws IOException
     {
+        if( !module.getExportPolicy() )
+        {
+            return;
+        }
         final Writer writer = new OutputStreamWriter( output );
         try
         {
@@ -119,6 +123,11 @@ public final class LibraryEncoder extends LibraryConstants
     
     private void writeModule( Writer writer, ModuleDirective module, String lead ) throws IOException
     {
+        if( !module.getExportPolicy() )
+        {
+            return;
+        }
+        
         String name = module.getName();
         String version = module.getVersion();
         
@@ -172,6 +181,11 @@ public final class LibraryEncoder extends LibraryConstants
     
     private void writeResource( Writer writer, ResourceDirective resource, String lead ) throws IOException
     {
+        if( !resource.getExportPolicy() )
+        {
+            return;
+        }
+        
         String name = resource.getName();
         String version = resource.getVersion();
         

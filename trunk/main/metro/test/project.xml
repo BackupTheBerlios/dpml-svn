@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project xmlns="dpml:library" name="dpml-metro-test">
+<project xmlns="dpml:library" name="dpml-metro-test" export="false">
 
   <info title="DPML Metro Test Suite"/>
   
