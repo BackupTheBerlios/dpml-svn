@@ -29,38 +29,18 @@
     <section name="System Properties">
 
       <p>
-        Two optional system properties may be used to control the configuration 
-        of the Transit system.  One property provides a mechanisms whereby a 
-        remote active transit model can be associated as the confiuration
-        for a local transit instance.  A second property is available for 
-        selection of a transit profile via url (suitable for centralized 
-        configuration of static models).
+      System properties recognized by Transit include the following:
       </p>
-
+    
       <table>
-        <tr>
-          <td>dpml.transit.model</td>
-          <td>
-            If this system property is passed as an argument to the Depot 
-            console handler (via the <tt>transit</tt>, <tt>metro</tt>, or 
-            <tt>station</tt> commandline handlers), Depot will attempt to 
-            locate a Transit Model using an RMI registry.  If declared the 
-            value of the property must be in the form <tt>registry[:host[:port]]:name</tt>
-            where the <tt>name</tt> value corresponds to a RMI registry name binding
-            that maps to an instance of a remote TransitModel.
-          </td>
-        </tr>
         <tr>
           <td>dpml.transit.profile</td>
           <td>
-            If Transit is not initialized within an explicit TransitModel then
-            Transit will attempt to establish a TransitModel using a externalized
-            TransitDirective located at the uri <tt>local:xml:dpml/transit/standard</tt>.
-            This uri can be overridden using the <tt>dpml.transit.profile</tt> property
-            enabling the selection of a remote profile.  The uri value will be resolved 
-            to a url referencing a <a href="config/index.html">Transit XML configuration</a>.  
-            Overriding the uri enables the possiblity for centralization of multiple 
-            Transit configurations.
+            Transit will attempt to establish a TransitModel using an XML based
+            configuration profile.  The default profile is resolved using the URL
+            <tt>local:xml:dpml/transit/standard</tt>. This uri can be overridden 
+            using the <tt>dpml.transit.profile</tt> system property
+            enabling the selection of a remote profile.
           </td>
         </tr>
       </table>

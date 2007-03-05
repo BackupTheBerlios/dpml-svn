@@ -49,11 +49,6 @@
 
         <code>[host-address]/[group]-[version]/[name].[type]</code>
 
-        <p>
-        In addition to the above you can create and declare a custom layout handler
-        via the Transit Management API via <code>net.dpml.transit.model.LayoutRegistryModel</code>.
-        </p>
-
       </subsection>
 
       <subsection name="Using Artifacts">
