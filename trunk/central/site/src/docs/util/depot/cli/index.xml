@@ -50,7 +50,7 @@
 
       <subsection name="Example">
 
-<pre>$ build help</pre>
+<pre>$ build -help</pre>
 <source><![CDATA[
 Usage:
 build [-list <pattern> -consumers | -select <pattern> -consumers -verbose -plugin <artifact>

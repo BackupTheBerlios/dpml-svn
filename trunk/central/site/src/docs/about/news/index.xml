@@ -12,6 +12,19 @@
 
     <section name="News &amp; Events">
     
+      <subsection name="3 December 2006, DPML SDK 1.1.0 Release">
+      
+        <p>
+        The 1.1.0 release includes a number of small updates dealing with runtime
+        support for Java 1.5 and 1.6.  The changes deal with memory management under
+        1.5 and 1.6 that introduce requirements for a more restricted component
+        decommissioning process.  Other changes include the addition of the support
+        for symbolic property references inside part definitions declared at the
+        level of a Depot project type declaration.
+        </p>
+        
+      </subsection>
+      
       <subsection name="10 October 2006, DPML SDK 1.0.3 Maintenance Update">
       
         <p>
