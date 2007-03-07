@@ -59,8 +59,12 @@
       </p>
 
       <p>
-        At the core of Transit is a URL protocol handler, a classloader meta
-        information descriptor and plugin loader.
+        At the core of Transit is a URL protocol handler and a framework
+        for custom content handlers.  Content handlers provided by DPML
+        include a deployment system that encapsulates a classloader defintion
+        and deployment strategy, together with a handler supporting the 
+        establishment of a Java runtime process.
+        
         Based on these, Transit is able to manage classloaders, not only
         effectively and nearly invisible to the casual user, but in a location
         independent way. That means, applications don't need to be concerned over

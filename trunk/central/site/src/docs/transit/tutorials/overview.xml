@@ -19,8 +19,8 @@
       <p>
       The above URL is referencing a 'jar' resource within the group 'dpml/metro', named
       'dpml-metro-composition', and version '3000'. This information is sufficient for 
-      Transit to retrieve the resource from one of resurce hosts it is associated with and 
-      locally cache the resource. 
+      Transit to retrieve the resource from one of the resurce hosts it is associated 
+      with and locally cache the resource. 
       </p>
 
       <p>In effect ...</p>
@@ -32,7 +32,7 @@
             | is handled by 
             |
     |-----------------------------------| n    1 |-----------| 1   n |----------------|
-    | dpml.transit.artifact.Handler | &lt;&gt;---- | Transit   | &lt;&gt;----| ResourceHost   |
+    | dpml.transit.artifact.Handler     | &lt;&gt;---- | Transit   | &lt;&gt;----| ResourceHost   |
     |-----------------------------------|        |-----------|       |----------------|
 </pre>
 
@@ -49,7 +49,7 @@
       Here is an example of URI and URL construction:
       </p>
 
-      <source>String path = "artifact:jar:dpml/metro/dpml-metro-composition#3000";
+      <source>String path = "artifact:jar:org/acme/widget#1.2.3";
 URI uri = new URI( path );
 URL url = uri.toURL();</source>
 
@@ -60,8 +60,8 @@ URL url = uri.toURL();</source>
 
       <ol>
         <li>the system property <code>java.protocol.handler.pkgs</code> is declared
-          with a value including <code>net.dpml.transit</code>. For example:<br/><br/><code>
-   System.setProperty( "java.protocol.handler.pkgs", "net.dpml.transit" );</code><br/><br/></li>
+          with a value including the package name <code>dpml.transit</code>. For example:<br/><br/><code>
+   System.setProperty( "java.protocol.handler.pkgs", "dpml.transit" );</code><br/><br/></li>
         <li>the <code>dpml-transit-main.jar</code> is included within the system classloader</li>
       </ol>
 

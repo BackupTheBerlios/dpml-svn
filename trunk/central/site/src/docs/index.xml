@@ -31,7 +31,7 @@
       
         <ul>
           <li>
-            <a href="transit/index.html">Transit</a> resource management framework.
+            <a href="util/transit/index.html">Transit</a> resource management framework.
           </li>
           <li>
             <a href="depot/index.html">Depot</a> tools 

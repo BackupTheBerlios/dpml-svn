@@ -26,7 +26,7 @@
 
     <menu>
       <item name="Local" href="local.html"/>
-      <item name="Registry" href="registry.html"/>
+      <!--<item name="Registry" href="registry.html"/>-->
       <item name="Artifact" href="artifact.html"/>
       <item name="Link" href="link.html"/>
     </menu>
