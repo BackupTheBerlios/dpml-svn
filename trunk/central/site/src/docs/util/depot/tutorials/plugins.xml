@@ -63,10 +63,7 @@
     &lt;project name="clock-impl" basedir="impl"&gt;
       &lt;types&gt;
         &lt;type id="jar"/&gt;
-        <font color="darkred">&lt;part:plugin class="org.acme.impl.SimpleClock"&gt;
-          &lt;part:param value="h:mm"/&gt;
-          &lt;part:param class="java.util.Locale" method="getDefault"/&gt;
-        &lt;/part:plugin&gt;</font>
+        <font color="darkred">&lt;type id="part" source="etc/part.xml"/&gt;</font>
       &lt;/types&gt;
       &lt;dependencies&gt;
         &lt;runtime&gt;
@@ -89,7 +86,8 @@
       <subsection name="The Part Artifact">
 
         <p>
-        During the build the following part defintion is created. 
+        During the build the following part defintion is created based on the input
+        part definition source.
         </p>
         
         <p><i>Generated part:</i> <tt>artifact:part:org/acme/plugin/clock-impl#SNAPSHOT</tt></p>
@@ -159,7 +157,7 @@ String timestamp = clock.getTimestamp();</pre>
         However, the plugin strategy demonstrated above is for all intensive purposes 
         a relatively primitive model in that it does not address real-world semantic issues 
         such as lifecycle or lifestyle management, composition, thread-safety, 
-        remote management, or collection policies.  The <a href="../../metro/tutorials/index.html">
+        remote management, or collection policies.  The <a href="../../../metro/tutorials/index.html">
         Metro Tutorials</a> takes you into another semantic dimension with the 
         introduction of an alternative deployment strategy based on the Metro Component Model
         whereas the final tutorial in the Depot collection wraps-up with 

@@ -25,12 +25,12 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Tutorials" href="tutorials/index.html"/>
+      <!--<item name="Overview" href="concepts/index.html"/>-->
       <item name="System Properties" href="properties.html"/>
       <item name="Cache Configuration" href="config/index.html"/>
       <item name="Part Directive" href="parts/index.html"/>
       <item name="Protocols" href="technical/index.html"/>
+      <item name="Tutorials" href="tutorials/index.html"/>
     </menu>
 
  </body>

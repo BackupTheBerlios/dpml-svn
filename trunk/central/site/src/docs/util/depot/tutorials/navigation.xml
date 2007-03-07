@@ -25,7 +25,7 @@
  <body>
 
     <menu>
-      <item name="Getting Started" href="index.html"/>
+      <item name="Getting Started" href="101.html"/>
       <item name="General Properties" href="properties.html"/>
       <item name="Symbolic References" href="symbolic.html"/>
       <item name="Global Filters" href="filters.html"/>

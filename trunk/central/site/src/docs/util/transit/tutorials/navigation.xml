@@ -25,7 +25,7 @@
  <body>
 
     <menu>
-      <item name="Introduction" href="index.html"/>
+      <!--<item name="Introduction" href="index.html"/>-->
       <item name="Resource Management" href="overview.html"/>
       <item name="Artifact Protocol" href="artifacts.html"/>
       <item name="Local Protocol" href="local.html"/>
