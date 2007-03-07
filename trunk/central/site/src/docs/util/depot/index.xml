@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot</title>
+  </properties> 
+
+  <body>
+
+    <section name="DPML Depot">
+    
+      <p>
+      DPML Depot provides support for the management of complex multi-project 
+      builds.
+      </p>
+      
+      <ul>
+        <li>module, project and resource management</li>
+        <li>transitive dependency management</li>
+        <li>build automation</li>
+        <li>multiproject sequencing</li>
+        <li>cross-project queries</li>
+        <li>repository-based resource management</li>
+        <li>build customization via Ant</li>
+      </ul>
+
+      <p>
+      The project builder provides support for the building of multiple 
+      projects taking into account inter-project dependencies, production
+      declarations, and build strategy.  The builder makes extensive use
+      of a common <a href="library/index.html">library</a> to establish a 
+      index of available projects and resources, a build context, and 
+      the build system <a href="tools/index.html"> implementation</a>.
+      </p>
+
+      <img src="../../images/tools/index.png"/>
+
+
+    <subsection name="Centralization">
+
+      <p>
+      One of the objectives of the DPML component development strategy 
+      is an effective breakdown of concerns such that you end up with 
+      small and easily understandable sub-systems.  However, while 
+      individal projects are under control, the configuration management 
+      of an overall system (possibly involving several hundred sub-projects)
+      becomes an inevitable configuration management concern.
+      </p>
+
+      <p>
+      Depot addresses overall configuration management through 
+      centralization of project information within a 
+      <a href="library/index.html">common build library</a> that 
+      captures information about <a href="library/projects.html">
+      projects</a> and shared <a href="library/resources.html">resources</a>
+      organized and structured within distrinct
+      <a href="library/modules.html">modules</a>.
+      A <tt><a href="cli/index.html">build</a></tt> commandline tool provides 
+      support for listing of registered projects and the execution 
+      of project builds.  The build tool executes builds using a plugin builder. 
+      A default <a href="tools/index.html">build system implementation</a> 
+      based on the Apache Ant product is included in the Depot distribution.
+      </p>
+
+    </subsection>
+
+    <subsection name="Modularization">
+
+      <p>
+      A framework for modularization of project structures enables the 
+      establishment and maintenance of discrete namespaces.  In turn this
+      improves the overall maintainability within large-scale projects.  
+      The Depot system maintains information about project and resources 
+      within <a href="library/modules.html">modules</a> and provides
+      support for the production of a module suitable for export and use 
+      by external projects. This adds to the general integrity concerning 
+      naming, content versioning, and overall dependency management.
+      </p>
+
+    </subsection>
+
+    <subsection name="Simplification">
+
+      <p>
+      One of the aims of the Depot build system is the simplification 
+      of build procedures. Depot focuses on the principal of 80/20 where
+      80% of projects can be easily automated to extent that no 
+      build file is needed at all.  For the remaining 20% Depot provides 
+      mechanisms to customize builds for those specialized requirements.
+      Overall - the aim is to reduce the amount of information that 
+      resides in a build file and focus where possible on mechanisms that
+      will enable consistent and reliable build automation. 
+      </p>
+
+    </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

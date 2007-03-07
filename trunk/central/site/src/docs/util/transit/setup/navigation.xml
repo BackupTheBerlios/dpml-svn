@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 
- Copyright 2004 Stephen McConnell
+ Copyright 2006 Stephen McConnell
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -25,12 +25,8 @@
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="Tutorials" href="tutorials/index.html"/>
-      <item name="Directives" href="library/index.html"/>
-      <item name="Ant Builder" href="tools/index.html"/>
-      <item name="Ant Tasks" href="tasks/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="Properties" href="properties.html"/>
+      <item name="XML" href="config/index.html"/>
     </menu>
 
  </body>

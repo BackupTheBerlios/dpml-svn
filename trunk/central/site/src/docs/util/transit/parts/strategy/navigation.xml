@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- 
- Copyright 2004-2005 Stephen McConnell
- Copyright 2004 Niclas Hedhman
- Copyright 2005 David Leangen
+ Copyright 2006 Stephen McConnell
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -21,15 +20,13 @@
 
 <project>
 
- <title>DPML Runtime</title>
+ <title>Standard Strategies</title>
 
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="CommandLine" href="cli/index.html"/>
-      <item name="Transit" href="transit/index.html"/>
-      <item name="Depot" href="depot/index.html"/>
+      <item name="Plugin" href="plugin.html"/>
+      <item name="Resource" href="resource.html"/>
     </menu>
 
  </body>

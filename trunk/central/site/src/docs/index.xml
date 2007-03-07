@@ -28,15 +28,8 @@
       </subsection>
       
       <subsection name="Products">
-      
+        
         <ul>
-          <li>
-            <a href="util/transit/index.html">Transit</a> resource management framework.
-          </li>
-          <li>
-            <a href="depot/index.html">Depot</a> tools 
-            for build automation in complex multi-project environments.
-          </li>
           <li>
             <a href="metro/index.html">Metro</a> context-driven IOC runtime container.
           </li>
@@ -44,7 +37,9 @@
             <a href="station/index.html">Station</a> multi-appplication management system.
           </li>
           <li>
-            <a href="util/index.html">Util</a> supporting utilities.
+            <a href="util/index.html">Util</a> supporting utilities including the 
+              <a href="util/transit/index.html">Transit</a> resource management system and 
+              <a href="util/depot/index.html">Depot</a> build tool.
           </li>
         </ul>
 

@@ -2,7 +2,6 @@
 <!-- 
  Copyright 2004-2005 Stephen McConnell
  Copyright 2004 Niclas Hedhman
- Copyright 2005 David Leangen
 
  Licensed  under the  Apache License,  Version 2.0  (the "License");
  you may not use  this file  except in  compliance with the License.
@@ -21,15 +20,15 @@
 
 <project>
 
- <title>DPML Runtime</title>
+ <title>Transit</title>
 
  <body>
 
     <menu>
-      <item name="Overview" href="concepts/index.html"/>
-      <item name="CommandLine" href="cli/index.html"/>
-      <item name="Transit" href="transit/index.html"/>
-      <item name="Depot" href="depot/index.html"/>
+      <item name="Local" href="local.html"/>
+      <!--<item name="Registry" href="registry.html"/>-->
+      <item name="Artifact" href="artifact.html"/>
+      <item name="Link" href="link.html"/>
     </menu>
 
  </body>
