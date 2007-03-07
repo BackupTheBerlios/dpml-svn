@@ -54,7 +54,6 @@
         <dependencies>
           <runtime>
             <include key="ant-launcher"/>
-            <include key="ant-trax"/>
           </runtime>
         </dependencies>
       </resource>
@@ -81,13 +80,159 @@
           </runtime>
         </dependencies>
       </resource>
-  
+        
       <resource name="ant-launcher">
         <types>
           <type id="jar"/>
         </types>
       </resource>
-
+    
+      <resource name="ant-antlr">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:antlr/antlr#2.7.6"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-bcel">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:bcel/bcel#5.1"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-bsf">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:bsf/bsf#2.4.0"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-log4j">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:log4j/log4j#1.2.13"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-oro">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:oro/oro#2.0.8"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-regexp">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:regexp/regexp#1.3"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-resolver">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:xml-resolver/xml-resolver#1.1"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-commons-logging">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:commons-logging/commons-logging#1.0.4"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-commons-net">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:commons-net/commons-net#1.4.0"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-javamail">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:javax/mail/mail#1.4"/>
+            <include uri="artifact:jar:javax/activation/activation#1.1"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <!--
+      <resource name="ant-jmf">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:javax/media/jmf#2.1.1e"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      -->
+      
+      <resource name="ant-testutil">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
     </module>
     
 </index>
