@@ -30,10 +30,6 @@
           <td>Generated Javadoc for the Transit, Depot, Metro and Util 
            modules together with Javadocs for the Planet component suite.</td> 
         </tr>
-        <tr>
-          <td><a href="../../reports/@VERSION@/catalog/index.html">Catalog</a></td>
-          <td>Description of all component types.</td>
-        </tr>
       </table>
 
     </section>
