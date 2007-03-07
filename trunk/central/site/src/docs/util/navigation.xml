@@ -27,7 +27,7 @@
 
     <menu>
       <item name="Overview" href="concepts/index.html"/>
-      <item name="CommandLine" href="cli/index.html"/>
+      <item name="CommandLine" href="command/index.html"/>
       <item name="Transit" href="transit/index.html"/>
       <item name="Depot" href="depot/index.html"/>
     </menu>
