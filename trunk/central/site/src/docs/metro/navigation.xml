@@ -26,11 +26,11 @@
 
     <menu>
       <item name="Overview" href="concepts/index.html"/>
-      <item name="Tutorials" href="tutorials/index.html"/>
       <item name="Directives" href="directives/index.html"/>
       <item name="Runtime" href="runtime/index.html"/>
-      <item name="Ant Tasks" href="tasks/index.html"/>
       <item name="CLI" href="cli/index.html"/>
+      <!--<item name="Ant Tasks" href="tasks/index.html"/>-->
+      <item name="Tutorials" href="tutorials/index.html"/>
     </menu>
 
  </body>
