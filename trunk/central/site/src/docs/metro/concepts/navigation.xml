@@ -28,8 +28,8 @@
       <item name="IOC" href="ioc.html"/>
       <item name="Context Aware" href="context.html"/>
       <item name="Active Management" href="management.html"/>
-      <item name="Model Driven" href="model.html"/>
-      <item name="Part Based" href="parts.html"/>
+      <!--<item name="Model Driven" href="model.html"/>-->
+      <!--<item name="Part Based" href="parts.html"/>-->
     </menu>
 
  </body>

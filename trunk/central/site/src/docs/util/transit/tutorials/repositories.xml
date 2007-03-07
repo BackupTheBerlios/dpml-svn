@@ -56,28 +56,9 @@
         <p>
         A more typical scenario is the establishment of a company wide repository within a 
         local intranet.  For this you need to setup a server (e.g. HTTP) with a file based 
-        resource handler then configure Transit by declaring a new remote host and defintining 
+        resource handler then configure Transit by declaring a new remote host and definining 
         the host base url as the http server.
         </p>
-
-        <p>
-        The following commandline operations demonstrate the setup of a new local repository
-        using a file protocol referencing a root repository directory of <tt>${dpml.data}/demo</tt>.
-        Symbolic expressions used within the host defintion may include any system property and
-        core Transit location references (such as <tt>${dpml.home}</tt>).
-        </p>
-
-<pre>
-$ transit add host demo -url file:${dpml.data}/demo -priority 60
-</pre>
-
-        <p>
-        Once created the new repository can be listed using the following command:
-        </p>
-
-<pre>
-$ transit info
-</pre>
 
       </subsection>
 

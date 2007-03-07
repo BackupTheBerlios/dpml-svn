@@ -25,7 +25,7 @@
          The first area of control "inversion" relates to the use of resource 
          identifiers (URIs) in preference to resource locators (URLs).  A URI 
          identifies the resource but does not expose information concerning 
-         location.  Through a collection of <a href="/transit/technical/index.html">
+         location.  Through a collection of <a href="/util/transit/technical/index.html">
          URI scheme handlers</a> the Metro platform provides the environment within 
          which a component implementation can operate exclusively with URI 
          references.  This moves potential resource handling limitations from a 
