@@ -478,12 +478,15 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         buffer.append( "\n" );
         buffer.append( "\n    Deploys a component referenced by a part uri." );
         buffer.append( "\n" );
-        buffer.append( "\n  Usage: metro [-command] <uri> | -help | -version" );
+        buffer.append( "\n  Usage: metro [-command] [-debug | -trace] [-D<name>=<value>] <uri> | -help | -version" );
         buffer.append( "\n" );
         buffer.append( "\n  Arguments:" );
         buffer.append( "\n    <uri>              uri referencing a part datatype" );
         buffer.append( "\n" );
         buffer.append( "\n  Options:" );
+        buffer.append( "\n    -debug             enables debug level logging" );
+        buffer.append( "\n    -trace             enables trace level logging" );
+        buffer.append( "\n    -D<name>=<value>   declaration of one or more system properties" );
         buffer.append( "\n    -command           enables command execution mode" );
         buffer.append( "\n    -help              list command help and exit" );
         buffer.append( "\n    -version           list version info and exit" );
