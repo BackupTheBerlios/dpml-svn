@@ -66,7 +66,7 @@ class Query
         {
             return list;
         }
-        String[] segments = query.split( "," );
+        String[] segments = query.split( "&" );
         for( String segment : segments )
         {
             String[] args = segment.split( "=" );
