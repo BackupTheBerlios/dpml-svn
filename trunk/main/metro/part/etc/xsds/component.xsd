@@ -29,9 +29,9 @@
           <attribute name="name" type="string"/>
           <attribute name="class" type="string"/>
           <attribute name="type" type="string"/> <!-- depricated - use class attribute -->
+          <attribute name="activation" type="this:activation"/>
           <attribute name="lifestyle" type="this:lifestyle"/>
           <attribute name="collection" type="this:collection"/>
-          <attribute name="activation" type="this:activation"/>
           <attribute name="handler" type="part:URI" default="link:part:dpml/lang/dpml-lang-component"/>
           <attribute name="priority" type="integer" default="0"/>
         </extension>
@@ -44,6 +44,8 @@
         <element name="parts" type="this:PartsType" minOccurs="0" maxOccurs="1"/>
       </sequence>
       <attribute name="activation" type="this:activation"/>
+      <attribute name="lifestyle" type="this:lifestyle"/>
+      <attribute name="collection" type="this:collection"/>
     </complexType>
     
     <complexType name="CategoryType">
