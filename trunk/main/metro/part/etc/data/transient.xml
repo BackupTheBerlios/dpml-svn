@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <part xmlns="dpml:part" xmlns:metro="dpml:metro">
   
-  <metro:component name="widget" type="org.acme.TransientWidget"/>
+  <metro:component name="widget" class="org.acme.TransientWidget"/>
   
 </part>

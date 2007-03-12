@@ -3,15 +3,15 @@
   
   <component xmlns="dpml:metro"
       name="registry" 
-      type="org.acme.CompositeComponent">
+      class="org.acme.CompositeComponent">
       <parts>
         <component key="widget" 
-            type="org.acme.WidgetUsingGizmo">
+            class="org.acme.WidgetUsingGizmo">
           <context>
             <entry key="gizmo" lookup="org.acme.Gizmo"/>
           </context>
         </component>
-        <component key="gizmo" type="org.acme.DefaultGizmo"/>
+        <component key="gizmo" class="org.acme.DefaultGizmo"/>
       </parts>
    </component>
    

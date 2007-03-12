@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ Copyright 2006 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Part Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Strategy XML Directive">
+
+      <subsection name="Description">
+
+        <p>
+        The <tt>StrategyType</tt> definition is an abstract element definition
+        that all concrete strategy defintions must extend.
+        </p>
+        
+        <pre><![CDATA[    <!-- XSD schema definition -->
+    <complexType name="StrategyType" abstract="true"/>]]></pre>
+        
+        <p>
+        The Metro runtime model defines a concrete <a href="../../component/index.html">
+        component strategy</a> under the namespace <tt>dpml:metro></tt> that is used to 
+        define the resources, services, and internal composition of an object. A second 
+        concrete strategy defintion named <tt>resource</tt> (uder the <tt>dpml:depot</tt>
+        namespace) is used by the Depot build system to define antlib loading criteria.
+        If a foreign strategy element is declared the associated scheme is resolved 
+        but locating a class implementing the <tt>org.w3c.dom.ls.LSResourceResolver</tt>
+        service (via java.util.ServiceLoader).  The runtime strategy handler will be 
+        resolved by reading a uri value from an attribute named <tt>handler</tt>.  The
+        uri is used to identify a plug-in part supporting the runtime handling of the 
+        foreign strategy.
+        </p>
+
+     </subsection>
+
+    </section>
+
+    <!--
+    <section name="Examples">
+
+      <p>
+      The <tt>&lt;strategy&gt;</tt> element represents an abstract schema type as 
+      such the <tt>xsi:type</tt> attribute is required in order to reference a 
+      concrete strategy. In the following example the <tt>xsi:type</tt> attribute
+      is selecting the <tt>plugin</tt> schema type.
+      </p>
+
+<source>
+<![CDATA[<strategy xsi:type="plugin" class="dpml.tools.impl.StandardBuilder"/>]]>
+</source>
+
+      <p>
+      The above strategy declaration is equivalent to the following:
+      </p>
+
+<source>
+<![CDATA[<plugin class="dpml.tools.impl.StandardBuilder"/>]]>
+</source>
+
+      <p>
+      The following example demonstrates the use of a foreign strategy definition
+      (qualified by a namespace uri):
+      </p>
+
+<source>
+<![CDATA[<component xmlns="dpml:metro"
+     type="net.dpml.http.Server"
+      collection="system"
+      activation="system">
+    ...
+</component>]]>
+</source>
+
+    </section>
+    -->
+    
+  </body>
+
+</document>

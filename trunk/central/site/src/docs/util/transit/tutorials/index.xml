@@ -16,8 +16,8 @@
       meta information, classpath descriptions, etc.  These resources can form
       a central part of well-functioning application and are frequently handled
       as identifiable and versioned artifacts.
-      This tutorial will take you through the usage of a product named Transit that
-      handles retrieval of versioned resources using the standard Java URL protocol 
+      This tutorial will take you through the usage of Transit in the 
+      retrieval of versioned resources using the standard Java URL protocol 
       handler.
       </p>
 

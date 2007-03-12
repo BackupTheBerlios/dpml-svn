@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<component xmlns="dpml:metro" name="dpml.metro" type="dpml.metro.console.Main"/>
+<component xmlns="dpml:metro" name="dpml.metro" class="dpml.metro.console.Main"/>

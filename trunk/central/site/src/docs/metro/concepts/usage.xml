@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro : Simplicity</title>
+  </properties> 
+
+  <body>
+
+    <section name="Simplicity">
+
+      <p>
+      Loading and deployment of a Metro component is handled by the 
+      underlying URL machinery within the Java runtime environment.
+      The following code demonstrates the code required to load a 
+      runtime service into an application using the Metro system.
+      </p>
+      
+      <pre>URL url = URI.create( <font color="darkred">"link:part:org/acme/widget"</font> ).toURL();
+Widget widget = (Widget) url.getContent( new Class[]{ Widget.class } );</pre>
+
+      <p>
+      In the above scenario the following general sequence is executed:
+      </p>
+      
+      <ol>
+        <li>The Java runtime locates the <tt>link</tt> protocol handler.</li>
+        <li>The link protocol handler resolves the symbolic uri to a 
+            concrete uri <tt>artifact:part:org/acme/widget#1.0.3</tt>.</li>
+        <li>The Java runtime locates the <tt>artifact</tt> protocol handler.</li>
+        <li>The <tt>artifact</tt> protocol handler ensures that the resource
+            is added to the local Transit cache (this step may involve the 
+            downloading of the part artifact from a host declared in the 
+            Transit configuration profile - using the group identifier 
+            <tt>org/acme</tt>, the resource name <tt>widget</tt>, the 
+            version identifier <tt>1.0.3</tt>, with the <tt>part</tt> type 
+            classifier).</li>
+        <li>The <tt>artifact</tt> protocol handler loads a content handler 
+            for the <tt>part</tt> datatype and delegates control to the 
+            content handler.</li>
+        <li>The part content handler reads the part definition, builds a 
+            classloader chain based on the information in the part description, 
+            loads a strategy handler based on the declared strategy type, and 
+            delagates control to the strategy handler (classloader chain 
+            creation may involve downloading of multiple supporting jar files and 
+            related configuration data from registered resource hosts).</li>
+        <li>The strategy handler builds a runtime model of the component, resolves
+            service dependencies, and builds a deployment solutions.</li>
+        <li>The content request for the <tt>Widget</tt> class is delegated
+            to the strategy handler which in-turn delegates the request to the 
+            established component model.</li>
+        <li>The component model handles the establishment of a managed service 
+            provider taking into account component lifecycle and lifestyle
+            policies, resulting in the instantiation and return of a <tt>Widget</tt> 
+            instance.</li>
+      </ol>
+
+    </section>
+
+  </body>
+
+</document>
+

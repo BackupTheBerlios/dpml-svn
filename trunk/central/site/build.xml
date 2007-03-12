@@ -260,15 +260,7 @@
       </fileset>
     </copy>
     
-    <property name="type.src.dir" location="${components.dir}/type"/>
-    <property name="local.type.docs.dir" location="target/docs/metro/tutorials/type"/>
-    <mkdir dir="${local.type.docs.dir}"/>
-    <copy toDir="${local.type.docs.dir}" flatten="true">
-      <fileset dir="${type.src.dir}/target/reports/src">
-        <include name="**/*.html"/>
-      </fileset>
-    </copy>
-    
+    <!--
     <property name="import.src.dir" location="${components.dir}/import"/>
     <property name="local.import.docs.dir" location="target/docs/metro/tutorials/import"/>
     <mkdir dir="${local.import.docs.dir}"/>
@@ -307,6 +299,7 @@
         <include name="**/*.html"/>
       </fileset>
     </copy>
+    -->
     
   </target>
   

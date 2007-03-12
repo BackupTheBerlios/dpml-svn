@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <component xmlns="dpml:metro" 
-    type="org.acme.Demo" 
+    class="org.acme.Demo" 
     name="demo">
   <context>
     <entry key="color" method="RED"/>

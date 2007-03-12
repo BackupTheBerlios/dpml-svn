@@ -13,63 +13,59 @@
 
       <subsection name="Description">
 
-<pre><![CDATA[$ metro -uri <uri>]]></pre>
+<pre><![CDATA[$ metro <uri>]]></pre>
 
       <p>
-      Runs a metro application given a codebase and optional station 
-      callback key.  Normally the metro command is invoked by the station
+      Runs a metro application given a codebase uri.  
+      Normally the metro command is invoked by the DPML Station
       as a result of a application start request or as a consequence of 
       station startup.  The metro application will continue until explicitly 
-      terminated. Normally termination is controlled by the station via 
-      the stop command.
+      terminated.
       </p>
 
 <pre>$ metro -help</pre>
 <source><![CDATA[
-Usage:
-metro -uri <uri> | -help
-options
-  -uri <uri>                       Execute deployment of an application codebase.
-    -key -port -config -params
-      -key (-k) <key>              Station callback application key.
-      -port <port>                 Override default RMI registry port selection.
-      -config (-c) <uri>           Application configuration uri.
-      -params (-p) <uri>           Application parameters uri.
-      -C<property>=<value>         Set a context entry value.
-  -help                            Print command help.
-]]></source>
+  Description:
 
+    Deploys a component referenced by a part uri.
 
-    </subsection>
+  Usage: metro [-command] [-debug | -trace] [-D<name>=<value>] <uri> | -help | -version
 
-    <subsection name="Options">
+  Arguments:
+    <uri>              uri referencing a part datatype
 
-      <table>
-          <tr><td>key</td><td>Select an application profile matching the key.</td></tr>
-          <tr><td>config</td><td>Supply an overrriding component configuration via a uri reference to 
-             a configuration source document.</td></tr>
-          <tr><td>params</td><td>Supply an overriding parameter defintion for reference to a 
-             property file.</td></tr>
-          <tr><td>C</td><td>Override a context entry with the supplied value.</td></tr>
-          <tr><td>port</td><td>Nominate an alternative station instance running on the supplied port.</td></tr>
-      </table>
+  Options:
+    -debug             enables debug level logging
+    -trace             enables trace level logging
+    -D<name>=<value>   declaration of one or more system properties
+    -command           enables command execution mode
+    -help              list command help and exit
+    -version           list version info and exit]]></source>
 
-    </subsection>
+<pre>$ metro -version</pre>
+<source><![CDATA[
+  DPML Metro
+  Version 2.0.0
+  Copyright 2005-2007 Stephen J. McConnell
+  Digital Product Management Laboratory]]></source>
 
+      </subsection>
 
-    <subsection name="Example">
+      <subsection name="Example">
 
-<pre><![CDATA[$ metro -uri link:part:dpml/planet/http/dpml-http-server
-[460  ] [INFO   ] (demo): Starting
-[460  ] [INFO   ] (org.mortbay.http.HttpServer): Version Jetty/5.1.x
-[460  ] [INFO   ] (org.mortbay.util.Container): Started net.dpml.http.impl.HttpServerImpl@15356d5
-[460  ] [INFO   ] (org.mortbay.util.Credential): Checking Resource aliases
-[460  ] [INFO   ] (org.mortbay.util.Container): Started HttpContext[/,/]
-[460  ] [INFO   ] (org.mortbay.http.SocketListener): Started SocketListener on 0.0.0.0:8080
+<pre><![CDATA[$ metro link:part:osm/http/osm-http-express
+
+[1840 ] [INFO   ] (main.server): commissioning server
+[1840 ] [INFO   ] (main.server.jetty): Logging to net.dpml.util.Logger via net.osm.http.impl.LoggerAdapter
+[1840 ] [INFO   ] (main.server): adding HTTP connector on port: 8080
+[1840 ] [INFO   ] (main.server): adding SSL connector on port: 8443
+[1840 ] [INFO   ] (main.server): starting
+[1840 ] [INFO   ] (main.server.jetty): jetty-6.1.x
+[1840 ] [INFO   ] (main.server.jetty): Started SelectChannelConnector @ 0.0.0.0:8080
+[1840 ] [INFO   ] (main.server.jetty): Started SslSocketConnector @ 0.0.0.0:8443
 ]]></pre>
 
-    </subsection>
-
+      </subsection>
 
     </section>
 

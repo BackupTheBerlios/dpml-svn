@@ -94,14 +94,6 @@ public class ComponentStrategyHandler implements StrategyHandler
         Element contextElement = ElementHelper.getChild( element, "context" );
         ContextModel context = getContextModel( classloader, c, path, profile, contextElement, resolver, q );
         
-        //ContextDirective context = 
-        //  new ContextDirective( 
-        //    profile.getContextDirective(), 
-        //    classloader, 
-        //    contextElement,
-        //    resolver,
-        //    query );
-        
         try
         {
             Element partsElement = ElementHelper.getChild( element, "parts" );
@@ -113,7 +105,15 @@ public class ComponentStrategyHandler implements StrategyHandler
                 resolver, 
                 path );
 
-            ComponentStrategy strategy = new ComponentStrategy( partition, name, priority, c, context, parts );
+            ComponentStrategy strategy = 
+              new ComponentStrategy( 
+                partition, 
+                name, 
+                priority, 
+                c, 
+                context, 
+                parts );
+            
             return strategy;
         }
         catch( IOException ioe )

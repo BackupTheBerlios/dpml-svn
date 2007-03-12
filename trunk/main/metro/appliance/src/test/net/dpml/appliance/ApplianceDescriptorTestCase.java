@@ -44,7 +44,7 @@ public class ApplianceDescriptorTestCase extends AbstractTestCase
         assertEquals( "path", null, path );
         assertEquals( "system", "bar", properties.getProperty( "foo" ) );
         assertEquals( "environment", "BAR", environment.get( "FOO" ) );
-        URI uri = new URI( "link:part:dpml/metro/dpml-metro-sample?message=Hello%20World,port=1024" );
+        URI uri = new URI( "link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&port=1024" );
         URI target = application.getTargetURI();
         assertEquals( "uri", uri, target );
     }

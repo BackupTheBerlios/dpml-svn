@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <component xmlns="dpml:metro"
-   type="org.acme.Demo" 
+   class="org.acme.Demo" 
    name="demo">
   <parts>
-    <component key="widget" type="org.acme.Widget" name="widget" lifestyle="transient">
+    <component key="widget" class="org.acme.Widget" name="widget" lifestyle="transient">
       <context>
         <entry key="color" method="BLUE"/>
       </context>
     </component>
-    <component key="gizmo" type="org.acme.Gizmo" name="gizmo">
+    <component key="gizmo" class="org.acme.Gizmo" name="gizmo">
       <context>
         <entry key="widget" lookup="org.acme.Widget"/>
       </context>

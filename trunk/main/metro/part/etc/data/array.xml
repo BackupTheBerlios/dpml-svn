@@ -3,7 +3,7 @@
   
   <component xmlns="dpml:metro"
       name="widget" 
-      type="org.acme.ArrayWidget">
+      class="org.acme.ArrayWidget">
     <context>
       <entry key="message">
         <param value="h"/>

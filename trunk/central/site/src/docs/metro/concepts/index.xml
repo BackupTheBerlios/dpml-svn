@@ -12,19 +12,32 @@
     <section name="DPML Metro">
 
       <p>
-      Metro is an advanced component runtime solution.
-      </p>
-       
-      <p>
-      Metro is an <a href="ioc.html">IOC</a> Container  
+      Metro is an easy to use <a href="ioc.html">IOC</a> Container  
       that handles the deployment of component-based applications. Beyond this Metro
       delivers pure framework independent component-driven <a href="ioc.html">Adaptive 
       Context</a> support backed by an <a href="management.html">Active State</a>, 
-      model-driven, part-based system architecture. 
+      model-driven, part-based system architecture.
       </p>
 
-      <subsection name="Model Driven">
-
+      <subsection name="General Concepts">
+      
+        <p>
+        From a strict architectural perspective the Metro system is a deployment strategy 
+        runtime controller managed by a Transit content handler associated with the 
+        'part' datatype.  The part content handlers deals with classloader construction 
+        and the establishment of a strategy handler.  The strategy handler is responsible 
+        for the orderly deployment and decommissioning of components.
+        As part of an overral risk-reduction strategy concerning product 
+        evolution Metro incorporates an internal strategy controller
+        management model that enables concurrent execution of different 
+        container strategies within a single application.  This approach
+        enables changes that would normally be classed as breaking 
+        compatibility to be isolated in dynamically loaded plugin control 
+        subsystems.  The end-result is the potential for a composite 
+        comoponent to operate seamlessly with components using radicaly 
+        different controllers.
+        </p>
+      
         <p>
         Metro is a "Model Driven" system in that a central model is 
         the definiative source for runtime information.  Within Metro the complete
@@ -37,37 +50,21 @@
         information (including control over component configuration, parameterization, 
         and individual context entry settings).
         </p>
+        
+      
+        <p>
+        This is achived through the combinaton of:
+        </p>
+
+        <ol>
+          <li>Layered internal container APIs.</li>
+          <li>Dynamic loading of deployment strategy controllers.</li>
+          <li>Controller delegation rules.</li>
+        </ol>
 
       </subsection>
 
-    <subsection name="Part Based">
-
-      <p>
-      As part of an overral risk-reduction strategy concerning product 
-      evolution Metro incorporates an internal controller
-      management model that enables concurrent execution of different 
-      container versions within a single application.  This strategy
-      enables changes that would normally be classed as breaking 
-      compatibility to be isolated in dynamicaly loaded plugin control 
-      subsystems.  The end-result is the potential for a composite 
-      comoponent to operate seamlessly with components using radicaly 
-      different controllers.
-      </p>
-
-      <p>
-      This is achived through the combinaton of:
-      </p>
-
-      <ol>
-        <li>Layered internal container APIs.</li>
-        <li>Component deployment data tagged with supporting system version</li>
-        <li>Dynamic loading of plugin controllers</li>
-        <li>Controller delegation rules</li>
-      </ol>
-
-    </subsection>
-
-      <subsection name="Related Links">
+      <!--<subsection name="Related Links">-->
         <p><i>
         A broader overview of the issues and challenges related to component-based 
         development is presented in the paper 
@@ -75,7 +72,7 @@
         Development Process and Component Lifecycle</a> by Ivica Crnkovic, Stig Larsson, 
         Michel Chaudron.
         </i></p>
-      </subsection>
+      <!--</subsection>-->
 
     </section>
 

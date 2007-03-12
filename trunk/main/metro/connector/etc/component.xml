@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<component xmlns="dpml:metro" name="station" type="dpml.station.DefaultStation"/>
+<component xmlns="dpml:metro" name="station" class="dpml.station.DefaultStation"/>

@@ -4,6 +4,6 @@
 
   <entry key="foo" uri="link:appliance:dpml/metro/demo-foo"/>
   <entry key="bar" uri="link:appliance:dpml/metro/demo-bar"/>
-  <entry key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World,port=1024"/>
+  <entry key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/>
   
 </plan>

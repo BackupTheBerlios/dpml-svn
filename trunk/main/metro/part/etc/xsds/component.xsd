@@ -27,7 +27,8 @@
           </sequence>
           <attribute name="key" type="string"/>
           <attribute name="name" type="string"/>
-          <attribute name="type" type="string"/>
+          <attribute name="class" type="string"/>
+          <attribute name="type" type="string"/> <!-- depricated - use class attribute -->
           <attribute name="lifestyle" type="this:lifestyle"/>
           <attribute name="collection" type="this:collection"/>
           <attribute name="activation" type="this:activation"/>
@@ -107,8 +108,6 @@
         <enumeration value="system"/>
       </restriction>
     </simpleType>
-    
-    <!-- TYPE -->
     
     <simpleType name="lifestyle">
       <restriction base="string">

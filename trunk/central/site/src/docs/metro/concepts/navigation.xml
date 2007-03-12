@@ -25,11 +25,10 @@
  <body>
 
     <menu>
-      <item name="IOC" href="ioc.html"/>
-      <item name="Context Aware" href="context.html"/>
+      <item name="Simplicity" href="usage.html"/>
+      <item name="Context Awareness" href="context.html"/>
+      <item name="Inversion of Control" href="ioc.html"/>
       <item name="Active Management" href="management.html"/>
-      <!--<item name="Model Driven" href="model.html"/>-->
-      <!--<item name="Part Based" href="parts.html"/>-->
     </menu>
 
  </body>

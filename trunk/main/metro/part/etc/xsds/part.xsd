@@ -8,30 +8,19 @@
     
     <element name="part" type="this:PartType"/>
     <element name="strategy" type="this:StrategyType"/>
-    <element name="plugin" type="this:plugin" substitutionGroup="this:strategy"/>
+    <element name="classpath" type="this:ClassPathType"/>
     <element name="param" type="this:ValueType"/>
     
     <complexType name="PartType">
       <sequence>
         <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
         <element ref="this:strategy" minOccurs="1" maxOccurs="1"/>
-        <element name="classpath" type="this:ClassPathType" minOccurs="0" maxOccurs="1"/>
+        <element ref="this:classpath" minOccurs="0" maxOccurs="1"/>
       </sequence>
     </complexType>
     
     <complexType name="StrategyType" abstract="true"/>
     
-    <complexType name="plugin">
-      <complexContent>
-        <extension base="this:StrategyType">
-          <sequence>
-            <element ref="this:param" minOccurs="0" maxOccurs="unbounded"/>
-          </sequence>
-          <attribute name="class" type="string" use="required"/>
-        </extension>
-      </complexContent>
-    </complexType>
-
     <complexType name="ClassPathType">
       <sequence>
         <element name="system" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
