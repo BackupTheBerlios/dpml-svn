@@ -85,31 +85,30 @@
     
     <section name="Examples">
       
-<source>
-<![CDATA[<classpath>
-  <public>
-    <uri>artifact:jar:dpml/util/dpml-logging-api#SNAPSHOT</uri>
-  </public>
-  <protected>
-    <uri>artifact:jar:dpml/metro/dpml-state-api#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/util/dpml-job-api#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/transit/dpml-transit-main#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/metro/dpml-metro-component#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/util/dpml-parameters-api#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/util/dpml-configuration-api#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/metro/dpml-metro-model#SNAPSHOT</uri>
-  </protected>
-  <private>
-    <uri>artifact:jar:dpml/util/dpml-parameters-impl#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/util/dpml-configuration-impl#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/util/dpml-job-impl#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/metro/dpml-state-impl#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/depot/dpml-library#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
-    <uri>artifact:jar:dpml/metro/dpml-metro-runtime#SNAPSHOT</uri>
-  </private>
-</classpath>]]>
-</source>
+<source>&lt;part xmlns="dpml:part"&gt;
+
+  &lt;info title="DPML Depot Toolkit"&gt;
+    &lt;description>Antlib supporting Depot-based build automation.&lt;/description&gt;
+  &lt;/info&gt;
+  
+  &lt;component xmlns="dpml:metro" name="builder" class="dpml.tools.impl.StandardBuilder"/&gt;
+  
+  <font color="darkred">&lt;classpath&gt;
+    &lt;private&gt;
+      &lt;uri&gt;artifact:jar:dpml/transit/dpml-transit-main#2.0.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:dpml/metro/dpml-metro-part#2.0.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:dpml/depot/dpml-depot-library#2.0.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:dpml/util/dpml-util-cli#2.0.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:dpml/depot/dpml-depot-build#2.0.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:org/apache/ant/ant-launcher#1.7.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:org/apache/ant/ant#1.7.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:junit/junit#4.2&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:org/apache/ant/ant-junit#1.7.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:org/apache/ant/ant-trax#1.7.0&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:dpml/depot/dpml-depot-builder#2.0.0&lt;/uri&gt;
+    &lt;/private&gt;
+  &lt;/classpath&gt;</font>
+&lt;/part&gt;</source>
     
     </section>
     
