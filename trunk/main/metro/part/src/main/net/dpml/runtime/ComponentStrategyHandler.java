@@ -37,6 +37,8 @@ import net.dpml.lang.Strategy;
 import net.dpml.lang.StrategyHandler;
 import net.dpml.lang.Buffer;
 
+import net.dpml.annotation.ActivationPolicy;
+
 import net.dpml.util.Resolver;
 import net.dpml.util.Logger;
 
@@ -66,7 +68,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         Profile profile = new Profile( c, spec, null );
         ContextModel context = getContextModel( null, c, spec, profile, null, null, null );
         PartsDirective parts = profile.getPartsDirective();
-        return new ComponentStrategy( null, spec, 0, c, context, parts );
+        return new ComponentStrategy( null, spec, 0, c, ActivationPolicy.SYSTEM, context, parts );
     }
     
     public Component newComponent( Class<?> c, String name ) throws IOException
@@ -80,6 +82,7 @@ public class ComponentStrategyHandler implements StrategyHandler
     * @param element the DOM element definining the deployment strategy
     * @param resolver symbolic property resolver
     * @param partition the enclosing partition
+    * @param query the query fragment to applied to the component context definition
     * @return the strategy definition
     * @exception IOException if an I/O error occurs
     */
@@ -95,6 +98,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         Query q = new Query( query );
         Element contextElement = ElementHelper.getChild( element, "context" );
         ContextModel context = getContextModel( classloader, c, path, profile, contextElement, resolver, q );
+        ActivationPolicy activation = getActivationPolicy( element, profile );
         
         try
         {
@@ -113,6 +117,7 @@ public class ComponentStrategyHandler implements StrategyHandler
                 name, 
                 priority, 
                 c, 
+                activation,
                 context, 
                 parts );
             
@@ -133,6 +138,31 @@ public class ComponentStrategyHandler implements StrategyHandler
             IOException ioe = new IOException( error );
             ioe.initCause( e );
             throw ioe;
+        }
+    }
+    
+   /**
+    * Return the activation policy.
+    * 
+    * @return the resolved activation policy
+    */
+    private static ActivationPolicy getActivationPolicy( Element element, Profile profile )
+    {
+        if( null == element )
+        {
+            return profile.getActivationPolicy();
+        }
+        else
+        {
+            String value = ElementHelper.getAttribute( element, "activation" );
+            if( null == value )
+            {
+                return profile.getActivationPolicy();
+            }
+            else
+            {
+                return ActivationPolicy.valueOf( value.toUpperCase() );
+            }
         }
     }
     

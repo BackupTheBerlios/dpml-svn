@@ -99,8 +99,20 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
     
     private ServiceRegistry m_registry;
     
+   /**
+    * Creation of a new component strategy.
+    * @param partition the enclosing partition
+    * @param name the component name relative to the enclosing partition
+    * @param priority the component priority
+    * @param type the component class
+    * @param activation the activation policy
+    * @param context the context model
+    * @param parts the internal part structure
+    * @exception IOException if an IO error occurs
+    */
     ComponentStrategy( 
-      final String partition, final String name, int priority, final Class type, ContextModel context, PartsDirective parts ) 
+      final String partition, final String name, int priority, final Class type, 
+      ActivationPolicy activation, ContextModel context, PartsDirective parts ) 
       throws IOException
     {
         super( type.getClassLoader() );
@@ -114,7 +126,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         m_context = context;
         m_logger = getComponentLogger( m_path );
         m_graph = getLifecycleGraph( m_class );
-        m_activation = getActivationPolicy( m_class );
+        m_activation = activation;
         m_parts = getPartsDirective( parts );
         
         m_parts.initialize( this );
@@ -772,6 +784,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         return LifestylePolicy.THREAD;
     }
     
+    /*
     private static ActivationPolicy getActivationPolicy( Class<?> c )
     {
         if( c.isAnnotationPresent( Activation.class ) )
@@ -782,6 +795,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
         return ActivationPolicy.SYSTEM;
     }
+    */
     
     private static State getLifecycleGraph( Class<?> c ) throws IOException
     {

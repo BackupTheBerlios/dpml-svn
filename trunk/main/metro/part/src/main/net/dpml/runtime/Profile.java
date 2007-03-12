@@ -24,14 +24,19 @@ import java.net.URL;
 
 import dpml.lang.DOM3DocumentBuilder;
 
+import net.dpml.annotation.Activation;
+import net.dpml.annotation.ActivationPolicy;
+
 import net.dpml.util.Resolver;
+
 import dpml.util.ElementHelper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Component interface.
+ * A component profile is a datastructure bundled with a class that allows for
+ * the declaration of default activation, context and part structure.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -44,25 +49,39 @@ class Profile
     private Element m_element;
     private ContextDirective m_context;
     private PartsDirective m_parts;
+    private ActivationPolicy m_activation;
     
+   /**
+    * Creation of a new profile using a supplied class, path and property resolver.
+    * @param c the class
+    * @param path the path
+    * @param resolver the property resolver
+    * @exception IOException if an IO error occurs
+    */
     Profile( Class<?> c, String path, Resolver resolver ) throws IOException
     {
         m_element = getProfileElement( c );
         ClassLoader classloader = c.getClassLoader();
         m_context = getContextProfile( classloader, m_element, resolver );
         m_parts = getPartsProfile( classloader, m_element, resolver, path );
+        m_activation = getActivationPolicy( m_element, c );
     }
     
     ContextDirective getContextDirective()
     {
         return m_context;
     }
-
+    
     PartsDirective getPartsDirective()
     {
         return m_parts;
     }
-
+    
+    ActivationPolicy getActivationPolicy()
+    {
+        return m_activation;
+    }
+    
     private static Element getProfileElement( Class<?> c ) throws IOException
     {
         ClassLoader classloader = c.getClassLoader();
@@ -91,7 +110,38 @@ class Profile
             return null;
         }
     }
-
+    
+   /**
+    * Return the activation policy.  If the element declares the activation attribute
+    * that value (resolved to the policy enum) is returne, otherwise the class is checked for
+    * the declaration of an explicit activivation policy and if present the value is returned,
+    * otherwise the default SYSTEM activation policy is returned.
+    * 
+    * @return the resolved activation policy
+    */
+    private static ActivationPolicy getActivationPolicy( Element element, Class<?> c )
+    {
+        if( null == element )
+        {
+            return ActivationPolicy.SYSTEM;
+        }
+        String value = ElementHelper.getAttribute( element, "activation" );
+        if( null == value )
+        {
+            if( c.isAnnotationPresent( Activation.class ) )
+            {
+                Activation annotation = 
+                  c.getAnnotation( Activation.class );
+                return annotation.value();
+            }
+            return ActivationPolicy.SYSTEM;
+        }
+        else
+        {
+            return ActivationPolicy.valueOf( value.toUpperCase() );
+        }
+    }
+    
     private static ContextDirective getContextProfile( 
       ClassLoader classloader, Element profile, Resolver resolver ) throws IOException
     {
