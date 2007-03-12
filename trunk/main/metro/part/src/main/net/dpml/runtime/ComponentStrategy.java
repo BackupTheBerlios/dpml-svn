@@ -107,6 +107,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
     * @param type the component class
     * @param activation the activation policy
     * @param lifestyle the lifestyle policy
+    * @param collection the collection policy
     * @param context the context model
     * @param parts the internal part structure
     * @exception IOException if an IO error occurs
