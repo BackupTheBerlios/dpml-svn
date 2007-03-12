@@ -18,9 +18,11 @@
 
 package net.dpml.runtime.lifestyle;
 
+import net.dpml.annotation.LifestylePolicy;
 import net.dpml.runtime.AbstractTestCase;
 
 import net.dpml.runtime.Component;
+import net.dpml.runtime.ComponentStrategy;
 
 import org.acme.DefaultWidget;
 import org.acme.Widget;
@@ -34,7 +36,8 @@ public class TransientTestCase extends AbstractTestCase
 {
     public void testEquality() throws Exception
     {
-        Component component = load( Component.class, "transient.xml", "transient" );
+        ComponentStrategy component = load( ComponentStrategy.class, "transient.xml", "transient" );
+        assertEquals( "lifestyle", component.getLifestylePolicy(), LifestylePolicy.TRANSIENT );
         Widget w1 = component.getProvider().getInstance( DefaultWidget.class );
         Widget w2 = component.getProvider().getInstance( DefaultWidget.class );
         if( w1 == w2 )

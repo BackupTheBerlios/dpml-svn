@@ -26,6 +26,8 @@ import dpml.lang.DOM3DocumentBuilder;
 
 import net.dpml.annotation.Activation;
 import net.dpml.annotation.ActivationPolicy;
+import net.dpml.annotation.LifestylePolicy;
+import net.dpml.annotation.CollectionPolicy;
 
 import net.dpml.util.Resolver;
 
@@ -50,6 +52,8 @@ class Profile
     private ContextDirective m_context;
     private PartsDirective m_parts;
     private ActivationPolicy m_activation;
+    private LifestylePolicy m_lifestyle;
+    private CollectionPolicy m_collection;
     
    /**
     * Creation of a new profile using a supplied class, path and property resolver.
@@ -65,6 +69,8 @@ class Profile
         m_context = getContextProfile( classloader, m_element, resolver );
         m_parts = getPartsProfile( classloader, m_element, resolver, path );
         m_activation = getActivationPolicy( m_element, c );
+        m_lifestyle = getLifestylePolicy( m_element, c );
+        m_collection = getCollectionPolicy( m_element, c );
     }
     
     ContextDirective getContextDirective()
@@ -80,6 +86,16 @@ class Profile
     ActivationPolicy getActivationPolicy()
     {
         return m_activation;
+    }
+    
+    LifestylePolicy getLifestylePolicy()
+    {
+        return m_lifestyle;
+    }
+    
+    CollectionPolicy getCollectionPolicy()
+    {
+        return m_collection;
     }
     
     private static Element getProfileElement( Class<?> c ) throws IOException
@@ -119,27 +135,77 @@ class Profile
     * 
     * @return the resolved activation policy
     */
-    private static ActivationPolicy getActivationPolicy( Element element, Class<?> c )
+    private static ActivationPolicy getActivationPolicy( final Element element, final Class<?> c )
     {
         if( null == element )
         {
-            return ActivationPolicy.SYSTEM;
-        }
-        String value = ElementHelper.getAttribute( element, "activation" );
-        if( null == value )
-        {
-            if( c.isAnnotationPresent( Activation.class ) )
+            String value = ElementHelper.getAttribute( element, "activation" );
+            if( null != value )
             {
-                Activation annotation = 
-                  c.getAnnotation( Activation.class );
-                return annotation.value();
+                return ActivationPolicy.valueOf( value.toUpperCase() );
             }
-            return ActivationPolicy.SYSTEM;
         }
-        else
+        if( c.isAnnotationPresent( Activation.class ) )
         {
-            return ActivationPolicy.valueOf( value.toUpperCase() );
+            Activation annotation = 
+              c.getAnnotation( Activation.class );
+            return annotation.value();
         }
+        return ActivationPolicy.SYSTEM;
+    }
+    
+   /**
+    * Return the lifestyle policy.  If the element declares the lifestyle attribute
+    * that value (resolved to the policy enum) is returned, otherwise the class is checked for
+    * the declaration of an explicit lifestyle policy and if present the value is returned,
+    * otherwise the default THREAD policy is returned.
+    * 
+    * @return the resolved lifestyle policy
+    */
+    private static LifestylePolicy getLifestylePolicy( final Element element, final Class<?> c )
+    {
+        if( null != element )
+        {
+            String value = ElementHelper.getAttribute( element, "lifestyle" );
+            if( null != value )
+            {
+                return LifestylePolicy.valueOf( value.toUpperCase() );
+            }
+        }
+        if( c.isAnnotationPresent( net.dpml.annotation.Component.class ) )
+        {
+            net.dpml.annotation.Component annotation = 
+              c.getAnnotation( net.dpml.annotation.Component.class );
+            return annotation.lifestyle();
+        }
+        return LifestylePolicy.THREAD;
+    }
+    
+   /**
+    * Return the collection policy.  If the element declares the collection attribute
+    * that value (resolved to the policy enum) is returned, otherwise the class is checked for
+    * the declaration of an explicit collection policy and if present the value is returned,
+    * otherwise the default HARD policy is returned.
+    * 
+    * @return the resolved lifestyle policy
+    */
+    private static CollectionPolicy getCollectionPolicy( final Element element, final Class<?> c )
+    {
+        if( null != element )
+        {
+            String value = ElementHelper.getAttribute( element, "collection" );
+            if( null != value )
+            {
+                return CollectionPolicy.valueOf( value.toUpperCase() );
+            }
+        }
+        if( c.isAnnotationPresent( net.dpml.annotation.Component.class ) )
+        {
+            net.dpml.annotation.Component annotation = 
+              c.getAnnotation( net.dpml.annotation.Component.class );
+            return annotation.collection();
+        }
+        return CollectionPolicy.HARD;
     }
     
     private static ContextDirective getContextProfile( 

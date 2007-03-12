@@ -39,6 +39,8 @@ import net.dpml.lang.Buffer;
 
 import net.dpml.annotation.Activation;
 import net.dpml.annotation.ActivationPolicy;
+import net.dpml.annotation.LifestylePolicy;
+import net.dpml.annotation.CollectionPolicy;
 
 import net.dpml.util.Resolver;
 import net.dpml.util.Logger;
@@ -69,7 +71,9 @@ public class ComponentStrategyHandler implements StrategyHandler
         Profile profile = new Profile( c, spec, null );
         ContextModel context = getContextModel( null, c, spec, profile, null, null, null );
         PartsDirective parts = profile.getPartsDirective();
-        return new ComponentStrategy( null, spec, 0, c, ActivationPolicy.SYSTEM, context, parts );
+        return new ComponentStrategy( 
+          null, spec, 0, c, ActivationPolicy.SYSTEM, LifestylePolicy.THREAD, 
+          CollectionPolicy.HARD, context, parts );
     }
     
     public Component newComponent( Class<?> c, String name ) throws IOException
@@ -100,6 +104,8 @@ public class ComponentStrategyHandler implements StrategyHandler
         Element contextElement = ElementHelper.getChild( element, "context" );
         ContextModel context = getContextModel( classloader, c, path, profile, contextElement, resolver, q );
         ActivationPolicy activation = getActivationPolicy( element, profile, c );
+        LifestylePolicy lifestyle = getLifestylePolicy( element, profile, c );
+        CollectionPolicy collection = getCollectionPolicy( element, profile, c );
         
         try
         {
@@ -119,6 +125,8 @@ public class ComponentStrategyHandler implements StrategyHandler
                 priority, 
                 c, 
                 activation,
+                lifestyle,
+                collection,
                 context, 
                 parts );
             
@@ -168,6 +176,62 @@ public class ComponentStrategyHandler implements StrategyHandler
             return annotation.value();
         }
         return ActivationPolicy.SYSTEM;
+    }
+    
+   /**
+    * Return the lifestyle policy.
+    * 
+    * @return the resolved lifestyle policy
+    */
+    private static LifestylePolicy getLifestylePolicy( Element element, Profile profile, Class<?> c )
+    {
+        if( null != element )
+        {
+            String value = ElementHelper.getAttribute( element, "lifestyle" );
+            if( null != value )
+            {
+                return LifestylePolicy.valueOf( value.toUpperCase() );
+            }
+        }
+        if( null != profile )
+        {
+            return profile.getLifestylePolicy();
+        }
+        if( c.isAnnotationPresent( net.dpml.annotation.Component.class ) )
+        {
+            net.dpml.annotation.Component annotation = 
+              c.getAnnotation( net.dpml.annotation.Component.class );
+            return annotation.lifestyle();
+        }
+        return LifestylePolicy.THREAD;
+    }
+    
+   /**
+    * Return the collection policy.
+    * 
+    * @return the resolved collection policy
+    */
+    private static CollectionPolicy getCollectionPolicy( Element element, Profile profile, Class<?> c )
+    {
+        if( null != element )
+        {
+            String value = ElementHelper.getAttribute( element, "collection" );
+            if( null != value )
+            {
+                return CollectionPolicy.valueOf( value.toUpperCase() );
+            }
+        }
+        if( null != profile )
+        {
+            return profile.getCollectionPolicy();
+        }
+        if( c.isAnnotationPresent( net.dpml.annotation.Component.class ) )
+        {
+            net.dpml.annotation.Component annotation = 
+              c.getAnnotation( net.dpml.annotation.Component.class );
+            return annotation.collection();
+        }
+        return CollectionPolicy.HARD;
     }
     
     private int getPriority( Element element, Resolver resolver )

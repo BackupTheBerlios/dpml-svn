@@ -106,27 +106,30 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
     * @param priority the component priority
     * @param type the component class
     * @param activation the activation policy
+    * @param lifestyle the lifestyle policy
     * @param context the context model
     * @param parts the internal part structure
     * @exception IOException if an IO error occurs
     */
     ComponentStrategy( 
       final String partition, final String name, int priority, final Class type, 
-      ActivationPolicy activation, ContextModel context, PartsDirective parts ) 
+      ActivationPolicy activation, LifestylePolicy lifestyle, CollectionPolicy collection, 
+      ContextModel context, PartsDirective parts ) 
       throws IOException
     {
         super( type.getClassLoader() );
         
         m_class = type;
         m_priority = priority;
-        m_name = getComponentName( name, m_class );
-        m_collection = getCollectionPolicy( m_class );
-        m_lifestyle = getLifestylePolicy( m_class );
-        m_path = getComponentPath( partition, m_name, m_class );
+        m_activation = activation;
+        m_lifestyle = lifestyle;
+        m_collection = collection;
         m_context = context;
+        
+        m_name = getComponentName( name, m_class );
+        m_path = getComponentPath( partition, m_name, m_class );
         m_logger = getComponentLogger( m_path );
         m_graph = getLifecycleGraph( m_class );
-        m_activation = activation;
         m_parts = getPartsDirective( parts );
         
         m_parts.initialize( this );
@@ -392,17 +395,29 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         return m_logger;
     }
     
-    CollectionPolicy getCollectionPolicy()
+   /**
+    * Return the assigned collection policy.
+    * @return the collection policy
+    */
+    public CollectionPolicy getCollectionPolicy()
     {
         return m_collection;
     }
     
-    LifestylePolicy getLifestylePolicy()
+   /**
+    * Return the assigned lifestyle policy.
+    * @return the lifestyle policy
+    */
+    public LifestylePolicy getLifestylePolicy()
     {
         return m_lifestyle;
     }
     
-    ActivationPolicy getActivationPolicy()
+   /**
+    * Return the assigned activation policy.
+    * @return the activation policy
+    */
+    public ActivationPolicy getActivationPolicy()
     {
         return m_activation;
     }
@@ -444,7 +459,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
                 return c.cast( provider );
             }
         }
-        else if( ( c == Component.class ) || ( c == Strategy.class ) )
+        else if( c.isAssignableFrom( getClass() ) )
         {
             return c.cast( this );
         }
@@ -773,30 +788,6 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         return CollectionPolicy.HARD;
     }
     
-    private static LifestylePolicy getLifestylePolicy( Class<?> c )
-    {
-        if( c.isAnnotationPresent( net.dpml.annotation.Component.class ) )
-        {
-            net.dpml.annotation.Component annotation = 
-              c.getAnnotation( net.dpml.annotation.Component.class );
-            return annotation.lifestyle();
-        }
-        return LifestylePolicy.THREAD;
-    }
-    
-    /*
-    private static ActivationPolicy getActivationPolicy( Class<?> c )
-    {
-        if( c.isAnnotationPresent( Activation.class ) )
-        {
-            Activation annotation = 
-              c.getAnnotation( Activation.class );
-            return annotation.value();
-        }
-        return ActivationPolicy.SYSTEM;
-    }
-    */
-    
     private static State getLifecycleGraph( Class<?> c ) throws IOException
     {
         String name = getComponentNameFromClass( c );
@@ -860,6 +851,10 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
 
     private static final String NAMESPACE = ComponentStrategyHandler.NAMESPACE;
     
+   /**
+    * Returns the string representing of the component.
+    * @return the component as a string
+    */
     public String toString()
     {
         return getComponentPath();
