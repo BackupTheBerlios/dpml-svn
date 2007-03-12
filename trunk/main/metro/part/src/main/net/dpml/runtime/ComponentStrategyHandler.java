@@ -37,6 +37,7 @@ import net.dpml.lang.Strategy;
 import net.dpml.lang.StrategyHandler;
 import net.dpml.lang.Buffer;
 
+import net.dpml.annotation.Activation;
 import net.dpml.annotation.ActivationPolicy;
 
 import net.dpml.util.Resolver;
@@ -98,7 +99,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         Query q = new Query( query );
         Element contextElement = ElementHelper.getChild( element, "context" );
         ContextModel context = getContextModel( classloader, c, path, profile, contextElement, resolver, q );
-        ActivationPolicy activation = getActivationPolicy( element, profile );
+        ActivationPolicy activation = getActivationPolicy( element, profile, c );
         
         try
         {
@@ -146,24 +147,27 @@ public class ComponentStrategyHandler implements StrategyHandler
     * 
     * @return the resolved activation policy
     */
-    private static ActivationPolicy getActivationPolicy( Element element, Profile profile )
+    private static ActivationPolicy getActivationPolicy( Element element, Profile profile, Class<?> c )
     {
-        if( null == element )
-        {
-            return profile.getActivationPolicy();
-        }
-        else
+        if( null != element )
         {
             String value = ElementHelper.getAttribute( element, "activation" );
-            if( null == value )
-            {
-                return profile.getActivationPolicy();
-            }
-            else
+            if( null != value )
             {
                 return ActivationPolicy.valueOf( value.toUpperCase() );
             }
         }
+        if( null != profile )
+        {
+            return profile.getActivationPolicy();
+        }
+        if( c.isAnnotationPresent( Activation.class ) )
+        {
+            Activation annotation = 
+              c.getAnnotation( Activation.class );
+            return annotation.value();
+        }
+        return ActivationPolicy.SYSTEM;
     }
     
     private int getPriority( Element element, Resolver resolver )

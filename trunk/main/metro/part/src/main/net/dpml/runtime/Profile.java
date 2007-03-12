@@ -113,7 +113,7 @@ class Profile
     
    /**
     * Return the activation policy.  If the element declares the activation attribute
-    * that value (resolved to the policy enum) is returne, otherwise the class is checked for
+    * that value (resolved to the policy enum) is returned, otherwise the class is checked for
     * the declaration of an explicit activivation policy and if present the value is returned,
     * otherwise the default SYSTEM activation policy is returned.
     * 
