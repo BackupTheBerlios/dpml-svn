@@ -477,7 +477,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         {
             buffer.write( " priority=\"" + m_priority + "\"" );
         }
-        buffer.write( " type=\"" + classname + "\"" );
+        buffer.write( " class=\"" + classname + "\"" );
         if( ( context.size() == 0 ) && ( parts.size() == 0 ) )
         {
             buffer.write( "/>" ); 
