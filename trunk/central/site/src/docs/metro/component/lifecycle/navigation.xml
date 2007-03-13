@@ -25,6 +25,7 @@
  <body>
 
     <menu>
+      <item name="State" href="state.html"/>
       <item name="Trigger" href="trigger/index.html"/>
       <item name="Transition" href="transition.html"/>
       <item name="Operation" href="operation.html"/>

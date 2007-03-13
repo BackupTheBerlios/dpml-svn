@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Context Datatype</title>
+    <title>DPML Metro: Context Directive</title>
   </properties> 
 
   <body>
 
-    <section name="Context">
+    <section name="Context Directive">
 
       <subsection name="Description">
 
@@ -30,18 +30,16 @@
 
         <table>
           <tr>
-            <td><tt><a href="entries.html">entry</a></tt></td>
+            <td><tt><a href="entry.html">entry</a></tt></td>
             <td>The entry element may contain 0..n nested &lt;entry&gt; directives.
               A entry directive allows the creation by (value or reference) of 
               a value associated with a context entry key.</td>
           </tr>
-          <!--
           <tr>
-            <td><tt><a href="../index.html">component</a></tt></td>
-            <td>The entry element may also contain 0..n nested &lt;component&gt; directives
-              representing inline context entry solutions.</td>
+            <td><tt><a href="context.html">context</a></tt></td>
+            <td>If the context entry return type is itself a context interface
+            then the context element may be supplied as the value solution.</td>
           </tr>
-          -->
         </table>
 
       </subsection>

@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Component Categories Datatype</title>
+    <title>DPML Metro: Categories Directive</title>
   </properties> 
 
   <body>
 
-    <section name="Categories">
+    <section name="Categories Directive">
 
       <subsection name="Description">
 
@@ -63,19 +63,6 @@
     </categories>
   </component>
 ]]></source>
-
-    </section>
-
-    <section name="Technical Notes">
-      
-      <p>
-      Overriding of category settings via metro comandline settings is not 
-      supported at this time.  While the commandline handler does pass a 
-      categories configuration uri to the ComponentAdapter, the adapter 
-      does not currently support this feature.  A second issue relates to
-      non-assignment of logging category targets within the runtime 
-      DefaultComponentHandler.
-      </p>
 
     </section>
 

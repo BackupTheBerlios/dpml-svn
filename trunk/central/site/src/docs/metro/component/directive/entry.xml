@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Entry Datatype</title>
+    <title>DPML Metro: Entry Directive</title>
   </properties> 
 
   <body>
 
-    <section name="Entry">
+    <section name="Entry Directive">
 
       <subsection name="Description">
 
@@ -78,7 +78,7 @@
 
         <table>
           <tr>
-            <td><tt><a href="values.html">param</a></tt></td>
+            <td><tt><a href="value.html">param</a></tt></td>
             <td>The entry element may contain 0..n nested &lt;param&gt; directives.
               A param directive allows in-line construction of operation parameters,
               array entries, or constructor arguments.  Nested params may not be used in 

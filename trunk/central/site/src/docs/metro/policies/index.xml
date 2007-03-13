@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Deployment Solutions</title>
+  </properties> 
+
+  <body>
+
+    <section name="Runtime Policies">
+    
+      <p>
+      Metro component runtime behaviour is governed by three policies.  These 
+      policies deal with <a href="activation.html">activation</a> behaviour, the 
+      component <a href="lifestyle.html">lifestyle</a> (controlling
+      decisions as to when a new instance of a component is required), and garbage 
+      <a href="collection.html">collection</a> policies (controlling the strength 
+      of internal references between a component model and its instances).
+      Runtime policies may be declared via class 
+      <a href="../component/annotation/index.html">annotations</a> or through related 
+      attributes in packaged <a href="../component/profile/index.html">profiles</a> 
+      or <a href="../component/directive/index.html">component directives</a>. 
+      </p>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -34,7 +34,7 @@
       block, an object deployment strategy, and a classloader chain.  The information 
       block declares a title and a description.  The deployment strategy is defined as 
       any element extending the <tt>StrategyType</tt> schema definition (the most typical 
-      being the <a href="../directives/component/index.html"> Metro component strategy</a>).  
+      being the <a href="../component/directive/index.html"> Metro component strategy</a>).  
       The third element in a part definition is a deployment classpath which is composed 
       of a public, protected, and private classloader definitions that are used to 
       establish a classloader chain relative to the current context classloader.

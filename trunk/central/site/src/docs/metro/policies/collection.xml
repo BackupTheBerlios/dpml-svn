@@ -20,15 +20,15 @@
       </p>
 
       <table>
-
+        
         <tr>
           <th>Policy</th><th>Description</th>
         </tr>
 
         <tr>
           <td><tt>HARD</tt></td>
-          <td>The <tt>HARD</tt> ensures that an instance reference will 
-          be maintained for the life of the runtime unless explicitly 
+          <td>The default <tt>HARD</tt> policy ensures that an instance reference will 
+          be maintained for the life of the enclosing component model unless explicitly 
           destroyed as a result of container shutdown or management request.
           The <tt>HARD</tt> collection policy should not be used in 
           conjunction with <tt>TRANSIENT</tt> lifestyle.
@@ -51,16 +51,12 @@
 
       <subsection name="Default Policy">
 
-        <p>
-          A special collection policy named <tt>SYSTEM</tt> is used
-          to delegate the selection of a collection policy to the 
-          container. If no explicit collection policy is nominated
-          by a component the <tt>SYSTEM</tt> policy will be asserted.
-          The default behaviour of the runtime is to assign the 
-          <tt>HARD</tt> collection policy to top-level components and 
-          the <tt>SOFT</tt> policy to subsidiary instances.
-        </p>
-
+      <p>
+      Unless an alternative collection policy is declared as an annotation or as 
+      a feature of a packaged profile, or a feature of a strategy declaration, 
+      the <tt>HARD</tt> collection policy is assumed.
+      </p>
+      
       </subsection>
 
     </section>
