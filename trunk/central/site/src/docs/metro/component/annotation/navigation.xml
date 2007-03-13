@@ -26,7 +26,7 @@
 
     <menu>
       <item name="Activation" href="activation.html"/>
-      <item name="Component" href="main.html"/>
+      <item name="Component" href="component.html"/>
       <item name="Context" href="context.html"/>
       <item name="Parts" href="parts.html"/>
       <item name="Services" href="services.html"/>

@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Component Type - Trigger Element</title>
+    <title>DPML Metro Lifecycle Trigger Descriptors</title>
   </properties> 
 
   <body>
 
-    <section name="Trigger Element">
+    <section name="Trigger Descriptors">
 
       <subsection name="Description">
 

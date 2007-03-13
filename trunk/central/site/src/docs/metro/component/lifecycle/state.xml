@@ -4,7 +4,7 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Component Type State Datatype</title>
+    <title>DPML Metro Lifecycle State Descriptor</title>
   </properties> 
 
   <body>

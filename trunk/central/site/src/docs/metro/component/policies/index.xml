@@ -4,7 +4,7 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Deployment Solutions</title>
+    <title>DPML Metro Runtime Policies</title>
   </properties> 
 
   <body>
@@ -19,9 +19,9 @@
       <a href="collection.html">collection</a> policies (controlling the strength 
       of internal references between a component model and its instances).
       Runtime policies may be declared via class 
-      <a href="../component/annotation/index.html">annotations</a> or through related 
-      attributes in packaged <a href="../component/profile/index.html">profiles</a> 
-      or <a href="../component/directive/index.html">component directives</a>. 
+      <a href="../annotation/index.html">annotations</a> or through related 
+      attributes in packaged <a href="../profile/index.html">profiles</a> 
+      or <a href="../directive/index.html">component directives</a>. 
       </p>
 
     </section>

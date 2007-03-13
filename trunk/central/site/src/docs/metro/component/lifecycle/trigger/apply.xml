@@ -4,12 +4,12 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro Apply Datatype</title>
+    <title>DPML Metro Apply Descriptor</title>
   </properties> 
 
   <body>
 
-    <section name="Apply Datatype">
+    <section name="Apply Descriptor">
 
       <subsection name="Description">
 
