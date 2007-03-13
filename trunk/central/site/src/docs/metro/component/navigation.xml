@@ -27,7 +27,7 @@
     <menu>
       <item name="Component Annotations" href="annotation/index.html"/>
       <item name="Component Directives" href="directive/index.html"/>
-      <item name="Lifecycle Graph" href="state/index.html"/>
+      <item name="Lifecycle Graph" href="lifecycle/index.html"/>
       <item name="Packaged Profiles" href="profile/index.html"/>
     </menu>
 
