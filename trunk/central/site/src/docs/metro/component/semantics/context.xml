@@ -12,10 +12,157 @@
     <section name="Component Context">
     
       <p>
+      Under Metro all dependencies of a component are expressed using 
+      a context interface.  The Metro runtime will evaluate the interface,
+      build an implementation, and populate the implementation taking into
+      account data supplied under a deployment directive, together with
+      datatype and option/required status of respective context entries.
       </p>
       
-    </section>
+      <subsection name="Key Terms">
+      
+        <table>
+          <tr>
+            <td>context</td>
+            <td>an interface (or implementation) referenced as a component 
+            constructor parameter defining the dependencies (resources and 
+            services) that a component has on its environment</td>
+          </tr>
+          <tr>
+            <td>entry</td>
+            <td>a context interface is composed of a series of accessor
+            methods - each method reflects the entry name plus the "get" 
+            prefix</td>
+          </tr>
+          <tr>
+            <td>nesting</td>
+            <td>a nested context is a context entry that has a return type
+            that is a context interface</td>
+          </tr>
+          <tr>
+            <td>annotation</td>
+            <td>an annotation used to mark an interface as compliant with 
+            the context contract</td>
+          </tr>
+          <tr>
+            <td>contract</td>
+            <td>the rules and constraints applicable to a context interface
+            (see below)</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Context Contract">
+      
+        <p>
+        A context interface is identfied using either of the following:
+        </p>
+        
+        <ol>
+          <li>Explicit assertion using the <a href="../annotation/context.html">
+          context annotation</a> marker.</li>
+          <li>Implicitly resolved by locating an inner interface with the 
+          target component class named <tt>Context</tt>.</li>
+        </ol>
+        
+        <p>
+        The context interface may declare 0 or more accessor methods (subject to the 
+        following constraints) where each method establishes a logical context entry.
+        </p>
+        
+        <ol>
+          <li>A method may not declare the <tt>void</tt> return type (the Metro
+          runtime fully supports primative, complex, and array return types).</li>
+          <li>An entry method with zero parameters is deemed to be a required entry.</li>
+          <li>Entry methods declaring a single parameter are deemed to be optional 
+          entries.  The parameter type of an optional entry must be assignable to the 
+          method return type.</li>
+          <li>Entry methods may not declare exceptions.</li>
+        </ol>
+        
+        <p>
+        Each method signature is used to resolve the following feature of the respective context 
+        entry
+        </p>
 
+        <table>
+          <tr>
+            <td>name</td>
+            <td>resolved using Java Bean method naming conventions
+            (i.e. a method named <tt>getKeystore</tt> identifies an entry named "keystore")</td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td>the method return type identified the class of the object associated
+            with the context entry</td>
+          </tr>
+          <tr>
+            <td>optional</td>
+            <td>the optional or required status of the entry is resolved by the presence or
+            absence of a method parameter - if the method takes a single parameter, the entry is 
+            classed as optional, whereas a method without a parameter is classes as a 
+            non-optional entry</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Separation of requirements from solutions">
+      
+        <p>
+        Context interface declare the dependencies that a component
+        has on its environment.  The solution to these dependecy constraints 
+        are handled via <a href="../profile/index.html">packaged profiles</a>
+        and/or independent <a href="../directive/index.html">deployment directives</a>.
+        </p>
+        
+      </subsection>
+    
+    </section>
+    
+    <section name="Examples">
+    
+      <subsection name="Simple Example">
+      
+        <p>
+        The following example demonstrates the declaration of a context via
+        the implicit inner-interface pattern (i.e. an inner interface named Context).
+        The context interface declare four entries - "count", "label", 
+        "backgroundColor" and "gizmo".  The count and gizmo entries are non-optional 
+        whereas the remaining two entries are classes as optional. At runtime a 
+        container is required to construct and populate the supplied context implementation 
+        ensuring that all non-optional entries have resolvable values.  A container may 
+        provide values for non-optional entries, however client code may assume that client 
+        supplied argument may be returned back to the client.
+        </p>
+      
+<pre>
+public class Widget
+{
+    <font color="darkred">public interface Context
+    {
+        int getCount();
+        String getLabel( String value );
+        Color getBackgroundColor( Color color );
+        Gizmo getGizmo();
+    }</font>
+    
+    public Widget( <font color="blue">final Context context</font> )
+    {
+        int count = context.getCount();
+        String label = context.getLabel( "Hello" );
+        Color color = context.getBackgroundColor( Color.RED );
+        
+        ...
+        
+    }
+}</pre>
+    
+      </subsection>
+      
+    </section>
+    
   </body>
 
 </document>
