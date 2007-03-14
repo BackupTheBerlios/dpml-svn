@@ -11,6 +11,41 @@
 
     <section name="Context Annotation">
 
+      <p>
+      The Context annotation is used to mark an interface as compliant
+      with the DPML Metro <a href="../semantics/context.html">Context</a> 
+      contract.  During runtime evaluation of a class, the Metro system 
+      evaluates constructor arguments and builds solutions based on supplied 
+      deployment directives.  During this process a constructor parameter may 
+      be evaluated to determin if it is a context-compliant interface. If no 
+      supporting annotation is present and the interface is an inner class of 
+      the component named <tt>Context</tt>, the runtime will assume that the 
+      interface is a context definition.  While this pattern-based approach covers
+      the majority of needs, there are circumstances where it is convinient
+      to declare some other interface as the context definition.  The 
+      context annotation provides this additional flexibility.
+      </p>
+
+      <subsection name="Sample Code">
+      
+        <p>
+        The following code declares that an interface is a context contract.
+        </p>
+        
+        <pre>
+import net.dpml.annotation.Context;
+    
+<font color="darkred">@Context</font>
+public interface Configuration
+{
+    int getCount();
+    Color getBackground( Color color );
+    ...
+    
+}</pre>
+        
+      </subsection>
+
     </section>
 
   </body>

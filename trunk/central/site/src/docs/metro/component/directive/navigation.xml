@@ -26,7 +26,7 @@
 
     <menu>
       <item name="Component" href="component.html"/>
-      <item name="Categories" href="categories.html"/>
+      <!--<item name="Categories" href="categories.html"/>-->
       <item name="Context" href="context.html"/>
       <item name="Entry" href="entry.html"/>
       <item name="Param" href="value.html"/>

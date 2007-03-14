@@ -82,12 +82,14 @@
       <subsection name="Nested Elements">
 
         <table>
+          <!--
           <tr>
             <td><tt><a href="categories.html">categories</a></tt></td>
             <td>The categories element may contain 0..n logging &lt;category&gt; directives.
               A category directive allows assignment of initial channel priorities and 
               targets.</td>
           </tr>
+          -->
           <tr>
             <td><tt><a href="context/index.html">context</a></tt></td>
             <td>Declaration of the component initial context state.</td>

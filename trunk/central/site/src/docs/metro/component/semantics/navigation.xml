@@ -25,9 +25,9 @@
  <body>
 
     <menu>
-      <item name="Logging" href="logging.html"/>
-      <item name="Context" href="context.html"/>
-      <item name="Parts" href="parts.html"/>
+      <item name="Logging Channels" href="logging.html"/>
+      <item name="Context Management" href="context.html"/>
+      <item name="Internal Parts" href="parts.html"/>
     </menu>
 
  </body>

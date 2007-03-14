@@ -27,10 +27,10 @@
     <menu>
       <item name="Annotations" href="annotation/index.html"/>
       <item name="Runtime Policies" href="policies/index.html"/>
-      <item name="Lifecycle Graphs" href="lifecycle/index.html"/>
       <item name="Component Semantics" href="semantics/index.html"/>
       <item name="Component Directives" href="directive/index.html"/>
       <item name="Packaged Profiles" href="profile/index.html"/>
+      <item name="Lifecycle Graphs" href="lifecycle/index.html"/>
     </menu>
 
  </body>

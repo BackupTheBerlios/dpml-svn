@@ -12,7 +12,15 @@
     <section name="Component Semantics">
     
       <p>
+      The Metro component model is based on a set of passive patterns dealing with 
+      the following principal concerns:
       </p>
+      
+      <ol>
+        <li>assignment of a <a href="logging.html">logging</a> channel</li>
+        <li>population and delivery of a <a href="context.html">runtime context</a></li>
+        <li>construction of internal <a href="parts.html">parts</a></li>
+      </ol>
       
     </section>
 

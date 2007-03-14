@@ -10,6 +10,59 @@
   <body>
 
     <section name="Activation Annotation">
+    
+      <p>
+      The Activation annotation associates an <a href="../policies/activation.html">
+      activation policy</a> with a component class.  The activation policy is typically
+      used to declare that a component should be commissioned on startup as opposed 
+      to the default on-demand commissioning strategy.
+      </p>
+
+      <subsection name="Attribute Table">
+      
+        <table>
+          <tr>
+            <td>value</td>
+            <td>The activation policy value.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Sample Code">
+      
+        <p>
+        The following code declares an overriding activation policy of <tt>STARTUP</tt>
+        to the component class <tt>EventMonitor</tt>.
+        </p>
+        
+        <pre>
+import net.dpml.annotation.Activation;
+    
+import static net.dpml.annotation.ActivationPolicy.STARTUP;
+        
+<font color="darkred">@Activation( value=STARTUP )</font>
+public class EventMonitor
+{
+    ...
+}</pre>
+        
+      </subsection>
+
+      <subsection name="Technical Note">
+      
+        <p>
+        Generall speaking the default behaviour of <tt>DEMAND</tt> activation is 
+        sufficient and overriding the default value is rare.
+        </p>
+        
+        <p>
+        The activation policy associated with a component (either via defaults or
+        through an explicit annotation) may be overriden by a packaged or part-based
+        component strategy using the <tt>activation</tt> attribute.
+        </p>
+        
+      </subsection>
 
     </section>
 

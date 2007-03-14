@@ -19,16 +19,14 @@
       </p>
       
       <ol>
+        <li>class level <a href="annotation/index.html">annotations</a> that  
+            associate runtime policies and supporting metadata with a class</li>
         <li>runtime <a href="policies/index.html">policies</a> dealing with 
             activation, instantiation, and garbage collection</li>
         <li>formal <a href="semantics/index.html">semantics</a> and patterns 
-            through which a class can declare a runtime 
-            <a href="semantics/context.html">context</a> (including 
-            service and resource dependencies), and the internal 
-            <a href="semantics/parts.html">parts</a> defining a component 
-            structure</li>
-        <li>class level <a href="annotation/index.html">annotations</a> that  
-            associate runtime policies and supporting metadata with a class</li>
+            through which a class can declare dependencies and structure</li>
+        <li>formal specification of a deployment and decommissioning 
+        <a href="lifecycle/index.html">lifecycle</a></li>
         <li>packaged default deployment <a href="profile/index.html">profiles</a></li>
         <li>url resolvable deployment <a href="profile/index.html">directives</a></li>
       </ol>
