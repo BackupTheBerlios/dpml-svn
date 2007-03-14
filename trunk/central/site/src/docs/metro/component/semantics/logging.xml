@@ -12,9 +12,128 @@
     <section name="Logging Channels">
     
       <p>
+      The effectivness of logging information is directly related to 
+      category naming and utilization of priorities.  The Metro system
+      encorages the usage of logging hierachies constructed relative
+      to component names (as opposed to static category names).  For example, 
+      a top level component named "server" may have child component named
+      "demo" and "hello" - the logging channel assigned to the server will
+      have the logging category name "server" and the respective child 
+      components will be assigned logging channels with the names "service.hello"
+      and "server.demo".  Implemeting this approach requires that logging channels
+      are supplied to a component (or more specifically - components should not 
+      create their own top-level or statically named logging channels).
       </p>
+      
+      <subsection name="Supported Logging Classes">
+      
+        <p>
+        During deployment the metro runtime will evaluate constructor parameters.
+        If an parameter class is equal any of the following log channel classes, 
+        an appropriate instance will be provided by the container with a category 
+        name corresponding to the component fully-qualified path:
+        </p>
+        
+        <ul>
+          <li>java.util.logging.Logger</li>
+          <li>net.dpml.util.Logger</li>
+        </ul>
+        
+      </subsection>
+    
+      <subsection name="DPML Logger convinience class">
+      
+        <p>
+        The <tt>net.dpml.util.Logger</tt> class is a convinience class that 
+        simply wraps an underlying <tt>java.util.logging.Logger</tt> instance. 
+        It provides support for log-level testing (e.g. logger.isDebugEnabled(),
+        level oriented log emitter operations (e.g. logger.debug( "..." )), and
+        the creation of new subsidiary logging channels.  More importantly, the 
+        class does not expose any operations dealing with channel priority, naming, 
+        or other associated management operations (as these are concerns that should
+        not be exposed to individual components).
+        </p>
+        
+        <p>
+        The following table summarises the logging priority names used in the 
+        DPML Logger and their mapping to the underlying Java Logger priorities.
+        </p>
+        
+        <table>
+          <tr>
+            <td><i>DPML Level</i></td>
+            <td><i>Java Logger Level</i></td>
+            <td><i>Recommended Usage</i></td>
+          </tr>
+          <tr>
+            <td>ERROR</td>
+            <td>SEVERE</td>
+            <td>Notification of a error.</td>
+          </tr>
+          <tr>
+            <td>WARNING</td>
+            <td>WARNING</td>
+            <td>Notification of a non-critical warning.</td>
+          </tr>
+          <tr>
+            <td>INFO</td>
+            <td>INFO</td>
+            <td>Notification of significant application event.</td>
+          </tr>
+          <tr>
+            <td>DEBUG</td>
+            <td>FINE</td>
+            <td>Notification of internal event.</td>
+          </tr>
+          <tr>
+            <td>TRACE</td>
+            <td>FINER</td>
+            <td>Fine-grain notification of an internal event.</td>
+          </tr>
+        </table>
+        
+      </subsection>
     
     </section>
+
+    <section name="Examples">
+    
+      <subsection name="Example using java.util.logging.Logger">
+      
+<pre>
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+public class Widget
+{
+    public Widget( Logger logger )
+    {
+        if( logger.isLoggable( Level.INFO ) )
+        {
+            logger.info( "Hello!" );
+        }
+    }
+}</pre>      
+      </subsection>
+      
+      <subsection name="Example using net.dpml.util.Logger">
+      
+<pre>import net.dpml.util.Logger;
+
+public class Widget
+{
+    public Widget( Logger logger )
+    {
+        if( logger.isInfoEnabled() )
+        {
+            logger.info( "Hello!" );
+        }
+    }
+}</pre>
+      </subsection>
+      
+    </section>
+    
 
   </body>
 
