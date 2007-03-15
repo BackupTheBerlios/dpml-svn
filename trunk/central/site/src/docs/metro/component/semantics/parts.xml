@@ -12,6 +12,27 @@
     <section name="Component Parts">
     
       <p>
+      The DPML runtime differentials between services and resources supplied
+      to a component as opposed to the internal collection of components that
+      collectively define the enclosing component. In effect context information
+      deals with existing resources supplied to a component to fulfill its 
+      runtime dependencies, wheras the parts of a component deal with the 
+      structal composition of a componet.  In technical terms - the parts of a 
+      component can be viewed as strongly aggregated subsidiary component (i.e
+      the destruction of the enclosing component implies the destruction of the 
+      enclosed components).
+      </p>
+      
+      <p>
+      The Metro runtime provides support for the (a) a component's declaration of 
+      the internal components it is managing, (b) the framework for internal
+      component assignment, and (c) component access in a container independent 
+      fashion. Declaration of internal stucture presumptions is achieved though 
+      a <tt>Parts</tt> interface contract.  Internal part composition criteria is
+      declared via a constructor parameter that is recognized as a parts interface.
+      Metro provides annotations enabling the delcatration of an interface as compliant
+      with the parts contract model, togeyther with pattern-based recognition of 
+      an inner-interface named <tt>Parts</tt> relative to the target component class.
       </p>
       
     </section>

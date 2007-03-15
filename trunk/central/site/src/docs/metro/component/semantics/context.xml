@@ -62,7 +62,7 @@
         <ol>
           <li>Explicit assertion using the <a href="../annotation/context.html">
           context annotation</a> marker.</li>
-          <li>Implicitly resolved by locating an inner interface with the 
+          <li>Implicitly resolved by locating an inner interface within the 
           target component class named <tt>Context</tt>.</li>
         </ol>
         
@@ -108,13 +108,16 @@
         
       </subsection>
       
-      <subsection name="Separation of requirements from solutions">
+      <subsection name="Technical Note">
       
         <p>
-        Context interface declare the dependencies that a component
-        has on its environment.  The solution to these dependecy constraints 
-        are handled via <a href="../profile/index.html">packaged profiles</a>
-        and/or independent <a href="../directive/index.html">deployment directives</a>.
+        A Context interface declares the dependencies that a component
+        has on its environment.  The solution to these dependency constraints 
+        is a function of the container implementation.  The Metro runtime
+        provides services supporting preconfigured 
+        <a href="../profile/index.html">packaged profiles</a> combined with
+        url based <a href="../directive/index.html">deployment directives</a>
+        as the default DPML deployment solution.
         </p>
         
       </subsection>
