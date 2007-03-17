@@ -201,11 +201,11 @@ final class PartsInvocationHandler implements InvocationHandler
     {
         if( null == args )
         {
-            throw new NullPointerException( "args" ); // will not happen
+            throw new NullPointerException( "args/1" ); // will not happen
         }
         else if( args.length == 0 )
         {
-            throw new IllegalArgumentException( "args" ); // will not happen
+            throw new IllegalArgumentException( "args/2" ); // will not happen
         }
         else
         {
