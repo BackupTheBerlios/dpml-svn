@@ -25,6 +25,28 @@
       create their own top-level or statically named logging channels).
       </p>
       
+      <p>
+      The following sample code demonstrates the appraoch to logging channel 
+      delivery - the component declares a logging channel as one of possibly 
+      multiple constructor argument and the container an appropriately configured
+      channel.
+      </p>
+       
+<pre>
+<font color="darkred">import java.util.logging.Logger;
+import java.util.logging.Level;</font>
+
+public class Widget
+{
+    public Widget( <font color="blue">final Logger logger</font> )
+    {
+        if( logger.isLoggable( Level.INFO ) )
+        {
+            logger.info( "Hello!" );
+        }
+    }
+}</pre>      
+
       <subsection name="Supported Logging Classes">
       
         <p>
@@ -53,6 +75,23 @@
         or other associated management operations (as these are concerns that should
         not be exposed to individual components).
         </p>
+        
+        <p>
+        The following code sample demonstrates a component using the DPML Logger.
+        </p>
+
+<pre><font color="darkred">import net.dpml.util.Logger;</font>
+
+public class Widget
+{
+    public Widget( <font color="blue">final Logger logger</font> )
+    {
+        if( logger.isInfoEnabled() )
+        {
+            logger.info( "Hello!" );
+        }
+    }
+}</pre>
         
         <p>
         The following table summarises the logging priority names used in the 
@@ -96,44 +135,15 @@
     
     </section>
 
+    <!--
     <section name="Examples">
     
-      <subsection name="Example using java.util.logging.Logger">
-      
-<pre>
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
-public class Widget
-{
-    public Widget( Logger logger )
-    {
-        if( logger.isLoggable( Level.INFO ) )
-        {
-            logger.info( "Hello!" );
-        }
-    }
-}</pre>      
-      </subsection>
-      
       <subsection name="Example using net.dpml.util.Logger">
       
-<pre>import net.dpml.util.Logger;
-
-public class Widget
-{
-    public Widget( Logger logger )
-    {
-        if( logger.isInfoEnabled() )
-        {
-            logger.info( "Hello!" );
-        }
-    }
-}</pre>
       </subsection>
       
     </section>
-    
+    -->
 
   </body>
 

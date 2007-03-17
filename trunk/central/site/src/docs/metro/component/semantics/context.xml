@@ -18,6 +18,44 @@
       account data supplied under a deployment directive, together with
       datatype and option/required status of respective context entries.
       </p>
+
+      <!--<subsection name="Simple Example">-->
+      
+        <p>
+        The following example demonstrates the declaration of a context via
+        the implicit inner-interface pattern (i.e. an inner interface named Context).
+        The context interface declare four entries - "count", "label", 
+        "backgroundColor" and "gizmo".  The count and gizmo entries are non-optional 
+        whereas the remaining two entries are classes as optional. At runtime a 
+        container is required to construct and populate the supplied context implementation 
+        ensuring that all non-optional entries have resolvable values.  A container may 
+        provide values for non-optional entries, however client code may assume that client 
+        supplied argument may be returned back to the client.
+        </p>
+      
+<pre>
+public class Widget
+{
+    <font color="darkred">public interface Context
+    {
+        int getCount();
+        String getLabel( String value );
+        Color getBackgroundColor( Color color );
+        Gizmo getGizmo();
+    }</font>
+    
+    public Widget( <font color="blue">final Context context</font> )
+    {
+        int count = context.getCount();
+        String label = context.getLabel( "Hello" );
+        Color color = context.getBackgroundColor( Color.RED );
+        
+        ...
+        
+    }
+}</pre>
+    
+      <!--</subsection>-->
       
       <subsection name="Key Terms">
       
@@ -124,47 +162,12 @@
     
     </section>
     
+    <!--
     <section name="Examples">
     
-      <subsection name="Simple Example">
-      
-        <p>
-        The following example demonstrates the declaration of a context via
-        the implicit inner-interface pattern (i.e. an inner interface named Context).
-        The context interface declare four entries - "count", "label", 
-        "backgroundColor" and "gizmo".  The count and gizmo entries are non-optional 
-        whereas the remaining two entries are classes as optional. At runtime a 
-        container is required to construct and populate the supplied context implementation 
-        ensuring that all non-optional entries have resolvable values.  A container may 
-        provide values for non-optional entries, however client code may assume that client 
-        supplied argument may be returned back to the client.
-        </p>
-      
-<pre>
-public class Widget
-{
-    <font color="darkred">public interface Context
-    {
-        int getCount();
-        String getLabel( String value );
-        Color getBackgroundColor( Color color );
-        Gizmo getGizmo();
-    }</font>
-    
-    public Widget( <font color="blue">final Context context</font> )
-    {
-        int count = context.getCount();
-        String label = context.getLabel( "Hello" );
-        Color color = context.getBackgroundColor( Color.RED );
-        
-        ...
-        
-    }
-}</pre>
-    
-      </subsection>
       
     </section>
+    -->
     
   </body>
 

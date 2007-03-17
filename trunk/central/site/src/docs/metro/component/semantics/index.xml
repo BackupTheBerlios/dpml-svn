@@ -12,18 +12,53 @@
     <section name="Component Semantics">
     
       <p>
-      The Metro component model is based on a set of passive patterns dealing with 
-      the following principal concerns:
+      The Metro component model separates the specification of strong and weak 
+      aggregation relationships of a component using two pattern-based interfaces.
+      A <tt>Context</tt> interface is used by a component to declare dependencies
+      wheras the internal structure of a component may be declared under a 
+      <tt>Parts</tt> interface. In addition Metro supports the recognition of 
+      logging channel parameter types .
       </p>
       
-      <ol>
-        <li>assignment of a <a href="logging.html">logging</a> channel</li>
-        <li>population and delivery of a <a href="context.html">runtime context</a></li>
-        <li>construction of internal <a href="parts.html">parts</a></li>
-      </ol>
+      <p>
+      The following table lists the primary constructor parameter types:
+      </p>
+      
+      <table>
+        <tr>
+          <td><a href="logging.html">logging</a></td>
+          <td>a logging channel supplied to the component by the container 
+              using a category name corresponding to the fully qualified path 
+              of the component
+           </td>
+        </tr>
+        <tr>
+          <td><a href="context.html">context</a></td>
+          <td>dependent services and resources managed by the container
+              where the relationship between the supplied service and resource 
+              and the consumer component is one of weak aggregation
+              (destruction of the component does not imply destruction of 
+              the services and resources it is consuming)</td>
+        </tr>
+        <tr>
+          <td><a href="parts.html">parts</a></td>
+          <td>a collection of components managed by the enclosing component
+              where the relationship between the enclosing component and 
+              enclosed components is one of strong aggregation (destruction
+              of the enclosing component implies distruction of all 
+              enclosed components)</td>
+        </tr>
+      </table>
+      
+      <p>
+      If a constructor parameter type is not resolved relative to the above aspects, 
+      the Metro will attempt to resolve a service assignable to the parameter type
+      taking into account the services published by peer components relative to 
+      the enclosing component. 
+      </p>
       
     </section>
-
+      
   </body>
 
 </document>
