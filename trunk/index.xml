@@ -29,6 +29,7 @@
     <properties>
       <property name="java.util.logging.config.class" value="dpml"/>
       <property name="project.javadoc.linksource" value="true"/>
+      <property name="project.javadoc.excludes" value="org/**,dpml/**"/>
     </properties>
     
     <types>
@@ -48,15 +49,19 @@
     <module file="depot/module.xml"/>
     
   </module>
-    
+  
+  <!--
   <module name="dpmlx">
     <filters>
       <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
       <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
       <feature token="PROJECT-VERSION" id="version"/> 
     </filters>
+    
     <module file="tutorials/module.xml"/>
     <module file="central/module.xml"/>
+    
   </module>
+  -->
   
 </index>

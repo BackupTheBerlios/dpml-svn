@@ -20,7 +20,6 @@
   <project name="site" basedir="site">
     <dependencies>
       <build>
-        <include ref="dpmlx/tutorials"/>
         <include key="apis"/>
       </build>
     </dependencies>

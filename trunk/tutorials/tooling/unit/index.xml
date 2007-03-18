@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <index xmlns="dpml:library">
 
-  <project name="demo" basedir=".">
-    <properties>
-      <property name="location" value="New York"/>
-      <property name="message" value="Hello from ${user.name} in ${location}"/>
-    </properties>
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <test>
-        <include uri="artifact:jar:org/apache/ant/ant#1.7.0"/>
-        <include uri="artifact:jar:org/apache/ant/ant-junit#1.7.0"/>
-        <include uri="artifact:jar:junit/junit#4.2"/>
-      </test>
-    </dependencies>
-    <filters>
-      <filter token="MESSAGE" value="${message}"/>
-    </filters>
-  </project>
+  <project file="project.xml">
 
 </index>

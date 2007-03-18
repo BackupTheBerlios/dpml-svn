@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<project default="install"
-    xmlns:x="antlib:dpml.tools">
-
-  <x:import uri="local:template:dpml/tools/standard"/>
-
-</project>

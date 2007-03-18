@@ -1,1 +1,0 @@
-The component defintion we use as the base for subsequent customization.

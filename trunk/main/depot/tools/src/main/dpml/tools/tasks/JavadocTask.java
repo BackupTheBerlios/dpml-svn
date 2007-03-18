@@ -217,7 +217,7 @@ public class JavadocTask extends ResourceTask
             return m_dest;
         }
     }
-
+    
     //-----------------------------------------------------------------------
     // internal
     //-----------------------------------------------------------------------
@@ -349,15 +349,18 @@ public class JavadocTask extends ResourceTask
     private String getPackageExcludes()
     {
         Resource resource = getResource();
-        return getProperty( JAVADOC_EXCLUDES, null );
+        return getPackageExcludes( resource );
+    }
+    
+    private String getPackageExcludes( Resource resource )
+    {
+        return resource.getProperty( JAVADOC_EXCLUDES, null );
     }
 
     private void addSourcePath( Resource resource, Javadoc javadoc, Path source )
     {
-        String excludes = getPackageExcludes();
-        
         //
-        // check for a classic src directory
+        // handle the target resource
         //
 
         if( null != resource.getBaseDir() )
@@ -370,6 +373,7 @@ public class JavadocTask extends ResourceTask
                 final DirSet packages = new DirSet();
                 packages.setDir( src );
                 packages.setIncludes( "**/*" );
+                String excludes = getPackageExcludes( resource );
                 if( null != excludes )
                 {
                     packages.setExcludes( excludes );
@@ -377,6 +381,8 @@ public class JavadocTask extends ResourceTask
                 javadoc.addPackageset( packages );
             }
         }
+        
+        // add providers
         
         String path = resource.getResourcePath();
         Resource[] providers = resource.getAggregatedProviders( Scope.RUNTIME, true, false );
@@ -399,7 +405,7 @@ public class JavadocTask extends ResourceTask
                             final DirSet packages = new DirSet();
                             packages.setDir( src );
                             packages.setIncludes( "**/**" );
-                            //String excludes = getPackageExcludes( provider );
+                            String excludes = getPackageExcludes( provider );
                             if( null != excludes )
                             {
                                 packages.setExcludes( excludes );

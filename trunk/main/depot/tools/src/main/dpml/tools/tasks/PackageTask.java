@@ -76,6 +76,15 @@ public class PackageTask extends GenericTask
         Resource resource = context.getResource();
         
         Type[] types = resource.getTypes();
+        //if( types.length == 0 )
+        //{
+        //    log( "build target ["
+        //      + resource
+        //      + "] in ["
+        //      + resource.getBaseDir()
+        //      + "] does not declare any type production rules" );
+        //}
+        
         for( Type type : types )
         {
             build( project, context, resource, type );
@@ -143,6 +152,7 @@ public class PackageTask extends GenericTask
     private void build( Project project, Context context, Resource resource, Type type )
     {
         String id = type.getID();
+        log( "building artifact: " + id );
         if( "jar".equals( id ) )
         {
             File base = context.getTargetClassesMainDirectory();

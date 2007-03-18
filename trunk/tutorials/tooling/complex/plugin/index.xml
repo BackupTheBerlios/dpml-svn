@@ -6,30 +6,6 @@
     <import uri="link:module:dpml"/>
   </imports>
 
-  <module name="org/acme/plugin" basedir=".">
+  <module file="module.xml"/>
   
-    <project name="clock-api" basedir="api">
-      <types>
-        <type id="jar"/>
-      </types>
-    </project>
-    
-    <project name="clock-impl" basedir="impl">
-      <types>
-        <type id="jar"/>
-        <type id="part" source="target/plugin.xml"/>
-      </types>
-      <dependencies>
-        <runtime>
-          <include key="clock-api"/>
-          <include ref="dpml/metro/dpml-metro-part"/>
-        </runtime>
-        <test>
-          <include ref="org/apache/ant/ant-junit"/>
-        </test>
-      </dependencies>
-    </project>
-
-  </module>
-
 </index>

@@ -18,7 +18,7 @@
 
 package org.acme;
 
-import net.dpml.logging.Logger;
+import net.dpml.util.Logger;
 
 /**
  * A minimal component.

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="lifestyle">
+
+  <info title="DPML Metro Lifestyle Tutorial">
+    <description>Tutorial dealing with lifestyle semantics.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" source="target/component.xml"/>
+  </types>
+    
+  <dependencies>
+    <build>
+      <include key="lookup"/>
+    </build>
+    <runtime>
+      <include ref="dpml/metro/dpml-metro-part"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+    
+</project>
+

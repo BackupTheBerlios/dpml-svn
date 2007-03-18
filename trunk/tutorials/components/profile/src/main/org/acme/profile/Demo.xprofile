@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!-- 
+Declaration of packaged defaults for the demo component.
+-->
+
+<profile xmlns="dpml:metro" lifestyle="singleton">
+  <context>
+    <entry key="firstName" value="Fred"/>
+    <entry key="lastName" value="Flintstone"/>
+  </context>
+</profile>
+

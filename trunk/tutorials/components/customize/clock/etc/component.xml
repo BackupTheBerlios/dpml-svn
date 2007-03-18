@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<component xmlns="dpml:metro" alias="true"
-    class="org.acme.clock.SimpleClock" name="clock">
-  <context>
-    <entry key="format" value="K:mm a, z"/>
-  </context>
-</component>

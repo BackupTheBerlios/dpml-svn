@@ -212,7 +212,43 @@
     </xslt>
   </target>
   
+  <target name="javadoc" depends="init">
+    <property name="api.path" location="${basedir}/target/docs/api/dpml/${project.version}"/>
+    <property name="javadoc.title" value="Digitial Product Management Laboratory (DPML) - SDK ${project.version}"/> 
+    <property name="project.javadoc.excludes" value="dpml,org"/> 
+    <mkdir dir="${api.path}"/>
+    <x:javadoc title="${javadoc.title}" 
+        Windowtitle="${javadoc.title}" 
+        access="protected"
+        dest="${api.path}">
+      <link href="http://java.sun.com/javase/6/docs/api"/>
+      <group title="Station">
+        <package name="net.dpml.appliance"/>
+        <package name="net.dpml.appliance.*"/>
+        <package name="net.dpml.station"/>
+        <package name="net.dpml.station.*"/>
+      </group>
+      <group title="Metro">
+        <package name="net.dpml.annotation"/>
+        <package name="net.dpml.lang"/>
+        <package name="net.dpml.lang.*"/>
+        <package name="net.dpml.runtime"/>
+        <package name="net.dpml.runtime.*"/>
+        <package name="net.dpml.state"/>
+      </group>
+      <group title="Utilities">
+        <package name="net.dpml.transit"/>
+        <package name="net.dpml.transit.*"/>
+        <package name="net.dpml.util"/>
+      </group>
+      <group title="Depot">
+        <package name="net.dpml.depot"/>
+        <package name="net.dpml.depot.*"/>
+      </group>
+    </x:javadoc>
+  </target>
 
+  <!--
   <target name="javadoc" depends="init">
     <property name="title" value="DPML SDK Version: ${project.version}"/>
     <x:javadoc title="${title}" 
@@ -239,5 +275,6 @@
       </group>
     </x:javadoc>
   </target>
+  -->
   
 </project>

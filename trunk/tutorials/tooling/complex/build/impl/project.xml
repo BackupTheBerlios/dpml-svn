@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="dpml:library" name="clock-impl">
+
+  <info title="DPML Multi-project Tutorial">
+    <description>Implementation project that references a dependency.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include key="clock-api"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </test>
+  </dependencies>
+  
+</project>
+

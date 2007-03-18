@@ -37,6 +37,7 @@
     <mkdir dir="${docs.dir}"/>
     <zip destfile="${docs.path}" duplicate="fail">
       <zipfileset dir="target/docs" prefix="share/docs"/>
+      <zipfileset dir="../../main/target/docs/api" prefix="share/docs/api"/>
     </zip>
     <checksum file="${docs.path}" fileext=".md5"/>
   </target>
@@ -55,69 +56,12 @@
   </target>
   -->
 
-  <target name="site" depends="docs,javadoc,junit-report,checkstyle">
+  <target name="site" depends="docs,junit-report,checkstyle">
     <x:docs dest="${dpml.data}/docs"/>
   </target>
   
   <target name="docs" depends="tutorials.prepare">
     <x:docs dest="${dpml.data}/docs"/>
-  </target>
-  
-  <target name="javadoc" depends="init">
-    <property name="api.path" location="${basedir}/target/docs/api/dpml/${dpml.module.version}"/>
-    <property name="javadoc.title" value="Digitial Product Management Laboratory (DPML) - SDK ${dpml.module.version}"/> 
-    <mkdir dir="${api.path}"/>
-    <x:javadoc title="${javadoc.title}" 
-        Windowtitle="${javadoc.title}" 
-        access="protected" ref="dpml"
-        dest="${api.path}">
-      <exclude name="dpml"/>
-      <exclude name="org.acme"/>
-      <link href="http://java.sun.com/javase/6/docs/api"/>
-      <group title="Station">
-        <package name="net.dpml.appliance"/>
-        <package name="net.dpml.appliance.*"/>
-        <package name="net.dpml.station"/>
-        <package name="net.dpml.station.*"/>
-      </group>
-      <group title="Metro">
-        <package name="net.dpml.annotation"/>
-        <package name="net.dpml.lang"/>
-        <package name="net.dpml.lang.*"/>
-        <package name="net.dpml.runtime"/>
-        <package name="net.dpml.runtime.*"/>
-        <package name="net.dpml.state"/>
-      </group>
-      <group title="Utilities">
-        <package name="net.dpml.transit"/>
-        <package name="net.dpml.transit.*"/>
-        <package name="net.dpml.util"/>
-      </group>
-      <group title="Depot">
-        <package name="net.dpml.depot"/>
-        <package name="net.dpml.depot.*"/>
-      </group>
-      <!--
-      <group title="Metro">
-        <package name="net.dpml.component"/>
-        <package name="net.dpml.metro"/>
-        <package name="net.dpml.metro.*"/>
-        <package name="net.dpml.state"/>
-      </group>
-      <group title="Station">
-        <package name="net.dpml.station"/>
-        <package name="net.dpml.station.*"/>
-      </group>
-      <group title="Planet">
-        <package name="net.dpml.http"/>
-        <package name="net.dpml.http.*"/>
-      </group>
-      <group title="Util">
-        <package name="dpml.cli"/>
-        <package name="dpml.cli.*"/>
-      </group>
-      -->
-    </x:javadoc>
   </target>
   
   <target name="junit-report" depends="init">
@@ -154,9 +98,13 @@
   
   <target name="tutorials.prepare" depends="standard.prepare">
 
+    <property name="central.dir" location="${basedir}/.."/>
+    <property name="tutorials.dir" location="${central.dir}/../tutorials"/>
+    <property name="tooling.dir" location="${tutorials.dir}/tooling"/>
+    <property name="components.dir" location="${tutorials.dir}/components"/>
+    
     <!-- tooling tutorial build content -->
 
-    <x:property name="tooling.dir" feature="basedir" ref="dpmlx/tutorials/tooling"/>
     <property name="plugin.src.dir" location="${tooling.dir}/complex/plugin"/>
     <property name="local.plugin.docs.dir" location="target/docs/depot/tutorials/plugin"/>
     <mkdir dir="${local.plugin.docs.dir}"/>
@@ -167,8 +115,6 @@
     </copy>
     
     <!-- component tutorial build content -->
-    
-    <x:property name="components.dir" feature="basedir" ref="dpmlx/tutorials/components"/>
     
     <property name="hello.src.dir" location="${components.dir}/hello"/>
     <property name="local.hello.docs.dir" location="target/docs/metro/tutorials/hello"/>

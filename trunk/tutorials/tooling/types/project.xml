@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="dpml:library" name="types">
+
+  <info title="DPML Symbolic Properties Tutorial">
+    <description>Demonstrating the usage of system and type production properties.</description>
+  </info>
+    
+  <properties>
+    <property name="location" value="New York"/>
+    <property name="message" value="Hello from ${user.name} in ${location}"/>
+  </properties>
+  
+  <types>
+    <type id="jar"/>
+  </types>
+  
+  <filters>
+    <filter token="MESSAGE" value="${message}"/>
+  </filters>
+  
+</project>
+

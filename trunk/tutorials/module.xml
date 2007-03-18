@@ -216,7 +216,9 @@
       </test>
     </dependencies>
   </project>
-    
+
+  <project file="profile/project.xml"/>
+
   </module>
     
 </module>

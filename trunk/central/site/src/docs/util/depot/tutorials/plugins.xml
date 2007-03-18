@@ -130,8 +130,8 @@
         </p>
         
     <pre>URI uri = new Uri( "artifact:part:org/acme/plugin/clock-impl#SNAPSHOT" );
-Part part = Part.load( uri );
-Clock clock = (Clock) part.getContent();
+URL url = uri.toURL();
+Clock clock = (Clock) url.getContent( new Class[]{ Clock.class } );
 String timestamp = clock.getTimestamp();</pre>
 
       </subsection>

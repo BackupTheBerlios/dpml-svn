@@ -6,23 +6,6 @@
     <import uri="link:module:dpml"/>
   </imports>
   
-  <project name="demo" basedir=".">
-    <properties>
-      <property name="location" value="New York"/>
-      <property name="message" value="Hello from ${user.name} in ${location}"/>
-    </properties>
-    <types>
-      <type id="jar"/>
-    </types>
-    <dependencies>
-      <test>
-        <include ref="org/apache/ant/ant-junit"/>
-        <include ref="dpml/transit/dpml-transit-main"/>
-      </test>
-    </dependencies>
-    <filters>
-      <filter token="MESSAGE" value="${message}"/>
-    </filters>
-  </project>
-
+  <project file="project.xml"/>
+  
 </index>

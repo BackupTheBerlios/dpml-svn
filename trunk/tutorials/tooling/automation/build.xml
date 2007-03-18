@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="demo" default="install"
-    xmlns:transit="antlib:dpml.tools.transit">
+<project name="demo" default="install" xmlns:x="antlib:dpml.tools">
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/tools/standard"/>
 
 </project>
