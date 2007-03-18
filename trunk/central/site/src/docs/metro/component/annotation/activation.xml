@@ -41,7 +41,7 @@ import net.dpml.annotation.Activation;
     
 import static net.dpml.annotation.ActivationPolicy.STARTUP;
         
-<font color="darkred">@Activation( value=STARTUP )</font>
+<font color="darkred">@Activation( STARTUP )</font>
 public class EventMonitor
 {
     ...
