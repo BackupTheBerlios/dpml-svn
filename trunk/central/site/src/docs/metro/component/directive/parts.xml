@@ -33,18 +33,25 @@
       
     </section>
 
-    <!--
     <section name="Example">
 
       <p>
-      The following component defines an HHTP server deployment profile.
+      The following XML fragment demonstrates a component directive containing a single nested part.
       </p>
 
-<source><![CDATA[
-]]></source>
+<pre>
+  &lt;component xmlns="dpml:metro" name="demo" class="org.acme.Demo"&gt;
+    <font color="darkred">&lt;parts&gt;</font>
+      &lt;component key="widget" name="widget" class="org.acme.Widget"&gt;
+        &lt;context&gt;
+          &lt;entry key="color" method="BLUE"/&gt;
+        &lt;/context&gt;
+      &lt;/component&gt;
+    <font color="darkred">&lt;/parts&gt;</font>
+  &lt;/component&gt;
+</pre>
 
     </section>
-    -->
     
   </body>
 

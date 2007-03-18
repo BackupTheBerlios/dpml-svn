@@ -80,16 +80,6 @@
 
     </section>
 
-    <section name="Technical Notes">
-    
-      <p>
-      The context descriptor class provides support for the declaration of 
-      an alternative context class hewever this feature is not currently 
-      supporting within the runtime.
-      </p>
-      
-    </section>
-
   </body>
 
 </document>
