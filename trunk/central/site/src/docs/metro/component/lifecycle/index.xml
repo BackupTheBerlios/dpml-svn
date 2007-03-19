@@ -23,6 +23,12 @@
       </ul>
       
       <p>
+      The declaration of a state transition model is handled though an XML document 
+      collocated with the component class using the <tt>[classname].xgraph</tt> filename
+      convention.
+      </p>
+      
+      <p>
       The initialization and termination phases can be expressed in terms of a 
       state-transition graph.  On initialization a component is establish in an 
       initial state.  That state may declare initialization transitions to be applied 
@@ -31,12 +37,6 @@
       transition from <tt>"initialized"</tt> to <tt>"started"</tt>.  Metro does not
       imply or assume any specific lifecycle interfaces - intead, we depend on the 
       component implementation to declare the state transition graph that it requires.
-      </p>
-      
-      <p>
-      The declaration of a state transition model is handled though an XML document 
-      collocated with the component class using the <tt>[classname].xgraph</tt> filename
-      convention.
       </p>
       
       <p>
