@@ -69,40 +69,32 @@
 
     <section name="Example">
 
-<source><![CDATA[
-<?xml version="1.0"?>
+<pre>&lt;state xmlns="dpml:state"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
 
-<type xmlns="link:xsd:dpml/metro/dpml-type#1.0">
+  &lt;trigger event="initialization"&gt;
+    &lt;transition name="start" target="started"&gt;
+      &lt;operation name="startup" method="start"/&gt;
+    &lt;/transition&gt;
+  &lt;/trigger&gt;
 
-  <info name="example"
-      class="net.dpml.test.ExampleComponent"
-      version="0.0.0"
-      lifestyle="thread"
-      collection="system"
-      threadsafe="unknown"/>
-      
-  <services>
-    <service class="net.dpml.test.ColorManager" version="1.0.0"/>
-  </services>
-  
-  <context>
-    <entry key="color" class="java.awt.Color" optional="false"/>
-  </context>
-  
-  <state xmlns="link:xsd:dpml/metro/dpml-state#1.0">
-    <trigger event="initialization">
-      <transition name="init" target="available"/>
-    </trigger>
-    <state name="available">
-      <trigger event="termination">
-        <transition name="terminate" target="../terminated"/>
-      </trigger>
-    </state>
-    <state name="terminated" terminal="true"/>
-  </state>
+  &lt;state name="started"&gt;
+    &lt;trigger event="termination"&gt;
+      &lt;apply id="stop"/&gt;
+    &lt;/trigger&gt;
+    &lt;transition name="stop" target="../stopped"&gt;
+      &lt;operation name="stop" method="stop"/&gt;
+    &lt;/transition&gt;
+  &lt;/state&gt;
 
-</type>
-]]></source>
+  &lt;state name="stopped"&gt;
+    &lt;transition name="start" target="../started"&gt;
+      &lt;operation name="start" method="start"/&gt;
+    &lt;/transition&gt;
+  &lt;/state&gt;
+
+&lt;/state&gt;</pre>
+
 
     </section>
 
