@@ -10,7 +10,103 @@
   <body>
 
     <section name="Packaged Profiles">
+    
+      <p>
+      A packaged profile is an optional XML document colocated with the 
+      component class using the filename convention <tt>[classname].xprofile</tt>.
+      The document contains a <tt>&lt;profile&gt;</tt> root element.  The 
+      profile element may contain nested <tt>&lt;context&gt;</tt> and/or
+      <tt>&lt;parts&gt;</tt> elements corresponding to the default 
+      deployment data.
+      </p>
+      
+      <subsection name="Namespace">
+      
+        <pre>dpml:metro</pre>
+      
+      </subsection>
+      
+      <subsection name="Profile Attributes">
+        <table>
+          <tr>
+            <td><tt>activation</tt></td>
+            <td>
+            Set the default activation policy (optional).  If not specified, 
+            the default value will be resolved using the value of an activation
+            annotation (if present), otherwise the default <tt>demand</tt> policy
+            will apply.  Allowable values include <tt>demand</tt> or 
+            <tt>startup</tt>.
+            </td>
+          </tr>
+          <tr>
+            <td><tt>lifestyle</tt></td>
+            <td>
+            Set the default lifestyle policy (optional). Allowable values include  
+            <tt>singleton</tt>, <tt>thread</tt>, and <tt>transient</tt>.
+            A component declaring the <tt>singleton</tt> lifestyle may be 
+            shared across all consumers within the JVM (i.e. the potential 
+            for concurrent access will exist).  A component declaring 
+            the <tt>thread</tt> lifestyle policy may have a set of instances
+            corresponding to the number of threads requesting access. A 
+            component declaring the <tt>transient</tt> lifestyle will 
+            instantiated for each access request.  If not specified the default
+            value will be resolved from a <tt>Component</tt> annotation in the 
+            class (or the default <tt>thread</tt> if no annotation is present).
+            </td>
+          </tr>
+          <tr>
+            <td><tt>collection</tt></td>
+            <td>Sets the garbage collection policy (optional).  Allowable
+            values include <tt>weak</tt>, <tt>soft</tt> and <tt>hard</tt>.
+            A component type declaring a <tt>weak</tt> collection policy will 
+            be garbage collected at the discretion of the JVM.  A component
+            declaring a <tt>soft</tt> collection policy will be garbage 
+            collected in the event of memory contention.  A component 
+            declaring the <tt>hard</tt> collection policy will remain in 
+            memory for the lifetime of the JVM unless explicitly removed
+            via a management system or controlling application.
+            If not specified the default value will be resolved from a 
+            <tt>Component</tt> annotation in the class (or the default 
+            <tt>hard</tt> policy if no annotation is present).
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Nested Elements">
 
+        <table>
+          <tr>
+            <td><tt><a href="../directive/context.html">context</a></tt></td>
+            <td>Declaration of the component default context state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="../directive/parts.html">parts</a></tt></td>
+            <td>Declaration of default nested components.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+      
+    <section name="Examples">
+    
+      <p>
+      The following sample profile contains a context definition that 
+      establishes default values for the <tt>firstName</tt> and <tt>lastName</tt>
+      entries.
+      </p>
+    
+<pre>
+&lt;profile xmlns="dpml:metro" lifestyle="singleton"&gt;
+  &lt;context&gt;
+    &lt;entry key="firstName" value="Fred"/&gt;
+    &lt;entry key="lastName" value="Flintstone"/&gt;
+  &lt;/context&gt;
+&lt;/profile&gt;
+</pre>
     </section>
 
   </body>
