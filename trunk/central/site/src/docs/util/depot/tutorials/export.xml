@@ -24,8 +24,7 @@
         <p>
         Our index definition remains unchanged except for the addition of 
         a type production statement declaring that the module build produces
-        a module artifact (and just for fun we have requested a version alias
-        to be produced at the same time).
+        a module artifact.
         </p>
 
 <pre>
@@ -40,7 +39,7 @@
   &lt;module name="org/acme" basedir="."&gt;
   
     <font color="darkred">&lt;types&gt;
-      &lt;type id="module" version="1.0"&gt;
+      &lt;type id="module"&gt;
     &lt;/types&gt;</font>
   
     &lt;project name="clock-api" basedir="api"&gt;

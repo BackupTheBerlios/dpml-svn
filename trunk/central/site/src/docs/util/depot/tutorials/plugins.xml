@@ -40,8 +40,7 @@
 
 <pre>
 &lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
-&lt;index xmlns="dpml:library"
-    <font color="darkred">xmlns:part="dpml:part"</font>&gt;
+&lt;index xmlns="dpml:library"&gt;
 
   &lt;imports&gt;
     &lt;import uri="link:module:ant"/&gt;
@@ -86,8 +85,8 @@
       <subsection name="The Part Artifact">
 
         <p>
-        During the build the following part defintion is created based on the input
-        part definition source.
+        During the build the following part defintion is created based on the 
+        depolyment strategy input resource from the source data.
         </p>
         
         <p><i>Generated part:</i> <tt>artifact:part:org/acme/plugin/clock-impl#SNAPSHOT</tt></p>
@@ -100,10 +99,12 @@
 
   <info/>
 
-  <strategy xsi:type="plugin" class="org.acme.impl.SimpleClock">
-    <param value="h:mm"/>
-    <param class="java.util.Locale" method="getDefault"/>
-  </strategy>
+  <component xmlns="dpml:metro" type="org.acme.impl.SimpleClock">
+    <context>
+      <entry key="format" value="h:mm"/>
+      <entry key="locale" class="java.util.Locale" method="getDefault"/>
+    </context>
+  </component>
 
   <classpath>
     <private>

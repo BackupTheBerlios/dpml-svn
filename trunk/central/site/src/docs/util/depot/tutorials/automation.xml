@@ -11,7 +11,7 @@
     <section name="Build Automation using Templates">
     
         <p>
-        One of the nice features added to Ant 1.6 is the support for 
+        One of the nice features added to Ant 1.6 wassupport for 
         the import of template build files. The Depot system comes with 
         a default template that handles the establishment of a number of 
         tasks that are project-aware.  Using information about a target 
@@ -28,10 +28,9 @@
         </p>
         
 <pre>
-&lt;project name="demo" default="install"
-    xmlns:transit="antlib:dpml.tools.transit"&gt;
+&lt;project name="demo" default="install" xmlns:x="antlib:dpml.tools"&gt;
 
-  <font color="darkred">&lt;transit:import uri="local:template:dpml/tools/standard"/&gt;</font>
+  <font color="darkred">&lt;x:import uri="local:template:dpml/tools/standard"/&gt;</font>
 
 &lt;/project&gt;
 </pre>

@@ -102,7 +102,7 @@ public class TransitTestCase extends TestCase
         When the new URL constructor is invoked the JVM checks available URLStreamHandlers
         using a number of mechanisms - one of which is to check the value of the 
         "java.protocol.handler.pkgs" system property.  The JVM will look for a protocol
-        handler named "net.dpml.transit" + [protocol].Handler.  The Transit's artifact
+        handler named "dpml.transit" + [protocol].Handler.  The Transit's artifact
         Handler class is primarily responsible for the establishment of a ArtifactURLConnection.
         The ArtifactURLConnection holds a reference to the Transit system.  When the openStream
         operation is invoked the Artifact URL connection will use a cache handler to resolve
@@ -128,14 +128,17 @@ public class TransitTestCase extends TestCase
 
       </subsection>
 
-      <subsection name="Next Topic - Plugins">
+      <subsection name="Next Topic - the Local Protocol">
       
         <p>
-        This page has presented a more in-depth look at the <tt>artifact</tt> protocol.
-        The <a href="plugins.html">next tutorial</a> introduced a simple datatype called a 
-        <tt>part</tt> that describes an object instantiation strategy with a classloader 
-        chain definition.  This datatype is commonly referred to as a <tt>plugin</tt> and 
-        demonstrates the usage of one artifact to describe the usage of many artifacts.
+        The machinery underlying the artifact uri is designed around the availability of 
+        local or remote hosts which serve as the resource source repository. This is apropriate
+        when dealing with general integration of multiple projects, however - it is not suitable
+        for the management of local configuration data. The <a href="local.html">next tutorial</a> introduces
+        the local protocol which provides support for the resolution of preference information
+        local to the application runtime environment. In general terms it follows the same patterns 
+        as the artifact protocol but the underlying machining resolves resources relative to a 
+        local system wide preference root directory.
         </p>
 
       </subsection>

@@ -15,7 +15,7 @@
     <project name="clock-impl" basedir="impl">
       <types>
         <type id="jar"/>
-        <type id="part" source="etc/plugin.xml"/>
+        <type id="part" source="etc/component.xml"/>
       </types>
       <dependencies>
         <runtime>

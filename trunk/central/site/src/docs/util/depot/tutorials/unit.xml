@@ -30,13 +30,16 @@
 &lt;index xmlns="dpml:library"&gt;
 
   &lt;project name="demo" basedir="."&gt;
+  
     &lt;properties&gt;
       &lt;property name="location" value="New York"/&gt;
       &lt;property name="message" value="Hello from ${user.name} in ${location}"/&gt;
     &lt;/properties&gt;
+    
     &lt;types&gt;
       &lt;type id="jar" alias="true"/&gt;
     &lt;/types&gt;
+    
     <font color="darkred">&lt;dependencies&gt;
       &lt;test&gt;
         &lt;include uri="artifact:jar:ant/ant-junit#1.6.5"/&gt;
@@ -44,10 +47,10 @@
         &lt;include uri="artifact:jar:junit/junit#3.8.1"/&gt;
       &lt;/test&gt;
     &lt;/dependencies&gt;</font>
+    
     &lt;filters&gt;
       &lt;filter token="MESSAGE" value="${message}"/&gt;
     &lt;/filters&gt;
-    &lt;dependencies&gt;
 
   &lt;/project&gt;
 
