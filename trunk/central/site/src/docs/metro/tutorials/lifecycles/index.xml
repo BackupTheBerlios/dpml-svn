@@ -38,55 +38,42 @@
       <subsection name="The Start/Stop Example">
       
         <p>
-        The following Ant build file contains a task that constructs a
-        formal state-transition graph for a component that is initialized
-        via a start method invocation, resulting in the exposure of a stop
-        management operation, and the assertion of a termination criteria
-        involving the invocation of a stop method.
+        The following lifecycle defintion constructs a formal state-transition 
+        graph for a component that is initialized via a start method invocation, 
+        resulting in the exposure of a stop management operation, and the assertion 
+        of a termination criteria involving the invocation of a stop method.
         </p>
-<source>
-&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+        
+        <p><i>org/acme/Demo.xgraph</i></p>
+        
+<pre>&lt;state xmlns="dpml:state"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
 
-&lt;project xmlns:transit="antlib:dpml.tools.transit" 
-    xmlns:x="dpml:depot"&gt;
+  &lt;trigger event="initialization"&gt;
+    &lt;transition name="start" target="started"&gt;
+      &lt;operation name="startup" method="start"/&gt;
+    &lt;/transition&gt;
+  &lt;/trigger&gt;
 
-  &lt;transit:import uri="local:template:dpml/tools/standard"/&gt;
-  
-  &lt;target name="init" depends="standard.init"&gt;
-    &lt;x:plugin uri="link:part:dpml/metro/dpml-metro-tools"&gt;
-      &lt;task name="state" class="net.dpml.metro.tools.StateTask"/&gt;
-    &lt;/x:plugin&gt;
-  &lt;/target&gt;
-  
-  &lt;target name="build" depends="standard.build"&gt;
-    <font color="darkred">&lt;state class="org.acme.Demo"&gt;
-      &lt;trigger event="initialization"&gt;
-        &lt;transition name="start" target="started"&gt;
-          &lt;operation name="startup" method="start"/&gt;
-        &lt;/transition&gt;
-      &lt;/trigger&gt;
-      &lt;state name="started"&gt;
-        &lt;transition name="stop" target="../stopped"&gt;
-          &lt;operation name="stop" method="stop"/&gt;
-        &lt;/transition&gt;
-        &lt;trigger event="termination"&gt;
-          &lt;apply id="stop"/&gt;
-        &lt;/trigger&gt;
-      &lt;/state&gt;
-      &lt;state name="stopped"&gt;
-        &lt;transition name="start" target="../started"&gt;
-          &lt;operation name="start" method="start"/&gt;
-        &lt;/transition&gt;
-      &lt;/state&gt;
-    &lt;/state&gt;</font>
-  &lt;/target&gt;
+  &lt;state name="started"&gt;
+    &lt;trigger event="termination"&gt;
+      &lt;apply id="stop"/&gt;
+    &lt;/trigger&gt;
+    &lt;transition name="stop" target="../stopped"&gt;
+      &lt;operation name="stop" method="stop"/&gt;
+    &lt;/transition&gt;
+  &lt;/state&gt;
 
-&lt;/project&gt;</source>
+  &lt;state name="stopped"&gt;
+    &lt;transition name="start" target="../started"&gt;
+      &lt;operation name="start" method="start"/&gt;
+    &lt;/transition&gt;
+  &lt;/state&gt;
+
+&lt;/state&gt;</pre>
         
         <p>
-        The above state task creates a file named <tt>org/acme/Demo.xgraph</tt> which
-        is basically equivalent to the XML content show in red.  This graph declares a 
-        root state containing:
+        This above lifecycle graph declares a root state containing:
         </p>
         
         <ul>

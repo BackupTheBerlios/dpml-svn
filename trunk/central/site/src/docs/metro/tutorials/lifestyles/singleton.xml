@@ -3,15 +3,15 @@
 <document>
   <properties>
     <author email="mcconnell@osm.net">Stephen McConnell</author>
-    <title>Component Lifestyle</title>
+    <title>Component Singleton Lifestyle</title>
   </properties>
 
   <body>
 
-    <section name="Transient Lifestyles">
+    <section name="Singleton Lifestyles">
 
       <p>
-      This example demonstrates the uniquenes of a singletone instances
+      This example demonstrates the uniquenes of a singleton instances
       across multiple threads.  Unlike earlier examples of TRANSIENT and 
       THREAD lifestyle policy - the instances returned within any given thread
       and any given part access invocation is the same instance.
@@ -45,34 +45,15 @@
       
       <subsection name="Deployment Solution">
         
-<pre>&lt;index ..... &gt;
-
-  &lt;project name="acme-singleton-demo" basedir="singleton"&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      &lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"&gt;
-        &lt;context&gt;
-          &lt;entry key="threadCount" value="3"/&gt;
-          &lt;entry key="accessCount" value="2"/&gt;
-        &lt;/context&gt;
-        &lt;parts&gt;
-          <font color="darkred">&lt;component key="gizmo" type="org.acme.Gizmo" lifestyle="singleton"/&gt;</font>
-        &lt;/parts&gt;
-      &lt;/component&gt;
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
-      &lt;/test&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-  
-  ...
-  
-&lt;/index&gt;</pre>
+<pre>&lt;component xmlns="dpml:metro" class="org.acme.Demo" name="demo"&gt;
+  &lt;context&gt;
+    &lt;entry key="threadCount" value="3"/&gt;
+    &lt;entry key="accessCount" value="2"/&gt;
+  &lt;/context&gt;
+  &lt;parts&gt;
+    <font color="darkred">&lt;component key="gizmo" type="org.acme.Gizmo" lifestyle="singleton"/&gt;</font>
+  &lt;/parts&gt;
+&lt;/component&gt;</pre>
         
       </subsection>
       

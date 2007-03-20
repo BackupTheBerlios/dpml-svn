@@ -59,42 +59,25 @@
         </p>
       
         <p> 
-        <i>project definition:</i>:
+        <i>component definition:</i>:
         </p>
         
-<pre>&lt;index ..... &gt;
-
-  &lt;project name="acme-lifestyle-demo" basedir="lifestyle"&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      &lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"&gt;
-        &lt;parts&gt;
-          <font color="darkred">&lt;component key="widget" type="org.acme.Widget" name="widget" lifestyle="transient"&gt;
-            &lt;context&gt;
-              &lt;entry key="color" method="BLUE"/&gt;
-            &lt;/context&gt;
-          &lt;/component&gt;</font>
-          &lt;component key="gizmo" type="org.acme.Gizmo" name="gizmo"&gt;
-            &lt;context&gt;
-              &lt;entry lookup="org.acme.Widget"/&gt;
-            &lt;/context&gt;
-          &lt;/component&gt;
-        &lt;/parts&gt;
-      &lt;/component&gt;
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
-      &lt;/test&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-  
-  ...
-  
-&lt;/index&gt;</pre>
+<pre>
+&lt;component xmlns="dpml:metro" class="org.acme.Demo" name="demo"&gt;
+  &lt;parts&gt;
+    <font color="darkred">&lt;component key="widget" type="org.acme.Widget" name="widget" lifestyle="transient"&gt;
+      &lt;context&gt;
+        &lt;entry key="color" method="BLUE"/&gt;
+      &lt;/context&gt;
+    &lt;/component&gt;</font>
+    &lt;component key="gizmo" type="org.acme.Gizmo" name="gizmo"&gt;
+      &lt;context&gt;
+        &lt;entry lookup="org.acme.Widget"/&gt;
+      &lt;/context&gt;
+    &lt;/component&gt;
+  &lt;/parts&gt;
+&lt;/component&gt;
+</pre>
         
       </subsection>
       

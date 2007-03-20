@@ -37,57 +37,39 @@
         
         <p>
         The deployment solution for the above component is defined in the
-        following part definition (additional context entry directives are 
+        following component definition (additional context entry directives are 
         presented in red).
         </p>
         
-<pre>&lt;index ..... &gt;
-
-  &lt;project name="acme-demo-examples" basedir="examples"&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      &lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"&gt;
-        <font color="darkred">&lt;context&gt;
-          &lt;entry key="color" method="RED"/&gt;
-          &lt;entry key="anotherColor"&gt;
-            &lt;param class="int" value="100"/&gt;
-            &lt;param class="int" value="200"/&gt;
-            &lt;param class="int" value="0"/&gt;
-          &lt;/entry&gt;
-          &lt;entry key="integer" value="42"/&gt;
-          &lt;entry key="short" value="19"/&gt;
-          &lt;entry key="long" value="1042"/&gt;
-          &lt;entry key="byte" value="9"/&gt;
-          &lt;entry key="double" value="32"/&gt;
-          &lt;entry key="float" value="9.813"/&gt;
-          &lt;entry key="char" value="x"/&gt;
-          &lt;entry key="boolean" value="true"/&gt;
-          &lt;entry key="file" value="${work}"/&gt;
-          &lt;entry key="tempFile" value="${temp}"/&gt;
-          &lt;entry key="URI" value="${uri}"/&gt;
-          &lt;entry key="name" value="${name}"/&gt;
-          &lt;entry key="path" value="${path}"/&gt;
-          &lt;entry key="names"&gt;
-            &lt;param value="fred"/&gt;
-            &lt;param value="george"/&gt;
-            &lt;param value="mary"/&gt;
-          &lt;/entry&gt;
-        &lt;/context&gt;</font>
-      &lt;/component&gt;
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
-      &lt;/test&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-  
-  ...
-  
-&lt;/index&gt;</pre>
+<pre>
+&lt;component xmlns="dpml:metro" class="org.acme.Demo" name="demo"&gt;
+  <font color="darkred">&lt;context&gt;
+    &lt;entry key="color" method="RED"/&gt;
+    &lt;entry key="anotherColor"&gt;
+      &lt;param class="int" value="100"/&gt;
+      &lt;param class="int" value="200"/&gt;
+      &lt;param class="int" value="0"/&gt;
+    &lt;/entry&gt;
+    &lt;entry key="integer" value="42"/&gt;
+    &lt;entry key="short" value="19"/&gt;
+    &lt;entry key="long" value="1042"/&gt;
+    &lt;entry key="byte" value="9"/&gt;
+    &lt;entry key="double" value="32"/&gt;
+    &lt;entry key="float" value="9.813"/&gt;
+    &lt;entry key="char" value="x"/&gt;
+    &lt;entry key="boolean" value="true"/&gt;
+    &lt;entry key="file" value="${work}"/&gt;
+    &lt;entry key="tempFile" value="${temp}"/&gt;
+    &lt;entry key="URI" value="${uri}"/&gt;
+    &lt;entry key="name" value="${name}"/&gt;
+    &lt;entry key="path" value="${path}"/&gt;
+    &lt;entry key="names"&gt;
+      &lt;param value="fred"/&gt;
+      &lt;param value="george"/&gt;
+      &lt;param value="mary"/&gt;
+    &lt;/entry&gt;
+  &lt;/context&gt;</font>
+&lt;/component&gt;</pre>
 
       </subsection>
       

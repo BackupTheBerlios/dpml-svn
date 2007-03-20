@@ -180,33 +180,15 @@ public class Demo
         component definition.
         </i></p>
 
-<pre>&lt;index ..... &gt;
-
-  &lt;project name="acme-demo-context" basedir="context"&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      &lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"&gt;
-        <font color="darkred">&lt;context&gt;
-          &lt;entry key="owner" value="${user.name}"/&gt;
-          &lt;entry key="activity" value="Painting"/&gt;
-          &lt;entry key="target" value="bike"/&gt;
-          &lt;entry key="color" value="silver"/&gt;
-        &lt;/context&gt;</font>
-      &lt;/component&gt;
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
-      &lt;/test&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-  
-  ...
-  
-&lt;/index&gt;</pre>
+<pre>
+&lt;component xmlns="dpml:metro" class="org.acme.Demo" name="demo"&gt;
+  <font color="darkred">&lt;context&gt;
+    &lt;entry key="owner" value="${user.name}"/&gt;
+    &lt;entry key="activity" value="Painting"/&gt;
+    &lt;entry key="target" value="bike"/&gt;
+    &lt;entry key="color" value="silver"/&gt;
+  &lt;/context&gt;</font>
+&lt;/component&gt;</pre>
 
       </subsection>
 

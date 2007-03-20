@@ -47,9 +47,9 @@
       the current state's parent state, the parent's paranet state, etc.).  Any 
       transition declared on any of the states within the state chain are considered as 
       available transitions.  Transitions may be tagged as implict initialization transitions
-      or implicit termination terminsitions.  On component deployment initialization transitions
+      or implicit termination transitions.  On component deployment initialization transitions
       are fired (possibly resulting in a state change and the emergence of new implicit 
-      initialization transitions (which are automatically invoked).  On deommissioning on 
+      initialization transitions (which are automatically invoked).  On decommissioning on 
       a component the runtime will automatically invoke termination transitions, iuncluding
       new termination transitions comming into scope as a result of a termination state change.
       </p>
@@ -79,8 +79,7 @@
       component via execution of the start transition).
       </p>
     
-<pre>&lt;state xmlns="dpml:state"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+<pre>&lt;state xmlns="dpml:state"&gt;
 
   &lt;trigger event="initialization"&gt;
     &lt;transition name="start" target="started"&gt;

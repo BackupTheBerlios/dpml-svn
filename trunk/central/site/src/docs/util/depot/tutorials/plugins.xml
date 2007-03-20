@@ -62,7 +62,7 @@
     &lt;project name="clock-impl" basedir="impl"&gt;
       &lt;types&gt;
         &lt;type id="jar"/&gt;
-        <font color="darkred">&lt;type id="part" source="etc/part.xml"/&gt;</font>
+        <font color="darkred">&lt;type id="part" source="etc/component.xml"/&gt;</font>
       &lt;/types&gt;
       &lt;dependencies&gt;
         &lt;runtime&gt;

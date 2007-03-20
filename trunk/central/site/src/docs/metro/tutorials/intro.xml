@@ -12,14 +12,13 @@
     <section name="Overview">
     
       <p>
-      In the earlier tutorials dealing with Transit Plugins we covered the general 
-      subject of a deployment unit descriptor that associated an object instantiation 
-      <tt>strategy</tt> with a <tt>classloader</tt> chain definition. The Metro platform 
-      provides an alternative deployment strategy and runtime handler that delivers
-      a complete context driven IOC object instantiation model. 
-      </p>
-      
-      <p>
+      In the earlier tutorials dealing with 
+      <a href="../../util/depot/tutorials/plugins.html">Depot plugin datatypes</a> 
+      we covered the general subject of a deployment unit descriptor that associated 
+      an object instantiation <tt>strategy</tt> with a <tt>classloader</tt> chain 
+      definition. The Metro platform provides the prefered deployment strategy and 
+      runtime handler that delivers a complete context driven IOC object 
+      instantiation model. 
       In addition to instantiation there are several aspects of a class that 
       effect its deployment.  These aspects include thread-safety, a depoyment and 
       decommissioning lifecycle, garbage collection policy, etc.  Each of these concerns 
@@ -55,46 +54,64 @@
       <subsection name="Component Creation">
       
         <p>
-        The creation of a new component defintion is basically the same as the procedure
-        used to create a plugin.  In the following Depot project definition we are declaring 
-        a new project with publication of a jar and a part artifact.  The significant difference
-        from a regular plugin is the usage of a custom part strategy.
+        In the following Depot project definition we are declaring 
+        a new project with publication of a jar and a part artifact.  
+        The significant difference from a regular plugin is the usage 
+        of a custom part strategy.
         </p>
         
-<source>
+        <p><i>From the global index.xml we establish the reference to out target project:</i></p>
+<pre>
 &lt;index ..... &gt;
 
-  &lt;project name="acme-demo-hello" basedir="hello"&gt;
-    &lt;types&gt;
+  ...
+  
+  &lt;project xmlns="dpml:library" name="hello"&gt;
+
+    &lt;info title="DPML Metro Hello Tutorial"&gt;
+      &lt;description&gt;Introductory Hello World demo.&lt;/description&gt;
+    &lt;/info&gt;
+    
+    &lt;types>
       &lt;type id="jar"/&gt;
-      <font color="darkred">&lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"/&gt;</font>
+      &lt;type id="part" source="target/component.xml"/&gt;
     &lt;/types&gt;
+    
     &lt;dependencies&gt;
       &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+        &lt;include ref="dpml/metro/dpml-metro-part"/&gt;
+        &lt;include ref="org/apache/ant/ant-junit"/&gt;
       &lt;/test&gt;
     &lt;/dependencies&gt;
+    
   &lt;/project&gt;
   
   ...
   
 &lt;/index&gt;
-</source>
+</pre>
+
+        <p><i>The component.xml file referenced in the part type production 
+        statement contains the information about the component deployment 
+        strategy.</i></p>
+        
+<pre>
+&lt;component xmlns="dpml:metro" name="demo" class="org.acme.Demo"/&gt;
+</pre>
 
         <p>
         The custom part definition introduced under the <tt>dpml:metro</tt>
         namespace is declaring the production of a new <tt>part</tt> datastructure under which 
         the class <tt>org.acme.Demo</tt> is to handled by the Metro runtime platform. The above 
-        definition also includes the declaration of test phase dependencies that we will need in 
+        project definition also includes the declaration of test phase dependencies that we will need in 
         order to launch the component.
         </p>
         
         <p>
         The generated part datastructure is show below (the custom Metro deployment 
-        strategy is hilighted in red).
+        strategy is hilighted in red).  The datastructure include dependency information
+        extracted from the prject defintion, together with component deployment infromation
+        resolved from the referenced component.xml deployment directive.
         </p>
         
 <source>
@@ -104,11 +121,8 @@
   &lt;info/&gt;
 
   <font color="darkred">&lt;component xmlns="dpml:metro"
-      type="org.acme.Demo"
-      name="demo"
-      collection="system"
-      activation="system"&gt;
-  &lt;/component&gt;</font>
+      class="org.acme.Demo"
+      name="demo"/&gt;</font>
 
   &lt;classpath&gt;
     &lt;private&gt;

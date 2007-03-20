@@ -55,37 +55,19 @@
         </p>
       
         <p> 
-        <i>project definition:</i>:
+        <i>component definition:</i>:
         </p>
         
-<pre>&lt;index ..... &gt;
-
-  &lt;project name="acme-thread-demo" basedir="thread"&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      &lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"&gt;
-        &lt;context&gt;
-          &lt;entry key="threadCount" value="3"/&gt;
-          &lt;entry key="accessCount" value="2"/&gt;
-        &lt;/context&gt;
-        &lt;parts&gt;
-          <font color="darkred">&lt;component key="gizmo" type="org.acme.Gizmo" lifestyle="thread"/&gt;</font>
-        &lt;/parts&gt;
-      &lt;/component&gt;
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
-      &lt;/test&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-  
-  ...
-  
-&lt;/index&gt;</pre>
+<pre>&lt;component xmlns="dpml:metro" class="org.acme.Demo" name="demo"&gt;
+  &lt;context&gt;
+    &lt;entry key="threadCount" value="3"/&gt;
+    &lt;entry key="accessCount" value="2"/&gt;
+  &lt;/context&gt;
+  &lt;parts&gt;
+    <font color="darkred">&lt;component key="gizmo" type="org.acme.Gizmo" lifestyle="thread"/&gt;</font>
+  &lt;/parts&gt;
+&lt;/component&gt;
+</pre>
         
       </subsection>
       

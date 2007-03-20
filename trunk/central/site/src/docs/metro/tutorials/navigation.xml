@@ -33,8 +33,7 @@
       <item name="Lifestyles" href="lifestyles/index.html"/>
       <item name="Lifecycles" href="lifecycles/index.html"/>
       <item name="Logging" href="logging/index.html"/>
-      <item name="Component Types" href="types/index.html"/>
-      <item name="Building On Sholders" href="customize/index.html"/>
+      <!--<item name="Building On Sholders" href="customize/index.html"/>-->
       <item name="Unit Testing" href="unit/index.html"/>
     </menu>
 

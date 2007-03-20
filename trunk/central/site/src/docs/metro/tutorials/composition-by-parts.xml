@@ -52,34 +52,15 @@
         of a <tt>&lt;context&gt;</tt> element.
         </p>
         
-<pre>&lt;index ..... &gt;
-
-  &lt;project name="acme-demo-parts" basedir="parts"&gt;
-    &lt;types&gt;
-      &lt;type id="jar"/&gt;
-      &lt;component xmlns="dpml:metro" 
-         type="org.acme.Demo" 
-         name="demo"&gt;
-        <font color="darkred">&lt;parts&gt;
-          &lt;component key="widget" type="org.acme.Widget"&gt;
-            &lt;context&gt;
-              &lt;entry key="color" method="BLUE"/&gt;
-            &lt;/context&gt;
-          &lt;/component&gt;
-        &lt;/parts&gt;</font>
-      &lt;/component&gt;
-    &lt;/types&gt;
-    &lt;dependencies&gt;
-      &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
-        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
-      &lt;/test&gt;
-    &lt;/dependencies&gt;
-  &lt;/project&gt;
-  
-  ...
-  
-&lt;/index&gt;</pre>
+<pre>&lt;component xmlns="dpml:metro" class="org.acme.Demo" name="demo"&gt;
+  <font color="darkred">&lt;parts&gt;
+    &lt;component key="widget" type="org.acme.Widget"&gt;
+      &lt;context&gt;
+        &lt;entry key="color" method="BLUE"/&gt;
+      &lt;/context&gt;
+    &lt;/component&gt;
+  &lt;/parts&gt;</font>
+&lt;/component&gt;</pre>
 
       </subsection>
       
