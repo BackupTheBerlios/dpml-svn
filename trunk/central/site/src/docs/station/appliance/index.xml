@@ -46,7 +46,7 @@
     </properties>
   </process>
   
-  <codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/>
+  <codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&port=1024"/>
 
 </appliance>
 ]]></source>

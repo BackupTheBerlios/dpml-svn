@@ -32,7 +32,21 @@
         </table>
         
       </subsection>
+      
+    </section>
         
+    <section name="Technical Tote">
+    
+      <p>
+      The current implementation recognizes the 
+      <a href="../../metro/parts/index.html"><tt>part</tt></a> datatype and the station
+      <a href="../appliance/index.html"><tt>appliance</tt></a> datatype.  
+      Part datatypes are resolved to a component definition deployed 
+      within the same JVM as the station.  Appliance datatypes are used to construct a 
+      separate JVM process (controlled by the station) hosting a component established 
+      relative to the appliace codebase argument.
+      </p>
+    
     </section>
 
   </body>
