@@ -25,6 +25,12 @@
  <body>
 
     <menu>
+      <item name="Environment" href="environment.html"/>
+      <item name="Properties" href="properties.html"/>
+      <item name="Arguments" href="arguments.html"/>
+      <item name="Property" href="property.html"/>
+      <item name="Variable" href="variable.html"/>
+      <item name="Arg" href="arg.html"/>
     </menu>
 
  </body>

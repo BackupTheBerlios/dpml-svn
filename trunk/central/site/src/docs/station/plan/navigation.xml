@@ -25,6 +25,8 @@
  <body>
 
     <menu>
+      <item name="Plan" href="plan.html"/>
+      <item name="Entry" href="entry.html"/>
     </menu>
 
  </body>

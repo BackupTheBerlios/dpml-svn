@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Appliance Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Appliance Datatype">
+    
+      <p>
+      An appliance datatype defines the configuration to be used in the establishment
+      of a Java Virtual Machine. An appliance datatype is an XML document that contains a 
+      root <a href="appliance.html">appliance</a> element.  The appliance element 
+      contains an <a href="info.html">info</a> block, a defintion of the configuration 
+      of the virtual machine <a href="process/index.html">process</a>, and a 
+      <a href="codebase.html">codebase</a> reference.
+      </p>
+
+    </section>
+
+    <section name="Examples">
+    
+      <p>
+      The following sample appliance defines a virtual machine configuration named
+      <tt>hello</tt>, a virtual machine configuratured with two environment 
+      variables FOO and foo, and a codebase referencing a part defintion.
+      </p>
+
+<source><![CDATA[
+<?xml version="1.0"?>
+
+<appliance xmlns="dpml:appliance">
+
+  <info name="hello"/>
+  
+  <process startup="0" shutdown="0">
+    <environment>
+      <variable name="FOO" value="BAR"/>
+    </environment>
+    <properties>
+      <property name="foo" value="bar"/>
+    </properties>
+  </process>
+  
+  <codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/>
+
+</appliance>
+]]></source>
+    </section>
+  </body>
+
+</document>
+

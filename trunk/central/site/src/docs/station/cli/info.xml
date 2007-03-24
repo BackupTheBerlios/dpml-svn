@@ -55,28 +55,26 @@
 
       <subsection name="Example - General Listing">
 
-<pre>$ station info</pre>
+<pre>$ station info
 
-<source>
-  Server is operational.
+  <font color="blue">Server is operational.
   Port: 1099
   Store: local:xml:dpml/station/registry
   Basedir: c:\dev\dpml\main
   Codebase: artifact:jar:dpml/metro/dpml-station-server#SNAPSHOT
 
-Profile count: 1
+  Profile count: 1
 
- (1) demo       STARTED link:part:dpml/planet/http/dpml-http-demo
-</source>
+  (1) demo       STARTED link:part:dpml/planet/http/dpml-http-demo</font>
+</pre>
 
       </subsection>
 
       <subsection name="Example - Named Application Listing">
 
-<pre>$ station info demo</pre>
+<pre>$ station info demo
 
-<source>
-  Server is operational.
+  <font color="blue">Server is operational.
   Port: 1099
   Store: local:xml:dpml/station/registry
   Basedir: c:\dev\dpml\main
@@ -92,8 +90,8 @@ Profile count: 1
   Process: [3452] (STARTED)
   State: [started]
   Transitions: (1)
-    transition:stop (target=../stopped)
-</source>
+    transition:stop (target=../stopped)</font>
+</pre>
 
       </subsection>
 

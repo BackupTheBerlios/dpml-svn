@@ -12,26 +12,40 @@
     <section name="DPML Station">
 
       <p>
-      The DPML Station is system supporting the maintenance of multiple
-      applications. It is composed of an remotely accessible registry
-      of <a href="../applications/index.html">applications</a> and a 
-      supporting <a href="../cli/index.html">commandline tool</a>.
-      Applications are defined using network resolvable 
-      <a href="../profiles/index.html">profiles</a> that contain information about
-      the application environment, JVM settings, and application codebase.
+      The Metro Station is application that handles the deployment of 
+      multiple applications.  
       </p>
-
-      <p>
-      Capabilities of the station include:
-      </p>
-
-      <ul>
-        <li>Ability to run as a background process.</li>
-        <li>Add, remove and update application profiles.</li>
-        <li>Start, stop and restart registered applications.</li>
-        <li>List information about running applications and/or profiles</li>
-      </ul>
-
+      
+      <subsection name="General Concepts">
+      
+        <p>
+        The station configuration is defined in an XML document called a <tt>plan</tt>.  
+        A plan contains zero or more entries.  Each entry defines deployment 
+        objective such as the deployment of a component part into the station 
+        JVM or an application under a seperate jvm managed by the station.
+        </p>
+      
+        <ol>
+      
+          <li>
+          A <a href="../plan/index.html">plan</a> is a uri resolvable 
+          artifact that defines the station configuration.
+          </li>
+      
+          <li>
+          A <a href="../cli/index.html">commandline tool</a> provides support 
+          for the startup and shutdown of the station.
+          </li>
+      
+          <li>
+          An <a href="../scm.html">SCM</a> controller is provider for the 
+          deployment of the station as a Windows NT Service.
+          </li>
+        
+        </ol>
+      
+      </subsection>
+      
     </section>
 
   </body>

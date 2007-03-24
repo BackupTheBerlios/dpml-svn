@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Application Profiles</title>
+  </properties> 
+
+  <body>
+
+    <section name="Plan Directive">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of a series of zero or deployment entries.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Short name identifying the plan.</td>
+          </tr>
+          <tr>
+            <td><tt>title</tt></td>
+            <td>Descriptive type of the plan.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+        
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="entry.html">entry</a></tt></td>
+            <td>
+            Declaration of a deployment entry. Zero or more entry elements
+            may be declared.  Entries will be deployed sequentially.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>
+

@@ -25,18 +25,10 @@
  <body>
 
     <menu>
+      <item name="Appliance" href="appliance.html"/>
       <item name="Info" href="info.html"/>
-      <item name="Startup" href="startup.html"/>
-      <item name="Shutdown" href="shutdown.html"/>
-      <!--
-      <item name="Add" href="add.html"/>
-      <item name="Set" href="set.html"/>
-      <item name="Start" href="cstart.html"/>
-      <item name="Control" href="control.html"/>
-      <item name="Stop" href="stop.html"/>
-      <item name="Restart" href="restart.html"/>
-      <item name="Remove" href="remove.html"/>
-      -->
+      <item name="Process" href="process/index.html"/>
+      <item name="Codebase" href="codebase.html"/>
     </menu>
 
  </body>

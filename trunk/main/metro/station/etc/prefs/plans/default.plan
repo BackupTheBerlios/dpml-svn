@@ -1,5 +1,29 @@
 <?xml version="1.0"?>
 
-<plan xmlns="dpml:plan" name="station" title="DPML Station Default Deployment Plan">
+<!--
+Default plan configuration.
 
+The top-level plan element may contain 0 or more entry elements.  Each 
+entry element declares a key and uri attribute.  The key identifies the
+entry within the plan and uri identifies a codebase. Uri must use the 
+artifact link, or local protocols with a type of 'part' or 'appplication'.
+A part uri will result in the establishment of the part as a top-level 
+component within the current JVM wheras the 'application' uri will 
+establish a new JVM configured in accordance with the application 
+profile.
+
+Example:
+
+  <plan xmlns="dpml:plan" name="demo" title="Station Deployment Plan Demo">
+    <entry name="foo" uri="link:appliance:dpml/metro/demo"/>
+    <entry name="bar" uri="link:part:dpml/lang/dpml-lang-sample"/>
+    <entry name="toto" uri="link:part:dpml/lang/dpml-lang-sample?message=My%20Scenario,port=999"/>
+  </plan>
+  
+-->
+
+<plan xmlns="dpml:plan" name="station" title="DPML Station Deployment Plan">
+
+  <!-- add entry here -->
+  
 </plan>

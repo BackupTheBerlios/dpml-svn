@@ -5,7 +5,7 @@ Defintion of an application.
 
 Example:
 
-  <application title="Sample Application" policy="automatic">
+  <appliance>
     
     <process startup="60" shutdown="60">
       <properties>
@@ -13,11 +13,9 @@ Example:
       </properties>
     </process>
     
-    <codebase uri="link:part:acme/widget">
-      <param class="java.awt.Color" method="RED"/>
-    </codebase>
+    <codebase uri="link:part:acme/widget"/>
     
-  </application>
+  </appliance>
   
 -->
 

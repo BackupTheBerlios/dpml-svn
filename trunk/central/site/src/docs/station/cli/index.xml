@@ -15,23 +15,46 @@
 
         <p>
         The station commandline handler provides support for the startup and shutdown of 
-        the station as a background process, the addition, modification and removal of 
-        application profiles, and the starting, stopping and restarting of applications
-        under dedicated virtual machines.  In a production environment the station would 
-        normally be setup as a background service (e.g. on Windows resources are provided
-        for the deployment of the Station as an NT service).  During station startup 
-        any application profile declaring a <tt>AUTOMATIC</tt> startup policy will be 
-        deployed.  Applications register themselves with the station following which 
-        subsequent management operations invoked by the Station CLI are mediated through
-        the station server process.
+        a collection of background applications runing under dedicated virtual machines.  
+        In a production environment the station is normally setup as a background service 
+        (e.g. on Windows resources are provided for the deployment of the Station as an 
+        NT service).  During station startup  any application profile declaring a 
+        <tt>AUTOMATIC</tt> startup policy will be deployed.  Applications handled by the 
+        station are declared under a station deployment plan.
         </p>
 
       </subsection>
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ station startup | add <key> | set <key> | start <key> | control <key> 
-| stop <key> | restart <key> | info <key> | remove <key> | shutdown | help
+<pre><![CDATA[$ station -help
+
+  Description:
+
+    Process management controller.
+
+  Usage: $ station startup [<uri>] | info | shutdown | -help | -version
+
+  Common Options:
+
+    -help              list command help and exit
+    -version           list version info and exit
+    -port              override the RMI Registry port value
+
+  Commands:
+
+    startup [<uri>]    startup the station
+
+        <uri>          uri referencing a plan datatype
+                       if not supplied the default station deployment
+                       plan (local:plan:dpml/station/default) will
+                       be selected
+
+        -server        enables server execution mode
+
+    info               list station operational status and exit
+
+    shutdown           shutdown the station
 ]]></pre>
 
       </subsection>
@@ -41,74 +64,53 @@
         <table>
           <tr><td width="100">startup</td><td>Start the station server (implying 
              starup of all applications with an AUTOMATIC startup policy).</td></tr>
-          <tr><td>add </td><td>Add a new application profile to the station registry.</td></tr>
-          <tr><td>set</td><td>Set of feature of an application.</td></tr>
-          <tr><td>start</td><td>Start an application.</td></tr>
-          <tr><td>control</td><td>Manage the component.</td></tr>
-          <tr><td>stop</td><td>Stop an application.</td></tr>
-          <tr><td>restart</td><td>Restart an application.</td></tr>
           <tr><td>info</td><td>List information about registered applications.</td></tr>
-          <tr><td>remove</td><td>Remove an application from the registry.</td></tr>
           <tr><td>shutdown</td><td>Shutdown the station (implying shutdown of all 
             applications under the control of the station).</td></tr>
         </table>
 
       </subsection>
 
-      <subsection name="Example">
-
-<pre>$ station help</pre>
-<source><![CDATA[
-Usage:
-station startup | add <key> | set <key> | start <key> | control <key> 
-| stop <key> | restart <key> | info <key> | remove <key> | shutdown | help
-options
-  startup                                                             Startup the station.
-    -port -registry
-      -port <port>                                                    RMI Registry port.
-      -registry <artifact>                                            Application registry store.
-      -D<property>=<value>                                            Set property values.
-  add <key>                                                           Add a profile.
-    -uri -policy  -dir -title -registry -startup -shutdown -config
-      -uri <artifact>                                                 Codebase uri.
-      -policy <policy>                                                Startup policy.
-      -D<property>=<value>                                            Set property values.
-      -dir (-basedir) <path>                                          Base directory.
-      -title <title>                                                  Application title.
-      -registry <artifact>                                            Application registry store.
-      -startup <seconds>                                              Startup timeout.
-      -shutdown <seconds>                                             Shutdown timeout.
-      -config <uri>                                                   Application configuration.
-  set <key>                                                           Set an application feature.
-    -uri -policy  -dir -title -registry -startup -shutdown -config
-      -uri <artifact>                                                 Codebase uri.
-      -policy <policy>                                                Startup policy.
-      -D<property>=<value>                                            Set property values.
-      -dir (-basedir) <path>                                          Base directory.
-      -title <title>                                                  Application title.
-      -registry <artifact>                                            Application registry store.
-      -startup <seconds>                                              Startup timeout.
-      -shutdown <seconds>                                             Shutdown timeout.
-      -config <uri>                                                   Application configuration.
-  start <key>                                                         Start application.
-  control <key>                                                       Manage the application.
-  stop <key>                                                          Stop application.
-  restart <key>                                                       Restart application.
-  info <key>                                                          Station or profile info.
-    -port|-registry
-      -port <port>                                                    RMI Registry port.
-      -registry <artifact>                                            Application registry store.
-  remove <key>                                                        Remove profile.
-    -port|-registry
-      -port <port>                                                    RMI Registry port.
-      -registry <artifact>                                            Application registry store.
-  shutdown                                                            Shutdown the station.
-  help                                                                Print command help.]]></source>
+    </section>
+    
+    <section name="Examples">
+      
+      <subsection name="Station Startup">
+      
+        <p>
+        The following commandline demonstrates the startup of the station using 
+        the deployment profile declared under the default value <tt>local:plan:dpml/station/default</tt>
+        (a plan defintion stored in the local DPML preferences directory).
+        </p>
+        
+      
+<pre>$ station startup
+[2380 ] [INFO   ] (dpml.station): station startup
+[3196 ] [INFO   ] (dpml.station): created local registry on port 1099
+[3196 ] [INFO   ] (dpml.station.plan): commissioning plan
+[3196 ] [INFO   ] (dpml.station.plan): plan commissioning complete
+[2380 ] [INFO   ] (dpml.station): startup complete
+</pre>
 
       </subsection>
+      
+      <subsection name="Station Startup">
+      
+        <p>
+        Assuming a station instance is up and running, the following command 
+        trigger the establishment of a connection to the remote station and the 
+        iniation of a shutdown sequence.
+        </p>
+        
+<pre>$ station shutdown
+[3776 ] [INFO   ] (dpml.station): initiating remote shutdown
+[3776 ] [INFO   ] (dpml.station): remote shutdown request completed
+</pre>
 
+      </subsection>
+      
     </section>
-
+    
   </body>
 
 </document>

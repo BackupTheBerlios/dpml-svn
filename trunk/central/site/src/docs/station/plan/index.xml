@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Application Profiles</title>
+  </properties> 
+
+  <body>
+
+    <section name="Deployment Plans">
+
+      <p>
+      A deployment plan is an XML document referenced as an artificat that
+      defines the configuration of a station instance.  The plan datatype 
+      declares a root <a href="plan.html"><tt>&lt;plan&gt;</tt></a> element 
+      which contains zero or more <a href="entry.html"><tt>&lt;entry&gt;</tt></a>
+      elements where each entry associates a key with a codebase uri.
+      A plan is referenced as an artifact using the <a href="../cli/index.html">
+      station</a> command line tool. 
+      </p>
+      
+      <subsection name="Executing a Plan">
+      
+        <p>
+        The following command starts the station using plan stored in the 
+        users preference directory:
+        </p>
+        
+        <pre>$ station startup <font color="darkred">local:plan:org/acme/sample</font></pre>
+      
+      </subsection>
+      
+    </section>
+    
+    <section name="Examples">
+    
+      <p>
+      The following example plan includes three deployment entries.  The first two entries
+      reference <a href="../appliance/index.html">appliance</a> datatypes which trigger the 
+      establishment of the respective applications in their own JVMs.  The third entry is a 
+      <a href="../../metro/parts/index.html">part</a> datatype to be loaded into the current 
+      virtual machine.
+      </p>
+      
+<source>&lt;plan xmlns="dpml:plan" name="demo" title="Plan Demo"&gt;
+
+  &lt;entry key="foo" uri="link:appliance:dpml/metro/demo-foo"/&gt;
+  &lt;entry key="bar" uri="link:appliance:dpml/metro/demo-bar"/&gt;
+  &lt;entry key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/&gt;
+  
+&lt;/plan>
+</source>
+
+    </section>
+
+  </body>
+
+</document>
+
