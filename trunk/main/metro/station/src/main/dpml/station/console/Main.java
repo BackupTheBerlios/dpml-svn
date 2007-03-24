@@ -683,6 +683,7 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         buffer.append( "\n" );
         buffer.append( "\n  DPML Station" );
         buffer.append( "\n  Version @PROJECT-VERSION@" );
+        buffer.append( "\n  Codebase " + getClass().getProtectionDomain().getCodeSource().getLocation() );
         buffer.append( "\n  Copyright 2005-2007 Stephen J. McConnell" );
         buffer.append( "\n  Digital Product Management Laboratory" );
         String message = buffer.toString();
@@ -697,28 +698,36 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         buffer.append( "\n" );
         buffer.append( "\n    Process management controller." );
         buffer.append( "\n" );
-        buffer.append( "\n  Usage: $ station startup [<uri>] | info | shutdown | -help | -version" );
+        buffer.append( "\n  Usage: $ station startup | server | shutdown | info | -help | -version" );
         buffer.append( "\n" );
-        buffer.append( "\n  Common Options:" );
+        buffer.append( "\n  Options:" );
         buffer.append( "\n" );
         buffer.append( "\n    -help              list command help and exit" );
         buffer.append( "\n    -version           list version info and exit" );
-        buffer.append( "\n    -port              override the RMI Registry port value" );
         buffer.append( "\n" );
         buffer.append( "\n  Commands:" );
         buffer.append( "\n" );
-        buffer.append( "\n    startup [<uri>]    startup the station" );
+        buffer.append( "\n    startup [<uri>]    startup the station as a background process" );
         buffer.append( "\n" );
         buffer.append( "\n        <uri>          uri referencing a plan datatype" );
         buffer.append( "\n                       if not supplied the default station deployment" );
         buffer.append( "\n                       plan (local:plan:dpml/station/default) will" );
         buffer.append( "\n                       be selected" );
         buffer.append( "\n" );
-        buffer.append( "\n        -server        enables server execution mode" );
+        buffer.append( "\n    server [<uri>]     startup the station as a foreground process" );
+        buffer.append( "\n" );
+        buffer.append( "\n        <uri>          uri referencing a plan datatype" );
+        buffer.append( "\n                       if not supplied the default station deployment" );
+        buffer.append( "\n                       plan (local:plan:dpml/station/default) will" );
+        buffer.append( "\n                       be selected" );
         buffer.append( "\n" );
         buffer.append( "\n    info               list station operational status and exit" );
         buffer.append( "\n" );
         buffer.append( "\n    shutdown           shutdown the station" );
+        buffer.append( "\n" );
+        buffer.append( "\n  Common Command Options:" );
+        buffer.append( "\n" );
+        buffer.append( "\n    -port              override the RMI Registry port value" );
         buffer.append( "\n" );
         buffer.append( "\n" );
         String message = buffer.toString();
@@ -781,21 +790,6 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
           .withValidator( new URIValidator() )
           .create();
 
-    private static final Group SERVER_GROUP =
-      GROUP_BUILDER
-        .withMinimum( 0 )
-        .withMaximum( 2 )
-        .withOption( PORT_OPTION )
-        .withOption( CODEBASE )
-        .create();
-    
-    private static final Option SERVER_COMMAND =
-      COMMAND_BUILDER
-        .withName( "server" )
-        .withDescription( "Server mode." )
-        .withChildren( SERVER_GROUP )
-        .create();
-    
     private static final Group INFO_GROUP =
       GROUP_BUILDER
         .withMinimum( 0 )
@@ -815,7 +809,6 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         .withMinimum( 0 )
         .withMaximum( 2 )
         .withOption( PORT_OPTION )
-        //.withOption( SERVER_OPTION )
         .withOption( CODEBASE )
         .create();
     
@@ -824,6 +817,21 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         .withName( "startup" )
         .withDescription( "Startup the station." )
         .withChildren( STARTUP_GROUP )
+        .create();
+    
+    private static final Group SERVER_GROUP =
+      GROUP_BUILDER
+        .withMinimum( 0 )
+        .withMaximum( 2 )
+        .withOption( PORT_OPTION )
+        .withOption( CODEBASE )
+        .create();
+    
+    private static final Option SERVER_COMMAND =
+      COMMAND_BUILDER
+        .withName( "server" )
+        .withDescription( "Startup the station in forground server mode." )
+        .withChildren( SERVER_GROUP )
         .create();
     
     private static final Group SHUTDOWN_GROUP =

@@ -14,18 +14,18 @@
       <subsection name="Description">
 
         <p>
-        Initiates the startup of the station under a separate JVM process.  The 
-        station will register itself with an RMI registry (establishing the registry
-        if necessary).  An application registry is retrieved and loaded.  Application
-        profiles are used to construct runtime application instances and all profiles
-        declaring an <tt>AUTOMATIC</tt> startup policy will be deployed.
+        Initiates the startup of the station as a foreground process (suitable for 
+        debuging and other development related processes).  The station will register 
+        itself with an RMI registry .  An application plan is retrieved and loaded. 
+        Application entries declared withing the plan are used to construct runtime 
+        application instances.
         </p>
 
       </subsection>
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ station startup [-port <port>] [<uri>]]]></pre>
+<pre>$ station server [-port &lt;port&gt;] [&lt;uri&gt;]</pre>
 
       </subsection>
 
@@ -45,10 +45,9 @@
 
       </subsection>
 
-
       <subsection name="Example">
 
-<pre>$ station startup</pre>
+<pre>$ station server</pre>
 
 <source>[5096 ] [INFO   ] (depot.station): Station started on port: 1099</source>
 

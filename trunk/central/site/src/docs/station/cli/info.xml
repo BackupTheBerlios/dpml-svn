@@ -15,26 +15,14 @@
 
         <p>
         The info command provides support for listing information from 
-        the station registry, and if the server is active - information
-        about the status of registered applications.  If the <tt>&lt;key&gt;</tt>
-        argument is supplied then information about the process will be 
-        listed, otherwise a general listing of registered processes will 
-        included.
+        the station configuration.
         </p>
 
       </subsection>
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ station info [<key>]]]></pre>
-
-      </subsection>
-
-      <subsection name="Parameters">
-
-        <table>
-          <tr><td width="100"><tt>&lt;key&gt;</tt></td><td>The application key (optional).</td></tr>
-        </table>
+<pre><![CDATA[$ station info]]></pre>
 
       </subsection>
 
@@ -43,12 +31,7 @@
         <table>
           <tr>
             <td width="100"><tt>-port</tt></td>
-            <td>Override the RMI registry port to use when selecting the station server
-              (cannot be used in conjuction with the <tt>-registry</tt> option).</td></tr>
-          <tr>
-            <td width="100"><tt>-registry</tt></td>
-            <td>Override the application repository storage uri
-                (cannot be used in conjuction with the <tt>-port</tt> option).</td></tr>
+            <td>Override the RMI registry port to use when selecting the station server.</td></tr>
         </table>
 
       </subsection>
@@ -66,31 +49,6 @@
   Profile count: 1
 
   (1) demo       STARTED link:part:dpml/planet/http/dpml-http-demo</font>
-</pre>
-
-      </subsection>
-
-      <subsection name="Example - Named Application Listing">
-
-<pre>$ station info demo
-
-  <font color="blue">Server is operational.
-  Port: 1099
-  Store: local:xml:dpml/station/registry
-  Basedir: c:\dev\dpml\main
-  Codebase: artifact:jar:dpml/metro/dpml-station-server#SNAPSHOT
-
-  Codebase: link:part:dpml/planet/http/dpml-http-demo
-  Working Directory Path: ${dpml.data}/work
-  Startup Timeout: 6
-  Shutdown Timeout: 6
-  Startup Policy: MANUAL
-  System Properties: 1
-
-  Process: [3452] (STARTED)
-  State: [started]
-  Transitions: (1)
-    transition:stop (target=../stopped)</font>
 </pre>
 
       </subsection>

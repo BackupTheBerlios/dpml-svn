@@ -18,55 +18,61 @@
         a collection of background applications runing under dedicated virtual machines.  
         In a production environment the station is normally setup as a background service 
         (e.g. on Windows resources are provided for the deployment of the Station as an 
-        NT service).  During station startup  any application profile declaring a 
-        <tt>AUTOMATIC</tt> startup policy will be deployed.  Applications handled by the 
-        station are declared under a station deployment plan.
+        NT service).  Applications handled by the station are declared under a station 
+        <a href="../plan/index.html">deployment plan</a>.
         </p>
 
       </subsection>
 
       <subsection name="Commandline">
 
-<pre><![CDATA[$ station -help
+<pre>$ station startup | server | info | shutdown | -help | -version</pre>
 
-  Description:
+      </subsection>
 
-    Process management controller.
+      <subsection name="Options">
 
-  Usage: $ station startup [<uri>] | info | shutdown | -help | -version
-
-  Common Options:
-
-    -help              list command help and exit
-    -version           list version info and exit
-    -port              override the RMI Registry port value
-
-  Commands:
-
-    startup [<uri>]    startup the station
-
-        <uri>          uri referencing a plan datatype
-                       if not supplied the default station deployment
-                       plan (local:plan:dpml/station/default) will
-                       be selected
-
-        -server        enables server execution mode
-
-    info               list station operational status and exit
-
-    shutdown           shutdown the station
-]]></pre>
+        <table>
+          <tr>
+            <td width="100">-help</td>
+            <td>
+            List help information and exit.
+            </td>
+          </tr>
+          <tr>
+            <td width="100">-version</td>
+            <td>
+            List version information and exit.
+            </td>
+          </tr>
+        </table>
 
       </subsection>
 
       <subsection name="Commands">
 
         <table>
-          <tr><td width="100">startup</td><td>Start the station server (implying 
-             starup of all applications with an AUTOMATIC startup policy).</td></tr>
-          <tr><td>info</td><td>List information about registered applications.</td></tr>
-          <tr><td>shutdown</td><td>Shutdown the station (implying shutdown of all 
-            applications under the control of the station).</td></tr>
+          <tr>
+            <td width="100"><tt><a href="startup.html">startup</a></tt></td>
+            <td>
+            Start the station server as a background process.
+            </td>
+          </tr>
+          <tr>
+            <td width="100"><tt><a href="server.html">server</a></tt></td>
+            <td>
+            Start the station server as a foreground process.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="info.html">info</a></tt></td>
+            <td>List information about registered applications.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="shutdown.html">shutdown</a></tt></td>
+            <td>Shutdown the station (implying shutdown of all 
+            applications under the control of the station).</td>
+          </tr>
         </table>
 
       </subsection>
