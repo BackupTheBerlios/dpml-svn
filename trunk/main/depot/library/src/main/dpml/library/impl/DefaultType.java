@@ -147,6 +147,11 @@ public final class DefaultType extends DefaultDictionary implements Type
         return m_directive.getTest();
     }
 
+    public boolean getExport()
+    {
+        return m_directive.getExport();
+    }
+
    /**
     * Return the alias production flag.
     * @return the alias flag

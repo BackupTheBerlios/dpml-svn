@@ -192,7 +192,7 @@ public class ReplicateTask extends GenericTask
         for( int j=0; j<types.length; j++ )
         {
             Type type = types[j];
-            if( type.getTest() )
+            if( type.getTest() || !type.getExport() )
             {
                 return;
             }

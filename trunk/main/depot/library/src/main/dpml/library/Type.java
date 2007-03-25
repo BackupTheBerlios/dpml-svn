@@ -55,6 +55,8 @@ public interface Type extends Dictionary
     
     String getSource();
     
+    boolean getExport();
+    
     boolean getTest();
 
    /**
