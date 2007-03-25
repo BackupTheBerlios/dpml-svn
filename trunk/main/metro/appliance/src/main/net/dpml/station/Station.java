@@ -21,13 +21,16 @@ package net.dpml.station;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.dpml.appliance.Appliance;
+
 /**
  * Station interface.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public interface Station extends Remote
+//public interface Station extends Remote
+public interface Station extends Appliance
 {
     static final String STATION_CONNECTOR_KEY = "dpml.station.key";
     static final String STATION_JMX_URI_KEY = "dpml.station.jmx.uri";

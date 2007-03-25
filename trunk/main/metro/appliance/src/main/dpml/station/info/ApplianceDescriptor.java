@@ -247,9 +247,22 @@ public final class ApplianceDescriptor
               "Mising uri attribute.";
             throw new DecodingException( error, element );
         }
-        else
+        
+        Element[] params = ElementHelper.getChildren( element, "param" );
+        for( int i=0; i<params.length; i++ )
         {
-            return URI.create( spec );
+            Element e = params[i];
+            String key = ElementHelper.getAttribute( e, "key", null, resolver );
+            String value = ElementHelper.getAttribute( e, "value", null, resolver );
+            if( i==0 )
+            {
+                spec = spec + "?" + key + "=" + value;
+            }
+            else
+            {
+                spec = spec + "&" + key + "=" + value;
+            }
         }
+        return URI.create( spec );
     }
 }

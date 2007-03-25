@@ -121,6 +121,15 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
     }
     
    /**
+    * Return an array of subsidiary appliance instances managed by this appliance.
+    * @return an array of subsidiary appliance instances
+    */
+    public Appliance[] getChildren()
+    {
+        return new Appliance[0];
+    }
+
+   /**
     * Add a listener to the component.
     * @param listener the component listener
     */

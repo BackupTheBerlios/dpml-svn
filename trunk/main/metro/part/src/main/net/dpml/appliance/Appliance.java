@@ -23,6 +23,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.concurrent.TimeUnit;
 
+import net.dpml.state.State;
+
 /**
  * Appliance interface.  An appliance represents a component or component collection
  * that can be comissioned and decommissioned.
@@ -32,6 +34,12 @@ import java.util.concurrent.TimeUnit;
  */
 public interface Appliance extends Remote
 {
+   /**
+    * Return the current state of the instance.
+    * @return the current state
+    */
+    State getState() throws RemoteException;
+    
    /**
     * Add an appliance listener to the appliance.
     * @param listener the appliance listener
@@ -57,5 +65,18 @@ public interface Appliance extends Remote
     * @exception RemoteException if a RMI error occurs
     */
     void decommission() throws RemoteException;
+    
+   /**
+    * Return an array of subsidiary appliance instances managed by this appliance.
+    * @return an array of subsidiary appliance instances
+    * @exception RemoteException if a RMI error occurs
+    */
+    Appliance[] getChildren() throws RemoteException;
+
+    String getName() throws RemoteException;
+    
+    String getCodebaseURI() throws RemoteException;
+    
+    boolean isCommissioned() throws RemoteException;
 }
 

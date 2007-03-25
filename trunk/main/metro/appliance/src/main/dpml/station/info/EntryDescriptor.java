@@ -50,13 +50,29 @@ public final class EntryDescriptor
             throw new DecodingException( error, element );
         }
         String spec = ElementHelper.getAttribute( element, "uri", null, resolver );
-        m_uri = URI.create( spec );
-        if( null == m_uri )
+        if( null == spec )
         {
             final String error = 
               "Missing 'uri' attribute in entry descriptor.";
             throw new DecodingException( error, element );
         }
+        
+        Element[] params = ElementHelper.getChildren( element, "param" );
+        for( int i=0; i<params.length; i++ )
+        {
+            Element e = params[i];
+            String key = ElementHelper.getAttribute( e, "key", null, resolver );
+            String value = ElementHelper.getAttribute( e, "value", null, resolver );
+            if( i==0 )
+            {
+                spec = spec + "?" + key + "=" + value;
+            }
+            else
+            {
+                spec = spec + "&" + key + "=" + value;
+            }
+        }
+        m_uri = URI.create( spec );
     }
     
    /**

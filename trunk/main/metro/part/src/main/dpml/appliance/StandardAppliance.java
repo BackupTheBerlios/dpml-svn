@@ -18,6 +18,8 @@
 
 package dpml.appliance;
 
+import dpml.state.NullState;
+
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
@@ -79,6 +81,27 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
         m_listener = new InternalComponentListener( this );
         m_component.addComponentListener( m_listener );
         setShutdownHook( this );
+    }
+    
+   /**
+    * Return the current state of the instance.
+    * @return the current state
+    */
+    public State getState() throws RemoteException
+    {
+        if( null != m_provider )
+        {
+            return m_provider.getState();
+        }
+        else
+        {
+            return new NullState();
+        }
+    }
+    
+    public String getName() throws RemoteException
+    {
+        return m_component.getName();
     }
     
    /**

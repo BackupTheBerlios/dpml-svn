@@ -15,9 +15,9 @@ profile.
 Example:
 
   <plan xmlns="dpml:plan" name="demo" title="Station Deployment Plan Demo">
-    <entry name="foo" uri="link:appliance:dpml/metro/demo"/>
-    <entry name="bar" uri="link:part:dpml/lang/dpml-lang-sample"/>
-    <entry name="toto" uri="link:part:dpml/lang/dpml-lang-sample?message=My%20Scenario,port=999"/>
+    <entry key="foo" uri="link:appliance:dpml/metro/demo"/>
+    <entry key="bar" uri="link:part:dpml/lang/dpml-lang-sample"/>
+    <entry key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=My%20Scenario&amp;port=999"/>
   </plan>
   
 -->

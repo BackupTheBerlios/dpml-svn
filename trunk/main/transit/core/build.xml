@@ -17,11 +17,11 @@
     </copy>
     <echo>
 #----------------------------------------------------------------------------------
-# Updating Shared Lib. ${dpml.share}/lib
+# Updating Shared Lib. ${dpml.share}/lib/ext
 #----------------------------------------------------------------------------------
     </echo>
     <mkdir dir="${dpml.share}/lib/ext"/>
-    <copy preservelastmodified="true" toFile="${dpml.share}/lib/${project.name}.jar" 
+    <copy preservelastmodified="true" toFile="${dpml.share}/lib/ext/${project.name}.jar" 
       file="${project.deliverable.jar.path}" overwrite="true"/>
   </target>
 

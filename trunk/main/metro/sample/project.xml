@@ -7,6 +7,8 @@
   <types>
     <type id="jar"/>
     <type id="part" source="etc/component.xml" alias="true"/>
+    <type id="plan" source="etc/plan.xml" alias="true"/>
+    <type id="appliance" source="etc/appliance.xml" alias="true"/>
   </types>
   
   <dependencies>

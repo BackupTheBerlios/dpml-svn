@@ -102,6 +102,8 @@ import net.dpml.runtime.Status;
 
 import net.dpml.station.Station;
 
+import net.dpml.state.State;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.InvalidArtifactException;
 import net.dpml.transit.ContentHandler;
@@ -135,6 +137,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
     private final Logger m_logger;
     private Appliance m_plan;
     private Thread m_thread;
+    
     //private JMXServiceURL m_jmx;
     //private JMXConnectorServer m_server;
     
@@ -144,32 +147,6 @@ public class Main extends UnicastRemoteObject implements Tool, Station
     * type of the target application.  Normally this plugin is activated as a 
     * consequence of invoking the <tt>metro</tt> commandline handler (which is 
     * the default haviour of the <tt>station</tt> when deployment local processes).
-    * The following command list help about the <tt>metro</tt> commandline handler:
-    * <pre>$ metro help
-Usage:
-metro <uri> [-server] | -help
-options
-  <uri>                    Application codebase part uri.
-  -command                 Enables command mode.
-  -help                    Prints command help and exits.
-  -version                 Prints version info and exits.
-    * </pre>
-    * An example commandline and resulting log of an application launch 
-    * using <tt>metro</tt> is show below:
-    * <pre>
-$ metro -command link:part:dpml/metro/dpml-metro-sample
-
-[2756 ] [INFO   ] (dpml.metro): commissioning hello
-[2756 ] [INFO   ] (hello): pid: [2756]
-[2756 ] [INFO   ] (hello): message: Hello
-[2756 ] [INFO   ] (hello): port: 0
-[2756 ] [INFO   ] (hello): target: artifact:jar:dpml/metro/dpml-metro-sample#SNAPSHOT
-[2756 ] [INFO   ] (hello): starting
-[2756 ] [INFO   ] (hello): started
-[2756 ] [INFO   ] (dpml.metro): decommissioning hello
-[2756 ] [INFO   ] (hello): stopping
-[2756 ] [INFO   ] (hello): stopped
-    * </pre>
     *
     * @param logger the assigned logging channel
     * @exception Exception if an error occurs
@@ -224,6 +201,142 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         {
             m_logger.error( "Execution error.", e );
             return -1;
+        }
+    }
+    
+   /**
+    * Add an appliance listener to the appliance.
+    * @param listener the appliance listener
+    * @exception RemoteException if a RMI error occurs
+    */
+    public void addApplianceListener( ApplianceListener listener ) throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            m_plan.addApplianceListener( listener );
+        }
+    }
+    
+   /**
+    * Remove an appliance listener from the appliance.
+    * @param listener the appliance listener
+    * @exception RemoteException if a RMI error occurs
+    */
+    public void removeApplianceListener( ApplianceListener listener ) throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            m_plan.removeApplianceListener( listener );
+        }
+    }
+    
+   /**
+    * Return the current state of the instance.
+    * @return the current state
+    */
+    public State getState() throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            return m_plan.getState();
+        }
+    }
+    
+   /**
+    * Commission the appliance.
+    * @exception IOException if a I/O error occurs
+    */
+    public void commission() throws IOException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            m_plan.commission();
+        }
+    }
+    
+   /**
+    * Decommission the appliance.
+    * @exception RemoteException if a RMI error occurs
+    */
+    public void decommission() throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            m_plan.decommission();
+        }
+    }
+    
+   /**
+    * Return an array of subsidiary appliance instances managed by this appliance.
+    * @return an array of subsidiary appliance instances
+    * @exception RemoteException if a RMI error occurs
+    */
+    public Appliance[] getChildren() throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            return m_plan.getChildren();
+        }
+    }
+
+   /**
+    * Returns the plan name.
+    * @return the name
+    */
+    public String getName() throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        return m_plan.getName();
+    }
+    
+    public String getCodebaseURI() throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            return m_plan.getCodebaseURI();
+        }
+    }
+    
+    public boolean isCommissioned() throws RemoteException
+    {
+        if( null == m_plan )
+        {
+            throw new IllegalStateException( "plan" );
+        }
+        synchronized( m_plan )
+        {
+            return m_plan.isCommissioned();
         }
     }
     
@@ -412,9 +525,31 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
             try
             {
                 Station station = getStation( port );
-                if( getLogger().isInfoEnabled() )
+                System.out.println( "Station running on port [" + port + "]" );
+                System.out.println( "Codebase: " + station.getCodebaseURI() );
+                
+                Appliance[] children = station.getChildren();
+                int n = children.length;
+                
+                System.out.println( "Entries: " + children.length );
+                
+                if( n > 0 )
                 {
-                    getLogger().info( "Station running on port [" + port + "]" );
+                    System.out.println( "" );
+                    int i=1;
+                    for( Appliance appliance : children )
+                    {
+                        System.out.println( 
+                          "(" 
+                          + i 
+                          + ") " 
+                          + appliance.getName() 
+                          + " ["
+                          + appliance.getState().getName()
+                          + "] " 
+                          + appliance.getCodebaseURI() 
+                        );
+                    }
                 }
             }
             catch( StationNotBoundException e )

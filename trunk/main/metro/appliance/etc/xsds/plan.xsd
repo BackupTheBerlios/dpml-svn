@@ -30,8 +30,16 @@ Example:
     </complexType>
 
     <complexType name="EntryType">
+      <sequence>
+        <element name="param" type="this:ParamType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
       <attribute name="uri" type="anyURI" use="required"/>
       <attribute name="key" type="string" use="required"/>
+    </complexType>
+
+    <complexType name="ParamType">
+      <attribute name="key" type="string" use="required"/>
+      <attribute name="value" type="string" use="required"/>
     </complexType>
 
 </schema>

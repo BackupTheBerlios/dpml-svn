@@ -28,12 +28,24 @@
 
     <section name="DPML Utilities">
 
+      <subsection name="Index">
+      
       <p>
-      The utilities package includes a commandline processor
-      used within the DPML commandline handlers.  The CLI 
-      package has no dependencies and is suitable for use in
-      general CLI based applications.
+      The utilities package includes a a number of lower-level
+      utilities used across the DPML application suite. These 
+      include the <a href="../transit/index.html">Transit</a> 
+      resource management services, the <a href="../depot/index.html">Depot</a>
+      build automation facilities, and a <a href="../command/index.html">CLI</a>
+      processor used withing several of the DPML applications. 
       </p>
+      
+        <ul>
+          <li>the <a href="../transit/index.html">Transit</a> resource management layer</li>
+          <li>the <a href="../depot/index.html">Depot</a> build automation tools</li>
+          <li>and common <a href="../command/index.html">CLI</a> utilities</li>
+        </ul>
+        
+      </subsection>
 
     </section>
 

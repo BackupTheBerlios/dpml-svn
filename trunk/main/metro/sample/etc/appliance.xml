@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<appliance xmlns="dpml:appliance">
+
+  <info name="demo"/>
+  
+  <process startup="0" shutdown="0">
+    <environment>
+      <variable name="FOO" value="BAR"/>
+    </environment>
+    <properties>
+      <property name="foo" value="bar"/>
+    </properties>
+  </process>
+  
+  <codebase uri="link:part:dpml/metro/dpml-metro-sample">
+    <param key="message" value="Hello%20World"/>
+    <param key="port" value="1024"/>
+  </codebase>
+
+</appliance>

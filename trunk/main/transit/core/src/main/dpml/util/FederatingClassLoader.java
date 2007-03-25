@@ -140,9 +140,16 @@ public class FederatingClassLoader extends RMIClassLoaderSpi
       String codebase, String[] interfaces, ClassLoader defaultLoader )
       throws MalformedURLException, ClassNotFoundException
     {
-        return m_delegate.loadProxyClass( codebase, interfaces, defaultLoader );
+        try
+        {
+            return m_delegate.loadProxyClass( codebase, interfaces, defaultLoader );
+        }
+        catch( MalformedURLException mue )
+        {
+            throw mue;
+        }
     }
-
+    
    /**
     * Provides the implementation for
     * {@link RMIClassLoader#getClassLoader(String)}.
@@ -298,7 +305,7 @@ public class FederatingClassLoader extends RMIClassLoaderSpi
     {
         if( urls.length == 0 )
         {
-            return null;
+            return "";
         }
         else if( urls.length == 1 )
         {

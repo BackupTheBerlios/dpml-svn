@@ -78,7 +78,15 @@ Example:
       <attribute name="value" type="string"/>
     </complexType>
 
+    <complexType name="ParamType">
+      <attribute name="key" type="string"/>
+      <attribute name="value" type="string"/>
+    </complexType>
+
     <complexType name="CodebaseType">
+      <sequence>
+        <element name="param" type="this:ParamType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
       <attribute name="uri" type="anyURI"/>
     </complexType>
     

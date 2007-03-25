@@ -99,6 +99,15 @@ class StandardProvider implements Provider, Disposable
             m_instance = newInstance();
         }
     }
+    
+   /**
+    * Return the current state of the instance.
+    * @return the current state
+    */
+    public State getState()
+    {
+        return m_machine.getState();
+    }
 
    /**
     * Add a state change listener to the state machine.

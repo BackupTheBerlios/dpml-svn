@@ -18,6 +18,8 @@
 
 package net.dpml.station;
 
+import dpml.state.NullState;
+
 import dpml.station.info.PlanDescriptor;
 import dpml.station.info.EntryDescriptor;
 
@@ -40,6 +42,8 @@ import net.dpml.appliance.ApplianceEvent;
 import net.dpml.appliance.ApplianceManager;
 
 import net.dpml.runtime.Status;
+
+import net.dpml.state.State;
 
 import net.dpml.transit.Artifact;
 import net.dpml.util.Logger;
@@ -92,6 +96,33 @@ class CompositeAppliance extends AbstractAppliance implements Appliance, Applian
     }
     
    /**
+    * Return the current state of the instance.
+    * @return the current state
+    */
+    public State getState() throws RemoteException
+    {
+        return new NullState();
+    }
+    
+   /**
+    * Returns the plan name.
+    * @return the name
+    */
+    public String getName()
+    {
+        return m_descriptor.getName();
+    }
+    
+   /**
+    * Returns the plan title.
+    * @return the title
+    */
+    public String getTitle()
+    {
+        return m_descriptor.getTitle();
+    }
+    
+   /**
     * Returns the plan URI as a string.
     * @return the codebase uri
     */
@@ -100,6 +131,16 @@ class CompositeAppliance extends AbstractAppliance implements Appliance, Applian
         return m_descriptor.getCodebaseURI().toASCIIString();
     }
     
+   /**
+    * Return an array of subsidiary appliance instances managed by this appliance.
+    * @return an array of subsidiary appliance instances
+    * @exception RemoteException if a RMI error occurs
+    */
+    public Appliance[] getChildren()
+    {
+        return m_list.toArray( new Appliance[0] );
+    }
+
     private String getQualifiedName( String partition, String key )
     {
         if( null == partition )

@@ -18,6 +18,7 @@
 
 package net.dpml.runtime;
 
+import net.dpml.state.State;
 import net.dpml.state.StateListener;
 
 /**
@@ -39,6 +40,12 @@ public interface Provider
     * @param listener the state listener
     */
     void removeStateListener( final StateListener listener );
+    
+   /**
+    * Return the current state of the instance.
+    * @return the current state
+    */
+    State getState();
 
    /**
     * Return a fully commissioned instance.
