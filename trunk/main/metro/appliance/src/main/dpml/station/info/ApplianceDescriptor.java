@@ -59,16 +59,6 @@ public final class ApplianceDescriptor
         m_profile = new ProcessDescriptor( process, resolver );
     }
     
-    /*
-    public ApplianceDescriptor( InfoDescriptor info, ProcessDescriptor profile, URI codebase )
-    {
-        m_info = info;
-        m_profile = profile;
-        m_codebase = codebase;
-        m_element = null;
-    }
-    */
-    
    /**
     * Return the element defining the scenario descriptor.
     * @return the defining element

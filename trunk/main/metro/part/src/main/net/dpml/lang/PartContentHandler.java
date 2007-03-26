@@ -453,7 +453,7 @@ public final class PartContentHandler extends ContentHandler implements PartCont
                 {
                     // otherwise we need to build it
                     
-                    part = buildPart( classloader, connection, name );
+                    part = buildPart( classloader, connection, name, true );
                     //if( part instanceof PartManager )
                     //{
                     //    // register it with the mbean server
@@ -477,7 +477,7 @@ public final class PartContentHandler extends ContentHandler implements PartCont
                 {
                     LOGGER.trace( "building new part: " + url );
                 }
-                return buildPart( classloader, connection, name );
+                return buildPart( classloader, connection, name, true );
             }
         }
         catch( IOException e )
@@ -501,7 +501,8 @@ public final class PartContentHandler extends ContentHandler implements PartCont
         }
     }
     
-    private static Part buildPart( ClassLoader anchor, URLConnection connection, String name ) throws Exception
+    private static Part buildPart( 
+      ClassLoader anchor, URLConnection connection, String name, boolean validate ) throws Exception
     {
         URL url = connection.getURL();
         if( LOGGER.isTraceEnabled() )
@@ -532,7 +533,7 @@ public final class PartContentHandler extends ContentHandler implements PartCont
                 Element elem = getStrategyElement( element );
                 StrategyHandler handler = getStrategyHandler( elem );
                 String query = url.getQuery();
-                Strategy strategy = handler.build( classloader, elem, resolver, name, query );
+                Strategy strategy = handler.build( classloader, elem, resolver, name, query, validate );
                 if( LOGGER.isTraceEnabled() )
                 {
                     LOGGER.trace( 

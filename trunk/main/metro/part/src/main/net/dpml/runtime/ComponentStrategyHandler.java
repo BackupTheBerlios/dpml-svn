@@ -69,7 +69,7 @@ public class ComponentStrategyHandler implements StrategyHandler
     {
         String spec = getComponentName( c, name );
         Profile profile = new Profile( c, spec, null );
-        ContextModel context = getContextModel( null, c, spec, profile, null, null, null );
+        ContextModel context = getContextModel( null, c, spec, profile, null, null, null, true );
         PartsDirective parts = profile.getPartsDirective();
         return new ComponentStrategy( 
           null, spec, 0, c, ActivationPolicy.SYSTEM, LifestylePolicy.THREAD, 
@@ -92,7 +92,8 @@ public class ComponentStrategyHandler implements StrategyHandler
     * @exception IOException if an I/O error occurs
     */
     public Strategy build( 
-      ClassLoader classloader, Element element, Resolver resolver, String partition, String query ) throws IOException
+      ClassLoader classloader, Element element, Resolver resolver, String partition, 
+      String query, boolean validate ) throws IOException
     {
         Class c = loadComponentClass( classloader, element, resolver );
         String name = getComponentName( c, element, resolver );
@@ -102,7 +103,9 @@ public class ComponentStrategyHandler implements StrategyHandler
         
         Query q = new Query( query );
         Element contextElement = ElementHelper.getChild( element, "context" );
-        ContextModel context = getContextModel( classloader, c, path, profile, contextElement, resolver, q );
+        ContextModel context = 
+          getContextModel( 
+            classloader, c, path, profile, contextElement, resolver, q, validate );
         ActivationPolicy activation = getActivationPolicy( element, profile, c );
         LifestylePolicy lifestyle = getLifestylePolicy( element, profile, c );
         CollectionPolicy collection = getCollectionPolicy( element, profile, c );
@@ -397,14 +400,15 @@ public class ComponentStrategyHandler implements StrategyHandler
 
     private static ContextModel getContextModel( 
       ClassLoader classloader, Class clazz, String path, 
-      Profile profile, Element element, Resolver resolver, Query query  ) throws IOException
+      Profile profile, Element element, Resolver resolver, Query query,
+      boolean validate  ) throws IOException
     {
         boolean policy = getContextHandlingPolicy( clazz );
         Constructor constructor = getSingleConstructor( clazz );
         Class subject = getContextClass( constructor, policy );
         ContextDirective bundled = profile.getContextDirective();
         ContextDirective declared = new ContextDirective( classloader, element, resolver );
-        return new ContextModel( clazz, path, subject, policy, bundled, declared, query );
+        return new ContextModel( clazz, path, subject, policy, bundled, declared, query, validate );
     }
     
     private static boolean getContextHandlingPolicy( Class c )

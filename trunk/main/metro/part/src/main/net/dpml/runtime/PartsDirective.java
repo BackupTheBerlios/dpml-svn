@@ -118,7 +118,7 @@ class PartsDirective
         try
         {
             StrategyHandler handler = PartContentHandler.getStrategyHandler( element );
-            return handler.build( classloader, element, resolver, partition, null );
+            return handler.build( classloader, element, resolver, partition, null, true );
         }
         catch( DecodingException e )
         {

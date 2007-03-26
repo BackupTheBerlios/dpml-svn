@@ -70,7 +70,8 @@ public class AntlibStrategyHandler implements StrategyHandler
     * @exception IOException if an I/O error occurs
     */
     public Strategy build( 
-      ClassLoader classloader, Element element, Resolver resolver, String partition, String query ) throws IOException
+      ClassLoader classloader, Element element, Resolver resolver, String partition, 
+      String query, boolean validate ) throws IOException
     {
         String urn = ElementHelper.getAttribute( element, "urn", null, resolver );
         String path = ElementHelper.getAttribute( element, "path", null, resolver );

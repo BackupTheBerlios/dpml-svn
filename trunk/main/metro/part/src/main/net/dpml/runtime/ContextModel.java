@@ -43,14 +43,14 @@ class ContextModel implements Resolvable
     
     ContextModel( 
       Class clazz, String path, Class subject, boolean policy,
-      ContextDirective bundled, ContextDirective directive, Query query ) throws IOException
+      ContextDirective bundled, ContextDirective directive, Query query, boolean validate ) throws IOException
     {
-        this( clazz, path, subject, policy, null, bundled, directive, query );
+        this( clazz, path, subject, policy, null, bundled, directive, query, validate );
     }
     
     private ContextModel( 
       Class clazz, String path, Class subject, boolean policy, String keyPath,
-      ContextDirective bundled, ContextDirective directive, Query query ) throws IOException
+      ContextDirective bundled, ContextDirective directive, Query query, boolean validate ) throws IOException
     {
         m_directive = directive;
         
@@ -70,7 +70,8 @@ class ContextModel implements Resolvable
                     ContextDirective nested = getContextDirective( directive, key );
                     try
                     {
-                        ContextModel model = new ContextModel( clazz, path, c, policy, key, parent, nested, query );
+                        ContextModel model = 
+                          new ContextModel( clazz, path, c, policy, key, parent, nested, query, validate );
                         if( !optional || ( model.size() > 0 ) )
                         {
                             value = model;
@@ -90,7 +91,14 @@ class ContextModel implements Resolvable
                               + "] within the component model ["
                               + path
                               + "] could not be created.";
-                            throw new ComponentException( error );
+                            if( validate )
+                            {
+                                throw new ComponentException( error );
+                            }
+                            else
+                            {
+                                // m_logger.warn( error );
+                            }
                         }
                     }
                 }
@@ -126,7 +134,14 @@ class ContextModel implements Resolvable
                       + "] within the component model ["
                       + path
                       + "].";
-                    throw new MissingContextEntryException( error );
+                    if( validate )
+                    {
+                        throw new MissingContextEntryException( error );
+                    }
+                    else
+                    {
+                        // m_logger.validate( error );
+                    }
                 }
             }
         }

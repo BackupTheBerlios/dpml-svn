@@ -280,7 +280,7 @@ public class PackageTask extends GenericTask
                     
                     ClassLoader parent = ClassLoader.getSystemClassLoader();
                     ClassLoader classloader = getRuntimeClassLoader( parent, resource );
-                    Strategy strategy = handler.build( classloader, root, resource, null, null );
+                    Strategy strategy = handler.build( classloader, root, resource, null, null, false ); /// need validation flag
                     Part part = new Part( info, classpath, strategy );
                     File file = type.getFile( true );
                     File dir = file.getParentFile();

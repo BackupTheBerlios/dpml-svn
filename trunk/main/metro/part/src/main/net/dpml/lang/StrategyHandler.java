@@ -58,9 +58,11 @@ public interface StrategyHandler
     * @param resolver symbolic property resolver
     * @param partition the assigned partition
     * @param query the query 
+    * @param validate if true validate the strategy integrity
     * @return the strategy
     * @exception IOException if an I/O error occurs
     */
     Strategy build( 
-      ClassLoader classloader, Element element, Resolver resolver, String partition, String query ) throws IOException;
+      ClassLoader classloader, Element element, Resolver resolver, String partition, 
+      String query, boolean validate ) throws IOException;
 }
