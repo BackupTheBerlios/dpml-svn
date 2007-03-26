@@ -7,45 +7,4 @@
   <project file="plugins/convert/project.xml"/>
   <project file="plugins/checkstyle/project.xml"/>
 
-  <!--
-  <project name="dpml-depot-javac" basedir="plugins/javac">
-    <info title="DPML Javac Compiler">
-      <description>Javac Compiler plugin.</description>
-    </info>
-    <types>
-      <type id="jar"/>
-      <type id="part" alias="true" source="target/plugin.xml"/>
-    </types>
-    <dependencies>
-      <runtime>
-        <include ref="dpml/depot/dpml-depot-builder"/>
-        <include uri="artifact:jar:openjdk/javac/javac"/>
-        <include ref="ant/ant-launcher"/>
-      </runtime>
-    </dependencies>
-  </project>
-  -->
-  
-  <!--
-  <project name="dpml-depot-adapter" basedir="adapter">
-    <info title="DPML Javac Compiler">
-      <description>Javac Compiler plugin.</description>
-    </info>
-    <properties>
-      <property name="project.javac.source" value="1.5"/>
-      <property name="project.javac.target" value="1.5"/>
-    </properties>
-    <types>
-      <type id="jar"/>
-      <type id="part" alias="true" source="target/plugin.xml"/>
-    </types>
-    <dependencies>
-      <runtime>
-        <include ref="dpml/depot/dpml-depot-library"/>
-        <include uri="artifact:jar:openjdk/javac/javac"/>
-      </runtime>
-    </dependencies>
-  </project>
-  -->
-  
 </module>
