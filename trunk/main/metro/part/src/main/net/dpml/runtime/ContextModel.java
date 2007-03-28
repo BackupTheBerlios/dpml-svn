@@ -82,15 +82,15 @@ class ContextModel implements Resolvable
                         if( !optional )
                         {
                             final String error = 
-                              "Nested context entry ["
+                              "Non optional context entry ["
                               + key
-                              + "] within the context definition ["
+                              + "] within the nested context ["
                               + c.getName()
-                              + "] as a constructor argument to the component class ["
+                              + "] referenced by ["
                               + clazz.getName()
-                              + "] within the component model ["
+                              + "] within ["
                               + path
-                              + "] could not be created.";
+                              + "] is undefined.";
                             if( validate )
                             {
                                 throw new ComponentException( error );
