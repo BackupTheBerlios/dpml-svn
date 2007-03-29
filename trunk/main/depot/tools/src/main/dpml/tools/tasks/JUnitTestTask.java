@@ -426,9 +426,16 @@ public class JUnitTestTask extends GenericTask
     
     private void setupTestProperties( JUnitTask junit, Project project, File working )
     {
+        File base = project.getBaseDir();
+        setupTestProperties( junit, project, working, new File( base, "test.properties" ) );
+        setupTestProperties( junit, project, working, new File( working, "test.properties" ) );
+    }
+    
+    private void setupTestProperties( JUnitTask junit, Project project, File working, File properties )
+    {
         Resource resource = getResource();
         File base = project.getBaseDir();
-        final File properties = new File( base, "test.properties" );
+        //final File properties = new File( base, "test.properties" );
         if( properties.exists() )
         {
             Properties props = new Properties();
