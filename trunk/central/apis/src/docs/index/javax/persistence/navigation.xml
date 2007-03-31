@@ -24,17 +24,8 @@
 
  <body>
 
-    <links>
-      <item name="Modules" href="index/index.html"/>
-    </links>
-
     <menu>
-      <item name="Ant" href="index/ant/index.html"/>
-      <item name="Checkstyle" href="index/checkstyle/index.html"/>
-      <item name="DPML" href="index/dpml/index.html"/>
-      <item name="Javax" href="index/javax/index.html"/>
-      <item name="JUnit" href="index/junit/index.html"/>
-      <item name="Jetty" href="index/jetty/index.html"/>
+      <item name="1.0" href="http://api.dpml.net/javax/persistence/1.0/index.html"/>
     </menu>
 
  </body>

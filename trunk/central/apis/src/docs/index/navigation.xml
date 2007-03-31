@@ -28,6 +28,7 @@
       <item name="Ant" href="ant/index.html"/>
       <item name="Checkstyle" href="checkstyle/index.html"/>
       <item name="DPML" href="dpml/index.html"/>
+      <item name="Javax" href="javax/index.html"/>
       <item name="JUnit" href="junit/index.html"/>
       <item name="Jetty" href="jetty/index.html"/>
     </menu>

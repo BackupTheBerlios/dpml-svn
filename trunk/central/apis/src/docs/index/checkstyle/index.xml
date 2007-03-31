@@ -3,8 +3,8 @@
 <document>
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>Ant Javadoc Archive</title>
-    <description>Javadocs for the Ant System.</description>
+    <title>Checkstyle Javadoc Archive</title>
+    <description>Javadocs for the Checkstyle System.</description>
   </properties>
 
   <body>

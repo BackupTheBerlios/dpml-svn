@@ -25,7 +25,8 @@
  <body>
 
     <menu>
-      <item name="servlet" href="servlet/index.html"/>
+      <item name="Persistence" href="persistence/index.html"/>
+      <item name="Servlet" href="servlet/index.html"/>
     </menu>
 
  </body>
