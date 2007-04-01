@@ -23,7 +23,7 @@
         </tr>
         <tr>
           <td><a href="persistence/index.html">javax.persistence</a></td>
-          <td>Java Persistence APIs.</td>
+          <td>Java Persistence APIs (JPA).</td>
         </tr>
         <tr>
           <td><a href="servlet/index.html">javax.servlet</a></td>

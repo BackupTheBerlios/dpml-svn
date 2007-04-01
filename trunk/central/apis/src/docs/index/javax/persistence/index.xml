@@ -3,13 +3,13 @@
 <document>
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>Java Persistence API</title>
+    <title>Java Persistence API (JPA)</title>
     <description>Javadocs for Java Persistence API</description>
   </properties>
 
   <body>
 
-    <section name="Java Persistence API">
+    <section name="Java Persistence API (JPA)">
     
       <table>
         <tr>
@@ -18,7 +18,7 @@
         </tr>
         <tr>
           <td><a href="http://api.dpml.net/javax/persistence/1.0/index.html">1.0</a></td>
-          <td>Java Persistence API version 1.0.</td>
+          <td>Java Persistence API (JPA) Version 1.0.</td>
         </tr>
       </table>
 
