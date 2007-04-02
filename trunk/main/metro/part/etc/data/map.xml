@@ -13,6 +13,11 @@
         <entry key="foo" value="bar"/>
         <entry key="ping" value="pong"/>
       </map>
+      <map key="colors">
+        <entry key="red" class="java.awt.Color" method="RED"/>
+        <entry key="blue" class="java.awt.Color" method="BLUE"/>
+        <entry key="green" class="java.awt.Color" method="GREEN"/>
+      </map>
     </context>
   </component>
 

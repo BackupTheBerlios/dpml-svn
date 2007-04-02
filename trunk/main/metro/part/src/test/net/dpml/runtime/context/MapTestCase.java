@@ -18,6 +18,7 @@
 
 package net.dpml.runtime.context;
 
+import java.awt.Color;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -53,5 +54,18 @@ public class MapTestCase extends AbstractTestCase
         String ping = map.get( "ping" );
         assertEquals( "foo", "bar", foo );
         assertEquals( "ping", "pong", ping );
+    }
+    
+    public void testColors() throws Exception
+    {
+        MapWidget widget = 
+          load( MapWidget.class, "map.xml", "map" );
+        Map<String,Color> map = widget.getContext().getColors();
+        Color red = map.get( "red" );
+        Color green = map.get( "green" );
+        Color blue = map.get( "blue" );
+        assertEquals( "red", Color.RED, red );
+        assertEquals( "green", Color.GREEN, green );
+        assertEquals( "blue", Color.BLUE, blue );
     }
 }

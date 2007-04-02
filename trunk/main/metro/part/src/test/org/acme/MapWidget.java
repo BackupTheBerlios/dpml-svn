@@ -18,6 +18,7 @@
 
 package org.acme;
 
+import java.awt.Color;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -33,6 +34,7 @@ public class MapWidget implements Widget
     {
         Map<String,String> getPrimary();
         SortedMap<String,String> getSecondary();
+        Map<String,Color> getColors();
     }
     
     private Context m_context;

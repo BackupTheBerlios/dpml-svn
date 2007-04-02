@@ -40,6 +40,13 @@
             <td>If the context entry return type is itself a context interface
             then the context element may be supplied as the value solution.</td>
           </tr>
+          <tr>
+            <td><tt><a href="map.html">map</a></tt></td>
+            <td>Nested entries are used to construct an instance of java.util.Map.
+                If the entry class attribute is not null, the constructed map
+                will be used as a constructor argument to the class declared
+                by the class attribute.</td>
+          </tr>
         </table>
 
       </subsection>
