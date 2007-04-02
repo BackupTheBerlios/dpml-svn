@@ -30,7 +30,7 @@ public class MapWidget implements Widget
 {
     public interface Context
     {
-        Map getDemo();
+        Map<String,String> getDemo();
     }
     
     private Context m_context;
@@ -43,12 +43,7 @@ public class MapWidget implements Widget
     
     public String getMessage()
     {
-        Object message = m_context.getDemo().get( "message" );
-        if( null != message )
-        {
-            return message.toString();
-        }
-        return null;
+        return m_context.getDemo().get( "message" );
     }
     
     public Context getContext()

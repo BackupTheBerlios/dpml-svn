@@ -36,11 +36,9 @@ public class MapTestCase extends AbstractTestCase
     {
         MapWidget widget = 
           load( MapWidget.class, "map.xml", "map" );
-        Map map = widget.getContext().getDemo();
-        int n = map.size();
-        String message = (String) map.get( "message" );
-        String value = (String) map.get( "foo" );
-        
+        Map<String,String> map = widget.getContext().getDemo();
+        String message = map.get( "message" );
+        String value = map.get( "foo" );
         assertEquals( "message", "Hello from the map entry", message );
         assertEquals( "foo", "bar", value );
     }
