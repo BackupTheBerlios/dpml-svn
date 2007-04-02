@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro"
+      name="widget" 
+      class="org.acme.MapWidget">
+    <context>
+      <map key="demo">
+        <entry key="message" value="Hello from the map entry"/>
+        <entry key="foo" value="bar"/>
+      </map>
+    </context>
+  </component>
+
+</part>

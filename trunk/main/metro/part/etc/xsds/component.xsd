@@ -13,6 +13,7 @@
     <element name="categories" type="this:CategoriesType" substitutionGroup="this:category"/>
     <element name="entry" type="this:EntryType"/>
     <element name="context" type="this:ContextEntryType" substitutionGroup="this:entry"/>
+    <element name="map" type="this:MapEntryType" substitutionGroup="this:entry"/>
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
     <element name="profile" type="this:ProfileType"/>
     <element name="parts" type="this:PartsType"/>
@@ -92,6 +93,12 @@
     </complexType>
     
     <complexType name="ContextEntryType">
+      <complexContent>
+        <extension base="this:EntryType"/>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="MapEntryType">
       <complexContent>
         <extension base="this:EntryType"/>
       </complexContent>

@@ -77,13 +77,7 @@ class ContextDirective extends Directive implements Encodable
                       "Context entry does not declare a key.";
                     throw new DecodingException( error, null, child );
                 }
-                
-                if( "context".equals( child.getLocalName() ) )
-                {
-                    ContextDirective directive = new ContextDirective( classloader, child, resolver );
-                    m_entries.put( key, directive );
-                }
-                else if( "entry".equals( child.getLocalName() ) )
+                if( "entry".equals( child.getLocalName() ) )
                 {
                     String service = ElementHelper.getAttribute( child, "lookup" );
                     if( null == service )
@@ -98,6 +92,17 @@ class ContextDirective extends Directive implements Encodable
                         m_entries.put( key, loookup );
                     }
                 }
+                else if( "context".equals( child.getLocalName() ) )
+                {
+                    ContextDirective directive = new ContextDirective( classloader, child, resolver );
+                    m_entries.put( key, directive );
+                }
+                else if( "map".equals( child.getLocalName() ) )
+                {
+                    Map<String,Value> map = buildMapValue( child, resolver );
+                    MapWrapper wrapper = new MapWrapper( child, map );
+                    m_entries.put( key, wrapper );
+                }
                 else
                 {
                     final String error = 
@@ -106,6 +111,25 @@ class ContextDirective extends Directive implements Encodable
                 }
             }
         }
+    }
+    
+    private Map<String,Value> buildMapValue( Element element, Resolver resolver ) throws ComponentException
+    {
+        Map<String,Value> map = new Hashtable<String,Value>();
+        Element[] elements = ElementHelper.getChildren( element );
+        for( Element elem : elements )
+        {
+            String key = ElementHelper.getAttribute( elem, "key", null, resolver );
+            if( null == key )
+            {
+                final String error = 
+                  "Map entry does not declare a key.";
+                throw new ComponentException( error, null, elem );
+            }
+            Value value = VALUE_DECODER.decodeValue( elem, resolver );
+            map.put( key, value );
+        }
+        return map;
     }
     
     int size()
@@ -203,6 +227,41 @@ class ContextDirective extends Directive implements Encodable
         public void encode( Buffer buffer, String key ) throws IOException
         {
             m_value.encode( buffer, "entry", key );
+        }
+    }
+    
+    static class MapWrapper extends AbstractResolvable
+    {
+        private final Map<String,Value> m_values;
+        
+        MapWrapper( Element element, Map<String,Value> values )
+        {
+            super( element );
+            m_values = values;
+        }
+        
+        public <T>T resolve( ComponentStrategy parent, Class<T> type ) throws Exception
+        {
+            Map<String,Object> map = new Hashtable<String,Object>();
+            
+            for( String k : m_values.keySet() )
+            {
+                Value v = m_values.get( k );
+                Object o = v.resolve( parent.getContextMap() );
+                map.put( k, o );
+            }
+            return type.cast( map );
+        }
+        
+        public void encode( Buffer buffer, String key ) throws IOException
+        {
+            buffer.nl( "<map key=\"" + key + "\">" );
+            for( String k : m_values.keySet() )
+            {
+                Value v = m_values.get( k );
+                v.encode( buffer, "entry", k );
+            }
+            buffer.nl( "</map>" );
         }
     }
     
