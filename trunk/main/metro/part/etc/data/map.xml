@@ -5,9 +5,13 @@
       name="widget" 
       class="org.acme.MapWidget">
     <context>
-      <map key="demo">
+      <map key="primary">
         <entry key="message" value="Hello from the map entry"/>
         <entry key="foo" value="bar"/>
+      </map>
+      <map key="secondary" class="java.util.TreeMap">
+        <entry key="foo" value="bar"/>
+        <entry key="ping" value="pong"/>
       </map>
     </context>
   </component>

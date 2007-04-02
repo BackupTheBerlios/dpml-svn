@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Hashtable;
+import java.beans.Expression;
+import java.lang.reflect.Constructor;
 
 import dpml.lang.Construct;
 import dpml.lang.ValueDecoder;
@@ -100,7 +102,8 @@ class ContextDirective extends Directive implements Encodable
                 else if( "map".equals( child.getLocalName() ) )
                 {
                     Map<String,Value> map = buildMapValue( child, resolver );
-                    MapWrapper wrapper = new MapWrapper( child, map );
+                    String classname = ElementHelper.getAttribute( child, "class", null, resolver );
+                    MapWrapper wrapper = new MapWrapper( classloader, child, map, classname );
                     m_entries.put( key, wrapper );
                 }
                 else
@@ -233,29 +236,47 @@ class ContextDirective extends Directive implements Encodable
     static class MapWrapper extends AbstractResolvable
     {
         private final Map<String,Value> m_values;
+        private final String m_classname;
+        private final ClassLoader m_classloader;
         
-        MapWrapper( Element element, Map<String,Value> values )
+        MapWrapper( ClassLoader classloader, Element element, Map<String,Value> values, String classname )
         {
             super( element );
             m_values = values;
+            m_classname = classname;
+            m_classloader = classloader;
         }
         
+        @SuppressWarnings( "unchecked" )
         public <T>T resolve( ComponentStrategy parent, Class<T> type ) throws Exception
         {
-            Map<String,Object> map = new Hashtable<String,Object>();
-            
+            Map map = new Hashtable();
             for( String k : m_values.keySet() )
             {
                 Value v = m_values.get( k );
                 Object o = v.resolve( parent.getContextMap() );
                 map.put( k, o );
             }
-            return type.cast( map );
+            if( null == m_classname )
+            {
+                return type.cast( map );
+            }
+            else
+            {
+                Class c = m_classloader.loadClass( m_classname );
+                Constructor<T> constructor = c.getConstructor( Map.class );
+                return constructor.newInstance( map );
+            }
         }
         
         public void encode( Buffer buffer, String key ) throws IOException
         {
-            buffer.nl( "<map key=\"" + key + "\">" );
+            buffer.nl( "<map key=\"" + key + "\"" );
+            if( null != m_classname )
+            {
+                buffer.write( " class=\"" + m_classname + "\"" );
+            }
+            buffer.nl( ">" );
             for( String k : m_values.keySet() )
             {
                 Value v = m_values.get( k );

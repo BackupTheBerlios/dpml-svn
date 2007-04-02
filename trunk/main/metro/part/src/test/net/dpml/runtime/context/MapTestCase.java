@@ -19,6 +19,7 @@
 package net.dpml.runtime.context;
 
 import java.util.Map;
+import java.util.SortedMap;
 
 import net.dpml.runtime.AbstractTestCase;
 
@@ -32,14 +33,25 @@ import org.acme.Widget;
  */
 public class MapTestCase extends AbstractTestCase
 {
-    public void testEquality() throws Exception
+    public void testSimpleMap() throws Exception
     {
         MapWidget widget = 
           load( MapWidget.class, "map.xml", "map" );
-        Map<String,String> map = widget.getContext().getDemo();
+        Map<String,String> map = widget.getContext().getPrimary();
         String message = map.get( "message" );
         String value = map.get( "foo" );
         assertEquals( "message", "Hello from the map entry", message );
         assertEquals( "foo", "bar", value );
+    }
+    
+    public void testQualifiedMap() throws Exception
+    {
+        MapWidget widget = 
+          load( MapWidget.class, "map.xml", "map" );
+        SortedMap<String,String> map = widget.getContext().getSecondary();
+        String foo = map.get( "foo" );
+        String ping = map.get( "ping" );
+        assertEquals( "foo", "bar", foo );
+        assertEquals( "ping", "pong", ping );
     }
 }

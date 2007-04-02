@@ -19,6 +19,7 @@
 package org.acme;
 
 import java.util.Map;
+import java.util.SortedMap;
 
 import net.dpml.util.Logger;
 
@@ -30,7 +31,8 @@ public class MapWidget implements Widget
 {
     public interface Context
     {
-        Map<String,String> getDemo();
+        Map<String,String> getPrimary();
+        SortedMap<String,String> getSecondary();
     }
     
     private Context m_context;
@@ -43,7 +45,7 @@ public class MapWidget implements Widget
     
     public String getMessage()
     {
-        return m_context.getDemo().get( "message" );
+        return m_context.getPrimary().get( "message" );
     }
     
     public Context getContext()
