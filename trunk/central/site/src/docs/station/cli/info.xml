@@ -36,23 +36,6 @@
 
       </subsection>
 
-      <subsection name="Example - General Listing">
-
-<pre>$ station info
-
-  <font color="blue">Server is operational.
-  Port: 1099
-  Store: local:xml:dpml/station/registry
-  Basedir: c:\dev\dpml\main
-  Codebase: artifact:jar:dpml/metro/dpml-station-server#SNAPSHOT
-
-  Profile count: 1
-
-  (1) demo       STARTED link:part:dpml/planet/http/dpml-http-demo</font>
-</pre>
-
-      </subsection>
-
     </section>
 
   </body>

@@ -7,8 +7,10 @@
   <types>
     <type id="jar"/>
     <type id="part" source="etc/component.xml" alias="true"/>
+    <type id="part" source="etc/component-bis.xml" alias="true" name="dpml-metro-blade"/>
     <type id="plan" source="etc/plan.xml" alias="true"/>
     <type id="appliance" source="etc/appliance.xml" alias="true"/>
+    <type id="appliance" source="etc/appliance-bis.xml" alias="true" name="dpml-metro-demo"/>
   </types>
   
   <dependencies>

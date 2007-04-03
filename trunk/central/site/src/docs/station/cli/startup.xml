@@ -45,15 +45,6 @@
 
       </subsection>
 
-
-      <subsection name="Example">
-
-<pre>$ station startup</pre>
-
-<source>[5096 ] [INFO   ] (depot.station): Station started on port: 1099</source>
-
-      </subsection>
-
     </section>
 
   </body>

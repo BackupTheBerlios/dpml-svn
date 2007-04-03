@@ -4,7 +4,7 @@
 
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
-    <title>DPML Metro SCM</title>
+    <title>DPML Station SCM</title>
   </properties> 
 
   <body>
@@ -23,10 +23,11 @@
 
         <p>
         The following command will install the DPML Station as an NT Service
-        under the service name <tt>dpml</tt>.
+        under the service name <tt>dpml</tt> (or just go to the share\bin\scm
+        directory and double click on the install-DPML-SCM.exe file).
         </p> 
 <pre>
-$ %HOME%\Shared\bin\scm\install-DPML-SCM
+$ %DPML_HOME%\share\bin\scm\install-DPML-SCM
 </pre>
 
       </subsection>
@@ -49,7 +50,7 @@ $ net stop dpml
         The following command will uninstall the DPML Station NT Service.
         </p> 
 <pre>
-$ %HOME%\Shared\bin\scm\uninstall-DPML-SCM
+$ %DPML_HOME%\share\bin\scm\uninstall-DPML-SCM
 </pre>
 
       </subsection>

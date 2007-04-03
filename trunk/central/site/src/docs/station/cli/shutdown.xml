@@ -39,17 +39,6 @@
 
       </subsection>
 
-      <subsection name="Example">
-
-<pre>$ station shutdown</pre>
-
-<source>
-[6084 ] [INFO   ] (depot.station): initiating station shutdown
-[6084 ] [INFO   ] (depot.station): station shutdown complete
-</source>
-
-      </subsection>
-
     </section>
 
   </body>

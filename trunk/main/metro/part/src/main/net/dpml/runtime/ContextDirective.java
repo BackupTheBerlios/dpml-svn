@@ -276,11 +276,12 @@ class ContextDirective extends Directive implements Encodable
             {
                 buffer.write( " class=\"" + m_classname + "\"" );
             }
-            buffer.nl( ">" );
+            buffer.write( ">" );
+            Buffer b = buffer.indent();
             for( String k : m_values.keySet() )
             {
                 Value v = m_values.get( k );
-                v.encode( buffer, "entry", k );
+                v.encode( b, "entry", k );
             }
             buffer.nl( "</map>" );
         }

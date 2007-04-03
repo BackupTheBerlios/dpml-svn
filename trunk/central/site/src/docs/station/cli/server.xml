@@ -45,11 +45,51 @@
 
       </subsection>
 
-      <subsection name="Example">
+    </section>
+    
+    <section name="Example">
+    
+      <subsection name="Launching the station in server mode">
+      
+        <p>
+        In the following example we are starting the station as a forground 
+        process and supplying a specfic target deployment plan.  The plan
+        references two appliance definitions reflected by the process identifier
+        numbers in the log (2932 is the station process, 264 is the first 
+        appliance sub-process, and 92 is the second appliance subprocess.
+        </p>
 
-<pre>$ station server</pre>
+<pre>
+<font color="darkred">$ station server link:plan:dpml/metro/dpml-metro-sample</font>
 
-<source>[5096 ] [INFO   ] (depot.station): Station started on port: 1099</source>
+[2932 ] [INFO   ] (dpml.station): created local registry on port 1099
+[2932 ] [INFO   ] (dpml.station.plan): loading station.sample
+[2932 ] [INFO   ] (dpml.metro.appliance): process established in 1094 ms
+[2932 ] [INFO   ] (dpml.station.plan): loading station.demo
+[2932 ] [INFO   ] (dpml.metro.appliance): process established in 1078 ms
+[2932 ] [INFO   ] (dpml.station.plan): commissioning plan
+[264  ] [INFO   ] (station.sample.hello): commissioning hello
+[264  ] [INFO   ] (station.sample.hello): pid: [264]
+[264  ] [INFO   ] (station.sample.hello): message: Fiery the angels fell. Deep thunder rolled 
+around their shores... burning with the fires of Orc.
+[264  ] [INFO   ] (station.sample.hello): port: 1024
+[264  ] [INFO   ] (dpml.metro.event): creation
+[264  ] [INFO   ] (dpml.metro.event): incarnation
+[264  ] [INFO   ] (station.sample.hello): target: artifact:jar:dpml/metro/dpml-metro-sample#2.0.0
+[264  ] [INFO   ] (station.sample.hello): starting
+[264  ] [INFO   ] (station.sample.hello): started
+[92   ] [INFO   ] (station.demo.blade): commissioning blade
+[92   ] [INFO   ] (dpml.metro.event): creation
+[92   ] [INFO   ] (dpml.metro.event): incarnation
+[92   ] [INFO   ] (station.demo.blade): pid: [92]
+[92   ] [INFO   ] (station.demo.blade): message: I've seen things you people wouldn't believe. 
+Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the 
+Tannhauser gate. All those moments will be lost in time, like tears in rain. Time to die.
+[92   ] [INFO   ] (station.demo.blade): port: 42
+[92   ] [INFO   ] (station.demo.blade): target: artifact:jar:dpml/metro/dpml-metro-sample#2.0.0
+[92   ] [INFO   ] (station.demo.blade): starting
+[2932 ] [INFO   ] (dpml.station.plan): plan commissioning complete
+[92   ] [INFO   ] (station.demo.blade): started</pre>
 
       </subsection>
 

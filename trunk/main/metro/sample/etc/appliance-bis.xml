@@ -13,9 +13,6 @@
     </properties>
   </process>
   
-  <codebase uri="link:part:dpml/metro/dpml-metro-sample">
-    <param key="message" value="Fiery%20the%20angels%20fell.%20Deep%20thunder%20rolled%20around%20their%20shores...%20burning%20with%20the%20fires%20of%20Orc."/>
-    <param key="port" value="1024"/>
-  </codebase>
+  <codebase uri="link:part:dpml/metro/dpml-metro-blade"/>
 
 </appliance>
