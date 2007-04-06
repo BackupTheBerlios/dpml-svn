@@ -30,7 +30,7 @@ import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 
 /**
- * LSInput resolver service for the <tt>dpml:plan</tt> namespace.
+ * LSInput resolver service for the <tt>dpml:station</tt> namespace.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -38,7 +38,7 @@ import org.w3c.dom.ls.LSResourceResolver;
 public final class PlanNamespaceResolver implements LSResourceResolver
 {
    /**
-    * Return the schema definition for a <tt>dpml:plan</tt> namespace.
+    * Return the schema definition for a <tt>dpml:station</tt> namespace.
     *
     * @param type the node type
     * @param namespace the node namespace

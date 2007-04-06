@@ -44,7 +44,7 @@
       virtual machine.
       </p>
       
-<source>&lt;plan xmlns="dpml:plan" name="demo" title="Plan Demo"&gt;
+<source>&lt;plan xmlns="dpml:station" name="demo" title="Plan Demo"&gt;
 
   &lt;entry key="foo" uri="link:appliance:dpml/metro/demo-foo"/&gt;
   &lt;entry key="bar" uri="link:appliance:dpml/metro/demo-bar"/&gt;

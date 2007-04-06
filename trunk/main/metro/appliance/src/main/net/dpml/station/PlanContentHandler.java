@@ -62,7 +62,7 @@ import org.w3c.dom.TypeInfo;
 public class PlanContentHandler extends ApplianceContentHandler //implements ApplianceFactory
 {
     private static final Logger LOGGER = new DefaultLogger( "dpml.station.plan" );
-    static final String NAMESPACE = "dpml:plan";
+    static final String NAMESPACE = "dpml:station";
     static final String TYPE = "plan";
     
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 

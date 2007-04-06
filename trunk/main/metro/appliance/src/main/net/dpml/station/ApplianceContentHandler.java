@@ -78,7 +78,7 @@ import org.w3c.dom.TypeInfo;
  */
 public class ApplianceContentHandler extends ContentHandler implements ApplianceContentManager, ApplianceFactory
 {
-    static final String NAMESPACE = "dpml:appliance";
+    static final String NAMESPACE = "dpml:station";
     static final String TYPE = "appliance";
     
     private static final Logger LOGGER = new DefaultLogger( "dpml.metro.appliance" );

@@ -7,9 +7,6 @@
   </info>
   
   <types>
-    <type id="xsd" alias="true" source="etc/xsds/appliance.xsd">
-      <property name="project.package.include-in-classes" value="true"/>
-    </type>
     <type id="xsd" name="dpml-metro-plan" alias="true" source="etc/xsds/plan.xsd">
       <property name="project.package.include-in-classes" value="true"/>
     </type>
