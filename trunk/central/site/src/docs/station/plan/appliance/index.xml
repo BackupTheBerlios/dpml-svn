@@ -14,11 +14,49 @@
       <p>
       An appliance datatype defines the configuration to be used in the establishment
       of a Java Virtual Machine. An appliance datatype is an XML document that contains a 
-      root <a href="appliance.html">appliance</a> element.  The appliance element 
-      contains an <a href="info.html">info</a> block, a defintion of the configuration 
-      of the virtual machine <a href="process/index.html">process</a>, and a 
-      <a href="codebase.html">codebase</a> reference.
+      root appliance element.  The appliance element contains an <a href="info.html">info</a> 
+      block, a defintion of the configuration of the virtual machine 
+      <a href="process/index.html">process</a>, and a <a href="codebase.html">codebase</a> 
+      reference.
       </p>
+      
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>key</tt></td>
+            <td>A unique key identitying the deployment entry. Required if the appliance
+            definitionis nested within a plan definition.  Not required when an appliance 
+            definition is the top-level element (as is the case with an appliance artifact).</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="info.html">info</a></tt></td>
+            <td>
+            Descripton of the appliance.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="process/index.html">process</a></tt></td>
+            <td>
+            Java virtual machine configuration.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="codebase.html">codebase</a></tt></td>
+            <td>
+            The application codebase to be deployed on the virtual machine.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
 
     </section>
 
