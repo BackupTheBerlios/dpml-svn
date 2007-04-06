@@ -18,7 +18,7 @@
         </p>
 
       </subsection>
-      
+
       <subsection name="Attributes">
         <table>
           <tr>
@@ -37,10 +37,17 @@
 
         <table>
           <tr>
-            <td><tt><a href="entry.html">entry</a></tt></td>
+            <td><tt><a href="appliance/index.html">appliance</a></tt></td>
             <td>
-            Declaration of a deployment entry. Zero or more entry elements
-            may be declared.  Entries will be deployed sequentially.
+            Declaration of an embedded jvm deployment screnario.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="include.html">include</a></tt></td>
+            <td>
+            Declaration of a deployment entry by reference. Zero or more include elements
+            may be declared.  Include entries may reference stand-alone appliance or part
+            datatypes.
             </td>
           </tr>
         </table>
