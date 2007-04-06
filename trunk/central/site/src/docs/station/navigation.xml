@@ -26,9 +26,8 @@
 
     <menu>
       <item name="Overview" href="concepts/index.html"/>
-      <item name="Plan Datatype" href="plan/index.html"/>
-      <item name="Appliance Datatype" href="appliance/index.html"/>
-      <item name="CLI" href="cli/index.html"/>
+      <item name="Datatypes" href="plan/index.html"/>
+      <item name="Station CLI" href="cli/index.html"/>
       <item name="SCM" href="scm.html"/>
     </menu>
 
