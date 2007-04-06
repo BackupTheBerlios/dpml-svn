@@ -230,7 +230,7 @@ public class ApplianceContentHandler extends ContentHandler implements Appliance
         }
     }
     
-    private static final Appliance newAppliance( String key, ApplianceDescriptor descriptor ) throws IOException
+    static final Appliance newAppliance( String key, ApplianceDescriptor descriptor ) throws IOException
     {
         if( null == key )
         {

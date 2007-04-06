@@ -20,23 +20,32 @@ Example:
             elementFormDefault="qualified">
     
     <element name="plan" type="this:PlanType"/>
+    <element name="solution" type="this:AbstractEntry"/>
+    <element name="include" type="this:IncludeType" substitutionGroup="this:solution"/>
     
     <complexType name="PlanType">
       <sequence>
-        <element name="entry" type="this:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+        <element ref="this:solution" minOccurs="0" maxOccurs="unbounded"/>
       </sequence>
       <attribute name="name" type="string" default="root"/>
       <attribute name="title" type="string"/>
     </complexType>
 
-    <complexType name="EntryType">
-      <sequence>
-        <element name="param" type="this:ParamType" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-      <attribute name="uri" type="anyURI" use="required"/>
-      <attribute name="key" type="string" use="required"/>
+    <complexType name="AbstractEntry">
+      <attribute name="key" type="string"/>
     </complexType>
-
+    
+    <complexType name="IncludeType">
+      <complexContent>
+        <extension base="this:AbstractEntry">
+          <sequence>
+            <element name="param" type="this:ParamType" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+          <attribute name="uri" type="anyURI" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
     <complexType name="ParamType">
       <attribute name="key" type="string" use="required"/>
       <attribute name="value" type="string" use="required"/>

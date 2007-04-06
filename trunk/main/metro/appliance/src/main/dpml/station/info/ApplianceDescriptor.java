@@ -36,9 +36,8 @@ import org.w3c.dom.Element;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public final class ApplianceDescriptor
+public final class ApplianceDescriptor extends EntryDescriptor
 {
-    private final Element m_element;
     private final InfoDescriptor m_info;
     private final ProcessDescriptor m_profile;
     private final URI m_codebase;
@@ -46,8 +45,25 @@ public final class ApplianceDescriptor
     
     public ApplianceDescriptor( Element element, Resolver resolver, URI uri ) throws DecodingException
     {
+        this( element, resolver, uri, false );
+    }
+    
+    public ApplianceDescriptor( Element element, Resolver resolver, URI uri, boolean nested ) throws DecodingException
+    {
+        super( element, resolver );
+        
+        if( nested )
+        {
+            String key = getKey();
+            if( null == key )
+            {
+                final String error = 
+                  "Mising key attribute.";
+                throw new DecodingException( error, element );
+            }
+        }
+        
         m_uri = uri;
-        m_element = element;
         
         Element codebase = ElementHelper.getChild( element, "codebase" );
         m_codebase = getCodebase( codebase, resolver );
@@ -57,15 +73,6 @@ public final class ApplianceDescriptor
         
         Element process = ElementHelper.getChild( element, "process" );
         m_profile = new ProcessDescriptor( process, resolver );
-    }
-    
-   /**
-    * Return the element defining the scenario descriptor.
-    * @return the defining element
-    */
-    public Element getElement()
-    {
-        return m_element;
     }
     
    /**

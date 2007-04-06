@@ -1,9 +1,24 @@
 <?xml version="1.0"?>
 
-<plan xmlns="dpml:plan" name="demo" title="Plan Demo">
+<plan xmlns="dpml:plan" xmlns:appliance="dpml:appliance" name="demo" title="Plan Demo">
 
-  <entry key="foo" uri="link:appliance:dpml/metro/demo-foo"/>
-  <entry key="bar" uri="link:appliance:dpml/metro/demo-bar"/>
-  <entry key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/>
+  <include key="foo" uri="link:appliance:dpml/metro/demo-foo"/>
+  
+  <!--<include key="bar" uri="link:appliance:dpml/metro/demo-bar"/>-->
+  
+  <appliance:appliance xmlns="dpml:appliance" key="bar">
+    <info name="bar"/>
+    <process startup="0" shutdown="0">
+      <environment>
+        <variable name="FOO" value="BAR"/>
+      </environment>
+      <properties>
+        <property name="foo" value="bar"/>
+      </properties>
+    </process>
+    <codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Bar"/>
+  </appliance:appliance>
+
+  <include key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/>
   
 </plan>

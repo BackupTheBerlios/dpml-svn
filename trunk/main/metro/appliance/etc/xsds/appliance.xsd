@@ -23,14 +23,17 @@ Example:
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:part="dpml:part"
             xmlns:this="dpml:appliance"
+            xmlns:plan="dpml:plan"
             targetNamespace="dpml:appliance"
             elementFormDefault="qualified">
     
     <import namespace="dpml:part" schemaLocation="link:xsd:dpml/lang/dpml-lang-part"/>
-
-    <element name="appliance" type="this:ApplianceType"/>
+    <import namespace="dpml:plan" schemaLocation="link:xsd:dpml/lang/dpml-lang-plan"/>
+    
+    <element name="appliance" type="this:ApplianceType" substitutionGroup="plan:solution"/>
     <element name="codebase" type="this:CodebaseType"/>
     
+    <!--
     <complexType name="ApplianceType">
       <sequence>
         <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
@@ -38,7 +41,20 @@ Example:
         <element name="codebase" type="this:CodebaseType" minOccurs="1" maxOccurs="1"/>
       </sequence>
     </complexType>
-
+    -->
+    
+    <complexType name="ApplianceType">
+      <complexContent>
+        <extension base="plan:AbstractEntry">
+          <sequence>
+            <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
+            <element name="process" type="this:ProcessType" minOccurs="0" maxOccurs="1"/>
+            <element name="codebase" type="this:CodebaseType" minOccurs="1" maxOccurs="1"/>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+    
     <complexType name="ProcessType">
       <sequence>
         <element name="environment" type="this:EnvironmentType" minOccurs="0" maxOccurs="1"/>

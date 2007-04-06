@@ -2,7 +2,7 @@
 
 <plan xmlns="dpml:plan" name="station" title="DPML Station Deployment Plan">
 
-  <entry key="sample" uri="link:appliance:dpml/metro/dpml-metro-sample"/>
-  <entry key="demo" uri="link:appliance:dpml/metro/dpml-metro-demo"/>
+  <include key="sample" uri="link:appliance:dpml/metro/dpml-metro-sample"/>
+  <include key="demo" uri="link:appliance:dpml/metro/dpml-metro-demo"/>
   
 </plan>

@@ -15,15 +15,15 @@ profile.
 Example:
 
   <plan xmlns="dpml:plan" name="demo" title="Station Deployment Plan Demo">
-    <entry key="foo" uri="link:appliance:dpml/metro/demo"/>
-    <entry key="bar" uri="link:part:dpml/lang/dpml-lang-sample"/>
-    <entry key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=My%20Scenario&amp;port=999"/>
+    <include key="foo" uri="link:appliance:dpml/metro/demo"/>
+    <include key="bar" uri="link:part:dpml/lang/dpml-lang-sample"/>
+    <include key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=My%20Scenario&amp;port=999"/>
   </plan>
   
 -->
 
 <plan xmlns="dpml:plan" name="station" title="DPML Station Deployment Plan">
 
-  <!-- add entry here -->
+  <!-- add entries here -->
   
 </plan>

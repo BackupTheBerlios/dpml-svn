@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright 2006 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -22,6 +23,8 @@ import dpml.state.NullState;
 
 import dpml.station.info.PlanDescriptor;
 import dpml.station.info.EntryDescriptor;
+import dpml.station.info.IncludeDescriptor;
+import dpml.station.info.ApplianceDescriptor;
 
 import dpml.appliance.ApplianceHelper;
 import dpml.appliance.AbstractAppliance;
@@ -48,6 +51,8 @@ import net.dpml.state.State;
 import net.dpml.transit.Artifact;
 import net.dpml.util.Logger;
 
+import org.w3c.dom.Element;
+
 /**
  * Appliance implementation that aggregates a collection of ordered appliance instances.
  *
@@ -72,22 +77,53 @@ class CompositeAppliance extends AbstractAppliance implements Appliance, Applian
         
         for( EntryDescriptor entry : m_descriptor.getEntryDescriptors() )
         {
-            URI codebase = descriptor.getCodebaseURI();
-            String name = getQualifiedName( partition, entry.getKey() );
-            logger.info( "loading " + name );
-            Appliance appliance = getApplianceForType( partition, entry );
-            if( null == appliance )
+            if( entry instanceof IncludeDescriptor )
             {
-                final String error =
-                  "Failed to resolve an appliance for the uri [ " 
-                  + codebase 
-                  + "].";
-                throw new ApplianceException( error );
+                IncludeDescriptor include = (IncludeDescriptor) entry;
+                URI codebase = descriptor.getCodebaseURI();
+                String name = getQualifiedName( partition, include.getKey() );
+                logger.info( "loading " + name );
+                Appliance appliance = getApplianceForType( partition, include );
+                if( null == appliance )
+                {
+                    Element element = include.getElement();
+                    final String error =
+                      "Failed to resolve an appliance for the uri [ " 
+                      + codebase 
+                      + "].";
+                    throw new ApplianceException( error, null, element );
+                }
+                else
+                {
+                    m_list.add( appliance );
+                    ApplianceContentHandler.register( name, appliance );
+                }
+            }
+            else if( entry instanceof ApplianceDescriptor )
+            {
+                ApplianceDescriptor d = (ApplianceDescriptor) entry;
+                String key = d.getKey();
+                if( null == key )
+                {
+                    Element element = d.getElement();
+                    final String error =
+                      "Missing key attribute in nested appliance definition.";
+                    throw new ApplianceException( error, null, element );
+                }
+                String name = getQualifiedName( partition, key );
+                Appliance appliance = ApplianceContentHandler.newAppliance( name, d );
+                m_list.add( appliance );
+                ApplianceContentHandler.register( name, appliance );
             }
             else
             {
-                m_list.add( appliance );
-                ApplianceContentHandler.register( name, appliance );
+                // should not happen
+                Element element = entry.getElement();
+                final String error =
+                  "Appliance entry descriptor class is not recognized ["
+                  + entry.getClass().getName()
+                  + "].";
+                throw new ApplianceException( error, null, element );
             }
         }
         
@@ -153,7 +189,7 @@ class CompositeAppliance extends AbstractAppliance implements Appliance, Applian
         }
     }
     
-    private Appliance getApplianceForType( String partition, EntryDescriptor entry ) throws IOException
+    private Appliance getApplianceForType( String partition, IncludeDescriptor entry ) throws IOException
     {
         String key = entry.getKey();
         String address = getQualifiedName( partition, key );

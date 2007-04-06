@@ -47,12 +47,24 @@ public final class PlanDescriptor
         m_codebase = codebase;
         m_name = ElementHelper.getAttribute( element, "name", null, resolver );
         m_title = ElementHelper.getAttribute( element, "title", null, resolver );
-        Element[] elements = ElementHelper.getChildren( element, "entry" );
+        Element[] elements = ElementHelper.getChildren( element );
         m_entries = new EntryDescriptor[ elements.length ];
         for( int i=0; i<elements.length; i++ )
         {
             Element elem = elements[i];
-            m_entries[i] = new EntryDescriptor( elem, resolver );
+            String name = elem.getLocalName();
+            if( name.equals( "include" ) )
+            {
+                m_entries[i] = new IncludeDescriptor( elem, resolver );
+            }
+            else if( name.equals( "appliance" ) )
+            {
+                m_entries[i] = new ApplianceDescriptor( elem, resolver, codebase, true );
+            }
+            else
+            {
+                throw new UnsupportedOperationException( "Element name not recognized: " + name );
+            }
         }
     }
     
