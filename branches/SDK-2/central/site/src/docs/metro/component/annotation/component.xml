@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Annotation</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Annotation">
+
+      <p>
+      The Component annotation binds a component name and runtime 
+      policies with a component class. 
+      </p>
+      
+      <subsection name="Attribute Table">
+      
+        <table>
+          <tr>
+            <td>name</td>
+            <td>Associates a simple name to the component which may be used
+                as a construction element in the creation of a fully qualified
+                path.  The default value is the empty string <tt>""</tt>.</td>
+          </tr>
+          <tr>
+            <td>lifestyle</td>
+            <td>Associates an explicit <a href="../policies/lifestyle.html">lifestyle</a> policy.</td>
+          </tr>
+          <tr>
+            <td>collection</td>
+            <td>Associates an explicit <a href="../policies/collection.html">collection</a> policy.</td>
+          </tr>
+          <tr>
+            <td>lifecycle</td>
+            <td>Declares a <a href="../lifecycle/index.html">lifecycle</a> graph via a fully qualified uri.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Sample Code">
+      
+        <p>
+        The following code binds the name <tt>widget</tt>, the 
+        lifestyle policy of <tt>SINGELTON</tt>, and a <tt>SOFT</tt>
+        collection policy to the class SimpleWidget.
+        </p>
+        
+        <pre>
+import net.dpml.annotation.Component;
+    
+import static net.dpml.annotation.CollectionPolicy.SOFT;
+import static net.dpml.annotation.LifestylePolicy.SINGLETON;
+        
+<font color="darkred">@Component( name="widget", lifestyle=SINGLETON, collection=SOFT )</font>
+public class SimpleWidget
+{
+    ...
+}</pre>
+      
+      </subsection>
+
+      <subsection name="Technical Note">
+      
+        <p>
+        Features and policies assigned to a component (either via defaults or
+        through an explicit component annotation) may be overriden by a packaged or part-based
+        component strategy using the <tt>name</tt>, <tt>lifestyle</tt>, and <tt>collection</tt> 
+        attributes.
+        </p>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>

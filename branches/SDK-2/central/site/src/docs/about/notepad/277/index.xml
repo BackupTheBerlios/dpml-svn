@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>JSR 277 Potential Impact</title>
+  </properties>
+  <body>
+    <section name="JSR 277 Potential Impact">
+
+      <p>
+The following is a review of the 'JSR 277 Java Module System Early Draft Review' document published by Sun on the 11 October 2006.  This review focuses on the relationship of the 277 spec to DPML products.
+      </p>
+
+      <p>
+JSR 277 is focussed on the subject of 'deployment modules' but to get this into focus we need to understand the foundation concepts of language modularity that are the subject of JSR 294.  JSR 294 is dealing with the long standing issue in the Java language concerning effective information hiding.  An example of the 'information hiding' issue is present in our own Transit codebase - for example, dpml.transit.artifact is a package containing 5 classes of which only 4 are strictly necessary at the level of the API.  The forth class needs to be declared public because it is referenced by other transit packages.  There are lots of similar examples of references across packages within the Transit system and in each case these classes must be declared public.  One solution is to move all classes into the same package thereby allowing effective control via public/protected/private modifiers - but the downside of this is loss of code structure and clarity at the development level.  JSR 294 intends to resolve this though the generation of .module metadata as a part of the javac process.  While JSR 294 appears to be running a little behind schedule (no draft spec at this time) there are a lot of hints inside the JSR 277 draft spec. (in particular Chapter 4, Scenarios).  
+      </p>
+
+      <p>
+In effect 277 specifies module metadata as the following:
+      </p>
+      
+      <ul>
+        <li>module name</li>
+        <li>extendable meta-data</li>
+        <li>module import statements (imported modules)</li>
+        <li>module export statements (exported classes)</li>
+        <li>membership (list of classes and resources in the module)</li>
+      </ul>
+      
+      <p>
+The second last paragraph of Section 2.5 (Module Metadata) describes a service loading scenario based on java.util.ServiceLoader (in SE6) and its here that we get an idea of the intended deployment usage of modules.  In effect a SE7 edition of ServiceLoader could be module aware in that it could evaluate module metadata as a part of service implementation selection. Furthermore - the ServiceLoader can leverage the module/classloader relationship which is without doubt the core value proposition of the 277 spec - covered under chapter 8.3 'Classloading'. 
+      </p>
+
+      <p>
+Currently in DPML Transit when loading a part, we read in information defining a chain of classloaders (typically a IMPL classloader delegating to an SPI delegating to an API (following the standard parent first delegation model).  With JSR 277 modules life becomes much more elegant because classes are resolved from classloaders that are directly associated with a module (and imported modules are directly associated with their own module classloaders, etc.., etc.).   So for example - the Metro container is an example of a part that declares impl, spi and api classloader state and Transit builds up the classloader chain based on this info - whereas under SE7 would would get the Metro container module classloader and that classloader would delegate requests to its dependent modules as required (e.g. delegation to the logging api, component api, and model api as required and supplying implementation classes from itself while protected by a clean export definition).
+      </p>
+
+      <p>
+It is also worth considering the scenario where were are loading a metro component that has a dependency on a specific version of the Metro SPI (e.g. 1.0) and the loading of another component with a dependency on another version of the Metro SPI (e.g. 1.3).  In this scenario both components would be packaged as named and versioned modules (e.g. widget 1.3 and 2.1 respectively).  The classloader chain arising in this scenario will look a lot like the diagram on page 75 (80 of the PDF) where both components share some  but not all sub-systems.  In effect JSR 277 is potentially eliminating all of the classloading overhead in Transit (including the special system classloader established by Depot) and special handling of classes that exist in both container and component space.
+      </p>
+
+      <p>
+Given the above - Transit on SE7 would be scaled down to eliminate the classloader management content.  Our part management will probably evolve into supplementary module metadata and its not unreasonable to imagine plugin and component handlers coming from java.util.ServiceLoader (and in the process removing a lot glue code necessary to get container systems up and running nicely).
+      </p>
+
+      <p>
+In summary - the JSR 277 spec still has a way to go as several important aspects are undefined (in particular the underlying JSR 294 spec.).  While I came up several issues while reviewing the spec I was able to resolve each after a bit of thinking about the problem and the tools JSR 277 is proposing. In effect if you make the assumption that the data and services introduced by JSR 277 will be largely tool generated and accessed via APIs - you care about computation integrity and questions/issues such as selected formats become academic.  Once this reality is locked into your head the spec stands up nicely as an example of solving the right problem in the right place.  It's from this perspective that I'm largely unconcerned with the secondary topics of versioning specifications, repository strategies, and distribution formats, as the primary result of the JSR will be a component classloading model and that in and of itself will have a very substantive impact on the Java community.   I'll be watching closely the relationship between ServiceLoader and JSR 277 and looking forward to the following:
+      </p>
+      
+      <ul>
+        <li>reading a draft JSR 294 spec and validating this in the context of the Depot [1] build system</li>
+        <li>reviewing an updated JSR 277 spec following release of a draft 294</li>
+        <li>the complete javadoc on the java.lang.module package</li>
+        <li>early access to SE7 with the objective of validating 277 relative to Transit [2], Metro [3], and Station [4]</li>
+        <li>preparing the DPML SDK 2.0 workplan in synchronization with the above</li>
+      </ul>
+      
+<p>
+Finally - having read a lot of comments on the JSR 277 draft spec document - I've seen a great deal of confusion. Some of this is simple misunderstandings related to scope while some of the more vocal criticism has been more about ownership as opposed to considered technical opinion. In both cases I'm tempted to suggest that it would be helpful to setup a publicly accessible list where people could post questions and people like myself and others could post options and general help in dealing with the things that are already clearly established in the draft spec. About all it needs in addition is a couple of 277 experts hanging around.  However - I'm impressed with the progress and direction to-date and would not be too bothered if things remaining behind closed doors for a while longer (as closed doors do have advantages of keeping out the noise).
+</p>
+
+<p>Cheers, Steve.</p>
+
+<p><i>Stephen J. McConnell, DPML</i></p>
+
+<hr/>
+
+<pre>
+JSR 277 Home Page
+<a href="http://jcp.org/en/jsr/detail?id=277">http://jcp.org/en/jsr/detail?id=277</a>
+
+[1] DPML Depot Build System
+<a href="http://www.dpml.net/depot">http://www.dpml.net/depot</a>
+
+[2] DPML Transit Repositories and Resource Management
+<a href="http://www.dpml.net/transit">http://www.dpml.net/transit</a>
+
+[3] DPML Metro Component Model
+<a href="http://www.dpml.net/metro">http://www.dpml.net/metro</a>
+
+[4] DPML Station application management platform
+<a href="http://www.dpml.net/station">http://www.dpml.net/station</a>
+</pre>
+
+    </section>
+  </body>
+</document>
+

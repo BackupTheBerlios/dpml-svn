@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot-checkstyle" default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+
+  <x:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="javadoc"/>
+
+</project>

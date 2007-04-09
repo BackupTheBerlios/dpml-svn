@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>Javax Javadocs</title>
+    <description>Javax Javadocs.</description>
+  </properties>
+
+  <body>
+
+    <section name="Javax Javadocs">
+    
+      <p>
+      APIs published upder the <tt>javax</tt> package name used by 
+      DPML components.
+      </p> 
+    
+      <table>
+        <tr>
+          <th>Package</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="persistence/index.html">javax.persistence</a></td>
+          <td>Java Persistence APIs (JPA).</td>
+        </tr>
+        <tr>
+          <td><a href="servlet/index.html">javax.servlet</a></td>
+          <td>Servlet APIs.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

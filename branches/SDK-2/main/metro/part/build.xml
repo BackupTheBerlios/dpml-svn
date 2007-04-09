@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-part" default="install" basedir="." 
+    xmlns:transit="antlib:dpml.tools.transit"
+    xmlns:x="dpml:depot" >
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+  
+  <target name="update">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating ${dpml.share}/bin
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.share}/bin"/>
+    <copy todir="${dpml.share}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/**"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.share}/bin">
+        <include name="**/*.sh"/>
+        <include name="**/depot"/>
+      </fileset>
+    </chmod>
+  </target>
+
+</project>

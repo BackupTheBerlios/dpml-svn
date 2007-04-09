@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="dpml:library" name="automation">
+
+  <info title="DPML Library Build Automation Tutorial">
+    <description>Demonstration of Depot build automation capabilities.</description>
+  </info>
+    
+  <properties>
+    <property name="location" value="New York"/>
+    <property name="message" value="Hello from ${user.name} in ${location}"/>
+  </properties>
+    
+  <types>
+    <type id="jar"/>
+  </types>
+    
+  <filters>
+    <filter token="MESSAGE" value="${message}"/>
+  </filters>
+  
+</project>
+

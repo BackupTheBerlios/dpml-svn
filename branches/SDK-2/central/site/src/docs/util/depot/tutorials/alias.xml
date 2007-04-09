@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Alias Declaration</title>
+  </properties>
+
+  <body>
+
+    <section name="Using alias statements">
+
+      <p>
+      In the previouse example we created a jar file and based on the standard
+      naming convensions the generated artifact was named <tt>demo-SNAPSHOT.jar</tt>.
+      This naming convension is based on the <tt>[name]-[VERSION].[TYPE]</tt> 
+      pattern.  In some situations we want to reference artifact using a logical version
+      (or no version).  This can be achived though the declaration of an alias under the 
+      type production element.
+      </p>
+      
+      <subsection name="Adding an Alias">
+
+        <p>
+        To simplify local management of modules we can use the <tt>alias</tt> attribuite
+        on a type declaration declaration.  This request the creation of a link which is an artifact
+        that references another artifact.  The following example demonstrates the addition
+        of an <tt>alias</tt> attribute to the type production statement in the demo project.
+        </p>
+
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="dpml:library"&gt;
+
+  &lt;project name="demo" basedir="."&gt;
+    &lt;properties&gt;
+      &lt;property name="location" value="New York"/&gt;
+      &lt;property name="message" value="Hello from ${user.name} in ${location}"/&gt;
+    &lt;/properties&gt;
+    &lt;types&gt;
+      <font color="darkred">&lt;type id="jar" alias="true"/&gt;</font>
+    &lt;/types&gt;
+    &lt;filters&gt;
+      &lt;filter token="MESSAGE" value="${message}"/&gt;
+    &lt;/filters&gt;
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</pre>
+
+        <p>
+        The alias attribute is recognized by the Depot antlib and will result
+        in the automatic production of an unversioned symbolic link (a.ka. alias).
+        The link definition is created in the target/deliverables/jars directly 
+        under the name <tt>demo.jar.link</tt>.  This file contains an artifact 
+        uri refernecing the real artifact.
+        </p>
+        
+        <p><i>Contents of <tt>${basedir}/target/deliverables/jars/demo.jar.link</tt></i></p>
+        
+<source>artifact:jar:demo#SNAPSHOT</source>
+        
+        <p>
+        Subsequent build or runtime systems that reference resource via artifact-based 
+        uris can using the <tt>link</tt> protocol to retrieve the resource.  For example, 
+        the following project definition demonstrates the usage of a alias reference
+        via the link protocol.
+        </p>
+        
+        <pre>
+  &lt;project name="example" basedir="somewhere"&gt;
+    &lt;dependencies&gt;
+      &lt;runtime&gt;
+        <font color="blue">&lt;include uri="link:jar:demo"/&gt;</font>
+      &lt;/runtime&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;
+        </pre>
+        
+      </subsection>
+
+      <subsection name="Summary">
+
+        <p>
+        The link datastructure is simply a reference to a 
+        versioned artifact (similar to a unix symlink for artifacts).  This tutorial
+        has covered the creation of a simple non-versioned alias associated with the 
+        produced jar file. Alias attributes may be used on any resource type
+        production statement.  
+        </p>
+        
+        <p>
+        The <a href="unit.html">following tutorial</a> moves on to the broader subject of unit 
+        testing in an environment backed by a rich project model.
+        </p>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Graph Interface Datatype</title>
+  </properties> 
+
+  <body>
+
+    <section name="Interface Datatype">
+
+      <subsection name="Description">
+
+        <p>
+        Declaration of the exposure of a management interface.  The set of 
+        interfaces declared under states within the state graph correspond to 
+        the enabled management contract for a component within a particular 
+        state.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>class</tt></td>
+            <td>The classname of the interface.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

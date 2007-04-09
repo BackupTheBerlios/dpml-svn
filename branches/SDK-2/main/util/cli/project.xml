@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-util-cli">
+
+  <info title="DPML CLI Utility">
+    <description>Commandline handling utility.</description>
+  </info>
+  
+  <properties>
+    <property name="project.javac.lint" value=""/>
+  </properties>
+    
+  <types>
+    <type id="jar"/>
+  </types>
+  
+  <dependencies>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+  
+</project>

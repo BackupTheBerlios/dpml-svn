@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-metro-sample" export="false">
+
+  <info title="DPML Component Example"/>
+  
+  <types>
+    <type id="jar"/>
+    <type id="part" source="etc/component.xml" alias="true"/>
+    <type id="part" source="etc/component-bis.xml" alias="true" name="dpml-metro-blade"/>
+    <type id="plan" source="etc/plan.xml" alias="true"/>
+    <type id="appliance" source="etc/appliance.xml" alias="true"/>
+    <type id="appliance" source="etc/appliance-bis.xml" alias="true" name="dpml-metro-demo"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/metro/dpml-metro-part"/>
+    </runtime>
+  </dependencies>
+  
+</project>
+

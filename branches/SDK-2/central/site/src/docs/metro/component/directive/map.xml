@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro: Map Entry Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Map Entry Directive">
+
+      <subsection name="Description">
+
+        <p>
+        Declaration of a context entry wherein nested entries are 
+        used to construct an instance of <tt>java.util.Map</tt>.
+        </p>
+
+      </subsection>
+
+      <subsection name="Map Attributes">
+        <table>
+          <tr>
+            <td><tt>key</tt></td>
+            <td>The entry key (required).</td>
+          </tr>
+          <tr>
+            <td><tt>class</tt></td>
+            <td>
+              Optional declaration of a classname to be instantiated using
+              a container resolved map instance. The class must refer to 
+              an implementation class that takes a <tt>java.util.Map</tt>
+              as a single constructor argument and must be assignable to the 
+              context entry return type.
+            </td>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="Map Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="entry.html">entry</a></tt></td>
+            <td>Defines a key and value to be added to the map instance.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Examples">
+
+      <subsection name="General Example">
+
+        <p>
+          The following example demonstrates the creation of three 
+          map-based context entries.  The first entry demonstrates 
+          the default construction wherein the container handles
+          the creation a Map instance using nested entries as map
+          key and value bindings.  The second example demonstrates
+          the declaration of an alternative map implementation class 
+          (in this case the <tt>java.util.TreeMap</tt>) which will 
+          be instantiated with the resolved map as a single 
+          constructor argument.  The third example demonstrates
+          the construction of a map containing color values assigned
+          to keys (note that a default implementation class cannot be 
+          resolved for map entries - as such the class attribute must
+          be used for any non-string value declaration).
+        </p>
+
+<source><![CDATA[
+<context>
+  <map key="primary">
+    <entry key="message" value="Hello from the map entry"/>
+    <entry key="foo" value="bar"/>
+  </map>
+  <map key="secondary" class="java.util.TreeMap">
+    <entry key="foo" value="bar"/>
+    <entry key="ping" value="pong"/>
+  </map>
+  <map key="colors">
+    <entry key="red" class="java.awt.Color" method="RED"/>
+    <entry key="white" class="java.awt.Color" method="WHITE"/>
+    <entry key="blue" class="java.awt.Color" method="BLUE"/>
+  </map>
+</context>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Multi-Project Build Sequencing</title>
+  </properties>
+
+  <body>
+
+    <section name="Multi-Project Build Sequencing">
+    
+      <p>
+      An important feature of Depot is the support for transitive 
+      dependency management.  
+      </p>
+      
+      <p>
+      Dependencies between project are maintained relative to the following scopes:
+      </p>
+      
+      <table>
+        <tr>
+          <td>build</td>
+          <td>
+            Declaration of one or build sequence dependencies. When
+            a project declares a build scoped dependency on another 
+            project - Depot will ensure that the dependee project is
+            built before the dependee project.
+          </td>
+        </tr>
+        <tr>
+          <td>runtime</td>
+          <td>
+            Declaration of one or runtime dependencies. Runtime dependencies
+            are used by Depot to construct classloader chains resulting in
+            the potential automation of several common build requirements 
+            (such as source code compilation). Runtime dependencies are 
+            fully transitive in that the runtime dependencies of a project
+            are constructed by expanding the runtime dependencies of any
+            projects declared as runtime dependencies, and any runtime 
+            dependencies of the dependee projects (etc., etc.).
+          </td>
+        </tr>
+        <tr>
+          <td>test</td>
+          <td>
+            Declaration of one or more test dependencies. Test scoped dependencies
+            are used to suppliment transitive runtime dependencies and are typically
+            applied to test-case automation .  An important aspect of of test scoped 
+            dependencies is the ability to separate test concerns from runtime 
+            concerns - ensuring that runtime meta-data is not polluted with
+            test related information.
+          </td>
+        </tr>
+      </table>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        Our index file has been updated to declare two projects : <tt>clock-api</tt> and 
+        <tt>clock-impl</tt>.  The API project declares an interface and the impl project 
+        is an implementation of that API.  As such, the impl project has a runtime 
+        dependency on the API (and the test-time dependencies on ant-junit).
+        </p>
+        
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="dpml:library">
+
+  &lt;imports&gt;
+    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
+  &lt;/imports&gt;
+
+  <font color="darkred">&lt;project name="clock-api" basedir="api"&gt;
+    &lt;types&gt;
+      &lt;type id="jar"/&gt;
+    &lt;/types&gt;
+  &lt;/project&gt;
+  
+  &lt;project name="clock-impl" basedir="impl"&gt;
+    &lt;types&gt;
+      &lt;type id="jar"/&gt;
+    &lt;/types&gt;
+    &lt;dependencies&gt;
+      &lt;runtime&gt;
+        &lt;include key="clock-api"/&gt;
+      &lt;/runtime&gt;
+      &lt;test&gt;
+        &lt;include ref="ant/ant-junit"/&gt;
+        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+      &lt;/test&gt;
+    &lt;/dependencies&gt;
+  &lt;/project&gt;</font>
+
+&lt;/index&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Listing project dependencies">
+      
+        <p>
+        If we set our current directory to the parent directoriy of the two projects and 
+        invoke the <tt>build-list</tt> (or <tt>build -l</tt> for short), we get a listing of 
+        all of the projects in scope:
+        </p>
+      
+<pre>
+$ build -list
+Selection: [2]
+
+  [1]   project:widget#SNAPSHOT
+  [2]   project:gizmo#SNAPSHOT
+</pre>
+        <p>
+        Using the <tt>-e</tt> (expand) and <tt>-s</tt> (select) option we can view the 
+        full dependency scenario:
+        </p>
+        
+        <pre>
+$ build -list  -expand -select clock-impl
+Listing project: clock-impl
+
+project:clock-impl#SNAPSHOT
+
+  version: SNAPSHOT
+  basedir: D:\dpml\tutorials\tooling\complex\build\impl
+  types: (1)
+    jar
+  runtime providers: (1)
+    project:clock-api#SNAPSHOT
+  test providers: (7)
+    resource:ant/ant-launcher#1.6.5
+    resource:ant/ant-trax#1.6.5
+    resource:ant/ant-xslp#1.6.5
+    resource:ant/ant#1.6.5
+    resource:junit/junit#3.8.1
+    resource:ant/ant-junit#1.6.5
+    resource:dpml/transit/dpml-transit-main#SNAPSHOT</pre>
+
+      </subsection>
+      
+      <subsection name="Building the projects ..">
+      
+        <p>
+        In the following build example the <tt>build</tt> command is invoked
+        in the parent directory.  As such the build tool will evaluate all 
+        projects declared in the index and establish a build selection that 
+        includes all projects with a basedir that is equal to or deeper that
+        our current directory.  This selection is subsequently sorted 
+        resulting in the api project appearing before the implementation 
+        project.  The build tool then initiates the build of each project
+        sequentally.  If there is a failure of an indivial build then the 
+        multi-project build sequence will fail.
+        </p>
+        
+<pre>$ build
+[2036 ] [INFO   ] (depot.build): Initiating build sequence: (2)
+
+  (1)   clock-api
+  (2)   clock-impl
+
+
+-------------------------------------------------------------------------
+clock-api#SNAPSHOT
+-------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\build\api\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\build\api\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\build\api\target\build\main
+
+build:
+    [javac] Created dir: D:\dpml\tutorials\tooling\complex\build\api\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\build\api\target\classes\main
+
+package:
+      [jar] Created dir: D:\dpml\tutorials\tooling\complex\build\api\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\complex\build\api\target\deliverables\jars\clock-api-SNAPSHOT.jar
+      [jar] Creating md5 checksum
+
+test:
+
+install:
+[x:install] Copying 2 files to D:\system\dpml\data\cache
+
+BUILD SUCCESSFUL
+Total time: 3 seconds
+
+-------------------------------------------------------------------------
+clock-impl#SNAPSHOT
+-------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\build\impl\target\build\main
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\build\test
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\complex\build\impl\target\build\test
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\test
+
+build:
+    [javac] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\build\impl\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\classes\test
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\complex\build\impl\target\classes\test
+
+package:
+      [jar] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\complex\build\impl\target\deliverables\jars\clock-impl-SNAPSHOT.jar
+      [jar] Creating md5 checksum
+
+test:
+    [junit] Created dir: D:\dpml\tutorials\tooling\complex\build\impl\target\reports\test
+    [junit] Executing forked test.
+    [junit] Running org.acme.impl.test.DemoTestCase
+    [junit] [13005] [INFO   ] (test): 11:28 PM, CST
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.218 sec
+
+install:
+[x:install] Copying 2 files to D:\system\dpml\data\cache
+
+BUILD SUCCESSFUL
+Total time: 2 seconds</pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        This tutorial has introduced the subject of scoped dependencies
+        and how these dependency declarations impact build sequencing and classpath
+        construction.  In addition the tutorial has demonstrated multi-project build 
+        sequencing (covering information listing and build execution).
+        The <a href="modules.html">next tutorial</a> introduces the use of modules
+        as a mechanisms through which we can improve resource name management and 
+        reduce the potential for naming conflicts.
+        </p>
+
+      </subsection>
+      
+    </section>
+
+  </body>
+</document>
+

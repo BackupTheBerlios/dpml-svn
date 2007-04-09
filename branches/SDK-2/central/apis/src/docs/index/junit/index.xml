@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>JUnit Javadoc Archive</title>
+    <description>Javadocs for the Junit System.</description>
+  </properties>
+
+  <body>
+
+    <section name="JUnit Javadocs">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/junit/4.2/index.html">4.2</a></td>
+          <td>JUnit version 4.2.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/junit/3.8.1/index.html">3.8.1</a></td>
+          <td>Classic JUnit version 3.8.1.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

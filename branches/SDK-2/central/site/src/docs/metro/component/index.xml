@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Strategy</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Strategy">
+    
+      <p>
+      The Metro component strategy is an object model supporting the formal
+      commissioning and decommissioning of objects taking into account thread
+      safety, lifestyle, lifecycle, and structural composition.  Resources 
+      supporting strategy delivery include the following:
+      </p>
+      
+      <ol>
+        <li>class level <a href="annotation/index.html">annotations</a> that  
+            associate runtime policies and supporting metadata with a class</li>
+        <li>runtime <a href="policies/index.html">policies</a> dealing with 
+            activation, instantiation, and garbage collection</li>
+        <li>formal <a href="semantics/index.html">semantics</a> and patterns 
+            through which a class can declare dependencies and structure</li>
+        <li>formal specification of a deployment and decommissioning 
+        <a href="lifecycle/index.html">lifecycle</a></li>
+        <li>packaged default deployment <a href="profile/index.html">profiles</a></li>
+        <li>url resolvable deployment <a href="profile/index.html">directives</a></li>
+      </ol>
+
+    </section>
+
+  </body>
+
+</document>

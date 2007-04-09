@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Annotations</title>
+  </properties> 
+
+  <body>
+
+    <section name="Annotations">
+    
+      <p>
+      Metro provides five optional annotations supporting:
+      </p>
+      
+      <ol>
+        <li>association of runtime policy to a class</li>
+        <li>association of additional meta data</li>
+      </ol>
+      
+      <p>
+      These annotations are summarasied under the following table.
+      </p>
+      
+      <table>
+        <tr>
+          <td><a href="activation.html">Activation</a></td>
+          <td>Used to associate an explicit activation policy 
+              with the class.</td>
+        </tr>
+        <tr>
+          <td><a href="component.html">Component</a></td>
+          <td>Used to declare a default component name, lifestyle policy, 
+              collection policy, an explicit lifecycle graph, 
+              and/or alternative runtime handler uri or classname.</td>
+        </tr>
+        <tr>
+          <td><a href="context.html">Context</a></td>
+          <td>Annotation used to mark an interface as compliant 
+              with the Metro Context contract (in effect a bean 
+              like instance built and populated by the container 
+              delivering the component dependencies).</td>
+        </tr>
+        <tr>
+          <td><a href="parts.html">Parts</a></td>
+          <td>Annotation used to mark an interface as compliant 
+              with the Metro Parts contract (though which the internal 
+              structure of a component may be established).</td>
+        </tr>
+        <tr>
+          <td><a href="services.html">Services</a></td>
+          <td>Annotation used to to declare the service classes that a 
+              component is publishing towards other components.</td>
+        </tr>
+      </table>
+      
+    </section>
+
+  </body>
+
+</document>

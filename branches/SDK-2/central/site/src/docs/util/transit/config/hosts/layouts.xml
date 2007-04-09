@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/ 
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Transit Host Layouts</title>
+  </properties> 
+
+  <body>
+
+    <section name="Host Layouts">
+
+      <p>
+        Transit resource hosts configuration allows the declaration
+        of a host layout scheme.  Layout schemes deal with the mapping 
+        of a resource identifier to a resource location.  Three layout 
+        schemes are provides as a part of the core Transit system 
+        together with support for the installation of custom layout 
+        handlers.  The standard layout schemes supported within the 
+        Transit core system are described below. 
+      </p>
+
+      <subsection name="Modern">
+        
+        <p>
+        The ModernLayout decodes artifacts into a layout scheme that follows the 
+        <tt>[group[/[subgroup[/...]]]/[version]/name[-[version]].[type]</tt> convention.
+        </p>
+        
+        <table>
+          <tr>
+            <td>artifact:</td>
+            <td><tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt></td>
+          </tr>
+          <tr>
+            <td>path:</td>
+            <td><tt>[host]/metro/cache/1.0.0/dpml-cache-main-1.0.0.jar</tt></td>
+          </tr>
+        </table>
+        
+      </subsection>
+
+      <subsection name="Classic">
+
+        <p>
+        The ClassicLayout decodes artifacts into the Classic/Maven layout
+        of artifacts on a file system or http server. This format says that
+        for an artifact <tt>artifact:[type]:[group]/[name]#[version]</tt>
+        the location of such artifact shall be: <tt>[group]/[type]s/[name]-[version].[type]</tt>.
+        </p>
+
+        <table>
+          <tr>
+            <td>artifact:</td>
+            <td><tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt></td>
+          </tr>
+          <tr>
+            <td>path:</td>
+            <td><tt>[host]/metro/cache/jars/dpml-cache-main-1.0.0.jar</tt></td>
+          </tr>
+        </table>
+
+      </subsection>  
+
+      <subsection name="Eclipse">
+
+        <p>
+        The EclipseLayout maps artifacts into the Eclipse specified layout
+        of artifacts on a file system or http server. This format says that for 
+        an artifact <tt>artifact:[type]:[group]/[name]#[version]</tt>
+        the location of such artifact shall be: <tt>[group]-[version]/[name].[type]</tt>.
+        </p>
+
+        <table>
+          <tr>
+            <td>artifact:</td>
+            <td><tt>artifact:jar:metro/cache/dpml-cache-main#1.0.0</tt></td>
+          </tr>
+          <tr>
+            <td>path:</td>
+            <td><tt>[host]/metro/cache-1.0.0/dpml-cache-main.jar</tt></td>
+          </tr>
+        </table>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>

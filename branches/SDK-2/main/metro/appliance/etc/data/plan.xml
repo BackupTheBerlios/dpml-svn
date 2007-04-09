@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<plan xmlns="dpml:station" name="demo" title="Plan Demo">
+
+  <include key="foo" uri="link:appliance:dpml/metro/demo-foo"/>
+    
+  <appliance key="bar">
+    <info name="bar"/>
+    <process startup="0" shutdown="0">
+      <environment>
+        <variable name="FOO" value="BAR"/>
+      </environment>
+      <properties>
+        <property name="foo" value="bar"/>
+      </properties>
+    </process>
+    <codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Bar"/>
+  </appliance>
+
+  <include key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/>
+  
+</plan>

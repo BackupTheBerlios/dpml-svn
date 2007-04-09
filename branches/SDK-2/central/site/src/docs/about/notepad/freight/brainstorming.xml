@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Central</title>
+  </properties>
+  <body>
+    <section name="Freight Train">
+
+      <subsection name="Brainstorming">
+
+      <p>
+      Metro FT is the result of a brainstoring session between 
+      Niclas and Steve in Kuala Lumpur back in March 2005 together
+      with community input under the DPML.  The initial motivation
+      was in part the general simplification of the internal Metro 
+      architecture, and secondly - figure out a better way of 
+      handling revolutionary development in a non-disruptive 
+      manner.
+      </p>
+
+      <p>
+      Key principals/concepts/aims identified in KL included:
+      </p>
+
+      <ol>
+        <li>
+        separation of the model from controls
+        with the aim of providing the ability for the 
+        introduction of new controls without impacting
+        the model
+        </li>
+        <li>
+        push as much as possible down to build time and 
+        leverage Magic to construct serialized artifacts
+        that can be passed to Metro for deployment
+        </li>
+        <li>
+        association of controllers with models such that a 
+        deployment scenario could be viewed as a graph of 
+        model nodes, where each node it associated with 
+        its own controller (enabling the possibility for 
+        concurrent deployment of components based on 
+        different frameworks and semantic contracts)
+        </li>
+        <li>
+        eliminate the separate notions of container and component
+        though the establishment of the principal of component
+        parts - i.e. a component that contains and is responsible 
+        for child components - and though this, simplfy the 
+        internals of Metro while enhancing and extending support 
+        for dynamic component composition
+        </li>
+      </ol>
+
+      <p>
+      Following initial posts about the above ideas on the 
+      DPML list from Niclas, Joerg Schaible posted a reference 
+      to an <a href="http://www.theserverside.com/articles/article.tss?l=IOCandEJB">article</a> 
+      by Sony Mathew concerning IOC that trigger more thinking.  On one
+      hand the article was presenting something very close to the custom context 
+      model in Metro but more importantly it presented a case for using 
+      inner interfaces within a component implementation class as a means for 
+      a component to declare its dependencies in a type-safe way. Some rapid 
+      prototyping confirmed that would could effectivly use this approach as 
+      a superior replacement for the javadoc tag style markup used in classic
+      Metro.
+      </p>
+
+      <p>
+      Much of the above was influenced by the real-world requirements comming
+      from SCAN COIN including emerging requirements for process 
+      flow management, remote maintenance and upgrading, and the overall risk
+      benefit model of open-source.  Working from this requirements base, 
+      Peter Neubauer stepped up and put in place the finacial backing to 
+      kick-off FT development - resulting in the current <a href="context.html">
+      implementation.</a></p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

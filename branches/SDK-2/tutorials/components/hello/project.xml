@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="hello">
+
+  <info title="DPML Metro Hello Tutorial">
+    <description>Introductory Hello World demo.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" source="target/component.xml"/>
+  </types>
+    
+  <dependencies>
+    <test>
+      <include ref="dpml/metro/dpml-metro-part"/>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+    
+</project>
+

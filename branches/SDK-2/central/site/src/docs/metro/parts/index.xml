@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+ Copyright 2006 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Task</title>
+  </properties> 
+
+  <body>
+
+    <section name="Part XML Directive">
+
+      <p>
+      A <tt>part</tt> content datatype is an XML document that defines an information
+      block, an object deployment strategy, and a classloader chain.  The information 
+      block declares a title and a description.  The deployment strategy is defined as 
+      any element extending the <tt>StrategyType</tt> schema definition (the most typical 
+      being the <a href="../component/directive/index.html"> Metro component strategy</a>).  
+      The third element in a part definition is a deployment classpath which is composed 
+      of a public, protected, and private classloader definitions that are used to 
+      establish a classloader chain relative to the current context classloader.
+      </p>
+      
+      <subsection name="Namespace">
+      
+        <pre>dpml:part</pre>
+
+      </subsection>
+      
+      <subsection name="Description">
+
+        <p>
+        A part defines a general deployment unit.
+        </p>
+        
+        <p>
+        The part specification contains a general <tt>&lt;info&gt;</tt> block, 
+        a deployment <tt>&lt;strategy&gt;</tt> specification and a <tt>&lt;classpath&gt;</tt>
+        definition.
+        </p>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td>
+              <tt><a href="info/index.html">info</a></tt>
+            </td>
+            <td>
+              The info definition is used to associate a title and 
+              human readable description.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tt><a href="strategy/index.html">strategy</a></tt>
+            </td>
+            <td>
+              Any XML element derived from the <tt>StrategyType</tt>.  The schema 
+              element defines the deployment strategy.  A part strategy handler is resolved 
+              by the part content handler.  If the qualfied element name is recognized 
+              an internal handler is assigned, otherwise value of the <tt>handler</tt> 
+              attribute is used to resolve a uri identifying a strategy plugin.
+              The Metro system provides three recognized strategy element handlers - 
+              <tt>&lt;plugin&gt;</tt> and <tt>&lt;resource&gt;</tt> and 
+              <tt>&lt;component&gt;</tt>.  The <tt>&lt;plugin&gt;</tt> strategy is a 
+              simple object deployment handler suitable for low-level facilities, the 
+              <tt>&lt;resource&gt;</tt> handler provides support for Antlib loading, and
+              the <tt>&lt;component&gt;</tt> strategy is the standard component deployment
+              framework.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tt><a href="classpath/index.html">classpath</a></tt>
+            </td>
+            <td>
+              Definition of the classpath for the part. The classpath contains
+              the declaration of public, protected and private jar files referenced
+              via uris that collectively enable the construction of a cloassloader
+              chain.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+    
+    <section name="Examples">
+    
+        <p>Example part definition:</p>
+      
+<source>&lt;?xml version="1.0"?&gt;
+
+&lt;part xmlns="dpml:part"&gt;
+
+  &lt;info/&gt;
+
+  &lt;component xmlns="dpml:metro" 
+    class="org.acme.Widget"/&gt;
+
+  &lt;classpath&gt;
+    &lt;private&gt;
+      &lt;uri>artifact:jar:acme/widget/acme-widget#1.2.3&lt;/uri&gt;
+    &lt;/private&gt;
+  &lt;/classpath&gt;
+
+&lt;/part&gt;</source>
+
+    </section>
+
+  </body>
+
+</document>

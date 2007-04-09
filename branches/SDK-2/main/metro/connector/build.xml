@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-lang-remote" default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+
+  <x:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <x:rmic>
+      <include name="**/LocalConnector.class"/>
+    </x:rmic>
+  </target>
+
+</project>

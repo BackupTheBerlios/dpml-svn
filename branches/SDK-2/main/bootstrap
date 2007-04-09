@@ -1,0 +1,124 @@
+#!/bin/sh
+#
+# Utility script that executes the bootstrap build.
+#
+# The following command will initate a bootstrap build using the BOOTSTRAP 
+# version identifier.
+#
+# $ bootstrap
+#
+
+build()
+{
+    STATUS=99
+    while [ "$STATUS" -eq 99 ] ; do
+      ant -Ddpml.signature=BOOTSTRAP "$@"
+      STATUS="$?"
+    done
+    if [ "$STATUS" == 0 ] ; then
+        echo ""
+    else
+        exit 1
+    fi
+}
+
+antlibCleanup()
+{
+    # need something in here to delete dpml content in .ant/lib
+    cd .
+}
+
+xmlSetup()
+{
+    ant -f bootstrap.xml xml
+}
+
+dpmlLangLibrary()
+{
+    cd lang/library
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+dpmlPart()
+{
+    cd lang/part
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+dpmlPartRebuild()
+{
+    cd lang/part
+    build clean install
+    cd ../..
+}
+
+transitMain()
+{
+    cd transit/core
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+transitTools()
+{
+    cd transit/tools
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+dpmlLibrary()
+{
+    cd depot/library
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+depotAntBuilder()
+{
+    cd depot/tools
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+externalModules()
+{
+    cd external
+    build clean install
+    cd ..
+}
+
+utilCli()
+{
+    cd util/cli
+    build clean install
+    cd ../..
+}
+
+depotBuild()
+{
+    cd depot/build
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+depotCore()
+{
+    cd depot/core
+    build -f bootstrap.xml clean install
+    cd ../..
+}
+
+antlibCleanup
+transitMain
+dpmlLangLibrary
+dpmlPart
+transitTools
+dpmlLibrary
+depotAntBuilder
+externalModules
+utilCli
+depotBuild
+dpmlPartRebuild
+depotCore

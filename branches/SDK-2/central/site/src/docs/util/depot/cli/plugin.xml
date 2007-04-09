@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot CLI Plugin Option</title>
+  </properties> 
+
+  <body>
+
+    <section name="Plugin Builder Override">
+
+<pre><![CDATA[$ build -plugin <artifact>]]></pre>
+
+      <subsection name="Description">
+
+      <p>
+      The <tt>-plugin</tt> option allows explicit overriding of the 
+      default builder plugin to use when executing a build sequence.
+      The artifact uri must refer to a Transit plugin that implements
+      the <tt>dpml.build.Builder</tt> interface. Unless
+      otherwise specified the Ant-based builder will be used.
+      </p>
+
+      </subsection>
+
+      <subsection name="Default">
+
+<pre>@DEPOT-TOOLS-ANT-URI@</pre>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

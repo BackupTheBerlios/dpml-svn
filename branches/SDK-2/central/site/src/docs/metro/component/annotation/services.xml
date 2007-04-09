@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Services Annotation</title>
+  </properties> 
+
+  <body>
+
+    <section name="Services Annotation">
+
+      <p>
+      As a part of the process of component commissioning, the Metro
+      runtime may be requested to build and populate a context object
+      fulfilling the component runtime dependencies. Solutions to 
+      dependency constraints can be resolved by direct value construction
+      or by reference to existing services.  The Services annotation 
+      provides the mechanisms for a component class to declare the set
+      of service interfaces it whishes to publish towards other components.
+      In the absence of the Service annotation a component class is evaluated
+      in its raw form (i.e. X isAssignableFrom Y).
+      </p>
+
+      <subsection name="Attribute Table">
+      
+        <table>
+          <tr>
+            <td>value</td>
+            <td>An array of interface classes.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+      <subsection name="Sample Code">
+      
+        <p>
+        The following code demonstrates the use of the Services annotation
+        to restrict services to the single Replicator service interface.
+        </p>
+        
+        <pre>
+import net.dpml.annotation.Services;
+    
+<font color="darkred">@Services( Replicator.class )</font>
+public class DefaultReplicator implements Replicator, Serializable, Comparable
+{
+    ...
+}</pre>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>

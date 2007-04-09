@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library">
+
+    <module name="junit" version="4.2" basedir="junit">
+
+      <properties>
+        <property name="project.publisher.name" value="JUnit"/>
+        <property name="project.specification.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor-id" value="org.junit"/>
+        <property name="project.publisher.url" value="http://www.junit.org"/>
+        <property name="project.resource.host" value="http://repository.dpml.net/"/>
+        <property name="project.api.host" value="http://api.dpml.net"/>
+      </properties>
+
+      <types>
+        <type id="module" alias="true"/>
+      </types>
+
+      <resource name="junit">
+        <properties>
+          <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
+        </properties>
+        <types>
+          <type id="jar"/>
+        </types>
+      </resource>
+
+    </module>
+
+    <module name="org/apache/ant" version="1.7.0" basedir="ant">
+
+      <properties>
+        <property name="project.publisher.name" value="Apache Software Foundation"/>
+        <property name="project.specification.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+        <property name="project.implementation.vendor-id" value="org.apache"/>
+        <property name="project.publisher.url" value="http://www.apache.org"/>
+        <property name="project.resource.host" value="http://repository.dpml.net/"/>
+        <property name="project.api.host" value="http://api.dpml.net"/>
+      </properties>
+
+      <types>
+        <type id="module" alias="true"/>
+      </types>
+
+      <resource name="ant">
+        <properties>
+          <property name="project.api.root" value="${project.api.host}/ant/${project.version}"/>
+        </properties>
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant-launcher"/>
+          </runtime>
+        </dependencies>
+      </resource>
+  
+      <resource name="ant-junit">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include ref="junit/junit"/>
+          </runtime>
+        </dependencies>
+      </resource>
+
+      <resource name="ant-trax">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+          </runtime>
+        </dependencies>
+      </resource>
+        
+      <resource name="ant-launcher">
+        <types>
+          <type id="jar"/>
+        </types>
+      </resource>
+    
+      <resource name="ant-antlr">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:antlr/antlr#2.7.6"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-bcel">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:bcel/bcel#5.1"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-bsf">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:bsf/bsf#2.4.0"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-log4j">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:log4j/log4j#1.2.13"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-oro">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:oro/oro#2.0.8"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-regexp">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:regexp/regexp#1.3"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-apache-resolver">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:xml-resolver/xml-resolver#1.1"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-commons-logging">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:commons-logging/commons-logging#1.0.4"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-commons-net">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:commons-net/commons-net#1.4.0"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <resource name="ant-javamail">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:javax/mail/mail#1.4"/>
+            <include uri="artifact:jar:javax/activation/activation#1.1"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+      <!--
+      <resource name="ant-jmf">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+            <include uri="artifact:jar:javax/media/jmf#2.1.1e"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      -->
+      
+      <resource name="ant-testutil">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include key="ant"/>
+          </runtime>
+        </dependencies>
+      </resource>
+      
+    </module>
+    
+</index>

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<antlib>
+  <taskdef name="checkstyle"   classname="dpml.tools.checkstyle.CheckstyleTask"/>
+</antlib>

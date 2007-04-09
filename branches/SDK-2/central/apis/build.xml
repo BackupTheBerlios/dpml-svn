@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-central-apis" default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+
+  <x:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <mkdir dir="${dpml.data}/docs/api"/>
+    <x:docs dest="${dpml.data}/docs/api"/>
+  </target>
+    
+</project>
+

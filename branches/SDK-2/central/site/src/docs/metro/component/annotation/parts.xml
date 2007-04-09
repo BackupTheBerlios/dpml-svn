@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Parts Annotation</title>
+  </properties> 
+
+  <body>
+
+    <section name="Parts Annotation">
+
+      <p>
+      The Parts annotation is used to mark an interface as compliant
+      with the DPML Metro <a href="../semantics/parts.html">Parts</a> 
+      contract.  During runtime evaluation of a class, the Metro system 
+      evaluates constructor arguments and builds solutions based on supplied 
+      deployment directives.  During this process a constructor parameter may 
+      be evaluated to determin if it is a part-compliant interface. If no 
+      supporting annotation is present and the interface is an inner class of 
+      the component named <tt>Parts</tt>, the runtime will assume that the 
+      interface is a parts definition.  While this pattern-based approach covers
+      the majority of needs, there are circumstances where it is convinient
+      to declare some other interface as the parts definition.  The 
+      Parts annotation provides this additional flexibility.
+      </p>
+
+      <subsection name="Sample Code">
+      
+        <p>
+        The following code declares that an interface is parts-compliant.
+        </p>
+        
+        <pre>
+import net.dpml.annotation.Parts;
+    
+<font color="darkred">@Parts</font>
+public interface SecurityServices
+{
+    Vault getVault();
+    Keystore[] getTrustStores();
+    Realm[] getRealms();
+}</pre>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>

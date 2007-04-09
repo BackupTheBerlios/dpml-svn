@@ -1,0 +1,6 @@
+#
+# List of available services implementing the repository Layout interface
+#
+net.dpml.transit.layout.ClassicLayout
+net.dpml.transit.layout.ModernLayout
+net.dpml.transit.layout.EclipseLayout

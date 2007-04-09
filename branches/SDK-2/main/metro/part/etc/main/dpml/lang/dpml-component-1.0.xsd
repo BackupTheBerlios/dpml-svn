@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:part="link:xsd:dpml/lang/dpml-part#1.0"
+            xmlns:this="link:xsd:dpml/lang/dpml-component#1.0"
+            xmlns:type="link:xsd:dpml/lang/dpml-type#1.0"
+            targetNamespace="link:xsd:dpml/lang/dpml-component#1.0"
+            elementFormDefault="qualified">
+    
+    <import namespace="link:xsd:dpml/lang/dpml-part#1.0" schemaLocation="link:xsd:dpml/lang/dpml-part#1.0"/>
+    <import namespace="link:xsd:dpml/lang/dpml-type#1.0" schemaLocation="link:xsd:dpml/lang/dpml-type#1.0"/>
+
+    <element name="component" type="this:component" substitutionGroup="part:strategy"/>
+    <element name="category" type="this:CategoryType"/>
+    <element name="categories" type="this:CategoriesType" substitutionGroup="this:category"/>
+    <element name="entry" type="this:EntryType"/>
+    <element name="context" type="this:ContextEntryType" substitutionGroup="this:entry"/>
+    <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
+    
+    <complexType name="component">
+      <complexContent>
+        <extension base="part:StrategyType">
+          <sequence>
+            <element name="categories" type="this:CategoriesType" minOccurs="0" maxOccurs="1"/>
+            <element name="context" type="this:ContextType" minOccurs="0" maxOccurs="1"/>
+            <element name="parts" type="this:PartsType" minOccurs="0" maxOccurs="1"/>
+          </sequence>
+          <attribute name="name" type="string"/>
+          <attribute name="type" type="string"/>
+          <attribute name="lifestyle" type="type:lifestyle"/>
+          <attribute name="collection" type="type:collection"/>
+          <attribute name="activation" type="this:activation"/>
+          <attribute name="handler" type="part:URI" default="link:part:dpml/metro/dpml-metro-runtime"/>
+          <attribute name="uri" type="anyURI"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="CategoryType">
+      <attribute name="name" type="string"/>
+      <attribute name="priority" type="type:priority"/>
+      <attribute name="target" type="string"/>
+    </complexType>
+    
+    <complexType name="CategoriesType">
+      <complexContent>
+        <extension base="this:CategoryType">
+          <sequence>
+            <element ref="this:category" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="ContextType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="this:entry"/>
+      </choice>
+    </complexType>
+    
+    <complexType name="EntryType">
+      <complexContent>
+        <extension base="part:TaggedValueType">
+          <sequence>
+            <element ref="this:entry" minOccurs="0" maxOccurs="unbounded"/>
+          </sequence>
+          <attribute name="lookup" type="string"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="ContextEntryType">
+      <complexContent>
+        <extension base="this:EntryType"/>
+      </complexContent>
+    </complexType>
+    
+    <complexType name="PartsType">
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element name="component" type="this:TaggedComponent" minOccurs="0" maxOccurs="unbounded"/>
+      </choice>
+    </complexType>
+    
+    <complexType name="TaggedComponent">
+      <complexContent>
+        <extension base="this:component">
+          <attribute name="key" type="string" use="required"/>
+          <attribute name="priority" type="integer" default="0"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <simpleType name="activation">
+      <restriction base="string">
+        <enumeration value="demand"/>
+        <enumeration value="startup"/>
+        <enumeration value="system"/>
+      </restriction>
+    </simpleType>
+        
+</schema>

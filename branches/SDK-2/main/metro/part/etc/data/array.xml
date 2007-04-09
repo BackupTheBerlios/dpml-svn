@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro"
+      name="widget" 
+      class="org.acme.ArrayWidget">
+    <context>
+      <entry key="message">
+        <param value="h"/>
+        <param value="e"/>
+        <param value="l"/>
+        <param value="l"/>
+        <param value="o"/>
+      </entry>
+    </context>
+  </component>
+
+</part>

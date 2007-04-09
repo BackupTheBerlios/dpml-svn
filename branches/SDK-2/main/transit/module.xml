@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="transit"
+    xmlns="dpml:library" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="dpml:part">
+   
+  <properties>
+    <property name="project.test.fork" value="true"/>
+    <property name="project.javac.lint" value="unchecked"/>
+  </properties>
+
+  <project file="core/project.xml"/>
+  
+  <!--
+  <project name="dpml-transit-console" basedir="console">
+    <info title="DPML Transit Console">
+      <description>Transit preferences commandline handler.</description>
+    </info>
+    <properties>
+      <property name="project.micro.version" value="0"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+      <part:plugin
+        class="net.dpml.transit.console.TransitConsoleHandler" alias="true"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="PROJECT-VERSION" id="version"/>
+    </filters>
+  </project>
+  -->
+  
+</module>

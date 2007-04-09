@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:this="dpml:part"
+            targetNamespace="dpml:part"
+            elementFormDefault="qualified"
+            >
+    
+    <element name="part" type="this:PartType"/>
+    <element name="strategy" type="this:StrategyType"/>
+    <element name="classpath" type="this:ClassPathType"/>
+    <element name="param" type="this:ValueType"/>
+    
+    <complexType name="PartType">
+      <sequence>
+        <element name="info" type="this:InfoType" minOccurs="0" maxOccurs="1"/>
+        <element ref="this:strategy" minOccurs="1" maxOccurs="1"/>
+        <element ref="this:classpath" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="StrategyType" abstract="true"/>
+    
+    <complexType name="ClassPathType">
+      <sequence>
+        <element name="system" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="public" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="protected" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+        <element name="private" type="this:ClassLoaderType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+    <complexType name="ClassLoaderType">
+      <sequence>
+        <element name="uri" type="this:URIType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+    <complexType name="InfoType">
+      <sequence>
+        <element name="description" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="title" type="string"/>
+    </complexType>
+
+    <complexType name="URIType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="URNType">
+      <simpleContent>
+        <extension base="anyURI"/>
+      </simpleContent>
+    </complexType>
+
+    <complexType name="ValueType">
+      <sequence>
+        <element ref="this:param" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="class" type="string"/>
+      <attribute name="value" type="string"/>
+      <attribute name="method" type="string"/>
+    </complexType>
+
+    <complexType name="TaggedValueType">
+      <complexContent>
+        <extension base="this:ValueType">
+          <attribute name="key" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+    
+    <simpleType name="URI">
+      <restriction base="anyURI"/>
+    </simpleType>
+    
+
+</schema>
+

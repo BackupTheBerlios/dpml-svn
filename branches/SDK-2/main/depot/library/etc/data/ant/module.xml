@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="ant" version="1.6.5" xmlns="dpml:library">
+
+    <resource name="ant">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <runtime>
+          <include key="ant-launcher"/>
+        </runtime>
+      </dependencies>
+    </resource>
+
+    <resource name="ant-junit">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <runtime>
+          <include key="ant"/>
+          <include ref="junit/junit"/>
+        </runtime>
+      </dependencies>
+    </resource>
+
+    <resource name="ant-launcher">
+      <types>
+        <type id="jar"/>
+      </types>
+    </resource>
+
+</module>

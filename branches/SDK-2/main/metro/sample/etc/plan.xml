@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<plan xmlns="dpml:station" name="station" title="DPML Station Deployment Plan">
+
+  <include key="sample" uri="link:appliance:dpml/metro/dpml-metro-sample"/>
+  <include key="demo" uri="link:appliance:dpml/metro/dpml-metro-demo"/>
+  
+</plan>

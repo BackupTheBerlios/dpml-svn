@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Catalog Task</title>
+  </properties> 
+
+  <body>
+
+    <section name="Catalog Task">
+
+      <subsection name="Description">
+
+        <p>
+        The catalog task generates HTML documentation about the 
+        component types defined a supplied scope.
+        </p>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+        <p><i>Example build file that uses the catalog task:</i></p>
+
+<pre><![CDATA[
+<project name="dpml-http" default="install" basedir="." 
+    xmlns:transit="antlib:dpml.tools.transit" 
+    xmlns:x="dpml:depot"
+    xmlns:c="dpml:metro">
+
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+
+    <x:plugin uri="link:plugin:dpml/metro/dpml-metro-tools"/>
+
+    <c:catalog>
+      <fileset dir="${basedir}">
+        <include name="**/target/classes/main/**/*.type"/>
+      </fileset>
+    </c:catalog>
+
+  </target>
+
+</project>
+]]></pre>
+      
+    </section>
+
+  </body>
+
+</document>
+

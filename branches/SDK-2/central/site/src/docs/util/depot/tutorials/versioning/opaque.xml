@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Opaque Versioning Example</title>
+  </properties>
+
+  <body>
+
+    <section name="Opaque Versioning Example">
+
+      <subsection name="Using the version CLI option">
+
+        <p>
+        We can override the default <tt>SNAPSHOT</tt> version identifier using the <tt>-version</tt> 
+        command-line option. In the following example we are requesting a listing of
+        the in-scope projects together with the version cli option using the value <tt>ABC</tt>.  
+        </p>
+
+<pre>$ build -list -version <font color="darkred">ABC</font>
+
+Selection: [3]
+
+  [1]   project:org/acme/plugin/clock-api#<font color="blue">ABC</font>
+  [2]   project:org/acme/plugin/clock-impl<font color="blue">#ABC</font>
+  [3]   module:org/acme/plugin#<font color="blue">ABC</font>
+
+$</pre>
+
+      </subsection>
+      
+    </section>
+    
+  </body>
+  
+</document>
+

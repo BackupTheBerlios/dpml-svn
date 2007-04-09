@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Info Command</title>
+  </properties> 
+
+  <body>
+
+    <section name="Info Command">
+
+      <subsection name="Description">
+
+        <p>
+        The info command provides support for listing information from 
+        the station configuration.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station info]]></pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100"><tt>-port</tt></td>
+            <td>Override the RMI registry port to use when selecting the station server.</td></tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

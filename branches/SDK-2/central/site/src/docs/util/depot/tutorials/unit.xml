@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Unit Test Automation</title>
+  </properties>
+
+  <body>
+
+    <section name="Unit Testing">
+
+      <p>
+      In order to create a test-case we need to declare test scopped 
+      dependencies on Ant's Junit runner. A simple approach is shown 
+      in the following index.xml file.
+      </p>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        In the following update to index.xml we have declared three 
+        jar files under the test scope for our sample project. The ant-junit
+        file is dependent on both ant and junit so we need to declare the
+        dependencies as well (or risk a NoClassDefFoundException).
+        </p>
+      
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="dpml:library"&gt;
+
+  &lt;project name="demo" basedir="."&gt;
+  
+    &lt;properties&gt;
+      &lt;property name="location" value="New York"/&gt;
+      &lt;property name="message" value="Hello from ${user.name} in ${location}"/&gt;
+    &lt;/properties&gt;
+    
+    &lt;types&gt;
+      &lt;type id="jar" alias="true"/&gt;
+    &lt;/types&gt;
+    
+    <font color="darkred">&lt;dependencies&gt;
+      &lt;test&gt;
+        &lt;include uri="artifact:jar:ant/ant-junit#1.6.5"/&gt;
+        &lt;include uri="artifact:jar:ant/ant#1.6.5"/&gt;
+        &lt;include uri="artifact:jar:junit/junit#3.8.1"/&gt;
+      &lt;/test&gt;
+    &lt;/dependencies&gt;</font>
+    
+    &lt;filters&gt;
+      &lt;filter token="MESSAGE" value="${message}"/&gt;
+    &lt;/filters&gt;
+
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Executing the build ...">
+
+        <p>
+        Assuming that testcase sources are placed under the <tt>src/test</tt> directory
+        the Depot build task will automatically trigger compilation and testcase execution.
+        </p>
+
+<pre>
+$ cd tutorials\tooling\testing
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\testing\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\testing\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\testing\target\build\main
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\testing\target\build\test
+[x:prepare] Copying 1 file to D:\dpml\tutorials\tooling\testing\target\build\test
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\testing\target\test
+
+build:
+    [javac] Created dir: D:\dpml\tutorials\tooling\testing\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\testing\target\classes\main
+    [javac] Created dir: D:\dpml\tutorials\tooling\testing\target\classes\test
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\testing\target\classes\test
+
+package:
+      [jar] Created dir: D:\dpml\tutorials\tooling\testing\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\testing\target\deliverables\jars\demo-SNAPSHOT.jar
+      [jar] Creating md5 checksum
+
+<font color="blue">test:
+    [junit] Created dir: D:\dpml\tutorials\tooling\testing\target\reports\test
+    [junit] Executing forked test.
+    [junit] Running org.acme.test.DemoTestCase
+    [junit] 22/07/2006 16:24:14 org.acme.test.DemoTestCase testTheClock
+    [junit] INFO: 4:24 PM, CST
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.141 sec</font>
+
+install:
+[x:install] Copying 2 files to D:\system\dpml\data\cache
+
+BUILD SUCCESSFUL
+Total time: 4 seconds</pre>
+        
+      </subsection>
+
+      <subsection name="Summary">
+
+        <p>
+        This example has demonstrated the relatively easy process of adding testcases
+        to a project. In addition we have demonstrated one mechanism concerning the declaration 
+        of dependencies - specifically the usage of the <tt>uri</tt> attribute on dependency
+        include statements.  However this approach is error-prone as it assumes that the 
+        dependencies listed fully complement each other.  For example in the dependencies listed
+        above we have not included ant-lancher, ant-trax or ant-xslp.  Futhermore this approach 
+        presumes that we have the version combination correct. 
+        </p>
+        
+        <p>
+        An alternative (and more reliable) approach is presented in the <a href="imports.html">
+        next tutorial</a> where we import an ant module and simply reference the ant-junit 
+        resource as a single dependency entry.
+        </p>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

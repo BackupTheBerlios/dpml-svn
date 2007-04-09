@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-depot-convert">
+
+  <info title="DPML Java to HTML Converter">
+    <description>Converts java source files to HTML pages.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" alias="true" source="target/resource.xml"/>
+  </types>
+    
+  <dependencies>
+    <runtime>
+      <include uri="artifact:jar:java2html/java2html#4.2"/>
+      <include ref="org/apache/ant/ant"/>
+    </runtime>
+  </dependencies>
+    
+</project>

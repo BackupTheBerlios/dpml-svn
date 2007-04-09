@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library">
+
+  <properties>
+    <property name="foo" value="bar"/>
+    <property name="ping" value="pong"/>
+  </properties>
+  
+</index>

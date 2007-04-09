@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Dependency Management</title>
+  </properties> 
+
+  <body>
+
+    <section name="Dependencies">
+
+      <p>
+      Dependencies may be declared within <tt>&lt;module&gt;</tt>, <tt>&lt;project&gt;</tt>,
+      and <tt>&lt;resource&gt;</tt> elements using the <tt>&lt;dependencies&gt;</tt> element. 
+      Resources may declare a single <tt>&lt;dependencies&gt;</tt> element representing the
+      runtime dependencies of the resource.  Projects may declare <tt>BUILD</tt>, 
+      <tt>RUNTIME</tt> and <tt>TEST</tt> scoped dependencies under respective element names.
+      </p>
+
+      <subsection name="Nested elements within Dependencies Element">
+      
+         <table>
+           <tr>
+             <td>build</td>
+             <td>0..1</td>
+             <td>Declaration of build time dependencies group.  When building multiple projects
+             build time dependencies may be used to influence project build sequencing.  
+             Any resources referenced within the <tt>&lt;build&gt;</tt> element are gauranteed to
+             be be built prior to the project referencing the dependency.</td>
+           </tr>
+           <tr>
+             <td>runtime</td>
+             <td>0..1</td>
+             <td>Declaration of runtime dependencies group.</td>
+           </tr>
+           <tr>
+             <td>test</td>
+             <td>0..1</td>
+             <td>Declaration of test dependencies group.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Nested elements within dependency groups">
+      
+         <table>
+           <tr>
+             <td>include</td>
+             <td>0..n</td>
+             <td>Declaration of the inclusion of a reference to another resource, project or module.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="Include Attributes">
+
+         <p>
+         An <tt>&lt;include&gt;</tt> element may be declared uisng one or three variants.
+         </p>
+      
+         <table>
+           <tr>
+             <td>key</td>
+             <td>Refers to another resource or project within the same module as the 
+               declaring entity. The value of the key is the name of the project 
+               or resource.</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td><tt>&lt;include key="[name]"/&gt;</tt></td>
+           </tr>
+           <tr>
+             <td>ref</td>
+             <td>Refers to another resource or project via a fully qualified name.</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td><tt>&lt;include ref="[group]/[name]"/&gt;</tt></td>
+           </tr>
+           <tr>
+             <td>uri</td>
+             <td>Establishes an annonomous reference using the artifact uri to establish
+                the group, name, version and type.</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td><tt>&lt;include uri="[artifact]"/&gt;</tt></td>
+           </tr>
+         </table>
+
+         <p>
+         Project includes within <tt>&lt;runtime&gt;</tt> scope may also qualify the inclusion relative to one of the 
+         tag values <tt>public</tt>, <tt>protected</tt> or <tt>private</tt>.  Tagged includes
+         are used in the construction of plugin metadata and are declared using the <tt>tag</tt>
+         attribute.  The <tt>public</tt> category is normally used to assert a dependency that is a part of 
+         the public API of a plugin.  The <tt>protected</tt> category is normally used to associate
+         a dependency such as a management API that is an extension of the public API.  The default 
+         category value <tt>private</tt> represents a classloader category that extends the <tt>protected</tt> 
+         classloader and typically represents the internal implementation of a sub-system.
+         </p>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+       <p>
+       The following project definition uses a combination of all three include variants.
+       Two dependencies (dpml-http-api and dpml-http-spi) use the short form local reference
+       via the <tt>key</tt> attribute.  Five includes reference resources or projects via 
+       fully qualified names, and a further seven includes use the uri notion.
+       </p>
+
+<source><![CDATA[
+
+  <project name="dpml-http-impl" basedir="impl">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/metro/dpml-metro-model"/>
+        <include ref="dpml/util/dpml-logging-api"/>
+        <include uri="artifact:jar:org/mortbay/servlet-api-2.5#20060213" tag="PUBLIC"/>
+        <include uri="artifact:jar:tomcat/jasper-runtime#5.5.12"/>
+        <include uri="artifact:jar:tomcat/jasper-compiler#5.5.12"/>
+        <include uri="artifact:jar:tomcat/jasper-compiler-jdt#5.5.12"/>
+        <include uri="artifact:jar:org/mortbay/jetty#20060213"/>
+        <include uri="artifact:jar:org/slf4j/jcl104-over-slf4j#1.0-rc5"/>
+        <include uri="artifact:jar:org/slf4j/slf4j-jdk14#1.0-rc5"/>
+        <include uri="artifact:jar:commons-el/commons-el#1.0"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+    </dependencies>
+  </project>
+
+]]></source>
+
+      <p>
+      The following example demonstrates the separation of test versus runtime 
+      dependencies.
+      </p>
+
+<source><![CDATA[
+  <project name="dpml-metro-model" basedir="model">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include key="dpml-state-api"/>
+        <include key="dpml-metro-component"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+        <include key="dpml-state-impl"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="NAME" id="name"/>
+      <feature token="VERSION" id="version"/>
+      <feature token="GROUP" id="group"/>
+      <feature token="PART-HANDLER-URI" id="uri" ref="dpml/metro/dpml-metro-runtime" type="part"/>
+    </filters>
+  </project>
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+

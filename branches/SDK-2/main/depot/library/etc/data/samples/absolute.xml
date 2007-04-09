@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library" >
+
+    <module name="gov/nsa/acme">
+      <info/>
+      <resource name="widget/gizmo"/>
+    </module>
+
+</index>

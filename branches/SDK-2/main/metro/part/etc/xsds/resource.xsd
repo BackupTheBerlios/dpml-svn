@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:part="dpml:part"
+            xmlns:this="dpml:antlib"
+            targetNamespace="dpml:antlib"
+            elementFormDefault="qualified">
+    
+    <import namespace="dpml:part" schemaLocation="dpml:part"/>
+
+    <element name="resource" type="this:resource" substitutionGroup="part:strategy"/>
+
+    <complexType name="resource">
+      <complexContent>
+        <extension base="part:StrategyType">
+          <attribute name="urn" type="string" use="required"/>
+          <attribute name="path" type="string" use="required"/>
+        </extension>
+      </complexContent>
+    </complexType>
+
+</schema>

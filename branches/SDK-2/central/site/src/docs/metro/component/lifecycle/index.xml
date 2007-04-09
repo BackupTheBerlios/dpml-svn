@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Lifecycle Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Lifecycle">
+      
+      <p>
+      A component lifecycle is term used to describe the series of states that 
+      a component passes through during the following phases:
+      </p>
+      
+      <ul>
+        <li>initialization</li>
+        <li>execution</li>
+        <li>termination</li>
+      </ul>
+      
+      <p>
+      The declaration of a state transition model is handled though an XML document 
+      collocated with the component class using the <tt>[classname].xgraph</tt> filename
+      convention.
+      </p>
+      
+      <p>
+      The initialization and termination phases can be expressed in terms of a 
+      state-transition graph.  On initialization a component is establish in an 
+      initial state.  That state may declare initialization transitions to be applied 
+      automatically as a part of the deplioyment process (for example the transition 
+      from an initial state to an <tt>"initialized"</tt> state and the subsequent 
+      transition from <tt>"initialized"</tt> to <tt>"started"</tt>.  Metro does not
+      imply or assume any specific lifecycle interfaces - intead, we depend on the 
+      component implementation to declare the state transition graph that it requires.
+      </p>
+      
+      <p>
+      The lifecycle graph declares a state heirachy and transition available in any 
+      given state.  During runtime, a component may (as a result of initialization) be
+      established in a particular runtime state.  That state is referred to as the 
+      current state.  The current state establish a chain of states (the current state, 
+      the current state's parent state, the parent's paranet state, etc.).  Any 
+      transition declared on any of the states within the state chain are considered as 
+      available transitions.  Transitions may be tagged as implict initialization transitions
+      or implicit termination transitions.  On component deployment initialization transitions
+      are fired (possibly resulting in a state change and the emergence of new implicit 
+      initialization transitions (which are automatically invoked).  On decommissioning on 
+      a component the runtime will automatically invoke termination transitions, iuncluding
+      new termination transitions comming into scope as a result of a termination state change.
+      </p>
+      
+      <subsection name="Namespace">
+      
+        <pre>dpml:state</pre>
+      
+      </subsection>
+      
+    </section>
+    
+    <section name="Examples">
+    
+      <p>
+      The following example state transition graph is taken from a component wrapping
+      a legacy application that has a classic start/stop lifecycle.  The graph declares
+      an initialization trigger that states that the component must transition to the 
+      started state and that the transition is preconditioned by the successfull invocation
+      of the start method.  On transition, the component is established in the started state 
+      which establishes the termination conditions (i.e. if started, then termination is defined
+      by the termination event declared under the started state).  On termination the Metro
+      runtime invokes the termination event which is declared as the application of the stop
+      transition.  The stop transition applies the stop method on the component implemention
+      and the successfull completion of the transition establishes the component in the 
+      stopped state (which in this example graph establishes the potential to restart the 
+      component via execution of the start transition).
+      </p>
+    
+<pre>&lt;state xmlns="dpml:state"&gt;
+
+  &lt;trigger event="initialization"&gt;
+    &lt;transition name="start" target="started"&gt;
+      &lt;operation name="startup" method="start"/&gt;
+    &lt;/transition&gt;
+  &lt;/trigger&gt;
+
+  &lt;state name="started"&gt;
+    &lt;trigger event="termination"&gt;
+      &lt;apply id="stop"/&gt;
+    &lt;/trigger&gt;
+    &lt;transition name="stop" target="../stopped"&gt;
+      &lt;operation name="stop" method="stop"/&gt;
+    &lt;/transition&gt;
+  &lt;/state&gt;
+
+  &lt;state name="stopped"&gt;
+    &lt;transition name="start" target="../started"&gt;
+      &lt;operation name="start" method="start"/&gt;
+    &lt;/transition&gt;
+  &lt;/state&gt;
+
+&lt;/state&gt;</pre>
+    
+    </section>
+
+  </body>
+
+</document>
+
