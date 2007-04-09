@@ -7,6 +7,7 @@ RedirectMatch ^/depot/latest/* http://www.dpml.net/depot/concepts/index.html
 RedirectMatch ^/depot/index.html http://www.dpml.net/depot/concepts/index.html
 RedirectMatch ^/transit/index.html http://www.dpml.net/transit/concepts/index.html
 RedirectMatch ^/metro/index.html http://www.dpml.net/metro/concepts/index.html
+RedirectMatch ^/station/index.html http://www.dpml.net/station/concepts/index.html
 RedirectMatch ^/central/products/metro/index.html http://www.dpml.net/metro/concepts/index.html
 RedirectMatch ^/central/* http://www.dpml.net/index.html
 RedirectMatch ^/transit/overview.html http://www.dpml.net/transit/concepts/index.html

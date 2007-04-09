@@ -33,10 +33,10 @@
         
         <ul>
           <li>
-            <a href="../metro/index.html">Metro</a> context-driven IOC runtime container.
+            <a href="../metro/concepts/index.html">Metro</a> context-driven IOC runtime container.
           </li>
           <li>
-            <a href="../station/index.html">Station</a> multi-appplication management system.
+            <a href="../station/concepts/index.html">Station</a> multi-appplication management system.
           </li>
           <li>
             <a href="../util/index.html">Util</a> supporting utilities including the 
