@@ -25,8 +25,8 @@
  <body>
 
     <menu>
-      <item name="4.2" href="http://api.dpml.net/juint/4.2/index.html"/>
-      <item name="3.8.1" href="http://api.dpml.net/juint/3.8.1/index.html"/>
+      <item name="4.2" href="http://api.dpml.net/junit/4.2/index.html"/>
+      <item name="3.8.1" href="http://api.dpml.net/junit/3.8.1/index.html"/>
     </menu>
 
  </body>

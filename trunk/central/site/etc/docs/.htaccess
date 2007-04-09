@@ -32,3 +32,8 @@ RedirectMatch ^/api/dpml/2005* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/SNAPSHOT* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/dpml/1.0.0-RC* http://api.dpml.net/dpml/@VERSION@/index.html
 RedirectMatch ^/api/checkstyle/index.html http://api.dpml.net/checkstyle/4.1/index.html
+RedirectMatch http://www.dpml.net/transit/* http://www.dpml.net/util/transit
+RedirectMatch http://dpml.net/transit/* http://www.dpml.net/util/transit
+RedirectMatch http://www.dpml.net/depot/* http://www.dpml.net/util/depot
+RedirectMatch http://dpml.net/depot/* http://www.dpml.net/util/depot
+

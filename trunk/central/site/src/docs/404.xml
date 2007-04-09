@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Component Management Solutions - Error: 404</title>
+    <description>Intelligent Component Management Solutions for Java.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties>
+
+  <body>
+
+    <section name="Unknown Resource Reference (404)">
+    
+      <p>
+      The requested page was not found. If you believe this is an error please 
+      post an email to the <a href="http://www.dpml.net/about/resources/lists.html">DPML support</a>
+      mailing list.
+      </p>
+      
+    </section>
+
+  </body>
+
+</document>
+
