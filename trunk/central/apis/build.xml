@@ -6,8 +6,8 @@
   <x:import uri="local:template:dpml/tools/standard"/>
 
   <target name="build" depends="standard.build">
-    <mkdir dir="${dpml.data}/api"/>
-    <x:docs dest="${dpml.data}/api"/>
+    <mkdir dir="${dpml.data}/docs/api"/>
+    <x:docs dest="${dpml.data}/docs/api"/>
   </target>
     
 </project>

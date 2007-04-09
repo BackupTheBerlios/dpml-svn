@@ -37,7 +37,7 @@
     <mkdir dir="${docs.dir}"/>
     <zip destfile="${docs.path}" duplicate="fail">
       <zipfileset dir="target/docs" prefix="share/docs"/>
-      <zipfileset dir="../../main/target/docs/api" prefix="share/docs/api"/>
+      <zipfileset dir="${dpml.data}/docs/api" prefix="share/docs/api"/>
     </zip>
     <checksum file="${docs.path}" fileext=".md5"/>
   </target>

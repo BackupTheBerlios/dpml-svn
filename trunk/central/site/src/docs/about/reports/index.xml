@@ -28,10 +28,21 @@
         <tr>
           <td><a href="../../api/dpml/@VERSION@/index.html">Javadoc</a></td>
           <td>Generated Javadoc for the Transit, Depot, Metro and Util 
-           modules together with Javadocs for the Planet component suite.</td> 
+           modules.</td> 
         </tr>
       </table>
-
+      
+      <subsection name="Related Links">
+        <table>
+          <tr>
+            <td><a href="http://api.dpml.net">Javadoc Archive</a></td>
+            <td>General archive for javadoc resources including prior releases and 
+            javadocs referenced by DPML builds.</td> 
+          </tr>
+        </table>
+        
+      </subsection>
+      
     </section>
 
   </body>
