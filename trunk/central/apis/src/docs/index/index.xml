@@ -10,7 +10,10 @@
   <body>
 
     <section name="Javadoc API Repository">
-
+    
+      <p>
+      A Javadoc collection for DPML SDK APIs and related dependencies.
+      </p>
 
     </section>
 

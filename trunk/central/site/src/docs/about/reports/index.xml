@@ -32,18 +32,19 @@
         </tr>
       </table>
       
-      <subsection name="Related Links">
-        <table>
-          <tr>
-            <td><a href="http://api.dpml.net">Javadoc Archive</a></td>
-            <td>General archive for javadoc resources including prior releases and 
-            javadocs referenced by DPML builds.</td> 
-          </tr>
-        </table>
-        
-      </subsection>
-      
     </section>
+
+    <section name="Related Links">
+      <table>
+        <tr>
+          <td><a href="http://api.dpml.net/index">Javadoc Archive</a></td>
+          <td>General archive for javadoc resources including prior releases and 
+          javadocs referenced by DPML builds.</td> 
+        </tr>
+      </table>
+        
+    </section>
+      
 
   </body>
 
