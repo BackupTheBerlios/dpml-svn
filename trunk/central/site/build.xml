@@ -106,7 +106,7 @@
     <!-- tooling tutorial build content -->
 
     <property name="plugin.src.dir" location="${tooling.dir}/complex/plugin"/>
-    <property name="local.plugin.docs.dir" location="target/docs/depot/tutorials/plugin"/>
+    <property name="local.plugin.docs.dir" location="target/docs/util/depot/tutorials/plugin"/>
     <mkdir dir="${local.plugin.docs.dir}"/>
     <copy toDir="${local.plugin.docs.dir}" flatten="true">
       <fileset dir="${plugin.src.dir}/target/reports/src">
