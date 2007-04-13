@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <document>
+
   <properties>
     <author email="mcconnell@dpml.net">Stephen McConnell</author>
     <title>DPML Downloads</title>
@@ -17,13 +18,41 @@
         <p>
         The DPML Platform distribution includes:
         </p>
-
+        
         <ul>
-          <li>Transit resource management</li>
           <li>Metro component management runtime</li>
           <li>Station application server</li>
+          <li>Transit resource management services</li>
           <li>Depot build utilities</li>
         </ul>
+
+        <p>
+        Version @VERSION@ is the latest production stable build of the DPML platform.  It 
+        incorporates a number of important functional enhancements over the 1.X series brought
+        about through an internal restructuring of the component deployment architecture.  The
+        @VERSION@ version has a structural dependency on the Java 1.6 platform.  Semantics 
+        of component deployment such as Context definition remain backward compatible with 
+        the 1.X series.  Internal APIs have changed relative to 1.X to better align with 
+        draft JSR 277 module specifications. New features and/or enhancements delivered under 
+        version 2.0.0 relative to 1.1.0 include:
+        </p>
+        
+        <ul>
+          <li>JSR 277 readiness.</li>
+          <li>Integral support for <tt>java.util.ServiceLoader</tt> as an basic extension mechansims.</li>
+          <li>Support for plugable content type handlers via <tt>java.util.ServiceLoader</tt>.</li>
+          <li>JMX management of the Transit resource management layer.</li>
+          <li>Metro component model moved to a dedicated content type handler.</li>
+          <li>Support for nested contect interface defintions.</li>
+          <li>Context model suport for map datatypes.</li>
+          <li>Support for uri fragment argument handling.</li>
+          <li>Improved part interface semantics.</li>
+          <li>Improved XSD namespace management.</li>
+          <li>Package namespace updates to facilitate improved private class isolation.</li>
+          <li>Comprehansive updates to tutorials and online documentation.</li>
+          <li>Improvements to Station deployment metadata.</li>
+        </ul>
+        
 
       </subsection>
 
@@ -76,23 +105,73 @@
           </tr>
         </table>
         
-        <!--
+      </subsection>
+
+      <subsection name="Build 1.1.0">
+        
         <p>
-        Changes and/or enhancements include:
+        Version @VERSION@ is a production stable branch with structural dependencies on the Java 
+        JDK 1.4 platform.
         </p>
+      
+        <table>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.exe">
+                dpml-sdk-win32-1.1.0.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.zip">
+                dpml-sdk-win32-1.1.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-win32-1.1.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-linux-1.1.0.tar.gz">
+                dpml-sdk-linux-1.1.0.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk1.1.0/dpml-sdk-linux-1.1.0.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-docs-1.1.0.zip">
+                dpml-sdk-docs-1.1.0.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/1.1.0/dpml-sdk-docs-1.1.0.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
         
-        <ul>
-          <li>Correction to the lookup tutorial documentation.</li>
-        </ul>
-        -->
-        
+      </subsection>
+      
+      <subsection name="Technical Note">
+      
         <p>
         Please refer to the README.TXT file included in the distribution for 
         additional install details.
         </p>
         
       </subsection>
-
+      
     </section>
 
   </body>
