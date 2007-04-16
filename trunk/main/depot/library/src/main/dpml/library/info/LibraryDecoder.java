@@ -21,6 +21,11 @@ package dpml.library.info;
 
 import dpml.lang.DOM3DocumentBuilder;
 import dpml.util.ElementHelper;
+import dpml.util.Category;
+
+import dpml.library.Feature;
+import dpml.library.Classifier;
+import dpml.library.Scope;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +36,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import dpml.library.Feature;
-import dpml.library.Classifier;
-import dpml.library.Scope;
-
-import dpml.util.Category;
 import net.dpml.lang.Version;
 import net.dpml.lang.DecodingException;
 
