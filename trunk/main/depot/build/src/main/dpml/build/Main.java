@@ -145,7 +145,7 @@ public class Main implements Tool
         {
             final String error = 
               "Unable to load library index.";
-            m_logger.error( message, e );
+            m_logger.error( error, e );
             return -1;
         }
         
@@ -159,7 +159,7 @@ public class Main implements Tool
         {
             final String error = 
               "Build error.";
-            m_logger.error( message, e );
+            m_logger.error( error, e );
             return -1;
         }
     }
