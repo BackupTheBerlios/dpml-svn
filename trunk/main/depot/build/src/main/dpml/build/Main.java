@@ -68,6 +68,10 @@ import dpml.library.Library;
 
 import net.dpml.util.Logger;
 
+import net.dpml.annotation.Component;
+import static net.dpml.annotation.LifestylePolicy.SINGLETON;
+
+
 /**
  * Tool providing project info listing and supports delegation of project
  * building to a builder plugin.
@@ -75,6 +79,7 @@ import net.dpml.util.Logger;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
+@Component( lifestyle=SINGLETON )
 public class Main implements Tool
 {
     // ------------------------------------------------------------------------
@@ -146,6 +151,7 @@ public class Main implements Tool
             final String error = 
               "Unable to load library index.";
             m_logger.error( error, e );
+            //m_logger.error( e.getMessage(), e.getCause() );
             return -1;
         }
         
