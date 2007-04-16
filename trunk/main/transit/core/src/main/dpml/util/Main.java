@@ -35,8 +35,6 @@ import java.util.Properties;
 
 import javax.tools.Tool;
 
-//import net.dpml.lang.Strategy;
-
 import net.dpml.transit.Transit;
 import net.dpml.transit.Artifact;
 
@@ -244,9 +242,19 @@ public final class Main
                     logger.error( error );
                     return -1;
                 }
-                //ClassLoader system = ClassLoader.getSystemClassLoader();
-                //Tool tool = Strategy.load( system, Tool.class, uri, null );
-                return tool.run( null, null, null, args );
+                try
+                {
+                    return tool.run( null, null, null, args );
+                }
+                catch( Throwable ee )
+                {
+                    final String error = 
+                      "Tool execution error."
+                      + "\nTool: " + tool.getClass().getName()
+                      + "\nURI: " + uri;
+                    processError( error, ee );
+                    return -1;
+                }
             }
             else
             {
@@ -260,9 +268,46 @@ public final class Main
         }
         catch( Throwable e )
         {
-            e.printStackTrace();
+            final String error = 
+              "Tool creation error."
+              + "\nURI: " + path;
+            processError( error, e );
             return -1;
         }
+    }
+    
+    private void processError( String message, Throwable cause )
+    {
+        Logger logger = getLogger();
+        if( logger.isTraceEnabled() )
+        {
+            logger.error( message, cause );
+        }
+        /*
+        try
+        {
+            logger.info( "# START" );
+            NotificationStatus status = NotificationHelper.getNotificationStatus( cause );
+            logger.info( "# STATUS: " + status + ", " + cause.getClass() );
+            if( NotificationStatus.INFO.equals( status ) )
+            {
+                logger.info( message + "\n" + cause.getMessage() );
+            }
+            else if( NotificationStatus.WARN.equals( status ) )
+            {
+                logger.warn( message + "\n" + cause.getMessage() );
+            }
+            else
+            {
+                logger.error( message, cause );
+            }
+            logger.info( "# END" );
+        }
+        catch( Throwable e )
+        {
+            logger.error( message, cause );
+        }
+        */
     }
     
     private Logger resolveLogger( Logger logger )
