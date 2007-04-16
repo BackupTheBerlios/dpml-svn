@@ -130,6 +130,7 @@
         <include name="LICENSE.TXT"/>
         <include name="NOTICE.TXT"/>
         <include name="README.TXT"/>
+        <include name="MIGRATION.TXT"/>
       </fileset>
     </copy>
   </target>
