@@ -161,8 +161,7 @@ public class DOM3DocumentBuilder
         catch( Exception e )
         {
             final String error = 
-              "DOM3 error while attempting to parse document."
-              + "\nSource: " + url;
+              "Unable to decode document [" + url + "]";
             IOException ioe = new IOException( error );
             ioe.initCause( e );
             throw ioe;
@@ -234,11 +233,32 @@ public class DOM3DocumentBuilder
                 }
             }
             
-            final String error = 
-              "Unable to resolve a schema for the namespace [" 
-              + namespace 
-              + "]";
-            throw new LSException( LSException.PARSE_ERR, error );
+            if( "link:xsd:dpml/lang/dpml-module#1.0".equals( namespace ) )
+            {
+                final String error = 
+                  "Namespace resolution error (migration issue)."
+                  + "\n\nThe document namespace \"link:xsd:dpml/lang/dpml-module#1.0\" has been "
+                  + "replaced by the namespace \"dpml:library\".  In addition a number "
+                  + "of internal changes have been made to the schema definition. These changes impact "
+                  + "all index files and any imported module and/or project definition files.";
+                  throw new LSException( LSException.PARSE_ERR, error );
+            }
+            else if( "link:xsd:dpml/lang/dpml-part#1.0".equals( namespace ) )
+            {
+                final String error = 
+                  "Namespace resolution error (migration issue)."
+                  + "\n\nThe document namespace \"link:xsd:dpml/lang/dpml-part#1.0\" has been "
+                  + "replaced by the namespace \"dpml:part\".";
+                  throw new LSException( LSException.PARSE_ERR, error );
+            }
+            else
+            {
+                final String error = 
+                  "Unable to resolve a schema for the namespace [" 
+                  + namespace 
+                  + "]";
+                throw new LSException( LSException.PARSE_ERR, error );
+            }
         }
         
         private LSResourceResolver[] getNamespaceResolvers()
