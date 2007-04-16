@@ -46,11 +46,30 @@ part deployment strategy.
 
 The schema definition for the 'part' data type has been updated such that it no longer defines any concrete deployment strategies (version 1.1 include resource and plugin definitions).  Instead, resource declarations may defined under an XML file with a root <resource> element with the namespace "dpml:antlib".  Plugin definitions have been removed as these are now redundant in that all plugin functionality is fully supported by a <component> definition under the "dpml:metro" namespace.  Under this revised structure the introduction of new schemas is much simpler because new alternative strategy schemas can be loaded dynamically, as are handlers for the strategy type.
 
-2.2 Enhancements to the <context> definition
+3. Metro component strategy
+---------------------------
+
+3.1 Component annotations
+
+Version 1 provided support for the declaration of component meta-data via a collocated .type data file.  This concept has been replaced under version 2.0 with class annotations that provide for the declaration of component features and policies.  This change eliminates a substantial area of code dealing with component type data structure generation.
+
+3.2 Enhancements to the <context> definition
 
 The <context> nested element can now include nested context entries, and entries that resolve to map-based structures. The nested context support is of particular interest when dealing with 'standard' context interfaces declared as return types within an enclosing context interface.  In addition, Metro 2.0.0 includes a Context annotation enabling the declaration of an interface as a context definition - enabling the use of alternative interface names and improving overall flexibility in context contract specification and use.
 
-2.3 Bundled deployment defaults
+3.3 Bundled deployment defaults
 
 A deployment profile can be collocated with a class file under the name <classname>.xprofile. The deployment profile contains the declaration of the default context and any other component data to be applied on the establishment of a component model before subsequent customization based on a component directive within a part data structure.  In addition, component policy (such as lifecycle, lifestyle, etc.) can also be associated with a component class via respective annotations.  Collectively these enhancement eliminate the need for the metro component ant task (which in turn eliminates a significant amount of code and provides a marked performance improvement related to component loading and deployment).
 
+4. Embedded Component Deployment Enhancements
+---------------------------------------------
+
+4.1 Content Handlers abstraction
+
+Introduction of artifact content handlers into the Transit resource management layer has enabled the separation of all 'part' content handling to an external system.  In the case of the 'part' content hander a part definition is analysed and a strategy element loaded via a dedicated strategy handler.  This approach simplifies both the Transit and Metro codebase while introducing some breaking API changes.  Generally speaking the changes are minor in nature and will normally be limited to test cases that reference directly DPML part management APIS.  In most cases these API changes will not impact client code.
+
+4.2 Modularization
+
+Under the 1.X series of distributions all classes were packaged under the net.dpml namespace.  Under 2.X public classes (i.e. classes making up the public SDK API) remain in the net.dpml namespace whereas private classes have been moved to the dpml namespace.  This change resolves issues related to public classes that were public in order to support inter-module visibility but which were not designed for inclusion within the public API.  As a consequence - the public API for component management within embedded applications has shrunk dramatically (37 public packages reduced down to 9). This change to some extent is pre-emptive of the changes that would be brought about by an implementation based on the JSR 294 Modularization specification.
+
+/SJM

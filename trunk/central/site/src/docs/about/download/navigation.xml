@@ -25,6 +25,7 @@
  <body>
 
     <menu>
+      <item name="Migration" href="migration.html"/>
       <item name="Windows Setup" href="windows.html"/>
       <item name="Unix Setup" href="unix.html"/>
       <item name="Archive" href="archive.html"/>
