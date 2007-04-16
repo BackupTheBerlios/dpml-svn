@@ -158,7 +158,7 @@ public class DOM3DocumentBuilder
         {
             throw e;
         }
-        catch( Exception e )
+        catch( Throwable e )
         {
             final String error = 
               "Unable to decode document [" + url + "]";
@@ -236,12 +236,9 @@ public class DOM3DocumentBuilder
             if( "link:xsd:dpml/lang/dpml-module#1.0".equals( namespace ) )
             {
                 final String error = 
-                  "Namespace resolution error (migration issue)."
-                  + "\n\nThe document namespace \"link:xsd:dpml/lang/dpml-module#1.0\" has been "
-                  + "replaced by the namespace \"dpml:library\".  In addition a number "
-                  + "of internal changes have been made to the schema definition. These changes impact "
-                  + "all index files and any imported module and/or project definition files.";
-                  throw new LSException( LSException.PARSE_ERR, error );
+                  "The document namespace \"link:xsd:dpml/lang/dpml-module#1.0\" has been "
+                  + "replaced by \"dpml:library\".";
+                throw new LSException( LSException.PARSE_ERR, error );
             }
             else if( "link:xsd:dpml/lang/dpml-part#1.0".equals( namespace ) )
             {
@@ -249,7 +246,7 @@ public class DOM3DocumentBuilder
                   "Namespace resolution error (migration issue)."
                   + "\n\nThe document namespace \"link:xsd:dpml/lang/dpml-part#1.0\" has been "
                   + "replaced by the namespace \"dpml:part\".";
-                  throw new LSException( LSException.PARSE_ERR, error );
+                throw new LSException( LSException.PARSE_ERR, error );
             }
             else
             {
@@ -317,12 +314,12 @@ public class DOM3DocumentBuilder
             short severity = error.getSeverity();
             if( severity == DOMError.SEVERITY_WARNING )
             {
-                m_logger.warn( notice );
-                return true;
+                //m_logger.warn( notice );
+                //return true;
+                return false;
             }
             else
             {
-                m_logger.error( notice );
                 return false;
             }
         }

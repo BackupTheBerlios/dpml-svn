@@ -60,7 +60,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     private final Hashtable<String,DefaultResource> m_anonymous = 
       new Hashtable<String,DefaultResource>();
     
-    private static LibraryDirective buildLibraryDirective( File source ) throws Exception
+    private static LibraryDirective buildLibraryDirective( final File source ) throws Exception
     {
         return LIBRARY_DECODER.build( source );
     }
@@ -71,7 +71,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * @param logger the assigned logging channel
     * @exception Exception if an error occurs during defintion loading
     */
-    public DefaultLibrary( Logger logger ) throws Exception
+    public DefaultLibrary( final Logger logger ) throws Exception
     {
         this( logger, resolveLibrarySource() );
     }
@@ -82,7 +82,7 @@ public final class DefaultLibrary extends DefaultDictionary implements Library
     * @param source the index source defintion
     * @exception Exception if an error occurs during defintion loading
     */
-    public DefaultLibrary( Logger logger, File source ) throws Exception
+    public DefaultLibrary( final Logger logger, final File source ) throws Exception
     {   
         super( null, buildLibraryDirective( source ) );
         

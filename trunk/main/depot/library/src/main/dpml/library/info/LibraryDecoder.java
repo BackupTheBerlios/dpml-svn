@@ -59,7 +59,7 @@ public final class LibraryDecoder extends LibraryConstants
     * @return the library directive
     * @exception IOException if an IO exception occurs
     */
-    public LibraryDirective build( File source ) throws IOException
+    public LibraryDirective build( final File source ) throws IOException
     {
         if( null == source )
         {
