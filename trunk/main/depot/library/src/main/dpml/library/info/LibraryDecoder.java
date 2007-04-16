@@ -687,15 +687,32 @@ public final class LibraryDecoder extends LibraryConstants
 
     private TypeDirective buildTypeDirective( Element element ) throws Exception
     {
-        final String id = getID( element );
-        final Properties properties = getProperties( element );
-        final String version = getVersion( element );
-        final String source = getSource( element );
-        final String name = ElementHelper.getAttribute( element, "name" );
-        boolean alias = getAliasPolicy( element );
-        boolean export = getExportPolicy( element );
-        ProductionPolicy production = getProductionPolicy( element );
-        return new TypeDirective( production, id, name, version, alias, source, properties, export );
+        String tag = element.getTagName();
+        if( "type".equals( tag ) )
+        {
+            final String id = getID( element );
+            final Properties properties = getProperties( element );
+            final String version = getVersion( element );
+            final String source = getSource( element );
+            final String name = ElementHelper.getAttribute( element, "name" );
+            boolean alias = getAliasPolicy( element );
+            boolean export = getExportPolicy( element );
+            ProductionPolicy production = getProductionPolicy( element );
+            return new TypeDirective( production, id, name, version, alias, source, properties, export );
+        }
+        else if( "component".equals( tag ) )
+        {
+            final String error = 
+              "In-line declaration of a component strategy not supported."
+              + "\nUse <type id=\"part\" source=\"etc/component.xml\"/>.";
+            throw new DecodingException( error, element );
+        }
+        else
+        {
+            final String error = 
+              "Illegal element name (expecting <type>).";
+            throw new DecodingException( error, element );
+        }
     }
     
     private String getVersion( Element element )
