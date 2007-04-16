@@ -1,3 +1,4 @@
+
 DPML SDK 2.0 Migration Notes
 ----------------------------
 
@@ -9,14 +10,14 @@ The notes deal with migration from DPML 1.1.0 to DPML 2.0.0.
 1.1 Namespace changes
 
 The XML namespace for index files, imported module and imported project files has changed from "link:xsd:dpml/lang/dpml-lang#1.0" to the new namespace "dpml:library".  This change has been 
-brought about a simpler architecture for new namespace resolution.  Insytead of the namespace 
+brought about a simpler architecture for new namespace resolution.  Instead of the namespace 
 serving as an implicit resource identifier, version 2.0.0 leverages the java.util.ServiceLoader
-to load a schmea validator for any unknown schema references.
+to load a schema validator for any unknown schema references.
 
 1.2 Schema Changes
 
 The schema definition has been simplified with the removal of inline declaration of product 
-type datastructures.  For example, under version 1.1 you could define a project using the 
+type data structures.  For example, under version 1.1 you could define a project using the 
 following in-line component type declaration:
 
   <project name="foo" basedir="foo">
@@ -28,7 +29,7 @@ following in-line component type declaration:
 
 In the above XML sample the declaration of '<part:plugin .../>' is an example of an inline 
 declaration.  Under version 2.0.0 the equivalent definition is handled by a part type 
-production statement using the new 'source' attribute referencing an XML definining a 
+production statement using the new 'source' attribute referencing an XML defining a 
 part deployment strategy.
 
   <project name="foo" basedir="foo">
@@ -38,18 +39,18 @@ part deployment strategy.
     </types>
   </project>
 
-2. Part datatype management changes
------------------------------------
+2. Part data type management changes
+------------------------------------
 
 2.1 Separation of part schema from strategy schemas.
 
-The schema definition for the 'part' datatype has been updated such that it no longer defines any concrete deployment strategies (version 1.1 include resource and plagin defintions).  Instead, resource declarations may defined under an XML file with a root <resource> element with the namespace "dpml:antlib".  Plugin definitions have been removed as these are now redundant in that all plugin functionality is fully supported by a <component> defintion under the "dpml:metro" namespace.  Under this revised structure the introduction of new schemas is much simpler because new alternative strategy schemas can be loaded dynamically, as are handlers for the strategy type.
+The schema definition for the 'part' data type has been updated such that it no longer defines any concrete deployment strategies (version 1.1 include resource and plugin definitions).  Instead, resource declarations may defined under an XML file with a root <resource> element with the namespace "dpml:antlib".  Plugin definitions have been removed as these are now redundant in that all plugin functionality is fully supported by a <component> definition under the "dpml:metro" namespace.  Under this revised structure the introduction of new schemas is much simpler because new alternative strategy schemas can be loaded dynamically, as are handlers for the strategy type.
 
-2.2 Enhancements to the <context> defintion
+2.2 Enhancements to the <context> definition
 
-The <context> nested element can now include nested context entries, and entryies that resolver to map-based structures. The nested context support is of particular interest when dealing with 'standard' context interfaces declared as return types within an enclosing context interface.  In addition, Metro 2.0.0 includes a Context annotation enabling the declaration of an interface as a context defintion - enabling the use of alternative interface names and improving overall flexibility in context contract specification and use.
+The <context> nested element can now include nested context entries, and entries that resolve to map-based structures. The nested context support is of particular interest when dealing with 'standard' context interfaces declared as return types within an enclosing context interface.  In addition, Metro 2.0.0 includes a Context annotation enabling the declaration of an interface as a context definition - enabling the use of alternative interface names and improving overall flexibility in context contract specification and use.
 
 2.3 Bundled deployment defaults
 
-A deployment profile can not be colocated with a class file under the name <classname>.xprofile. The deployment profile contains the declaration of the default context and any other component data to be applied on the establishment of a component model before subsequent customaization based on a component directive within a part datastructure.  In addition, component policy (such as lifecycle, lifestyle, etc.) can also be associated with a component class via respective annotations.  Collectively these enhancement eliminate the need for the metro component ant task (which in turn eliminates a significant amount of code and provides a marked performance improvement related to component loading and deployment).
+A deployment profile can be collocated with a class file under the name <classname>.xprofile. The deployment profile contains the declaration of the default context and any other component data to be applied on the establishment of a component model before subsequent customization based on a component directive within a part data structure.  In addition, component policy (such as lifecycle, lifestyle, etc.) can also be associated with a component class via respective annotations.  Collectively these enhancement eliminate the need for the metro component ant task (which in turn eliminates a significant amount of code and provides a marked performance improvement related to component loading and deployment).
 
