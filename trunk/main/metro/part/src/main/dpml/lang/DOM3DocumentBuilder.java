@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import javax.xml.XMLConstants;
 
 import net.dpml.lang.PartError;
+import net.dpml.lang.DecodingException;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.InvalidArtifactException;
@@ -137,7 +138,8 @@ public class DOM3DocumentBuilder
             DOMConfiguration config = builder.getDomConfig();
             
             URI uri = url.toURI();
-            config.setParameter( "error-handler", new InternalErrorHandler( m_logger, uri ) );
+            InternalErrorHandler errorHandler = new InternalErrorHandler( m_logger, uri );
+            config.setParameter( "error-handler", errorHandler );
             config.setParameter( "resource-resolver", new InternalResourceResolver( m_logger ) );
             config.setParameter( "validate", Boolean.TRUE );
             DOMInput input = new DOMInput();
@@ -147,6 +149,14 @@ public class DOM3DocumentBuilder
             input.setCharacterStream( reader );
             
             Document doc = builder.parse( input );
+            int n = errorHandler.getErrorCount();
+            if( n > 0 )
+            {
+                final String error = 
+                  "Document validation failure."
+                  + "\nURL: " + url;
+                throw new DecodingException( error, null, null );
+            }
             doc.setDocumentURI( uri.toASCIIString() );
             return doc;
         }
@@ -155,6 +165,10 @@ public class DOM3DocumentBuilder
             throw e;
         }
         catch( InvalidArtifactException e )
+        {
+            throw e;
+        }
+        catch( DecodingException e )
         {
             throw e;
         }
@@ -279,10 +293,17 @@ public class DOM3DocumentBuilder
         private final URI m_uri;
         private final Logger m_logger;
         
+        private int m_count = 0;
+        
         InternalErrorHandler( Logger logger, URI uri )
         {
             m_uri = uri;
             m_logger = logger;
+        }
+        
+        int getErrorCount()
+        {
+            return m_count;
         }
         
        /**
@@ -292,6 +313,7 @@ public class DOM3DocumentBuilder
         */
         public boolean handleError( DOMError error )
         {
+            m_count++;
             DOMLocator locator = error.getLocation();
             int line = locator.getLineNumber();
             int column = locator.getColumnNumber();
@@ -314,12 +336,13 @@ public class DOM3DocumentBuilder
             short severity = error.getSeverity();
             if( severity == DOMError.SEVERITY_WARNING )
             {
-                //m_logger.warn( notice );
+                m_logger.warn( notice );
                 //return true;
                 return false;
             }
             else
             {
+                m_logger.warn( notice );
                 return false;
             }
         }
