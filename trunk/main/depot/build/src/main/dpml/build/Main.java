@@ -57,6 +57,7 @@ import static net.dpml.annotation.LifestylePolicy.SINGLETON;
 import net.dpml.lang.Strategy;
 import net.dpml.lang.ServiceRegistry;
 import net.dpml.lang.SimpleServiceRegistry;
+import net.dpml.lang.DecodingException;
 
 import dpml.library.Module;
 import dpml.library.Resource;
@@ -87,11 +88,11 @@ public class Main implements Tool
     // ------------------------------------------------------------------------
     
     private final Logger m_logger;
-    private final DefaultLibrary m_library;
     private final Map m_map = new Hashtable();
     
     private boolean m_verbose;
     private boolean m_expand = false;
+    private DefaultLibrary m_library;
     
     // ------------------------------------------------------------------------
     // constructors
@@ -107,7 +108,6 @@ public class Main implements Tool
     public Main( Logger logger ) throws Exception
     {
         m_logger = logger;
-        m_library = new DefaultLibrary( logger );
     }
     
     // ------------------------------------------------------------------------
@@ -135,13 +135,31 @@ public class Main implements Tool
     */
     public int run( InputStream in, OutputStream out, OutputStream err, String... arguments )
     {
+        // setup the project/resource index
+        
+        try
+        {
+            m_library = new DefaultLibrary( m_logger );
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unable to load library index.";
+            m_logger.error( message, e );
+            return -1;
+        }
+        
+        // execute the build
+        
         try
         {
             return execute( arguments );
         }
         catch( Throwable e )
         {
-            m_logger.error( "Build error.", e );
+            final String error = 
+              "Build error.";
+            m_logger.error( message, e );
             return -1;
         }
     }
