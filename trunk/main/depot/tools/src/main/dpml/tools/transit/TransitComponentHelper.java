@@ -275,8 +275,19 @@ public class TransitComponentHelper extends ComponentHelper
             String path = resource.replace( '.', '/' ) + "/antlib.xml";
             ClassLoader classloader = getClass().getClassLoader();
             InputStream input = classloader.getResourceAsStream( path );
+            
             if( null == input )
             {
+                if( name.startsWith( "antlib:net.dpml.transit:" ) )
+                {
+                    // 1.X to 2.X migration issue, re-apply using 
+                    // "antlib:dpml.tools:"
+                    
+                    String value = name.replace( 
+                      "antlib:net.dpml.transit:", 
+                      "antlib:dpml.tools:" );
+                    return createComponent( value );
+                }
                 final String error = 
                   "Task ["
                   + name
