@@ -96,6 +96,7 @@ Section "-platform" SecPlatform
   File  ..\bundle\README.txt
   File  ..\bundle\LICENSE.txt
   File  ..\bundle\NOTICE.txt
+  File  ..\bundle\MIGRATION.txt
   
   Push "DPML_HOME"
   Push $INSTDIR

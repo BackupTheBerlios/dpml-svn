@@ -26,8 +26,7 @@
 
     <menu>
       <item name="@VERSION@" href="http://api.dpml.net/dpml/@VERSION@/index.html"/>
-      <!--
-      -->
+      <item name="2.0.0" href="http://api.dpml.net/dpml/2.0.0/index.html"/>
       <item name="1.1.0" href="http://api.dpml.net/dpml/1.1.0/index.html"/>
       <item name="1.0.5" href="http://api.dpml.net/dpml/1.0.5/index.html"/>
       <item name="1.0.4" href="http://api.dpml.net/dpml/1.0.4/index.html"/>
