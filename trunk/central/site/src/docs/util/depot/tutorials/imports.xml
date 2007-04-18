@@ -25,7 +25,7 @@
         a module defintion for the Ant system which contains information about
         Ant resources and their respective dependencies.  The second change 
         is the replacement of the manual uri-based dependency includes with
-        a single resource reference to <tt>ant/ant-junit</tt>.  When Depot
+        a single resource reference to <tt>org/apache/ant/ant-junit</tt>.  When Depot
         resolves the transitive dependencies it will take into account the 
         dependencies declared by the <tt>ant/ant-junit</tt> resource resulting
         in a reliable and complete dependency set.  We have also include the 
@@ -53,7 +53,7 @@
     &lt;/types&gt;
     &lt;dependencies&gt;
       &lt;test&gt;
-        <font color="darkred">&lt;include ref="ant/ant-junit"/&gt;
+        <font color="darkred">&lt;include ref="org/apache/ant/ant-junit"/&gt;
         &lt;include ref="dpml/transit/dpml-transit-main"/&gt;</font>
       &lt;/test&gt;
     &lt;/dependencies&gt;
@@ -91,12 +91,12 @@ project:demo#SNAPSHOT
   types: (1)
     jar
   test providers: (6)
-    resource:ant/ant-launcher#1.6.5
-    resource:ant/ant-trax#1.6.5
-    resource:ant/ant-xslp#1.6.5
-    resource:ant/ant#1.6.5
+    resource:org/apache/ant/ant-launcher#1.6.5
+    resource:org/apache/ant/ant-trax#1.6.5
+    resource:org/apache/ant/ant-xslp#1.6.5
+    resource:org/apache/ant/ant#1.6.5
     resource:junit/junit#3.8.1
-    resource:ant/ant-junit#1.6.5
+    resource:org/apache/ant/ant-junit#1.6.5
     resource:dpml/transit/dpml-transit-main#SNAPSHOT</pre>
 
       </subsection>

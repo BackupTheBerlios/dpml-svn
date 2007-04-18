@@ -39,7 +39,7 @@
 &lt;index xmlns="dpml:library"&gt;
 
   &lt;imports&gt;
-    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:org/apache/ant"/&gt;
     &lt;import uri="link:module:dpml"/&gt;
   &lt;/imports&gt;
 
@@ -60,7 +60,7 @@
           &lt;include key="clock-api"/&gt;
         &lt;/runtime&gt;
         &lt;test&gt;
-          &lt;include ref="ant/ant-junit"/&gt;
+          &lt;include ref="org/apache/ant/ant-junit"/&gt;
           &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
         &lt;/test&gt;
       &lt;/dependencies&gt;

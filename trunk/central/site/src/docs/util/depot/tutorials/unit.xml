@@ -42,9 +42,9 @@
     
     <font color="darkred">&lt;dependencies&gt;
       &lt;test&gt;
-        &lt;include uri="artifact:jar:ant/ant-junit#1.6.5"/&gt;
-        &lt;include uri="artifact:jar:ant/ant#1.6.5"/&gt;
-        &lt;include uri="artifact:jar:junit/junit#3.8.1"/&gt;
+        &lt;include uri="artifact:jar:org/apache/ant/ant-junit#1.7.0"/&gt;
+        &lt;include uri="artifact:jar:org/apache/ant/ant#1.7.0"/&gt;
+        &lt;include uri="artifact:jar:junit/junit#4.2"/&gt;
       &lt;/test&gt;
     &lt;/dependencies&gt;</font>
     

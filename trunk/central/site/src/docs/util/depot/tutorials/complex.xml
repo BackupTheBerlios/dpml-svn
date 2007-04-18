@@ -69,7 +69,7 @@
 &lt;index xmlns="dpml:library">
 
   &lt;imports&gt;
-    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:org/apache/ant"/&gt;
     &lt;import uri="link:module:dpml"/&gt;
   &lt;/imports&gt;
 
@@ -88,7 +88,7 @@
         &lt;include key="clock-api"/&gt;
       &lt;/runtime&gt;
       &lt;test&gt;
-        &lt;include ref="ant/ant-junit"/&gt;
+        &lt;include ref="org/apache/ant/ant-junit"/&gt;
         &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
       &lt;/test&gt;
     &lt;/dependencies&gt;
@@ -132,12 +132,12 @@ project:clock-impl#SNAPSHOT
   runtime providers: (1)
     project:clock-api#SNAPSHOT
   test providers: (7)
-    resource:ant/ant-launcher#1.6.5
-    resource:ant/ant-trax#1.6.5
-    resource:ant/ant-xslp#1.6.5
-    resource:ant/ant#1.6.5
+    resource:org/apache/ant/ant-launcher#1.7.0
+    resource:org/apache/ant/ant-trax#1.7.0
+    resource:org/apache/ant/ant-xslp#1.7.0
+    resource:org/apache/ant/ant#1.7.0
     resource:junit/junit#3.8.1
-    resource:ant/ant-junit#1.6.5
+    resource:org/apache/ant/ant-junit#1.7.0
     resource:dpml/transit/dpml-transit-main#SNAPSHOT</pre>
 
       </subsection>
