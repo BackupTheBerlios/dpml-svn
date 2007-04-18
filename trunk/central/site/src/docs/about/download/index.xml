@@ -33,8 +33,12 @@
         @VERSION@ version has a structural dependency on the Java 1.6 platform.  Semantics 
         of component deployment such as Context definition remain backward compatible with 
         the 1.X series.  Internal APIs have changed relative to 1.X to better align with 
-        draft JSR 277 module specifications. New features and/or enhancements delivered under 
-        version 2.0.0 relative to 1.1.0 include:
+        draft JSR 277 module specifications. 
+        </p>
+        
+        <p>
+        New features and/or enhancements delivered under 
+        version @VERSION@ relative to 1.1.0 include:
         </p>
         
         <ul>
@@ -53,6 +57,11 @@
           <li>Improvements to Station deployment metadata.</li>
         </ul>
         
+        <p>
+        New features and/or enhancements delivered under 
+        version @VERSION@ relative to the 2.0.0 distribution include improvements to 
+        general exception handling and error reporting.
+        </p>
 
       </subsection>
 
