@@ -11,11 +11,12 @@
   </dependencies>
 
   <project file="part/project.xml"/>
-  <project file="sample/project.xml"/>
+  <project file="testing/sample/project.xml"/>
   <project file="appliance/project.xml"/>
   <project file="main/project.xml"/>
   <project file="connector/project.xml"/>
-  <project file="test/project.xml"/>
+  <project file="testing/test/project.xml"/>
+  <project file="testing/plus/project.xml"/>
   <project file="station/project.xml"/>
 
 </module>
