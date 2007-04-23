@@ -27,6 +27,10 @@
             <td><a href="component.html"><tt>component</tt></a></td>
             <td><tt>0..n</tt> nested components.</td>
           </tr>
+          <tr>
+            <td><a href="part.html"><tt>part</tt></a></td>
+            <td><tt>0..n</tt> nested components references.</td>
+          </tr>
         </table>
 
       </subsection>

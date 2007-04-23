@@ -82,13 +82,11 @@
               by the part content handler.  If the qualfied element name is recognized 
               an internal handler is assigned, otherwise value of the <tt>handler</tt> 
               attribute is used to resolve a uri identifying a strategy plugin.
-              The Metro system provides three recognized strategy element handlers - 
-              <tt>&lt;plugin&gt;</tt> and <tt>&lt;resource&gt;</tt> and 
-              <tt>&lt;component&gt;</tt>.  The <tt>&lt;plugin&gt;</tt> strategy is a 
-              simple object deployment handler suitable for low-level facilities, the 
+              The Metro system provides two bundled strategy element handlers - 
+              <tt>&lt;component&gt;</tt> and <tt>&lt;resource&gt;</tt>.  The 
               <tt>&lt;resource&gt;</tt> handler provides support for Antlib loading, and
-              the <tt>&lt;component&gt;</tt> strategy is the standard component deployment
-              framework.
+              the <tt>&lt;component&gt;</tt> strategy details the standard Metro component 
+              deployment model.
             </td>
           </tr>
           <tr>
