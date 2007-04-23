@@ -202,9 +202,11 @@
         <module name="com.puppycrawl.tools.checkstyle.checks.whitespace.TabCharacterCheck">
             <property name="severity" value="warning"/>
         </module>
+        <!--
         <module name="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck">
             <property name="severity" value="warning"/>
         </module>
+        -->
         <!--
         <module name="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck">
             <property name="severity" value="warning"/>

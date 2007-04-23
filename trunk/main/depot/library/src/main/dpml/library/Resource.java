@@ -22,8 +22,6 @@ import dpml.util.Category;
 
 import java.io.File;
 
-import net.dpml.transit.Artifact;
-
 import net.dpml.lang.Version;
 
 import net.dpml.util.Resolver;

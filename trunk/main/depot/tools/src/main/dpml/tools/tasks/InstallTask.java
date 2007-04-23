@@ -29,9 +29,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
-import net.dpml.lang.Version;
-
-import dpml.library.Module;
 import dpml.library.Resource;
 import dpml.library.Type;
 
@@ -41,9 +38,7 @@ import net.dpml.transit.ArtifactNotFoundException;
 import net.dpml.transit.LinkManager;
 import net.dpml.transit.Layout;
 
-
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Checksum;

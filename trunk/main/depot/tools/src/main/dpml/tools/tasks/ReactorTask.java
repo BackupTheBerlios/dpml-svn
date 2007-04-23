@@ -18,17 +18,13 @@
 
 package dpml.tools.tasks;
 
-import net.dpml.lang.SimpleServiceRegistry;
+import dpml.library.Resource;
+import dpml.library.impl.DefaultLibrary;
+import dpml.tools.impl.StandardBuilder;
 import dpml.util.DefaultLogger;
 
 import java.io.File;
 
-import net.dpml.lang.Strategy;
-import net.dpml.lang.ServiceRegistry;
-import dpml.build.Builder;
-import dpml.library.Resource;
-import dpml.library.impl.DefaultLibrary;
-import dpml.tools.impl.StandardBuilder;
 import net.dpml.util.Logger;
 
 import org.apache.tools.ant.BuildException;

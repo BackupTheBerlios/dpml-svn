@@ -282,7 +282,7 @@ public class JUnitTestTask extends GenericTask
         final JUnitTask.SummaryAttribute summary = getSummaryAttribute();
         junit.setPrintsummary( summary );
         
-        junit.setShowOutput( true);
+        junit.setShowOutput( true );
         junit.setTempdir( working );
         junit.setReloading( true );
         junit.setFiltertrace( true );
@@ -374,27 +374,7 @@ public class JUnitTestTask extends GenericTask
         }
 
         setupTestProperties( junit, project, working );
-        
-        final File logProperties = new File( working, "logging.properties" );
-        if( logProperties.exists() )
-        {
-            final Environment.Variable log = new Environment.Variable();
-            log.setKey( "dpml.logging.config" );
-            try
-            {
-                URI logPropertiesURI = logProperties.toURI();
-                String logPropertiesSpec = logPropertiesURI.toString();
-                log.setValue( logPropertiesSpec );
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Unexpected file to url error."
-                  + "\nFile: " + logProperties;
-                throw new BuildException( error, e );
-            }
-            junit.addConfiguredSysproperty( log );
-        }
+        setupLoggingProperties( junit, project, working );
         
         String formatter = getResource().getProperty( "java.util.logging.config.class" );
         if( null != formatter )
@@ -422,6 +402,30 @@ public class JUnitTestTask extends GenericTask
         
         junit.init();
         junit.execute();
+    }
+    
+    private void setupLoggingProperties( JUnitTask junit, Project project, File working )
+    {
+        final File logProperties = new File( working, "logging.properties" );
+        if( logProperties.exists() )
+        {
+            final Environment.Variable log = new Environment.Variable();
+            log.setKey( "dpml.logging.config" );
+            try
+            {
+                URI logPropertiesURI = logProperties.toURI();
+                String logPropertiesSpec = logPropertiesURI.toString();
+                log.setValue( logPropertiesSpec );
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unexpected file to url error."
+                  + "\nFile: " + logProperties;
+                throw new BuildException( error, e );
+            }
+            junit.addConfiguredSysproperty( log );
+        }
     }
     
     private void setupTestProperties( JUnitTask junit, Project project, File working )

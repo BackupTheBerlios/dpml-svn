@@ -19,7 +19,6 @@
 package dpml.library.info;
 
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import dpml.library.Classifier;
@@ -90,6 +89,7 @@ public class ResourceDirective extends AbstractDirective
     * @param dependencies resource dependencies
     * @param properties suppliementary properties
     * @param filters project filters
+    * @param export the export policy
     * @return the immediate enclosing resource
     */
     public static ResourceDirective createResourceDirective( 

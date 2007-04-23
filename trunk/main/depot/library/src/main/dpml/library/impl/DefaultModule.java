@@ -336,6 +336,7 @@ public final class DefaultModule extends DefaultResource implements Module
    /**
     * Publish the module to the output stream.
     * @param output the output stream
+    * @exception IOException if an IO error occurs
     */
     public void export( OutputStream output ) throws IOException
     {
@@ -344,6 +345,10 @@ public final class DefaultModule extends DefaultResource implements Module
         encoder.export( directive, output );
     }
 
+   /**
+    * Returns a reduced module definition suitable for publication..
+    * @return the module directive for export
+    */
     public ModuleDirective exportDirective()
     {
         if( null == m_directive )

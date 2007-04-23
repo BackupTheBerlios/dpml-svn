@@ -20,9 +20,6 @@ package dpml.library.impl;
 
 import dpml.library.Module;
 import dpml.library.Resource;
-import dpml.library.Type;
-
-import org.w3c.dom.Element;
 
 /**
  * Test DefaultLibrary implementation.

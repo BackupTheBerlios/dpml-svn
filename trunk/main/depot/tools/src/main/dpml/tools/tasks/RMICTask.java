@@ -26,7 +26,6 @@ import dpml.library.Scope;
 
 import dpml.tools.Context;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Rmic;
 import org.apache.tools.ant.types.Path;
@@ -57,6 +56,9 @@ public class RMICTask extends GenericTask
     private String m_classPathRef;
     private File m_base;
     
+   /**
+    * Creation of a new RMIC task instance.
+    */
     public RMICTask()
     {
         super();
@@ -80,6 +82,10 @@ public class RMICTask extends GenericTask
         m_base = base;
     }
     
+   /**
+    * Create and add a new include statement.
+    * @return the include
+    */
     public Include createInclude()
     {
         Include include = new Include();
@@ -87,6 +93,10 @@ public class RMICTask extends GenericTask
         return include;
     }
     
+   /**
+    * Create and add a new exclude statement.
+    * @return the exclude
+    */
     public Include createExclude()
     {
         Include include = new Include();
@@ -94,6 +104,9 @@ public class RMICTask extends GenericTask
         return include;
     }
     
+   /**
+    * Task initialization.
+    */
     public void init()
     {
         setTaskName( "rmic" );
@@ -158,15 +171,26 @@ public class RMICTask extends GenericTask
         }
     }
     
+   /**
+    * Include datatype.
+    */
     public static class Include
     {
         private String m_name;
         
+       /**
+        * Set the include name.
+        * @param name the include name
+        */
         public void setName( String name )
         {
             m_name = name;
         }
         
+       /**
+        * Get the include name.
+        * @return the include name
+        */
         public String getName()
         {
             return m_name;

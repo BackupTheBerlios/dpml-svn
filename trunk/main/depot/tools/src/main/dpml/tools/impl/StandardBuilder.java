@@ -19,9 +19,6 @@
 package dpml.tools.impl;
 
 import dpml.build.Builder;
-import dpml.build.BuildError;
-
-import dpml.library.impl.DefaultLibrary;
 
 import dpml.tools.Context;
 import dpml.tools.BuilderError;
@@ -107,13 +104,19 @@ public class StandardBuilder implements Builder
     // constructors
     // ------------------------------------------------------------------------
 
+   /**
+    * New standard builder.
+    * @param logger the assigned logging channel
+    * @param library the common library
+    * @param verbose the version policy
+    * @exception Exception if an error occurs
+    */
     public StandardBuilder( Logger logger, Library library, Boolean verbose ) throws Exception
     {
         m_logger = logger;
         m_verbose = verbose;
         m_library = library;
         
-        //Thread.currentThread().setContextClassLoader( Builder.class.getClassLoader() );
         Thread.currentThread().setContextClassLoader( StandardBuilder.class.getClassLoader() );
     }
 
@@ -126,6 +129,7 @@ public class StandardBuilder implements Builder
     * @param resource the project definition
     * @param targets an array of build target names
     * @return the build success status
+    * @exception Exception if an error occurs
     */
     public boolean build( Resource resource, String[] targets ) throws Exception
     {

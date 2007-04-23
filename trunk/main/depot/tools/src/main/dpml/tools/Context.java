@@ -62,7 +62,8 @@ public interface Context
     String getProperty( String key, String value );
     
    /**
-    *Initialize the context.
+    * Initialize the context.
+    * @exception IOException if an IO error occurs
     */
     void init() throws IOException;
     
@@ -279,6 +280,7 @@ public interface Context
     * Utility operation to construct a new classpath path instance.
     * @param scope the build scope
     * @return the path
+    * @exception IOException if an IO error occurs
     */
     Path createPath( Scope scope ) throws IOException;
     
@@ -286,6 +288,7 @@ public interface Context
     * Utility operation to construct a new path using a supplied array of resources.
     * @param resources the resource to use in path construction
     * @return the path
+    * @exception IOException if an IO error occurs
     */
     Path createPath( Resource[] resources ) throws IOException;
     
@@ -295,6 +298,7 @@ public interface Context
     * @param resolve if true force local caching of the artifact 
     * @param filter if true restrict path entries to resources that produce jars
     * @return the path
+    * @exception IOException if an IO error occurs
     */
     Path createPath( Resource[] resources, boolean resolve, boolean filter ) throws IOException;
 }

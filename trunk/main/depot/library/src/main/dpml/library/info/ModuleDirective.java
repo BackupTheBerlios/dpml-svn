@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import dpml.library.Classifier;
-import dpml.library.Scope;
 
 /**
  * The ModuleDirective class describes a module data-structure.
@@ -49,6 +48,7 @@ public final class ModuleDirective extends ResourceDirective
     * @param properties suppliementary properties
     * @param filters project filters
     * @param resources subsidary resources
+    * @param export the export policy
     * @return the immediate enclosing resource
     */
     public static ModuleDirective createModuleDirective( 
@@ -119,6 +119,7 @@ public final class ModuleDirective extends ResourceDirective
     * @param resources resource included within the module
     * @param properties suppliementary properties
     * @param filters project filters
+    * @param export the export policy
     */
     public ModuleDirective(
       String name, String version, Classifier classifier, String basedir, 

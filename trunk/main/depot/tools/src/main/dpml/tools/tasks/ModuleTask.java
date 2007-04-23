@@ -25,7 +25,7 @@ import dpml.library.Resource;
 import dpml.library.Module;
 import dpml.library.Scope;
 import dpml.library.Type;
-import dpml.library.info.ModuleDirective;
+
 import dpml.library.info.LibraryEncoder;
 
 import dpml.tools.Context;

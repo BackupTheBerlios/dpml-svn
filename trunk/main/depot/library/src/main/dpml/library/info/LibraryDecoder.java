@@ -36,12 +36,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import net.dpml.lang.Version;
 import net.dpml.lang.DecodingException;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Utility class used for construction of a module model from an XML source.

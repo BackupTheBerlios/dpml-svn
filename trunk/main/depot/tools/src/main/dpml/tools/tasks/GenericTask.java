@@ -293,6 +293,12 @@ public class GenericTask extends Task
         }
     }
     
+   /**
+    * Return a property value.
+    * @param key the property key
+    * @param value tyhe default value
+    * @return the property value
+    */
     protected String getProperty( String key, String value )
     {
         String v = getProject().getProperty( key );

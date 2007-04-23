@@ -49,14 +49,34 @@ public interface Type extends Dictionary
     */
     String getVersion();
     
+   /**
+    * Return the type name.
+    * @return the type name
+    */
     String getName();
 
+   /**
+    * Return the compound name.
+    * @return the compound name
+    */
     String getCompoundName();
     
+   /**
+    * Return the source for type (may be null).
+    * @return the type source attribute value
+    */
     String getSource();
     
+   /**
+    * Return TRUE if the type is exported.
+    * @return the export policy
+    */
     boolean getExport();
     
+   /**
+    * Return TRUE if the type is a test type.
+    * @return the test policy
+    */
     boolean getTest();
 
    /**
@@ -65,15 +85,37 @@ public interface Type extends Dictionary
     */
     boolean getAliasProduction();
 
+   /**
+    * Return a file reference for the cache type.
+    * @return the file representing the produced artifact type
+    */
     File getFile();
     
+   /**
+    * Return a file reference for the type.
+    * @param local if true return the local deliverable file otherwise return the cached file
+    * @return the file representing the produced artifact type
+    */
     File getFile( boolean local );
 
+   /**
+    * Return the artifact for the type ensuring that the artifact is fully resolved.
+    * @return the resolved artifact
+    * @exception IOException if an IO error occurs
+    */
     Artifact getResolvedArtifact() throws IOException;
     
+   /**
+    * Return the artifact for the type.
+    * @return the artifact
+    */
     Artifact getArtifact();
     
-    Artifact getLinkArtifact(); // resolve option?
+   /**
+    * Return the link artifact for the type.
+    * @return the link artifact
+    */
+    Artifact getLinkArtifact();
 
    /**
     * Return a filename using the layout strategy employed by the cache.

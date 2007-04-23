@@ -47,9 +47,7 @@ import dpml.library.Scope;
 
 import net.dpml.transit.Artifact;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Mkdir;
 import org.apache.tools.ant.taskdefs.Copy;
 
 import org.w3c.dom.Element;
@@ -334,6 +332,13 @@ public class PackageTask extends GenericTask
         return new Info( uri, title, description );
     }
     
+   /**
+    * Return the resource classpath.
+    * @param resource the target resource
+    * @param test true if the classpathis a test classpath
+    * @return the classpath data structure
+    * @exception IOException of an IO error occurs
+    */
     protected Classpath getClasspath( Resource resource, boolean test ) throws IOException
     {
         URI[] sysUris = getURIs( resource, Category.SYSTEM );

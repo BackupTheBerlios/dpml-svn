@@ -41,6 +41,8 @@ import static net.dpml.transit.Transit.DATA;
  */
 public class ImportArtifactTask extends ImportTask
 {
+    private static final File TRANSIT_DATA = DATA; // for static initialization
+    
    /**
     * A flag indicating that nested directives have been provided.
     */

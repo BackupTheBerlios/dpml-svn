@@ -26,8 +26,6 @@ import dpml.library.info.ResourceDirective;
 import dpml.library.info.TypeDirective;
 import dpml.library.info.LibraryDecoder;
 
-import dpml.util.StandardClassLoader;
-
 import junit.framework.TestCase;
 
 

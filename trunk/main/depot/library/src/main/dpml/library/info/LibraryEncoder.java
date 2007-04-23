@@ -25,9 +25,7 @@ import java.io.OutputStreamWriter;
 import java.util.Properties;
 
 import dpml.util.Category;
-import net.dpml.lang.Version;
 
-import dpml.library.Classifier;
 import dpml.library.Scope;
 
 import dpml.library.info.IncludeDirective.Mode;

@@ -21,13 +21,8 @@ package dpml.tools.transit;
 import dpml.lang.Part;
 import dpml.util.ElementHelper;
 
-import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.URI;
-import java.util.Map;
-import java.util.Hashtable;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Hashtable;

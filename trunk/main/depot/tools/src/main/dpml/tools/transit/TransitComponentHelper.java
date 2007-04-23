@@ -18,8 +18,6 @@
 
 package dpml.tools.transit;
 
-import dpml.tools.BuilderError;
-
 import dpml.util.ElementHelper;
 
 import java.io.InputStream;

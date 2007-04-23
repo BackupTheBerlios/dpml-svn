@@ -29,7 +29,6 @@ import dpml.library.Scope;
 import dpml.library.Resource;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javadoc;
 import org.apache.tools.ant.taskdefs.Javadoc.AccessType;
 import org.apache.tools.ant.types.DirSet;
@@ -160,6 +159,10 @@ public class JavadocTask extends ResourceTask
         m_access = access;
     }
     
+   /**
+    * Creation of a package name exclude.
+    * @return the package exclude
+    */
     public Javadoc.PackageName createExclude()
     {
         Javadoc.PackageName packageName = new Javadoc.PackageName();

@@ -21,14 +21,8 @@ package dpml.library.impl;
 import dpml.library.info.TypeDirective;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.Hashtable;
 
 import dpml.library.Type;
 import dpml.library.Resource;
@@ -36,8 +30,6 @@ import dpml.library.Resource;
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Layout;
 import net.dpml.transit.Transit;
-
-import net.dpml.util.Logger;
 
 /**
  * Utility class used for construction of a module model from an XML source.
@@ -93,7 +85,7 @@ public final class DefaultType extends DefaultDictionary implements Type
     {
         return m_directive.getID();
     }
-        
+    
    /**
     * Return the alias version.
     * @return the alias version value (may be null)
@@ -111,6 +103,10 @@ public final class DefaultType extends DefaultDictionary implements Type
         }
     }
     
+   /**
+    * Return the type name.
+    * @return the type name
+    */
     public String getName()
     {
         String name = m_directive.getName();
@@ -124,6 +120,10 @@ public final class DefaultType extends DefaultDictionary implements Type
         }
     }
     
+   /**
+    * Return the compound name.
+    * @return the compound name
+    */
     public String getCompoundName()
     {
         String name = m_directive.getName();
@@ -137,16 +137,28 @@ public final class DefaultType extends DefaultDictionary implements Type
         }
     }
     
+    /**
+    * Return the source for type (may be null).
+    * @return the type source attribute value
+    */
     public String getSource()
     {
         return m_directive.getSource();
     }
     
+   /**
+    * Return TRUE if the type is a test type.
+    * @return the test policy
+    */
     public boolean getTest()
     {
         return m_directive.getTest();
     }
 
+   /**
+    * Return TRUE if the type is exported.
+    * @return the export policy
+    */
     public boolean getExport()
     {
         return m_directive.getExport();
@@ -222,6 +234,10 @@ public final class DefaultType extends DefaultDictionary implements Type
         }
     }
     
+   /**
+    * Return the artifact for the type.
+    * @return the artifact
+    */
     public Artifact getArtifact()
     {
         String id = getID();
@@ -232,6 +248,11 @@ public final class DefaultType extends DefaultDictionary implements Type
         return Artifact.createArtifact( scheme, group, name, version, id );
     }
     
+   /**
+    * Return the artifact for the type ensuring that the artifact is fully resolved.
+    * @return the resolved artifact
+    * @exception IOException if an IO error occurs
+    */
     public Artifact getResolvedArtifact() throws IOException
     {
         try
@@ -255,6 +276,10 @@ public final class DefaultType extends DefaultDictionary implements Type
         }
     }
     
+   /**
+    * Return the link artifact for the type.
+    * @return the link artifact
+    */
     public Artifact getLinkArtifact()
     {
         String id = getID();

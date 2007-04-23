@@ -26,8 +26,6 @@ import dpml.library.Resource;
 import dpml.library.Type;
 import dpml.library.ResourceNotFoundException;
 
-import org.apache.tools.ant.BuildException;
-
 /**
  * The plugin task handles the establishment of ant tasks, listeners, and antlibs derived
  * from a classloader established by the tools sub-system.

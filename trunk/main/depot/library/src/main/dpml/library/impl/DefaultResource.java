@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell
+ * Copyright 2005-2007 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,33 +18,6 @@
 
 package dpml.library.impl;
 
-import dpml.library.info.InfoDirective;
-import dpml.library.info.TypeDirective;
-import dpml.library.info.ResourceDirective;
-import dpml.library.info.IncludeDirective;
-import dpml.library.info.DependencyDirective;
-import dpml.library.info.AbstractDirective;
-import dpml.library.info.ValidationException;
-import dpml.library.info.FilterDirective;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.Properties;
-import java.util.Map;
-import java.util.Hashtable;
-
-import dpml.util.Category;
-import net.dpml.lang.Version;
-
 import dpml.library.Info;
 import dpml.library.Filter;
 import dpml.library.Library;
@@ -55,10 +28,33 @@ import dpml.library.Classifier;
 import dpml.library.Scope;
 import dpml.library.ResourceNotFoundException;
 
-import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
-import net.dpml.transit.Layout;
+import dpml.library.info.InfoDirective;
+import dpml.library.info.TypeDirective;
+import dpml.library.info.ResourceDirective;
+import dpml.library.info.IncludeDirective;
+import dpml.library.info.DependencyDirective;
+import dpml.library.info.AbstractDirective;
+import dpml.library.info.ValidationException;
+import dpml.library.info.FilterDirective;
 
+import dpml.util.Category;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.Properties;
+import java.util.Map;
+import java.util.Hashtable;
+
+import net.dpml.lang.Version;
+import net.dpml.transit.Artifact;
 import net.dpml.util.Resolver;
 
 

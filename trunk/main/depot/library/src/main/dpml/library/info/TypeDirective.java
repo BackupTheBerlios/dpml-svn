@@ -20,10 +20,6 @@ package dpml.library.info;
 
 import java.util.Properties;
 
-import dpml.util.ObjectUtils;
-
-import dpml.library.Type;
-
 /**
  * The ModuleDirective class describes a module data-structure.
  *

@@ -32,7 +32,11 @@ import dpml.cli.builder.CommandBuilder;
 import dpml.cli.option.PropertyOption;
 import dpml.cli.validation.URIValidator;
 
-import dpml.build.Builder;
+import dpml.library.Module;
+import dpml.library.Resource;
+import dpml.library.Type;
+import dpml.library.Classifier;
+import dpml.library.Scope;
 
 import dpml.library.impl.DefaultLibrary;
 
@@ -52,23 +56,12 @@ import java.util.Collections;
 import javax.tools.Tool;
 import javax.lang.model.SourceVersion;
 
-import static net.dpml.annotation.LifestylePolicy.SINGLETON;
-
+import net.dpml.annotation.Component;
 import net.dpml.lang.Strategy;
 import net.dpml.lang.ServiceRegistry;
 import net.dpml.lang.SimpleServiceRegistry;
-import net.dpml.lang.DecodingException;
-
-import dpml.library.Module;
-import dpml.library.Resource;
-import dpml.library.Type;
-import dpml.library.Classifier;
-import dpml.library.Scope;
-import dpml.library.Library;
-
 import net.dpml.util.Logger;
 
-import net.dpml.annotation.Component;
 import static net.dpml.annotation.LifestylePolicy.SINGLETON;
 
 
@@ -137,6 +130,7 @@ public class Main implements Tool
     * @param out the output stream
     * @param err the error stream
     * @param arguments the tool arguments
+    * @return the logical result of executation - a value less than zero indicates failure
     */
     public int run( InputStream in, OutputStream out, OutputStream err, String... arguments )
     {
@@ -151,7 +145,6 @@ public class Main implements Tool
             final String error = 
               "Unable to load library index.";
             m_logger.error( error, e );
-            //m_logger.error( e.getMessage(), e.getCause() );
             return -1;
         }
         
