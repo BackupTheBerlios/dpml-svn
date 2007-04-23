@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -114,6 +114,34 @@ class PartsDirective
     
     private Strategy buildStrategy( ClassLoader classloader, 
       Element element, Resolver resolver, String partition ) throws DecodingException
+    {
+        String name = element.getLocalName();
+        if( name.equals( "part" ) )
+        {
+            URI codebase = getCodebase( element, resolver );
+            try
+            {
+                return Strategy.load( classloader, null, codebase, partition );
+                
+            }
+            catch( Exception e )
+            {
+                final String error = 
+                  "Unable to create strategy from nested reference ["
+                  + codebase
+                  + "].";
+                throw new DecodingException( error, e, element );
+            }
+        }
+        else
+        {
+            return buildLocalStrategy( classloader, element, resolver, partition );
+        }
+    }
+    
+    private Strategy buildLocalStrategy( 
+      ClassLoader classloader, Element element, Resolver resolver, String partition ) 
+      throws DecodingException
     {
         try
         {
@@ -305,5 +333,33 @@ class PartsDirective
             }
             buffer.nl( "</parts>" );
         }
+    }
+
+    private static URI getCodebase( Element element, Resolver resolver ) throws DecodingException
+    {
+        String spec = ElementHelper.getAttribute( element, "uri", null, resolver );
+        if( null == spec )
+        {
+            final String error = 
+              "Mising uri attribute.";
+            throw new DecodingException( error, element );
+        }
+        
+        Element[] params = ElementHelper.getChildren( element, "param" );
+        for( int i=0; i<params.length; i++ )
+        {
+            Element e = params[i];
+            String key = ElementHelper.getAttribute( e, "key", null, resolver );
+            String value = ElementHelper.getAttribute( e, "value", null, resolver );
+            if( i==0 )
+            {
+                spec = spec + "?" + key + "=" + value;
+            }
+            else
+            {
+                spec = spec + "&" + key + "=" + value;
+            }
+        }
+        return URI.create( spec );
     }
 }

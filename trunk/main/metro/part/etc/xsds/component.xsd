@@ -17,6 +17,7 @@
     <element name="param" type="part:ValueType" substitutionGroup="part:param"/>
     <element name="profile" type="this:ProfileType"/>
     <element name="parts" type="this:PartsType"/>
+    <element name="part" type="this:PartType"/>
     
     <complexType name="component">
       <complexContent>
@@ -106,8 +107,24 @@
     
     <complexType name="PartsType">
       <sequence>
-        <element ref="part:strategy" minOccurs="0" maxOccurs="unbounded"/>
+        <choice minOccurs="0" maxOccurs="unbounded">
+          <element ref="part:strategy" minOccurs="0" maxOccurs="unbounded"/>
+          <element name="part" type="this:PartType"  minOccurs="0" maxOccurs="unbounded"/>
+        </choice>
       </sequence>
+    </complexType>
+    
+    <complexType name="PartType">
+      <sequence>
+        <element name="param" type="this:ParamType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="key" type="string" use="required"/>
+      <attribute name="uri" type="anyURI" use="required"/>
+    </complexType>
+    
+    <complexType name="ParamType">
+      <attribute name="key" type="string" use="required"/>
+      <attribute name="value" type="string" use="required"/>
     </complexType>
     
     <simpleType name="activation">

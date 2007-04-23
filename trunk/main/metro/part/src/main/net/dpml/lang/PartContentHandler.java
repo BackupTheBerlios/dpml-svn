@@ -591,6 +591,8 @@ public final class PartContentHandler extends ContentHandler implements PartCont
     */
     private static Classpath getClasspath( Element root ) throws DecodingException
     {
+        // TODO: update to support different classpath defintions (e.g. 277 module scenario)
+        
         Element classpath = ElementHelper.getChild( root, "classpath" );
         if( null == classpath )
         {
@@ -669,6 +671,9 @@ public final class PartContentHandler extends ContentHandler implements PartCont
 
     private static Element getStrategyElement( Element root ) throws DecodingException
     {
+        // TODO: update this to select the strategy element based on type overwise
+        // we risk issues when dealing with a non-standard classpath element
+                
         Element[] children = ElementHelper.getChildren( root );
         for( Element element : children )
         {
