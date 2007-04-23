@@ -40,13 +40,13 @@
     <complexType name="StrategyType" abstract="true"/>]]></pre>
         
         <p>
-        The Metro runtime model defines a concrete <a href="../../component/directive/component.html">
+        The Metro runtime model defines a concrete <a href="../../component/directive/index.html">
         component strategy</a> under the <tt>dpml:metro</tt> namespace that is used to 
         define the resources, services, and internal composition of an object. A second 
-        concrete strategy defintion named <tt>resource</tt> (uder the <tt>dpml:depot</tt>
+        concrete strategy defintion named <tt>resource</tt> (uder the <tt>dpml:antlib</tt>
         namespace) is used by the Depot build system to define antlib loading criteria.
         If a foreign strategy element is declared the associated schema is resolved 
-        buy locating a class implementing the <tt>org.w3c.dom.ls.LSResourceResolver</tt>
+        by locating a class implementing the <tt>org.w3c.dom.ls.LSResourceResolver</tt>
         service (via java.util.ServiceLoader).  The runtime strategy handler will be 
         resolved by reading a uri value from an attribute named <tt>handler</tt>.  The
         uri is used to identify a plug-in part supporting the runtime handling of the 
