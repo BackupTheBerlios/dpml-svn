@@ -14,7 +14,7 @@
   <dependencies>
     <runtime>
       <include ref="dpml/depot/dpml-depot-builder"/>
-      <include uri="artifact:jar:checkstyle/checkstyle#4.1">
+      <include uri="artifact:jar:checkstyle/checkstyle#4.3">
         <property name="project.api.host" value="http://api.dpml.net"/>
         <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
       </include>
