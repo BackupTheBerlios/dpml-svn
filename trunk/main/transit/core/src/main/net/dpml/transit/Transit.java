@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 Stephen McConnell.
+ * Copyright 2004-2007 Stephen McConnell.
  * Copyright 2004-2005 Niclas Hedhman.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
@@ -21,19 +21,13 @@ package net.dpml.transit;
 
 import dpml.util.DefaultLogger;
 
-import dpml.transit.*;
+import dpml.transit.TransitContext;
+import dpml.transit.info.TransitDirective;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
-
-import dpml.transit.info.TransitDirective;
 
 import net.dpml.util.Logger;
 
@@ -194,7 +188,7 @@ public final class Transit
     * @return the singleton transit instance
     * @exception TransitError if an error occurs during establishment
     */
-    public synchronized static Transit getInstance() throws TransitError
+    public static synchronized Transit getInstance() throws TransitError
     {
         if( null == m_INSTANCE )
         {
@@ -322,6 +316,7 @@ public final class Transit
     
    /**
     * Return the content handler fo the supplied content type.
+    * @param type the content handler type
     * @return the content handler or null if no content handler found
     */
     public ContentHandler getContentHandler( String type )

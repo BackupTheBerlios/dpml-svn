@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,12 +19,7 @@
 package dpml.util;
 
 import dpml.transit.StandardMonitor;
-import dpml.util.DefaultLogger;
-import dpml.util.PropertyResolver;
-import dpml.util.CLIHelper;
-import dpml.util.PID;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.rmi.RMISecurityManager;
@@ -50,6 +45,11 @@ import static net.dpml.transit.Transit.VERSION;
  */
 public final class Main
 {
+    static
+    {
+        final String version = VERSION; // trigger static field initialization
+    }
+    
     private static Main m_MAIN;
     private static final PID PROCESS_ID = new PID();
 
@@ -230,7 +230,7 @@ public final class Main
             if( Artifact.isRecognized( uri ) )
             {
                 URL url = Artifact.toURL( uri );
-                Tool tool = (Tool) url.getContent( new Class[]{ Tool.class } );
+                Tool tool = (Tool) url.getContent( new Class[]{Tool.class} );
                 if( null == tool )
                 {
                     final String error = 

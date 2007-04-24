@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Stephen J. McConnell
+ * Copyright (c) 2005-2007 Stephen J. McConnell
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -323,12 +323,22 @@ public class StandardClassLoader extends URLClassLoader
         buffer.append( "\n" );
     }
     
+   /**
+    * Return a string representation of a classloader.
+    * @param clazz the class identifying the classloaderto decode
+    * @return the string representation
+    */
     public static String toString( Class clazz )
     {
         ClassLoader anchor = clazz.getClassLoader();
         return toString( anchor );
     }
     
+   /**
+    * Return a string representation of a classloader.
+    * @param anchor the anchor classloader
+    * @return the string representation
+    */
     public static String toString( ClassLoader anchor )
     {
         StringBuffer buffer = new StringBuffer();
@@ -340,6 +350,12 @@ public class StandardClassLoader extends URLClassLoader
         return buffer.toString();
     }
     
+   /**
+    * Return a string representation of two classloaders up to the comomon classloader
+    * @param primary the primary class
+    * @param secondary the secondary class
+    * @return the string representation
+    */
     public static String toString( Class primary, Class secondary )
     {
         if( null == primary )

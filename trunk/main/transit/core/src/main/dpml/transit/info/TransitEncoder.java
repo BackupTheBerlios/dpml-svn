@@ -18,25 +18,12 @@
 
 package dpml.transit.info;
 
-import dpml.util.ElementHelper;
-
-import java.net.URL;
-import java.net.URLConnection;
-import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import net.dpml.util.Logger;
-
-import org.xml.sax.ErrorHandler;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
 
 /**
  * Utility class supporting the writing of Transit directives to XML.

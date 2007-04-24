@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,8 +18,6 @@
 
 package dpml.util;
 
-import dpml.util.DefaultLogger;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -30,7 +28,6 @@ import java.util.Arrays;
 import net.dpml.util.Logger;
 
 import net.dpml.transit.Transit;
-import net.dpml.transit.LinkManager;
 
 /**
  * The SystemClassLoader is a URLClassLoader that supports late binding of 

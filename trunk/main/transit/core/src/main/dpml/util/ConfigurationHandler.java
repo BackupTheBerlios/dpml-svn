@@ -28,8 +28,6 @@ import java.io.FileNotFoundException;
 import java.util.Properties;
 import java.util.logging.LogManager;
 
-import net.dpml.transit.Transit;
-
 import static net.dpml.transit.Transit.DATA;
 
 /**
@@ -39,6 +37,8 @@ import static net.dpml.transit.Transit.DATA;
  */
 public class ConfigurationHandler
 {
+    private static final File TRANSIT_DATA = DATA;
+    
    /**
     * Creation of the logging controller.
     */

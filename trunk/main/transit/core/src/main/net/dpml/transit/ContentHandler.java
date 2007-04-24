@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Stephen McConnell.
+ * Copyright 2006-2007 Stephen McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -17,11 +17,6 @@
  */
 
 package net.dpml.transit;
-
-import java.io.IOException;
-import java.net.URLConnection;
-
-import net.dpml.transit.ContentManager;
 
 /**
  * Abstract base class for artifact content handler.

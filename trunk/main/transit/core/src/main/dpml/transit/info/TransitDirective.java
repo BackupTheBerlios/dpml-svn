@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -46,7 +46,7 @@ public class TransitDirective implements Serializable
     * Utility method to load a transit configuration from XML.
     * @param url the url identifying the configuration source
     * @return the configuration directive
-    * @exception Exception if an error occurs during configuration loading
+    * @exception IOException if an error occurs during configuration loading
     */
     public static TransitDirective decode( URL url ) throws IOException
     {
@@ -60,7 +60,7 @@ public class TransitDirective implements Serializable
     * output stream.
     * @param directive the transit directive to externalize
     * @param stream the output stream
-    * @exception Exception if an error occurs
+    * @exception IOException if an IO error occurs
     */
     public static void encode( 
       TransitDirective directive, OutputStream stream ) throws IOException

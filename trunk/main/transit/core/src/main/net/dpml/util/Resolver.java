@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 Stephen J. McConnell.
+ * Copyright 2006-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,9 +18,6 @@
 
 package net.dpml.util;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 /**
  * Interace implemented by a value (key, ref, and property) resolver.
  *
@@ -29,22 +26,6 @@ import java.net.URISyntaxException;
  */
 public interface Resolver
 {
-   /**
-    * Utility function supporting resolution of uris containing 'resource' or 
-    * 'alias' schemes.  If the supplied uri scheme is 'resource' or 'alias' the 
-    * reference is resolved to a artifact type, group and name from which a 
-    * resource is resolved and the uri returned.  If the scheme is resource
-    * the usi of the resource is returned. If the scheme is 'alias' a 
-    * link alias is returned.  If the scheme is not 'resource' or 'alias' 
-    * the argument will be evaluated as a normal transit artifact uri 
-    * specification.
-    * 
-    * @param ref the uri argument
-    * @return the uri value
-    * @exception URISyntaxException if an error occurs during uri creation
-    */
-    //URI toURI( String ref ) throws URISyntaxException;
-    
    /**
     * Return a property value.
     * @param key the property key

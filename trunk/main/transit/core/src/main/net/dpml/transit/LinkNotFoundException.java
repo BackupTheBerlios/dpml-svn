@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2005 Stephen J. McConnell.
+ * Copyright 2004-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,8 +19,6 @@
 package net.dpml.transit;
 
 import java.net.URI;
-
-import net.dpml.transit.ArtifactNotFoundException;
 
 /**
  * Exception to indicate that a link could not be located.

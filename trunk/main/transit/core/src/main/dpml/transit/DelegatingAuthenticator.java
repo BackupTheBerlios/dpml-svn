@@ -19,14 +19,11 @@
 
 package dpml.transit;
 
-import java.io.PrintWriter;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import net.dpml.transit.Transit;
 
 /**
  * Internal class used to handle delegated authentication.

@@ -183,6 +183,9 @@ class StandardLinkManager
         }
     }
     
+   /**
+    * URI holder class.
+    */
     private static final class URIHolder
     {
         private final URI m_uri;

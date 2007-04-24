@@ -22,7 +22,6 @@ import dpml.transit.TransitContext;
 import dpml.util.DefaultLogger;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import java.net.URL;
 import java.net.URLConnection;

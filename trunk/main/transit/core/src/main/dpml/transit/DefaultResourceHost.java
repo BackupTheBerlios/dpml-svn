@@ -21,16 +21,12 @@ package dpml.transit;
 
 import dpml.util.PropertyResolver;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import dpml.transit.info.HostDirective;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,14 +41,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import net.dpml.transit.Artifact;
 import net.dpml.transit.HostManager;
 import net.dpml.transit.Layout;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.Transit;
 import net.dpml.transit.Monitor;
-
-import dpml.transit.info.HostDirective;
 
 import net.dpml.util.Logger;
 
@@ -66,6 +65,10 @@ import static net.dpml.transit.Transit.DATA;
  */
 class DefaultResourceHost implements Host, HostManager, Comparable<Host>
 {
+    static
+    {
+        final File data = DATA; // static initialization
+    }
     // ------------------------------------------------------------------------
     // state
     // ------------------------------------------------------------------------

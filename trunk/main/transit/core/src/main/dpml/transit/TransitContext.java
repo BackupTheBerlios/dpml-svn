@@ -22,7 +22,6 @@ package dpml.transit;
 import java.lang.management.ManagementFactory;
 import java.net.PasswordAuthentication;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Properties;
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -30,23 +29,18 @@ import java.util.ServiceLoader;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.management.MBeanException;
 
 import net.dpml.util.Logger;
 import dpml.util.DefaultLogger;
 
-import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 import net.dpml.transit.TransitManager;
 import net.dpml.transit.LinkManager;
-import net.dpml.transit.TransitError;
 import net.dpml.transit.TransitException;
 import net.dpml.transit.Layout;
 import net.dpml.transit.Monitor;
 import net.dpml.transit.ContentHandler;
-import net.dpml.transit.ContentManager;
 
-import dpml.transit.info.TransitDirective;
 import dpml.transit.info.ProxyDirective;
 import dpml.transit.info.CacheDirective;
 import dpml.transit.info.TransitDirective;
@@ -128,7 +122,7 @@ public final class TransitContext implements TransitManager
     * Return the singleton context.
     * @return the secure context
     */
-    public synchronized static TransitContext getInstance()
+    public static synchronized TransitContext getInstance()
     {
         if( null == m_CONTEXT )
         {

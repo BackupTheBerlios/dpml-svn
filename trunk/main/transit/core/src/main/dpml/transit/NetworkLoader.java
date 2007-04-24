@@ -29,7 +29,6 @@ import java.util.Date;
 import net.dpml.transit.ArtifactException;
 import net.dpml.transit.Monitor;
 import net.dpml.transit.TransitException;
-import net.dpml.transit.Transit;
 
 /**
  * Nework loader utility.

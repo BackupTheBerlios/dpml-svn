@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Stephen J. McConnell.
+ * Copyright 2005-2007 Stephen J. McConnell.
  *
  * Licensed  under the  Apache License,  Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -205,13 +205,9 @@ public class CacheDirective implements Serializable
             {
                 return false;
             }
-            else if( !Arrays.equals( m_hosts, directive.m_hosts ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return Arrays.equals( m_hosts, directive.m_hosts );
             }
         }
         else

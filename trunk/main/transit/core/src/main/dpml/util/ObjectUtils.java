@@ -24,7 +24,7 @@ package dpml.util;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ObjectUtils
+public final class ObjectUtils
 {
     private ObjectUtils()
     {
