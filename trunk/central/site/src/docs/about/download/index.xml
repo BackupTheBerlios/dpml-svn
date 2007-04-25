@@ -63,6 +63,15 @@
         general exception handling and error reporting.
         </p>
 
+        <p>
+        New features and/or enhancements delivered under 
+        version @VERSION@ relative to the 2.0.1 distribution include the addition of 
+        support for component composition via reference to nested parts within the 
+        internal structure of a component using part uris as the construction mechanisms.  
+        Also includes numerous code and documentation quality enhancements and updates to 
+        the checkstyle task involving migration from Checkstyle 4.1 to 4.3.
+        </p>
+
       </subsection>
 
       <subsection name="Build @VERSION@">

@@ -15,7 +15,7 @@
         <table>
           <tr>
             <td><a href="@VERSION@/index.html">@VERSION@</a></td>
-            <td>Latest version of the DPML SDK based on the JRE6.</td>
+            <td>Latest version of the DPML SDK on SE6.</td>
           </tr>
         </table>
       </subsection>
@@ -28,7 +28,16 @@
           <th>Description</th>
         </tr>
         <tr>
-          <td><a href="http://api.dpml.net/dpml/@VERSION@/index.html">@VERSION@</a></td>
+          <td><a href="http://api.dpml.net/dpml/2.0.2/index.html">2.0.2</a></td>
+          <td>Functional update addressing part composition by uri reference. Includes
+              updated checkstyle handler backed by Checkstyle 4.3.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/2.0.1/index.html">2.0.1</a></td>
+          <td>Maintenace update addressing error handling and reporting improvements.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/2.0.0/index.html">2.0.0</a></td>
           <td>Branch based on SE6 and open Javac compiler APIs.</td>
         </tr>
         <tr>

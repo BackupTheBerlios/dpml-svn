@@ -19,7 +19,7 @@
 package net.dpml.annotation;
 
 /**
- * Lifecycle policy.
+ * Lifestyle policy.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
