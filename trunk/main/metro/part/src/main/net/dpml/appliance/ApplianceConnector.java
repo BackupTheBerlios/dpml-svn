@@ -40,6 +40,7 @@ public interface ApplianceConnector extends Remote
     * Retrieve the connected appliance.
     * @param units the timout units
     * @param timeout duration (in units) to wait for a connection
+    * @return the appliance
     * @exception IOException if an I/O error occurs
     */
     Appliance getAppliance( TimeUnit units, int timeout ) throws IOException;

@@ -43,11 +43,26 @@ public final class ApplianceDescriptor extends EntryDescriptor
     private final URI m_codebase;
     private final URI m_uri;
     
+   /**
+    * Creation of a new appliance descriptor.
+    * @param element the DOM element defining the appliance
+    * @param resolver the property resolver to use
+    * @param uri from which the element was established
+    * @exception DecodingException if a error occurs during the decoding phase
+    */
     public ApplianceDescriptor( Element element, Resolver resolver, URI uri ) throws DecodingException
     {
         this( element, resolver, uri, false );
     }
     
+   /**
+    * Creation of a new appliance descriptor.
+    * @param element the DOM element defining the appliance
+    * @param resolver the property resolver to use
+    * @param uri from which the element was established
+    * @param nested true if this appliance is nested within a plan
+    * @exception DecodingException if a error occurs during the decoding phase
+    */
     public ApplianceDescriptor( Element element, Resolver resolver, URI uri, boolean nested ) throws DecodingException
     {
         super( element, resolver );

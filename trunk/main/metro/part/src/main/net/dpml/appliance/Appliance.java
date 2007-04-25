@@ -21,7 +21,6 @@ package net.dpml.appliance;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.concurrent.TimeUnit;
 
 import net.dpml.state.State;
 
@@ -37,6 +36,7 @@ public interface Appliance extends Remote
    /**
     * Return the current state of the instance.
     * @return the current state
+    * @exception RemoteException if a RMI remoting exception occurs
     */
     State getState() throws RemoteException;
     
@@ -72,11 +72,26 @@ public interface Appliance extends Remote
     * @exception RemoteException if a RMI error occurs
     */
     Appliance[] getChildren() throws RemoteException;
-
+  
+   /**
+    * Get the appliance name.
+    * @return the name
+    * @exception RemoteException if a RMI error occurs
+    */
     String getName() throws RemoteException;
     
+   /**
+    * Get the appliance codebase uri.
+    * @return the uri as a string
+    * @exception RemoteException if a RMI error occurs
+    */
     String getCodebaseURI() throws RemoteException;
     
+   /**
+    * Get the commissioned state of the appliance.
+    * @return TRUE if the appliance is commissioned
+    * @exception RemoteException if a RMI error occurs
+    */
     boolean isCommissioned() throws RemoteException;
 }
 

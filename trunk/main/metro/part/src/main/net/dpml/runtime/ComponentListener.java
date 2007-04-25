@@ -31,8 +31,7 @@ public interface ComponentListener extends EventListener
    /**
     * Notify the listener of an event within the component.
     *
-    * @param event the comnponent event
-    * @exception RemoteException if a remote transport error occurs
+    * @param event the component event
     */
     void componentChanged( final ComponentEvent event );
 }

@@ -100,6 +100,9 @@ class Query
         }
     }
     
+   /**
+    * Binding between a key and a resolvable instance.
+    */
     private static class Binding
     {
         private final String m_key;

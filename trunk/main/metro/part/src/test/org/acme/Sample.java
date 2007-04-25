@@ -23,8 +23,7 @@ import java.awt.Color;
 
 /**
  * Sample object used in test case.  Contains a number of inner context classes
- * used to evaluate strict and non-strict context evaluation strategies and 
- * general part instantiation.
+ * used to evaluate strict and non-strict context evaluation strategies.
  */
 public class Sample
 {
@@ -83,7 +82,7 @@ public class Sample
     
    /**
     * Internal class used to validate that a inner context interface 
-    * marked as non-a-context using the <tt>ContextDef</tt> annotion is 
+    * marked as not-a-context using the <tt>ContextDef</tt> annotion is 
     * correctly recognized as such.
     */
     public static class Negation

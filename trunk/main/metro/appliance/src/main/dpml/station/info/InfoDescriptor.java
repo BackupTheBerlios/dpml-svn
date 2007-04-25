@@ -27,7 +27,7 @@ import net.dpml.lang.DecodingException;
 import org.w3c.dom.Element;
 
 /**
- * Application info description.
+ * Appliance info description.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -70,6 +70,12 @@ public final class InfoDescriptor
         }
     }
     
+   /**
+    * Creation of a new info descriptor.
+    * @param name the name
+    * @param title a short title
+    * @param description a description
+    */
     public InfoDescriptor( String name, String title, String description )
     {
         m_name = name;

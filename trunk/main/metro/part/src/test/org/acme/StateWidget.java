@@ -18,16 +18,13 @@
 
 package org.acme;
 
-import java.awt.Color;
-
 import net.dpml.annotation.Component;
 import net.dpml.annotation.Services;
-
-import static net.dpml.annotation.LifestylePolicy.TRANSIENT;
 
 import net.dpml.util.Logger;
 
 /**
+ * Sample component that has an associated lifecycle graph.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -39,6 +36,10 @@ public class StateWidget implements Widget
     
     private int m_state = 0;
     
+   /**
+    * Component constructor.
+    * @param logger the assigned logging channel
+    */
     public StateWidget( Logger logger )
     {
         m_logger = logger;
@@ -48,6 +49,12 @@ public class StateWidget implements Widget
         }
     }
     
+   /**
+    * Start the component.  This method is declared as an innitialization 
+    * operation in the lifecycle graph and will be automatically invoked 
+    * by the container as a part of the normal deployment process.
+    * @exception Exception if something goes wrong
+    */
     public void start() throws Exception
     {
         m_state = 1;
@@ -57,6 +64,10 @@ public class StateWidget implements Widget
         }
     }
     
+   /**
+    * Get a message.
+    * @return a message reflecting the runtime state.
+    */
     public String getMessage()
     {
         if( m_state == 0 )
@@ -77,11 +88,21 @@ public class StateWidget implements Widget
         }
     }
 
+   /**
+    * Get the runtime state.
+    * @return the status of the component
+    */
     public int getState()
     {
         return m_state;
     }
     
+   /**
+    * Stop the component.  This method is declared as a termination 
+    * operation in the lifecycle graph and will be automatically invoked 
+    * by the container as a part of the normal decommissioning process.
+    * @exception Exception if something goes wrong
+    */   
     public void stop() throws Exception
     {
         m_state = 2;
@@ -91,8 +112,22 @@ public class StateWidget implements Widget
         }
     }
 
+   /**
+    * Test the supplied object for equality with this object.
+    * @param other the supplied object 
+    * @return the equality result
+    */
     public boolean equals( Object other )
     {
         return ( hashCode() == other.hashCode() );
+    }
+
+   /**
+    * Get the component hashcode.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        return m_state;
     }
 }

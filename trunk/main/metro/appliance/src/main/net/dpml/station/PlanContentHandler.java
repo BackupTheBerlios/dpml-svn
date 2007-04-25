@@ -19,33 +19,18 @@
 package net.dpml.station;
 
 import dpml.lang.DOM3DocumentBuilder;
-import dpml.util.SimpleResolver;
-import dpml.util.ElementHelper;
-import dpml.util.DefaultLogger;
-
-import dpml.station.info.EntryDescriptor;
 import dpml.station.info.PlanDescriptor;
+import dpml.util.SimpleResolver;
+import dpml.util.DefaultLogger;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.lang.management.ManagementFactory;
-import java.util.Hashtable;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.MBeanException;
-import javax.management.InstanceAlreadyExistsException;
 
 import net.dpml.appliance.Appliance;
-import net.dpml.appliance.ApplianceFactory;
-
 import net.dpml.lang.DecodingException;
-
 import net.dpml.transit.Artifact;
-import net.dpml.transit.ContentHandler;
-
 import net.dpml.util.Resolver;
 import net.dpml.util.Logger;
 
@@ -68,6 +53,9 @@ public class PlanContentHandler extends ApplianceContentHandler //implements App
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
       new DOM3DocumentBuilder();
     
+   /**
+    * Creation of a new plan content handler.
+    */
     public PlanContentHandler()
     {
         super( LOGGER );
@@ -177,6 +165,13 @@ public class PlanContentHandler extends ApplianceContentHandler //implements App
         }
     }
     
+   /**
+    * Creation of a new appliance using a supplied key and appliance uri.
+    * @param key the appliance key
+    * @param uri an artifact uri referencing an appliance datastructure
+    * @return the new appliance
+    * @exception IOException if an IO error occurs
+    */
     public static Appliance newAppliance( String key, URI uri ) throws IOException
     {
         URL url = Artifact.toURL( uri );

@@ -26,12 +26,16 @@ import org.acme.DefaultWidget;
 import org.acme.Widget;
 
 /**
- *
+ * Isolation testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class SampleTestCase extends AbstractTestCase
 {
+   /**
+    * Validate normal usage.
+    * @exception Exception if an error occurs
+    */
     public void testNormalUsage() throws Exception
     {
         Widget widget = 
@@ -41,6 +45,10 @@ public class SampleTestCase extends AbstractTestCase
         assertEquals( "message", "Hello", message );
     }
     
+   /**
+    * Validate without isolation.
+    * @exception Exception if an error occurs
+    */
     public void testNoIsolation() throws Exception
     {
         Widget widget = 
@@ -48,6 +56,10 @@ public class SampleTestCase extends AbstractTestCase
         assertFalse( "isa-proxy", Proxy.isProxyClass( widget.getClass() ) );
     }
 
+   /**
+    * Validate with isolation.
+    * @exception Exception if an error occurs
+    */
     public void testWithIsolation() throws Exception
     {
         Widget widget = 

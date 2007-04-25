@@ -18,9 +18,6 @@
 
 package net.dpml.runtime.composition;
 
-import java.awt.Color;
-import java.io.File;
-
 import net.dpml.runtime.AbstractTestCase;
 
 import net.dpml.runtime.Provider;
@@ -31,12 +28,16 @@ import org.acme.Gizmo;
 import org.acme.GenericComponent;
 
 /**
- *
+ * Generic testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class GenericTestCase extends AbstractTestCase
 {
+   /**
+    * Validate the generic.xml example.
+    * @exception Exception if an error occurs
+    */
     public void testComponent() throws Exception
     {
         GenericComponent component = 

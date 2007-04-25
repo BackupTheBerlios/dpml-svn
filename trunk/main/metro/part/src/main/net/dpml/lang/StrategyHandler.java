@@ -19,11 +19,7 @@
 package net.dpml.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 
-import dpml.lang.Classpath;
-
-import net.dpml.util.Logger;
 import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;
@@ -39,6 +35,7 @@ public interface StrategyHandler
    /**
     * Creation of a new strategy handler for the supplied implementation class.
     * @param c the component implementation class
+    * @return a new strategy
     * @exception IOException if an I/O error occurs
     */
     Strategy newStrategy( Class<?> c ) throws IOException;
@@ -47,6 +44,7 @@ public interface StrategyHandler
     * Creation of a new strategy handler for the supplied implementation class.
     * @param c the component implementation class
     * @param name the component name
+    * @return a new strategy
     * @exception IOException if an I/O error occurs
     */
     Strategy newStrategy( Class<?> c, String name ) throws IOException;

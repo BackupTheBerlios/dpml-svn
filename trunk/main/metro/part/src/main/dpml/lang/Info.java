@@ -18,18 +18,9 @@
 
 package dpml.lang;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.URI;
-import java.util.Arrays;
 
-import javax.xml.XMLConstants;
-
-import net.dpml.util.Logger;
 import dpml.util.ObjectUtils;
-
 
 /**
  * Part info description.

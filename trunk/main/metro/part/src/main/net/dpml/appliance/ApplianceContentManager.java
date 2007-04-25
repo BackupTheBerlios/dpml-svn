@@ -31,5 +31,9 @@ import javax.management.MXBean;
  @MXBean
 public interface ApplianceContentManager extends ContentManager
 {
+   /**
+    * Return an array of appliance managers.
+    * @return the appliance manager array
+    */
     ApplianceManager[] getApplianceManagers();
 }

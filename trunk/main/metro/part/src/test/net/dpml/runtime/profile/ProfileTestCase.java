@@ -25,12 +25,16 @@ import junit.framework.TestCase;
 import org.acme.Widget;
 
 /**
- *
+ * Profile test case.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ProfileTestCase extends TestCase
 {
+   /**
+    * Validate service loading.
+    * @exception Exception if an error occurs
+    */
     public void testServiceLoading() throws Exception
     {
         Widget widget = getWidget();
@@ -39,6 +43,11 @@ public class ProfileTestCase extends TestCase
         assertEquals( "message", "Batman", message );
     }
     
+   /**
+    * Utility to load a Widget service.
+    * @return the widget
+    * @exception Exception if an error occurs
+    */
     public Widget getWidget() throws Exception
     {
         ServiceLoader<Widget> loaders = ServiceLoader.load( Widget.class );

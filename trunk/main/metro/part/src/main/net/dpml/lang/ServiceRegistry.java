@@ -19,13 +19,18 @@
 package net.dpml.lang;
 
 /**
- * Component interface.
+ * Service registry interface.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public interface ServiceRegistry
 {
+   /**
+    * Lookup a service implementing the supplied service type.
+    * @param service a class identifying the service type
+    * @return an instance of the service type or null if unresolved
+    */
     <T>T lookup( Class<T> service );
 }
 

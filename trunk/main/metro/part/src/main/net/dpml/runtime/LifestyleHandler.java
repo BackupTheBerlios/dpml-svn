@@ -21,18 +21,9 @@ package net.dpml.runtime;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ServiceLoader;
 
 import net.dpml.annotation.CollectionPolicy;
 
-import net.dpml.state.State;
-import net.dpml.state.StateMachine;
-
-import net.dpml.util.Logger;
 import dpml.util.DefaultLogger;
 
 /**

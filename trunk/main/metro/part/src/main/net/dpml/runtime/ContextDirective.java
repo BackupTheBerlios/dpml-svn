@@ -19,13 +19,10 @@
 package net.dpml.runtime;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Map;
 import java.util.Hashtable;
-import java.beans.Expression;
 import java.lang.reflect.Constructor;
 
-import dpml.lang.Construct;
 import dpml.lang.ValueDecoder;
 
 import dpml.lang.Value;
@@ -41,6 +38,7 @@ import net.dpml.util.Resolver;
 import org.w3c.dom.Element;
 
 /**
+ * Internal context directive.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -191,7 +189,10 @@ class ContextDirective extends Directive implements Encodable
         return null;
     }
 
-    private static abstract class AbstractResolvable implements Resolvable, Encodable
+   /**
+    * Abstract base class for a resolvable instance.
+    */
+    private abstract static class AbstractResolvable implements Resolvable, Encodable
     {
         private final Element m_element;
         
@@ -200,12 +201,19 @@ class ContextDirective extends Directive implements Encodable
             m_element = element;
         }
         
+       /**
+        * Return the defining element.
+        * @return the element
+        */
         public Element getElement()
         {
             return m_element;
         }
     }
     
+   /**
+    * Value wrapper.
+    */
     static class ValueWrapper extends AbstractResolvable
     {
         private final Value m_value;
@@ -233,6 +241,9 @@ class ContextDirective extends Directive implements Encodable
         }
     }
     
+  /**
+    * Map wrapper.
+    */
     static class MapWrapper extends AbstractResolvable
     {
         private final Map<String,Value> m_values;
@@ -287,6 +298,9 @@ class ContextDirective extends Directive implements Encodable
         }
     }
     
+  /**
+    * Lookup wrapper.
+    */
     static class Lookup extends AbstractResolvable
     {
         private final Class m_class;

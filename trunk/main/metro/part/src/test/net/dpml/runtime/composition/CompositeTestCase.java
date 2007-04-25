@@ -23,12 +23,16 @@ import net.dpml.runtime.AbstractTestCase;
 import org.acme.CompositeComponent;
 
 /**
- *
+ * Composite testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class CompositeTestCase extends AbstractTestCase
 {
+   /**
+    * Validatethe composite.xml example.
+    * @exception Exception if an error occurs
+    */
     public void testComponent() throws Exception
     {
         CompositeComponent component = 

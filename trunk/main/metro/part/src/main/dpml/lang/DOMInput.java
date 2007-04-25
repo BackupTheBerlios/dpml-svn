@@ -78,6 +78,8 @@ public class DOMInput implements LSInput
     * <br>If the application knows the character encoding of the byte stream,
     * it should set the encoding property. Setting the encoding in this way
     * will override any encoding specified in the XML declaration itself.
+    *
+    * @return the byte stream
     */
     public InputStream getByteStream()
     {
@@ -93,10 +95,12 @@ public class DOMInput implements LSInput
     * <br>If the application knows the character encoding of the byte stream,
     * it should set the encoding property. Setting the encoding in this way
     * will override any encoding specified in the XML declaration itself.
+    *
+    * @param input the input byte stream
     */
-    public void setByteStream( InputStream byteStream )
+    public void setByteStream( InputStream input )
     {
-        m_byteStream = byteStream;
+        m_byteStream = input;
     }
 
     /**
@@ -106,6 +110,8 @@ public class DOMInput implements LSInput
     * <br>If a character stream is specified, the parser will ignore any byte
     * stream and will not attempt to open a URI connection to the system
     * identifier.
+    *
+    * @return the character stream
     */
     public Reader getCharacterStream()
     {
@@ -118,10 +124,12 @@ public class DOMInput implements LSInput
     * <br>If a character stream is specified, the parser will ignore any byte
     * stream and will not attempt to open a URI connection to the system
     * identifier.
+    *
+    * @param reader the character stream reader
     */
-    public void setCharacterStream( Reader characterStream )
+    public void setCharacterStream( Reader reader )
     {
-        m_reader = characterStream;
+        m_reader = reader;
     }
 
     /**
@@ -130,6 +138,8 @@ public class DOMInput implements LSInput
     * <br>If string data is available in the input source, the parser will
     * ignore the character stream and the byte stream and will not attempt
     * to open a URI connection to the system identifier.
+    *
+    * @return the string data
     */
     public String getStringData()
     {
@@ -142,10 +152,12 @@ public class DOMInput implements LSInput
     * <br>If string data is available in the input source, the parser will
     * ignore the character stream and the byte stream and will not attempt
     * to open a URI connection to the system identifier.
+    *
+    * @param data the data
     */
-    public void setStringData( String stringData )
+    public void setStringData( String data )
     {
-        m_data = stringData;
+        m_data = data;
     }
 
     /**
@@ -157,6 +169,8 @@ public class DOMInput implements LSInput
     * by means of this attribute will override any encoding specified in
     * the XML claration or the Text Declaration, or an encoding obtained
     * from a higher level protocol, such as HTTP .
+    *
+    * @return the encoding
     */
     public String getEncoding()
     {
@@ -172,6 +186,8 @@ public class DOMInput implements LSInput
     * by means of this attribute will override any encoding specified in
     * the XML claration or the Text Declaration, or an encoding obtained
     * from a higher level protocol, such as HTTP .
+    *
+    * @param encoding the encoding
     */
     public void setEncoding( String encoding )
     {
@@ -182,6 +198,8 @@ public class DOMInput implements LSInput
     * The public identifier for this input source. The public identifier is
     * always optional: if the application writer includes one, it will be
     * provided as part of the location information.
+    *
+    * @return the public id
     */
     public String getPublicId()
     {
@@ -191,10 +209,12 @@ public class DOMInput implements LSInput
     * The public identifier for this input source. The public identifier is
     * always optional: if the application writer includes one, it will be
     * provided as part of the location information.
+    *
+    * @param id the public id
     */
-    public void setPublicId( String publicId )
+    public void setPublicId( String id )
     {
-        m_publicId = publicId;
+        m_publicId = id;
     }
 
     /**
@@ -210,11 +230,14 @@ public class DOMInput implements LSInput
     * setting the encoding attribute.
     * <br>If the system ID is a relative URI reference (see section 5 in ),
     * the behavior is implementation dependent.
+    *
+    * @return the system id
     */
     public String getSystemId()
     {
         return m_systemId;
     }
+    
     /**
     * The system identifier, a URI reference , for this input source. The
     * system identifier is optional if there is a byte stream or a
@@ -228,16 +251,20 @@ public class DOMInput implements LSInput
     * setting the encoding attribute.
     * <br>If the system ID is a relative URI reference (see section 5 in ),
     * the behavior is implementation dependent.
+    *
+    * @param id the system id
     */
-    public void setSystemId( String systemId )
+    public void setSystemId( String id )
     {
-        m_systemId = systemId;
+        m_systemId = id;
     }
 
    /**
-    *  The base URI to be used (see section 5.1.4 in ) for resolving relative
+    * The base URI to be used (see section 5.1.4 in ) for resolving relative
     * URIs to absolute URIs. If the baseURI is itself a relative URI, the
     * behavior is implementation dependent.
+    *
+    * @return the base uri
     */
     public String getBaseURI()
     {
@@ -248,16 +275,20 @@ public class DOMInput implements LSInput
     *  The base URI to be used (see section 5.1.4 in ) for resolving relative
     * URIs to absolute URIs. If the baseURI is itself a relative URI, the
     * behavior is implementation dependent.
+    *
+    * @param base the base uri
     */
-    public void setBaseURI( String baseURI )
+    public void setBaseURI( String base )
     {
-        m_base = baseURI;
+        m_base = base;
     }
 
    /**
     *  If set to true, assume that the input is certified (see section 2.13
     * in [<a href='http://www.w3.org/TR/2002/CR-xml11-20021015/'>XML 1.1</a>]) when
     * parsing [<a href='http://www.w3.org/TR/2002/CR-xml11-20021015/'>XML 1.1</a>].
+    *
+    * @return the certified text flag
     */
     public boolean getCertifiedText()
     {
@@ -268,9 +299,11 @@ public class DOMInput implements LSInput
     *  If set to true, assume that the input is certified (see section 2.13
     * in [<a href='http://www.w3.org/TR/2002/CR-xml11-20021015/'>XML 1.1</a>]) when
     * parsing [<a href='http://www.w3.org/TR/2002/CR-xml11-20021015/'>XML 1.1</a>].
+    *
+    * @param flag the certified text flag
     */
-    public void setCertifiedText( boolean certifiedText )
+    public void setCertifiedText( boolean flag )
     {
-        m_certified = certifiedText;
+        m_certified = flag;
     }
 }

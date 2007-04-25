@@ -19,26 +19,12 @@
 package net.dpml.lang;
 
 import dpml.util.ElementHelper;
-import dpml.util.DefaultLogger;
-import dpml.util.StandardClassLoader;
-import dpml.util.SystemClassLoader;
-import dpml.util.Category;
-
-import dpml.lang.Classpath;
-import dpml.lang.ValueDecoder;
-import dpml.lang.Value;
-
-import net.dpml.runtime.ComponentStrategyHandler;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.net.URI;
 
-import net.dpml.util.Logger;
 import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Antlib strategy handler implementation.
@@ -48,13 +34,29 @@ import org.w3c.dom.TypeInfo;
  */
 public class AntlibStrategyHandler implements StrategyHandler
 {
+   /**
+    * Antlib strategy namespace constant.
+    */
     public static final String NAMESPACE = "dpml:antlib";
     
+   /**
+    * Creation of a new antlib strategy.
+    * @param c the target class
+    * @return the strategy instance
+    * @exception IOException if an IO error occurs
+    */
     public Strategy newStrategy( Class<?> c ) throws IOException
     {
         return newStrategy( c, null );
     }
     
+   /**
+    * Creation of a new antlib strategy.
+    * @param c the target class
+    * @param name the name to assign to the strategy
+    * @return the strategy instance
+    * @exception IOException if an IO error occurs
+    */
     public Strategy newStrategy( Class<?> c, String name ) throws IOException
     {
         throw new UnsupportedOperationException( "newStrategy" );
@@ -65,7 +67,9 @@ public class AntlibStrategyHandler implements StrategyHandler
     * @param classloader the classloader
     * @param element the DOM element definining the deployment strategy
     * @param resolver symbolic property resolver
+    * @param partition the enclosing partition
     * @param query the query fragment (ignored)
+    * @param validate the validation policy
     * @return the strategy definition
     * @exception IOException if an I/O error occurs
     */

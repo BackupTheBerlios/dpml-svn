@@ -21,27 +21,16 @@ package net.dpml.lang;
 import dpml.lang.Part;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ServiceLoader;
-
-import javax.xml.XMLConstants;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.Transit;
 
-import net.dpml.runtime.ComponentStrategyHandler;
 import net.dpml.util.Logger;
 
 import dpml.util.DefaultLogger;
-import dpml.util.ElementHelper;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
 
 /**
  * Abstract component deployment strategy.

@@ -23,15 +23,18 @@ import java.awt.Color;
 import net.dpml.runtime.AbstractTestCase;
 
 import org.acme.ContextualWidget;
-import org.acme.Widget;
 
 /**
- *
+ * Context handling test case.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ContextualTestCase extends AbstractTestCase
 {
+   /**
+    * Validate context entries in contextual.xml.
+    * @exception Exception if an error occurs
+    */
     public void testEquality() throws Exception
     {
         ContextualWidget widget = 

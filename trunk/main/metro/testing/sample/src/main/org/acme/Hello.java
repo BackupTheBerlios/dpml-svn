@@ -26,5 +26,9 @@ package org.acme;
  */
 public interface Hello
 {
+   /**
+    * Return a message.
+    * @return the message
+    */
     String getMessage();
 }

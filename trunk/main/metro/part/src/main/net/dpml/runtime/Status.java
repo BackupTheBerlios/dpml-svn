@@ -25,8 +25,23 @@ package net.dpml.runtime;
  */
 public enum Status
 {
+   /**
+    * Creation status constant.
+    */
     CREATION,
+    
+   /**
+    * Incarnation status constant.
+    */
     INCARNATION,
+    
+   /**
+    * Etherialization status constant.
+    */
     ETHERIALIZATION,
+    
+   /**
+    * Termination status constant.
+    */
     TERMINATION,
 }

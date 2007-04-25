@@ -18,21 +18,18 @@
 
 package org.acme.reference;
 
-import dpml.util.PID;
-
-import java.net.URI;
-
 import net.dpml.annotation.Component;
-import net.dpml.annotation.Services;
 
 import static net.dpml.annotation.LifestylePolicy.SINGLETON;
-
-import net.dpml.util.Logger;
 
 import org.acme.Hello;
 
 /**
- * Sample component used in testing aggregation by reference.
+ * Sample component used in testing aggregation by reference.  Specifically, the 
+ * component direxctive contains a reference to a hello component using a uri.  The
+ * container has to reach out and build a part under this component (involving the 
+ * creation of a classloader sub-hierachy) and bind the result component to the 
+ * internal parts of this component.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -42,16 +39,31 @@ public class AggregatingComponent
 {
     private Parts m_parts;
     
+   /**
+    * Internal parts contact.
+    */
     public interface Parts
     {
+       /**
+        * Get named component.
+        * @return a service
+        */
         Hello getHello();
     }
     
-    public AggregatingComponent( Parts parts ) throws Exception
+   /**
+    * Component constructor.
+    * @param parts the parts solution
+    */
+    public AggregatingComponent( Parts parts )
     {
         m_parts = parts;
     }
     
+   /**
+    * Get a message.
+    * @return a message
+    */
     public String getMessage()
     {
         Hello hello = m_parts.getHello();

@@ -18,13 +18,10 @@
 
 package net.dpml.runtime;
 
-import java.util.Map;
 import java.beans.Introspector;
-import java.beans.Expression;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.TypeVariable;
 
 import net.dpml.annotation.Parts;
 

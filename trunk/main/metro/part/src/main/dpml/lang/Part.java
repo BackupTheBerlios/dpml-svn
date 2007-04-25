@@ -18,21 +18,16 @@
 
 package dpml.lang;
 
-import dpml.util.ObjectUtils;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.management.MBeanException;
-import javax.management.InstanceAlreadyExistsException;
 
 import javax.xml.XMLConstants;
 
@@ -43,8 +38,6 @@ import net.dpml.lang.PartContentHandler;
 import net.dpml.lang.ServiceRegistry;
 import net.dpml.lang.SimpleServiceRegistry;
 import net.dpml.lang.PartManager;
-
-import net.dpml.util.Logger;
 
 /**
  * Part datastructure.
@@ -210,6 +203,11 @@ public final class Part implements PartManager
         return strategy.getInstance( Object.class );
     }
     
+   /**
+    * Save the part to a supplied output stream.
+    * @param output the output stream
+    * @exception IOException if an IO error occurs
+    */
     public void save( OutputStream output ) throws IOException
     {
         final Writer writer = new OutputStreamWriter( output );

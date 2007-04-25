@@ -177,11 +177,23 @@ public class Construct implements Value, Serializable
         m_compound = true;
     }
     
+   /**
+    * Encode the construct to XML.
+    * @param buffer the buffer to encode to
+    * @exception IOException if an IO error occurs
+    */
     public void encode( Buffer buffer ) throws IOException
     {
         encode( buffer, "param", null );
     }
     
+   /**
+    * Encode the construct to XML.
+    * @param buffer the buffer to encode to
+    * @param label the element name
+    * @param key the key associated with the value
+    * @exception IOException if an IO error occurs
+    */
     public void encode( Buffer buffer, String label, String key ) throws IOException
     {
         buffer.nl( "<" + label );

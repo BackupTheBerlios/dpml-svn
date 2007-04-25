@@ -32,5 +32,10 @@ import net.dpml.annotation.Context;
 @Context
 public interface AnotherContext
 {
+   /**
+    * Return an optional uri value assigned to the 'uri' key.
+    * @param value the component supplied default value
+    * @return the resolved uri value
+    */
     URI getUri( URI value );
 }

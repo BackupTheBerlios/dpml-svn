@@ -23,12 +23,16 @@ import net.dpml.runtime.AbstractTestCase;
 import org.acme.ControllerComponent;
 
 /**
- *
+ * Controller testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ControllerTestCase extends AbstractTestCase
 {
+   /**
+    * Validatethe controller.xml example.
+    * @exception Exception if an error occurs
+    */
     public void testComponent() throws Exception
     {
         ControllerComponent component = 

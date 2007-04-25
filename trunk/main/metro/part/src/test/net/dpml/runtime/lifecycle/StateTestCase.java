@@ -18,23 +18,24 @@
  
 package net.dpml.runtime.lifecycle;
 
-import java.util.concurrent.TimeUnit;
-
 import net.dpml.runtime.AbstractTestCase;
 
 import net.dpml.runtime.Component;
 import net.dpml.runtime.Provider;
 
 import org.acme.StateWidget;
-import org.acme.Widget;
 
 /**
- *
+ * Lifecycle testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class StateTestCase extends AbstractTestCase
 {
+   /**
+    * Validate component lifecycle.
+    * @exception Exception if an error occurs
+    */
     public void testLifecycle() throws Exception
     {
         Component component = load( Component.class, "state.xml", "state" );

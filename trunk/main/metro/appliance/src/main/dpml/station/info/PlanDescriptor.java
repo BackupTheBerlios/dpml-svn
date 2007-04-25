@@ -41,6 +41,13 @@ public final class PlanDescriptor
     private final EntryDescriptor[] m_entries;
     private final URI m_codebase;
     
+   /**
+    * Creation of a new plan descriptor.
+    * @param element the element defining the plan
+    * @param resolver the symbol resolver
+    * @param codebase the uri used to establish the plan element
+    * @exception IOException if an IO error occurs
+    */
     public PlanDescriptor( Element element, Resolver resolver, URI codebase ) throws IOException
     {
         m_element = element;

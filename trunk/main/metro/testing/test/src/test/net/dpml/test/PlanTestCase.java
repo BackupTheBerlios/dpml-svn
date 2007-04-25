@@ -19,7 +19,6 @@
 package net.dpml.test;
 
 import dpml.util.DefaultLogger;
-import dpml.util.ExceptionHelper;
 
 import java.net.URI;
 import java.net.URL;
@@ -42,11 +41,15 @@ public class PlanTestCase extends TestCase
 {
     private Logger m_logger = new DefaultLogger( "test" );
     
+   /**
+    * Test plan deployment via plan uri content resolution.
+    * @exception Exception if an error occurs
+    */
     public void testPlanDeployment() throws Exception
     {
         URI uri = URI.create( "link:plan:dpml/metro/demo" );
         URL url = Artifact.toURL( uri );
-        Appliance appliance = (Appliance) url.getContent( new Class[]{ Appliance.class } );
+        Appliance appliance = (Appliance) url.getContent( new Class[]{Appliance.class} );
         try
         {
             appliance.commission();

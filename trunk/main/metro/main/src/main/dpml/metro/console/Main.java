@@ -36,21 +36,14 @@ import dpml.cli.option.PropertyOption;
 import dpml.cli.validation.URIValidator;
 import dpml.cli.validation.NumberValidator;
 
-import dpml.util.PropertyResolver;
-import dpml.util.DefaultLogger;
 import dpml.util.PID;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.MalformedURLException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
-import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.util.Properties;
@@ -58,25 +51,17 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 import javax.tools.Tool;
 import javax.lang.model.SourceVersion;
 
-import net.dpml.annotation.Context;
 import net.dpml.annotation.Component;
 
 import net.dpml.appliance.Appliance;
 import net.dpml.appliance.ApplianceError;
-import net.dpml.appliance.ApplianceException;
 import net.dpml.appliance.ApplianceListener;
 import net.dpml.appliance.ApplianceEvent;
 import net.dpml.appliance.ApplianceConnector;
-
-import net.dpml.lang.Strategy;
-import net.dpml.lang.ServiceRegistry;
-import net.dpml.lang.SimpleServiceRegistry;
-import net.dpml.lang.DuplicateKeyException;
 
 import net.dpml.runtime.ComponentListener;
 import net.dpml.runtime.ComponentEvent;
@@ -85,9 +70,6 @@ import net.dpml.runtime.Status;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.InvalidArtifactException;
-import net.dpml.transit.ContentHandler;
-import net.dpml.transit.Transit;
-
 import net.dpml.util.Logger;
 
 import static net.dpml.annotation.LifestylePolicy.SINGLETON;
@@ -120,32 +102,6 @@ public class Main implements Tool
     * type of the target application.  Normally this plugin is activated as a 
     * consequence of invoking the <tt>metro</tt> commandline handler (which is 
     * the default haviour of the <tt>station</tt> when deployment local processes).
-    * The following command list help about the <tt>metro</tt> commandline handler:
-    * <pre>$ metro help
-Usage:
-metro <uri> [-server] | -help
-options
-  <uri>                    Application codebase part uri.
-  -command                 Enables command mode.
-  -help                    Prints command help and exits.
-  -version                 Prints version info and exits.
-    * </pre>
-    * An example commandline and resulting log of an application launch 
-    * using <tt>metro</tt> is show below:
-    * <pre>
-$ metro -command link:part:dpml/metro/dpml-metro-sample
-
-[2756 ] [INFO   ] (dpml.metro): commissioning hello
-[2756 ] [INFO   ] (hello): pid: [2756]
-[2756 ] [INFO   ] (hello): message: Hello
-[2756 ] [INFO   ] (hello): port: 0
-[2756 ] [INFO   ] (hello): target: artifact:jar:dpml/metro/dpml-metro-sample#SNAPSHOT
-[2756 ] [INFO   ] (hello): starting
-[2756 ] [INFO   ] (hello): started
-[2756 ] [INFO   ] (dpml.metro): decommissioning hello
-[2756 ] [INFO   ] (hello): stopping
-[2756 ] [INFO   ] (hello): stopped
-    * </pre>
     *
     * @param logger the assigned logging channel
     * @exception Exception if an error occurs
@@ -157,6 +113,10 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
           Appliance.class.getClassLoader() );
     }
     
+   /**
+    * Return the source version supported by this tool.
+    * @return the supported source versions as a set
+    */
     public Set<SourceVersion> getSourceVersions()
     {
         return Collections.unmodifiableSet(
@@ -167,6 +127,11 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
     
    /**
     * Run the Metro tool.
+    * @param in the input stream
+    * @param out the output stream
+    * @param err the error stream
+    * @param arguments a sequence of command handler arguments
+    * @return the command handler execution result value
     */
     public int run( InputStream in, OutputStream out, OutputStream err, String... arguments )
     {
@@ -233,14 +198,17 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
             String error = 
               "Invalid uri: [" 
               + uri
-              + "] (" + e.getMessage() + 
-              "), expected format: 'scheme:type:[group[/group[/...]]/name[#<version>].";
+              + "] (" + e.getMessage() 
+              + "), expected format: 'scheme:type:[group[/group[/...]]/name[#<version>].";
             m_logger.error( error );
             return -1;
         }
         catch( TooManyArgumentsException e )
         {
-            m_logger.error( "Error: " + e.getMessage() );
+            final String error = 
+              "Error: "
+              + e.getMessage();
+            m_logger.error( error );
             return -1;
         }
         finally
@@ -430,6 +398,9 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         return properties;
     }
 
+   /**
+    * Internal component monitor.
+    */
     private class InternalComponentMonitor implements ComponentListener
     {
        /**
@@ -529,6 +500,9 @@ $ metro -command link:part:dpml/metro/dpml-metro-sample
         }
     }
     
+   /**
+    * Local appliance listener.
+    */
     private class LocalApplianceListener implements ApplianceListener
     {
         public void applianceChanged( final ApplianceEvent event )

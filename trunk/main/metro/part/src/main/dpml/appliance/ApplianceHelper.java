@@ -40,14 +40,32 @@ import net.dpml.transit.ContentHandler;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-public class ApplianceHelper
+public final class ApplianceHelper
 {
+    private ApplianceHelper()
+    {
+        // disabled
+    }
+    
+   /**
+    * Creation of a new appliance instance.
+    * @param uri the appliance uri
+    * @return the new appliance
+    * @exception IOException if an error occurs during appliance creation
+    */
     public static Appliance newAppliance( URI uri ) throws IOException
     {
         String partition = getPartition();
         return newAppliance( partition, uri );
     }
     
+   /**
+    * Creation of a new appliance instance.
+    * @param partition the partition name under which the appliance will be created
+    * @param uri the appliance uri
+    * @return the new appliance
+    * @exception IOException if an error occurs during appliance creation
+    */
     public static Appliance newAppliance( String partition, URI uri ) throws IOException
     {
         if( null == partition )

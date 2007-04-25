@@ -18,8 +18,6 @@
 
 package net.dpml.runtime;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Component interface.
  *

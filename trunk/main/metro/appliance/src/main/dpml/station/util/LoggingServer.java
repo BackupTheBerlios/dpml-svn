@@ -45,18 +45,21 @@ public class LoggingServer extends Thread
     private static final String LOG_SERVER_PORT_KEY = "dpml.station.logging.port";
     private static final int DEFAULT_LOG_SERVER_PORT = 2020;
     
-    private static LoggingServer SERVER;
+    private static LoggingServer m_SERVER;
     
+   /**
+    * Log server initialization.
+    */
     public static void init()
     {
-        if( null == SERVER )
+        if( null == m_SERVER )
         {
             try
             {
-                SERVER = new LoggingServer();
-                SERVER.setDaemon( true );
-                SERVER.setName( "DPML Logging Server" );
-                SERVER.start();
+                m_SERVER = new LoggingServer();
+                m_SERVER.setDaemon( true );
+                m_SERVER.setName( "DPML Logging Server" );
+                m_SERVER.start();
             }
             catch( Throwable e )
             {

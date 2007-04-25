@@ -27,9 +27,6 @@ import java.net.URLConnection;
 
 import junit.framework.TestCase;
 
-import net.dpml.lang.Strategy;
-import net.dpml.lang.TypeCastException;
-
 import net.dpml.station.ApplianceContentHandler;
 import net.dpml.station.PlanContentHandler;
 
@@ -50,7 +47,7 @@ public abstract class AbstractTestCase extends TestCase
         URL url = file.toURI().toURL();
         URLConnection connection = url.openConnection();
         ApplianceContentHandler handler = new ApplianceContentHandler();
-        return (ApplianceDescriptor) handler.getContent( connection, new Class[]{ ApplianceDescriptor.class } );
+        return (ApplianceDescriptor) handler.getContent( connection, new Class[]{ApplianceDescriptor.class} );
     }
 
     PlanDescriptor loadPlanDescriptor( String path ) throws Exception
@@ -61,6 +58,6 @@ public abstract class AbstractTestCase extends TestCase
         URL url = file.toURI().toURL();
         URLConnection connection = url.openConnection();
         PlanContentHandler handler = new PlanContentHandler();
-        return (PlanDescriptor) handler.getContent( connection, new Class[]{ PlanDescriptor.class } );
+        return (PlanDescriptor) handler.getContent( connection, new Class[]{PlanDescriptor.class} );
     }
 }

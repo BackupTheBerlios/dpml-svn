@@ -19,25 +19,15 @@
 package net.dpml.runtime;
 
 import dpml.appliance.StandardAppliance;
-import dpml.lang.Value;
 import dpml.lang.Disposable;
 import dpml.state.StateDecoder;
 import dpml.util.DefaultLogger;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.io.File;
 import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
-import java.util.ServiceLoader;
 import java.util.WeakHashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -47,7 +37,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-import net.dpml.annotation.Activation;
 import net.dpml.annotation.CollectionPolicy;
 import net.dpml.annotation.LifestylePolicy;
 import net.dpml.annotation.ActivationPolicy;
@@ -58,10 +47,8 @@ import net.dpml.lang.Buffer;
 import net.dpml.lang.ServiceRegistry;
 import net.dpml.lang.StandardServiceRegistry;
 import net.dpml.lang.Strategy;
-import net.dpml.lang.TypeCastException;
 
 import net.dpml.state.State;
-import net.dpml.state.StateMachine;
 
 import net.dpml.transit.Artifact;
 
@@ -157,11 +144,19 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         m_handler = getLifestyleHandler( m_lifestyle );
     }
     
+   /**
+    * Get the component name.
+    * @return the name
+    */
     public String getName()
     {
         return m_name;
     }
     
+   /**
+    * Get the component priority.
+    * @return the priority
+    */
     public int getPriority()
     {
         return m_priority;
@@ -199,6 +194,10 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         return m_map;
     }
     
+   /**
+    * Get a runtime provider for this component.
+    * @return the provider
+    */
     public Provider getProvider()
     {
         synchronized( m_handler )
@@ -207,6 +206,10 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
     }
     
+   /**
+    * Release a provider back to the component.
+    * @param provider the provider to release
+    */
     public void release( Provider provider )
     {
         synchronized( m_handler )
@@ -215,6 +218,10 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
     }
     
+   /**
+    * Initialize the component with a supplied service registry.
+    * @param registry the service registry
+    */
     public void initialize( ServiceRegistry registry ) // TODO: parts initialization should occur here?
     {
         if( m_logger.isTraceEnabled() )
@@ -224,11 +231,21 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         m_registry = registry;
     }
 
+   /**
+    * Test if this component model can handle the supplied service type.
+    * @param type the service type
+    * @return true if the component is type compatible
+    */
     public boolean isaCandidate( Class<?> type )
     {
         return type.isAssignableFrom( m_class );
     }
     
+   /**
+    * Get a service reference for the supplied type.
+    * @param service the service type
+    * @return a service instance or null if unresolvable
+    */
     public <T>T lookup( Class<T> service )
     {
         if( m_logger.isTraceEnabled() )
@@ -287,11 +304,19 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
     }
     
+   /**
+    * Terminate the component model.
+    */
     public void terminate()
     {
         terminate( 10, TimeUnit.SECONDS );
     }
     
+   /**
+    * Terminate the component model using a supplied timeout criteria.
+    * @param timeout the timeout duration
+    * @param units the measurement units
+    */
     void terminate( long timeout, TimeUnit units )
     {
         synchronized( this )
@@ -327,6 +352,9 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
     * is resolved by the parent component.  The parent evaluates off of its 
     * internal parts for a component implementing the service and if found, 
     * the instance is returned.
+    * @param class the requested class
+    * @param type the return type
+    * @exception Exception if an error occurs
     */
     <T>T getService( Class<?> clazz, Class<T> type ) throws Exception // TODO: ensure we don't evaluate the requestor
     {
@@ -428,6 +456,11 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         return new DefaultLogger( path );
     }
     
+   /**
+    * Return an instance of the requested class.
+    * @param clazz the class
+    * @return the instance
+    */
     public <T>T getInstance( Class<T> clazz )
     {
         if( clazz.equals( Component.class ) )
@@ -446,6 +479,12 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
     }
     
+   /**
+    * Return an instance of the requested class.
+    * @param c the class
+    * @return the instance
+    * @exception IOException if an error occurs
+    */
     public <T>T getContentForClass( Class<T> c ) throws IOException
     {
         if( c.isAssignableFrom( m_class ) )
@@ -476,6 +515,12 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
     }
     
+   /**
+    * Encode the component model to the supplied buffer.
+    * @param buffer the endoding buffer
+    * @param key the component key
+    * @exception IOException if an error occurs
+    */
     public void encode(  Buffer buffer, String key ) throws IOException
     {
         String name = getComponentName();
@@ -713,7 +758,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
             private final WeakHashMap<Provider,Void> m_providers = 
               new WeakHashMap<Provider,Void>(); // per thread instances
             
-            synchronized protected Provider initialValue()
+            protected synchronized Provider initialValue()
             {
                 ComponentStrategy strategy = getComponentStrategy();
                 Provider provider = new StandardProvider( strategy );
@@ -861,6 +906,9 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         return getComponentPath();
     }
 
+   /**
+    * Component event dispatcher.
+    */
     private static class ComponentEventDistatcher implements Runnable
     {
         private Logger m_logger;
@@ -874,6 +922,9 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
             m_event = event;
         }
         
+       /**
+        * Run the dispatch thread.
+        */
         public void run()
         {
             try

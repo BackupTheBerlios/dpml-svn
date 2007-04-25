@@ -25,15 +25,18 @@ import java.util.SortedMap;
 import net.dpml.runtime.AbstractTestCase;
 
 import org.acme.MapWidget;
-import org.acme.Widget;
 
 /**
- *
+ * Map based context entry testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class MapTestCase extends AbstractTestCase
 {
+   /**
+    * Validate a simple map.
+    * @exception Exception if an error occurs
+    */
     public void testSimpleMap() throws Exception
     {
         MapWidget widget = 
@@ -45,6 +48,10 @@ public class MapTestCase extends AbstractTestCase
         assertEquals( "foo", "bar", value );
     }
     
+   /**
+    * Validate a map with a qualified implementation class.
+    * @exception Exception if an error occurs
+    */
     public void testQualifiedMap() throws Exception
     {
         MapWidget widget = 
@@ -56,6 +63,10 @@ public class MapTestCase extends AbstractTestCase
         assertEquals( "ping", "pong", ping );
     }
     
+   /**
+    * Validate a typed map.
+    * @exception Exception if an error occurs
+    */
     public void testColors() throws Exception
     {
         MapWidget widget = 

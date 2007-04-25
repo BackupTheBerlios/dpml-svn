@@ -20,51 +20,32 @@ package net.dpml.station;
 
 import dpml.lang.DOM3DocumentBuilder;
 import dpml.util.SimpleResolver;
-import dpml.util.ElementHelper;
 import dpml.util.DefaultLogger;
-import dpml.station.util.LoggingServer;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.rmi.Remote;
-import java.util.Properties;
-import java.util.Map;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.management.MBeanServer;
-import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.management.MBeanException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.remote.JMXServiceURL;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
 
 import net.dpml.transit.Artifact;
 import net.dpml.transit.ContentHandler;
-import net.dpml.transit.ContentManager;
 import net.dpml.lang.DecodingException;
 import net.dpml.util.Logger;
 import net.dpml.util.Resolver;
 
 import net.dpml.appliance.Appliance;
-import net.dpml.appliance.ApplianceException;
 import net.dpml.appliance.ApplianceManager;
 import net.dpml.appliance.ApplianceContentManager;
 import net.dpml.appliance.ApplianceFactory;
 
 import dpml.station.info.ApplianceDescriptor;
-import dpml.station.info.InfoDescriptor;
-import dpml.station.info.ProcessDescriptor;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
@@ -113,11 +94,18 @@ public class ApplianceContentHandler extends ContentHandler implements Appliance
         return handler;
     }
     
+   /**
+    * Creation of a new applicance content handler.
+    */
     public ApplianceContentHandler()
     {
         this( LOGGER );
     }
     
+   /**
+    * Creation of a new applicance content handler.
+    * @param logger the assigned logging channel
+    */
     protected ApplianceContentHandler( Logger logger )
     {
         logger.debug( "instantiating" );
@@ -140,6 +128,10 @@ public class ApplianceContentHandler extends ContentHandler implements Appliance
     }
     */
     
+   /**
+    * Return the set of applicance managers established by the handler.
+    * @return the appliance managers
+    */
     public ApplianceManager[] getApplianceManagers()
     {
         return MANAGERS.toArray( new ApplianceManager[0] );

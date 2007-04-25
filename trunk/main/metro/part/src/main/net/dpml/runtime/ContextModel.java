@@ -79,7 +79,7 @@ class ContextModel implements Resolvable
                     }
                     catch( MissingContextEntryException mcee )
                     {
-                        if( !optional )
+                        if( !optional && validate )
                         {
                             final String error = 
                               "Non optional context entry ["
@@ -91,14 +91,7 @@ class ContextModel implements Resolvable
                               + "] within ["
                               + path
                               + "] is undefined.";
-                            if( validate )
-                            {
-                                throw new ComponentException( error );
-                            }
-                            else
-                            {
-                                // m_logger.warn( error );
-                            }
+                            throw new ComponentException( error );
                         }
                     }
                 }
@@ -122,7 +115,7 @@ class ContextModel implements Resolvable
                 {
                     m_map.put( key, value );
                 }
-                else if( !optional )
+                else if( !optional && validate )
                 {
                     final String error = 
                       "No solution declared for the context entry ["
@@ -134,14 +127,7 @@ class ContextModel implements Resolvable
                       + "] within the component model ["
                       + path
                       + "].";
-                    if( validate )
-                    {
-                        throw new MissingContextEntryException( error );
-                    }
-                    else
-                    {
-                        // m_logger.validate( error );
-                    }
+                    throw new MissingContextEntryException( error );
                 }
             }
         }

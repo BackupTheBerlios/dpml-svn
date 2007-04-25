@@ -39,6 +39,10 @@ public class LocalConnector extends UnicastRemoteObject implements ApplianceConn
     private Appliance m_appliance;
     private Monitor m_monitor;
     
+   /**
+    * Creation of a new local connector.
+    * @exception RemoteException if a remote error occurs
+    */
     public LocalConnector() throws RemoteException
     {
         super();
@@ -61,6 +65,13 @@ public class LocalConnector extends UnicastRemoteObject implements ApplianceConn
         }
     }
     
+   /**
+    * Wait for the specified time for appliance registration.
+    * @param units the time units
+    * @param timeout the number of units
+    * @return the registered appliance
+    * @exception IOException if an IO or timout error occurs
+    */
     public Appliance getAppliance( TimeUnit units, int timeout ) throws IOException
     {
         synchronized( m_lock )
@@ -100,23 +111,33 @@ public class LocalConnector extends UnicastRemoteObject implements ApplianceConn
         }
     }
     
+   /**
+    * Thread monitor.
+    */
     private class Monitor extends Thread
     {
         private int m_timeout;
         private TimeUnit m_units;
         
+       /**
+        * Creation of a new timout monitor.
+        * @param units the units of time
+        * @param timeout the timeout value
+        */
         public Monitor( TimeUnit units, int timeout )
         {
             m_timeout = timeout;
             m_units = units;
         }
         
+       /**
+        * Run the timeout thread.
+        */
         public void run()
         {
             try
             {
                 m_units.sleep( m_timeout );
-                //Thread.currentThread().sleep( m_timeout );
             }
             catch( InterruptedException e )
             {

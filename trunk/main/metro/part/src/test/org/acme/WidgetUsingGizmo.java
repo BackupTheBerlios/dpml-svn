@@ -18,17 +18,14 @@
 
 package org.acme;
 
-import java.awt.Color;
-
 import net.dpml.annotation.Context;
 import net.dpml.annotation.Component;
 import net.dpml.annotation.Services;
 
 import net.dpml.util.Logger;
 
-import static net.dpml.annotation.LifestylePolicy.TRANSIENT;
-
 /**
+ * Component playing around with a corner case.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -36,14 +33,26 @@ import static net.dpml.annotation.LifestylePolicy.TRANSIENT;
 @Services( Widget.class )
 public class WidgetUsingGizmo implements Widget
 {
+   /**
+    * Deployment contract.
+    */
     @Context
     public interface WidgetContext
     {
+       /**
+        * Return the 'gizmo' context value.
+        * @return a gizmo
+        */
         Gizmo getGizmo();
     }
     
     private final Gizmo m_gizmo;
     
+   /**
+    * Component constructor.
+    * @param logger the logging channel
+    * @param context the deployment context
+    */
     public WidgetUsingGizmo( final Logger logger, final WidgetContext context )
     {
         logger.info( "instantiated" );
@@ -51,13 +60,31 @@ public class WidgetUsingGizmo implements Widget
         logger.info( getMessage() );
     }
     
+   /**
+    * Get a message.
+    * @return a message
+    */
     public String getMessage()
     {
         return "" + m_gizmo.getNumber();
     }
     
+   /**
+    * Test the supplied object for equality with this object.
+    * @param other the supplied object 
+    * @return the equality result
+    */
     public boolean equals( Object other )
     {
         return ( hashCode() == other.hashCode() );
+    }
+
+   /**
+    * Get the component hashcode.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        return m_gizmo.hashCode();
     }
 }

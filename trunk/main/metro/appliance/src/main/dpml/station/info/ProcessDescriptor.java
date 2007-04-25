@@ -27,7 +27,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.dpml.lang.DecodingException;
 import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;

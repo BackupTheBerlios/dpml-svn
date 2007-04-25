@@ -28,7 +28,7 @@ import net.dpml.util.Resolver;
 import org.w3c.dom.Element;
 
 /**
- * Immutable datastructure used to describe an deployment scenario.
+ * Include datastructure.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
@@ -37,6 +37,12 @@ public final class IncludeDescriptor extends EntryDescriptor
 {
     private final URI m_uri;
     
+   /**
+    * Creation of an include descriptor.
+    * @param element the element defining the included description
+    * @param resolver the symbol resolver
+    * @exception DecodingException if an error occurs during the decoding phase
+    */
     public IncludeDescriptor( Element element, Resolver resolver ) throws DecodingException
     {
         super( element, resolver );
@@ -106,13 +112,9 @@ public final class IncludeDescriptor extends EntryDescriptor
             {
                 return false;
             }
-            else if( !m_uri.equals( entry.m_uri ) )
-            {
-                return false;
-            }
             else
             {
-                return true;
+                return m_uri.equals( entry.m_uri );
             }
         }
     }

@@ -23,12 +23,16 @@ import net.dpml.runtime.AbstractTestCase;
 import org.acme.CompositeComponent;
 
 /**
- *
+ * Lookup testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class LookupTestCase extends AbstractTestCase
 {
+   /**
+    * Validate the lookup.xml example.
+    * @exception Exception if an error occurs
+    */
     public void testComponent() throws Exception
     {
         CompositeComponent component = 

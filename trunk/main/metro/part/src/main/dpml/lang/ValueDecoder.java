@@ -18,8 +18,6 @@
 
 package dpml.lang;
 
-import dpml.lang.Construct;
-
 import dpml.util.ElementHelper;
 
 import net.dpml.util.Resolver;

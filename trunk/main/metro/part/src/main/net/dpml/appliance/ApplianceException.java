@@ -18,8 +18,6 @@
 
 package net.dpml.appliance;
 
-import java.io.IOException;
-
 import net.dpml.lang.DecodingException;
 
 import org.w3c.dom.Element;

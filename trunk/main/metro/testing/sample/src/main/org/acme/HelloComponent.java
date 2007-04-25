@@ -45,6 +45,12 @@ public class HelloComponent implements Hello
     private final Logger m_logger;
     private final HelloConfiguration m_context;
     
+   /**
+    * Component constructor.
+    * @param logger the assigned logging channel
+    * @param context the deployment context
+    * @exception Exception if an error occurs during deployment
+    */
     public HelloComponent( Logger logger, HelloConfiguration context ) throws Exception
     {
         m_logger = logger;
@@ -59,17 +65,27 @@ public class HelloComponent implements Hello
         m_logger.info( "target: " + context.getTarget().getUri( codebase ) );
     }
     
+   /**
+    * Get the message.
+    * @return the message
+    */
     public String getMessage()
     {
         return m_context.getMessage( "Hello" );
     }
     
+   /**
+    * Start the component.
+    */
     public void start()
     {
         m_logger.info( "starting" );
         m_logger.info( "started" );
     }
     
+   /**
+    * Stop the component.
+    */
     public void stop()
     {
         m_logger.info( "stopping" );

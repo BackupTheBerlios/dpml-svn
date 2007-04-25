@@ -21,10 +21,6 @@ package net.dpml.appliance;
 import dpml.station.info.PlanDescriptor;
 import dpml.station.info.EntryDescriptor;
 
-import java.net.URI;
-import java.util.Properties;
-import java.util.Map;
-
 /**
  * Scenario descriptor testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
@@ -32,6 +28,10 @@ import java.util.Map;
  */
 public class PlanDescriptorTestCase extends AbstractTestCase
 {
+   /**
+    * Test integrity of the plan title.
+    * @exception Exception if an error occurs
+    */
     public void testScenarioTitle() throws Exception
     {
         PlanDescriptor scenario = loadPlanDescriptor( "plan.xml" );
@@ -39,6 +39,10 @@ public class PlanDescriptorTestCase extends AbstractTestCase
         assertEquals( "title", "Plan Demo", title );
     }
     
+   /**
+    * Test integrity of the plan entry uris.
+    * @exception Exception if an error occurs
+    */
     public void testPlanURIs() throws Exception
     {
         PlanDescriptor scenario = loadPlanDescriptor( "plan.xml" );

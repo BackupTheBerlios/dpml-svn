@@ -18,7 +18,6 @@
 
 package net.dpml.station;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.dpml.appliance.Appliance;
@@ -32,10 +31,22 @@ import net.dpml.appliance.Appliance;
 //public interface Station extends Remote
 public interface Station extends Appliance
 {
+   /**
+    * Constant key for the station registry name.
+    */
     static final String STATION_CONNECTOR_KEY = "dpml.station.key";
+    
+   /**
+    * Constant key for the station jmx uri value.
+    */
     static final String STATION_JMX_URI_KEY = "dpml.station.jmx.uri";
+    
     //static final String STATION_RMI_PORT = "dpml.station.rmi.port";
     
+   /**
+    * Stutdown the station.
+    * @exception RemoteException if RMI remote exception occurs
+    */
     void shutdown() throws RemoteException;
 }
 

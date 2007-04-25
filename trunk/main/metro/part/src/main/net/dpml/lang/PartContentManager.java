@@ -31,5 +31,9 @@ import javax.management.MXBean;
  @MXBean
 public interface PartContentManager extends ContentManager
 {
+   /**
+    * Return the array of part managers.
+    * @return the part manager array
+    */
     PartManager[] getPartManagers();
 }

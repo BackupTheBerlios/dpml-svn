@@ -27,8 +27,6 @@ import java.lang.reflect.Proxy;
 
 import net.dpml.annotation.Context;
 
-import dpml.lang.Value;
-
 /**
  * Invocation handler utility for a Context class.
  *

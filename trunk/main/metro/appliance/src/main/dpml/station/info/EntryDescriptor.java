@@ -20,9 +20,6 @@ package dpml.station.info;
 
 import dpml.util.ElementHelper;
 
-import java.net.URI;
-
-import net.dpml.lang.DecodingException;
 import net.dpml.util.Resolver;
 
 import org.w3c.dom.Element;
@@ -38,6 +35,11 @@ public abstract class EntryDescriptor
     private final String m_key;
     private final Element m_element;
     
+   /**
+    * Creation of a new entry descriptor.
+    * @param element the DOM element defining the entry
+    * @param resolver the symbol resolver
+    */
     public EntryDescriptor( Element element, Resolver resolver )
     {
         m_element = element;

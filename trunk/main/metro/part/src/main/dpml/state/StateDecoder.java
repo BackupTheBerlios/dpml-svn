@@ -28,7 +28,11 @@ import dpml.lang.DOM3DocumentBuilder;
 
 import dpml.util.ElementHelper;
 
-import net.dpml.state.*;
+import net.dpml.state.State;
+import net.dpml.state.Action;
+import net.dpml.state.TriggerPolicy;
+import net.dpml.state.ApplyAction;
+import net.dpml.state.ExecAction;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -26,18 +26,26 @@ import org.acme.Widget;
 import org.acme.ForeignWidget;
 
 /**
- *
+ * Foreign service testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ForeignTestCase extends AbstractTestCase
 {
+   /**
+    * Validate component via part using foreign.xml.
+    * @exception Exception if an error occurs
+    */
     public void testComponentViaPart() throws Exception
     {
         Widget widget = load( Widget.class, "foreign.xml", "foreign" );
         assertEquals( "message", "42", widget.getMessage() );
     }
     
+   /**
+    * Validate component via class.
+    * @exception Exception if an error occurs
+    */
     public void testComponentViaClass() throws Exception
     {
         Strategy strategy = Strategy.load( ForeignWidget.class, null, "foreign" );

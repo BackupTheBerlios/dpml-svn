@@ -18,13 +18,16 @@
 
 package org.acme;
 
-import net.dpml.lang.Strategy;
-
 /**
+ * A service interface.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public interface Widget
 {
+   /**
+    * Get a message.
+    * @return the message
+    */
     String getMessage();
 }

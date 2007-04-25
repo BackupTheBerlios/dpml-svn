@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.Arrays;
 
-import dpml.lang.Value;
-
 /**
  * Construct testcase.
  *
@@ -35,6 +33,9 @@ import dpml.lang.Value;
  */
 public class ConstructTestCase extends AbstractTestCase
 {
+   /**
+    * Testcase setup.
+    */
     public void setUp()
     {
         ClassLoader loader = ConstructTestCase.class.getClassLoader();

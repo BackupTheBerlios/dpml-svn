@@ -55,6 +55,8 @@ public class StandardServiceRegistry implements ServiceRegistry
     * match is found and a parent registry has been delclared, the lookup
     * request is passed onto the parent registry, otherwise null is 
     * returned.
+    * @param type the service type to locate
+    * @return an instance of the type or null if unresolvable
     */
     public <T>T lookup( Class<T> type )
     {

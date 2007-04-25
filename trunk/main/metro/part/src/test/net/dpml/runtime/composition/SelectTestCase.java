@@ -28,12 +28,16 @@ import org.acme.Widget;
 import org.acme.Gizmo;
 
 /**
- *
+ * Select testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class SelectTestCase extends AbstractTestCase
 {
+   /**
+    * Validate part selection by return type.
+    * @exception Exception if an error occurs
+    */
     public void testSelectionByServiceReturnType() throws Exception
     {
         SelectComponent.Parts parts = getParts();
@@ -41,6 +45,10 @@ public class SelectTestCase extends AbstractTestCase
         assertEquals( "size-widget", 2, widgets.length );
     }
     
+   /**
+    * Validate part selection by type argument.
+    * @exception Exception if an error occurs
+    */
     public void testSelectionByServiceCriteria() throws Exception
     {
         SelectComponent.Parts parts = getParts();
@@ -54,6 +62,10 @@ public class SelectTestCase extends AbstractTestCase
         assertEquals( "gizmo-providers", 1, gizmoProviders.length );
     }
     
+   /**
+    * Validate part selection of all components.
+    * @exception Exception if an error occurs
+    */
     public void testAllSelectionCriteria() throws Exception
     {
         SelectComponent.Parts parts = getParts();

@@ -19,12 +19,10 @@
 package net.dpml.test;
 
 import dpml.util.DefaultLogger;
-import dpml.util.ExceptionHelper;
 
 import java.net.URI;
 import java.net.URL;
 import java.rmi.RMISecurityManager;
-import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
 
@@ -43,11 +41,15 @@ public class LocalTestCase extends TestCase
 {
     private Logger m_logger = new DefaultLogger( "test" );
     
+   /**
+    * Test appliance deployment via appliance uri content resolution.
+    * @exception Exception if an error occurs
+    */
     public void testClassicAppliance() throws Exception
     {
         URI uri = URI.create( "link:appliance:dpml/metro/demo" );
         URL url = Artifact.toURL( uri );
-        Appliance appliance = (Appliance) url.getContent( new Class[]{ Appliance.class } );
+        Appliance appliance = (Appliance) url.getContent( new Class[]{Appliance.class} );
         try
         {
             appliance.commission();

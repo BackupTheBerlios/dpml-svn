@@ -61,8 +61,20 @@ public interface Value
     */
     Object resolve( Class<?> type, Map<String,Object> map ) throws Exception;
     
+   /**
+    * Encode the value to a buffer.
+    * @param buffer the buffer
+    * @exception IOException if an IO error occurs
+    */
     void encode( Buffer buffer ) throws IOException;
     
+   /**
+    * Encode the value to a buffer.
+    * @param buffer the buffer
+    * @param label the element name
+    * @param key the value key
+    * @exception IOException if an IO error occurs
+    */
     void encode( Buffer buffer, String label, String key ) throws IOException;
 
 }

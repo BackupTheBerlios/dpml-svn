@@ -19,20 +19,22 @@
 package net.dpml.runtime;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import net.dpml.lang.Buffer;
 
 import org.w3c.dom.Element;
 
 /**
- * Exception to indicate an error arrising from the use of a duplicate key.
+ * Internal utility interfaces.
  *
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 abstract class Directive
 {
+   /**
+    * Internal interface for encodable entries.
+    */
     public interface Encodable
     {
         Element getElement();
@@ -40,6 +42,9 @@ abstract class Directive
         void encode( Buffer buffer, String key ) throws IOException;
     }
     
+   /**
+    * Internal interface for resolvable entries.
+    */
     public interface Resolvable extends Encodable
     {
         <T>T resolve( ComponentStrategy parent, Class<T> clazz ) throws Exception;

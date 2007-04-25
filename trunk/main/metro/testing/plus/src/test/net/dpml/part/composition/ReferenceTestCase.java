@@ -21,12 +21,16 @@ package net.dpml.part.composition;
 import org.acme.reference.AggregatingComponent;
 
 /**
- *
+ * Test part-by-reference semantics.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ReferenceTestCase extends AbstractTestCase
 {
+   /**
+    * Test deployment of a component configured using part-by-reference.
+    * @exception Exception if an error occurs
+    */
     public void testComponent() throws Exception
     {
         AggregatingComponent component = 

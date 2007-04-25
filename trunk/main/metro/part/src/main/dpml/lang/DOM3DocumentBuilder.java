@@ -24,9 +24,6 @@ import dpml.util.DefaultLogger;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URISyntaxException;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.ServiceLoader;
 import java.io.InputStream;
@@ -35,9 +32,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.FileNotFoundException;
 
-import javax.xml.XMLConstants;
-
-import net.dpml.lang.PartError;
 import net.dpml.lang.DecodingException;
 
 import net.dpml.transit.Artifact;
@@ -115,6 +109,12 @@ public class DOM3DocumentBuilder
         return parse( connection );
     }
     
+   /**
+    * Parse an xml schema document.
+    * @param connection the document url connection
+    * @return the validated document
+    * @exception IOException if an IO error occurs
+    */
     public Document parse( URLConnection connection ) throws IOException
     {
         if( null == connection )
@@ -211,7 +211,7 @@ public class DOM3DocumentBuilder
     */
     private static class InternalResourceResolver implements LSResourceResolver
     {
-        private static StandardNamespaceResolver RESOLVER = 
+        private static final StandardNamespaceResolver RESOLVER = 
           new StandardNamespaceResolver();
           
         private final Logger m_logger;

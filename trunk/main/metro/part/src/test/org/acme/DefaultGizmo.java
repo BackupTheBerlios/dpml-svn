@@ -29,19 +29,41 @@ public class DefaultGizmo implements Gizmo
 {
     private final Logger m_logger;
     
+   /**
+    * Creeation of a gizmo using a container supplied logging channel.
+    * @param logger the logging channel
+    */
     public DefaultGizmo( Logger logger )
     {
         m_logger = logger;
         m_logger.info( "instantiated" );
     }
     
+   /**
+    * Returns a number.
+    * @return a number
+    */
     public int getNumber()
     {
         return 42;
     }
 
+   /**
+    * Test the supplied object for equality with this object.
+    * @param other the supplied object 
+    * @return the equality result
+    */
     public boolean equals( Object other )
     {
         return ( hashCode() == other.hashCode() );
+    }
+
+   /**
+    * Get the component hashcode.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        return super.hashCode();
     }
 }

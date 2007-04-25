@@ -173,7 +173,7 @@ public class DecodingException extends IOException
             if( Artifact.isRecognized( uri ) )
             {
                 URL url = Artifact.toURL( uri );
-                File file = (File) url.getContent( new Class[]{ File.class } );
+                File file = (File) url.getContent( new Class[]{File.class} );
                 return file.getCanonicalPath();
             }
             return null;

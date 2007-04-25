@@ -50,16 +50,28 @@ public class TypeCastException extends ClassCastException
         m_type = type;
     }
     
+   /**
+    * Get the base class.
+    * @return the class
+    */
     public Class getBase()
     {
         return m_base;
     }
     
+   /**
+    * Get the type class.
+    * @return the type
+    */
     public Class getType()
     {
         return m_type;
     }
     
+   /**
+    * Get the reported type cast error.
+    * @return the reported error
+    */
     public String getReport()
     {
         return StandardClassLoader.toString( m_base, m_type );

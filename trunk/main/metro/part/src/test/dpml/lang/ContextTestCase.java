@@ -25,11 +25,6 @@ import java.util.HashMap;
 
 import junit.framework.TestCase;
 
-//import net.dpml.lang.Plugin;
-import net.dpml.lang.ServiceRegistry;
-import net.dpml.lang.SimpleServiceRegistry;
-
-import org.acme.Sample;
 import org.acme.Sample.Context;
 import org.acme.Sample.AnotherContext;
 import org.acme.Sample.Negation;

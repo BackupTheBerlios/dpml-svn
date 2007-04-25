@@ -19,9 +19,7 @@
 package net.dpml.runtime;
 
 import dpml.util.ElementHelper;
-import dpml.util.DefaultLogger;
 
-import java.io.Writer;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ import net.dpml.lang.StrategyHandler;
 import net.dpml.lang.PartContentHandler;
 
 import net.dpml.util.Resolver;
-import net.dpml.util.Logger;
 
 import org.w3c.dom.Element;
 

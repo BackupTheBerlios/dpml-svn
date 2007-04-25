@@ -29,7 +29,6 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.lang.management.ManagementFactory;
-import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.ServiceLoader;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.management.MBeanException;
 import javax.management.InstanceAlreadyExistsException;
 
 import net.dpml.annotation.Component;
@@ -45,13 +43,9 @@ import net.dpml.annotation.Component;
 import net.dpml.appliance.Appliance;
 import net.dpml.appliance.ApplianceFactory;
 
-import net.dpml.lang.PartManager;
-import net.dpml.lang.PartContentManager;
-
 import net.dpml.runtime.ComponentStrategyHandler;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.Transit;
 import net.dpml.transit.ContentHandler;
 
 import net.dpml.util.Logger;
@@ -90,8 +84,6 @@ public final class PartContentHandler extends ContentHandler implements PartCont
     private static final DOM3DocumentBuilder DOCUMENT_BUILDER = 
       new DOM3DocumentBuilder();
     
-    private static final ClassLoaderHelper CLASSLOADER_HELPER = new ClassLoaderHelper();
-
     private static final ComponentStrategyHandler STANDARD_STRATEGY_HANDLER = 
       new ComponentStrategyHandler();
 
@@ -159,6 +151,7 @@ public final class PartContentHandler extends ContentHandler implements PartCont
     * </ul>
     *
     * @param element the strategy element
+    * @return the strategy handler
     * @exception Exception if loading error occurs
     */
     public static StrategyHandler getStrategyHandler( Element element ) throws Exception
@@ -245,6 +238,12 @@ public final class PartContentHandler extends ContentHandler implements PartCont
         }
     }
     
+   /**
+    * Load a strategy handler.
+    *
+    * @param classname the strategy handler service implementation class
+    * @exception Exception if part loading error occurs
+    */
     static StrategyHandler getStrategyHandler( String classname ) throws Exception
     {
         ServiceLoader<StrategyHandler> handlers = ServiceLoader.load( StrategyHandler.class );
@@ -262,6 +261,10 @@ public final class PartContentHandler extends ContentHandler implements PartCont
     // constructor
     //--------------------------------------------------------------------------------
     
+   /**
+    * Creation of a new part content handler.
+    * @exception Exception if an error occurs
+    */
     public PartContentHandler() throws Exception
     {
         String flag = System.getProperty( "dpml.jmx.enabled", "false" );
@@ -344,6 +347,10 @@ public final class PartContentHandler extends ContentHandler implements PartCont
     // ContentManager
     //--------------------------------------------------------------------------------
     
+   /**
+    * Return the part managers handled by the content handler.
+    * @return the part manager array
+    */
     public PartManager[] getPartManagers()
     {
         ArrayList<PartManager> list = new ArrayList<PartManager>();
@@ -525,7 +532,7 @@ public final class PartContentHandler extends ContentHandler implements PartCont
             Resolver resolver = new SimpleResolver();
             Info info = getInfo( uri, element );
             Classpath classpath = getClasspath( element );
-            ClassLoader classloader = CLASSLOADER_HELPER.newClassLoader( anchor, uri, classpath );
+            ClassLoader classloader = ClassLoaderHelper.newClassLoader( anchor, uri, classpath );
             ClassLoader context = Thread.currentThread().getContextClassLoader();
             Thread.currentThread().setContextClassLoader( classloader );
             try
@@ -560,14 +567,7 @@ public final class PartContentHandler extends ContentHandler implements PartCont
     
     private static boolean isNamespaceRecognized( String namespace )
     {
-        if( NAMESPACE.equals( namespace ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return NAMESPACE.equals( namespace );
     }
 
     private static Info getInfo( URI uri, Element root )

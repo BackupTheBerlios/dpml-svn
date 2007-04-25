@@ -44,16 +44,31 @@ public class ProviderEvent extends ComponentEvent
         m_action = action;
     }
     
+   /**
+    * Get the provider initiating the event.
+    *
+    * @return the source provider
+    */
     public Provider getProvider()
     {
         return m_provider;
     }
     
+   /**
+    * Get the event status.
+    *
+    * @return the event status
+    */
     public Status getStatus()
     {
         return m_action;
     }
     
+   /**
+    * Return a string representation of the event.
+    *
+    * @return the event as a string
+    */
     public String toString()
     {
         String id = super.toString();

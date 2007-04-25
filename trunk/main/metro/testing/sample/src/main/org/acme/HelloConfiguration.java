@@ -29,7 +29,23 @@ import net.dpml.annotation.Context;
 @Context
 public interface HelloConfiguration
 {
+   /**
+    * Get the message.
+    * @param value the default value
+    * @return the message
+    */
     String getMessage( String value );
+    
+   /**
+    * Get the port.
+    * @param port the default port
+    * @return the resolved port
+    */
     int getPort( int port );
+    
+   /**
+    * Get the nested context solution.
+    * @return the nested context solution
+    */
     AnotherContext getTarget();
 }

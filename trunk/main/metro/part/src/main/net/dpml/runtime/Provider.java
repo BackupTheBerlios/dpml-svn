@@ -49,6 +49,7 @@ public interface Provider
 
    /**
     * Return a fully commissioned instance.
+    * @param type the instance return type
     * @return the instance
     */
     <T>T getInstance( Class<T> type );

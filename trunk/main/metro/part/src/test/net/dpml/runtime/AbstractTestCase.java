@@ -39,11 +39,26 @@ public class AbstractTestCase extends TestCase
           "net.dpml.runtime.ComponentStrategyHandler" );
     }
     
+   /**
+    * Utility operation to load a type.
+    * @param type the type to load
+    * @param path the relative path to the part definition
+    * @return the type
+    * @exception Exception if an error occurs
+    */
     protected <T>T load( Class<T> type, String path ) throws Exception
     {
         return load( type, path, null );
     }
     
+   /**
+    * Utility operation to load a type.
+    * @param type the type to load
+    * @param path the relative path to the part definition
+    * @param name the part name to assign
+    * @return the type
+    * @exception Exception if an error occurs
+    */
     protected <T>T load( Class<T> type, String path, String name ) throws Exception
     {
         ClassLoader classloader = getClass().getClassLoader();

@@ -21,7 +21,6 @@ package org.acme;
 import net.dpml.lang.Strategy;
 
 import net.dpml.runtime.ComponentError;
-import net.dpml.runtime.ComponentStrategyHandler;
 
 /**
  * Example of a component that is declared as a service (via META=INF/services)
@@ -34,6 +33,10 @@ public class GizmoAdapter implements Gizmo
 {
     private Gizmo m_delegate;
     
+   /** 
+    * Get a number.
+    * @return a number
+    */
     public int getNumber()
     {
         return getDelegate().getNumber();
@@ -63,8 +66,29 @@ public class GizmoAdapter implements Gizmo
         }
     }
 
+   /**
+    * Test the supplied object for equality with this object.
+    * @param other the supplied object 
+    * @return the equality result
+    */
     public boolean equals( Object other )
     {
         return ( hashCode() == other.hashCode() );
+    }
+
+   /**
+    * Get the component hashcode.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        if( null != m_delegate )
+        {
+            return m_delegate.hashCode();
+        }
+        else
+        {
+            return getClass().hashCode();
+        }
     }
 }

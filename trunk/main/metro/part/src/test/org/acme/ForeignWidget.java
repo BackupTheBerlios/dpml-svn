@@ -18,16 +18,13 @@
 
 package org.acme;
 
-import java.awt.Color;
-
 import net.dpml.annotation.Component;
 import net.dpml.annotation.Services;
 
 import net.dpml.util.Logger;
 
-import static net.dpml.annotation.LifestylePolicy.TRANSIENT;
-
 /**
+ * Sample component that contains a foreign type in the constructor.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
@@ -37,6 +34,14 @@ public class ForeignWidget implements Widget
 {
     private final Gizmo m_gizmo;
     
+   /**
+    * Component constructor containing a standard logging argument and 
+    * a foreign gizmo object.  In this example the container will recognize the 
+    * logging channel type but will not recognize the Gizmo service.  As such the 
+    * container has to go hunting for a solution.
+    * @param logger the assigned logging channel
+    * @param gizmo a gizmo
+    */
     public ForeignWidget( final Logger logger, final Gizmo gizmo )
     {
         logger.info( "instantiated" );
@@ -44,13 +49,31 @@ public class ForeignWidget implements Widget
         logger.info( getMessage() );
     }
     
+   /**
+    * Return a message.
+    * @return the m4essage
+    */
     public String getMessage()
     {
         return "" + m_gizmo.getNumber();
     }
     
+   /**
+    * Test the supplied object for equality with this object.
+    * @param other the supplied object 
+    * @return the equality result
+    */
     public boolean equals( Object other )
     {
         return ( hashCode() == other.hashCode() );
+    }
+
+   /**
+    * Get the component hashcode.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        return m_gizmo.hashCode();
     }
 }

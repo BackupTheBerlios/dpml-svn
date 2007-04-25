@@ -21,19 +21,38 @@ package org.acme;
 import net.dpml.annotation.Services;
 
 /**
+ * Test componnet used to validate services annotation.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 @Services( Widget.class )
 public class DefaultWidget implements Widget
 {
+   /**
+    * Return a message.
+    * @return some message
+    */
     public String getMessage()
     {
         return "Hello";
     }
     
+   /**
+    * Test the supplied object for equality with this object.
+    * @param other the supplied object 
+    * @return the equality result
+    */
     public boolean equals( Object other )
     {
         return ( hashCode() == other.hashCode() );
+    }
+
+   /**
+    * Get the component hashcode.
+    * @return the hash value
+    */
+    public int hashCode()
+    {
+        return getClass().hashCode();
     }
 }

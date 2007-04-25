@@ -31,6 +31,10 @@ import dpml.station.info.ApplianceDescriptor;
  */
 public class ApplianceDescriptorTestCase extends AbstractTestCase
 {
+   /**
+    * Test the integrity of an appliance descriptor.
+    * @exception Exception if an error occurs
+    */
     public void testApplianceDescriptor() throws Exception
     {
         ApplianceDescriptor application = loadApplianceDescriptor( "appliance.xml" );

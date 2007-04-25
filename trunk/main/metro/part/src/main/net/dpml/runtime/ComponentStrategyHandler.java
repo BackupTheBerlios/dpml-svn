@@ -18,24 +18,17 @@
 
 package net.dpml.runtime;
 
-import dpml.lang.Classpath;
 import dpml.lang.DOM3DocumentBuilder;
-import dpml.lang.Value;
 import dpml.util.StandardClassLoader;
 import dpml.util.ElementHelper;
 import dpml.util.DefaultLogger;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.net.URI;
-import java.net.URL;
-import java.util.Map;
 import java.lang.reflect.Constructor;
 
 import net.dpml.lang.DecodingException;
 import net.dpml.lang.Strategy;
 import net.dpml.lang.StrategyHandler;
-import net.dpml.lang.Buffer;
 
 import net.dpml.annotation.Activation;
 import net.dpml.annotation.ActivationPolicy;
@@ -45,7 +38,6 @@ import net.dpml.annotation.CollectionPolicy;
 import net.dpml.util.Resolver;
 import net.dpml.util.Logger;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -56,15 +48,31 @@ import org.w3c.dom.Element;
  */
 public class ComponentStrategyHandler implements StrategyHandler
 {
+   /**
+    * Constant XSD namespace value.
+    */
     public static final String NAMESPACE = "dpml:metro";
     
     private static final DOM3DocumentBuilder BUILDER = new DOM3DocumentBuilder();
     
+   /**
+    * Creation of a new component strategy handler for a supplied class.
+    * @param c the implementation class
+    * @return the new strategy handler
+    * @exception IOException if an error occurs in strategy creation
+    */
     public Strategy newStrategy( Class<?> c ) throws IOException
     {
         return newStrategy( c, null );
     }
     
+   /**
+    * Creation of a new component strategy handler for a supplied class.
+    * @param c the implementation class
+    * @param name the strategy instance name
+    * @return the new strategy handler
+    * @exception IOException if an error occurs in strategy creation
+    */
     public Strategy newStrategy( Class<?> c, String name ) throws IOException
     {
         String spec = getComponentName( c, name );
@@ -76,6 +84,13 @@ public class ComponentStrategyHandler implements StrategyHandler
           CollectionPolicy.HARD, context, parts );
     }
     
+   /**
+    * Creation of a new component strategy handler for a supplied class.
+    * @param c the implementation class
+    * @param name the strategy instance name
+    * @return the new strategy handler
+    * @exception IOException if an error occurs in strategy creation
+    */
     public Component newComponent( Class<?> c, String name ) throws IOException
     {
         return (Component) newStrategy( c, name );
@@ -88,6 +103,7 @@ public class ComponentStrategyHandler implements StrategyHandler
     * @param resolver symbolic property resolver
     * @param partition the enclosing partition
     * @param query the query fragment to applied to the component context definition
+    * @param validate the validation policy
     * @return the strategy definition
     * @exception IOException if an I/O error occurs
     */

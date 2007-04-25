@@ -19,23 +19,15 @@
 package net.dpml.lang;
 
 import dpml.lang.ValueDecoder;
-import dpml.util.StandardClassLoader;
-import dpml.util.SystemClassLoader;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.net.URI;
-
 import dpml.lang.Classpath;
+import dpml.util.StandardClassLoader;
 import dpml.util.Category;
-
-import net.dpml.util.Logger;
-import net.dpml.util.Resolver;
-import dpml.util.ElementHelper;
 import dpml.util.DefaultLogger;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.TypeInfo;
+import java.io.IOException;
+import java.net.URI;
+
+import net.dpml.util.Logger;
 
 /**
  * Interace implemented by part strategy handlers.
@@ -43,8 +35,13 @@ import org.w3c.dom.TypeInfo;
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
-class ClassLoaderHelper
+final class ClassLoaderHelper
 {
+    private ClassLoaderHelper()
+    {
+        // disabled
+    }
+    
     private static final ValueDecoder VALUE_DECODER = new ValueDecoder();
     
     private static final Logger LOGGER = new DefaultLogger( "dpml.lang" );

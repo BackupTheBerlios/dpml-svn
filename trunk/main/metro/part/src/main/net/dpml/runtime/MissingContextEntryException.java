@@ -18,14 +18,7 @@
 
 package net.dpml.runtime;
 
-import net.dpml.lang.DecodingException;
-
-import dpml.util.ElementHelper;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 /**
  * Exception thrown if a solution for a required context entry is not found.

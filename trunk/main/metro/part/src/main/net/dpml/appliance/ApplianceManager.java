@@ -34,6 +34,7 @@ public interface ApplianceManager extends Remote
    /**
     * Returns the codebase URI as a string.
     * @return the codebase uri
+    * @exception RemoteException if a RMI error occurs
     */
     String getCodebaseURI() throws RemoteException;
 }

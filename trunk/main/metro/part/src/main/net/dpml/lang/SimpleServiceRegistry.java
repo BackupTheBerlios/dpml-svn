@@ -18,10 +18,6 @@
 
 package net.dpml.lang;
 
-import java.util.ServiceLoader;
-
-import net.dpml.lang.ServiceRegistry;
-
 /**
  * Simple service registry implementation that selects the first service 
  * that is type assignable from the list of service instance supplied to 
@@ -64,6 +60,8 @@ public class SimpleServiceRegistry implements ServiceRegistry
     * match is found and a parent registry has been delclared, the lookup
     * request is passed onto the parent registry, otherwise null is 
     * returned.
+    * @param type the service type
+    * @return an instance of the type or null if the type could not be resolved
     */
     public <T>T lookup( Class<T> type )
     {

@@ -26,12 +26,16 @@ import org.acme.SingletonWidget;
 import org.acme.Widget;
 
 /**
- *
+ * Singleton testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class SingletonTestCase extends AbstractTestCase
 {
+   /**
+    * Validate singleton equality.
+    * @exception Exception if an error occurs
+    */
     public void testEquality() throws Exception
     {
         Component component = load( Component.class, "singleton.xml", "singleton" );

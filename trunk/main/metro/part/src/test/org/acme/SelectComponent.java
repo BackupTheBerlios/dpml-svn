@@ -18,35 +18,70 @@
 
 package org.acme;
 
-import java.util.List;
-
 import net.dpml.util.Logger;
 
 import net.dpml.runtime.Component;
 import net.dpml.runtime.Provider;
 
 /**
+ * Test ciomponent used to validate the sue of provider and component 
+ * class references in a parts interface.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class SelectComponent
 {
+   /**
+    * Parts definition.
+    */
     public interface Parts
     {
+       /**
+        * Get all components implemeting the Widget service.
+        * @return the widget array
+        */
         Widget[] getWidgets();
+        
+       /**
+        * Get an array of providers from sub-components that are 
+        * candidate providers for the supplied service type.
+        * @param type the service type
+        * @return the provider array
+        */
         Provider[] getProviders( Class type );
+        
+       /**
+        * Get an array of components from sub-components that are 
+        * candidate providers for the supplied service type.
+        * @param type the service type
+        * @return the component array
+        */
         Component[] getComponents( Class type );
+        
+       /**
+        * Get all of the sub-components.
+        * @return the component array
+        */
         Component[] getAllComponents();
     }
     
     private final Parts m_parts;
     
+   /**
+    * Component consturctor.
+    * @param logger the assigned logging channel
+    * @param parts the container provider parts implementation
+    */
     public SelectComponent( Logger logger, Parts parts )
     {
         logger.info( "instantiated" );
         m_parts = parts;
     }
     
+   /**
+    * Get the parts implementation (for the testcase).
+    * @return the parts
+    */
     public Parts getParts()
     {
         return m_parts;

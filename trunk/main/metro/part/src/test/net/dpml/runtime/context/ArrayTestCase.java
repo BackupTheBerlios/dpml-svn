@@ -21,21 +21,24 @@ package net.dpml.runtime.context;
 import net.dpml.runtime.AbstractTestCase;
 
 import org.acme.ArrayWidget;
-import org.acme.Widget;
 
 /**
- *
+ * Context array testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class ArrayTestCase extends AbstractTestCase
 {
+   /**
+    * Validate array context argument.
+    * @exception Exception if an error occurs
+    */
     public void testEquality() throws Exception
     {
         ArrayWidget widget = 
           load( ArrayWidget.class, "array.xml", "array" );
         
-        char[] chars = new char[]{ 'h','e','l','l','o'};
+        char[] chars = new char[]{'h','e','l','l','o'};
         char[] result = widget.getContext().getMessage();
         assertEquals( "length", chars.length, result.length );
         for( int i=0; i<chars.length; i++ )

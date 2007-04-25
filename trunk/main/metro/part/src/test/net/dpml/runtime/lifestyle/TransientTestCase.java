@@ -21,19 +21,22 @@ package net.dpml.runtime.lifestyle;
 import net.dpml.annotation.LifestylePolicy;
 import net.dpml.runtime.AbstractTestCase;
 
-import net.dpml.runtime.Component;
 import net.dpml.runtime.ComponentStrategy;
 
 import org.acme.DefaultWidget;
 import org.acme.Widget;
 
 /**
- *
+ * Transitent testcase.
  * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  * @version @PROJECT-VERSION@
  */
 public class TransientTestCase extends AbstractTestCase
 {
+   /**
+    * Validate transient inequality.
+    * @exception Exception if an error occurs
+    */
     public void testEquality() throws Exception
     {
         ComponentStrategy component = load( ComponentStrategy.class, "transient.xml", "transient" );

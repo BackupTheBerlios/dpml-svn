@@ -20,14 +20,12 @@ package net.dpml.runtime;
 
 import java.util.Map;
 import java.beans.Introspector;
-import java.beans.Expression;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import net.dpml.annotation.Context;
 import net.dpml.runtime.Directive.Resolvable;
-import dpml.lang.Value;
 
 import org.w3c.dom.Element;
 

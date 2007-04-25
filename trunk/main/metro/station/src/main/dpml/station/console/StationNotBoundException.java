@@ -20,9 +20,6 @@ package dpml.station.console;
 
 import net.dpml.station.StationException;
 
-import org.w3c.dom.Element;
-
-
 /**
  * Exception thrown when an attempt is made to reference an unbound station.
  *

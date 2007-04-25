@@ -21,30 +21,12 @@ package dpml.appliance;
 import dpml.state.NullState;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.net.URI;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.MBeanException;
-import javax.management.InstanceAlreadyExistsException;
-
 import net.dpml.appliance.Appliance;
-import net.dpml.appliance.ApplianceListener;
 import net.dpml.appliance.ApplianceEvent;
-import net.dpml.appliance.ApplianceException;
 import net.dpml.appliance.ApplianceManager;
-
-import net.dpml.lang.Strategy;
 
 import net.dpml.runtime.Component;
 import net.dpml.runtime.ComponentEvent;
@@ -54,8 +36,6 @@ import net.dpml.runtime.ProviderEvent;
 import net.dpml.runtime.Status;
 
 import net.dpml.state.State;
-import net.dpml.state.StateEvent;
-import net.dpml.state.StateListener;
 
 import net.dpml.util.Logger;
 
@@ -72,6 +52,12 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
     private Provider m_provider;
     private Object m_instance;
     
+   /**
+    * Creation of a new appliance.
+    * @param logger the assigned logging channel
+    * @param component the component to manage as an appliance
+    * @exception IOException if an IO error occurs
+    */
     public StandardAppliance( 
       final Logger logger, final Component component ) throws IOException
     {
@@ -86,6 +72,7 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
    /**
     * Return the current state of the instance.
     * @return the current state
+    * @exception RemoteException if a remote IO error occurs
     */
     public State getState() throws RemoteException
     {
@@ -99,6 +86,11 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
         }
     }
     
+   /**
+    * Return the appliance name
+    * @return the name
+    * @exception RemoteException if a remote IO error occurs
+    */
     public String getName() throws RemoteException
     {
         return m_component.getName();
@@ -108,7 +100,7 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
     * Return a value assignable to the supplied remote type or null if the type
     * cannot be resolved from this strategy.
     * @param c the target class
-    * @return an instance of the class or null
+    * @return an instance of the class or null if the class is not recognized
     * @exception IOException if an IO error occurs
     */
     public <T>T getContentForClass( Class<T> c ) throws IOException
@@ -130,7 +122,10 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
         }
     }
 
-
+   /**
+    * Commission the appliance.
+    * @exception IOException if an eror occurs during commissioning
+    */
     public void commission() throws IOException
     {
         synchronized( m_component )
@@ -145,6 +140,12 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
         }
     }
     
+   /**
+    * Decommission the appliance.
+    * @param timeout the timeout duration
+    * @param units the units of measurement
+    * @exception RemoteException if a remoting error occurs
+    */
     protected void decommission( long timeout, TimeUnit units ) throws RemoteException
     {
         synchronized( m_component )
@@ -189,6 +190,9 @@ public class StandardAppliance extends AbstractAppliance implements Appliance, A
     }
     */
 
+   /**
+    * An internal component listener.
+    */
     private class InternalComponentListener implements ComponentListener
     {
         private Appliance m_appliance;

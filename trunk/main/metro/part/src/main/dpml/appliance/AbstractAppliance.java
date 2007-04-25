@@ -19,42 +19,18 @@
 package dpml.appliance;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.net.URI;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.MBeanException;
-import javax.management.InstanceAlreadyExistsException;
-
 import net.dpml.appliance.Appliance;
 import net.dpml.appliance.ApplianceListener;
 import net.dpml.appliance.ApplianceEvent;
-import net.dpml.appliance.ApplianceException;
-import net.dpml.appliance.ApplianceManager;
-
-import net.dpml.lang.Strategy;
-
-import net.dpml.runtime.Component;
-import net.dpml.runtime.ComponentEvent;
-import net.dpml.runtime.ComponentListener;
-import net.dpml.runtime.Provider;
-import net.dpml.runtime.ProviderEvent;
-import net.dpml.runtime.Status;
-
-import net.dpml.state.State;
-import net.dpml.state.StateEvent;
-import net.dpml.state.StateListener;
 
 import net.dpml.util.Logger;
 
@@ -65,6 +41,10 @@ import net.dpml.util.Logger;
  */
 public abstract class AbstractAppliance extends UnicastRemoteObject
 {
+   /**
+    * Set a shutdown hook to handle decommissioning of the supplied appliance.
+    * @param appliance the appliance to decomission on shutdown
+    */
     protected void setShutdownHook( final Appliance appliance )
     {
         Runtime.getRuntime().addShutdownHook(
@@ -92,6 +72,12 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
 
     private boolean m_commissioned = false;
     
+   /**
+    * Creation of a new abstract appliance.
+    * @param logger the assigned logging channel
+    * @param uri the uri defining the appliance data-source
+    * @exception IOException if an IO error occurs
+    */
     public AbstractAppliance( final Logger logger, final URI uri ) throws IOException
     {
         super();
@@ -115,6 +101,10 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
         m_logger = logger;
     }
     
+   /**
+    * Return the codebase uri.
+    * @return the codebase uri
+    */
     public String getCodebaseURI()
     {
         return m_codebase.toASCIIString();
@@ -147,6 +137,10 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
         m_listeners.remove( listener );
     }
     
+   /**
+    * Returns the commissioned state of the appliance.
+    * @return TRUE if the appliance is commissioned
+    */
     public boolean isCommissioned()
     {
         synchronized( this )
@@ -155,6 +149,10 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
         }
     }
     
+   /**
+    * Commission the appliance.
+    * @exception IOException if an IO error occurs during appliance commissioning
+    */
     public void commission() throws IOException
     {
         synchronized( this )
@@ -163,11 +161,21 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
         }
     }
     
+   /**
+    * Decomission the appliance.
+    * @exception RemoteException if an IO error occurs during appliance decommissioning
+    */
     public void decommission() throws RemoteException
     {
         decommission( 10, TimeUnit.SECONDS );
     }
     
+   /**
+    * Decomission the appliance using the supplied timeout constraint.
+    * @param timeout the timeout duration
+    * @param units the timeout units of measurement
+    * @exception RemoteException if an IO error occurs during appliance decommissioning
+    */
     protected void decommission( long timeout, TimeUnit units ) throws RemoteException
     {
         synchronized( this )
@@ -198,11 +206,19 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
         }
     }
     
+   /**
+    * Return the assigned logging channel.
+    * @return the logging channel
+    */
     protected Logger getLogger()
     {
         return m_logger;
     }
     
+   /**
+    * Process an appliance event.
+    * @param event the event
+    */
     protected void processEvent( ApplianceEvent event )
     {
         Logger logger= getLogger();
@@ -212,6 +228,9 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
         }
     }
     
+   /**
+    * Appliance event dispatch handler.
+    */
     private static class ApplianceEventDistatcher implements Runnable
     {
         private Logger m_logger;
@@ -225,6 +244,9 @@ public abstract class AbstractAppliance extends UnicastRemoteObject
             m_event = event;
         }
         
+       /**
+        * Run the dispatch thread.
+        */
         public void run()
         {
             try

@@ -18,13 +18,8 @@
 
 package dpml.station.console;
 
-import dpml.appliance.ApplianceHelper;
-import dpml.station.connector.LocalConnector;
-import dpml.station.info.InfoDescriptor;
-import dpml.station.info.ProcessDescriptor;
-import dpml.station.info.ApplianceDescriptor;
+
 import dpml.station.util.OutputStreamReader;
-import dpml.station.util.StreamReader;
 import dpml.station.util.LoggingServer;
 
 import dpml.cli.Option;
@@ -33,19 +28,12 @@ import dpml.cli.CommandLine;
 import dpml.cli.OptionException;
 import dpml.cli.TooManyArgumentsException;
 import dpml.cli.commandline.Parser;
-import dpml.cli.util.HelpFormatter;
-import dpml.cli.DisplaySetting;
 import dpml.cli.builder.ArgumentBuilder;
 import dpml.cli.builder.GroupBuilder;
 import dpml.cli.builder.DefaultOptionBuilder;
 import dpml.cli.builder.CommandBuilder;
-import dpml.cli.option.PropertyOption;
 import dpml.cli.validation.URIValidator;
 import dpml.cli.validation.NumberValidator;
-
-import dpml.util.PropertyResolver;
-import dpml.util.DefaultLogger;
-import dpml.util.PID;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,22 +41,16 @@ import java.io.OutputStream;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.MalformedURLException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import java.rmi.ConnectException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
-import java.util.Properties;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.EnumSet;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -80,34 +62,17 @@ import javax.management.remote.JMXConnectorServer;
 import javax.management.remote.JMXConnectorServerFactory;
 import javax.management.remote.JMXServiceURL;
     
-import net.dpml.annotation.Context;
 import net.dpml.annotation.Component;
 
 import net.dpml.appliance.Appliance;
-import net.dpml.appliance.ApplianceError;
 import net.dpml.appliance.ApplianceException;
 import net.dpml.appliance.ApplianceListener;
-import net.dpml.appliance.ApplianceEvent;
-import net.dpml.appliance.ApplianceConnector;
-
-import net.dpml.lang.Strategy;
-import net.dpml.lang.ServiceRegistry;
-import net.dpml.lang.SimpleServiceRegistry;
-import net.dpml.lang.DuplicateKeyException;
-
-import net.dpml.runtime.ComponentListener;
-import net.dpml.runtime.ComponentEvent;
-import net.dpml.runtime.ProviderEvent;
-import net.dpml.runtime.Status;
 
 import net.dpml.station.Station;
 
 import net.dpml.state.State;
 
 import net.dpml.transit.Artifact;
-import net.dpml.transit.InvalidArtifactException;
-import net.dpml.transit.ContentHandler;
-import net.dpml.transit.Transit;
 
 import net.dpml.util.Logger;
 
@@ -158,6 +123,10 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         m_logger = logger;
     }
     
+   /**
+    * Return the source version support by this tool.
+    * @return the source version set
+    */
     public Set<SourceVersion> getSourceVersions()
     {
         return Collections.unmodifiableSet(
@@ -167,7 +136,12 @@ public class Main extends UnicastRemoteObject implements Tool, Station
     }
     
    /**
-    * Run the Metro tool.
+    * Run the Station tool.
+    * @param in the input stream
+    * @param out the output stream
+    * @param err the error stream
+    * @param arguments commandline arguments
+    * @return the execution result status
     */
     public int run( InputStream in, OutputStream out, OutputStream err, String... arguments )
     {
@@ -241,6 +215,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
    /**
     * Return the current state of the instance.
     * @return the current state
+    * @exception RemoteException if a RMI error occurs
     */
     public State getState() throws RemoteException
     {
@@ -306,6 +281,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
    /**
     * Returns the plan name.
     * @return the name
+    * @exception RemoteException if a RMI error occurs
     */
     public String getName() throws RemoteException
     {
@@ -316,6 +292,11 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         return m_plan.getName();
     }
     
+   /**
+    * Returns the codebase uri.
+    * @return the uri
+    * @exception RemoteException if a RMI error occurs
+    */
     public String getCodebaseURI() throws RemoteException
     {
         if( null == m_plan )
@@ -328,6 +309,11 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         }
     }
     
+   /**
+    * Returns the commissioned state of the plan.
+    * @return true if commissioned else false
+    * @exception RemoteException if a RMI error occurs
+    */
     public boolean isCommissioned() throws RemoteException
     {
         if( null == m_plan )
@@ -352,71 +338,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         int port = getPortValue( line, Registry.REGISTRY_PORT );
         if( line.hasOption( SERVER_COMMAND ) )
         {
-            Registry registry = resolveRegistry( port );
-            
-            LoggingServer.init();
-            
-            //m_jmx = getJMXServiceURL( port );
-            //m_server = getJMXConnectorServer( m_jmx );
-            //m_server.start();
-            
-            URI uri = getURI( line );
-            m_thread = Thread.currentThread();
-            
-            URL url = Artifact.toURL( uri );
-            ClassLoader current = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
-            if( getLogger().isTraceEnabled() )
-            {
-                getLogger().trace( "resolving plan [" + url + "]" );
-            }
-            try
-            {
-                m_plan = (Appliance) url.getContent( new Class[]{ Appliance.class } );
-            }
-            finally
-            {
-                Thread.currentThread().setContextClassLoader( current );
-            }
-            if( null == m_plan )
-            {
-                if( getLogger().isErrorEnabled() )
-                {
-                    final String error =
-                      "Unable to resolve ["
-                      + url
-                      + "] to an appliance.";
-                    getLogger().error( error );
-                }
-                return -1;
-            }
-            
-            registry.bind( name, this );
-            
-            try
-            {
-                if( getLogger().isTraceEnabled() )
-                {
-                    getLogger().trace( "commissioning plan" );
-                }
-                m_plan.commission();
-                if( getLogger().isTraceEnabled() )
-                {
-                    getLogger().trace( "plan commissioning complete" );
-                }
-                return 1;
-            }
-            catch( Exception e )
-            {
-                final String error = 
-                  "Plan deployment error.";
-                if( getLogger().isErrorEnabled() )
-                {
-                    getLogger().error( error, e );
-                }
-                m_plan.decommission();
-                return -1;
-            }
+            return executeInServerMode( name, port, line );
         }
         else if( line.hasOption( STARTUP_COMMAND ) )
         {
@@ -522,51 +444,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         }
         else if( line.hasOption( INFO_COMMAND ) )
         {
-            try
-            {
-                Station station = getStation( port );
-                System.out.println( "Station running on port [" + port + "]" );
-                System.out.println( "Codebase: " + station.getCodebaseURI() );
-                
-                Appliance[] children = station.getChildren();
-                int n = children.length;
-                
-                System.out.println( "Entries: " + children.length );
-                
-                if( n > 0 )
-                {
-                    System.out.println( "" );
-                    int i=1;
-                    for( Appliance appliance : children )
-                    {
-                        System.out.println( 
-                          "(" 
-                          + i 
-                          + ") " 
-                          + appliance.getName() 
-                          + " ["
-                          + appliance.getState().getName()
-                          + "] " 
-                          + appliance.getCodebaseURI() 
-                        );
-                    }
-                }
-            }
-            catch( StationNotBoundException e )
-            {
-                if( getLogger().isInfoEnabled() )
-                {
-                    getLogger().info( "Station not bound on port [" + port + "]"  );
-                }
-            }
-            catch( ConnectException e )
-            {
-                if( getLogger().isInfoEnabled() )
-                {
-                    getLogger().info( "Station not running" );
-                }
-            }
-            return 0;
+            return executeInfo( port );
         }
         else
         {
@@ -580,12 +458,130 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         }
     }
     
+    private int executeInfo( int port ) throws Exception
+    {
+        try
+        {
+            Station station = getStation( port );
+            System.out.println( "Station running on port [" + port + "]" );
+            System.out.println( "Codebase: " + station.getCodebaseURI() );
+            
+            Appliance[] children = station.getChildren();
+            int n = children.length;
+            
+            System.out.println( "Entries: " + children.length );
+            
+            if( n > 0 )
+            {
+                System.out.println( "" );
+                int i=1;
+                for( Appliance appliance : children )
+                {
+                    System.out.println( 
+                      "(" 
+                      + i 
+                      + ") " 
+                      + appliance.getName() 
+                      + " ["
+                      + appliance.getState().getName()
+                      + "] " 
+                      + appliance.getCodebaseURI() 
+                    );
+                }
+            }
+        }
+        catch( StationNotBoundException e )
+        {
+            if( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Station not bound on port [" + port + "]"  );
+            }
+        }
+        catch( ConnectException e )
+        {
+            if( getLogger().isInfoEnabled() )
+            {
+                getLogger().info( "Station not running" );
+            }
+        }
+        return 0;
+    }
+    
+    private int executeInServerMode( String name, int port, CommandLine line ) throws Exception
+    {
+        Registry registry = resolveRegistry( port );
+        
+        LoggingServer.init();
+        
+        //m_jmx = getJMXServiceURL( port );
+        //m_server = getJMXConnectorServer( m_jmx );
+        //m_server.start();
+        
+        URI uri = getURI( line );
+        m_thread = Thread.currentThread();
+        
+        URL url = Artifact.toURL( uri );
+        ClassLoader current = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+        if( getLogger().isTraceEnabled() )
+        {
+            getLogger().trace( "resolving plan [" + url + "]" );
+        }
+        try
+        {
+            m_plan = (Appliance) url.getContent( new Class[]{Appliance.class} );
+        }
+        finally
+        {
+            Thread.currentThread().setContextClassLoader( current );
+        }
+        if( null == m_plan )
+        {
+            if( getLogger().isErrorEnabled() )
+            {
+                final String error =
+                  "Unable to resolve ["
+                  + url
+                  + "] to an appliance.";
+                getLogger().error( error );
+            }
+            return -1;
+        }
+        
+        registry.bind( name, this );
+        
+        try
+        {
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "commissioning plan" );
+            }
+            m_plan.commission();
+            if( getLogger().isTraceEnabled() )
+            {
+                getLogger().trace( "plan commissioning complete" );
+            }
+            return 1;
+        }
+        catch( Exception e )
+        {
+            final String error = 
+              "Plan deployment error.";
+            if( getLogger().isErrorEnabled() )
+            {
+                getLogger().error( error, e );
+            }
+            m_plan.decommission();
+            return -1;
+        }
+    }
+    
     private JMXServiceURL getJMXServiceURL( int port ) throws MalformedURLException
     {
         return new JMXServiceURL( 
             "service:jmx:rmi:///jndi/rmi://localhost:" 
             + port 
-            + "/dpml-station-jmx");
+            + "/dpml-station-jmx" );
     }
     
     private JMXConnectorServer getJMXConnectorServer( JMXServiceURL url ) throws IOException
@@ -617,6 +613,10 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         }
     }
     
+   /**
+    * Station shutdown handler.
+    * @exception RemoteException if an RMI remoting exception occurs
+    */
     public void shutdown() throws RemoteException
     {
         if( null != m_plan )
@@ -651,7 +651,10 @@ public class Main extends UnicastRemoteObject implements Tool, Station
             }
         }
     }
-    
+   
+   /**
+    * Terminator class.
+    */
     private class Terminator extends Thread
     {
         private Thread m_thread;

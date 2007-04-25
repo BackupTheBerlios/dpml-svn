@@ -19,13 +19,7 @@
 package net.dpml.lang;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
-
-import net.dpml.state.StateListener;
-
-import net.dpml.util.Logger;
-import dpml.lang.Disposable;
 
 /**
  * Simple resource deployment strategy.
@@ -60,11 +54,19 @@ public class AntlibStrategy extends Strategy
         m_path = path;
     }
     
+   /**
+    * Return the strategy name.
+    * @return the name
+    */
     public String getName()
     {
         return m_urn;
     }
     
+   /**
+    * Return the strategy priority.
+    * @return the priority value
+    */
     public int getPriority()
     {
         return 0;
@@ -121,11 +123,24 @@ public class AntlibStrategy extends Strategy
         return m_path;
     }
     
+   /**
+    * Return true if the strategy is a candidate for the supplied class.
+    * This calss will always throw a UnsupportedOperationException (anltib
+    * support is not applicable).
+    *
+    * @param type a service type
+    * @return the supported status flag
+    */ 
     public boolean isaCandidate( Class<?> type )
     {
         throw new UnsupportedOperationException();
     }
 
+   /**
+    * Strategy initialization (not used).
+    *
+    * @param registry a service registry
+    */ 
     public void initialize( ServiceRegistry registry )
     {
         // not required
