@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Application Profiles</title>
+  </properties> 
+
+  <body>
+
+    <section name="Plan Directive">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of a series of zero or deployment entries.
+        </p>
+
+      </subsection>
+
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Short name identifying the plan.</td>
+          </tr>
+          <tr>
+            <td><tt>title</tt></td>
+            <td>Descriptive type of the plan.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+        
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="appliance/index.html">appliance</a></tt></td>
+            <td>
+            Declaration of an embedded jvm deployment screnario.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="include.html">include</a></tt></td>
+            <td>
+            Declaration of a deployment entry by reference. Zero or more include elements
+            may be declared.  Include entries may reference stand-alone appliance or part
+            datatypes.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>
+

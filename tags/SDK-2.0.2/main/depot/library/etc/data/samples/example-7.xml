@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
+
+    <module name="acme">
+      <module file="widget.xml"/>
+    </module>
+
+</index>

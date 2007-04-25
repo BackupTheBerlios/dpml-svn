@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="profile">
+
+  <info title="DPML Component Profile Tutorial">
+    <description>Demonstration of an embedded component deployment profile.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" name="simple" test="true" source="target/simple.xml"/>
+    <type id="part" name="override" test="true" source="target/override.xml"/>
+  </types>
+    
+  <dependencies>
+    <build>
+      <include key="logging"/>
+    </build>
+    <runtime>
+      <include ref="dpml/metro/dpml-metro-part"/>
+    </runtime>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+    
+</project>
+

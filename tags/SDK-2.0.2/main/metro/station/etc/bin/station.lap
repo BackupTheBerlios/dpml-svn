@@ -1,0 +1,17 @@
+# 
+# This file contains the runtime configuration of the Janel java launcher application.
+#
+
+-Djava.ext.dirs=${FOUND_JAVA_HOME}\lib\ext;${env.DPML_HOME}\share\lib\ext
+-Djava.endorsed.dirs=${env.DPML_HOME}\share\lib\endorsed
+-Djava.system.class.loader=dpml.util.SystemClassLoader
+-Djava.security.policy=${env.DPML_HOME}\share\bin\station.policy
+-Djava.protocol.handler.pkgs=dpml.transit
+-Djava.rmi.server.RMIClassLoaderSpi=dpml.util.FederatingClassLoader
+-Dcom.sun.management.jmxremote
+-Ddpml.class.path=link:jar:dpml/metro/dpml-metro-part
+-Ddpml.depot.application=link:part:dpml/metro/dpml-metro-station
+-Ddpml.jmx.enabled=true
+janel.main.class=dpml.util.Main
+janel.min.java.version=1.6.0
+janel.sysprop.process.id=true

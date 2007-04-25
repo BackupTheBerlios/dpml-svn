@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="metro"
+    xmlns="dpml:library" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="dpml:part">
+    
+  <dependencies>
+    <build>
+      <include ref="dpml/depot"/>
+    </build>
+  </dependencies>
+
+  <project file="part/project.xml"/>
+  <project file="testing/sample/project.xml"/>
+  <project file="appliance/project.xml"/>
+  <project file="main/project.xml"/>
+  <project file="connector/project.xml"/>
+  <project file="testing/test/project.xml"/>
+  <project file="testing/plus/project.xml"/>
+  <project file="station/project.xml"/>
+
+</module>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>Ant Javadoc Archive</title>
+    <description>Javadocs for the Ant System.</description>
+  </properties>
+
+  <body>
+
+    <section name="Ant Javadocs">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/org/apache/ant/1.7.0/index.html">1.7.0</a></td>
+          <td>Latest Ant system APIs.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/ant/1.6.5/index.html">1.6.5</a></td>
+          <td>Version 1.6.5 of the Ant build system.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/ant/1.6.4/index.html">1.6.4</a></td>
+          <td>Version 1.6.4 of the Ant build system.</td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

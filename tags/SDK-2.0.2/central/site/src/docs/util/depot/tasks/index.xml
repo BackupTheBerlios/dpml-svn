@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot</title>
+  </properties> 
+
+  <body>
+
+    <section name="Depot Tasks">
+
+      <pre>@DEPOT-TOOLS-ANT-URI@</pre>
+
+      <subsection name="Description">
+
+        <p>
+        The Depot Tools Antlib provides a collection of tasks and processors
+        that leverage information form project definitions.  Generally 
+        speaking you will not neeed to reference tasks directly - instead, 
+        projects declare produced types and from this information build
+        listeners (processors) are automatically assigned to the project 
+        to produce the deliverable artifact (such as jar files, plugin 
+        metadata, etc.).
+        </p>
+
+        <p>
+        Core tasks provide support for build preperation, parameterized 
+        filters, compilation, unit testing, plugin meta-data generation, 
+        multi-project builds, and loading of 'library' aware plugins.
+        </p>
+
+        <p><i>Example build file:</i></p>
+
+<pre><![CDATA[
+<project name="demo" default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+
+  <x:import uri="local:template:dpml/tools/standard"/>
+  ....
+
+</project>
+]]></pre>
+ 
+      </subsection>
+
+      <subsection name="Antlib Namespace"><source>dpml:tools</source></subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

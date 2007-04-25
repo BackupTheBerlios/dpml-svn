@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro" class="org.acme.reference.AggregatingComponent" name="reference">
+    <parts>
+      <part key="hello" uri="link:part:dpml/metro/dpml-metro-blade">
+        <param key="message" value="OK"/>
+      </part>
+    </parts>
+  </component>
+
+</part>

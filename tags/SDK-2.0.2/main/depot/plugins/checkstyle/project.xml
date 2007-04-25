@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-depot-checkstyle">
+
+  <info title="DPML Checkstyle Plugin">
+    <description>Checkstyle plugin for Depot.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" alias="true" source="target/resource.xml"/>
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/depot/dpml-depot-builder"/>
+      <include uri="artifact:jar:checkstyle/checkstyle#4.3">
+        <property name="project.api.host" value="http://api.dpml.net"/>
+        <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
+      </include>
+      <include uri="artifact:jar:commons-logging/commons-logging#1.0.4" />
+      <include uri="artifact:jar:commons-collections/commons-collections#3.1" />
+      <include uri="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
+      <include uri="artifact:jar:bcel/bcel#5.1" />
+      <include uri="artifact:jar:antlr/antlr#2.7.2" />
+    </runtime>
+  </dependencies>
+    
+</project>

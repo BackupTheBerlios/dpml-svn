@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Build Automation</title>
+  </properties>
+
+  <body>
+
+    <section name="Build Automation using Templates">
+    
+        <p>
+        One of the nice features added to Ant 1.6 wassupport for 
+        the import of template build files. The Depot system comes with 
+        a default template that handles the establishment of a number of 
+        tasks that are project-aware.  Using information about a target 
+        project these tasks can handle the complete automation of code-base
+        preparation, compilation, packaging, testing and publication to the 
+        system cache.
+        </p>
+        
+      <subsection name="build.xml">
+      
+        <p>
+        Using a template we can simplify the build instructions down to 
+        the following:
+        </p>
+        
+<pre>
+&lt;project name="demo" default="install" xmlns:x="antlib:dpml.tools"&gt;
+
+  <font color="darkred">&lt;x:import uri="local:template:dpml/tools/standard"/&gt;</font>
+
+&lt;/project&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Building the project ..">
+      
+        <pre>
+$ cd central\tutorials\tooling\automation
+$ build
+
+-------------------------------------------------------------------------
+demo#SNAPSHOT
+-------------------------------------------------------------------------
+
+init:
+
+prepare:
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\automation\target
+[x:prepare] Created dir: D:\dpml\tutorials\tooling\automation\target\build\main
+[x:prepare] Copying 1 file to D:\dpml\central\tooling\automation\target\build\main
+
+build:
+    [javac] Created dir: D:\dpml\tutorials\tooling\automation\target\classes\main
+    [javac] Compiling 1 source file to D:\dpml\tutorials\tooling\automation\target\classes\main
+
+package:
+      [jar] Created dir: D:\dpml\tutorials\tooling\automation\target\deliverables\jars
+      [jar] Building jar: D:\dpml\tutorials\tooling\automation\target\deliverables\jars\demo-SNAPSHOT.jar
+      [jar] Creating md5 checksum
+
+test:
+
+install:
+[x:install] Copying 2 files to D:\system\dpml\data\cache
+
+BUILD SUCCESSFUL
+Total time: 3 seconds
+</pre>
+     
+      </subsection>
+      
+      <subsection name="Summary">
+
+        <p>
+        In the above example we have demonstrated an ability to completely automate the 
+        production of a jar file simply through the use of a template build file and 
+        a project codebase that follows a standard layout convention.  In this case we
+        are using a template provided by the Depot system (which is used to build the 
+        majority of DPML projects). The inclusion of a template is a basic 
+        Ant capability and you could easily write alternative templates based on 
+        pure ant or your own custom tasks.  Generally speaking when you increase the  
+        level of build automation you typically reduce build related errors and more
+        importantly you reduce the overall build maintenance overhead.
+        </p>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+  
+</document>
+

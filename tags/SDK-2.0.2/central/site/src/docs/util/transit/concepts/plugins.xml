@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+ Copyright 2004-2006 Stephen McConnell
+ Copyright 2005 David Leangen
+ Copyright 2004 Niclas Hedhman
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.dpml.net/central/about/legal/
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="david.leangen@konova.com">David Leangen</author>
+    <title>DPML Transit Plugins</title>
+  </properties>
+
+  <body>
+
+    <section name="Plugin Management">
+
+        <p>
+        In addition to the structural classloader information - the plugin file
+        may contain the declaration of a main class or an internal resource and
+        namespace. The resource path information is a special case used within the
+        Depot build system to support dynamic task loading.  The main class
+        declaration is the entry point for classic plugin class loading relative
+        to an established classloader.
+        </p>
+
+        <p>
+        The Transit repository service provides support for class creation and
+        object instantiation.  Class creation is typically used by applications
+        that handle a particular semantics concerning a plugin model whereas
+        the Transit object instantiation provides a simple but flexible model
+        suitable for control over selectable sub-system strategies (e.g. the
+        loading of a logging system or application runtime).
+        </p>
+
+        <p>
+        The following code fragments demonstrates the creation of a plugin instance
+        using Transit's standard plugin loader.
+        </p>
+
+        <p>
+          We create a API project called hello-api, which contains the following
+          interface.
+        </p>
+<source>
+/**
+ * API of the Hello service.
+ */
+public interface Hello
+{
+    void announce();
+}
+</source>
+        <p>
+          And then we need an implementation of the API, and we call that
+          hello-impl.
+        </p>
+<source>
+/**
+ * Implementation of the Hello API.
+ */
+public class HelloImpl
+    implements Hello
+{
+    private String m_message;
+
+    public Hello( String message )
+    {
+        m_message = message;
+    }
+
+    public void announce()
+    {
+        System.out.println( m_message );
+    }
+}
+</source>
+
+   <p>
+    so we need to do the following from the class that loads the plugin;
+   </p>
+
+<source>
+  URI uri = new URI( "artifact:part:mycompany/thisproject/hello-impl#1.4.1" );
+  Object[] args = new Object[] { "Hello, World!" };
+  Part part = Part.load( uri );
+  Hello plugin = (Hello) part.instantiate( args );
+  plugin.announce();
+</source>
+
+        <p>
+          For this to work, you will need to create the plugin meta
+          descriptor. The easiest way is to use the DPML Depot build system,
+          but it can also be done manually or with other tools. The above
+          would need a simple descriptor like this;
+        </p>
+
+<pre><![CDATA[<?xml version="1.0"?>
+
+<part xmlns="dpml:part"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <info title="Example">
+    <description>An example plugin.</description>
+  </info>
+
+  <plugin class="HelloImpl">
+
+  <classpath>
+    <public>
+      <uri>artifact:jar:mycompany/thisproject/hello-api#1.4.1</uri>
+    </public>
+    <private>
+      <uri>artifact:jar:mycompany/thisproject/hello-impl#1.4.1</uri>
+    </private>
+  </classpath>
+
+</part>]]></pre>
+        <p>
+          Now, the beauty of Transit is that IF the hello-api artifact is present
+          in the parent classloader (or higher), the API classloader will NOT
+          receive an additional instance of the Jar. This means that, if
+          the plugin user have the hello-api already loaded it is not added to the
+          API classloader, and the correct classloader management is ensured.
+          Furthermore, if any of the Classloaders in the chain
+          becomes empty, i.e. no new URLs not present in the parent structure,
+          then the Classloader in question is not created.
+        </p>
+
+    </section>
+
+  </body>
+</document>

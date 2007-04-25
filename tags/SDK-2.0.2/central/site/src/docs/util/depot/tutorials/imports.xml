@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Using Module Imports</title>
+  </properties>
+
+  <body>
+
+    <section name="Using Module Imports">
+
+      <p>
+      This tutorial introduces the use of external modules as a reliable
+      method of declaring dependencies.  In this example we are replacing 
+      the somewhere error-prone manual declaration of test-scope dependnecies
+      with a single resource reference defined in an external module.
+      </p>
+      
+      <subsection name="index.xml">
+      
+        <p>
+        The first update to our index file is the addition of a module
+        import statement.  The import statement is directing Depot to load 
+        a module defintion for the Ant system which contains information about
+        Ant resources and their respective dependencies.  The second change 
+        is the replacement of the manual uri-based dependency includes with
+        a single resource reference to <tt>org/apache/ant/ant-junit</tt>.  When Depot
+        resolves the transitive dependencies it will take into account the 
+        dependencies declared by the <tt>ant/ant-junit</tt> resource resulting
+        in a reliable and complete dependency set.  We have also include the 
+        dpml module in the includes directive (mainly because the Transit 
+        core package includes a better log formatter than the default 
+        provided in the JDK).
+        </p>
+        
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="dpml:library"&gt;
+
+  <font color="darkred">&lt;imports&gt;
+    &lt;import uri="link:module:ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
+  &lt;/imports&gt;</font>
+
+  &lt;project name="demo" basedir="."&gt;
+    &lt;properties&gt;
+      &lt;property name="location" value="New York"/&gt;
+      &lt;property name="message" value="Hello from ${user.name} in ${location}"/&gt;
+    &lt;/properties&gt;
+    &lt;types&gt;
+      &lt;type id="jar" alias="true"/&gt;
+    &lt;/types&gt;
+    &lt;dependencies&gt;
+      &lt;test&gt;
+        <font color="darkred">&lt;include ref="org/apache/ant/ant-junit"/&gt;
+        &lt;include ref="dpml/transit/dpml-transit-main"/&gt;</font>
+      &lt;/test&gt;
+    &lt;/dependencies&gt;
+    &lt;filters&gt;
+      &lt;filter token="MESSAGE" value="${message}"/&gt;
+    &lt;/filters&gt;
+    &lt;dependencies&gt;
+
+  &lt;/project&gt;
+
+&lt;/index&gt;
+</pre>
+      
+      </subsection>
+      
+      <subsection name="Listing the expanded dependencies ...">
+
+        <p>
+        The following command request a listing of our sample projects 
+        dependencies.  The <tt>-expand</tt> commandline option is telling
+        Depot that we want to see the fully expanded dependencies (i.e.
+        the dependnecies that will end up in the test classloader).
+        </p>
+
+<pre>
+$ cd tutorials\tooling\import
+$ build -list -expand
+
+Listing project: demo
+
+project:demo#SNAPSHOT
+
+  version: SNAPSHOT
+  basedir: D:\dpml\tutorials\tooling\import
+  types: (1)
+    jar
+  test providers: (6)
+    resource:org/apache/ant/ant-launcher#1.6.5
+    resource:org/apache/ant/ant-trax#1.6.5
+    resource:org/apache/ant/ant-xslp#1.6.5
+    resource:org/apache/ant/ant#1.6.5
+    resource:junit/junit#3.8.1
+    resource:org/apache/ant/ant-junit#1.6.5
+    resource:dpml/transit/dpml-transit-main#SNAPSHOT</pre>
+
+      </subsection>
+
+      <subsection name="Summary">
+      
+        <p>
+        This tutorial has presented the benefits arising from the usage of 
+        modules - and in-effect, leveraging dependency information from external 
+        projects.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
+

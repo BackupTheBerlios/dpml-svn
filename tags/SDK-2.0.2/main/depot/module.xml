@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="depot" xmlns="dpml:library">
+  
+  <project file="library/project.xml"/>
+  <project file="build/project.xml"/>
+  <project file="tools/project.xml"/>
+  <project file="plugins/convert/project.xml"/>
+  <project file="plugins/checkstyle/project.xml"/>
+
+</module>

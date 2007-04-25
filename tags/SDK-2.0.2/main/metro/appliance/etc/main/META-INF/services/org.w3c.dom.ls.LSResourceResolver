@@ -1,0 +1,5 @@
+#
+# List of namespace resolvers within the dpml-lang-part artifact.
+#
+
+net.dpml.station.PlanNamespaceResolver

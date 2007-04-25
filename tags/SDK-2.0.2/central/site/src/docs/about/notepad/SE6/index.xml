@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document> 
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>SE6 and JMX</title>
+  </properties>
+  <body>
+    <section name="Transit on SE6 and JMX">
+
+      <p>
+Included below is a picture of the current progress with Transit running under the SE6 standard JMX console.
+      </p>
+      
+      <img src="/images/transit/transit-jmx.png"/>
+
+      <p>
+This has been built using Java 1.6.0-rc (b104).  Some initial problems were encountered related to classloading (something is different is happening in terms of system classloader semantics) and as a consequence I think that an SDK 1.0.4 release is justified - basically just a cleanup ensuring everything runs nice on SE6.
+      </p>
+
+      <p>
+Looking ahead - the potential introduction of a project into the DPML codebase that is dependent on SE6 raises some interesting issues.  Currently the DPML codebase is tied to JDK1.4 but the usage of javax.management (and the internal JMX server in SE6) raises a couple of potential directions - (a) the ability to declare optional projects within Depot, or (b) bundling JDK build support into Depot, or (c) assume that the runtime is build on SE6 but maintains runtime support for JRE1.4.  For the moment I'm working on assumption (c) but I'm thinking along the lines of option b (namely bundling multiple JVMs into the DPML SDK install and leveraging these in Depot via a forked per-project build process e.g. project X depends on JDK 1.4 while project Y depends on JDK 1.6).  The really interesting things will kick in when we look into automatic generation of MBeans based on data within parts, interfaces declared in component context data, and management interfaces, states, and transitions declared in state graphs - and beyond this - the automatic generation of SOA access points to applications deployed in the Station. The cool thing here is that we could enable projects to declare build requirements and minimum runtime requirements and we could select the appropriate JVM for building and the appropriate JVM for execution (or potentially the execution of unit tests against multiple JVMs).   
+
+      </p>
+      
+<p>Cheers, Steve.</p>
+
+<p><i>Stephen J. McConnell, DPML</i></p>
+
+    </section>
+  </body>
+</document>
+

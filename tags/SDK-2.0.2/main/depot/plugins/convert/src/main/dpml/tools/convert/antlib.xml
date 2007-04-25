@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<antlib>
+  <taskdef name="convert"   classname="de.java2html.anttasks.Java2HtmlTask"/>
+</antlib>

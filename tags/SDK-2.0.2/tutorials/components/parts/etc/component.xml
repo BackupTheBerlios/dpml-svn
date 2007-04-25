@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<component xmlns="dpml:metro" 
+    class="org.acme.Demo" 
+    name="demo">
+  <parts>
+    <component key="widget" class="org.acme.Widget" name="widget">
+      <context>
+        <entry key="color" method="BLUE"/>
+      </context>
+    </component>
+  </parts>
+</component>

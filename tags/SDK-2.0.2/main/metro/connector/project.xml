@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-metro-connector">
+
+  <info title="DPML Metro Station"/>
+  
+  <types>
+    <type id="jar"/>
+    <!--
+    <type id="part" source="etc/component.xml" alias="true"/>
+    <type id="part" source="etc/local.xml" alias="true" name="dpml-metro-local"/>
+    -->
+  </types>
+  
+  <dependencies>
+    <runtime>
+      <include ref="dpml/metro/dpml-metro-part"/>
+    </runtime>
+  </dependencies>
+  
+</project>
+

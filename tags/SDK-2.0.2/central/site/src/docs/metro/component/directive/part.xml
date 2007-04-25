@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro: Parts Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Part Reference Directive">
+
+      <subsection name="Description">
+        
+        <p>
+        A <tt>&lt;part&gt;</tt> elements enables the declaration of a single
+        nested component via specification of a part uri.  During construction 
+        of a component, a classloader chain will be constructured using the enclosing 
+        classloader as an anchor and a chain definition based on the supplied part
+        classpath definition.
+        </p>
+        
+      </subsection>
+      
+      <subsection name="Element Attributes">
+        <table>
+          <tr>
+            <td><tt>key</tt></td>
+            <td>A required key identifying the nested part.</td>
+          </tr>
+          <tr>
+            <td><tt>uri</tt></td>
+            <td>A required artifact uri resolvable to a part datastructure.</td>
+          </tr>
+        </table>
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt>param</tt></td>
+            <td><tt>0..n</tt> a key/value binding used to construct a uri query argument.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following XML fragment demonstrates a component directive containing a single 
+      nested part reference.  The example demonstrates the declaration of a context entry
+      query qualifier using a nested param value.
+      </p>
+
+<pre>
+  &lt;component xmlns="dpml:metro" name="demo" class="org.acme.Demo"&gt;
+    &lt;parts&gt;
+      <font color="darkred">&lt;part key="widget" uri="link:part:org/acme/org-acme-widget"&gt;
+        &lt;param key="message" value="Hello"/&gt;
+      &lt;/part&gt;</font>
+    &lt;/parts&gt;
+  &lt;/component&gt;
+</pre>
+
+    </section>
+    
+  </body>
+
+</document>

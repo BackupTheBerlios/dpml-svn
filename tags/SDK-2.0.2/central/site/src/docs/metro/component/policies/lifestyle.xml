@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Lifestyle Policy</title>
+  </properties> 
+
+  <body>
+
+    <section name="Lifestyle Policy">
+
+      <p>
+      A lifestyle policy has a direct impact on the number of instances
+      of a component that are created by the runtime.  The following table 
+      list the semantics of the respective lifestyle policies.
+      </p>
+
+      <table>
+
+        <tr>
+          <th>Policy</th><th>Description</th>
+        </tr>
+
+        <tr>
+          <td><tt>SINGLETON</tt></td>
+          <td>
+          The <tt>SINGLETON</tt> lifestyle policy dictates that only 
+          a single runtime instance will be created for the given 
+          component.  Components requesting the <tt>SINGLETON</tt> must
+          declare themselves as thread-safe capable. In effect the 
+          <tt>SINGLETON</tt> instance will be shared across multiple 
+          potentially concurrent threads.
+          </td>
+        </tr>
+        <tr>
+          <td><tt>THREAD</tt></td>
+          <td>
+          The <tt>THREAD</tt> lifestyle policy dictates that a new 
+          runtime instance of a component will be created per-identified 
+          thread.  As such, requests for service access by objects within
+          the same thread will share the same instance reference.  If a 
+          request is received from a new thread then a new instance of the 
+          component will be established and served to the requesting client.
+          </td>
+        </tr>
+        <tr>
+          <td><tt>TRANSIENT</tt></td>
+          <td>
+          The <tt>TRANSIENT</tt> lifestyle policy dictates that a new 
+          component instance will be created for every request.
+          </td>
+        </tr>
+
+      </table>
+    
+      <subsection name="Default Policy">
+
+      <p>
+      If the component type declares itself as thread-safe capable the 
+      default policy will be <tt>SINGLETON</tt> otherwise the <tt>THREAD</tt>
+      policy will be assigned.
+      </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

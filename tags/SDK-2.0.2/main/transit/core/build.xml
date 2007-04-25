@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project default="install" basedir="." 
+    xmlns:x="antlib:dpml.tools">
+    
+  <x:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="update">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.prefs}/dpml/transit"/>
+    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
+      <fileset dir="${basedir}/target/prefs"/>
+    </copy>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Shared Lib. ${dpml.share}/lib/ext
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.share}/lib/ext"/>
+    <copy preservelastmodified="true" toFile="${dpml.share}/lib/ext/${project.name}.jar" 
+      file="${project.deliverable.jar.path}" overwrite="true"/>
+  </target>
+
+</project>

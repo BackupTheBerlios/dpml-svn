@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="logging">
+
+  <info title="DPML Metro Logging Tutorial">
+    <description>Tutorial dealing with logging semantics.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" source="target/component.xml"/>
+  </types>
+    
+  <dependencies>
+    <build>
+      <include key="state"/>
+    </build>
+    <runtime>
+      <include ref="dpml/transit/dpml-transit-main"/>
+    </runtime>
+    <test>
+      <include ref="dpml/metro/dpml-metro-part"/>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+    
+</project>
+

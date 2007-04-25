@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Vitual Machine Environment Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="Vitual Machine Environment Descriptor">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of zero or more environment variables to be declared 
+        on creation of a new virtual machine.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="variable.html">variable</a></tt></td>
+            <td>
+            Declaration of an environment variable name and value.
+            </td>
+          </tr>
+        </table>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

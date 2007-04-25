@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<part xmlns="dpml:part">
+  
+  <info title="Depot Builder">
+    <description>
+    Ant project builder for Depot.
+    </description>
+  </info>
+  
+  <component xmlns="dpml:metro" type="dpml.tools.impl.StandardBuilder"
+    handler="net.dpml.runtime.ComponentStrategyHandler"/>
+  
+  <classpath>
+    <private>
+      <uri>artifact:jar:junit/junit#@JUNIT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant-launcher#@ANT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant#@ANT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant-trax#@ANT-VERSION@</uri>
+      <uri>artifact:jar:org/apache/ant/ant-junit#@ANT-VERSION@</uri>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-part#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/depot/dpml-depot-library#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/depot/dpml-depot-build#BOOTSTRAP</uri>
+      <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#BOOTSTRAP</uri>
+    </private>
+  </classpath>
+  
+</part>

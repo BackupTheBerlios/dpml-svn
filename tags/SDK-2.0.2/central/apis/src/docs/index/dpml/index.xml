@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Javadoc Archive</title>
+    <description>API repository for the DPML SDK.</description>
+  </properties>
+
+  <body>
+
+    <section name="DPML SDK Javadocs">
+    
+      <subsection name="Latest Version">
+        <table>
+          <tr>
+            <td><a href="@VERSION@/index.html">@VERSION@</a></td>
+            <td>Latest version of the DPML SDK on SE6.</td>
+          </tr>
+        </table>
+      </subsection>
+      
+      <subsection name="DPML SDK Javadoc Index">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/2.0.2/index.html">2.0.2</a></td>
+          <td>Functional update addressing part composition by uri reference. Includes
+              updated checkstyle handler backed by Checkstyle 4.3.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/2.0.1/index.html">2.0.1</a></td>
+          <td>Maintenace update addressing error handling and reporting improvements.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/2.0.0/index.html">2.0.0</a></td>
+          <td>Branch based on SE6 and open Javac compiler APIs.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/1.1.0/index.html">1.1.0</a></td>
+          <td>Updates SE6 support related to garbage collection semantics and improved
+            support for symbolic properties in component part definitions.</td>
+        </tr>
+        <tr>
+          <td><a href="1.0.5/index.html">1.0.5</a></td>
+          <td>Updates SE6 support with resolution of JMX issue when running under SE5.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/1.0.4/index.html">1.0.4</a></td>
+          <td>Maintence update supporting the SE6 runtime.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/1.0.3/index.html">1.0.3</a></td>
+          <td>Minor update to the Transit URL connection handler.</td>
+        </tr>        <tr>
+          <td><a href="http://api.dpml.net/dpml/1.0.2/index.html">1.0.2</a></td>
+          <td>Minor update to the Transit console handler.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/1.0.1/index.html">1.0.1</a></td>
+          <td>Updated version including improved build version management.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/dpml/1.0.0/index.html">1.0.0</a></td>
+          <td>First release of the DPML SDK.</td>
+        </tr>
+
+      </table>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

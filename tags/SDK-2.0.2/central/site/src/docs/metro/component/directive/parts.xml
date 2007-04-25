@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro: Parts Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Parts Directive">
+
+      <subsection name="Description">
+
+        <p>
+        A <tt>&lt;parts&gt;</tt> elements enables the declaration of 
+        0..n nested components.
+        </p>
+
+      </subsection>
+
+      <subsection name="Part Nested Elements">
+
+        <table>
+          <tr>
+            <td><a href="component.html"><tt>component</tt></a></td>
+            <td><tt>0..n</tt> nested components.</td>
+          </tr>
+          <tr>
+            <td><a href="part.html"><tt>part</tt></a></td>
+            <td><tt>0..n</tt> nested components references.</td>
+          </tr>
+        </table>
+
+      </subsection>
+      
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following XML fragment demonstrates a component directive containing a single nested part.
+      </p>
+
+<pre>
+  &lt;component xmlns="dpml:metro" name="demo" class="org.acme.Demo"&gt;
+    <font color="darkred">&lt;parts&gt;</font>
+      &lt;component key="widget" name="widget" class="org.acme.Widget"&gt;
+        &lt;context&gt;
+          &lt;entry key="color" method="BLUE"/&gt;
+        &lt;/context&gt;
+      &lt;/component&gt;
+    <font color="darkred">&lt;/parts&gt;</font>
+  &lt;/component&gt;
+</pre>
+
+    </section>
+    
+  </body>
+
+</document>

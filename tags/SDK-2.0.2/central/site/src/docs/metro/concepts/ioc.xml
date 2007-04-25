@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Inversion of Control Principals</title>
+  </properties> 
+
+  <body>
+
+    <section name="Inversion of Control">
+
+       <p>
+       Inversion of Control (IOC) is name given to the general principal
+       of removing responsibility from a component implementation 
+       concerning the sourcing and resolving of dependencies and resources. 
+       In effect the result of removing these concerns results in cleaner, simpler, 
+       and smaller components.
+       </p>
+
+      <subsection name="Resource Identification">
+
+         <p>
+         The first area of control "inversion" relates to the use of resource 
+         identifiers (URIs) in preference to resource locators (URLs).  A URI 
+         identifies the resource but does not expose information concerning 
+         location.  Through a collection of <a href="/util/transit/technical/index.html">
+         URI scheme handlers</a> the Metro platform provides the environment within 
+         which a component implementation can operate exclusively with URI 
+         references.  This moves potential resource handling limitations from a 
+         component by delegating the concern to an underlying resource management 
+         framework.
+         </p>
+
+      </subsection>
+
+
+      <subsection name="Dependency Injection">
+
+         <p>
+         A number of different techniques have emerged in recent years dealing
+         with the generic assembly overhead.  These include concepts such as 
+         "Service Locators" (typified by the Avalon Framework), "Constructor 
+         Injection" (PICO style), and Setter Injection (typified by Spring).
+         Metro addresses the dependency injection concern through the implementation
+         of <a href="context.html">"Context Awareness"</a> within the container.  
+         In effect - the component declares service dependencies through an inner 
+         <tt>Context</tt> interface and the container is responsible for the 
+         delivery of a full-populated type-safe context implementation.
+         </p>
+
+      </subsection>
+
+      <subsection name="Component Composition">
+
+        <p>
+        Composition relates to the general area of building component 
+        implementations using existing components.  Unlike the general 
+        assembly concern (wiring of service providers to consumers), composition
+        deals with the construction of internal parts of a component resulting 
+        in the creation of new self-contained composite component. The Metro 
+        container formally recognizes and supports the notion of internal parts 
+        of a component and the corresponding role of a component as a composite.
+        </p>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

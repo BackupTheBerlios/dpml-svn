@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station System Property Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="System Property Descriptor">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of a system property name and value.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The system property name.</td>
+          </tr>
+          <tr>
+            <td><tt>value</tt></td>
+            <td>The system property value.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>
+

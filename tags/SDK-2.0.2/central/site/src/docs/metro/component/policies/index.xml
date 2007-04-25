@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Runtime Policies</title>
+  </properties> 
+
+  <body>
+
+    <section name="Runtime Policies">
+    
+      <p>
+      Metro component runtime behaviour is governed by three policies.  These 
+      policies deal with <a href="activation.html">activation</a> behaviour, the 
+      component <a href="lifestyle.html">lifestyle</a> (controlling
+      decisions as to when a new instance of a component is required), and garbage 
+      <a href="collection.html">collection</a> policies (controlling the strength 
+      of internal references between a component model and its instances).
+      </p>
+      
+      <p>
+      Runtime policies may be declared via class 
+      <a href="../annotation/index.html">annotations</a> or through related 
+      attributes in packaged <a href="../profile/index.html">profiles</a> 
+      or <a href="../directive/index.html">component directives</a>. 
+      </p>
+      
+      <p>
+      Runtime policies are summarasied under the following table.
+      </p>
+      
+      <table>
+        <tr>
+          <td><a href="activation.html">Activation</a></td>
+          <td>
+            Enables declaration of activation on STARTUP or activation
+            on DEMAND policy.
+          </td>
+        </tr>
+        <tr>
+          <td><a href="lifestyle.html">Lifestyle</a></td>
+          <td>
+            Used to declare the strategy to be applied by a container when
+            a request for access to a component is received. The policy 
+            provides for the selection of either a SINGLETON scope within
+            which requests are shared across multiple consumers and thread
+            boundaries, THREAD in which a component instance is created for 
+            based on thread identity, and TRANSIENT under which a new component
+            instance is created per request.
+          </td>
+        </tr>
+        <tr>
+          <td><a href="collection.html">Collection</a></td>
+          <td>
+            Declaration of a garbage collection policy controlling the 
+            strength of internal references between a component model and its 
+            instances.
+          </td>
+        </tr>
+      </table>
+
+    </section>
+
+  </body>
+
+</document>
+

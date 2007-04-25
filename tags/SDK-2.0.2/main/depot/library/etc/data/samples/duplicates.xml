@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library">
+
+    <module name="acme">
+      <resource name="widget">
+        <types>
+          <type id="foo">
+            <property name="pink" value="floyd"/>
+            <property name="alice" value="cooper"/>
+          </type>
+          <type id="part" source="strategy.xml"/>
+        </types>
+      </resource>
+    </module>
+    
+    <module name="acme">
+      <resource name="gizmo">
+        <types>
+          <type id="part" source="strategy.xml"/>
+        </types>
+      </resource>
+    </module>
+    
+</index>

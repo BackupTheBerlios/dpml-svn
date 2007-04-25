@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="tooling" default="install" basedir="." 
+    xmlns:transit="antlib:dpml.tools.transit"
+    xmlns:x="dpml:depot">
+
+  <macrodef name="build">
+    <attribute name="dir"/>
+    <sequential>
+      <exec executable="build" dir="@{dir}">
+        <arg value="clean"/>
+        <arg value="install"/>
+      </exec>
+    </sequential>
+  </macrodef>
+  
+  <transit:import uri="local:template:dpml/tools/standard"/>
+
+  <target name="build" depends="standard.build">
+    <echo message="starting"/>
+    <build dir="${basedir}/simple"/>
+    <build dir="${basedir}/alias" />
+    <build dir="${basedir}/automation" />
+    <build dir="${basedir}/filters" />
+    <build dir="${basedir}/imports" />
+    <build dir="${basedir}/properties" />
+    <build dir="${basedir}/symbolic" />
+    <build dir="${basedir}/types" />
+    <build dir="${basedir}/unit" />
+    <build dir="${basedir}/complex/build" />
+    <build dir="${basedir}/complex/export" />
+    <build dir="${basedir}/complex/modules" />
+    <build dir="${basedir}/complex/plugin" />
+    <echo message="done"/>
+  </target>
+  
+</project>

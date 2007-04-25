@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module xmlns="dpml:library" name="central">
+  
+  <properties>
+    <property name="project.javadoc.excludes" value="dpml/**,org/acme/**"/>
+  </properties>
+  
+  <dependencies>
+    <build>
+      <include ref="dpml"/>
+    </build>
+  </dependencies>
+  
+  <project name="apis" basedir="apis">
+    <filters>
+      <feature token="VERSION" id="version" ref="dpml"/>
+    </filters>
+  </project>
+  
+  <project name="site" basedir="site">
+    <dependencies>
+      <build>
+        <include key="apis"/>
+      </build>
+    </dependencies>
+    <filters>
+      <feature token="VERSION" id="version" ref="dpml"/>
+      <feature token="ANT-JAR-VERSION" ref="org/apache/ant/ant" id="version"/>
+      <feature token="ANT-JAR-URI" ref="org/apache/ant/ant" id="uri" type="jar" />
+      <feature token="TRANSIT-MODULE-VERSION" ref="dpml/transit" id="version"/>
+      <feature token="TRANSIT-HANDLER-URI" ref="dpml/transit/dpml-transit-main" id="uri" type="jar" />
+      <feature token="DEPOT-MODULE-VERSION" ref="dpml/depot" id="version" />
+      <feature token="DEPOT-TOOLS-ANT-URI" ref="dpml/depot/dpml-depot-builder" id="uri" type="part" />
+      <feature token="DEPOT-TOOLS-LIBRARY-URI" ref="dpml/depot/dpml-depot-library" id="uri" type="jar"/>
+      <feature token="UTIL-CLI-URI" ref="dpml/util/dpml-util-cli" id="uri" type="jar" />
+    </filters>
+  </project>
+  
+</module>

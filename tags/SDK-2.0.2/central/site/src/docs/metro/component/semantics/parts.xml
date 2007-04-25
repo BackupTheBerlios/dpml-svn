@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Component Parts</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Parts">
+    
+      <p>
+      The Metro runtime provides support for:
+      </p>
+      
+      <ul>
+        <li>a component derived declaration of internal structure and 
+            access interfaces</li>
+        <li>container support for the establishment and association
+            of internal parts with a component</li>
+      </ul>
+      
+      <p>
+      Declaration of the stuctural presumptions of a component is achieved  
+      though a <tt>Parts</tt> interface exposed as a constructor parameter.
+      A <tt>Parts</tt> interface is recognized using either the default
+      inner class pattern, or via the assertion of part-semanitcs using the 
+      parts annotation. 
+      The following code fragment demonstrates a component that declares 
+      its internal structure via an internal <tt>Parts</tt> inner interface
+      and the usage of that interface as a constructor parameter.
+      </p>
+      
+<pre>
+public class Container
+{
+    <font color="darkred">public interface Parts
+    {
+        Widget getWidget();
+        Gizmo[] getGizmos();
+    }</font>
+    
+    public Container( <font color="blue">final Parts parts</font> )
+    {
+        Widget widget = parts.getWidget();
+        Gizmo[] gizmos = parts.getGizmos();
+        
+        ...
+        
+    }
+    
+    ...
+}
+</pre>
+
+      <subsection name="Parts Interface Semantics">
+      
+        <p>
+        Semantics of the parts interface focus on the supply of 
+        internal components to an enclosing component using either 
+        of the following patterns:
+        </p>
+        
+        <ul>
+          <li>Access to a sub-component by key where the the return type 
+              is a single value and the key is determined in accordance with
+              JavaBean naming conventions.  The method may declare at most 
+              one parameter where the parameter type is a class corresponding 
+              to the desited return type.</li>
+          <li>access to a set of sub-components based on the type
+              of an array return type of the method</li>
+        </ul>
+        
+        <p>
+        On instantiation Metro will supply a implementation of the parts interface
+        wherin subsidiary parts will by default only be instantiated on demand. 
+        Furthermore, it is the responsibility of the enclosing component to main
+        the appropriate hard, soft or weak refernce to the sub-component.
+        </p>
+        
+        <p>
+        On termination of the enclosing component, all sub-component will be 
+        be subject to implicit termination.
+        </p>
+        
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro" name="widget" class="org.acme.StateWidget"/>
+  
+</part>

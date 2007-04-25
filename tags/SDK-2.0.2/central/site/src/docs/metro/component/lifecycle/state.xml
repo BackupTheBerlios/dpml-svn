@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Lifecycle State Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="State Descriptor Element">
+
+      <subsection name="Description">
+
+        <p>
+        A state is an immutable datastructure that defines a collection 
+        of available transitions, management operations, and possibly
+        initialization or termination triggers.  Actionable features
+        of a state are exposed when the state is within the current state path.
+        The current state path is a path composed of the current state, it's 
+        parent, parent's patrent, etc. unit the root state is reached.  As 
+        such, any operations declared within the root state will always be 
+        available where operations and/transitions in sub-states will only
+        available if the associated state is present in the state path.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>The name of the state (required on sub-states).</td>
+          </tr>
+          <tr>
+            <td><tt>terminal</tt></td>
+            <td>If set to 'true' the state will be classified as a terminal state.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="trigger/index.html">trigger</a></tt></td>
+            <td>An initialization or termination trigger.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="state.html">state</a></tt></td>
+            <td>A nested state.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="transition.html">transition</a></tt></td>
+            <td>A state transition.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="operation.html">operation</a></tt></td>
+            <td>A management operation.</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>Jetty Javadoc Archive</title>
+    <description>Javadocs for the Jetty Container.</description>
+  </properties>
+
+  <body>
+
+    <section name="Jetty Javadocs">
+    
+      <table>
+        <tr>
+          <th>Version</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/org/mortbay/jetty/6.1.0/index.html">6.1.0</a></td>
+          <td>Jetty 6.1.0.</td>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/org/mortbay/jetty/6.0.0/index.html">6.0.0</a></td>
+          <td>Jetty 6.0.0.</td>
+        </tr>
+      </table>
+    
+    </section>
+
+  </body>
+
+</document>
+

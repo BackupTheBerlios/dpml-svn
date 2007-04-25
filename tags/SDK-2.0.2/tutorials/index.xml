@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<index xmlns="dpml:library">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:org/apache/ant"/>
+    <import uri="link:module:dpml"/>
+  </imports>
+
+  <properties>
+    <property name="project.javac.source" value="1.5"/>
+    <property name="project.javac.target" value="1.5"/>
+    <property name="project.javac.lint" value="unchecked"/>
+    <property name="project.publisher.name" value="Digital Product Management Laboratory"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+    <property name="project.major.version" value="2"/>
+    <property name="project.minor.version" value="0"/>
+    <property name="project.micro.version" value="0"/>
+    <property name="project.javadoc.linksource" value="false"/>
+    <property name="java.util.logging.config.class" value="dpml"/>
+  </properties>
+  
+  <module name="org/acme" basedir=".">
+  
+    <types>
+      <type id="module" alias="true"/>
+    </types>
+    
+    <!-- tutorials dealing with tooling -->
+    
+    <project name="simple" basedir="tooling/simple"/>
+    <project file="tooling/properties/project.xml"/>
+    <project file="tooling/symbolic/project.xml"/>
+    <project file="tooling/filters/project.xml"/>
+    <project file="tooling/types/project.xml"/>
+    <project file="tooling/automation/project.xml"/>
+    <project file="tooling/alias/project.xml"/>
+    <project file="tooling/unit/project.xml"/>
+    <project file="tooling/imports/project.xml"/>
+    <project file="tooling/complex/build/api/project.xml"/>
+    <project file="tooling/complex/build/impl/project.xml"/>
+    <module file="tooling/complex/modules/module.xml"/>
+    <module file="tooling/complex/export/module.xml"/>
+    <module file="tooling/complex/plugin/module.xml"/>
+    
+    <!-- metro tutorials -->
+    
+    <project file="components/hello/project.xml"/>
+    <project file="components/context/project.xml"/>
+    <project file="components/examples/project.xml"/>
+    <project file="components/parts/project.xml"/>
+    <project file="components/lookup/project.xml"/>
+    <project file="components/lifestyle/project.xml"/>
+    <project file="components/transient/project.xml"/>
+    <project file="components/thread/project.xml"/>
+    <project file="components/singleton/project.xml"/>
+    <project file="components/state/project.xml"/>
+    <project file="components/logging/project.xml"/>
+    <project file="components/profile/project.xml"/>
+  
+  </module>
+  
+</index>

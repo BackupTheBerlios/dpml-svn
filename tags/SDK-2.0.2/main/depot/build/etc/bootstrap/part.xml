@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<part xmlns="dpml:part">
+  
+  <info title="Depot Build Tool">
+    <description>
+    Depot Build CLI Handler.
+    </description>
+  </info>
+  
+  <component xmlns="dpml:metro" type="dpml.build.Main"
+    handler="net.dpml.runtime.ComponentStrategyHandler"/>
+  
+  <classpath>
+    <private>
+      <uri>artifact:jar:dpml/transit/dpml-transit-main#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/metro/dpml-metro-part#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/depot/dpml-depot-library#BOOTSTRAP</uri>
+      <uri>artifact:jar:dpml/util/dpml-util-cli#BOOTSTRAP</uri>
+      <uri>artifact:jar:@PROJECT-GROUP@/@PROJECT-NAME@#BOOTSTRAP</uri>
+    </private>
+  </classpath>
+  
+</part>

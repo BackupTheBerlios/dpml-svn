@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<component xmlns="dpml:metro"
+    class="org.acme.Demo" 
+    name="demo">
+  <context>
+    <entry key="count" value="5"/>
+  </context>
+  <parts>
+    <component key="gizmo" class="org.acme.Gizmo" lifestyle="transient"/>
+  </parts>
+</component>

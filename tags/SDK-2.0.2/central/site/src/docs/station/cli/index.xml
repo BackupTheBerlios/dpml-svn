@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Station CLI</title>
+  </properties> 
+
+  <body>
+
+    <section name="Station Command Line">
+
+      <subsection name="Description">
+
+        <p>
+        The station commandline handler provides support for the startup and shutdown of 
+        a collection of background applications runing under dedicated virtual machines.  
+        In a production environment the station is normally setup as a background service 
+        (e.g. on Windows resources are provided for the deployment of the Station as an 
+        NT service).  Applications handled by the station are declared under a station 
+        <a href="../plan/index.html">deployment plan</a>.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre>$ station startup | server | info | shutdown | -help | -version</pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr>
+            <td width="100">-help</td>
+            <td>
+            List help information and exit.
+            </td>
+          </tr>
+          <tr>
+            <td width="100">-version</td>
+            <td>
+            List version information and exit.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Commands">
+
+        <table>
+          <tr>
+            <td width="100"><tt><a href="startup.html">startup</a></tt></td>
+            <td>
+            Start the station server as a background process.
+            </td>
+          </tr>
+          <tr>
+            <td width="100"><tt><a href="server.html">server</a></tt></td>
+            <td>
+            Start the station server as a foreground process.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="info.html">info</a></tt></td>
+            <td>List information about registered applications.</td>
+          </tr>
+          <tr>
+            <td><tt><a href="shutdown.html">shutdown</a></tt></td>
+            <td>Shutdown the station (implying shutdown of all 
+            applications under the control of the station).</td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+    
+    <section name="Examples">
+      
+      <subsection name="Station Startup">
+      
+        <p>
+        The following commandline demonstrates the startup of the station using 
+        the deployment profile declared under the default value <tt>local:plan:dpml/station/default</tt>
+        (a plan defintion stored in the local DPML preferences directory).
+        </p>
+        
+      
+<pre>$ station startup
+[2380 ] [INFO   ] (dpml.station): station startup
+[3196 ] [INFO   ] (dpml.station): created local registry on port 1099
+[3196 ] [INFO   ] (dpml.station.plan): commissioning plan
+[3196 ] [INFO   ] (dpml.station.plan): plan commissioning complete
+[2380 ] [INFO   ] (dpml.station): startup complete
+</pre>
+
+      </subsection>
+      
+      <subsection name="Station Startup">
+      
+        <p>
+        Assuming a station instance is up and running, the following command 
+        trigger the establishment of a connection to the remote station and the 
+        iniation of a shutdown sequence.
+        </p>
+        
+<pre>$ station shutdown
+[3776 ] [INFO   ] (dpml.station): initiating remote shutdown
+[3776 ] [INFO   ] (dpml.station): remote shutdown request completed
+</pre>
+
+      </subsection>
+      
+    </section>
+    
+  </body>
+
+</document>
+

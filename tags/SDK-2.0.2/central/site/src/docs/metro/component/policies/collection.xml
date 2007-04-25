@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Collection Policy</title>
+  </properties> 
+
+  <body>
+
+    <section name="Collection Policy">
+
+      <p>
+      All runtime instances associated with a component are maintained 
+      under reference objects.  The reference object that is selected 
+      by the runtime is determined by the component collection policy.
+      The following table lists available collection policies and 
+      related semantics.
+      </p>
+
+      <table>
+        
+        <tr>
+          <th>Policy</th><th>Description</th>
+        </tr>
+
+        <tr>
+          <td><tt>HARD</tt></td>
+          <td>The default <tt>HARD</tt> policy ensures that an instance reference will 
+          be maintained for the life of the enclosing component model unless explicitly 
+          destroyed as a result of container shutdown or management request.
+          The <tt>HARD</tt> collection policy should not be used in 
+          conjunction with <tt>TRANSIENT</tt> lifestyle.
+          </td>
+        </tr>
+        <tr>
+          <td><tt>SOFT</tt></td>
+          <td>If no objects have a reference to the runtime instance 
+           and memory contention occurs, component instances held under
+           the <tt>SOFT</tt> collection will be garbage collected.</td>
+        </tr>
+        <tr>
+          <td><tt>WEAK</tt></td>
+          <td>If no objects have a reference to the runtime instance 
+           the instance will be garbage collected at the discretion 
+           of the JVM.</td>
+        </tr>
+
+      </table>
+
+      <subsection name="Default Policy">
+
+      <p>
+      Unless an alternative collection policy is declared as an annotation or as 
+      a feature of a packaged profile, or a feature of a strategy declaration, 
+      the <tt>HARD</tt> collection policy is assumed.
+      </p>
+      
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+
