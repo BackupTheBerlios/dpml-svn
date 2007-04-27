@@ -13,8 +13,8 @@
       <p>
       The DPML Metro platform provides support for primitive (e.g. <tt>int</tt>, 
       <tt>long</tt>, <tt>short</tt>, <tt>float</tt>, <tt>boolean</tt>, etc.), 
-      and complex object return types. arrays, and default arguments within a
-      <tt>#Context</tt> inner interface definition.
+      and complex object return types, arrays, maps, and usage of default 
+      arguments within a <tt>Context</tt> interface.
       </p>
 
       <subsection name="Component Example">
@@ -111,6 +111,9 @@ test:
     [junit] [25598] [INFO   ] (demo): optionalBoolean: false
     [junit] [25598] [INFO   ] (demo): optionalFile: C:\dev\osm\trunk\tutorial\components\examples
     [junit] [25598] [INFO   ] (demo): optionalURI: file:/C:/dev/osm/trunk/tutorial/components/examples/
+    [junit] [18231] [INFO   ] (demo): color (blue): java.awt.Color[r=0,g=0,b=255]
+    [junit] [18231] [INFO   ] (demo): color (white): java.awt.Color[r=255,g=255,b=255]
+    [junit] [18231] [INFO   ] (demo): color (red): java.awt.Color[r=255,g=0,b=0]
     [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.937 sec</pre>
 
       </subsection>

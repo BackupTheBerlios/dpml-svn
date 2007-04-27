@@ -15,7 +15,7 @@
 
         <p>
         The purpose of this tutorial is to introduce the Metro Context model and the 
-        contract this represents between a container and a component.
+        contract this represents between a component and its container.
         </p>
       
         <p>
@@ -37,10 +37,10 @@
         Components are typically established and deployed dynamically
         by a controlling system.  To do this the controlling system 
         needs to know about the operational requirements of the 
-        component and delivery mechanism assumed by a component. Within 
-        the Metro component model both the declaration of requirement and 
-        the delivery mechanism are described using a <tt>Context</tt> inner 
-        interface within a component implementation class.  
+        component and delivery mechanism. Within the Metro component model 
+        both the declaration of requirement and  delivery mechanism are 
+        described using a <tt>Context</tt> interface referenced as a  
+        parameter within the component constructor.  
         </p>
         
         <p>
@@ -158,7 +158,7 @@ public class Demo
           <li>the dependency key is based on the method name applying the bean 
               pattern get[key]
           </li>
-          <li>defalt values may be declared as a single method argument</li>
+          <li>default values may be declared as a single method argument</li>
           <li>if a default value is declared it must be assignable to the method  
               return type
           </li>
@@ -176,8 +176,8 @@ public class Demo
         
         <p><i>
         The following lines are example of the creation of a component 
-        deployment solution.  Modifications markup shows changes from our initial 
-        component definition.
+        deployment solution.  Markup up of the XML is used to show changes from our  
+        initial component definition.
         </i></p>
 
 <pre>
@@ -192,14 +192,15 @@ public class Demo
 
       </subsection>
 
-      <subsection name="Testing the component using a Part handler">
+      <subsection name="Testing the component using a Strategy handler">
 
         <p>
         During execution of the testcases we see the result of logging the 
         a message reflecting configuration and runtime information.  In
         the <a href="context/DemoTestCase.java.html">DemoTestCase</a> 
         the output is shows the result of concatination of values resolved 
-        fro the context implementation supplied by the container to the component instance.
+        from the context implementation supplied by the container to the 
+        component instance.
         </p>
 
 <pre>
@@ -247,10 +248,10 @@ public class Demo
         The container will make best efforts to assemble a viable deployment 
         scenario.  If that scenario cannot be established then your component will 
         not be deployed.  During deployment the container will evaluate all runtime 
-        requirements declaring with a #Context innner interface, build an context
+        requirements declaring within the context interface, build an context
         implementation fullfilling the contract (and any other recognized contructor
-        arguments) and deploy the component taking into account lifecyle and lifestyle
-        (but more of these subject later in the tutorial).
+        arguments) and deploy the component taking into account lifecyle, lifestyle
+        and collection policies (but more of these subject later in the tutorial).
         </p>
         
         <p>

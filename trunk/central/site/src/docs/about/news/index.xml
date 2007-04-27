@@ -30,7 +30,7 @@
         
         <ul>
           <li>JSR 277 readiness.</li>
-          <li>Integral support for <tt>java.util.ServiceLoader</tt> as an basic extension mechansims.</li>
+          <li>Integral support for <tt>java.util.ServiceLoader</tt> as a basic extension mechansims.</li>
           <li>Support for plugable content type handlers via <tt>java.util.ServiceLoader</tt>.</li>
           <li>JMX management of the Transit resource management layer.</li>
           <li>Metro component model moved to a dedicated content type handler.</li>

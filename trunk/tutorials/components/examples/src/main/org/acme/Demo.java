@@ -21,6 +21,7 @@ package org.acme;
 import java.awt.Color;
 import java.io.File;
 import java.net.URI;
+import java.util.Map;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -215,6 +216,11 @@ public class Demo
         */
         String[] getNames();
         
+       /**
+        * Return a map with string keys and instances of Color as values. 
+        * @return a color map
+        */
+        Map<String,Color> getColors();
     }
     
     //------------------------------------------------------------------
@@ -268,6 +274,11 @@ public class Demo
             logger.info( "optionalBoolean: " + context.getOptionalBoolean( false ) );
             logger.info( "optionalFile: " + context.getOptionalFile( file ) );
             logger.info( "optionalURI: " + context.getOptionalURI( uri ) );
+            for( String key : context.getColors().keySet() )
+            {
+                Color color = context.getColors().get( key );
+                logger.info( "color (" + key + "): " + color );
+            }
         }
     }
 }

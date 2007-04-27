@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <component xmlns="dpml:metro" 
     class="org.acme.Demo" 
-    name="demo">
+    name="demo" lifestyle="singleton">
   <context>
     <entry key="color" method="RED"/>
     <entry key="anotherColor">
@@ -27,5 +27,10 @@
       <param value="george"/>
       <param value="mary"/>
     </entry>
+    <map key="colors">
+      <entry key="red" class="java.awt.Color" method="RED"/>
+      <entry key="white" class="java.awt.Color" method="WHITE"/>
+      <entry key="blue" class="java.awt.Color" method="BLUE"/>
+    </map>
   </context>
 </component>

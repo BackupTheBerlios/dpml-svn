@@ -60,7 +60,7 @@
         of a custom part strategy.
         </p>
         
-        <p><i>From the global index.xml we establish the reference to out target project:</i></p>
+        <p><i>From the global index.xml we establish the reference to our target project:</i></p>
 <pre>
 &lt;index ..... &gt;
 
@@ -126,7 +126,7 @@
 
   &lt;classpath&gt;
     &lt;private&gt;
-      &lt;uri&gt;artifact:jar:dpmlx/tutorials/components/acme-demo-hello#SNAPSHOT&lt;/uri&gt;
+      &lt;uri&gt;artifact:jar:artifact:jar:org/acme/hello#SNAPSHOT&lt;/uri&gt;
     &lt;/private&gt;
   &lt;/classpath&gt;
 
@@ -140,10 +140,23 @@
         <p>
         In this example the Demo implementation class contains nothing significant - 
         however, the important point of this tutorial is the association of
-        a different runtime handler for the class within our part definition.
+        a different runtime handler for the class within our part definition.  In 
+        particular:
+        </p>
+        
+        <ul>
+          <li>the &lt;component&gt; element is defined under a schema definition 
+            which assert a default value of "link:part:dpml/lang/dpml-lang-component"
+            for the handler attibute which in turn is used to establish the runtime
+            handler for the class</li>
+          <li>the runtime handler is supplied with a classloader composed of jar
+          files resolved from the &lt;classpath&gt; defintion</li>
+        </ul>
+        
+        <p>
         Our next tutorial extends this project with the introduction of 
         <a href="context.html">context management</a> and in particular, the way in 
-        which a component class declares context assumptions, and the mechanisms 
+        which a component class declares deployment context assumptions, and the mechanisms 
         used by the Metro runtime to fullfill those requirements.
         </p>
         
