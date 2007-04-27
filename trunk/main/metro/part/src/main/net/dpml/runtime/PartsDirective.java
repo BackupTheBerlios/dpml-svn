@@ -118,8 +118,10 @@ class PartsDirective
             URI codebase = getCodebase( element, resolver );
             try
             {
-                return Strategy.load( classloader, null, codebase, partition );
-                
+                ComponentStrategy strategy = 
+                  (ComponentStrategy) Strategy.load( classloader, null, codebase, partition );
+                strategy.setElement( element );
+                return strategy;
             }
             catch( Exception e )
             {

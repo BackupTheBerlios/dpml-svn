@@ -6,6 +6,7 @@
   
   <types>
     <type id="jar" test="true"/>
+    <type id="part" test="true" source="etc/test.xml"/>
   </types>
 
   <dependencies>

@@ -136,7 +136,6 @@ public class ComponentStrategyHandler implements StrategyHandler
                 partsElement, 
                 resolver, 
                 path );
-
             ComponentStrategy strategy = 
               new ComponentStrategy( 
                 partition, 
@@ -148,7 +147,7 @@ public class ComponentStrategyHandler implements StrategyHandler
                 collection,
                 context, 
                 parts );
-            
+            strategy.setElement( element );
             return strategy;
         }
         catch( IOException ioe )
@@ -253,7 +252,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         return CollectionPolicy.HARD;
     }
     
-    private int getPriority( Element element, Resolver resolver )
+    static int getPriority( Element element, Resolver resolver )
     {
         String value = ElementHelper.getAttribute( element, "priority", null, resolver );
         if( null == value )
@@ -266,7 +265,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         }
     }
     
-    private Class loadComponentClass( ClassLoader classloader, Element element, Resolver resolver ) throws DecodingException
+    static Class loadComponentClass( ClassLoader classloader, Element element, Resolver resolver ) throws DecodingException
     {
         String classname = buildComponentClassname( element, resolver );
         try
@@ -284,7 +283,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         }
     }
     
-    private String buildComponentClassname( Element element, Resolver resolver )
+    private static String buildComponentClassname( Element element, Resolver resolver )
     {
         String classname = ElementHelper.getAttribute( element, "class", null, resolver );
         if( null != classname )
@@ -297,7 +296,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         }
     }
 
-    private static String getComponentName( Class c, Element element, Resolver resolver )
+    static String getComponentName( Class c, Element element, Resolver resolver )
     {
         String name = getComponentName( element, resolver );
         return getComponentName( c, name );
@@ -352,7 +351,7 @@ public class ComponentStrategyHandler implements StrategyHandler
         }
     }
     
-    private static String getComponentPath( String partition, String name )
+    static String getComponentPath( String partition, String name )
     {
         if( null == partition )
         {

@@ -22,6 +22,7 @@ import dpml.appliance.StandardAppliance;
 import dpml.lang.Disposable;
 import dpml.state.StateDecoder;
 import dpml.util.DefaultLogger;
+import dpml.util.ElementHelper;
 
 import java.io.IOException;
 import java.io.File;
@@ -44,6 +45,7 @@ import net.dpml.annotation.ActivationPolicy;
 import net.dpml.appliance.Appliance;
 
 import net.dpml.lang.Buffer;
+import net.dpml.lang.DecodingException;
 import net.dpml.lang.ServiceRegistry;
 import net.dpml.lang.StandardServiceRegistry;
 import net.dpml.lang.Strategy;
@@ -53,6 +55,8 @@ import net.dpml.state.State;
 import net.dpml.transit.Artifact;
 
 import net.dpml.util.Logger;
+
+import org.w3c.dom.Element;
 
 import static dpml.state.DefaultState.NULL_STATE;
 
@@ -85,6 +89,7 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
     private final ExecutorService m_queue = Executors.newSingleThreadExecutor();
     
     private ServiceRegistry m_registry;
+    private Element m_element;
     
    /**
     * Creation of a new component strategy.
@@ -142,6 +147,11 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
         }
         
         m_handler = getLifestyleHandler( m_lifestyle );
+    }
+    
+    void setElement( Element element )
+    {
+        m_element = element;
     }
     
    /**
@@ -521,47 +531,121 @@ public class ComponentStrategy extends Strategy implements Component, ServiceReg
     * @param key the component key
     * @exception IOException if an error occurs
     */
-    public void encode(  Buffer buffer, String key ) throws IOException
+    public void encode( Buffer buffer, String key ) throws IOException
     {
-        String name = getComponentName();
-        String classname = getComponentClass().getName();
-        ContextDirective context = getContextModel().getDirective();
-        PartsDirective parts = getPartsDirective();
-        
         boolean flag = buffer.isNamespace( NAMESPACE );
-        if( flag )
+        if( null != m_element )
         {
-            buffer.nl( "<component" );
+            String k = ElementHelper.getAttribute( m_element, "key" );
+            if( m_element.getLocalName().equals( "part" ) )
+            {
+                buffer.nl( "<part" );
+                if( !flag )
+                {
+                    buffer.write( " xmlns=\"" + NAMESPACE + "\"" );
+                }
+                String uri = ElementHelper.getAttribute( m_element, "uri" );
+                buffer.write( " key=\"" + k + "\"" ); 
+                buffer.write( " uri=\"" + uri + "\"" );
+                Element[] elements = ElementHelper.getChildren( m_element );
+                if( elements.length == 0 )
+                {
+                    buffer.write( "/>" );
+                }
+                else
+                {
+                    buffer.write( ">" );
+                    for( Element elem : elements )
+                    {
+                        String local = elem.getLocalName();
+                        if( "param".equals( local ) )
+                        {
+                            Buffer b = buffer.indent();
+                            b.nl( "<param key=\"" );
+                            String name = ElementHelper.getAttribute( elem, "key" );
+                            b.write( name );
+                            b.write( "\" value=\"" );
+                            String value = ElementHelper.getAttribute( elem, "value" );
+                            b.write( value );
+                            b.write( "\"/>" );
+                        }
+                        else
+                        {
+                            String spec = DecodingException.list( elem );
+                            String warning = 
+                              "Ignoring unrecognized element: " 
+                              + local
+                              + "\n"
+                              + spec;
+                            getLogger().warn( warning );
+                        }
+                    }
+                    buffer.nl( "</part>" );
+                }
+                return;
+            }
+            else
+            {
+                String classname = getComponentClass().getName();
+                String name = ElementHelper.getAttribute( m_element, "name" );
+                String priority = ElementHelper.getAttribute( m_element, "priority" );
+                String lifestyle = ElementHelper.getAttribute( m_element, "lifestyle" );
+                String lifecycle = ElementHelper.getAttribute( m_element, "lifecycle" );
+                String collection = ElementHelper.getAttribute( m_element, "collection" );
+                String activation = ElementHelper.getAttribute( m_element, "activation" );
+                ContextDirective context = getContextModel().getDirective();
+                PartsDirective parts = getPartsDirective();
+                buffer.nl( "<component" );
+                if( !flag )
+                {
+                    buffer.write( " xmlns=\"" + NAMESPACE + "\"" );
+                }
+                buffer.write( " class=\"" + classname + "\"" );
+                if( null != key )
+                {
+                    buffer.write( " key=\"" + k + "\"" );
+                }
+                if( null != name )
+                {
+                    buffer.write( " name=\"" + name + "\"" );
+                }
+                if( ( null != priority ) && ( !"0".equals( priority ) ) )
+                {
+                    buffer.write( " priority=\"" + priority + "\"" );
+                }
+                if( null != lifestyle )
+                {
+                    buffer.write( " lifestyle=\"" + lifestyle + "\"" );
+                }
+                if( null != lifecycle )
+                {
+                    buffer.write( " lifecycle=\"" + lifestyle + "\"" );
+                }
+                if( null != collection )
+                {
+                    buffer.write( " collection=\"" + collection + "\"" );
+                }
+                if( null != activation )
+                {
+                    buffer.write( " activation=\"" + activation + "\"" );
+                }
+                if( ( context.size() == 0 ) && ( parts.size() == 0 ) )
+                {
+                    buffer.write( "/>" ); 
+                }
+                else
+                {
+                    buffer.write( ">" ); 
+                    Buffer b = buffer.namespace( NAMESPACE );
+                    context.encode( b.indent(), null );
+                    parts.encode( b.indent() );
+                    buffer.nl( "</component>" );
+                }
+            }
         }
         else
         {
-            buffer.nl( "<component xmlns=\"" + NAMESPACE + "\"" );
-            buffer.nl( "    " );
-        }
-        if( null != key )
-        {
-            buffer.write( " key=\"" + key + "\"" );
-        }
-        if( null != name )
-        {
-            buffer.write( " name=\"" + name + "\"" );
-        }
-        if( m_priority != 0 )
-        {
-            buffer.write( " priority=\"" + m_priority + "\"" );
-        }
-        buffer.write( " class=\"" + classname + "\"" );
-        if( ( context.size() == 0 ) && ( parts.size() == 0 ) )
-        {
-            buffer.write( "/>" ); 
-        }
-        else
-        {
-            buffer.write( ">" ); 
-            Buffer b = buffer.namespace( NAMESPACE );
-            context.encode( b.indent(), null );
-            parts.encode( b.indent() );
-            buffer.nl( "</component>" );
+            throw new IllegalStateException( "Undefined element" );
         }
     }
     
