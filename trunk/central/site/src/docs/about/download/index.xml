@@ -75,7 +75,11 @@
       </subsection>
 
       <subsection name="Build @VERSION@">
-      
+        
+        <p>
+        Version @VERSION@ is the latest production stable release of the SE6 based implementation.
+        </p>
+        
         <table>
           <tr>
             <td>Windows NSIS Installer</td>
@@ -128,8 +132,7 @@
       <subsection name="Build 1.1.0">
         
         <p>
-        Version @VERSION@ is a production stable branch with structural dependencies on the Java 
-        JDK 1.4 platform.
+        Version 1.1.0 is the current production stable release of the JDK 1.4 based implementation.
         </p>
       
         <table>
