@@ -16,19 +16,19 @@
         </p>
         
         <ul>
-          <li><a href="101.html">Getting started.</a></li>
-          <li><a href="properties.html">Adding general properties.</a></li>
-          <li><a href="symbolic.html">Using symbolic references.</a></li>
-          <li><a href="filters.html">Declaring global filters.</a></li>
-          <li><a href="types.html">Examines the impact of type production statements.</a></li>
-          <li><a href="automation.html">Build automation using the Depot Antlib.</a></li>
-          <li><a href="alias.html">Alias creation and usage.</a></li>
-          <li><a href="unit.html">Automating unit-tests.</a></li>
-          <li><a href="imports.html">Using module imports.</a></li>
-          <li><a href="complex.html">Multiproject builds.</a></li>
-          <li><a href="modules.html">Working with modules.</a></li>
-          <li><a href="export.html">Exporting module defintions.</a></li>
-          <li><a href="plugins.html">Working with runtime metadata via plugins.</a></li>
+          <li><a href="101.html">Getting started</a></li>
+          <li><a href="properties.html">Adding general properties</a></li>
+          <li><a href="symbolic.html">Using symbolic references</a></li>
+          <li><a href="filters.html">Declaring global filters</a></li>
+          <li><a href="types.html">Examines the impact of type production statements</a></li>
+          <li><a href="automation.html">Build automation using the Depot Antlib</a></li>
+          <li><a href="alias.html">Alias creation and usage</a></li>
+          <li><a href="unit.html">Automating unit-tests</a></li>
+          <li><a href="imports.html">Using module imports</a></li>
+          <li><a href="complex.html">Multiproject builds</a></li>
+          <li><a href="modules.html">Working with modules</a></li>
+          <li><a href="export.html">Exporting module defintions</a></li>
+          <li><a href="plugins.html">Working with runtime metadata via plugins</a></li>
         </ul>
       
     </section>

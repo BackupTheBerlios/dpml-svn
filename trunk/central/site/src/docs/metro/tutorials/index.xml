@@ -12,11 +12,7 @@
     <section name="Metro Tutorial">
     
       <p>
-      In the Depot tutorials dealing with 
-      <a href="../../util/depot/tutorials/plugins.html">strategy datatypes</a> 
-      we covered the general subject of a deployment unit descriptor that associated 
-      an object instantiation <tt>strategy</tt> with a <tt>classloader</tt> chain 
-      definition. The Metro platform provides the prefered deployment strategy and 
+      The Metro platform provides the prefered deployment strategy and 
       runtime handler that delivers a complete context driven IOC object 
       instantiation model. 
       In addition to instantiation there are several aspects of a class that 
@@ -24,7 +20,7 @@
       decommissioning lifecycle, garbage collection policy, etc.  Each of these concerns 
       are expresssed as well defined semantic features within the Metro component model.
       </p>
-
+      
       <subsection name="Totorial Objective">
       
         <p>
@@ -51,6 +47,23 @@
 
       </subsection>
       
+      <subsection name="Technical Note">
+      
+        <p>
+        This tutorial and the following tuitorials use the 
+        <a href="../../util/depot/index.html">Depot</a> build system which is basically
+        Ant driven by the depot command line handler.  Depot reads information about a 
+        target project from a <tt>index.xml</tt> file and uses this information to establish
+        an Ant project definition and supporting properties and classpath criteria.  In most
+        cases the project definition is sufficient to automate the build process. These tutorials
+        assumes that the reader is familiar with the concepts of a project defintion, centralized 
+        defintions under a common index, and the management deployment strategy datatypes (refer
+        <a href="../../util/depot/tutorials/index.html">Depot Tutorials</a> for additional 
+        information).
+        </p>
+        
+      </subsection>
+      
       <subsection name="Component Creation">
       
         <p>
@@ -60,13 +73,16 @@
         of a custom part strategy.
         </p>
         
-        <p><i>From the global index.xml we establish the reference to our target project:</i></p>
+        <p>
+        <i>From the global <tt>index.xml</tt> we establish the reference to our 
+        target project:</i>
+        </p>
 <pre>
 &lt;index ..... &gt;
 
   ...
   
-  &lt;project xmlns="dpml:library" name="hello"&gt;
+  <font color="darkred">&lt;project xmlns="dpml:library" name="hello"&gt;
 
     &lt;info title="DPML Metro Hello Tutorial"&gt;
       &lt;description&gt;Introductory Hello World demo.&lt;/description&gt;
@@ -84,7 +100,7 @@
       &lt;/test&gt;
     &lt;/dependencies&gt;
     
-  &lt;/project&gt;
+  &lt;/project&gt;</font>
   
   ...
   
