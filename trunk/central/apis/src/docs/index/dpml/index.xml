@@ -28,7 +28,7 @@
           <th>Description</th>
         </tr>
         <tr>
-          <td><a href="http://api.dpml.net/dpml/2.0.2/index.html">2.0.2</a></td>
+          <td><a href="http://api.dpml.net/dpml/2.1.0/index.html">2.0.2</a></td>
           <td>Functional update addressing part composition by uri reference. Includes
               updated checkstyle handler backed by Checkstyle 4.3.</td>
         </tr>
