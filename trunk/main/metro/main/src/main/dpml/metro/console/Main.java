@@ -436,7 +436,7 @@ public class Main implements Tool
         buffer.append( "\n  DPML Metro" );
         buffer.append( "\n  Version @PROJECT-VERSION@" );
         buffer.append( "\n  Copyright 2005-2007 Stephen J. McConnell" );
-        buffer.append( "\n  Digital Product Management Laboratory" );
+        buffer.append( "\n  Digital Product Management Library" );
         String message = buffer.toString();
         m_logger.info( message );
     }

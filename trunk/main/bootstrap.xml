@@ -195,7 +195,7 @@
     </echo>
     <filter value="${project.version}" token="PROJECT-VERSION"/>
     <filter value="http://www.dpml.net" token="PUBLISHER-URL"/>
-    <filter value="The Digital Product Management Laboratory" token="PUBLISHER-NAME"/>
+    <filter value="The Digital Product Management Library" token="PUBLISHER-NAME"/>
   </target>
 
   <target name="setup-path" depends="init">
@@ -408,7 +408,7 @@
        includes="**/*.*"
        excludes="**/*.html,**/*.gif,**/*.png">
        <manifest>
-         <attribute name="Created-By" value="The Digital Product Management Laboratory."/>
+         <attribute name="Created-By" value="The Digital Product Management Library."/>
          <attribute name="Built-By" value="${user.name}"/>
          <attribute name="Extension-Name" value="${project.name}"/>
          <attribute name="Specification-Vendor" value="DPML"/>

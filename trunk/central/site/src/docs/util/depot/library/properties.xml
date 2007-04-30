@@ -65,7 +65,7 @@
 <module name="dpml" basedir="main">
 
   <properties>
-    <property name="project.publisher.name" value="Digital Product Management Laboratory"/>
+    <property name="project.publisher.name" value="Digital Product Management Library"/>
     <property name="project.specification.vendor" value="${project.publisher.name}"/>
     <property name="project.implementation.vendor" value="${project.publisher.name}"/>
     <property name="project.implementation.vendor-id" value="net.dpml"/>

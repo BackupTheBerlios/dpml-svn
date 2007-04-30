@@ -52,7 +52,7 @@ import org.apache.tools.ant.types.FileSet;
  */
 public class DocTask extends GenericTask
 {
-    private static final String ORG_NAME_VALUE = "The Digital Product Management Laboratory";
+    private static final String ORG_NAME_VALUE = "The Digital Product Management Library";
     private static final String DOC_TEMP_VALUE = "docs";
     private static final String DOC_SRC_VALUE = "docs";
     private static final String DOC_RESOURCES_VALUE = "resources";

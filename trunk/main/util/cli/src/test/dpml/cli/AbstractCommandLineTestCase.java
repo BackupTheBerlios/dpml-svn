@@ -1,6 +1,6 @@
 /*
  * Copyright 2003-2005 The Apache Software Foundation
- * Copyright 2005-2006 Stephen McConnell, The Digital Product Management Laboratory
+ * Copyright 2005-2006 Stephen McConnell, The Digital Product Management Library
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

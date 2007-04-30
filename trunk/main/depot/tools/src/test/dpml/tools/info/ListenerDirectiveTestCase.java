@@ -23,7 +23,7 @@ import java.net.URI;
 /**
  * The ModuleDirective class describes a module data-structure.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Management Laboratory</a>
+ * @author <a href="http://www.dpml.net">The Digital Product Management Library</a>
  */
 public final class ListenerDirectiveTestCase extends AbstractTestCase
 {

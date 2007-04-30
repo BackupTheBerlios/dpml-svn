@@ -215,7 +215,7 @@
   
   <target name="javadoc" depends="init">
     <property name="api.path" location="${dpml.data}/docs/api/dpml/${project.version}"/>
-    <property name="javadoc.title" value="Digitial Product Management Laboratory (DPML) - SDK ${project.version}"/> 
+    <property name="javadoc.title" value="Digitial Product Management Library (DPML) - SDK ${project.version}"/> 
     <property name="project.javadoc.excludes" value="dpml,org"/> 
     <mkdir dir="${api.path}"/>
     <x:javadoc title="${javadoc.title}" 

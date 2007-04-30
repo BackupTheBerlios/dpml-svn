@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Test utility functions in the CLIHelper class.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Management Laboratory</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  */
 public class CLIHelperTestCase extends TestCase
 {

@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 /**
  *  Abstract testcase the provides utilities for serialization and encoding/decoding tests.
  *
- * @author <a href="http://www.dpml.net">The Digital Product Management Laboratory</a>
+ * @author <a href="@PUBLISHER-URL@">@PUBLISHER-NAME@</a>
  */
 abstract class AbstractTestCase extends TestCase
 {

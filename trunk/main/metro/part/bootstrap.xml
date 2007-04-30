@@ -132,7 +132,7 @@
        includes="**/*.*" excludes="**/*.html,**/*.png"
        index="true">
        <manifest>
-         <attribute name="Created-By" value="The Digital Product Management Laboratory."/>
+         <attribute name="Created-By" value="The Digital Product Management Library."/>
          <attribute name="Built-By" value="${user.name}"/>
          <attribute name="Extension-Name" value="${project.name}"/>
          <attribute name="Specification-Vendor" value="DPML"/>
