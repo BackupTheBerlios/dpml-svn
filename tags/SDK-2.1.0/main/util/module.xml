@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<module name="util" basedir="."
+    xmlns="dpml:library" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+    
+  <dependencies>
+    <build>
+      <include key="transit"/>
+    </build>
+  </dependencies>
+
+  <project file="cli/project.xml"/>
+  
+</module>

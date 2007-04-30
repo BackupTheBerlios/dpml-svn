@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Appliance Codebase Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="Codebase Descriptor">
+
+      <subsection name="Description">
+      
+        <p>
+        Declaration of an application codebase.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>uri</tt></td>
+            <td>The codebase uri.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+        
+    </section>
+
+  </body>
+
+</document>
+

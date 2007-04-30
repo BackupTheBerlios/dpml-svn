@@ -1,0 +1,63 @@
+/**
+ * Copyright 2003-2004 The Apache Software Foundation
+ * Copyright 2005-2007 Stephen McConnell
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package dpml.cli.bug;
+
+import junit.framework.TestCase;
+
+import dpml.cli.Option;
+import dpml.cli.builder.PatternBuilder;
+import dpml.cli.option.GroupImpl;
+
+import java.util.List;
+//import java.util.Iterator;
+
+/**
+ * DOCUMENT ME!
+ *
+ * @author $author$
+ * @version $Revision$
+  */
+public class Bug27575Test extends TestCase
+{
+    /**
+     * DOCUMENT ME!
+     */
+    public void testRequiredOptions(  )
+    {
+        PatternBuilder builder = new PatternBuilder(  );
+        builder.withPattern( "hc!<" );
+        Option option = builder.create(  );
+        assertTrue( option instanceof GroupImpl );
+        GroupImpl group = (GroupImpl) option;
+        List options = group.getOptions();
+        assertEquals( "size", 2, options.size() );
+        Object[] entries = options.toArray();
+        for( int i=0; i<entries.length; i++ )
+        {
+            String entry = entries[i].toString();
+            if( entry.equals( "[-h]" ) || entry.equals( "-c <arg>" ) )
+            {
+                // ok
+                boolean ok = true;
+            }
+            else
+            {
+                throw new RuntimeException( "Incorrect option [" + entry + "]" );
+            }
+        }
+    }
+}

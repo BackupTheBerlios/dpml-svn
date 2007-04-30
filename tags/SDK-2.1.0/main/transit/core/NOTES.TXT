@@ -1,0 +1,19 @@
+
+Part/PartDecoder
+
+  1. Part encoding is currently inside Part - needs to be moved to a separate PartEncoder class.
+  2. PartDecoder includes functionlity concerning the caching of Part instances - this logic
+     should be moved inside the Part class (or into a separate ContentHandler)
+  3. Part.instantiate should be expanded to check for a Services annotation and return a 
+     proxied instance if the class asserts one or more services.\ (and equivalent functionality
+     in metro should be retracted)
+  4. Value encoder and decoder does not support uri recognition of alternative value types so 
+     its not currently possibly to add new value expressions (e.g. nested context directives).
+  5. Instantiation strategies are currently handled via specializations of the Part class.
+     This could be improved by moving the strategy to a separate abstract Strategy class 
+     the Plugin, Resource and Component reference as a base.
+
+
+
+
+

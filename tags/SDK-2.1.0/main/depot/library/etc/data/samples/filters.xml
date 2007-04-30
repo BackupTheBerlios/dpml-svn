@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library">
+
+    <module name="acme">
+      <filters>
+        <filter token="PUBLISHER" value="ACME"/>
+      </filters>
+      <project name="widget" basedir=".">
+        <filters>
+          <filter token="NAME" value="Widget"/>
+          <filter token="DESCRIPTION" value="A Widget."/>
+        </filters>
+      </project>
+    </module>
+
+</index>

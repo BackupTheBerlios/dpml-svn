@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module xmlns="dpml:library" name="junit" version="3.8.1">
+
+  <resource name="junit">
+    <types>
+      <type id="jar"/>
+    </types>
+  </resource>
+
+</module>

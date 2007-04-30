@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Vitural Machine Properties Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="Vitural Machine Properties Descriptor">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of the system properties to be supplied to the virtual machine
+        on creation.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="property.html">property</a></tt></td>
+            <td>
+            Declaration of system property assertions to be applied to the 
+            virtual machine on creation.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

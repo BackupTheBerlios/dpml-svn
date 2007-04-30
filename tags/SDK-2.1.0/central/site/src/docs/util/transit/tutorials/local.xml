@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Resource Management</title>
+  </properties>
+
+  <body>
+
+    <section name="Local Protocol">
+
+      <subsection name="Tutorial Objective">
+
+        <p>
+        The aim of this tutorial is to establish a good understanding 
+        of the local protocal and how it can be leveraged in build and runtime 
+        environments.
+        </p>
+
+      </subsection>
+
+      <subsection name="Definition of an Local Artifact">
+
+        <p>
+        An local artifact is any streamable resource locatable using the <code>local</code>
+        URL protocol.  Examples of resources include - property files, XML files, files 
+        containing meta data, serialized objects, images, etc. The local protocol resolves
+        uri value relative to the users local preferences directory - specifically 
+        <tt>${dpml.prefs}</tt>. All resources in the prefs directory are maintained under 
+        the <tt>CLASSIC</tt> layout (i.e. <tt>${dpml.prefs}/[group]/[name]-[VERSION].[TYPE]</tt> or 
+        <tt>${dpml.prefs}/[group]/[name].[TYPE]</tt> for non-versioned resources).
+        
+        The protocol structure is as follows:
+        </p>
+        
+        <code>local:[type]:[group]/[name]</code>
+        
+        <p>or:</p>
+
+        <code>local:[type]:[group]/[name]#[version]</code>
+        
+        <p>
+        To locate a resource Transit maps the <code>[type], [group], 
+        [name],</code> and <code>[version]</code> fields of the artifact URI to a URL
+        using the <tt>CLASSIC</tt> layout.
+        </p>
+
+      </subsection>
+
+      <subsection name="Using Local Artifacts">
+
+        <p> 
+        The following code demonstrates the use of a local artifact to retrieve a property 
+        file from <tt>PREFS</tt> and supply it as an input stream to a Properties object.
+        We construct a new URL using a local artifact specification
+        that declares a resource type of "properties", a group named "dpml/test", with the name 
+        "example-property-file".  We then pass the URLs resource stream to a new Property 
+        instance and print out the value of a property declared in the properties resource.
+        </p>
+
+        <source>URL url = new URL( "local:properties:dpml/test/demo-property-file" );
+InputStream input = url.openStream();
+Properties properties = new Properties();
+properties.load( input );
+String message = properties.getProperty( "tutorial.message" );
+System.out.println( message );</source>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<component xmlns="dpml:metro" 
+    class="org.acme.Demo" name="demo">
+  <context>
+    <entry key="owner" value="${user.name}"/>
+    <entry key="activity" value="Painting"/>
+    <entry key="target" value="bike"/>
+    <entry key="color" value="silver"/>
+  </context>
+</component>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<antlib>
+
+  <taskdef name="clean"        classname="dpml.tools.tasks.CleanTask"/>
+  <taskdef name="init"         classname="dpml.tools.tasks.InitializationTask"/>
+  <taskdef name="prepare"      classname="dpml.tools.tasks.PrepareTask"/>
+  <taskdef name="build"        classname="dpml.tools.tasks.BuildTask"/>
+  <taskdef name="package"      classname="dpml.tools.tasks.PackageTask"/>
+  <taskdef name="test"         classname="dpml.tools.tasks.TestTask"/>
+  <taskdef name="install"      classname="dpml.tools.tasks.InstallTask"/>
+  
+  <taskdef name="jar"          classname="dpml.tools.tasks.JarTask"/>
+  <taskdef name="junit"        classname="dpml.tools.tasks.JUnitTestTask"/>
+  <taskdef name="property"     classname="dpml.tools.tasks.PropertyTask"/>
+  <taskdef name="filter"       classname="dpml.tools.tasks.FilterTask"/>
+  <taskdef name="module"       classname="dpml.tools.tasks.ModuleTask"/>
+  <taskdef name="reactor"      classname="dpml.tools.tasks.ReactorTask"/>
+  <taskdef name="plugin"       classname="dpml.tools.tasks.PluginTask"/>
+  <taskdef name="replicate"    classname="dpml.tools.tasks.ReplicateTask"/>
+  <taskdef name="javadoc"      classname="dpml.tools.tasks.JavadocTask"/>
+  <taskdef name="docs"         classname="dpml.tools.tasks.DocTask"/>
+  
+  <taskdef name="rmic"         classname="dpml.tools.tasks.RMICTask"/>
+  
+  <!--<taskdef name="javac"        classname="dpml.tools.tasks.JavacTask"/>-->
+  <!--<taskdef name="export"       classname="dpml.tools.tasks.PluginExportTask"/>-->
+  
+</antlib>

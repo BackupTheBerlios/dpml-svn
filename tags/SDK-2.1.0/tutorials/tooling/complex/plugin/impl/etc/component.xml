@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<component xmlns="dpml:metro" type="org.acme.impl.SimpleClock">
+  <context>
+    <entry key="format" value="h:mm"/>
+    <entry key="locale" class="java.util.Locale" method="getDefault"/>
+  </context>
+</component>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro CLI</title>
+  </properties> 
+
+  <body>
+
+    <section name="Metro Command Line">
+
+      <subsection name="Description">
+
+<pre><![CDATA[$ metro <uri>]]></pre>
+
+      <p>
+      Runs a metro application given a codebase uri.  
+      Normally the metro command is invoked by the DPML Station
+      as a result of a application start request or as a consequence of 
+      station startup.  The metro application will continue until explicitly 
+      terminated.
+      </p>
+
+<pre>$ metro -help</pre>
+<source><![CDATA[
+  Description:
+
+    Deploys a component referenced by a part uri.
+
+  Usage: metro [-command] [-debug | -trace] [-D<name>=<value>] <uri> | -help | -version
+
+  Arguments:
+    <uri>              uri referencing a part datatype
+
+  Options:
+    -debug             enables debug level logging
+    -trace             enables trace level logging
+    -D<name>=<value>   declaration of one or more system properties
+    -command           enables command execution mode
+    -help              list command help and exit
+    -version           list version info and exit]]></source>
+
+<pre>$ metro -version</pre>
+<source><![CDATA[
+  DPML Metro
+  Version @VERSION@
+  Copyright 2005-2007 Stephen J. McConnell
+  Digital Product Management Library]]></source>
+
+      </subsection>
+
+      <subsection name="Example">
+
+<pre><![CDATA[$ metro link:part:osm/http/osm-http-express
+
+[1840 ] [INFO   ] (main.server): commissioning server
+[1840 ] [INFO   ] (main.server.jetty): Logging to net.dpml.util.Logger via net.osm.http.impl.LoggerAdapter
+[1840 ] [INFO   ] (main.server): adding HTTP connector on port: 8080
+[1840 ] [INFO   ] (main.server): adding SSL connector on port: 8443
+[1840 ] [INFO   ] (main.server): starting
+[1840 ] [INFO   ] (main.server.jetty): jetty-6.1.x
+[1840 ] [INFO   ] (main.server.jetty): Started SelectChannelConnector @ 0.0.0.0:8080
+[1840 ] [INFO   ] (main.server.jetty): Started SslSocketConnector @ 0.0.0.0:8443
+]]></pre>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

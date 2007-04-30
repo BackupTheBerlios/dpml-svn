@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+
+STATION_JVM_OPTS="-Ddpml.depot.application=link:part:dpml/metro/dpml-metro-station -Ddpml.jmx.enabled=true"
+
+if [ "$DEPOT_JVM_OPTS" = "" ] ; then
+    DEPOT_JVM_OPTS=$STATION_JVM_OPTS
+else
+    DEPOT_JVM_OPTS="$STATION_JVM_OPTS $DEPOT_JVM_OPTS"
+fi
+export DEPOT_JVM_OPTS
+DEPOT_SECURITY_POLICY=$DPML_SYSTEM/bin/station.policy
+export DEPOT_SECURITY_POLICY
+
+depot $*

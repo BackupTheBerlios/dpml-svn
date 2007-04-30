@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Migration Notes</title>
+    <description>Information about binary downloads of the DPML component management platform.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties> 
+
+  <body>
+
+    <section name="Migration Notes">
+
+      
+        <p>
+        These notes deal with changes relative to a migration 
+        from DPML version 1 to DPML version 2.
+        </p>
+
+        <subsection name="Changes to the Depot index schema and namespace">
+        
+
+          <p>1.1 Namespace Changes</p>
+
+          <p>
+The XML namespace for index files, imported module and imported project files has changed from "link:xsd:dpml/lang/dpml-lang#1.0" to the new namespace "dpml:library".  This change has been 
+brought about a simpler architecture for new namespace resolution.  Instead of the namespace 
+serving as an implicit resource identifier, version 2.0.0 leverages the java.util.ServiceLoader
+to load a schema validator for any unknown schema references.
+          </p>
+
+          <p>1.2 Schema Changes</p>
+
+          <p>
+The schema definition has been simplified with the removal of inline declaration of product 
+type data structures.  For example, under version 1.1 you could define a project using the 
+following in-line component type declaration:
+          </p>
+
+<pre>
+  &lt;project name="foo" basedir="foo"&gt;
+    &lt;types&gt;
+      &lt;type id="jar"/&gt;
+      <font color="darkred">&lt;part:plugin class="org.acme.Foo" alias="true"/&gt;</font>
+    &lt;/types&gt;
+  &lt;/project&gt;
+</pre>
+
+<p>
+In the above XML sample the declaration of '&lt;part:plugin .../&gt;' is an example of an inline 
+declaration.  Under version 2.0.0 the equivalent definition is handled by a part type 
+production statement using the new 'source' attribute referencing an XML defining a 
+part deployment strategy.
+</p>
+
+<pre>
+  &lt;project name="foo" basedir="foo"&gt;
+    &lt;types&gt;
+      &lt;type id="jar"/&gt;
+      <font color="darkred">&lt;type id="part" alias="true" source="component.xml"/&gt;</font>
+    &lt;/types&gt;
+  &lt;/project&gt;
+</pre>
+
+        </subsection>
+       
+        <subsection name="Part data type management changes">
+        
+          <p>2.1 Separation of part schema from strategy schemas.</p>
+       
+<p>
+The schema definition for the 'part' data type has been updated such that it no longer defines any concrete deployment strategies (version 1.1 include resource and plugin definitions).  Instead, resource declarations may defined under an XML file with a root <tt>&lt;resource&gt;</tt> element with the namespace "dpml:antlib".  Plugin definitions have been removed as these are now redundant in that all plugin functionality is fully supported by a <tt>&lt;component&gt;</tt> definition under the "dpml:metro" namespace.  Under this revised structure the introduction of new schemas is much simpler because new alternative strategy schemas can be loaded dynamically, as are handlers for the strategy type.
+</p>
+
+        </subsection>
+        
+        <subsection name="Metro component strategy.">
+
+          <p>3.1 Component annotations.</p>
+
+<p>
+Version 1 provided support for the declaration of component meta-data via a collocated .type data file.  This concept has been replaced under version 2.0 with class annotations that provide for the declaration of component features and policies.  This change eliminates a substantial area of code dealing with component type data structure generation.
+</p>
+
+          <p>3.2 Enhancements to the &lt;context&gt; definition.</p>
+
+
+<p>
+The <tt>&lt;context&gt;</tt> nested element can now include nested context entries, and entries that resolve to map-based structures. The nested context support is of particular interest when dealing with 'standard' context interfaces declared as return types within an enclosing context interface.  In addition, Metro 2.0.0 includes a Context annotation enabling the declaration of an interface as a context definition - enabling the use of alternative interface names and improving overall flexibility in context contract specification and use.
+</p>
+
+          <p>3.3 Bundled deployment defaults.</p>
+
+
+<p>
+A deployment profile can be collocated with a class file under the name <tt>&lt;classname&gt;.xprofile</tt>. The deployment profile contains the declaration of the default context and any other component data to be applied on the establishment of a component model before subsequent customization based on a component directive within a part data structure.  In addition, component policy (such as lifecycle, lifestyle, etc.) can also be associated with a component class via respective annotations.  Collectively these enhancement eliminate the need for the metro component ant task (which in turn eliminates a significant amount of code and provides a marked performance improvement related to component loading and deployment).
+</p>
+
+        </subsection>
+        
+        <subsection name="Other Changes.">
+        
+
+          <p>4.1 Content Handlers abstraction</p>
+
+<p>
+Introduction of artifact content handlers into the Transit resource management layer has enabled the separation of all 'part' content handling to an external system.  In the case of the 'part' content hander a part definition is analysed and a strategy element loaded via a dedicated strategy handler.  This approach simplifies both the Transit and Metro codebase while introducing some breaking API changes.  Generally speaking the changes are minor in nature and will normally be limited to test cases that reference directly DPML part management APIS.  In most cases these API changes will not impact client code.
+</p>
+
+          <p>4.2 Modularization</p>
+
+<p>
+Under the 1.X series of distributions all classes were packaged under the net.dpml namespace.  Under 2.X public classes (i.e. classes making up the public SDK API) remain in the net.dpml namespace whereas private classes have been moved to the dpml namespace.  This change resolves issues related to public classes that were public in order to support inter-module visibility but which were not designed for inclusion within the public API.  As a consequence - the public API for component management within embedded applications has shrunk dramatically (37 public packages reduced down to 9). This change to some extent is pre-emptive of the changes that would be brought about by an implementation based on the JSR 294 Modularization specification.
+</p>
+
+        </subsection>
+      
+      </section>
+      
+  </body>
+
+</document>
+

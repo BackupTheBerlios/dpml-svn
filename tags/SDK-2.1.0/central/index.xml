@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<index xmlns="dpml:library">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:org/apache/ant"/>
+    <import uri="link:module:dpml"/>
+    <import uri="link:module:org/acme"/>
+  </imports>
+
+  <properties>
+    <property name="project.javac.source" value="1.5"/>
+    <property name="project.javac.target" value="1.5"/>
+    <property name="project.javac.lint" value="unchecked"/>
+    <property name="project.publisher.name" value="Digital Product Management Library"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+    <property name="project.major.version" value="2"/>
+    <property name="project.minor.version" value="0"/>
+    <property name="project.micro.version" value="0"/>
+    <property name="project.javadoc.linksource" value="false"/>
+  </properties>
+  
+  <module name="dpml">
+  
+    <filters>
+      <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+      <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+      <feature token="PROJECT-VERSION" id="version"/> 
+    </filters>
+    
+    <module file="module.xml"/>
+    
+  </module>
+  
+</index>

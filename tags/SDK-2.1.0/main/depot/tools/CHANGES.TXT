@@ -1,0 +1,25 @@
+
+Changes in 2.0 (pre)
+====================
+
+net.dpml.tools.impl 
+-------------------
+
+1. removed presumption of source and target versions
+   int the Javac task (was linked to 1.4, now requires 
+   developer to declare constraints as build properties
+   if required - i.e. we now default to the javac tool
+   policy)
+2. general code implovement via generics
+3. rationalization of the <type> production element
+    - removal of custom in-line type declaration
+      in favour of:
+        <type id="part" source="plugin.xml"/>
+    - support for test verus production types, where
+      test-based resources go to the target/test 
+      directory and are not included as formal 
+      project deliverables - e.g.:
+        <type id="jar" test="true"/>
+
+
+

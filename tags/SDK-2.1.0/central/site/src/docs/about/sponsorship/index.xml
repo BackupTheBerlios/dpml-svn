@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="niclas@hedhman.org">Niclas Hedhman</author>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Sponsors</title>
+    <description>Information about DPML Sponsors.</description>
+    <keywords>DPML, build, runtime, management, components, soa, java, composition</keywords>
+  </properties>
+
+  <body>
+
+    <section name="Sponsors">
+
+      <p>
+        The following companies and organizations have actively contributed resources
+        to the Digital Product Management Library, for which we are very grateful.
+        If you would like your company to contribute, please contact
+        info@dpml.net for more information.
+      </p>
+
+      <table>
+
+        <tr>
+          <th></th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="http://www.ibiblio.org/">
+              <img src="../../images/sponsorship/ibiblio.gif"
+                alt="IBIBLIO"/></a>
+            <br/>
+         </td>
+          <td>
+            Home to one of the largest "collections of collections" on the Internet, 
+            ibiblio.org is a conservancy of freely available information, including 
+            software, music, literature, art, history, science, politics, and cultural 
+            studies. ibiblio.org is a collaboration of the Center for the Public Domain 
+            and The University of North Carolina - Chapel Hill. ibiblio.org hosts the 
+            DPML web site, our resource repository, product archives, the DPML mailing 
+            lists and virtual hosting of the dpml.net domain.  Ibiblio have been there 
+            supporting the DPML since it's inception and have recently extended their 
+            support to include web and virtual hosting of the OSM training content.
+          </td>
+          <td>
+            <a href="http://www.ibiblio.org/">
+              <img src="../../images/sponsorship/ibiblio.gif"
+                alt="IBIBLIO"/></a>
+            <br/>
+         </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="http://www.berlios.de/">
+              <img src="../../images/sponsorship/berlios.png"
+                alt="BERLIOS"/></a>
+            <br/>
+         </td>
+          <td>
+            The Berlios project agrees to provide essential infrastructure services to 
+            the DPML as part of their ongoing commitment to world-wide open-source 
+            initiatives.  Berlios resources supplied to the DPML include secure SVN, 
+            wiki services, bug tracking, and operations support. 
+          </td>
+          <td>
+            <a href="http://developer.berlios.de">
+              <img src="../../images/sponsorship/berlios.png"
+                alt="BERLIOS"/></a>
+            <br/>
+         </td>
+        </tr>
+
+        <tr>
+          <td>
+            <a href="http://www.cenqua.com">
+              <img src="../../images/sponsorship/cenquad.gif"
+                width="89" height="33" border="0" alt="Code Coverage by Clover"/></a>
+            <br/>
+            License of Cenqua Clover for DPML development.
+         </td>
+          <td>
+            Clover is a powerful Java code coverage analysis tool. Clover
+            instruments source code and then records precisely what is executed
+            when tests are run. The detailed test coverage reports help
+            developers easily identify areas where the testing is weak enabling
+            them write better tests faster. Clover fits into a developer's
+            environment, be it Ant, IDEA, Eclipse, JBuilder, JDevelopers,
+            NetBeans, the command line, or any combination. Quaility Assurance
+            and Project Managers can access important quality metrics over time
+            via html and pdf reports. Clover provides test analysis to thousands
+            companies and open source projects all over the world.
+          </td>
+          <td>
+            <a href="http://www.cenqua.com/clover">
+              <img src="../../images/sponsorship/clovered.gif"
+                 width="89" height="33" border="0" alt="Supported by Cenqua"/>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="http://www.atlassian.com/c/NPOS/10160">
+              <img src="../../images/sponsorship/atlassian-new-logo.gif"
+                width="89" height="33" border="0" alt="Issuetracking by Atlassian JIRA"/></a>
+            <br/>
+            License of Atlassian JIRA for DPML development.
+          </td>
+          <td>
+            Atlassian supports our efforts by contributing their bug tracking
+            and issue tracking application, JIRA, to our project.
+            Atlassian is an innovative Australian software company providing
+            enterprise software solutions to the world's leading organisations.
+            Atlassian's leading software product, JIRA is a bug tracking and
+            issue tracking application developed to track and manage the issues
+            and bugs that emerge during a project. JIRA customers include
+            departments from NASA, Boeing, Cisco, JP Morgan, 3M, BP, Sony and
+            more. <a href="http://www.atlassian.com/c/NPOS/10160">Try it</a>
+            for yourself today.
+          </td>
+          <td>
+            <a href="http://www.atlassian.com/c/NPOS/10160">
+              <img src="../../images/sponsorship/jira_button_120wx60h.gif"
+                 width="89" height="33" border="0" alt="Supported by Atlassian"/>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="http://www.jetbrains.com/">
+              <img src="../../images/sponsorship/jetbrains_color.gif"
+                width="89" height="33" border="0" alt="IDE by JetBrains"/></a>
+            <br/>
+            License of JetBrains IntelliJ IDEA for DPML development.
+          </td>
+          <td>
+            IntelliJ IDEA is an intelligent Java IDE intensely focused on
+            developer productivity. It provides a robust combination of
+            enhanced development tools, including: refactoring, J2EE support,
+            Ant, JUnit, and CVS integration. Packaged with an intelligent Java
+            editor, coding assistance and advanced code automation tools, IDEA
+            enables Java programmers to boost their productivity while reducing
+            routine time consuming tasks.
+            IntelliJ IDEA functionality is continuously extended by IDEA users
+            and third parties. Check out our categorized list of more than 100
+            plug-ins at the <a href="http://plugins.intellij.net">IntelliJ IDEA
+            plug-in repository</a>.
+          </td>
+          <td>
+            <a href="http://www.jetbrains.com/">
+              <img src="../../images/sponsorship/idea_btn1.gif"
+                 width="89" height="33" border="0" alt="Supported by JetBrains"/>
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+          </td>
+          <td>
+            Permission has been kindly granted by <strong>
+            <a href="http://www.eldorado.com">Eldorado</a></strong> for the use of 
+            images and icons in the content of this site and our desktop 
+            applications. Since 1998 Everaldo Coelho has worked as a graphic 
+            designer and illustrator, doing from general illustrations, comics 
+            and child books to corporate design and many other creative areas. 
+            Currently, he is the art director at Yellowicon Studio.
+          </td>
+          <td></td>
+        </tr>
+
+      </table>
+
+    </section>
+
+  </body>
+
+</document>

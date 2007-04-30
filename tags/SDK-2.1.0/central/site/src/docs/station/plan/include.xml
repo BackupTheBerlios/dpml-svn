@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Deployment Plan Include Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Entry Directive">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of a deployment include entry by reference.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>key</tt></td>
+            <td>A unique key identitying the deployment entry.</td>
+          </tr>
+          <tr>
+            <td><tt>uri</tt></td>
+            <td>A uri identifying a <tt>part</tt> or <tt>appliance</tt> datatype.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+      
+    </section>
+        
+    <section name="Technical Note">
+    
+      <p>
+      The current implementation recognizes the 
+      <a href="../../metro/parts/index.html"><tt>part</tt></a> datatype and the station
+      <a href="appliance/index.html"><tt>appliance</tt></a> datatype.  
+      Part datatypes are resolved to a component definition deployed 
+      within the same JVM as the station.  Appliance datatypes are used to construct a 
+      separate JVM process (controlled by the station) hosting a component established 
+      relative to the appliace codebase argument.
+      </p>
+    
+    </section>
+
+  </body>
+
+</document>
+

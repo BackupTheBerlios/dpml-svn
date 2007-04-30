@@ -1,0 +1,76 @@
+
+Changes in 2.0 (pre)
+====================
+
+net.dpml.util (major version change)
+------------------------------------
+
+1. significant updates to the ContextInvocationHandler dealing with the 
+   potential for nested context entries, explicit context contract assertions 
+   using annotations, and the presumption of context assertion compile-time
+   checking with a dedicated processor
+2. addition of generics into numerouse classes
+3. moved net.dpml.lang.PID from lang to net.dpml.util (part of general package
+   cleanup), Util.java moved to transit package private, stream utils moved 
+   to transit public, MimeTypeHandler moved to a transit package private,
+   and DOM3DoucumentBuilder to transit
+4. Removed the EventHandler, EventQueue and UnicastEventSource as these 
+   classes are not required given SE6/JMX management
+5. removal of Enum and ValuedEnum (and all dependees moved to language
+   based enum definitions)
+
+net.dpml.transit (major version change)
+---------------------------------------
+
+1. removal of the net.dpml.transit.model package on the grounds 
+   that we can do the equivalent though the JMX support in SE6
+2. JMX enable transit controllers (system, cache, hosts)
+3. dual initialization sequence replaced by extension support
+   based on java.util.ServiceLoader for layouts and content 
+   handlers
+4. part management moved to a generalized content handling model
+   with content handlers established by ServiceLoader
+5. generics added to all collection related implementations
+6. layout package consolidated and enhanced to leverage 
+   ServiceLoader based discovery of custom layouts
+7. monitor package rewritten (with substantial simplification)
+   and moved to net.dpml.transit namespace
+8. registry package removed (internal implentation no longer 
+   required)
+
+net.dpml.lang (major version change)
+------------------------------------
+
+1. Category class moved to enum
+2. Removed ValueDirective (not required)
+3. Construct implementation updated to handle nested context
+   arguments.
+4. updates to Plugin class to provide non-casting on general 
+   instantiation (via generics)
+5. addition of a generic part content handler with plugable
+   deployment strategies
+6. package moved to dpml/lang/dpml-lang-part
+7. removal of Part.getContent() due to conflict with 
+   java.io.ContentHandler semantics (functionality replaced
+   with an improved Part.getInstance( Class ) leveraging
+   generics and separation of getContent operations under
+   a dedicated ContentHandler implementation
+
+net.dpml.annotation (new package under dpml/lang/dpml-lang-part)
+----------------------------------------------------------------
+
+1. addition of Context annotation supporting assertion that
+   a given interface is a context interface
+2. addition of Part annotation supporting assertion that
+   a given interface is a part interface
+3. addition of Component annotation supporting declaration
+   of component deployment policies
+4. addition of Services annotation enabling declaration of 
+   interface classes that a given implementation class views
+   as published services
+
+
+
+
+
+

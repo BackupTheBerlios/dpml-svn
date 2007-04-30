@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="dpml-depot-library" default="install" basedir=".">
+
+  <property file="${basedir}/bootstrap.properties"/>
+  <property file="../../bootstrap.properties"/>
+  
+  <property name="bootstrap.template" location="${basedir}/../../bootstrap.xml"/>
+  <import file="${bootstrap.template}"/>
+  
+  <target name="setup-path" depends="bootstrap.setup-path">
+    <path id="project.main.path">
+      <pathelement location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-BOOTSTRAP.jar"/>
+      <pathelement location="${dpml.local.cache}/dpml/metro/jars/dpml-metro-part-BOOTSTRAP.jar"/>
+      <pathelement location="${target.classes.dir}"/>
+    </path>
+    <path id="project.test.path">
+      <path refid="project.main.path"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
+    </path>
+  </target>
+
+</project>
+

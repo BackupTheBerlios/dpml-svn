@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document>
+  <properties>
+    <author email="mcconnell@osm.net">Stephen McConnell</author>
+    <title>Working with Modules</title>
+  </properties>
+
+  <body>
+
+    <section name="Working with Modules">
+
+      <subsection name="Tutorial Objective">
+
+        <p>
+        The objective of this tutorial is to introduce the concept of a module
+        and the usage of modules in managing namespaces for produced artifacts.
+        In general terms a module can be viewed as a named group.  Modules can
+        contain projects, resources and other modules.  As such - modules enable
+        the creation of a namespace heirachy that maps directly to the notion of 
+        a group in the artifact protocol.  For example - the uri 
+        <tt>artifact:part:dpml/metro/dpml-metro-runtime#1.0.0</tt> is referencing 
+        a resource named <tt>dpml-metro-runtime</tt> in the <tt>dpml/metro</tt>
+        module.
+        </p>
+
+      </subsection>
+
+      <subsection name="index.xml">
+
+        <p>
+        The following index file introduces an enclosing module to our earlier
+        multi-project build example.  In this case we are using the module declaration
+        to partition the two projects in the namespace <tt>org/acme</tt>.
+        </p>
+
+<pre>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;index xmlns="dpml:library"&gt;
+
+  &lt;imports&gt;
+    &lt;import uri="link:module:org/apache/ant"/&gt;
+    &lt;import uri="link:module:dpml"/&gt;
+  &lt;/imports&gt;
+
+  <font color="darkred">&lt;module name="org/acme" basedir="."&gt;</font>
+  
+    &lt;project name="clock-api" basedir="api"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+      &lt;/types&gt;
+    &lt;/project&gt;
+  
+    &lt;project name="clock-impl" basedir="impl"&gt;
+      &lt;types&gt;
+        &lt;type id="jar"/&gt;
+      &lt;/types&gt;
+      &lt;dependencies&gt;
+        &lt;runtime&gt;
+          &lt;include key="clock-api"/&gt;
+        &lt;/runtime&gt;
+        &lt;test&gt;
+          &lt;include ref="org/apache/ant/ant-junit"/&gt;
+          &lt;include ref="dpml/transit/dpml-transit-main"/&gt;
+        &lt;/test&gt;
+      &lt;/dependencies&gt;
+    &lt;/project&gt;
+
+  <font color="darkred">&lt;/module&gt;</font>
+  
+&lt;/index&gt;
+</pre>
+
+      </subsection>
+
+      <subsection name="Listing the Module">
+
+        <p>
+        The following command lists the projects relative to the 
+        module tutorial source project.  The output validates that the 
+        resources names used within Depot now include the <tt>org/acme</tt>
+        namespace. 
+        </p>
+
+<pre>
+$ cd tutorials\tooling\complex\modules
+$ build -list
+
+Selection: [3]
+
+  <font color="blue">[1]   project:org/acme/clock-api#SNAPSHOT
+  [2]   project:org/acme/clock-impl#SNAPSHOT
+  [3]   module:org/acme/#SNAPSHOT</font>
+
+$</pre>
+
+        <p>
+        Something important to note is that the above listing includes our two 
+        projects <tt>clock-api</tt> and <tt>clock-impl</tt> together with the enclosing
+        module.  In effect a module that declares a basedir is considered as a 
+        buildable project.  Sometimes it is convinient to handle application level
+        packaging and installer creation concerns at the level of a module build, 
+        but more interesting is the potential for exporting a module definition 
+        for use by third-parties.
+        Our <a href="export.html">next tutorial</a> presents an example of the creation
+        of a module artifact suitable for use by third-party projects that want to reference
+        our content.
+        </p>
+
+      </subsection>
+      
+    </section>
+
+  </body>
+</document>
+

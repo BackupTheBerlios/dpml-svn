@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<index xmlns="dpml:library">
+
+  <imports>
+    <import uri="link:module:junit"/>
+    <import uri="link:module:ant"/>
+  </imports>
+
+    <module name="acme">
+      <resource name="widget">
+        <types>
+          <type id="foo">
+            <property name="pink" value="floyd"/>
+            <property name="alice" value="cooper"/>
+          </type>
+          <type id="part" source="target/plugin.xml" test="true" alias="false"/>
+        </types>
+      </resource>
+    </module>
+  
+</index>

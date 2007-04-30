@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="context">
+
+  <info title="DPML Metro Context Tutorial">
+    <description>Introduction to context semantics.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+    <type id="part" source="target/component.xml"/>
+  </types>
+    
+  <dependencies>
+    <build>
+      <include key="hello"/>
+    </build>
+    <test>
+      <include ref="dpml/metro/dpml-metro-part"/>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+    
+</project>
+

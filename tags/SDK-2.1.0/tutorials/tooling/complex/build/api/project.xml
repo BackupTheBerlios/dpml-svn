@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="dpml:library" name="clock-api">
+
+  <info title="DPML Multi-project Tutorial">
+    <description>Simple project containing an API that will be referenced by an another project.</description>
+  </info>
+    
+  <types>
+    <type id="jar"/>
+  </types>
+  
+</project>
+

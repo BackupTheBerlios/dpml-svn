@@ -1,0 +1,6 @@
+#
+# List of available Transit content handlers.
+#
+
+net.dpml.station.ApplianceContentHandler
+net.dpml.station.PlanContentHandler

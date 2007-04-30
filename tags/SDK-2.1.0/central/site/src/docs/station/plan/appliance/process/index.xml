@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Appliance Virtual Machine Process Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="Process Descriptor">
+
+      <subsection name="Description">
+      
+        <p>
+        Definition of a virtual machine process.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>startup</tt></td>
+            <td>The startup timeout value. The default value is 0 (uncondition wait).</td>
+          </tr>
+          <tr>
+            <td><tt>shutdown</tt></td>
+            <td>The shutdown timeout value. The default value is 0 (uncondition wait).</td>
+          </tr>
+          <tr>
+            <td><tt>path</tt></td>
+            <td>An absolute or relative path defining the basedir for deployment of the 
+               Java Virtual Machine.  The default value is the current derectory
+               of the application executing the deployment process.</td>
+          </tr>
+          <tr>
+            <td><tt>executable</tt></td>
+            <td>AThe name of the executable to use for deployment. The default value
+            is the <tt>metro</tt> application.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+        
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt><a href="environment.html">environment</a></tt></td>
+            <td>
+            Declaration of environment variable assertions to be applied to the 
+            virtual machine on creation.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="properties.html">properties</a></tt></td>
+            <td>
+            Zero or more system property assertions to be assigned to the Java 
+            Virtual Machine on creation.
+            </td>
+          </tr>
+          <tr>
+            <td><tt><a href="arguments.html">arguments</a></tt></td>
+            <td>
+            Zero or more command line arguments to be supplied to the 
+            virtual machine on creation.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

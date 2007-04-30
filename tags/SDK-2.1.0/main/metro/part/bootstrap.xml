@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+  Copyright 2004-2005 Stephen J McConnell
+  Copyright 2004 Niclas Hedhman
+  
+  Licensed  under the  Apache License,  Version 2.0  (the "License");
+  you may not use  this file  except in  compliance with the License.
+  You may obtain a copy of the License at 
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed  under the  License is distributed on an "AS IS" BASIS,
+  WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  implied.
+  
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project name="dpml-metro-part" default="install" basedir=".">
+
+  <property name="project.group" value="dpml/metro"/>
+  <property name="project.name" value="dpml-metro-part"/>
+  
+  <property file="${basedir}/bootstrap.properties"/>
+  <property file="${home}/bootstrap.properties"/>
+  <import file="${home}/bootstrap.xml"/>
+    
+  <target name="setup-path" depends="init">
+    <property name="transit.jar.path" 
+        location="${dpml.local.cache}/dpml/transit/jars/dpml-transit-main-${project.version}.jar"/>
+    <path id="project.main.path">
+      <pathelement location="${transit.jar.path}"/>
+      <pathelement location="${target.classes.dir}"/>
+    </path>
+    <path id="project.test.path">
+      <pathelement location="${transit.jar.path}"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
+      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+    </path>
+  </target>
+
+  <target name="init" depends="bootstrap.init">
+    <filter token="PROJECT-NAME" value="${project.name}"/>
+    <filter token="PROJECT-GROUP" value="${project.group}"/>
+    <filter token="PROJECT-VERSION" value="${project.version}"/>
+    <filter token="PART-XSD-SPEC-URI" value="link:xsd:${project.group}/dpml-metro-part"/>
+    <filter token="COMPONENT-XSD-SPEC-URI" value="link:xsd:${project.group}/dpml-lang-component"/>
+    <filter token="RESOURCE-NAMESPACE" value="link:xsd:${project.group}/dpml-lang-resource"/>
+    <filter token="DEPOT-CLASSLOADER-CLASS" value="dpml.util.SystemClassLoader"/>
+    <filter token="DEPOT-MAIN-CLASS" value="dpml.util.Main"/>
+  </target>
+
+  <target name="package" depends="bootstrap.package">
+    <property name="xsds" location="${target.deliverables.dir}/xsds"/>
+    <mkdir dir="${xsds}"/>
+    <!--
+    Copy part XSD to deliverables and classes.
+    -->
+    <property name="filename" value="${project.name}-${project.version}.xsd"/>
+    <copy file="${target.dir}/xsds/part.xsd" 
+      toFile="${xsds}/${filename}" preservelastmodified="true" overwrite="true"/>
+    <mkdir dir="${target.dir}/classes/main/${project.group}"/>
+    <copy file="${target.dir}/xsds/part.xsd" 
+      toFile="${target.dir}/classes/main/${project.group}/${project.name}.xsd" 
+      preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${xsds}/${filename}"/>
+    <echo file="${xsds}/${project.name}.xsd.link"
+      message="artifact:xsd:${project.group}/${project.name}#${project.version}"/>
+    <mkdir dir="${target.deliverables.jars.dir}"/>
+    <!--
+    Copy state XSD to deliverables and classes.
+    -->
+    <property name="state.filename" value="dpml-lang-state-${project.version}.xsd"/>
+    <copy file="${target.dir}/xsds/state.xsd" 
+      toFile="${xsds}/${state.filename}" preservelastmodified="true" overwrite="true"/>
+    <mkdir dir="${target.dir}/classes/main/${project.group}"/>
+    <copy file="${target.dir}/xsds/state.xsd" 
+      toFile="${target.dir}/classes/main/${project.group}/dpml-lang-state.xsd" 
+      preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${xsds}/${state.filename}"/>
+    <echo file="${xsds}/dpml-lang-state.xsd.link"
+      message="artifact:xsd:${project.group}/dpml-lang-state#${project.version}"/>
+    <!--
+    Copy component XSD to deliverables and classes.
+    -->
+    <property name="component.filename" value="dpml-lang-component-${project.version}.xsd"/>
+    <copy file="${target.dir}/xsds/component.xsd" 
+      toFile="${xsds}/${component.filename}" preservelastmodified="true" overwrite="true"/>
+    <mkdir dir="${target.dir}/classes/main/${project.group}"/>
+    <copy file="${target.dir}/xsds/component.xsd" 
+      toFile="${target.dir}/classes/main/${project.group}/dpml-lang-component.xsd" 
+      preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${xsds}/${component.filename}"/>
+    <echo file="${xsds}/dpml-lang-component.xsd.link"
+      message="artifact:xsd:${project.group}/dpml-lang-component#${project.version}"/>
+    <!--
+    Copy resource XSD to deliverables and classes.
+    -->
+    <property name="resource.filename" value="dpml-lang-resource-${project.version}.xsd"/>
+    <copy file="${target.dir}/xsds/resource.xsd" 
+      toFile="${xsds}/${resource.filename}" preservelastmodified="true" overwrite="true"/>
+    <mkdir dir="${target.dir}/classes/main/${project.group}"/>
+    <copy file="${target.dir}/xsds/resource.xsd" 
+      toFile="${target.dir}/classes/main/${project.group}/dpml-lang-resource.xsd" 
+      preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${xsds}/${resource.filename}"/>
+    <echo file="${xsds}/dpml-lang-resource.xsd.link"
+      message="artifact:xsd:${project.group}/dpml-lang-resource#${project.version}"/>
+    <!--
+    Copy library XSD to deliverables and classes.
+    -->
+    <property name="library.filename" value="dpml-lang-library-${project.version}.xsd"/>
+    <copy file="${target.dir}/xsds/library.xsd" 
+      toFile="${xsds}/${library.filename}" preservelastmodified="true" overwrite="true"/>
+    <mkdir dir="${target.dir}/classes/main/${project.group}"/>
+    <copy file="${target.dir}/xsds/library.xsd" 
+      toFile="${target.dir}/classes/main/${project.group}/dpml-lang-library.xsd" 
+      preservelastmodified="true" overwrite="true"/>
+    <checksum fileext=".md5" file="${xsds}/${library.filename}"/>
+    <echo file="${xsds}/dpml-lang-library.xsd.link"
+      message="artifact:xsd:${project.group}/dpml-lang-library#${project.version}"/>
+    <!--
+    Create and publish the jar file.
+    -->
+    <mkdir dir="${target.deliverables.jars.dir}"/>
+    <jar destfile="${target.deliverables.jars.dir}/${project.filename}"
+       basedir="${target.classes.dir}" 
+       includes="**/*.*" excludes="**/*.html,**/*.png"
+       index="true">
+       <manifest>
+         <attribute name="Created-By" value="The Digital Product Management Library."/>
+         <attribute name="Built-By" value="${user.name}"/>
+         <attribute name="Extension-Name" value="${project.name}"/>
+         <attribute name="Specification-Vendor" value="DPML"/>
+         <attribute name="Specification-Version" value="${project.specification.version}"/>
+         <attribute name="Implementation-Vendor" value="DPML"/>
+         <attribute name="Implementation-Vendor-Id" value="net.dpml"/>
+         <attribute name="Implementation-Version" value="${project.version}"/>
+         <attribute name="Main-Class" value="dpml.util.Main"/>
+       </manifest>
+    </jar>
+    <echo file="${target.deliverables.jars.dir}/${project.name}.jar.link"
+      message="artifact:jar:${project.group}/${project.name}#${project.version}"/>
+    <checksum fileext=".md5" file="${target.deliverables.jars.dir}/${project.filename}"/>
+    <delete file="${target.deliverables.jars.dir}/${project.filename}.asc"/>
+    <antcall target="execute.jar.asc"/>
+  </target>
+
+  <target name="install" depends="bootstrap.install">
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating Ant. ${user.home}/.ant/lib
+#----------------------------------------------------------------------------------
+    </echo>
+    <!--
+    <copy tofile="${user.home}/.ant/lib/dpml-metro-part.jar"
+      file="${target.deliverables.jars.dir}/${project.name}-${project.version}.jar"/>
+    -->
+    <property name="lib" location="${dpml.system}/lib"/>
+    <property name="short.filename" value="${project.name}.jar"/>
+    <property name="long.filename" value="${project.name}-${project.version}.jar"/>
+    <mkdir dir="${lib}/ext"/>
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating DPML Lib ${lib}/ext
+#----------------------------------------------------------------------------------
+    </echo>
+    <!--
+    <copy toFile="${lib}/ext/${short.filename}" preservelastmodified="true" overwrite="true" 
+      file="${target.deliverables.jars.dir}/${long.filename}"/>
+    -->
+    <echo>
+#----------------------------------------------------------------------------------
+# Updating ${dpml.system}/bin
+#----------------------------------------------------------------------------------
+    </echo>
+    <mkdir dir="${dpml.system}/bin"/>
+    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
+      <fileset dir="target">
+        <include name="bin/**"/>
+      </fileset>
+    </copy>
+    <chmod perm="755">
+      <fileset dir="${dpml.system}/bin">
+        <include name="**/*.sh"/>
+        <include name="**/depot"/>
+      </fileset>
+    </chmod>
+    <property name="work" location="${dpml.data}/work"/>
+    <mkdir dir="${work}"/>
+  </target>
+
+</project>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- 
+ Copyright 2005 Stephen McConnell
+
+ Licensed  under the  Apache License,  Version 2.0  (the "License");
+ you may not use  this file  except in  compliance with the License.
+ You may obtain a copy of the License at 
+ 
+   http://www.dpml.net/central/about/legal/
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed  under the  License is distributed on an "AS IS" BASIS,
+ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+ implied.
+ 
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<document>
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro Common Utilities</title>
+  </properties> 
+
+  <body>
+
+    <section name="DPML Utilities">
+
+      <subsection name="Index">
+      
+      <p>
+      The utilities package includes a a number of lower-level
+      utilities used across the DPML application suite. These 
+      include the <a href="../transit/index.html">Transit</a> 
+      resource management services, the <a href="../depot/index.html">Depot</a>
+      build automation facilities, and a <a href="../command/index.html">CLI</a>
+      processor used withing several of the DPML applications. 
+      </p>
+      
+        <ul>
+          <li>the <a href="../transit/index.html">Transit</a> resource management layer</li>
+          <li>the <a href="../depot/index.html">Depot</a> build automation tools</li>
+          <li>and common <a href="../command/index.html">CLI</a> utilities</li>
+        </ul>
+        
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>

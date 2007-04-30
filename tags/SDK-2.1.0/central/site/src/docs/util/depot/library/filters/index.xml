@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Type Production</title>
+  </properties> 
+
+  <body>
+
+    <section name="Filters">
+
+      <p>
+      The filters element may be used to declare a collection of 
+      filters to be applied to a project code base.
+      </p>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td><a href="filter.html">filter</a></td>
+             <td>0..n</td>
+             <td>Declaration of a simple literal filter that subsitues the 
+             supplied token with a value.</td>
+           </tr>
+           <tr>
+             <td><a href="feature.html">feature</a></td>
+             <td>0..n</td>
+             <td>Substitution of a token with a value resolved from a 
+             feature of the project model (such as a name, group, uri, etc.).</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+    </section>
+
+    <section name="Example">
+
+      <p>
+      The following project definition demonstrates usage of a combination of 
+      simple and feature-based filters.
+      </p>
+
+<source><![CDATA[
+  <project name="dpml-depot-console" basedir="core">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+      <property name="depot.short.filename" value="${project.name}.jar"/>
+      <property name="transit.short.filename" value="dpml-transit-main.jar"/>
+      <property name="project.jar.main.class" value="dpml.depot.Main"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
+      <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
+      <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
+      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.util.SystemClassLoader"/>
+      <feature token="BUILD-ID" id="version"/>
+      <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
+      <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
+      <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
+      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-depot-build" />
+      <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
+      <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
+      <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
+    </filters>
+  </project>
+]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+
+
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Application Profiles</title>
+  </properties> 
+
+  <body>
+
+    <section name="Deployment Plans">
+
+      <p>
+      A deployment plan is an XML document referenced as an artificat that
+      defines the configuration of a station instance.  The plan datatype 
+      declares a root <a href="plan.html"><tt>&lt;plan&gt;</tt></a> element 
+      which contains zero or more appliance defintions. A plan is referenced 
+      as an artifact using the <a href="../cli/index.html"> station</a> 
+      command line tool. 
+      </p>
+
+      <subsection name="Namespace">
+      
+        <pre>dpml:station</pre>
+      
+      </subsection>
+      
+      
+      <subsection name="Executing a Plan">
+      
+        <p>
+        The following command starts the station using plan stored in the 
+        users preference directory:
+        </p>
+        
+        <pre>$ station startup <font color="darkred">local:plan:org/acme/sample</font></pre>
+      
+      </subsection>
+      
+    </section>
+    
+    <section name="Examples">
+    
+      <p>
+      The following example plan includes three deployment entries.  The first entry includes
+      an externally defined appliance into the plan defintion.  The second entry is an appliance 
+      defintion deriectly included within the plan defintition.  Both of these example will result
+      in the establioshment of a new jvm using the supplied process criteria and codebase.  The 
+      third entry includes an part defintion (by reference) into the current jvm. 
+      </p>
+      
+<source>&lt;plan xmlns="dpml:station" name="demo" title="Plan Demo"&gt;
+
+  &lt;include key="foo" uri="link:appliance:dpml/metro/demo-foo"/&gt;
+    
+  &lt;appliance key="bar"&gt;
+    &lt;info name="bar"/&gt;
+    &lt;process startup="0" shutdown="0"&gt;
+      &lt;environment&gt;
+        &lt;variable name="FOO" value="BAR"/&gt;
+      &lt;/environment&gt;
+      &lt;properties&gt;
+        &lt;property name="foo" value="bar"/&gt;
+      &lt;/properties&gt;
+    &lt;/process&gt;
+    &lt;codebase uri="link:part:dpml/metro/dpml-metro-sample?message=Bar"/&gt;
+  &lt;/appliance&gt;
+
+  &lt;include key="toto" uri="link:part:dpml/metro/dpml-metro-sample?message=Hello%20World&amp;port=1024"/&gt;
+  
+&lt;/plan&gt;
+</source>
+
+    </section>
+
+  </body>
+
+</document>
+

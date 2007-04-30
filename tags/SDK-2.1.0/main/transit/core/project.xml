@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project xmlns="dpml:library" name="dpml-transit-main">
+
+  <info title="DPML Transit">
+    <description>DPML Transit resource management system.</description>
+  </info>
+  
+  <types>
+    <type id="jar"/>
+  </types>
+  
+  <dependencies>
+    <test>
+      <include ref="org/apache/ant/ant-junit"/>
+    </test>
+  </dependencies>
+  
+</project>

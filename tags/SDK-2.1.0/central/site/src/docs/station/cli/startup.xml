@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Startup Command</title>
+  </properties> 
+
+  <body>
+
+    <section name="Startup Command">
+
+      <subsection name="Description">
+
+        <p>
+        Initiates the startup of the station under a separate JVM process.  The 
+        station will register itself with an RMI registry (establishing the registry
+        if necessary).  An application registry is retrieved and loaded.  Application
+        profiles are used to construct runtime application instances and all profiles
+        declaring an <tt>AUTOMATIC</tt> startup policy will be deployed.
+        </p>
+
+      </subsection>
+
+      <subsection name="Commandline">
+
+<pre><![CDATA[$ station startup [-port <port>] [<uri>]]]></pre>
+
+      </subsection>
+
+      <subsection name="Options">
+
+        <table>
+          <tr><td width="100">-port</td><td>Optional override of the default RMI registry port (1099).</td></tr>
+        </table>
+
+      </subsection>
+
+      <subsection name="Arguments">
+
+        <table>
+          <tr><td width="100">&lt;uri&gt;</td><td>Overide the default plan uri.</td></tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

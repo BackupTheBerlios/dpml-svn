@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Metro: Component Directive</title>
+  </properties> 
+
+  <body>
+
+    <section name="Component Directives">
+
+      <p>
+      A <a href="component.html">component directive</a> defines a component deployment solution.  Technically
+      speaking a directive is expressed as part <a href="../../parts/strategy/index.html">strategy</a>
+      defintion encapsulating solution data for the construction of a component context 
+      model and a component internal structure.  The XML defintion is used to establish
+      internal datatypes, which in turn are used to establish the initial state of a 
+      component model.
+      </p>
+      
+      <subsection name="Namespace">
+      
+        <pre>dpml:metro</pre>
+      
+      </subsection>
+      
+      <subsection name="Sample Component Directive">
+      
+        <p>
+        The following sample part XML file contains a component directive
+        as the part strategy definition.
+        </p>
+<pre>
+&lt;part xmlns="dpml:part"&gt;
+  &lt;info/&gt;
+  <font color="darkred">&lt;component xmlns="dpml:metro" name="demo" class="org.acme.Demo"/&gt;</font>
+  &lt;classpath&gt;
+    &lt;private&gt;
+      &lt;uri>artifact:jar:org/acme/acme-hello#1.0.3&lt;/uri&gt;
+    &lt;/private&gt;
+  &lt;/classpath&gt;
+&lt;/part&gt;
+</pre>
+      </subsection>
+      
+    </section>
+
+  </body>
+
+</document>

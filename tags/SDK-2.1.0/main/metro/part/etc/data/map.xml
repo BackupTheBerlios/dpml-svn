@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<part xmlns="dpml:part">
+  
+  <component xmlns="dpml:metro"
+      name="widget" 
+      class="org.acme.MapWidget">
+    <context>
+      <map key="primary">
+        <entry key="message" value="Hello from the map entry"/>
+        <entry key="foo" value="bar"/>
+      </map>
+      <map key="secondary" class="java.util.TreeMap">
+        <entry key="foo" value="bar"/>
+        <entry key="ping" value="pong"/>
+      </map>
+      <map key="colors">
+        <entry key="red" class="java.awt.Color" method="RED"/>
+        <entry key="blue" class="java.awt.Color" method="BLUE"/>
+        <entry key="green" class="java.awt.Color" method="GREEN"/>
+      </map>
+    </context>
+  </component>
+
+</part>

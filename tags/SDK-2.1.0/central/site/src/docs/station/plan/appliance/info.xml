@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Station Appliance Datatype Info Descriptor</title>
+  </properties> 
+
+  <body>
+
+    <section name="Info Descriptor">
+
+      <subsection name="Description">
+      
+        <p>
+        Description of an appliance.
+        </p>
+
+      </subsection>
+      
+      <subsection name="Attributes">
+        <table>
+          <tr>
+            <td><tt>name</tt></td>
+            <td>Short name identifying the appliance.</td>
+          </tr>
+          <tr>
+            <td><tt>title</tt></td>
+            <td>Short description of the appliance.</td>
+          </tr>
+        </table>
+        
+      </subsection>
+        
+      <subsection name="Nested Elements">
+
+        <table>
+          <tr>
+            <td><tt>description</tt></td>
+            <td>
+            Nested text value containing a full textual description of the appliance.
+            </td>
+          </tr>
+        </table>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

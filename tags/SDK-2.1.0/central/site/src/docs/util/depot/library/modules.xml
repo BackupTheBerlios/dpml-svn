@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<document>
+
+  <properties>
+    <author email="mcconnell@dpml.net">Stephen McConnell</author>
+    <title>DPML Depot Module Declarations</title>
+  </properties> 
+
+  <body>
+
+    <section name="Modules">
+
+      <p>
+      A module can be viewed as a collection of resources and projects 
+      that share a common group name.  In effect a module establishes a 
+      unique namespace for the resources contained within it.  A module
+      can contain its own <tt>type</tt> declarations together with 
+      nested <tt>resource</tt>, <tt>project</tt> and subsidiary 
+      <tt>module</tt> delcarations.
+      </p>
+
+      <p>
+      Functionally a module can be view as a resource or project in that
+      a module can declare a <tt>basedir</tt> and produced <tt>types</tt>.
+      The enables a module to be used as a source for the production of
+      module related information (such as a module descriptor or module 
+      documentation).
+      </p>
+
+      <subsection name="XML Attributes">
+
+         <table>
+           <tr>
+             <td>name</td>
+             <td>The module name (required). A module path is made up of the sequence 
+              of modules names of any parent modules and the immediate module 
+              name.</td>
+           </tr>
+           <tr>
+             <td>version</td>
+             <td>The module version (mornally not declared).</td>
+           </tr>
+           <tr>
+             <td>basedir</td>
+             <td>Optional base directory of the module.</td>
+           </tr>
+         </table>
+
+      </subsection>
+
+      <subsection name="XML Nested elements">
+      
+         <table>
+           <tr>
+             <td><a href="info.html">info</a></td>
+             <td>0..1</td>
+             <td>Declaration of supplimentary human readable <a href="info.html">info</a> 
+                about the module.</td>
+           </tr>
+           <tr>
+             <td><a href="properties.html">properties</a></td>
+             <td>0..1</td>
+             <td>Declaration of a set of <a href="properties.html">properties</a> 
+                associated with the project.  Typically property declarations will be used 
+                by a build system to qualify resource production behaviour.</td>
+           </tr>
+           <tr>
+             <td><a href="types.html">types</a></td>
+             <td>0..1</td>
+             <td>
+             The declaration of a &lt;types&gt; element within a module associates
+             one or more an artifact types within the module's fully qualified name.
+             For example, it is possible to create an portable defintion of top-level modules
+             using a specialized ant tasks.  The ant task produced an artifact of the 
+             type 'module'.  By declaring the type 'module' as a type produced by the 
+             module a build system can automate the production of the module artifact.
+             </td>
+           </tr>
+           <tr>
+             <td><a href="dependencies.html">dependencies</a></td>
+             <td>0..3</td>
+             <td>A project may declare <tt>BUILD</tt>, <tt>RUNTIME</tt> and <tt>TEST</tt> 
+             scoped <a href="dependencies.html">dependencies</a>.  Unless otherwise specified the 
+             default scope of a dependencies element is <tt>RUNTIME</tt>. Dependencies declared 
+             under <tt>BUILD</tt> scope do effect project build sequencing but do not contribute 
+             to classpath related information.  <tt>RUNTIME</tt> dependencies are used in the 
+             construction of classpath data.  <tt>TEST</tt> scoped dependencies extend runtime 
+             dependencies with supplimentary resources used during unit testing.</td>
+           </tr>
+           <tr>
+             <td><a href="filters/index.html">filters</a></td>
+             <td>0..1</td>
+             <td>Declaration of a set of content <a href="filters/index.html">filters</a> 
+                associated with the module.  Typically filters are used to substitute
+                string tokens in source code with values resolved from the associated
+                module (or other project/resources).</td>
+           </tr>
+           <tr>
+             <td><a href="resources.html">resource</a></td>
+             <td>0..n</td>
+             <td>One or more nested resource declarations.</td>
+           </tr>
+           <tr>
+             <td><a href="projects.html">project</a></td>
+             <td>0..n</td>
+             <td>One or more nested project declarations.</td>
+           </tr>
+           <tr>
+             <td>module</td>
+             <td>0..n</td>
+             <td>One or more nested module declarations.</td>
+           </tr>
+           <tr>
+             <td>import</td>
+             <td>0..n</td>
+             <td>One or more import requested for the inclusion of a local module, 
+             project or resource from an external file.</td>
+           </tr>
+         </table>
+         
+      </subsection>
+
+    </section>
+
+    <section name="Examples">
+
+      <subsection name="Embedded Module Declaration">
+
+      <p>
+      The following example demonstrates the declaration of a single module 
+      directly within an nindex.xml file.  The module declares the name 'demo' and 
+      base directory corresponding to the same directory that the index is 
+      located within.  The module contains a single project named 'example'.
+      </p>
+
+<source><![CDATA[
+<index xmlns="dpml:library">
+
+  <properties>
+    <property name="project.builder.uri" value="link:plugin:dpml/tools/dpml-depot-builder"/>
+    <property name="project.standard.template" value="local:template:dpml/tools/standard"/>
+    <property name="project.template" value="${project.standard.template}"/>
+  </properties>
+
+  <modules>
+    <module name="demo" basedir=".">
+      <project name="example" basedir="example">
+        <types>
+          <type id="jar"/>
+        </types>
+        <dependencies>
+          <runtime>
+            <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+          </runtime>
+        </dependencies>
+      </project>
+    </module>
+  </modules>
+
+</index>
+
+]]></source>
+
+      </subsection>
+
+      <subsection name="Imported Module Declaration">
+
+      <p>
+      The following example demonstrates the inclusion of a series of external 
+      files as the definition of a set of modules.  The 
+      example declares a root module named 'dpml'.  A set of <tt>import</tt> elements
+      delcarations reference nested module definitions modules for the 'transit', 'metro', 'depot', 
+      and 'util' packages.
+      </p>
+
+<source><![CDATA[
+<module name="dpml" basedir=".">
+
+  <properties>
+    <property name="project.publisher.name" value="Digital Product Management Library"/>
+    <property name="project.specification.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor" value="${project.publisher.name}"/>
+    <property name="project.implementation.vendor-id" value="net.dpml"/>
+    <property name="project.publisher.url" value="http://www.dpml.net"/>
+    <property name="project.resource.host" value="http://repository.dpml.net"/>
+    <property name="project.api.host" value="http://api.dpml.net"/>
+    <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
+    <property name="project.javadoc.linksource" value="true"/>
+  </properties>
+  
+  <types>
+    <type id="module" alias="true"/>
+  </types>
+
+  <filters>
+    <filter token="PROJECT-VERSION" value="${project.version}"/> 
+    <filter token="PUBLISHER-NAME" value="${project.publisher.name}"/> 
+    <filter token="PUBLISHER-URL" value="${project.publisher.url}"/> 
+  </filters>
+
+  <import file="lang/module.xml"/>
+  <import file="transit/module.xml"/>
+  <import file="util/module.xml"/>
+  <import file="depot/module.xml"/>
+  <import file="metro/module.xml"/>
+  <import file="station/module.xml"/>
+  <import file="planet/module.xml"/>
+
+  <project name="central" basedir="central"/>
+
+</module>
+]]></source>
+
+        <p>
+        The following XML is an example of an imported <tt>module.xml</tt> file.  The example 
+        used below is the DPML Depot Module.
+        </p>
+
+<source><![CDATA[
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module name="depot"
+    xmlns="dpml:library" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:part="dpml:part">
+
+  <resource name="dpml-library" basedir="library">
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+  </resource>
+
+  <project name="dpml-depot-build" basedir="build">
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="dpml.build.Main"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-library"/>
+        <include ref="dpml/util/dpml-util-cli"/>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <feature token="ANT-BUILDER-URI" ref="dpml/depot/dpml-depot-builder" id="uri" type="part"/>
+    </filters>
+  </project>
+   
+  <project name="dpml-depot-console" basedir="core">
+    <properties>
+      <property name="project.test.fork" value="true"/>
+      <property name="depot.short.filename" value="${project.name}.jar"/>
+      <property name="transit.short.filename" value="dpml-transit-main.jar"/>
+      <property name="project.jar.main.class" value="dpml.depot.Main"/>
+    </properties>
+    <types>
+      <type id="jar"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/transit/dpml-transit-main"/>
+      </runtime>
+      <test>
+        <include ref="ant/ant-junit"/>
+      </test>
+    </dependencies>
+    <filters>
+      <filter token="DEPOT-PATH" value="${depot.short.filename}"/>
+      <filter token="DEPOT-MAIN-CLASS" value="${project.jar.main.class}"/>
+      <filter token="TRANSIT-PATH" value="${transit.short.filename}"/>
+      <filter token="DEPOT-CLASSLOADER-CLASS" value="net.dpml.util.SystemClassLoader"/>
+      <feature token="BUILD-ID" id="version"/>
+      <feature token="DEPOT-CONSOLE-URI" id="uri" type="jar"/>
+      <feature token="TRANSIT-CORE-URI" id="uri" type="jar" ref="dpml/transit/dpml-transit-main" />
+      <feature token="TRANSIT-CONSOLE-URI" id="uri" type="part" alias="true" ref="dpml/transit/dpml-transit-console" />
+      <feature token="DEPOT-BUILDER-URI" id="uri" type="part" alias="true" ref="dpml/depot/dpml-depot-build" />
+      <feature token="DEPOT-EXEC-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-exec" />
+      <feature token="DEPOT-STATION-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-console" />
+      <feature token="DEPOT-STATION-SERVER-URI" id="uri" type="part" alias="true" ref="dpml/station/dpml-station-server" />
+    </filters>
+  </project>
+
+  <resource name="dpml-depot-builder" basedir="tools/builder">
+    <types>
+      <type id="jar"/>
+      <part:plugin alias="true" class="dpml.tools.impl.StandardBuilder"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-library"/>
+        <include ref="dpml/transit/dpml-transit-tools"/>
+        <include ref="ant/ant-junit" tag="system"/>
+        <include ref="ant/ant" tag="system"/>
+        <include ref="ant/ant-xslp" tag="system"/>
+        <include ref="ant/ant-trax" tag="system"/>
+      </runtime>
+    </dependencies>
+  </resource>
+
+  <project name="dpml-depot-checkstyle" basedir="tools/checkstyle">
+    <types>
+      <type id="jar"/>
+      <part:resource alias="true" urn="dpml:checkstyle" path="dpml/tools/checkstyle/antlib.xml"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include ref="dpml/depot/dpml-depot-builder"/>
+        <include urn="artifact:jar:checkstyle/checkstyle#4.1">
+          <property name="project.api.host" value="http://api.dpml.net"/>
+          <property name="project.api.root" value="${project.api.host}/${project.group}/${project.version}"/>
+        </include>
+        <include urn="artifact:jar:commons-logging/commons-logging#1.0.4" />
+        <include urn="artifact:jar:commons-collections/commons-collections#3.1" />
+        <include urn="artifact:jar:commons-beanutils/commons-beanutils-core#1.7.0" />
+        <include urn="artifact:jar:bcel/bcel#5.1" />
+        <include urn="artifact:jar:antlr/antlr#2.7.2" />
+      </runtime>
+    </dependencies>
+  </project>
+
+  <project name="dpml-depot-convert" basedir="tools/convert">
+    <types>
+      <type id="jar"/>
+      <part:resource alias="true" urn="dpml:convert" path="dpml/tools/convert/antlib.xml"/>
+    </types>
+    <dependencies>
+      <runtime>
+        <include urn="artifact:jar:java2html/java2html#4.2"/>
+        <include ref="ant/ant-launcher"/>
+      </runtime>
+    </dependencies>
+  </project>
+
+</module>
+]]></source>
+
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

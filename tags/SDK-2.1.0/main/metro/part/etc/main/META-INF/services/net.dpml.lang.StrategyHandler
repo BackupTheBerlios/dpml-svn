@@ -1,0 +1,5 @@
+#
+# Declaration of the standard component strategy handlers.
+#
+net.dpml.runtime.ComponentStrategyHandler
+net.dpml.lang.AntlibStrategyHandler
