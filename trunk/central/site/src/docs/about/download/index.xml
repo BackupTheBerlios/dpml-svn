@@ -60,7 +60,7 @@
         <p>
         New features and/or enhancements delivered under version @VERSION@ relative 
         to the 2.0.0 distribution included improvements to general exception handling and 
-        error reporting.  Version 2.1.0 introduces support for component composition via reference 
+        error reporting and support for component composition via reference 
         to nested parts within the internal structure of a component using part uris as the 
         construction mechanisms.  Also includes numerous code and documentation quality 
         enhancements and updates to the checkstyle task involving migration from Checkstyle 
