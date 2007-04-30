@@ -33,6 +33,10 @@
               updated checkstyle handler backed by Checkstyle 4.3.</td>
         </tr>
         <tr>
+          <td><a href="http://api.dpml.net/dpml/2.0.2/index.html">2.0.2</a></td>
+          <td>Part-by-reference datatype introduction.</td>
+        </tr>
+        <tr>
           <td><a href="http://api.dpml.net/dpml/2.0.1/index.html">2.0.1</a></td>
           <td>Maintenace update addressing error handling and reporting improvements.</td>
         </tr>
