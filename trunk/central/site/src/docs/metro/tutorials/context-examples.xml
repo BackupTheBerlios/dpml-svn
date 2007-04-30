@@ -68,6 +68,11 @@
       &lt;param value="george"/&gt;
       &lt;param value="mary"/&gt;
     &lt;/entry&gt;
+    &lt;map key="colors"&gt;
+      &lt;entry key="red" class="java.awt.Color" method="RED"/&gt;
+      &lt;entry key="white" class="java.awt.Color" method="WHITE"/&gt;
+      &lt;entry key="blue" class="java.awt.Color" method="BLUE"/&gt;
+    &lt;/map&gt;
   &lt;/context&gt;</font>
 &lt;/component&gt;</pre>
 

@@ -39,7 +39,11 @@ public class Demo
     //------------------------------------------------------------------
     
    /**
-    * Component driven context criteria.
+    * Declaration of the component context contract.  This example
+    * demonstrates the default pattern-based approach (a inner interface named
+    * "Context") to context declaration.  The context interface demonstrates
+    * a broad-spectrum of possibilities covering requitred and optional entries, 
+    * primative, and complex values, arrays and maps.
     */
     public interface Context
     {

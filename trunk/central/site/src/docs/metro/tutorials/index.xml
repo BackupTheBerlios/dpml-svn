@@ -166,7 +166,7 @@
             for the handler attibute which in turn is used to establish the runtime
             handler for the class</li>
           <li>the runtime handler is supplied with a classloader composed of jar
-          files resolved from the &lt;classpath&gt; defintion</li>
+          files resolved from the &lt;classpath&gt; definition</li>
         </ul>
         
         <p>
