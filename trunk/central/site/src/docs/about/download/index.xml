@@ -23,7 +23,7 @@
           <li>Metro component management runtime</li>
           <li>Station application server</li>
           <li>Transit resource management services</li>
-          <li>Depot build utilities</li>
+          <li>Depot build system</li>
         </ul>
 
         <p>
@@ -58,18 +58,13 @@
         </ul>
         
         <p>
-        New features and/or enhancements delivered under 
-        version @VERSION@ relative to the 2.0.0 distribution include improvements to 
-        general exception handling and error reporting.
-        </p>
-
-        <p>
-        New features and/or enhancements delivered under 
-        version @VERSION@ relative to the 2.0.1 distribution include the addition of 
-        support for component composition via reference to nested parts within the 
-        internal structure of a component using part uris as the construction mechanisms.  
-        Also includes numerous code and documentation quality enhancements and updates to 
-        the checkstyle task involving migration from Checkstyle 4.1 to 4.3.
+        New features and/or enhancements delivered under version @VERSION@ relative 
+        to the 2.0.0 distribution included improvements to general exception handling and 
+        error reporting.  Version 2.1.0 introduces support for component composition via reference 
+        to nested parts within the internal structure of a component using part uris as the 
+        construction mechanisms.  Also includes numerous code and documentation quality 
+        enhancements and updates to the checkstyle task involving migration from Checkstyle 
+        4.1 to 4.3.
         </p>
 
       </subsection>
@@ -129,6 +124,7 @@
         
       </subsection>
 
+      <!--
       <subsection name="Build 1.1.0">
         
         <p>
@@ -183,6 +179,7 @@
         </table>
         
       </subsection>
+      -->
       
       <subsection name="Technical Note">
       
