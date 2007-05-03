@@ -17,6 +17,10 @@
           <th>Description</th>
         </tr>
         <tr>
+          <td><a href="http://api.dpml.net/org/mortbay/jetty/6.1.2/index.html">6.1.2</a></td>
+          <td>Jetty 6.1.2.</td>
+        </tr>
+        <tr>
           <td><a href="http://api.dpml.net/org/mortbay/jetty/6.1.0/index.html">6.1.0</a></td>
           <td>Jetty 6.1.0.</td>
         </tr>
