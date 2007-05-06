@@ -11,10 +11,29 @@
 
     <section name="Jetty Javadocs">
     
+      <subsection name="About Jetty">
+    
+      <p>
+      Jetty is an open-source, standards-based, full-featured web server 
+      implemented entirely in java. First created in 1995, 
+      Jetty has benefitted from input from a vast user community and 
+      consistent and focussed development by a stable core of lead developers.
+      In September 2006 Jetty 6 was released - representing a major 
+      refactoring of the Jetty code base, combining the best from Jetty´s 
+      long history with new API's, techniques and use-cases in order to 
+      provide a scalable server for ajax/web 2.0 deployments.
+      </p>
+      
+      </subsection>
+      
       <table>
         <tr>
           <th>Version</th>
           <th>Description</th>
+        </tr>
+        <tr>
+          <td><a href="http://api.dpml.net/org/mortbay/jetty/6.1.3/index.html">6.1.3</a></td>
+          <td>Jetty 6.1.3.</td>
         </tr>
         <tr>
           <td><a href="http://api.dpml.net/org/mortbay/jetty/6.1.2/index.html">6.1.2</a></td>

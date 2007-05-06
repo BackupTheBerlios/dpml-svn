@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>DPML Component Management Solutions</title>
+<link type="text/css" rel="stylesheet" href="styles/style.css" />
+<meta content="text/html; charset=UTF-8" http-equiv="Content-type" />
+<meta name="description" content="Intelligent Component Management Solutions for Java." />
+<meta name="author" content="Stephen McConnell" />
+<meta name="keywords" content="DPML, build, runtime, management, components, soa, java, composition" />
+<meta content="DPML" name="publisher" />
+
+<META HTTP-EQUIV="Refresh" CONTENT="0; URL=http://www.dpml.net/about/reports/index.html"/>
+
+</head>
+<body><table class="logobar"><tr><td class="panelleft" /><td class="panelmiddle"><div class="project">DPML</div><div class="title">DPML Component Management Solutions</div></td><td class="panelright" /></tr></table><div class="categorybar" dir=""><a class="category" href="index/index.html">Modules</a><a class="category" href="home.html">Central</a></div><div class="menubar"><div class="menu"><a class="menuitem" href="index/ant/index.html">Ant</a><a class="menuitem" href="index/checkstyle/index.html">Checkstyle</a><a class="menuitem" href="index/dpml/index.html">DPML</a><a class="menuitem" href="index/javax/index.html">Javax</a><a class="menuitem" href="index/junit/index.html">JUnit</a><a class="menuitem" href="index/jetty/index.html">Jetty</a></div></div><div class="content">
+
+  </div><div class="footer"><span class="copyright">Copyright 2007, The Digital Product Management Library All rights reserved.</span><br /><span class="generated-date">Generated: 2007-May-07</span></div></body>
+</html>
