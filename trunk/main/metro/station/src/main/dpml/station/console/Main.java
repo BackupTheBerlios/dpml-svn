@@ -44,6 +44,7 @@ import java.net.URL;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.ConnectException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.Registry;
@@ -676,6 +677,10 @@ public class Main extends UnicastRemoteObject implements Tool, Station
             {
                 UnicastRemoteObject.unexportObject( m_station, false );
             }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
+            }
             catch( Throwable e )
             {
                 if( getLogger().isWarnEnabled() )
@@ -688,6 +693,10 @@ public class Main extends UnicastRemoteObject implements Tool, Station
             try
             {
                 UnicastRemoteObject.unexportObject( m_plan, false );
+            }
+            catch( NoSuchObjectException e )
+            {
+                // ignore
             }
             catch( Throwable e )
             {
