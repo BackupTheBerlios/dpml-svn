@@ -18,17 +18,17 @@ set ARG_ONE=%1
 CALL :antlib-cleanup
 rem IF ERRORLEVEL 1 GOTO :exit
 CALL :transit-main
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 CALL :dpml-metro-part
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 CALL :dpml-depot-library
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 CALL :dpml-util-cli
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 CALL :dpml-depot-build
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 CALL :dpml-depot-builder
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 
 rem
 rem Depot build tool is now available.
@@ -47,7 +47,7 @@ GOTO :EOF
 
 
 :exit
-IF ERRORLEVEL 1 ECHO BOOTSTRAP FAILED
+IF NOT ERRORLEVEL 0 ECHO BOOTSTRAP FAILED
 GOTO :EOF
 
 :antlib-cleanup

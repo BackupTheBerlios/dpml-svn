@@ -20,7 +20,7 @@ PUSHD main
 CALL bootstrap
 POPD
 CD
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 
 REM
 REM execute the build of the runtime systems using the bootstrap artifacts
@@ -30,7 +30,7 @@ PUSHD main
 CALL build clean install -decimal
 POPD
 CD
-IF ERRORLEVEL 1 GOTO :exit
+IF NOT ERRORLEVEL 0 GOTO :exit
 
 REM
 REM build the tutorials using the resources established from the general system build
@@ -40,6 +40,7 @@ PUSHD tutorials
 CALL build clean install
 POPD
 CD
+IF NOT ERRORLEVEL 0 GOTO :exit
 
 REM
 REM build the documentation
@@ -49,6 +50,7 @@ PUSHD central
 CALL build clean install -decimal
 POPD
 CD
+IF NOT ERRORLEVEL 0 GOTO :exit
 
 GOTO :EOF
 
