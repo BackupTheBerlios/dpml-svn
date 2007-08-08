@@ -17,6 +17,10 @@
           <th>Description</th>
         </tr>
         <tr>
+          <td><a href="http://api.dpml.net/checkstyle/4.3/index.html">4.3</a></td>
+          <td>Checkstyle 4.3.</td>
+        </tr>
+        <tr>
           <td><a href="http://api.dpml.net/checkstyle/4.1/index.html">4.1</a></td>
           <td>Checkstyle 4.1.</td>
         </tr>
