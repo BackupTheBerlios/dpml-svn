@@ -8,7 +8,7 @@
 # $ bootstrap
 #
 
-build()
+executeAnt()
 {
     STATUS=99
     while [ "$STATUS" -eq 99 ] ; do
@@ -22,12 +22,6 @@ build()
     fi
 }
 
-antlibCleanup()
-{
-    # need something in here to delete dpml content in .ant/lib
-    cd .
-}
-
 xmlSetup()
 {
     ant -f bootstrap.xml xml
@@ -35,50 +29,43 @@ xmlSetup()
 
 dpmlLangLibrary()
 {
-    cd lang/library
-    build -f bootstrap.xml clean install
+    cd depot/library
+    executeAnt -f bootstrap.xml clean install
     cd ../..
 }
 
 dpmlPart()
 {
-    cd lang/part
-    build -f bootstrap.xml clean install
-    cd ../..
-}
-
-dpmlPartRebuild()
-{
-    cd lang/part
-    build clean install
+    cd metro/part
+    executeAnt -f bootstrap.xml clean install
     cd ../..
 }
 
 transitMain()
 {
     cd transit/core
-    build -f bootstrap.xml clean install
+    executeAnt -f bootstrap.xml clean install
     cd ../..
 }
 
-transitTools()
-{
-    cd transit/tools
-    build -f bootstrap.xml clean install
-    cd ../..
-}
-
-dpmlLibrary()
+depotBuild()
 {
     cd depot/library
-    build -f bootstrap.xml clean install
+    executeAnt -f bootstrap.xml clean install
     cd ../..
 }
 
-depotAntBuilder()
+depotTools()
 {
     cd depot/tools
-    build -f bootstrap.xml clean install
+    executeAnt -f bootstrap.xml clean install
+    cd ../..
+}
+
+utilCli()
+{
+    cd util/cli
+    executeAnt clean install
     cd ../..
 }
 
@@ -89,13 +76,6 @@ externalModules()
     cd ..
 }
 
-utilCli()
-{
-    cd util/cli
-    build clean install
-    cd ../..
-}
-
 depotBuild()
 {
     cd depot/build
@@ -103,22 +83,12 @@ depotBuild()
     cd ../..
 }
 
-depotCore()
-{
-    cd depot/core
-    build -f bootstrap.xml clean install
-    cd ../..
-}
-
-antlibCleanup
 transitMain
-dpmlLangLibrary
 dpmlPart
-transitTools
-dpmlLibrary
-depotAntBuilder
-externalModules
+dpmlLangLibrary
 utilCli
 depotBuild
-dpmlPartRebuild
-depotCore
+depotTools
+externalModules
+
+echo BOOTSTRAP SUCCESSFUL

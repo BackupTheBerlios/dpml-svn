@@ -63,7 +63,7 @@ if [ "$DEPOT_ENDORSED_DIRECTORY" = "" ] ; then
 fi
 export DEPOT_ENDORSED_DIRECTORY
 
-DEPOT_BASE_JVM_OPTS="-Djava.ext.dirs=$DPML_SYSTEM/lib/ext:$JAVA_HOME/lib/ext -Djava.endorsed.dirs=$DPML_SYSTEM/lib/endorsed -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=dpml.util.FederatingClassLoader -Djava.protocol.handler.pkgs=dpml.transit" -Dcom.sun.management.jmxremote -Ddpml.class.path=link:jar:dpml/metro/dpml-metro-part
+DEPOT_BASE_JVM_OPTS="-Djava.ext.dirs=$DPML_SYSTEM/lib/ext:$JAVA_HOME/lib/ext -Djava.endorsed.dirs=$DPML_SYSTEM/lib/endorsed -Djava.system.class.loader=@DEPOT-CLASSLOADER-CLASS@ -Djava.rmi.server.randomIDs=true -Djava.rmi.server.RMIClassLoaderSpi=dpml.util.FederatingClassLoader -Djava.protocol.handler.pkgs=dpml.transit -Dcom.sun.management.jmxremote -Ddpml.class.path=link:jar:dpml/metro/dpml-metro-part"
 
 
 if [ "$DEPOT_JVM_OPTS" = "" ] ; then

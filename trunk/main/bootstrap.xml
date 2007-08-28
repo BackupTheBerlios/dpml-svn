@@ -200,12 +200,12 @@
 
   <target name="setup-path" depends="init">
     <path id="project.main.path">
-      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
+      <pathelement location="${ant.home}/lib/ant.jar"/>
       <pathelement location="${target.classes.dir}"/>
     </path>
     <path id="project.test.path">
       <path refid="project.main.path"/>
-      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${ant.home}/lib/ant-junit.jar"/>
       <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     </path>
   </target>
