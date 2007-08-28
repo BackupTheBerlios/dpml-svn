@@ -1,9 +1,6 @@
 #!/bin/sh
 #
-# Utility script that executes the bootstrap build.
-#
-# The following command will initate a bootstrap build using the BOOTSTRAP 
-# version identifier.
+# The following command will initate a bootstrap build.
 #
 # $ bootstrap
 #
@@ -27,7 +24,7 @@ executeAnt()
 #    ant -f bootstrap.xml xml
 #}
 
-dpmlLangLibrary()
+depotLibrary()
 {
     cd depot/library
     executeAnt -f bootstrap.xml clean install
@@ -41,23 +38,9 @@ dpmlPart()
     cd ../..
 }
 
-transitMain()
+dpmlTransit()
 {
     cd transit/core
-    executeAnt -f bootstrap.xml clean install
-    cd ../..
-}
-
-depotBuild()
-{
-    cd depot/library
-    executeAnt -f bootstrap.xml clean install
-    cd ../..
-}
-
-depotTools()
-{
-    cd depot/tools
     executeAnt -f bootstrap.xml clean install
     cd ../..
 }
@@ -76,6 +59,14 @@ depotBuild()
     cd ../..
 }
 
+depotTools()
+{
+    cd depot/tools
+    executeAnt -f bootstrap.xml clean install
+    cd ../..
+}
+
+
 externalModules()
 {
     cd external
@@ -83,9 +74,10 @@ externalModules()
     cd ..
 }
 
-transitMain
+
+dpmlTransit
 dpmlPart
-dpmlLangLibrary
+depotLibrary
 utilCli
 depotBuild
 depotTools
