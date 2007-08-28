@@ -22,10 +22,10 @@ executeAnt()
     fi
 }
 
-xmlSetup()
-{
-    ant -f bootstrap.xml xml
-}
+#xmlSetup()
+#{
+#    ant -f bootstrap.xml xml
+#}
 
 dpmlLangLibrary()
 {
@@ -65,7 +65,14 @@ depotTools()
 utilCli()
 {
     cd util/cli
-    executeAnt clean install
+    executeAnt -f bootstrap.xml clean install
+    cd ../..
+}
+
+depotBuild()
+{
+    cd depot/build
+    executeAnt -f bootstrap.xml clean install
     cd ../..
 }
 
@@ -74,13 +81,6 @@ externalModules()
     cd external
     build clean install
     cd ..
-}
-
-depotBuild()
-{
-    cd depot/build
-    build -f bootstrap.xml clean install
-    cd ../..
 }
 
 transitMain
