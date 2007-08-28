@@ -1,8 +1,5 @@
 #!/bin/sh
-#
-# The following command will initate a bootstrap build.
-#
-# $ bootstrap
+# DPML system bootstrap scrip.
 #
 
 executeAnt()
@@ -19,12 +16,7 @@ executeAnt()
     fi
 }
 
-#xmlSetup()
-#{
-#    ant -f bootstrap.xml xml
-#}
-
-depotLibrary()
+dpmlLibrary()
 {
     cd depot/library
     executeAnt -f bootstrap.xml clean install
@@ -35,52 +27,52 @@ dpmlPart()
 {
     cd metro/part
     executeAnt -f bootstrap.xml clean install
-    cd ../..
+    cd ../..   
 }
 
 dpmlTransit()
 {
     cd transit/core
     executeAnt -f bootstrap.xml clean install
-    cd ../..
+    cd ../..   
 }
 
-utilCli()
+dpmlCli()
 {
     cd util/cli
     executeAnt -f bootstrap.xml clean install
-    cd ../..
+    cd ../..   
 }
 
-depotBuild()
+dpmlBuild()
 {
     cd depot/build
     executeAnt -f bootstrap.xml clean install
-    cd ../..
+    cd ../..   
 }
 
-depotTools()
+dpmlTools()
 {
     cd depot/tools
     executeAnt -f bootstrap.xml clean install
-    cd ../..
+    cd ../..   
 }
 
-
-externalModules()
+dpmlExternal()
 {
     cd external
     build clean install
     cd ..
 }
 
-
 dpmlTransit
 dpmlPart
-depotLibrary
-utilCli
-depotBuild
-depotTools
-externalModules
+dpmlLibrary
+dpmlCli
+dpmlBuild
+dpmlTools
+dpmlExternal
 
-echo BOOTSTRAP SUCCESSFUL
+echo "BOOTSTRAP SUCCESSFUL"
+
+
