@@ -74,6 +74,15 @@ final class Application
         m_descriptor = descriptor;
         m_key = key;
         
+        m_logger.debug( 
+          "new appliance [" 
+          + key 
+          + "]"
+          + " defined by " + descriptor.getCodebaseURI() 
+          + " targetting " + descriptor.getTargetURI() 
+          + " on " + descriptor.getExecutable()
+        );
+
         int port = getConnectorPort();
         try
         {
@@ -201,13 +210,24 @@ final class Application
     
     Process newProcess() throws IOException
     {
-        Process process = m_builder.start();
-        setShutdownHook( process );
-        OutputStreamReader output = 
-          new OutputStreamReader( m_logger, process.getInputStream() );
-        output.setDaemon( true );
-        output.start();
-        return process;
+	try
+        {
+            Process process = m_builder.start();
+            setShutdownHook( process );
+            OutputStreamReader output = 
+              new OutputStreamReader( m_logger, process.getInputStream() );
+            output.setDaemon( true );
+            output.start();
+            return process;
+        }
+        catch( IOException e )
+        {
+             final String error = 
+               "Unable to establish application process for ["
+               + m_descriptor.getCodebaseURI() 
+               + "].";
+             throw new ApplianceException( error, e, m_descriptor.getElement() );
+        }
     }
     
     private ProcessBuilder newProcessBuilder() throws IOException
@@ -236,7 +256,6 @@ final class Application
               "Process basedir not found: " 
               + file.getCanonicalPath();
             throw new ApplianceException( error, null, m_descriptor.getElement() );  
-            //throw new FileNotFoundException( error );
         }
         if( !file.isDirectory() )
         {

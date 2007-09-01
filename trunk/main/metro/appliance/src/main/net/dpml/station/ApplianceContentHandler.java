@@ -44,6 +44,7 @@ import net.dpml.appliance.Appliance;
 import net.dpml.appliance.ApplianceManager;
 import net.dpml.appliance.ApplianceContentManager;
 import net.dpml.appliance.ApplianceFactory;
+import net.dpml.appliance.ApplianceException;
 
 import dpml.station.info.ApplianceDescriptor;
 
@@ -108,7 +109,7 @@ public class ApplianceContentHandler extends ContentHandler implements Appliance
     */
     protected ApplianceContentHandler( Logger logger )
     {
-        logger.debug( "instantiating" );
+        //logger.debug( "instantiating" );
     }
     
     /*
@@ -285,11 +286,6 @@ public class ApplianceContentHandler extends ContentHandler implements Appliance
         return newAppliance( key, descriptor );
     }
     
-    //static final Appliance newLocalAppliance( String partition, URI codebase ) throws IOException
-    //{
-    //    return new StandardAppliance( LOGGER, partition, codebase );
-    //}
-    
     private static ApplianceDescriptor getApplianceDescriptor( URLConnection connection ) throws IOException
     {
         URL url = connection.getURL();
@@ -314,16 +310,14 @@ public class ApplianceContentHandler extends ContentHandler implements Appliance
                 throw new DecodingException( error, element );
             }
         }
-        catch( IOException e )
+        catch( DecodingException e )
         {
             throw e;
         }
         catch( Exception e )
         {
             final String error = "Unexpected error while constructing application profile: " + url;
-            IOException ioe = new IOException();
-            ioe.initCause( e );
-            throw ioe;
+            throw new ApplianceException( error, e, null );  
         }
     }
     
