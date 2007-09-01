@@ -1,14 +1,39 @@
 #!/bin/sh
-# Copyright 2005-2006 Stephen J. McConnell
+# Copyright 2005-2007 Stephen J. McConnell
 #
 
-BUILD_JVM_OPTS="-Ddpml.transit.include.tools=true -Ddpml.depot.application=link:part:dpml/depot/dpml-depot-build"
-
-if [ "$DEPOT_JVM_OPTS" = "" ] ; then
-    DEPOT_JVM_OPTS=$BUILD_JVM_OPTS
-else
-    DEPOT_JVM_OPTS="$BUILD_JVM_OPTS $DEPOT_JVM_OPTS"
+if [ "$DPML_HOME" = "" ]; then
+    export DPML_HOME="$HOME/.dpml"
 fi
-export DEPOT_JVM_OPTS
 
-depot $*
+if [ "$DPML_SYSTEM" = "" ]; then
+     export DPML_SYSTEM="$DPML_HOME/share"
+fi
+
+if [ "$BUILD_SECURITY_POLICY" = "" ] ; then
+    BUILD_SECURITY_POLICY=$DPML_SYSTEM/bin/build.policy
+fi
+
+BUILD_BASE_JVM_OPTS="\
+-Djava.ext.dirs=$DPML_SYSTEM/lib/ext \
+-Djava.endorsed.dirs=$DPML_SYSTEM/lib/endorsed \
+-Djava.security.policy=\"$BUILD_SECURITY_POLICY\" \
+-Djava.system.class.loader=dpml.util.SystemClassLoader \
+-Djava.rmi.server.randomIDs=true \
+-Djava.rmi.server.RMIClassLoaderSpi=dpml.util.FederatingClassLoader \
+-Djava.protocol.handler.pkgs=dpml.transit \
+-Dcom.sun.management.jmxremote \
+-Ddpml.transit.include.tools=true \
+-Ddpml.depot.application=link:part:dpml/depot/dpml-depot-build \
+-Ddpml.class.path=link:jar:dpml/metro/dpml-metro-part"
+
+if [ "$BUILD_JVM_OPTIONS" = "" ] ; then
+    JVM_OPTIONS=$BUILD_BASE_JVM_OPTS
+else
+    JVM_OPTIONS="$BUILD_BASE_JVM_OPTS $BUILD_JVM_OPTIONS"
+fi
+
+BUILD_ARGS=$@
+ARGS="$JVM_OPTIONS dpml.util.Main $BUILD_ARGS"
+echo $ARGS | xargs "java"
+
