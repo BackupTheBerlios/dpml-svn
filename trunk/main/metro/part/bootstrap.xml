@@ -36,8 +36,8 @@
     </path>
     <path id="project.test.path">
       <pathelement location="${transit.jar.path}"/>
-      <pathelement location="${ENV.ANT_HOME}/lib/ant.jar"/>
-      <pathelement location="${ENV.ANT_HOME}/lib/ant-junit.jar"/>
+      <pathelement location="${ant.home}/lib/ant.jar"/>
+      <pathelement location="${ant.home}/lib/ant-junit.jar"/>
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
       <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
     </path>
@@ -151,47 +151,11 @@
   </target>
 
   <target name="install" depends="bootstrap.install">
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating Ant. ${user.home}/.ant/lib
-#----------------------------------------------------------------------------------
-    </echo>
-    <!--
-    <copy tofile="${user.home}/.ant/lib/dpml-metro-part.jar"
-      file="${target.deliverables.jars.dir}/${project.name}-${project.version}.jar"/>
-    -->
-    <property name="lib" location="${dpml.system}/lib"/>
-    <property name="short.filename" value="${project.name}.jar"/>
-    <property name="long.filename" value="${project.name}-${project.version}.jar"/>
-    <mkdir dir="${lib}/ext"/>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating DPML Lib ${lib}/ext
-#----------------------------------------------------------------------------------
-    </echo>
-    <!--
-    <copy toFile="${lib}/ext/${short.filename}" preservelastmodified="true" overwrite="true" 
-      file="${target.deliverables.jars.dir}/${long.filename}"/>
-    -->
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating ${dpml.system}/bin
-#----------------------------------------------------------------------------------
-    </echo>
     <mkdir dir="${dpml.system}/bin"/>
-    <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
-      <fileset dir="target">
-        <include name="bin/**"/>
-      </fileset>
-    </copy>
-    <chmod perm="755">
-      <fileset dir="${dpml.system}/bin">
-        <include name="**/*.sh"/>
-        <include name="**/depot"/>
-      </fileset>
-    </chmod>
-    <property name="work" location="${dpml.data}/work"/>
-    <mkdir dir="${work}"/>
+    <mkdir dir="${dpml.system}/lib"/>
+    <mkdir dir="${dpml.system}/lib/ext"/>
+    <mkdir dir="${dpml.system}/lib/endorced"/>
+    <mkdir dir="${dpml.data}/work"/>
   </target>
 
 </project>
