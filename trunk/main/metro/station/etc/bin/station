@@ -17,7 +17,7 @@ fi
 STATION_BASE_JVM_OPTS="\
 -Djava.ext.dirs=$DPML_SYSTEM/lib/ext \
 -Djava.endorsed.dirs=$DPML_SYSTEM/lib/endorsed \
--Djava.security.policy=\"$METRO_SECURITY_POLICY\" \
+-Djava.security.policy=\"$STATION_SECURITY_POLICY\" \
 -Djava.system.class.loader=dpml.util.SystemClassLoader \
 -Djava.rmi.server.randomIDs=true \
 -Djava.rmi.server.RMIClassLoaderSpi=dpml.util.FederatingClassLoader \

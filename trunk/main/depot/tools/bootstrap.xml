@@ -3,8 +3,8 @@
 <project name="dpml-depot-builder" default="install" basedir=".">
 
   <property file="${basedir}/bootstrap.properties"/>
-  <property file="../../bootstrap.properties"/>
-  <property name="bootstrap.template" location="${basedir}/../../bootstrap.xml"/>
+  <property file="../../../bootstrap.properties"/>
+  <property name="bootstrap.template" location="${basedir}/../../../bootstrap.xml"/>
   <import file="${bootstrap.template}"/>
   
   <target name="init" depends="bootstrap.init">

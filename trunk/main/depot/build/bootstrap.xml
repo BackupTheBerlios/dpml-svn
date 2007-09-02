@@ -5,7 +5,7 @@
   <property name="project.group" value="dpml/depot"/>
   <property name="project.name" value="dpml-depot-build"/>
 
-  <property name="home" value="../.."/>
+  <property name="home" value="../../.."/>
   <import file="${home}/bootstrap.xml"/>
   
   <target name="init" depends="bootstrap.init">

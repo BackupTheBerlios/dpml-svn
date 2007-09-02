@@ -18,51 +18,51 @@ executeAnt()
 
 dpmlLibrary()
 {
-    cd depot/library
+    cd main/depot/library
     executeAnt -f bootstrap.xml clean install
-    cd ../..
+    cd ../../..
 }
 
 dpmlPart()
 {
-    cd metro/part
+    cd main/metro/part
     executeAnt -f bootstrap.xml clean install
-    cd ../..   
+    cd ../../..
 }
 
 dpmlTransit()
 {
-    cd transit/core
+    cd main/transit/core
     executeAnt -f bootstrap.xml clean install
-    cd ../..   
+    cd ../../..   
 }
 
 dpmlCli()
 {
-    cd util/cli
+    cd main/util/cli
     executeAnt -f bootstrap.xml clean install
-    cd ../..   
+    cd ../../..   
 }
 
 dpmlBuild()
 {
-    cd depot/build
+    cd main/depot/build
     executeAnt -f bootstrap.xml clean install
-    cd ../..   
+    cd ../../..   
 }
 
 dpmlTools()
 {
-    cd depot/tools
+    cd main/depot/tools
     executeAnt -f bootstrap.xml clean install
-    cd ../..   
+    cd ../../..   
 }
 
 dpmlExternal()
 {
-    cd external
+    cd main/external
     build clean install
-    cd ..
+    cd ../..
 }
 
 dpmlTransit

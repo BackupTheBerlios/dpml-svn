@@ -23,6 +23,6 @@
   <property name="project.name" value="dpml-util-cli"/>
 
   <property name="home" value="../.."/>
-  <import file="${home}/bootstrap.xml"/>
+  <import file="../../../bootstrap.xml"/>
   
 </project>

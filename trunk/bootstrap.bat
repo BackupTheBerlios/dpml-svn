@@ -57,44 +57,44 @@ POPD
 GOTO :EOF
 
 :dpml-metro-part
-PUSHD metro\part
+PUSHD main\metro\part
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :transit-main
-PUSHD transit\core
+PUSHD main\transit\core
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-depot-library
-PUSHD depot\library
+PUSHD main\depot\library
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-depot-builder
-PUSHD depot\tools
+PUSHD main\depot\tools
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-util-cli
-PUSHD util\cli
+PUSHD main\util\cli
 rem CALL :build clean install
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :dpml-depot-build
-PUSHD depot\build
+PUSHD main\depot\build
 CALL :build -f bootstrap.xml clean install
 POPD
 GOTO :EOF
 
 :external-modules
-PUSHD external
+PUSHD main\external
 CALL build clean install
 POPD
 GOTO :EOF
