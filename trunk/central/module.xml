@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<module xmlns="dpml:library" name="central">
+<module xmlns="dpml:library" name="dpml/central">
   
   <properties>
     <property name="project.javadoc.excludes" value="dpml/**,org/acme/**"/>
@@ -7,7 +7,11 @@
   
   <dependencies>
     <build>
-      <include ref="dpml"/>
+      <include ref="org/acme"/>
+      <include ref="dpml/transit"/>
+      <include ref="dpml/depot"/>
+      <include ref="dpml/util"/>
+      <include ref="dpml/metro"/>
     </build>
   </dependencies>
   

@@ -24,7 +24,7 @@
     <property name="project.javadoc.linksource" value="false"/>
   </properties>
   
-  <module name="dpml" basedir="main">
+  <module name="dpml" basedir=".">
   
     <properties>
       <property name="java.util.logging.config.class" value="dpml"/>
@@ -43,12 +43,16 @@
       <feature token="BUILD-VERSION" id="version"/> 
     </filters>
     
-    <module file="util/module.xml"/>
-    <module file="transit/module.xml"/>
-    <module file="metro/module.xml"/>
-    <module file="depot/module.xml"/>
-    
+    <module file="main/util/module.xml"/>
+    <module file="main/transit/module.xml"/>
+    <module file="main/metro/module.xml"/>
+    <module file="main/depot/module.xml"/>
+
   </module>
+
+  <module file="central/module.xml"/>
+
+  <module file="tutorials/module.xml"/>
   
   <!--
   <module name="dpmlx">
