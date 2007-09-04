@@ -17,16 +17,18 @@ example on linux you define the following:
 B. Bootstrap Build
 ------------------
 
-Create a directory to hold the svn codebase (e.g. c:\dev\dpml\main), checkout 
-the sources, cd to the main directory and invoke the bootstrap build procedure.
-The bootstrap procedure invokes a SNAPSHOT build on all resources necessary to
-establish the build tool.
-
+Create a directory to hold the svn codebase (e.g. c:\dev\dpml), checkout 
+the sources, cd to the directory and invoke the bootstrap build procedure.
+On Windows:
   $ cd dev\dpml
   $ svn checkout svn://svn.berlios.de/dpml/trunk
-  $ cd main
   $ bootstrap
-  $ cd ..
+
+On Linux:
+
+  $ cd dev/dpml
+  $ svn checkout svn://svn.berlios.de/dpml/trunk
+  $ bash bootstrap
 
 C. Main System Build
 --------------------
