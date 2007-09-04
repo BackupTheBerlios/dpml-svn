@@ -47,5 +47,3 @@ and/or post a note to the DPML support list.
   http://www.dpml.net/about/resources/lists.html
 
 Stephen McConnell, DPML
-
-
