@@ -36,8 +36,6 @@
   <property file="${home}/user.properties"/>
   <property file="${home}/bootstrap.properties"/>
 
-  <property name="junit.url" value="http://repository.dpml.net/classic/junit/jars/junit-3.8.1.jar"/>
-
   <condition property="dpml.appdata.declared" value="true">
     <isset property="ENV.APPDATA"/>
   </condition>

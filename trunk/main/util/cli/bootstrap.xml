@@ -19,10 +19,8 @@
 
 <project name="dpml-util-cli" default="install" basedir=".">
 
-  <property name="project.group" value="dpml/util"/>
-  <property name="project.name" value="dpml-util-cli"/>
-
-  <property name="home" value="../.."/>
-  <import file="../../../bootstrap.xml"/>
+  <property file="${basedir}/bootstrap.properties"/>
+  <property file="${home}/bootstrap.properties"/>
+  <import file="${home}/bootstrap.xml"/>
   
 </project>
