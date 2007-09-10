@@ -12,9 +12,6 @@
   </types>
     
   <dependencies>
-    <build>
-      <include key="transient"/>
-    </build>
     <runtime>
       <include ref="dpml/metro/dpml-metro-part"/>
     </runtime>
