@@ -12,9 +12,6 @@
   </types>
     
   <dependencies>
-    <build>
-      <include key="state"/>
-    </build>
     <runtime>
       <include ref="dpml/transit/dpml-transit-main"/>
     </runtime>

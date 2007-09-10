@@ -7,8 +7,8 @@
   </info>
     
   <types>
-    <type id="jar"/>
-    <type id="part" source="target/component.xml"/>
+    <type id="jar" test="true"/>
+    <type id="part" source="target/component.xml" test="true"/>
   </types>
     
   <dependencies>
