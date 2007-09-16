@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<resource xmlns="dpml:antlib" urn="dpml:checkstyle" path="dpml/tools/checkstyle/antlib.xml"/>
+<resource xmlns="dpml:antlib" urn="dpml:checkstyle" path="dpml/depot/checkstyle/antlib.xml"/>

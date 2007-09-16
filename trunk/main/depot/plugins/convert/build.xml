@@ -3,7 +3,7 @@
 <project name="dpml-depot-checkstyle" default="install" basedir="." 
     xmlns:x="antlib:dpml.tools">
 
-  <x:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/depot/standard"/>
 
   <target name="javadoc"/>
 

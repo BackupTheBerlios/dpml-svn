@@ -21,7 +21,7 @@
     xmlns:transit="antlib:dpml.tools.transit"
     xmlns:x="dpml:depot">
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <transit:import uri="local:template:dpml/depot/standard"/>
 
   <target name="checkstyle" depends="prepare">
     <property name="checkstyle.dir" location="${basedir}/target/reports/checkstyle"/>
@@ -38,7 +38,7 @@
         <include name="**/src/test/**/*.java"/>
       </fileset>
     </checkstyle>
-    <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
+    <xslt style="${dpml.prefs}/dpml/depot/xsls/checkstyle-frames.xsl"
         in="${checkstyle.data}" 
         out="${checkstyle.dir}/checkstyle_report.html">
       <param name="output.dir" expression="${checkstyle.dir}"/>

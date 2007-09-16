@@ -2,7 +2,7 @@
 
 <project xmlns:x="antlib:dpml.tools">
 
-  <x:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/depot/standard"/>
   
   <target name="prepare" depends="standard.prepare">
     <x:plugin uri="link:part:dpml/depot/dpml-depot-convert">

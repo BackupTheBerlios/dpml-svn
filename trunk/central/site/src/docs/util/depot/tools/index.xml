@@ -82,7 +82,7 @@
       template</a> build file.  Templates are resolved using the <tt>project.template</tt> 
       property which defaults to the value of the <tt>project.standard.template</tt> 
       property.  If neither property is defined, the default template 
-      <tt>local:template:dpml/tools/standard</tt> is assigned.
+      <tt>local:template:dpml/depot/standard</tt> is assigned.
       </p>
       
       <subsection name="Builder Configuration">
@@ -91,7 +91,7 @@
       The Depot Build is configured using an XML file located using the following uri:
       </p>
 
-      <pre>local:xml:dpml/tools/config</pre>
+      <pre>local:xml:dpml/depot/config</pre>
 
 <source><![CDATA[
 <builder default="install">

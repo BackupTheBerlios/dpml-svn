@@ -57,6 +57,8 @@ import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.types.Path;
 
+import static dpml.tools.impl.StandardBuilder.CONFIGURATION;
+
 /**
  * Default implementation of a project context.
  *
@@ -95,6 +97,16 @@ public final class DefaultContext implements Context
     {
         m_project = project;
         m_resource = resource;
+
+        if( null == resource )
+        {
+            throw new NullPointerException( "resource" );
+        }
+        
+        if( null == project )
+        {
+            throw new NullPointerException( "project" );
+        }
         
         Library library = resource.getLibrary();
         project.addReference( "project.timestamp", new Date() );
@@ -178,15 +190,24 @@ public final class DefaultContext implements Context
         
         // add listeners declared in the builder configuration
         
-        ListenerDirective[] listeners = StandardBuilder.CONFIGURATION.getListenerDirectives();
-        for( int i=0; i<listeners.length; i++ )
+        try
         {
-            ListenerDirective directive = listeners[i];
-            project.log( "adding listener: " + directive.getName(), Project.MSG_VERBOSE );
-            BuildListener buildListener = loadBuildListener( directive );
-            project.addBuildListener( buildListener );
-            BuildEvent event = new BuildEvent( project );
-            buildListener.buildStarted( event );
+            ListenerDirective[] listeners = CONFIGURATION.getListenerDirectives();
+            for( int i=0; i<listeners.length; i++ )
+            {
+                ListenerDirective directive = listeners[i];
+                project.log( "adding listener: " + directive.getName(), Project.MSG_VERBOSE );
+                BuildListener buildListener = loadBuildListener( directive );
+                project.addBuildListener( buildListener );
+                BuildEvent event = new BuildEvent( project );
+                buildListener.buildStarted( event );
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error =
+                "Unexpected error while resolving listener directive configuration.";
+            throw new BuilderError( error, e );
         }
     }
     

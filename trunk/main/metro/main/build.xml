@@ -3,7 +3,7 @@
 <project name="dpml-metro-main" default="install" basedir="." 
     xmlns:x="antlib:dpml.tools">
 
-  <x:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/depot/standard"/>
 
   <condition property="isWindows" value="true">
     <os family="windows"/>

@@ -69,13 +69,13 @@ public class StandardBuilder implements Builder
    /**
     * The default template uri path.
     */
-    public static final String DEFAULT_TEMPLATE_URN = "local:template:dpml/tools/standard";
+    public static final String DEFAULT_TEMPLATE_URN = "local:template:dpml/depot/standard";
     
    /**
     * The builder configuration.
     */
     public static final BuilderDirective CONFIGURATION = loadConfiguration();
-    
+
     private static BuilderDirective loadConfiguration()
     {
         try
@@ -87,8 +87,7 @@ public class StandardBuilder implements Builder
             final String error = 
               "Internal error while attempting to establish the builder configuration.";
             BuilderError be = new BuilderError( error, e );
-            be.printStackTrace();
-            return null;
+            throw be;
         }
     }
     
@@ -342,11 +341,18 @@ public class StandardBuilder implements Builder
                 URL url = uri.toURL();
                 return (File) url.getContent( new Class[]{File.class} );
             }
+            else
+            {
+                return new File( spec );
+            }
         }
         catch( Throwable e )
         {
+            final String error = 
+              "Unable to resolve template file." 
+              + "\nSpec: " + spec;
+            throw new BuilderError( error, e );
         }
-        return new File( spec );
     }
     
     Project createProject( Resource resource )
@@ -359,7 +365,7 @@ public class StandardBuilder implements Builder
             project.setBaseDir( resource.getBaseDir() );
             return project;
         }
-        catch( Exception e )
+        catch( Throwable e )
         {
             final String error = 
               "Unable to establish build context." 

@@ -54,21 +54,12 @@
     <antcall target="execute.jar.asc"/>
     <echo>
 #----------------------------------------------------------------------------------
-# Updating Transit Copnfig. ${dpml.config}/dpml/transit
+# Updating Transit Config. ${dpml.config}/dpml/transit
 #----------------------------------------------------------------------------------
     </echo>
     <mkdir dir="${dpml.config}/dpml/transit"/>
     <copy preservelastmodified="true" toDir="${dpml.config}/dpml/transit">
       <fileset dir="${basedir}/target/config"/>
-    </copy>
-    <echo>
-#----------------------------------------------------------------------------------
-# Updating Transit Prefs. ${dpml.prefs}/dpml/transit
-#----------------------------------------------------------------------------------
-    </echo>
-    <mkdir dir="${dpml.prefs}/dpml/transit"/>
-    <copy preservelastmodified="true" toDir="${dpml.prefs}/dpml/transit">
-      <fileset dir="${basedir}/target/prefs"/>
     </copy>
   </target>
 

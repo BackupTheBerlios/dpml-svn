@@ -3,14 +3,14 @@
 <project name="dpml-metro-station" default="install" basedir="." 
     xmlns:x="antlib:dpml.tools">
 
-  <x:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/depot/standard"/>
 
   <available property="station.exe.available" file="${dpml.system}/bin/station.exe"/>
 
   <target name="install" depends="bin,standard.install">
-    <mkdir dir="${dpml.prefs}/${project.group}"/>
-    <copy toDir="${dpml.prefs}/${project.group}">
-      <fileset dir="etc/prefs">
+    <mkdir dir="${dpml.config}/${project.group}"/>
+    <copy toDir="${dpml.config}/${project.group}">
+      <fileset dir="etc/config">
         <include name="**/*"/>
       </fileset>
     </copy>

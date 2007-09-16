@@ -4,7 +4,7 @@
     xmlns:x="antlib:dpml.tools"
     >
 
-  <x:import uri="local:template:dpml/tools/standard"/>
+  <x:import uri="local:template:dpml/depot/standard"/>
 
   <target name="init" depends="standard.init">
     <x:property name="dpml.module.version" ref="dpml" feature="version"/>

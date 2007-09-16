@@ -48,6 +48,7 @@ public final class BuilderDirectiveHelper
     private static final String LISTENER_ELEMENT_NAME = "listener";
     private static final String PROPERTIES_ELEMENT_NAME = "properties";
     private static final String PROPERTY_ELEMENT_NAME = "property";
+    private static final String BUILDER_DIRECTIVE_URI_VALUE = "local:xml:dpml/depot/builder";
     
     private BuilderDirectiveHelper()
     {
@@ -79,9 +80,9 @@ public final class BuilderDirectiveHelper
             throw new IllegalArgumentException( error );
         }
         FileInputStream input = new FileInputStream( source );
-        BufferedInputStream buffer = new BufferedInputStream( input );
         try
         {
+            BufferedInputStream buffer = new BufferedInputStream( input );
             final Element root = ElementHelper.getRootElement( input );
             File base = source.getParentFile();
             return buildMainDirective( root );
@@ -108,19 +109,10 @@ public final class BuilderDirectiveHelper
     */
     public static BuilderDirective build() throws Exception
     {
-        File prefs = Transit.PREFS;
-        File config = new File( prefs, "dpml/tools/xmls/builder.xml" );
-        if( config.exists() )
-        {
-            return build( config );
-        }
-        else
-        {
-            final String error = 
-              "Missing builder configuration: " 
-              + config;
-            throw new FileNotFoundException( error );
-        }
+        URI uri = new URI( BUILDER_DIRECTIVE_URI_VALUE );
+        URL url = Artifact.toURL( uri );
+        File file = (File) url.getContent( new Class[]{ File.class } );
+        return build( file );
     }
     
     private static URL convertToURL( URI uri ) throws Exception

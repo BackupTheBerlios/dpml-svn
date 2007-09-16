@@ -50,10 +50,10 @@
   </target>
 
   <target name="install" depends="bootstrap.install">
-    <property name="tools.prefs" location="${dpml.prefs}/dpml/tools"/>
-    <mkdir dir="${tools.prefs}"/>
-    <copy toDir="${tools.prefs}">
-      <fileset dir="${target.dir}/prefs">
+    <property name="depot.config" location="${dpml.config}/dpml/depot"/>
+    <mkdir dir="${depot.config}"/>
+    <copy toDir="${depot.config}">
+      <fileset dir="${target.dir}/config">
         <include name="**/*"/>
       </fileset>
     </copy>

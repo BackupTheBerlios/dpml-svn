@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="tooling" default="install" basedir="." 
-    xmlns:transit="antlib:dpml.tools.transit"
+    xmlns:transit="antlib:dpml.depot.transit"
     xmlns:x="dpml:depot">
 
   <macrodef name="build">
@@ -14,7 +14,7 @@
     </sequential>
   </macrodef>
   
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <transit:import uri="local:template:dpml/depot/standard"/>
 
   <target name="build" depends="standard.build">
     <echo message="starting"/>

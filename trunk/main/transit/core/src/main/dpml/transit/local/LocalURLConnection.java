@@ -130,13 +130,13 @@ public class LocalURLConnection extends URLConnection
         else
         {
             File config = getTargetFile( Transit.CONFIG, group, name, version, type );
-            if( !config.exists() )
+            if( config.exists() )
             {
-                 return null;
+                return config;
             }
             else
             {
-                return config;
+                return null;
             }
         }
     }

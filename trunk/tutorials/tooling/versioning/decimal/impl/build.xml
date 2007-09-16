@@ -3,6 +3,6 @@
 <project name="demo" default="install"
     xmlns:transit="antlib:dpml.tools.transit">
 
-  <transit:import uri="local:template:dpml/tools/standard"/>
+  <transit:import uri="local:template:dpml/depot/standard"/>
 
 </project>

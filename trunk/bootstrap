@@ -65,6 +65,7 @@ dpmlExternal()
     cd ../..
 }
 
+source setup.sh
 dpmlTransit
 dpmlPart
 dpmlLibrary
