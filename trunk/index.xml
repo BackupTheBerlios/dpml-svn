@@ -20,7 +20,7 @@
     <property name="project.svn.host" value="svn://svn.berlios.de/dpml/trunk/main"/>
     <property name="project.major.version" value="2"/>
     <property name="project.minor.version" value="1"/>
-    <property name="project.micro.version" value="0"/>
+    <property name="project.micro.version" value="1"/>
     <property name="project.javadoc.linksource" value="false"/>
   </properties>
   

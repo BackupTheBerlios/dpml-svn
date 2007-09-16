@@ -41,6 +41,7 @@ import dpml.library.Scope;
 import dpml.library.impl.DefaultLibrary;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
@@ -140,6 +141,13 @@ public class Main implements Tool
         {
             m_library = new DefaultLibrary( m_logger );
         }
+        catch( FileNotFoundException e )
+        {
+            final String error = 
+              "Index not found.";
+            m_logger.error( error );
+            return -1;
+        }
         catch( Throwable e )
         {
             final String error = 
@@ -178,12 +186,18 @@ public class Main implements Tool
         
         CommandLine line = getCommandLine( args );
         m_verbose = line.hasOption( VERBOSE_OPTION );
+
+        if( line.hasOption( VERSION_OPTION ) )
+        {
+            printVersionMessage();
+            return 0;
+        }
         
         // setup the build version
         
-        if( line.hasOption( VERSION_OPTION ) )
+        if( line.hasOption( SIGNATURE_OPTION ) )
         {
-            String version = (String) line.getValue( VERSION_OPTION, "SNAPSHOT" );
+            String version = (String) line.getValue( SIGNATURE_OPTION, "SNAPSHOT" );
             System.setProperty( "build.signature", version );
             if( m_verbose )
             {
@@ -241,6 +255,20 @@ public class Main implements Tool
             m_logger.error( e.getMessage() );
             return -1;
         }
+    }
+
+    private void printVersionMessage()
+    {
+        StringBuffer buffer = new StringBuffer( "version" );
+        buffer.append( "\n" );
+        buffer.append( "\n  DPML Depot" );
+        buffer.append( "\n  Version @PROJECT-VERSION@" );
+        buffer.append( "\n  Codebase " + getClass().getProtectionDomain().getCodeSource().getLocation() );
+        buffer.append( "\n  Copyright 2005-2007 Stephen J. McConnell" );
+        buffer.append( "\n  Digital Product Management Library" );
+        buffer.append( "\n" );
+        String message = buffer.toString();
+        m_logger.info( message );
     }
     
     private CommandLine getCommandLine( String[] args ) throws Exception
@@ -605,6 +633,13 @@ public class Main implements Tool
           .withRequired( false )
           .create();
     
+    private static final Option VERSION_OPTION = 
+        OPTION_BUILDER
+          .withShortName( "version" )
+           .withDescription( "List version information and exit." )
+          .withRequired( false )
+          .create();
+    
     private static final Option SELECT_OPTION = 
         OPTION_BUILDER
           .withShortName( "select" )
@@ -666,15 +701,16 @@ public class Main implements Tool
           .withRequired( false )
           .create();
     
-    private static final Option VERSION_OPTION = 
+    private static final Option SIGNATURE_OPTION = 
         OPTION_BUILDER
-          .withShortName( "version" )
-          .withDescription( "Build version." )
+          .withShortName( "signature" )
+          .withShortName( "sig" )
+          .withDescription( "Build version signature." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
-              .withDescription( "Created artifact version." )
-              .withName( "version" )
+              .withDescription( "Created artifact version signature." )
+              .withName( "signature" )
               .withMinimum( 1 )
               .withMaximum( 1 )
               .create() )
@@ -690,7 +726,7 @@ public class Main implements Tool
     private static final Option BUILDER_URI_OPTION = 
         OPTION_BUILDER
           .withShortName( "plugin" )
-          .withDescription( "Default builder plugin uri." )
+          .withDescription( "Builder plugin uri." )
           .withRequired( false )
           .withArgument(
             ARGUMENT_BUILDER 
@@ -722,7 +758,7 @@ public class Main implements Tool
         .withOption( CONSUMERS_OPTION )
         .withOption( VERBOSE_OPTION )
         .withOption( BUILDER_URI_OPTION )
-        .withOption( VERSION_OPTION )
+        .withOption( SIGNATURE_OPTION )
         .withOption( DECIMAL_OPTION )
         .withOption( VALIDATE_OPTION )
         .withOption( PROPERTY_OPTION )
@@ -732,6 +768,7 @@ public class Main implements Tool
       GROUP_BUILDER
         .withName( "options" )
         .withOption( HELP_OPTION )
+        .withOption( VERSION_OPTION )
         .withOption( LIST_GROUP )
         .withOption( BUILD_GROUP )
         .withOption( TARGETS )

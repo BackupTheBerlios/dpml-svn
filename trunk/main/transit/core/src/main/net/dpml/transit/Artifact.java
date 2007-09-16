@@ -49,8 +49,13 @@ public final class Artifact implements Serializable, Comparable
     * Constant scheme name for the local protocol.
     */
     public static final String LOCAL = "local";
+
+   /**
+    * Constant scheme name for the configuration protocol.
+    */
+    public static final String CONFIGURATION = "configuration";
     
-    static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 2L;
     
     // ------------------------------------------------------------------------
     // static
@@ -301,6 +306,10 @@ public final class Artifact implements Serializable, Comparable
             return true;
         }
         else if( LINK.equals( scheme ) )
+        {
+            return true;
+        }
+        else if( CONFIGURATION.equals( scheme ) )
         {
             return true;
         }
@@ -565,6 +574,10 @@ public final class Artifact implements Serializable, Comparable
         else if( LOCAL.equals( scheme ) )
         {
             return toURL( new dpml.transit.local.Handler() );
+        }
+        else if( CONFIGURATION.equals( scheme ) )
+        {
+            return toURL( new dpml.transit.configuration.Handler() );
         }
         else
         {

@@ -104,6 +104,11 @@ public final class Transit
     private static final String SHARE_KEY = "dpml.share";
 
    /**
+    * Transit config key.
+    */
+    private static final String CONFIG_KEY = "dpml.config";
+
+   /**
     * DPML environment variable string.
     */
     private static final String HOME_SYMBOL = "DPML_HOME";
@@ -137,6 +142,12 @@ public final class Transit
     * dependent.
     */
     public static final File PREFS;
+
+   /**
+    * The Transit shared config directory. The location of this diectory is system
+    * dependent.
+    */
+    public static final File CONFIG;
 
    /**
     * The Transit system version.
@@ -173,12 +184,14 @@ public final class Transit
         SYSTEM = resolveSystemDirectory( HOME );
         DATA = resolveDataDirectory( HOME );
         PREFS = resolvePreferencesDirectory( HOME );
+        CONFIG = resolveConfigDirectory( SYSTEM );
 
         System.setProperty( SYSTEM_KEY, SYSTEM.getAbsolutePath() );
         System.setProperty( SHARE_KEY, SYSTEM.getAbsolutePath() );
         System.setProperty( HOME_KEY, HOME.getAbsolutePath() );
         System.setProperty( DATA_KEY, DATA.getAbsolutePath() );
         System.setProperty( PREFS_KEY, PREFS.getAbsolutePath() );
+        System.setProperty( CONFIG_KEY, CONFIG.getAbsolutePath() );
     }
     
    /**
@@ -433,6 +446,28 @@ public final class Transit
         }
     }
 
+   /**
+    * Resolve the DPML config directory. The value
+    * returned may be overriden by setting a 'dpml.config' 
+    * system property otherwise the default value returned
+    * will be equivalent to <tt>${dpml.system}/config</tt>.
+    *
+    * @param dir the default system directory
+    * @return the transit shared configuration directory
+    */
+    private static File resolveConfigDirectory( File dir )
+    {
+        String path = System.getProperty( CONFIG_KEY );
+        if( null != path )
+        {
+            return new File( path );
+        }
+        else
+        {
+            return new File( dir, "config" );
+        }
+    }
+
     //------------------------------------------------------------------
     // static internal 
     //------------------------------------------------------------------
@@ -444,7 +479,7 @@ public final class Transit
 
    /**
     * Resolve the transit configuration using the default resource path 
-    * <tt>local:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
+    * <tt>configuration:xml:dpml/transit/config</tt>. If the resource does not exist a classic 
     * default scenario will be returned.
     *
     * @return the transit configuration directive
@@ -460,11 +495,11 @@ public final class Transit
         }
         else
         {
-            File prefs = Transit.PREFS;
-            File config = new File( prefs, STANDARD_PATH );
-            if( config.exists() )
+            File config = Transit.CONFIG;
+            File configuration = new File( config, STANDARD_PATH );
+            if( configuration.exists() )
             {
-                URI uri = config.toURI();
+                URI uri = configuration.toURI();
                 URL url = uri.toURL();
                 return loadTransitDirective( url );
             }
@@ -505,8 +540,8 @@ public final class Transit
             }
             else
             {
-                File prefs = Transit.PREFS;
-                File alt = new File( prefs, path );
+                File config = Transit.CONFIG;
+                File alt = new File( config, path );
                 if( alt.exists() )
                 {
                     return alt.toURI().toURL();

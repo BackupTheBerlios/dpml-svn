@@ -7,7 +7,7 @@ if [ "$DPML_HOME" = "" ]; then
 fi
 
 if [ "$DPML_SYSTEM" = "" ]; then
-     export DPML_SYSTEM="$DPML_HOME/share"
+    export DPML_SYSTEM="/opt/dpml/share"
 fi
 
 if [ "$METRO_SECURITY_POLICY" = "" ] ; then

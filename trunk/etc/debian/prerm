@@ -1,0 +1,10 @@
+#!/bin/sh
+# Copyright 2007 Stephen J. McConnell
+
+sudo rm -f /usr/bin/station
+sudo rm -f /usr/bin/metro
+sudo rm -f /usr/bin/build
+
+sudo rm -f /opt/dpml
+sudo rm -f /etc/transit
+

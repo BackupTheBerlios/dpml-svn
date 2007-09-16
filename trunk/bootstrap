@@ -61,7 +61,7 @@ dpmlTools()
 dpmlExternal()
 {
     cd main/external
-    build clean install
+    bash ../depot/build/target/bin/build clean install
     cd ../..
 }
 

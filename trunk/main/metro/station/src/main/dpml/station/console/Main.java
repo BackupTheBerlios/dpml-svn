@@ -833,6 +833,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
         buffer.append( "\n  Codebase " + getClass().getProtectionDomain().getCodeSource().getLocation() );
         buffer.append( "\n  Copyright 2005-2007 Stephen J. McConnell" );
         buffer.append( "\n  Digital Product Management Library" );
+        buffer.append( "\n" );
         String message = buffer.toString();
         m_logger.info( message );
     }

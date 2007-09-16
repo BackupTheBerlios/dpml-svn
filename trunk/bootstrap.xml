@@ -58,7 +58,7 @@
 
   <target name="setup" depends="dpml-setup,junit-setup"/>
 
-  <target name="dpml-setup" depends="dpml-home,dpml-data,dpml-prefs,dpml-system"/>
+  <target name="dpml-setup" depends="dpml-home,dpml-data,dpml-prefs,dpml-system,dpml-config"/>
 
   <target name="dpml-home-environment" if="dpml.home.declared">
     <property name="dpml.home" location="${ENV.DPML_HOME}"/>
@@ -104,6 +104,11 @@
   <target name="dpml-system" depends="dpml-system-environment,dpml-home">
     <property name="dpml.system" location="${dpml.home}/share"/>
     <mkdir dir="${dpml.system}"/>
+  </target>
+
+  <target name="dpml-config" depends="dpml-system">
+    <property name="dpml.config" location="${dpml.system}/config"/>
+    <mkdir dir="${dpml.config}"/>
   </target>
 
   <target name="junit-download" depends="dpml-data" unless="junit.cache.available">

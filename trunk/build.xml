@@ -33,16 +33,18 @@
     <property name="prefs" location="${bundle}/prefs"/>
     <property name="data" location="${bundle}/data"/>
     <property name="share" location="${bundle}/share"/>
+    <property name="share.config" location="${share}/config"/>
     <property name="share.docs" location="${share}/docs"/>
     <property name="share.lib" location="${share}/lib"/>
     <mkdir dir="${data}"/>
     <mkdir dir="${prefs}"/>
     <mkdir dir="${share.docs}"/>
+    <mkdir dir="${share.config}"/>
   </target>
   
   <target name="package" depends="standard.package,javadoc"/>
 
-  <target name="install" depends="standard.install,zip,tar,nsis">
+  <target name="install" depends="standard.install,zip,tar,debian,nsis">
     <copy todir="${dpml.data}">
       <fileset dir="${share}">
         <include name="docs/**"/>
@@ -76,6 +78,42 @@
       </fileset>
     </copy>
     <echo>Created target/dist/dpml-sdk-win32-${project.version}.exe</echo>
+  </target>
+
+  <target name="debian" depends="prepare">
+    <echo>Building Debian Installer</echo>
+    <x:get uri="artifact:jar:com/google/code/ant-deb/ant-deb-task#20070903" property="debian.jar"/>
+    <path id="debian.path">
+      <pathelement location="${debian.jar}"/>
+    </path>
+    <taskdef resource="ant_deb_task.properties" classpathref="debian.path"/>
+    <!--<mkdir dir="${basedir}/target/debian"/>-->
+    <deb
+        todir="${basedir}/target/debian"
+        package="dpml-sdk"
+        section="devel"
+        depends="sun-java6-jdk"
+        postinst="${basedir}/target/debian/postinst"
+        prerm="${basedir}/target/debian/prerm">
+      <version upstream="${project.version}"/>
+      <maintainer name="davidoff" email="davidoff@dpml.net"/>
+      <description synopsis="Digital Product Management Library SDK">http://www.dpml.net</description>
+      <tarfileset dir="target/bundle" prefix="opt/dpml-sdk-${project.version}" filemode="755">
+        <include name="share/bin/build"/>
+        <include name="share/bin/station"/>
+        <include name="share/bin/metro"/>
+      </tarfileset>
+      <tarfileset dir="target/bundle" prefix="opt/dpml-sdk-${project.version}">
+        <include name="share/bin/build.policy"/>
+        <include name="share/bin/station.policy"/>
+        <include name="share/bin/metro.policy"/>
+        <include name="share/config/**"/>
+        <include name="share/local/**"/>
+        <include name="share/lib/**"/>
+        <include name="prefs/**"/>
+        <include name="data/**"/>
+      </tarfileset>
+    </deb>
   </target>
 
   <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
@@ -124,7 +162,7 @@
     <checksum file="${dist}/${tarfilename}.gz" fileext=".md5"/>
   </target>
 
-  <target name="bundle" depends="standard.install,data,prefs,bin,lib"> <!-- removed docs -->
+  <target name="bundle" depends="standard.install,data,prefs,bin,lib,config">
     <copy todir="${bundle}" filtering="true">
       <fileset dir="${basedir}">
         <include name="LICENSE.TXT"/>
@@ -147,6 +185,17 @@
     <mkdir dir="${share.lib}/endorced"/>
     <x:property name="transit.path" ref="dpml/transit/dpml-transit-main" feature="path" type="jar"/>
     <copy file="${transit.path}" tofile="${share.lib}/ext/dpml-transit-main.jar"/>
+  </target>
+
+  <target name="config" depends="prepare">
+    <x:property name="transit.main.basedir" ref="dpml/transit/dpml-transit-main" feature="basedir"/>
+    <property name="transit.config" location="${share.config}/dpml/transit"/>
+    <mkdir dir="${transit.config}"/>
+    <copy todir="${transit.config}" filtering="false">
+      <fileset dir="${transit.main.basedir}/target/config">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
   </target>
 
   <target name="prefs" depends="prepare">
@@ -183,16 +232,17 @@
   <target name="bin" depends="prepare">
     <x:property name="build.basedir" ref="dpml/depot/dpml-depot-build" feature="basedir"/>
     <x:property name="metro.basedir" ref="dpml/metro/dpml-metro-main" feature="basedir"/>
-    <x:property name="part.basedir" ref="dpml/metro/dpml-metro-part" feature="basedir"/>
     <x:property name="station.basedir" ref="dpml/metro/dpml-metro-station" feature="basedir"/>
     <property name="share.bin" location="${share}/bin"/>
     <mkdir dir="${share.bin}"/>
     <copy todir="${share.bin}" filtering="false">
-      <fileset dir="${part.basedir}/target/bin"/>
       <fileset dir="${build.basedir}/etc/bin"/>
       <fileset dir="${metro.basedir}/etc/bin"/>
       <fileset dir="${station.basedir}/etc/bin"/>
     </copy>
+    <chmod file="${share.bin}/build" perm="ugo+rx"/>
+    <chmod file="${share.bin}/metro" perm="ugo+rx"/>
+    <chmod file="${share.bin}/station" perm="ugo+rx"/>
   </target>
 
   <target name="checkstyle" depends="prepare">

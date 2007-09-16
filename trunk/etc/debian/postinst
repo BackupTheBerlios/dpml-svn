@@ -1,0 +1,10 @@
+#!/bin/sh
+# Copyright 2007 Stephen J. McConnell
+
+sudo ln -s /opt/dpml-sdk-@BUILD-VERSION@ /opt/dpml
+sudo ln -s /opt/dpml/share/bin/build /usr/bin/build
+sudo ln -s /opt/dpml/share/bin/metro /usr/bin/metro
+sudo ln -s /opt/dpml/share/bin/station /usr/bin/station
+sudo ln -s /opt/dpml/share/config/dpml/transit /etc/transit
+
+
