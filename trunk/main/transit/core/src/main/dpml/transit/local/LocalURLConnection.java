@@ -96,23 +96,11 @@ public class LocalURLConnection extends URLConnection
                     try
                     {
                         Artifact artifact = Artifact.createArtifact( spec );
-                        String groupSpec = artifact.getGroup();
-                        String artifactName = artifact.getName();
-                        String typeSpec = artifact.getType();
-                        String versionSpec = artifact.getVersion();
-                        File prefs = Transit.PREFS;
-                        File group = new File( prefs, groupSpec );
-                        File type = new File( group, typeSpec + "s" );
-                        if( null == versionSpec )
-                        {
-                            final String filename = artifactName + "." + typeSpec;
-                            m_target = new File( type, filename );
-                        }
-                        else
-                        {
-                            final String filename = artifactName + "-" + versionSpec + "." + typeSpec;
-                            m_target = new File( type, filename );
-                        }
+                        String group = artifact.getGroup();
+                        String name = artifact.getName();
+                        String type = artifact.getType();
+                        String version = artifact.getVersion();
+                        m_target = getTargetFile( group, name, version, type );
                     }
                     catch( Throwable e )
                     {
@@ -130,6 +118,43 @@ public class LocalURLConnection extends URLConnection
         {
             throw (IOException) e.getException();
         } 
+    }
+
+    private File getTargetFile( String group, String name, String version, String type )
+    {
+        File prefs = getTargetFile( Transit.PREFS, group, name, version, type );
+        if( prefs.exists() )
+        {
+            return prefs;
+        }
+        else
+        {
+            File config = getTargetFile( Transit.CONFIG, group, name, version, type );
+            if( !config.exists() )
+            {
+                 return null;
+            }
+            else
+            {
+                return config;
+            }
+        }
+    }
+
+    private File getTargetFile( File root, String group, String name, String version, String type )
+    {
+        File base = new File( root, group );
+        File file = new File( base, type + "s" );
+        if( null == version )
+        {
+            final String filename = name + "." + type;
+            return new File( file, filename );
+        }
+        else
+        {
+            final String filename = name + "-" + version + "." + type;
+            return new File( file, filename );
+        }
     }
 
    /**
