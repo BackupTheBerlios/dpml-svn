@@ -8,33 +8,38 @@ To build the DPML suite - please following the following procedure:
 A. Setup Environment
 --------------------
 
-Before attempting to build the platform you need to ensure that the DPML
-shared bin directory is referenced in you PATH environment variable.  For 
-example on linux you define the following:
+Pull down the sources:
 
-  export PATH="$HOME/.dpml/share/bin:$PATH"
+  $ cd dev
+  $ svn checkout svn://svn.berlios.de/dpml/trunk dpml
 
+The full sources to the DPML SDK are now present in the directory dev/dpml.  
+On linux you need to execute a bash script to setup som environment variables
+that declare a local DPML_SYSTEM into which we will generate the new binaries.
+You can do this using the following command:
+
+  $ cd dpml
+  $ source setup.sh
+
+On Windows you should define the DPML_SYSTEM environment variable and ensure
+that $DPML_SYSTEM/bin is included in you PATH environment variable.
 B. Bootstrap Build
 ------------------
 
-Create a directory to hold the svn codebase (e.g. c:\dev\dpml), checkout 
-the sources, cd to the directory and invoke the bootstrap build procedure.
-On Windows:
-  $ cd dev\dpml
-  $ svn checkout svn://svn.berlios.de/dpml/trunk
-  $ bootstrap
+Invoke the bootstrap build procedure.
 
 On Linux:
 
-  $ cd dev/dpml
-  $ svn checkout svn://svn.berlios.de/dpml/trunk
   $ bash bootstrap
+
+On Windows:
+  $ bootstrap
 
 C. Main System Build
 --------------------
 
 The bootstrap procedure will create a number of executables under 
-%DPML_HOME%/share/bin.  Several options are available concerning version 
+%DPML_SYSTEM%/bin.  Several options are available concerning version 
 handling of the full build.
 
   a) SNAPSHOT
@@ -58,8 +63,8 @@ handling of the full build.
      $ build -decimal
 
 The build procedure will build approximately 56 projects during which a number 
-of downloads may occur.  On completion the %DPML_HOME%\data\dist directory will
+of downloads will occur.  On completion the %DPML_HOME%\data\dist directory will
 contain the distribution archives for the installation.  Unpack the archive 
-corresponding to your platform into the %DPML_HOME% root directory.
+corresponding to your platform into the %DPML_HOME% root directory.  
 
 /DMPL
