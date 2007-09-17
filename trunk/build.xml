@@ -87,7 +87,7 @@
     </path>
     <taskdef resource="ant_deb_task.properties" classpathref="debian.path"/>
     <deb
-        todir="${basedir}/target/debian"
+        todir="${basedir}/target/dist"
         package="dpml-sdk"
         section="devel"
         depends="sun-java6-jdk"
@@ -202,6 +202,11 @@
         <include name="**/*"/>
       </fileset>
       <fileset dir="${depot.checkstyle.basedir}/target/config">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <copy todir="${share.config}/dpml/tools" filtering="false">
+      <fileset dir="${depot.builder.basedir}/target/config">
         <include name="**/*"/>
       </fileset>
     </copy>

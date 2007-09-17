@@ -13,6 +13,14 @@
         <include name="**/*"/>
       </fileset>
     </copy>
+    <!-- for legacy < 2.1.1 with references to dpml/tools -->
+    <property name="tools.config" location="${dpml.config}/dpml/tools"/>
+    <mkdir dir="${tools.config}"/>
+    <copy toDir="${tools.config}">
+      <fileset dir="${project.target.dir}/config">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
   </target>
   
 </project>
