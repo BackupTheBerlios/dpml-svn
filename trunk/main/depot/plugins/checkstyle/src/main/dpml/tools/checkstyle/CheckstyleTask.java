@@ -51,7 +51,7 @@ public class CheckstyleTask extends CheckStyleTask
    /**
     * The default format value.
     */
-    public static final String FORMAT_VALUE = "local:format:dpml/tools/dpml";
+    public static final String FORMAT_VALUE = "local:format:dpml/depot/dpml";
     
     private boolean m_init = false;
     private Context m_context;

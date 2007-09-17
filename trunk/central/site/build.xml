@@ -71,7 +71,7 @@
       <fileset dir="${basedir}/../../main">
         <include name="**/target/reports/test/TEST-*.xml"/>
       </fileset>
-      <report format="frames" todir="${junit.html}" styledir="${dpml.prefs}/dpml/tools/xsls"/>
+      <report format="frames" todir="${junit.html}" styledir="${dpml.config}/dpml/depot/xsls"/>
     </junitreport>
   </target>
   
@@ -90,7 +90,7 @@
         <exclude name="**/javac/target/**"/>
       </fileset>
     </checkstyle>
-    <xslt style="${dpml.prefs}/dpml/tools/xsls/checkstyle-frames.xsl"
+    <xslt style="${dpml.config}/dpml/depot/xsls/checkstyle-frames.xsl"
         in="${checkstyle.data}" 
         out="${checkstyle.dir}/checkstyle_report.html">
       <param name="output.dir" expression="${checkstyle.dir}"/>

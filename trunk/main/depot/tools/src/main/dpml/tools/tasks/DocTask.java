@@ -310,7 +310,7 @@ public class DocTask extends GenericTask
     
     private File getThemesDirectory()
     {
-        return new File( Transit.PREFS, "dpml/tools/themes" );
+        return new File( Transit.CONFIG, "dpml/depot/themes" );
     }
 
     private String getHomePath()

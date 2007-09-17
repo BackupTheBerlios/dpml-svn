@@ -15,12 +15,6 @@
       </fileset>
     </copy>
     
-    <!--
-    <mkdir dir="${dpml.prefs}/${project.group}/plans"/>
-    <copy file="${basedir}/target/prefs/default.xml" toFile="${dpml.prefs}/${project.group}/plans/default.plan"
-        preservelastmodified="true" overwrite="true"/>
-    -->
-    
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/station.lap"/>
