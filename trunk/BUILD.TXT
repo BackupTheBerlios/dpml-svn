@@ -13,58 +13,48 @@ Pull down the sources:
   $ cd dev
   $ svn checkout svn://svn.berlios.de/dpml/trunk dpml
 
-The full sources to the DPML SDK are now present in the directory dev/dpml.  
-On linux you need to execute a bash script to setup som environment variables
-that declare a local DPML_SYSTEM into which we will generate the new binaries.
-You can do this using the following command:
+B. Build the bootstrap resources
+--------------------------------
+
+B.1 - Linux
 
   $ cd dpml
-  $ source setup.sh
+  $ bash bootstrap.sh
 
-On Windows you should define the DPML_SYSTEM environment variable and ensure
-that $DPML_SYSTEM/bin is included in you PATH environment variable.
-B. Bootstrap Build
-------------------
+B.2 - Windows
 
-Invoke the bootstrap build procedure.
+Define the DPML_SYSTEM environment variable and ensure
+that $DPML_SYSTEM/bin is included in you PATH environment variable. The 
+DPML_SYSTEM variable value should point to the directory into which bootstrap
+runtime artifacts such as the build, metro and station executable will be 
+installed.  For example - C:\system\dpml
 
-On Linux:
-
-  $ bash bootstrap
-
-On Windows:
+  $ cd dpml
   $ bootstrap
 
 C. Main System Build
 --------------------
 
-The bootstrap procedure will create a number of executables under 
-%DPML_SYSTEM%/bin.  Several options are available concerning version 
-handling of the full build.
-
-  a) SNAPSHOT
-
-     To create a SNAPSHOT build, use the following command:
-
-     $ build
-
-  b) Explict build versioning:
-
-     To create a versioned build using an explicit build id, use:
-
-     $ build -version ABC
-
-  c) Decimal versioning (release mode).
-
-     To create a versioned build using major, minor and micro 
-     version values declared in project defintions (as is typically 
-     used in release generation), use:
-
-     $ build -decimal
-
 The build procedure will build approximately 56 projects during which a number 
-of downloads will occur.  On completion the %DPML_HOME%\data\dist directory will
-contain the distribution archives for the installation.  Unpack the archive 
-corresponding to your platform into the %DPML_HOME% root directory.  
+of downloads will occur.  
+
+C.1 On Linux
+
+  $ bash release.sh
+
+  On completion a Debian installation will be created under the target/dist 
+  directory.  This can be installed as a new or updated installation via standard
+  Debian package installation tools.  For example:
+
+  $ sudo dpkg -i dpml-sdk_2.1.1-1_all.deb
+
+C.2 - Windows
+
+  $ build clean install -decimal
+
+  On completion the %DPML_HOME%\data\dist directory will
+  contain the distribution archives for the installation.  Unpack the archive 
+  corresponding to your platform into the %DPML_HOME% root directory or invoke 
+  the NSIS installer.
 
 /DMPL
