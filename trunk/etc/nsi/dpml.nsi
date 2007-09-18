@@ -123,6 +123,7 @@ Section "data" SecData
 SectionEND
 
 Section "prefs" SecPrefs
+  SectionIn RO
 SectionEND
 
 Section "share" SecShare
