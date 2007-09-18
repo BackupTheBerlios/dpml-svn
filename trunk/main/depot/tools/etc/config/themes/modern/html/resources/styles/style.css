@@ -1,24 +1,18 @@
 
-#asf
-{
-    vertical-align: bottom;
-    text-align: right;
-}
-
 body, td
 {
     margin: 0;
     padding: 0;
     font-family: Verdana, Tahoma, Helvetica, Sans-Serif;
+    color: darkslategray;
 }
 
 table.logobar
 {
-    background-color: rgb(220,220,220);
     color: rgb(220,220,220);
     border: none;
     margin: 0;
-    padding: 20;
+    padding: 0;
     border-spacing: 0;
     border-collapse: separate;
     width: 100%;
@@ -28,16 +22,17 @@ table.logobar
 {
     vertical-align: middle;
     text-align: center;
-    border-right: 1px solid rgb(220,220,220);
-    height: 135px;
-    width: 120px;
-    padding: 5;
+    height: 60px;
+    width: 0px;
+    padding: 0;
 }
 
 .panelmiddle
 {
-    vertical-align: bottom;
+    border: none;
+    vertical-align: center;
     text-align: left;
+    padding: 0;
 }
 
 .panelright
@@ -49,42 +44,39 @@ table.logobar
 .project
 {
     display: block;
-    color: white;
+    color: #6666FF;
+    padding-top: 20px;
     padding-left: 10px;
-    font-size: 10pt;
+    font-size: 220%
 }
 
 .title
 {
     display: block;
-    font-size: 18pt;
     color: darkslategray;
-    padding-left: 3px;
+    padding-left: 12px;
     padding-right: 3px;
-    padding-top: 2px;
+    padding-top: 6px;
     padding-bottom: 2px;
-    padding-left: 10px;
+}
+
+.categorybar, .category, .homecategory, .homecategory-selected, .menubar
+{
+    font-size: 8pt;
 }
 
 .categorybar
 {
-    background-color: #666699;
-    color: white;
-    border-top: 1px solid #9999FF;
-    border-left: 1px solid #9999FF;
-    border-right: 1px solid #003399;
-    border-bottom: 1px solid #003399;
+    border-bottom: 3px solid #A0A0A0;
     display: block;
     height: 2em;
-    font-size: 8pt;
     vertical-align: middle;
 }
 
 .homecategory
 {
-    float:left;
+    float:right;
     margin-left: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -93,9 +85,8 @@ table.logobar
 
 .homecategory-selected
 {
-    float:left;
+    float:right;
     margin-left: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -106,7 +97,6 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -117,7 +107,6 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -133,7 +122,6 @@ table.logobar
     color: black;
     padding-top: 3px;
     padding-bottom: 3px;
-    font-size: 8pt;
     text-align: right;
     margin-top: 3px;
     margin-right: 5px;
@@ -161,6 +149,7 @@ div.no-border
     padding-bottom: 0.2em;
     margin-top: 2px;
     margin-bottom: 2px;
+    text-decoration: none;
 }
 
 .menuitem-selected
@@ -179,7 +168,7 @@ div.no-border
 .content
 {
     background-color: white;
-    color: black;
+    color: darkslategray;
     margin-right: 210px;
     min-height: 800px;
 }
@@ -195,13 +184,12 @@ div.no-border
 {
     display: block;
     text-align:left;
-    color: darkslategray;
-    border-bottom:solid 1px #333333;
-    margin-left: -1em;
+    color: #6666FF;
     margin-right: 0em;
-    padding-left: 10px;
     padding-right: 10px;
     padding-top: 30px;
+    margin-bottom: 1em;
+    font-weight: bold;
 }
 
 .subsection
@@ -209,11 +197,11 @@ div.no-border
     margin-top: 1em;
 }
 
-.section-header, .subsection-header
+.subsection-header
 {
-    font-size: 140%;
     margin-bottom: 1em;
     color: darkslategray;
+    font-weight: bold;
 }
 
 .footer
@@ -286,13 +274,18 @@ p.intro
     font-weight: bold;
 }
 
+pre
+{
+    font-size: 90%;
+    color: black;
+}
+
 pre.source
 {
     padding: 1em;
     white-space: pre;
     background-color: #F8F8F8;
     border: 1px solid black;
-    font-family: Courier, fixed, serif;
 }
 
 div.source-title
@@ -318,11 +311,7 @@ table
 {
 
     border-width: medium;
-    border-style: dashed;
     border-color: #eee;
-/*    border-left: 0px ;
-      border-top: 0px;
-*/
     margin-top: 1em;
     margin-right: 1.5em;
     padding: 0;
@@ -407,22 +396,28 @@ a.category:link:hover, a.category:visited:hover, a.category:active,
 a.homecategory:link:hover, a.homecategory:visited:hover, a.homecategory:active
 {
     color: black;
-    background-color: #D0E0F0;
+    text-decoration: none;
+    background-color: #E8E8E8;
 }
 
 a.category:active,
 a.homecategory:active
 {
     color: black;
-    background-color: #C0D0E0;
     outline: none;
+    background-color: #F8F8F8;
+    text-decoration: none;
 }
 
-a.category:link, a.category:visited,
 a.homecategory:link, a.homecategory:visited
 {
-    background-color: #666699;
-    color: white;
+    color: black;
+    text-decoration: none;
+}
+
+a.category:link, a.category:visited
+{
+    color: black;
     text-decoration: none;
 }
 
@@ -430,12 +425,13 @@ a.category:focus,
 a.homecategory:focus
 {
     outline: none;
+    text-decoration: none;
 }
 
 a.menuitem:link:hover, a.menuitem:visited:hover, a.menuitem:active
 {
     color: black;
-    background-color: #F8F8F8 // was #D0E0F0;
+    text-decoration: underline;
 }
 
 a.menuitem:active
@@ -447,8 +443,8 @@ a.menuitem:active
 
 a.menuitem:link, a.menuitem:visited
 {
-    background-color: #F8F8F8;
     color: black;
+    background-color: #F8F8F8; // whitish
     text-decoration: none;
 }
 
@@ -458,30 +454,29 @@ a.menuitem:focus
     outline: none;
 }
 
-/********************************/
 a.category-selected:link:hover, a.category-selected:visited:hover, a.category-selected:active,
 a.homecategory-selected:link:hover, a.homecategory-selected:visited:hover, a.homecategory-selected:active
 {
     color: black;
-    background-color: #D0E0F0;
-    text-decoration: underline;
+    text-decoration: none;
+    background-color: #E8E8E8;
 }
 
 a.category-selected:active,
 a.homecategory-selected:active
 {
     color: black;
-    background-color: #C0D0E0;
     outline: none;
-    text-decoration: underline;
+    text-decoration: none;
+    background-color: #D0E0F0;
 }
 
 a.category-selected:link, a.category-selected:visited,
 a.homecategory-selected:link, a.homecategory-selected:visited
 {
-    background-color: #666699;
-    color: white;
-    text-decoration: underline;
+    color: black;
+    background-color: #D0E0F0;
+    text-decoration: none;
 }
 
 a.category-selected:focus,
@@ -514,35 +509,7 @@ a.menuitem-selected:focus
 {
     color: black;
     outline: none;
-}
-
-/*
-a.doclink {
-    text-decoration: none;
-    color: #000;
-    border-bottom: 1px dotted #777;
-}
-
-a.doclink:hover {
-    background-color: #eee;
-}
-
-a.doclink:active {
-    background-color: #ccc !important;
-    position: relative;
-}
-
-a.doclink:focus {
-    border: 1px solid #fff !important;
-    background-color: #ccc !important;
-}
-
-a.doclink img {
-   border: none;
-   text-decoration: none;
-}
-*/
-
+}
 img
 {
     border: none;
@@ -550,12 +517,10 @@ img
 
 p, td, th, li
 {
-    font-size: 80%;
 }
 
 td p, th p
 {
-    font-size: 80%;
 }
 
 td table
@@ -681,5 +646,4 @@ div.sponsors
 {
     background-color:red;
     font-weight: bold;
-    font-size: 120%;
 }

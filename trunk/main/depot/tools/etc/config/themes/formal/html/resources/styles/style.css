@@ -9,7 +9,6 @@ body, td
 
 table.logobar
 {
-    /*background-color: rgb(220,220,220);*/
     color: rgb(220,220,220);
     border: none;
     margin: 0;
@@ -48,13 +47,12 @@ table.logobar
     color: #6666FF;
     padding-top: 20px;
     padding-left: 10px;
-    font-size: 22pt;
+    font-size: 220%
 }
 
 .title
 {
     display: block;
-    font-size: 10pt;
     color: darkslategray;
     padding-left: 12px;
     padding-right: 3px;
@@ -62,13 +60,16 @@ table.logobar
     padding-bottom: 2px;
 }
 
+.categorybar, .category, .homecategory, .homecategory-selected, .menubar
+{
+    font-size: 8pt;
+}
+
 .categorybar
 {
-    //border-bottom: 3px solid darkslategray;
     border-bottom: 3px solid #A0A0A0;
     display: block;
     height: 2em;
-    font-size: 8pt;
     vertical-align: middle;
 }
 
@@ -76,7 +77,6 @@ table.logobar
 {
     float:right;
     margin-left: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -87,7 +87,6 @@ table.logobar
 {
     float:right;
     margin-left: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -98,7 +97,6 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -109,7 +107,6 @@ table.logobar
 {
     float: right;
     margin-right: 1em;
-    font-size: 8pt;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 6px;
@@ -125,7 +122,6 @@ table.logobar
     color: black;
     padding-top: 3px;
     padding-bottom: 3px;
-    font-size: 8pt;
     text-align: right;
     margin-top: 3px;
     margin-right: 5px;
@@ -189,12 +185,11 @@ div.no-border
     display: block;
     text-align:left;
     color: #6666FF;
-    /*border-bottom:solid 1px #333333;*/
     margin-right: 0em;
-    /*margin-left: -1em;*/
-    /*padding-left: 10px;*/
     padding-right: 10px;
     padding-top: 30px;
+    margin-bottom: 1em;
+    font-weight: bold;
 }
 
 .subsection
@@ -202,16 +197,8 @@ div.no-border
     margin-top: 1em;
 }
 
-.section-header
-{
-    font-size: 100%;
-    margin-bottom: 1em;
-    font-weight: bold;
-}
-
 .subsection-header
 {
-    font-size: 70%;
     margin-bottom: 1em;
     color: darkslategray;
     font-weight: bold;
@@ -287,13 +274,18 @@ p.intro
     font-weight: bold;
 }
 
+pre
+{
+    font-size: 90%;
+    color: black;
+}
+
 pre.source
 {
     padding: 1em;
     white-space: pre;
     background-color: #F8F8F8;
     border: 1px solid black;
-    font-family: Courier, fixed, serif;
 }
 
 div.source-title
@@ -319,11 +311,7 @@ table
 {
 
     border-width: medium;
-    /*border-style: dashed;*/
     border-color: #eee;
-/*    border-left: 0px ;
-      border-top: 0px;
-*/
     margin-top: 1em;
     margin-right: 1.5em;
     padding: 0;
@@ -466,7 +454,6 @@ a.menuitem:focus
     outline: none;
 }
 
-/********************************/
 a.category-selected:link:hover, a.category-selected:visited:hover, a.category-selected:active,
 a.homecategory-selected:link:hover, a.homecategory-selected:visited:hover, a.homecategory-selected:active
 {
@@ -522,35 +509,7 @@ a.menuitem-selected:focus
 {
     color: black;
     outline: none;
-}
-
-/*
-a.doclink {
-    text-decoration: none;
-    color: #000;
-    border-bottom: 1px dotted #777;
-}
-
-a.doclink:hover {
-    background-color: #eee;
-}
-
-a.doclink:active {
-    background-color: #ccc !important;
-    position: relative;
-}
-
-a.doclink:focus {
-    border: 1px solid #fff !important;
-    background-color: #ccc !important;
-}
-
-a.doclink img {
-   border: none;
-   text-decoration: none;
-}
-*/
-
+}
 img
 {
     border: none;
@@ -558,12 +517,10 @@ img
 
 p, td, th, li
 {
-    font-size: 70%;
 }
 
 td p, th p
 {
-    font-size: 70%;
 }
 
 td table
@@ -689,5 +646,4 @@ div.sponsors
 {
     background-color:red;
     font-weight: bold;
-    font-size: 120%;
 }
