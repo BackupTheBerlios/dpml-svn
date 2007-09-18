@@ -123,19 +123,11 @@ Section "data" SecData
 SectionEND
 
 Section "prefs" SecPrefs
-  SectionIn RO
-  SetOutPath $INSTDIR\prefs
-  File /r ..\bundle\prefs\*
 SectionEND
 
 Section "share" SecShare
   SectionIn RO
   SetOutPath $INSTDIR\share\bin
-  File ..\bundle\share\bin\security.policy
-  ;File ..\bundle\share\bin\transit.exe
-  ;File ..\bundle\share\bin\transit.lap
-;  File ..\bundle\share\bin\depot.exe
-;  File ..\bundle\share\bin\depot.lap
   File ..\bundle\share\bin\build.exe
   File ..\bundle\share\bin\build.lap
   File ..\bundle\share\bin\build.policy
@@ -151,6 +143,8 @@ Section "share" SecShare
   File /r ..\bundle\share\lib\*
   SetOutPath $INSTDIR\share\local
   File /r ..\bundle\share\local\*
+  SetOutPath $INSTDIR\share\config
+  File /r ..\bundle\share\config\*
 SectionEND
 
 Section "station scm" SecStation
