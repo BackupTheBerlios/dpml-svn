@@ -6,5 +6,6 @@ sudo ln -s /opt/dpml/share/bin/build /usr/bin/build
 sudo ln -s /opt/dpml/share/bin/metro /usr/bin/metro
 sudo ln -s /opt/dpml/share/bin/station /usr/bin/station
 sudo ln -s /opt/dpml/share/config/dpml/transit /etc/transit
-
-
+sudo ln -s /opt/dpml/share/config/dpml/depot /etc/depot
+sudo ln -s /opt/dpml/share/config/dpml/metro /etc/metro
+sudo ln -s /opt/dpml/share/config/dpml/station /etc/station

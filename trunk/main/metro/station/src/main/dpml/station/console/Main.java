@@ -93,7 +93,7 @@ public class Main extends UnicastRemoteObject implements Tool, Station
     // static
     //------------------------------------------------------------------------------
     
-    private static final String DEFAULT_PLAN_URI_VALUE = "local:plan:dpml/metro/default";
+    private static final String DEFAULT_PLAN_URI_VALUE = "local:plan:dpml/station/default";
     private static final String STATION_CONNECTOR_VALUE = "dpml/station";
     
     //------------------------------------------------------------------------------

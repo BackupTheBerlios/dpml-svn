@@ -8,8 +8,8 @@
   <available property="station.exe.available" file="${dpml.system}/bin/station.exe"/>
 
   <target name="install" depends="bin,standard.install">
-    <mkdir dir="${dpml.config}/${project.group}"/>
-    <copy toDir="${dpml.config}/${project.group}">
+    <mkdir dir="${dpml.config}/dpml/station"/>
+    <copy toDir="${dpml.config}/dpml/station">
       <fileset dir="etc/config">
         <include name="**/*"/>
       </fileset>

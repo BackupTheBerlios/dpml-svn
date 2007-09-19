@@ -20,6 +20,12 @@
   </target>
 
   <target name="install" depends="bin,standard.install">
+    <mkdir dir="${dpml.config}/dpml/metro"/>
+    <copy toDir="${dpml.config}/dpml/metro">
+      <fileset dir="etc/config">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
     <copy todir="${dpml.system}" preservelastmodified="true" overwrite="true">
       <fileset dir="target">
         <include name="bin/metro.lap"/>

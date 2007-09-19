@@ -338,7 +338,6 @@ final class Application
         //
         
         list.add( "-Djava.util.logging.config.class=dpml.util.DepotLoggingConfiguration" );
-        //list.add( "-Ddpml.logging.config=local:properties:dpml/station/application" );
 
         //
         // add declared system properties
@@ -348,7 +347,7 @@ final class Application
         Set<String> names = properties.stringPropertyNames();
         for( String name : names )
         {
-            String value = properties.getProperty( name ); // expand symbols?
+            String value = properties.getProperty( name );
             list.add( "-D" + name + "=" + value );
         }
         

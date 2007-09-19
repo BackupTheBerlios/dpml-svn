@@ -6,5 +6,9 @@ sudo rm -f /usr/bin/metro
 sudo rm -f /usr/bin/build
 
 sudo rm -f /opt/dpml
+
 sudo rm -f /etc/transit
+sudo rm -f /etc/depot
+sudo rm -f /etc/metro
+sudo rm -f /etc/station
 

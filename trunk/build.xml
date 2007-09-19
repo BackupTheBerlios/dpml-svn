@@ -102,6 +102,8 @@
         <include name="share/bin/metro"/>
       </tarfileset>
       <tarfileset dir="target/bundle" prefix="opt/dpml-sdk-${project.version}">
+        <exclude name="share/config/dpml/tools"/>
+        <exclude name="share/config/dpml/tools/**"/>
         <include name="share/bin/build.policy"/>
         <include name="share/bin/station.policy"/>
         <include name="share/bin/metro.policy"/>
@@ -109,8 +111,9 @@
         <include name="share/local/**"/>
         <include name="share/lib/**"/>
         <include name="data/**"/>
-      </tarfileset>
+       </tarfileset>
     </deb>
+    <checksum file="${basedir}/target/dist/dpml-sdk_${project.version}-1_all.deb" fileext=".md5"/>
   </target>
 
   <target name="zip" depends="bundle,replicate" description="Creates a binary w32 distribution.">
@@ -151,6 +154,7 @@
         <exclude name="share/bin/*.lap"/>
         <exclude name="share/bin/*.exe"/>
         <exclude name="share/bin/scm/**/*"/>
+        <exclude name="share/config/tools/**"/>
       </tarfileset>
     </tar>
     <property name="dist" location="target/dist"/>
@@ -210,14 +214,21 @@
         <include name="**/*"/>
       </fileset>
     </copy>
-    <property name="station.config" location="${share.config}/dpml/metro"/>
+    <property name="station.config" location="${share.config}/dpml/station"/>
     <x:property name="station.main.basedir" ref="dpml/metro/dpml-metro-station" feature="basedir"/>
     <mkdir dir="${station.config}"/>
     <copy todir="${station.config}" filtering="false">
       <fileset dir="${station.main.basedir}/target/config">
         <include name="**/*"/>
       </fileset>
-    </copy>
+    </copy>    <property name="metro.config" location="${share.config}/dpml/metro"/>
+    <x:property name="metro.main.basedir" ref="dpml/metro/dpml-metro-main" feature="basedir"/>
+    <mkdir dir="${metro.config}"/>
+    <copy todir="${metro.config}" filtering="false">
+      <fileset dir="${metro.main.basedir}/target/config">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
   </target>
 
   <target name="bin" depends="prepare">
