@@ -14,7 +14,7 @@
     <section name="Binary Distributions">
 
       <subsection name="Description">
-
+        
         <p>
         The DPML Platform distribution includes:
         </p>
@@ -26,6 +26,68 @@
           <li>Depot build system</li>
         </ul>
 
+        <p>
+        Version @VERSION@ is the latest production stable release of the SE6 based implementation.
+        </p>
+        
+        <table>
+          <tr>
+            <td>Debian Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk_@VERSION@-1_all.deb">
+                dpml-sdk_@VERSION@-1_all.deb</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk_@VERSION@-1_all.deb.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Windows NSIS Installer</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
+                dpml-sdk-win32-@VERSION@.exe</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Generic Linux Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
+                dpml-sdk-linux-@VERSION@.tar.gz</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
+              MD5</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Generic Windows Zip Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
+                dpml-sdk-win32-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>  
+          <tr>
+            <td>Documentation Archive</td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip">
+                dpml-sdk-docs-@VERSION@.zip</a>
+            </td>
+            <td>
+              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
+              MD5</a>
+            </td>
+          </tr>
+        </table>
+        
         <p>
         Version @VERSION@ is the latest production stable build of the DPML platform.  It 
         incorporates a number of important functional enhancements over the 1.X series brought
@@ -69,60 +131,6 @@
 
       </subsection>
 
-      <subsection name="Build @VERSION@">
-        
-        <p>
-        Version @VERSION@ is the latest production stable release of the SE6 based implementation.
-        </p>
-        
-        <table>
-          <tr>
-            <td>Windows NSIS Installer</td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.exe">
-                dpml-sdk-win32-@VERSION@.exe</a>
-            </td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.exe.md5">
-              MD5</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Windows Zip Archive</td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.zip">
-                dpml-sdk-win32-@VERSION@.zip</a>
-            </td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-win32-@VERSION@.zip.md5">
-              MD5</a>
-            </td>
-          </tr>  
-          <tr>
-            <td>Linux Archive</td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz">
-                dpml-sdk-linux-@VERSION@.tar.gz</a>
-            </td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-linux-@VERSION@.tar.gz.md5">
-              MD5</a>
-            </td>
-          </tr>  
-          <tr>
-            <td>Documentation Archive</td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip">
-                dpml-sdk-docs-@VERSION@.zip</a>
-            </td>
-            <td>
-              <a href="http://download.dpml.net/formal/sdk/@VERSION@/dpml-sdk-docs-@VERSION@.zip.md5">
-              MD5</a>
-            </td>
-          </tr>
-        </table>
-        
-      </subsection>
 
       <!--
       <subsection name="Build 1.1.0">

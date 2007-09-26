@@ -25,6 +25,7 @@
  <body>
 
     <menu>
+      <item name="2.1.1" href="http://api.dpml.net/dpml/2.1.1/index.html"/>
       <item name="2.1.0" href="http://api.dpml.net/dpml/2.1.0/index.html"/>
       <item name="2.0.2" href="http://api.dpml.net/dpml/2.0.2/index.html"/>
       <item name="2.0.1" href="http://api.dpml.net/dpml/2.0.1/index.html"/>
