@@ -35,7 +35,7 @@ table.logobar
 .panelmiddle
 {
     border: none;
-    vertical-align: center;
+    vertical-align: middle;
     text-align: left;
     padding: 0;
 }
@@ -453,7 +453,7 @@ a.menuitem:active
 a.menuitem:link, a.menuitem:visited
 {
     color: black;
-    background-color: #F8F8F8; // whitish
+    background-color: #F8F8F8;
     text-decoration: none;
 }
 
