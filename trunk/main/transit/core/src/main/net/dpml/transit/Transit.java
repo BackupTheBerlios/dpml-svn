@@ -396,9 +396,15 @@ public final class Transit
         {
             return new File( home );
         }
-        else
+        String os = System.getProperty( "os.name" ).toLowerCase();
+        if( os.indexOf( "win" ) >= 0 )
         {
             return new File( dpmlHomeDir, "share" );
+        }
+        else
+        {
+            // return new File( dpmlHomeDir, "share" ); /* bug in 2.1.1 */
+            return new File( "/opt/dpml/share" );
         }
     }
 

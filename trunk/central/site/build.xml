@@ -63,7 +63,10 @@
   <target name="docs" depends="tutorials.prepare">
     <x:docs dest="${dpml.data}/docs"/>
   </target>
-  
+
+  <target name="site-docs" depends="standard.prepare">
+    <x:docs dest="${dpml.data}/docs"/>
+  </target>
   <target name="junit-report" depends="init">
     <property name="junit.html" location="${basedir}/target/docs/reports/${dpml.module.version}/junit"/>
     <mkdir dir="${junit.html}"/>
