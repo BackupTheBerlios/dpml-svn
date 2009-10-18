@@ -224,11 +224,13 @@
     </copy>    <property name="metro.config" location="${share.config}/dpml/metro"/>
     <x:property name="metro.main.basedir" ref="dpml/metro/dpml-metro-main" feature="basedir"/>
     <mkdir dir="${metro.config}"/>
+    <!--
     <copy todir="${metro.config}" filtering="false">
       <fileset dir="${metro.main.basedir}/target/config">
         <include name="**/*"/>
       </fileset>
     </copy>
+    -->
   </target>
 
   <target name="bin" depends="prepare">
