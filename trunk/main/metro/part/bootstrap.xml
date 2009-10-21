@@ -39,7 +39,7 @@
       <pathelement location="${ant.home}/lib/ant.jar"/>
       <pathelement location="${ant.home}/lib/ant-junit.jar"/>
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
-      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${junit.path}"/>
     </path>
   </target>
 
@@ -140,7 +140,6 @@
          <attribute name="Implementation-Vendor" value="DPML"/>
          <attribute name="Implementation-Vendor-Id" value="net.dpml"/>
          <attribute name="Implementation-Version" value="${project.version}"/>
-         <attribute name="Main-Class" value="dpml.util.Main"/>
        </manifest>
     </jar>
     <echo file="${target.deliverables.jars.dir}/${project.name}.jar.link"

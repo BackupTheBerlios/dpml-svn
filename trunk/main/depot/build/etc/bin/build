@@ -35,5 +35,6 @@ fi
 
 BUILD_ARGS=$@
 ARGS="$JVM_OPTIONS dpml.util.Main $BUILD_ARGS"
-echo $ARGS | xargs "java"
+COMMAND="exec \"java\" $ARGS"
+eval $COMMAND
 

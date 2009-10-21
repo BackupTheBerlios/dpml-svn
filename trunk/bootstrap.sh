@@ -16,11 +16,11 @@ executeAnt()
     fi
 }
 
-dpmlLibrary()
+dpmlTransit()
 {
-    cd main/depot/library
+    cd main/transit/core
     executeAnt -f bootstrap.xml clean install
-    cd ../../..
+    cd ../../..   
 }
 
 dpmlPart()
@@ -30,11 +30,11 @@ dpmlPart()
     cd ../../..
 }
 
-dpmlTransit()
+dpmlLibrary()
 {
-    cd main/transit/core
+    cd main/depot/library
     executeAnt -f bootstrap.xml clean install
-    cd ../../..   
+    cd ../../..
 }
 
 dpmlCli()

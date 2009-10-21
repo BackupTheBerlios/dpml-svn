@@ -36,7 +36,7 @@
     </path>
     <path id="project.test.path">
       <path refid="project.main.path"/>
-      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${junit.path}"/>
       <pathelement location="${target.deliverables.jars.dir}/${project.filename}"/>
     </path>
   </target>

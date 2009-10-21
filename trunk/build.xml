@@ -26,6 +26,10 @@
     <isset property="ENV.NSIS_HOME"/>
   </condition>
 
+  <condition property="snapshot" value="true">
+    <equals arg1="SNAPSHOT" arg2="${project.version}"/>
+  </condition>
+
   <x:import uri="local:template:dpml/depot/standard"/>
 
   <target name="prepare" depends="standard.prepare">
@@ -79,7 +83,7 @@
     <echo>Created target/dist/dpml-sdk-win32-${project.version}.exe</echo>
   </target>
 
-  <target name="debian" depends="prepare">
+  <target name="debian" depends="prepare" unless="snapshot">
     <echo>Building Debian Installer</echo>
     <x:get uri="artifact:jar:com/google/code/ant-deb/ant-deb-task#20070903" property="debian.jar"/>
     <path id="debian.path">

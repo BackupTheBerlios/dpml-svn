@@ -111,16 +111,30 @@
     <mkdir dir="${dpml.config}"/>
   </target>
 
+  <!--
   <target name="junit-download" depends="dpml-data" unless="junit.cache.available">
     <mkdir dir="${dpml.local.cache}/junit/jars"/>
     <get src="${junit.url}" usetimestamp="true" dest="${dpml.local.cache}/junit/jars/${junit.filename}"/>
   </target>
+  -->
 
-  <target name="junit-test" depends="junit-download">
-    <available property="junit.available" file="${user.home}/.ant/lib/junit.jar"/>
+  <target name="junit-win32" if="isWindows">
+    <property name="junit.path" location="${user.home}/.ant/lib/junit.jar"/>
+  </target>
+
+  <target name="junit-nix" unless="isWindows">
+    <property name="junit.path" location="/usr/share/java/junit.jar"/>
+  </target>
+
+  <target name="junit-test" depends="junit-win32,junit-nix">
+    <available property="junit.available" file="${junit.path}"/>
   </target>
 
   <target name="junit-setup" depends="junit-test" unless="junit.available">
+    <fail message="Failed to locate junit."/>
+  </target>
+
+  <target name="junit-setup-disabled" depends="junit-test" unless="junit.available">
     <property name="junit.url" value="${dpml.repository}/junit/jars/${junit.filename}"/>
     <echo>
 #----------------------------------------------------------------------------------
@@ -209,7 +223,7 @@
     <path id="project.test.path">
       <path refid="project.main.path"/>
       <pathelement location="${ant.home}/lib/ant-junit.jar"/>
-      <pathelement location="${dpml.local.cache}/junit/jars/${junit.filename}"/>
+      <pathelement location="${junit.path}"/>
     </path>
   </target>
 

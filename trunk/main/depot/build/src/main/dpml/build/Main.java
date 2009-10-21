@@ -135,8 +135,28 @@ public class Main implements Tool
     */
     public int run( InputStream in, OutputStream out, OutputStream err, String... arguments )
     {
+
+        // handle the simple case of $ depot -version
+
+        try
+        {
+            CommandLine line = getCommandLine( arguments );
+            if( line.hasOption( VERSION_OPTION ) )
+            {
+                printVersionMessage();
+                return 0;
+            }
+        }
+        catch( Throwable e )
+        {
+            final String error = 
+              "Unexpected error.";
+            m_logger.error( error, e );
+            return -1;
+        }
+ 
         // setup the project/resource index
-        
+
         try
         {
             m_library = new DefaultLibrary( m_logger );
@@ -264,8 +284,8 @@ public class Main implements Tool
         buffer.append( "\n  DPML Depot" );
         buffer.append( "\n  Version @PROJECT-VERSION@" );
         buffer.append( "\n  Codebase " + getClass().getProtectionDomain().getCodeSource().getLocation() );
-        buffer.append( "\n  Copyright 2005-2007 Stephen J. McConnell" );
-        buffer.append( "\n  Digital Product Management Library" );
+        buffer.append( "\n  Copyright 2005-2009 Stephen J. McConnell" );
+        buffer.append( "\n  Digital Product Management Labs" );
         buffer.append( "\n" );
         String message = buffer.toString();
         m_logger.info( message );

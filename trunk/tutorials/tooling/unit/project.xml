@@ -16,8 +16,8 @@
   
   <dependencies>
     <test>
-      <include uri="artifact:jar:org/apache/ant/ant#1.7.0"/>
-      <include uri="artifact:jar:org/apache/ant/ant-junit#1.7.0"/>
+      <include uri="artifact:jar:org/apache/ant/ant#1.7.1"/>
+      <include uri="artifact:jar:org/apache/ant/ant-junit#1.7.1"/>
       <include uri="artifact:jar:junit/junit#4.2"/>
     </test>
   </dependencies>

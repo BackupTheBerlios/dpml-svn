@@ -28,7 +28,7 @@
 
     </module>
 
-    <module name="org/apache/ant" version="1.7.0" basedir="ant">
+    <module name="org/apache/ant" version="1.7.1" basedir="ant">
 
       <properties>
         <property name="project.publisher.name" value="Apache Software Foundation"/>

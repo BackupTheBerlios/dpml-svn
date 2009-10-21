@@ -36,5 +36,6 @@ fi
 
 METRO_ARGS=$@
 ARGS="$JVM_OPTIONS dpml.util.Main $METRO_ARGS"
-echo $ARGS | xargs "java"
+COMMAND="exec \"java\" $ARGS"
+eval $COMMAND
 
