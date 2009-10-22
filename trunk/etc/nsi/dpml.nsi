@@ -52,7 +52,7 @@
 ;Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "..\bundle\LICENSE.txt"
+  !insertmacro MUI_PAGE_LICENSE "..\bundle\LICENSE.TXT"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
 
