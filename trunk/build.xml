@@ -22,6 +22,10 @@
 
   <property environment="ENV"/>
 
+  <condition property="isWindows" value="true">
+    <os family="windows"/>
+  </condition>
+
   <condition property="nsis.available" value="true">
     <isset property="ENV.NSIS_HOME"/>
   </condition>
@@ -67,10 +71,29 @@
     <x:replicate self="true" toDir="${share.local}" layout="modern" ref="org/apache/ant"/>
   </target>
 
-  <target name="nsis" depends="bundle,replicate" if="nsis.available">
+  <target name="nsis" depends="nsis.w32,nsis.nix"/>
+
+  <target name="nsis.w32" depends="bundle,replicate" if="nsis.available">
     <echo>Building NSIS Installer</echo>
     <exec os="Windows XP" dir="${basedir}/target/nsi" executable="makensis.exe">
       <arg value="/ONSIS.LOG"/>
+      <arg value="dpml.nsi"/>
+    </exec>
+    <checksum file="${basedir}/target/nsi/dpml-sdk-win32-${project.version}.exe" fileext=".md5"/>
+    <copy toDir="${basedir}/target/dist">
+      <fileset dir="${basedir}/target/nsi">
+        <include name="*.exe"/>
+        <include name="*.md5"/>
+      </fileset>
+    </copy>
+    <echo>Created target/dist/dpml-sdk-win32-${project.version}.exe</echo>
+  </target>
+
+  <target name="nsis.nix" depends="bundle,replicate" unless="isWindows">
+    <echo>Building NSIS Installer</echo>
+    <exec dir="${basedir}/target/nsi" executable="makensis">
+      <arg value="-oONSIS.LOG"/>
+      <arg value="-v3"/>
       <arg value="dpml.nsi"/>
     </exec>
     <checksum file="${basedir}/target/nsi/dpml-sdk-win32-${project.version}.exe" fileext=".md5"/>
