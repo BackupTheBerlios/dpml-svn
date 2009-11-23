@@ -50,8 +50,8 @@
              <td>An set of global <a href="properties.html">property</a> declarations.</td>
            </tr>
            <tr>
-             <td>modules</td>
-             <td>0..1</td>
+             <td>module</td>
+             <td>0..n</td>
              <td>An set of top-level <a href="modules.html">module</a> declarations.</td>
            </tr> 
          </table>
@@ -64,17 +64,14 @@
 
 <source><![CDATA[
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<index xmlns="dpml:library" 
-    xmlns:part="dpml:part">
+<index xmlns="dpml:library">
 
   <imports>
     <import uri="link:module:junit"/>
-    <import uri="link:module:ant"/>
+    <import uri="link:module:org/apache/ant"/>
   </imports>
 
-  <modules>
-
-    <module name="dpml" basedir=".">
+  <module name="dpml" basedir=".">
     
       <properties>
         <property name="project.publisher.name" value="Digital Product Management Library"/>
@@ -126,9 +123,7 @@
         </filters>
       </project>
 
-    </module>
-
-  </modules>
+  </module>
 
 </index>
 

@@ -9,7 +9,7 @@
 
   <body>
 
-    <section name="Modules">
+    <section name="Module">
 
       <p>
       A module can be viewed as a collection of resources and projects 
@@ -143,20 +143,18 @@
     <property name="project.template" value="${project.standard.template}"/>
   </properties>
 
-  <modules>
-    <module name="demo" basedir=".">
-      <project name="example" basedir="example">
-        <types>
-          <type id="jar"/>
-        </types>
-        <dependencies>
-          <runtime>
-            <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
-          </runtime>
-        </dependencies>
-      </project>
-    </module>
-  </modules>
+  <module name="demo" basedir=".">
+    <project name="example" basedir="example">
+      <types>
+        <type id="jar"/>
+      </types>
+      <dependencies>
+        <runtime>
+          <include urn="artifact:jar:commons-collections/commons-collections#3.0"/>
+        </runtime>
+      </dependencies>
+    </project>
+  </module>
 
 </index>
 
